@@ -1,6 +1,7 @@
 import balance from './content/balance.json';
 import { PACK, REALMS, STORY, LOCATIONS, CHARACTERS, PRESENTATION, contentText } from './content/official';
 import type { Actor, Command, Fighter, LocationId, Profile, Relation, StoryNode, World } from './types';
+import { commandFingerprint, GameError, parseCommand } from './protocol';
 
 export const B = balance;
 const REALM_KEYS = ['MORTAL', 'QI_1', 'QI_2', 'QI_3', 'FOUNDATION_1'] as const;
@@ -66,7 +67,7 @@ export function createWorld(seed: number, profile: Profile, saveId: string, npcC
   }
   const player = createActor('PLAYER', profile.name.trim(), 0, 18, profile.aptitude, hashSeed(seed, 'appearance'));
   player.sex = profile.sex; player.goal = '从凡人开始，寻一条自己的道'; player.sect = '无';
-  const w: World = { format: 'xiantu-web-1', rulesVersion: '0.1.1', packLock: PACK.lock, saveId, revision: 0, seed, day: 0,
+  const w: World = { schemaVersion: 2, commandReceipts: {}, format: 'xiantu-web-1', rulesVersion: '0.1.1', packLock: PACK.lock, saveId, revision: 0, seed, day: 0,
     profile: { ...profile, name: profile.name.trim() }, player, npcs, rng: { simulation: hashSeed(seed, 'simulation'), combat: hashSeed(seed, 'combat') },
     relations: [], events: [], story: { flags: {}, outcome: 'none', settledDay: null, compensated: false }, agreement: null,
     party: ['PLAYER'], battle: null, loot: null, longAction: null, lastExpeditionDay: -100, ended: false,
@@ -336,15 +337,26 @@ function handle(w:World,c:Command){
   }
 }
 export function applyCommand(source:World,command:Command,commandId:string,revision:number):World{
-  if(source.appliedCommands.includes(commandId))return source;
+  command=parseCommand(command);
+  requireRule(typeof commandId==='string'&&commandId.length>0&&commandId.length<=160,'行动编号不合法。');
+  const fingerprint=commandFingerprint(command);
+  if(source.appliedCommands.includes(commandId)){
+    if(source.commandReceipts[commandId]?.fingerprint!==fingerprint)throw new GameError('COMMAND_ID_REUSE','这个行动编号已被使用，不能更改内容或重放未知的旧版行动。');
+    return source;
+  }
   requireRule(source.revision===revision,'存档已经更新，请重新读取后再行动。');
-  const next=structuredClone(source);handle(next,command);next.revision++;next.appliedCommands.push(commandId);validateWorld(next);return next;
+  const next=structuredClone(source);handle(next,command);next.revision++;next.appliedCommands.push(commandId);
+  Object.defineProperty(next.commandReceipts,commandId,{value:{fingerprint,revision:next.revision},enumerable:true,writable:true,configurable:true});
+  validateWorld(next);return next;
 }
 export function visibleEvents(w:World){return w.events.filter(e=>e.public||e.actors.includes('PLAYER'));}
 export function knownNpcUpdates(w:World){return w.events.filter(e=>!e.actors.includes('PLAYER')&&e.actors.some(id=>relation(w,id)?.known&&actorById(w,id)?.location===w.player.location)).slice(-3);}
 export function validateWorld(w:World){
   requireRule(w?.format==='xiantu-web-1'&&w.rulesVersion==='0.1.1'&&w.packLock===PACK.lock,'存档格式或内容版本不匹配。');
   const object=(value:unknown)=>!!value&&typeof value==='object'&&!Array.isArray(value);
+  requireRule(w.schemaVersion===2&&object(w.commandReceipts),'存档结构版本不支持，请使用迁移入口。');
+  const commandIds=new Set(Array.isArray(w.appliedCommands)?w.appliedCommands:[]);
+  requireRule(Object.entries(w.commandReceipts).every(([id,r])=>commandIds.has(id)&&object(r)&&typeof r.fingerprint==='string'&&r.fingerprint.length<=16384&&Number.isSafeInteger(r.revision)&&r.revision>0&&r.revision<=w.revision),'行动回执不完整。');
   requireRule(typeof w.saveId==='string'&&w.saveId.length>0&&Number.isInteger(w.seed)&&w.seed>=0&&w.seed<=4294967295,'存档身份或世界种子不合法。');
   requireRule(object(w.profile)&&object(w.profile.appearance),'角色创建资料不完整。');
   const profile=w.profile;

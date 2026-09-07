@@ -16,6 +16,8 @@ export interface Fighter { id: string; name: string; hp: number; maxHp: number; 
 export interface Battle { id: string; round: number; allies: Fighter[]; enemies: Fighter[]; logs: string[]; auto: boolean; }
 export interface LongAction { kind: 'train' | 'wait' | 'breakthrough'; total: number; remaining: number; stoneMethod: boolean; chance: number; guardian: string | null; }
 export interface World {
+  schemaVersion: 2;
+  commandReceipts: Record<string, { fingerprint: string; revision: number }>;
   format: 'xiantu-web-1'; rulesVersion: '0.1.1'; packLock: string; saveId: string; revision: number;
   seed: number; day: number; profile: Profile; player: Actor; npcs: Actor[];
   rng: Record<'simulation' | 'combat', number>; relations: Relation[]; events: WorldEvent[];
@@ -44,5 +46,7 @@ export interface StoryEffect { kind: 'meet' | 'learn' | 'flag' | 'agreement'; ke
 export interface Choice { id: string; label: string; hint: string; effects: StoryEffect[]; reply: string; }
 export interface StoryNode { id: string; title: string; eyebrow: string; body: string; quote?: string; conditions: Condition[]; choices: Choice[]; portrait: boolean; visualId: string; portraitId?: string; }
 export interface SaveExpectation { saveId: string | null; revision: number | null; }
-export interface WorkerRequest { id: string; kind: 'load' | 'create' | 'command' | 'import' | 'export'; revision?: number; expected?: SaveExpectation; profile?: Profile; seed?: number; command?: Command; text?: string; replace?: boolean; }
-export interface WorkerResponse { id: string; ok: boolean; state?: World | null; error?: string; text?: string; }
+export interface CreationDraft { version: 1; revision: number; seed: number; roll: number; profile: Profile; }
+export interface BackupSummary { key: string; name: string; day: number; revision: number; }
+export interface WorkerRequest { id: string; protocolVersion?: 1; kind: 'load' | 'create' | 'command' | 'import' | 'export' | 'loadDraft' | 'saveDraft' | 'backups' | 'restore' | 'exportBackup'; revision?: number; expected?: SaveExpectation; profile?: Profile; seed?: number; command?: Command; text?: string; replace?: boolean; draft?: CreationDraft; backupKey?: string; }
+export interface WorkerResponse { id: string; ok: boolean; state?: World | null; error?: string; code?: string; text?: string; draft?: CreationDraft | null; backups?: BackupSummary[]; migrated?: boolean; recovery?: SaveExpectation; }

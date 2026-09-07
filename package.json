@@ -15,7 +15,7 @@
     "build:local": "vinext build",
     "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
     "start:local": "vinext start",
-    "verify": "npm run typecheck:game && npm run test:content && npm run test:storage && npm run test:client && npm run test:game && npm run build:local",
+    "verify": "npm run check:boundaries && npm run test:boundaries && npm run typecheck:game && npm run test:content && npm run test:storage && npm run test:client && npm run test:game && npm run build:local",
     "test": "npm run build && node --test tests/*.test.mjs",
     "lint": "bash scripts/sites-env.sh -- eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "bash scripts/sites-env.sh -- drizzle-kit generate",
@@ -25,7 +25,11 @@
     "prebuild": "npm run content:prepare",
     "test:content": "esbuild tests/game/content.test.ts --bundle --platform=node --format=esm --outfile=.game-test-build/content.test.mjs && node --test .game-test-build/content.test.mjs",
     "test:storage": "node --test tests/game/worker.test.mjs",
-    "test:client": "node --test tests/game/continuation.test.mjs"
+    "test:client": "node --test tests/game/continuation.test.mjs",
+    "test:browser": "npm run build:local && playwright test",
+    "test:browser:existing": "playwright test",
+    "test:boundaries": "node --test tests/boundaries.test.mjs",
+    "check:boundaries": "node scripts/check-boundaries.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
@@ -55,6 +59,7 @@
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "1.37.1",
+    "@playwright/test": "1.62.1",
     "@tailwindcss/postcss": "4.2.1",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",

@@ -58,7 +58,7 @@ function environment() {
     vm.runInNewContext(source, { self: scope, indexedDB: storage, crypto: webcrypto, TextEncoder, structuredClone });
     return {
       send(input) {
-        const message = structuredClone({ ...input, id: `test-client:${id}:${++serial}` });
+        const message = structuredClone({ id: `test-client:${id}:${++serial}`, ...input });
         return new Promise((resolve, reject) => {
           const timeout = setTimeout(() => reject(new Error(`Worker did not acknowledge ${input.kind}`)), 2000);
           pending.set(message.id, { resolve, timeout }); scope.onmessage({ data: message });
@@ -75,14 +75,26 @@ function environment() {
   }
   async function records(store) {
     const db = await new Promise((resolve, reject) => {
-      const q = factory.open('xiantu-qingshi', 1); q.onsuccess = () => resolve(q.result); q.onerror = () => reject(q.error);
+      const q = factory.open('xiantu-qingshi'); q.onsuccess = () => resolve(q.result); q.onerror = () => reject(q.error);
     });
     try { return await new Promise((resolve, reject) => {
       const tx = db.transaction(store, 'readonly'); const q = tx.objectStore(store).getAll();
       tx.oncomplete = () => resolve(q.result); tx.onabort = () => reject(tx.error);
     }); } finally { db.close(); }
   }
-  return { client, fault, records };
+  async function seedLegacy(world) {
+    const db = await new Promise((resolve, reject) => {
+      const q = factory.open('xiantu-qingshi', 1);
+      q.onupgradeneeded = () => { q.result.createObjectStore('saves'); q.result.createObjectStore('backups'); };
+      q.onsuccess = () => resolve(q.result); q.onerror = () => reject(q.error);
+    });
+    await new Promise((resolve, reject) => {
+      const tx = db.transaction('saves', 'readwrite'); tx.objectStore('saves').put(world, 'current');
+      tx.oncomplete = resolve; tx.onabort = () => reject(tx.error);
+    });
+    db.close();
+  }
+  return { client, fault, records, seedLegacy };
 }
 
 test('create, export and a fresh Worker preserve the complete saved world', async () => {
@@ -169,4 +181,75 @@ test('storage access failure returns an error and keeps the last saved world rec
   env.fault.denyOpen = true; const failed = await a.work(original); assert.equal(failed.ok, false);
   env.fault.denyOpen = false; assert.deepEqual(await env.client().load(), original);
   assert.equal((await a.work(original)).ok, true);
+});
+
+test('a lost acknowledgment retry is idempotent but the same ID cannot change its payload', async () => {
+  const env = environment(); const a = env.client(); const world = await a.create();
+  const input = { id: 'stable-work', kind: 'command', command: { type: 'work' }, revision: world.revision, expected: expected(world) };
+  const first = await a.send(input); assert.equal(first.ok, true, first.error);
+  const retry = await env.client().send(input); assert.equal(retry.ok, true, retry.error);
+  assert.deepEqual(retry.state, first.state);
+  const reused = await a.send({ ...input, command: { type: 'rest' } });
+  assert.equal(reused.code, 'COMMAND_ID_REUSE'); assert.deepEqual(await a.load(), first.state);
+});
+
+test('unknown messages and extra command fields are rejected without changing the saved world', async () => {
+  const env = environment(); const a = env.client(); const world = await a.create();
+  for (const input of [
+    { kind: 'unrecognized' }, { kind: 'load', protocolVersion: 99 },
+    { kind: 'command', command: { type: 'work', reward: 100 }, revision: 0, expected: expected(world) },
+    { kind: 'command', command: { type: 'train', days: 7, stoneMethod: 'false' }, revision: 0, expected: expected(world) },
+  ]) {
+    const r = await a.send(input); assert.equal(r.code, 'VALIDATION_ERROR');
+    assert.deepEqual(await a.load(), world);
+  }
+});
+
+test('creation drafts survive Worker restart, reject stale editing, and clear only after successful creation', async () => {
+  const env = environment(); const a = env.client();
+  assert.equal((await a.send({ kind: 'loadDraft' })).draft, null);
+  const draft = { version: 1, revision: 0, seed: 42, roll: 103, profile: { ...profile, name: '' } };
+  const saved = await a.send({ kind: 'saveDraft', draft }); assert.equal(saved.ok, true, saved.error);
+  assert.deepEqual((await env.client().send({ kind: 'loadDraft' })).draft, saved.draft);
+  assert.equal((await a.send({ kind: 'saveDraft', draft })).code, 'STALE_REVISION');
+  env.fault.abortWrite = true;
+  const failed = await a.send({ kind: 'create', seed: 42, profile, expected: expected(null) });
+  assert.equal(failed.ok, false); assert.deepEqual((await a.send({ kind: 'loadDraft' })).draft, saved.draft);
+  env.fault.abortWrite = false; await a.create(); assert.equal((await a.send({ kind: 'loadDraft' })).draft, null);
+});
+
+test('released version-one snapshots migrate additively with an exact old backup and no RNG/time changes', async () => {
+  const env = environment(); const legacy = fixture('early');
+  delete legacy.schemaVersion; delete legacy.commandReceipts;
+  await env.seedLegacy(legacy);
+  const response = await env.client().send({ kind: 'load' }); assert.equal(response.ok, true, response.error);
+  assert.equal(response.migrated, true); assert.equal(response.state.schemaVersion, 2);
+  const { schemaVersion, commandReceipts, ...rest } = response.state;
+  assert.deepEqual({ ...rest, revision: legacy.revision }, legacy);
+  assert.deepEqual(await env.records('backups'), [legacy]);
+  assert.deepEqual(await env.client().load(), response.state);
+});
+
+test('failed migration preserves the original legacy snapshot; restoring a backup retains the replaced world', async () => {
+  const env = environment(); const legacy = fixture('early'); delete legacy.schemaVersion; delete legacy.commandReceipts;
+  await env.seedLegacy(legacy); env.fault.abortWrite = true;
+  assert.equal((await env.client().send({ kind: 'load' })).ok, false);
+  assert.deepEqual(await env.records('saves'), [legacy]); assert.deepEqual(await env.records('backups'), []);
+  env.fault.abortWrite = false; const a = env.client(); const current = await a.load();
+  const changed = await a.work(current); assert.equal(changed.ok, true);
+  const backups = await a.send({ kind: 'backups' }); assert.equal(backups.backups.length, 1);
+  const key = backups.backups[0].key;
+  const before = await a.send({ kind: 'exportBackup', backupKey: key }); assert.deepEqual(JSON.parse(before.text), legacy);
+  const restored = await a.send({ kind: 'restore', backupKey: key, replace: true, expected: expected(changed.state) });
+  assert.equal(restored.ok, true, restored.error); assert.equal(restored.state.day, legacy.day);
+  assert.notEqual(restored.state.saveId, changed.state.saveId);
+  assert.ok((await env.records('backups')).some(w => w.saveId === changed.state.saveId && w.revision === changed.state.revision));
+});
+
+test('future save schemas and unrelated content locks never migrate or replace the current world', async () => {
+  const env = environment(); const a = env.client(); const current = await a.create();
+  for (const invalid of [{ ...current, schemaVersion: 999 }, { ...current, packLock: 'unregistered-content' }]) {
+    const r = await a.send({ kind: 'import', text: JSON.stringify(invalid), replace: true, expected: expected(current) });
+    assert.equal(r.ok, false); assert.deepEqual(await a.load(), current); assert.deepEqual(await env.records('backups'), []);
+  }
 });

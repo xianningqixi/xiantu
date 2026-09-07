@@ -31,3 +31,6 @@
 .npc-portrait{position:relative;overflow:hidden;background:#162a23;aspect-ratio:1/1;flex-shrink:0}.npc-portrait img{position:absolute;display:block;object-fit:fill;max-width:none}.npc-portrait.single-portrait img{width:100%;height:100%;object-fit:cover;object-position:center 20%}.npc-portrait>span{display:grid;place-items:center;width:100%;height:100%;font-size:28px}.npc-portrait.detail-portrait{width:min(100%,360px);height:auto;aspect-ratio:1/1;margin:0 auto 16px;border-radius:10px}.npc-portrait.person-avatar{width:52px;height:52px;border-radius:8px}.npc-bio>p{color:#bcc7bf;line-height:1.85}.npc-bio dl{display:grid;grid-template-columns:1fr 1fr;gap:12px 18px}.npc-bio dl div{min-width:0}.npc-bio dt{font-size:12px;color:#8ea095}.npc-bio dd{margin:4px 0 0;color:#ddd8c5;font-size:14px;line-height:1.7}.player-identity>div{min-width:0}.player-identity>div>span{white-space:nowrap;font-size:12px}@media(max-width:380px){.npc-bio dl{grid-template-columns:1fr}.game-nav [role=tab]{padding-left:9px;padding-right:9px}}
 
 .person-row>.npc-portrait{flex:0 0 52px}.person-row>div:not(.npc-portrait){min-width:0}.npc-portrait.detail-portrait{float:none}
+
+/* Keep both recovery actions reachable on narrow creation screens. */
+.prologue-header{flex-wrap:wrap;gap:12px}.prologue-header>div{flex-wrap:wrap;max-width:100%}

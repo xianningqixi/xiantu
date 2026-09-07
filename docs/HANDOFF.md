@@ -1,6 +1,6 @@
 # 当前本地开发交接
 
-2026-09-07。当前工作分支 `codex/maintainability-scale-mobile`，在 V0.1 本地候选提交 `1fe5a23` 上完成维护性、存档规模、Worker、移动端和资源优化。玩家创建角色，Web 图文形式和原站点身份保持不变。当前仍为本地候选版，未发布或推送本轮改动到远端。本轮验收见 [MAINTAINABILITY-SCALE-MOBILE](reports/MAINTAINABILITY-SCALE-MOBILE.md)；原里程碑结果见 [V01-LOCAL-ACCEPTANCE](reports/V01-LOCAL-ACCEPTANCE.md)，其中 schema 4 数据是历史基线。
+2026-09-07。本轮在 `4e3f10a` 基础上完成一屏创角、体貌资料、全身生图接入及公网 HTTP 兼容，工作分支 `codex/character-creation-portraits`。此前已完成维护性、存档规模、Worker、移动端和资源优化。玩家创建角色，Web 图文形式和原站点身份保持不变。当前仍为本地候选版，未进行公网部署。本轮验收见 [MAINTAINABILITY-SCALE-MOBILE](reports/MAINTAINABILITY-SCALE-MOBILE.md)；原里程碑结果见 [V01-LOCAL-ACCEPTANCE](reports/V01-LOCAL-ACCEPTANCE.md)，其中 schema 4 数据是历史基线。
 
 ## 启动与构建
 
@@ -13,9 +13,11 @@ npm run start:local -- --hostname 127.0.0.1 --port 3100
 
 Node 最低 22.13.0，推荐 Node 24；本轮 macOS 26.5.1／Node 26.3.0／npm 11.16.0。`dev:local` 默认 3000，生产预览默认 3000，可用 `--port` 指定 3100。勿双击 dist HTML 代替 HTTP 服务。生产服务启动时缓存静态字节，重建后必须重启。`scripts/start-local.mjs` 调用固定版本 Vinext 的公开服务入口，只补完整 URL 请求目标的同源路径规范化；不充当外部 HTTP 代理。原 Sites 构建／部署配置保留。
 
-`.env.production.local`、`.env.local`、`.env.production`、`.env` 按优先顺序加载；现有环境变量优先。固定剧情无需 AI 配置。可选 AI 密钥仅放服务端，见 [AI-CONFIG](AI-CONFIG.md)。浏览器发到本站 `/api/negotiation`，不能选择上游。公开部署配置 `XIANTU_ALLOWED_ORIGINS`（逗号分隔完整来源），避免 HTTPS 终结后拿内部 URL 误拒绝请求；未配置时仅接受与本地请求 URL 相同的来源。默认签名 HttpOnly、SameSite=Strict 匿名会话各有 6 次／分钟额度；仅在源站限制直连时启用 `XIANTU_TRUST_CF_IP=1` 按 CF 客户端 IP 限流。额度表及会话签名密钥仍是进程内状态，不是分布式限流或账号防滥用方案。AI 只产出一套标准同行约定，不支持自由分配或价格。真实供应方烟测为 not_run。
+`.env.production.local`、`.env.local`、`.env.production`、`.env` 按优先顺序加载；现有环境变量优先。固定剧情无需 AI 配置。可选 AI 密钥仅放服务端，见 [AI-CONFIG](AI-CONFIG.md)。浏览器发到本站 `/api/negotiation`，不能选择上游。公开部署配置 `XIANTU_ALLOWED_ORIGINS`（逗号分隔完整来源），避免 HTTPS 终结后拿内部 URL 误拒绝请求；未配置时仅接受与本地请求 URL 相同的来源。默认签名 HttpOnly、SameSite=Strict 匿名会话各有 6 次／分钟额度；仅在源站限制直连时启用 `XIANTU_TRUST_CF_IP=1` 按 CF 客户端 IP 限流。额度表及会话签名密钥仍是进程内状态，不是分布式限流或账号防滥用方案。AI 只产出一套标准同行约定，不支持自由分配或价格。生图已通过用户提供的 gpt-image-2 服务真实出图与浏览器采用；LLM 真实烟测仍为 not_run。
 
 ## 测试命令及准备
+
+本轮全身立绘最终发布副本通过 `npm run verify`（101 项自动测试及生产构建）和 Chrome 的 portraits、model-settings、improvements、offline 四组浏览器回归（14 项）。已检查 1440×900、1366×768、390×844、320×720 创角布局、玩家立绘刷新恢复、NPC 零日采用、取消／迟到响应、图片缓存失败、HTTP 设置保存与离线图片复用。浏览器插件不可用，使用项目已有 Playwright；这些桌面模拟视口不代替真实手机验收。供应方固定响应用于自动回归，真实 gpt-image-2 出图另行验证。
 
 ```bash
 npx playwright install chromium firefox
@@ -39,13 +41,13 @@ PLAYWRIGHT_CHANNEL=chrome XIANTU_TEST_URL=http://127.0.0.1:3100 npm run test:por
 
 ## 游戏内 AI 配置
 
-创角页右上角或游戏「存档与设置 → AI 模型设置」，分别配置 LLM 与生图。个人设置在 Node 服务端 `.xiantu-private/ai-settings/`（或 `XIANTU_AI_SETTINGS_DIR`），按随机 HttpOnly cookie 隔离；保持 cookie 与私有目录即可跨刷新／服务重启保留。该目录含凭证，已排除 Git 和静态资源，不能并入人生存档或公开备份。LLM 保存后用于交涉；生图目前仅测试预览，不自动替换游戏图片。Cloudflare 等无持久磁盘环境需要另接存储适配，详见 [AI-CONFIG](AI-CONFIG.md)。
+创角页右上角或游戏「存档与设置 → AI 模型设置」，分别配置 LLM 与生图。个人设置在 Node 服务端 `.xiantu-private/ai-settings/`（或 `XIANTU_AI_SETTINGS_DIR`），按随机 HttpOnly cookie 隔离；保持 cookie 与私有目录即可跨刷新／服务重启保留。该目录含凭证，已排除 Git 和静态资源，不能并入人生存档或公开备份。LLM 保存后用于交涉；生图设置中可测试山水预览；创角页与故人人物资料可按已保存身形主动生成全身立绘。图片独立缓存，最多 48 MiB，最大 640×960；世界只保存哈希，缓存丢失可重新生成。女性采用 21—29 岁成年驻颜外貌。Cloudflare 等无持久磁盘环境需要另接存储适配，详见 [AI-CONFIG](AI-CONFIG.md)。
 
 ## 存档与恢复
 
 | 字段 | 当前值 |
 | --- | --- |
-| format / schema | xiantu-web-1 / 5 |
+| format / schema | xiantu-web-1 / 6 |
 | rulesVersion | 0.1.2 |
 | IndexedDB | xiantu-qingshi，物理版本 2，saves / backups / drafts |
 | draft format | xiantu-creation-draft-1，draft version 1 |
@@ -54,7 +56,7 @@ PLAYWRIGHT_CHANNEL=chrome XIANTU_TEST_URL=http://127.0.0.1:3100 npm run test:por
 | extension API | 2；精确版本与 SHA-256 存入 contentLocks |
 | 导入上限 | 人生存档 16 MiB；创角草稿 64 KiB |
 
-进入“存档与设置”可导出、导入、查看本机备份。导入／新角色需确认；“本机备份”可导出指定旧快照、确认恢复。恢复也会保存被替换的当前进度。坏档不会自动清空，仍可导出原始进度再从有效备份恢复。无 schema／schema 1、2、3、4 经副本迁移到 5，保存原始备份后原子切换；未来格式和未知包锁拒绝读取并保留原件。
+进入“存档与设置”可导出、导入、查看本机备份。导入／新角色需确认；“本机备份”可导出指定旧快照、确认恢复。恢复也会保存被替换的当前进度。坏档不会自动清空，仍可导出原始进度再从有效备份恢复。无 schema／schema 1、2、3、4、5 经副本迁移到 6，保存原始备份后原子切换；未来格式和未知包锁拒绝读取并保留原件。
 
 `knowledge` 为 `eventId → [knowerIndex, sourceIndex, sourceActorIndex, learnedDay][]`；人物索引指向 `[player, ...npcs]`，必须保留人物顺序及身份，来源人物为空用 `-1`。来源码 participant=0、witness=1、told=2、public=3、legacy=4，读取工具为 `knowledgeEntries`。每条知情事实及来源保留，不删除死亡或旧事件压缩测试结果。
 
@@ -82,7 +84,7 @@ PLAYWRIGHT_CHANNEL=chrome XIANTU_TEST_URL=http://127.0.0.1:3100 npm run test:por
 
 ## 离线与更新
 
-仅生产构建启用 PWA。先在线打开，等待底部“离线可用”，再关闭并离线重开；未首次安装的设备不能离线启动。核心 HTML、脚本、Worker、三张场景／主立绘、图标与 manifest 按构建版本原子缓存。六张 NPC 图集按需进入资源缓存，每版最多 8 项并保留最近两版；初次未看过的图集离线时可能显示占位，不影响操作。开发服务不注册离线包。
+仅生产构建启用 PWA。先在线打开，等待底部“离线可用”，再关闭并离线重开；未首次安装的设备不能离线启动。核心 HTML、脚本、Worker、三张场景／主立绘、图标与 manifest 按构建版本原子缓存。六张 NPC 图集与 40 张默认 NPC 全身图按需进入资源缓存，每版最多 64 项并保留最近两版；初次未看过的图片离线时可能显示占位，不影响操作。40 张全身 WebP 共 1,716,912 字节，均已核对身份、解码、尺寸与哈希。开发服务不注册离线包。
 
 更新先准备完整新缓存，不会自动刷新。长行动／战斗／正在保存时按钮不可用；安全点“应用更新并重开”，还需关闭其他正式或预览页。新版本资源下载失败会删除不完整缓存，保留旧版本；保留最近两版缓存。数据迁移仍由 Worker 独立验证，失败不改原存档。离线 AI 显示不可用，固定剧情照常运行。
 
@@ -94,6 +96,6 @@ PLAYWRIGHT_CHANNEL=chrome XIANTU_TEST_URL=http://127.0.0.1:3100 npm run test:por
 - [跨浏览器报告](reports/portability.json)：实际 Chrome、Firefox 和文件往返。
 - [界面截图](reports/screenshots/)：桌面作者预览、390px 作者预览与明确标注 mock 的 AI 确认。
 - [试玩包](reports/PLAYTEST-PACKET.md)：共同前置、两分支步骤、待填记录，无已完成外部试玩的暗示。
-- 素材来源：`content-packs/official-qingshi/art/` 清单和包内说明、`npc-presentation.json`；预制图片，非实时生图，保留 vendor 许可。
+- 素材来源：`content-packs/official-qingshi/art/` 清单和包内说明、`npc-presentation.json`；原有预制图片保留 vendor 许可；新增 portrait-directions.json 只含提示词设计数据，默认形貌的真实全身素材见 art/portraits/catalog.json，保持旧玩法锁，按需缓存最多 64 张；用户生成图按浏览器独立保存。
 
-尚缺真实 iPhone Safari、Windows Chromium、未参与实现的评审者、3—5 名试玩者及真实 AI 供应方验证。桌面移动视口、故障注入和模型 mock 均不替代这些证据。金丹以上、完整亲密路线、宗门经营、云存档、多人、实时生图仍延期。当前没有已知未修的本地阻断缺陷，但发布前须完成剩余设备和外部体验验收。
+尚缺真实 iPhone Safari、Windows Chromium、未参与实现的评审者、3—5 名试玩者及真实 LLM 供应方验证。桌面移动视口、故障注入和模型 mock 均不替代这些证据。金丹以上、完整亲密路线、宗门经营、云存档、多人、自动批量生图仍延期。当前没有已知未修的本地阻断缺陷，但发布前须完成剩余设备和外部体验验收。

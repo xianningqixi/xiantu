@@ -1,0 +1,1007 @@
+{
+  "version": 1,
+  "source": "gpt-image-2",
+  "seed": 12345,
+  "entries": [
+    {
+      "actorId": "NPC_LIN_WAN",
+      "subject": {
+        "sex": "female",
+        "physique": {
+          "build": "balanced",
+          "heightCm": 176,
+          "bustCm": 86,
+          "waistCm": 67,
+          "hipsCm": 94,
+          "apparentAge": 28
+        },
+        "appearance": {
+          "face": 2,
+          "hair": 1,
+          "color": 2
+        },
+        "identitySeed": 3515263118,
+        "role": "primary"
+      },
+      "file": "npc_lin_wan-e4e642f4ad9f.webp",
+      "width": 483,
+      "height": 960,
+      "sha256": "e4e642f4ad9f62a72d86118e15bc9295ca935d0ab783011bcdb0fefe4edc9147"
+    },
+    {
+      "actorId": "NPC_ZHOU_AN",
+      "subject": {
+        "sex": "male",
+        "physique": {
+          "build": "slender",
+          "heightCm": 176,
+          "bustCm": 96,
+          "waistCm": 75,
+          "hipsCm": 95,
+          "apparentAge": 30
+        },
+        "appearance": {
+          "face": 1,
+          "hair": 0,
+          "color": 1
+        },
+        "identitySeed": 2524590693,
+        "role": "companion"
+      },
+      "file": "npc_zhou_an-b414245a2a70.webp",
+      "width": 524,
+      "height": 960,
+      "sha256": "b414245a2a70e5f0b85cf8b13d86c0461677836e7d20438aef42f245d2807a94"
+    },
+    {
+      "actorId": "NPC_0003",
+      "subject": {
+        "sex": "male",
+        "physique": {
+          "build": "slender",
+          "heightCm": 175,
+          "bustCm": 97,
+          "waistCm": 79,
+          "hipsCm": 91,
+          "apparentAge": 46
+        },
+        "appearance": {
+          "face": 2,
+          "hair": 0,
+          "color": 1
+        },
+        "identitySeed": 4154727782,
+        "role": "npc"
+      },
+      "file": "npc_0003-6f7e9d80074a.webp",
+      "width": 502,
+      "height": 960,
+      "sha256": "6f7e9d80074a5521f396b3d1d3a41969b432ba516cd81ac9350a3ef9b620d6d9"
+    },
+    {
+      "actorId": "NPC_0004",
+      "subject": {
+        "sex": "female",
+        "physique": {
+          "build": "athletic",
+          "heightCm": 167,
+          "bustCm": 89,
+          "waistCm": 68,
+          "hipsCm": 96,
+          "apparentAge": 29
+        },
+        "appearance": {
+          "face": 1,
+          "hair": 0,
+          "color": 0
+        },
+        "identitySeed": 2945315077,
+        "role": "npc"
+      },
+      "file": "npc_0004-407792ef0ec1.webp",
+      "width": 455,
+      "height": 960,
+      "sha256": "407792ef0ec16a42a1651ad0e217623d971315393f8734741b3711925e021cbb"
+    },
+    {
+      "actorId": "NPC_0005",
+      "subject": {
+        "sex": "male",
+        "physique": {
+          "build": "curvy",
+          "heightCm": 188,
+          "bustCm": 106,
+          "waistCm": 79,
+          "hipsCm": 104,
+          "apparentAge": 48
+        },
+        "appearance": {
+          "face": 0,
+          "hair": 2,
+          "color": 1
+        },
+        "identitySeed": 3030566996,
+        "role": "npc"
+      },
+      "file": "npc_0005-4760b4e41198.webp",
+      "width": 480,
+      "height": 960,
+      "sha256": "4760b4e41198b7b2b9d7444003a0709708e96a34a066cdcf4612cddf7a918b44"
+    },
+    {
+      "actorId": "NPC_0006",
+      "subject": {
+        "sex": "female",
+        "physique": {
+          "build": "curvy",
+          "heightCm": 162,
+          "bustCm": 95,
+          "waistCm": 67,
+          "hipsCm": 100,
+          "apparentAge": 25
+        },
+        "appearance": {
+          "face": 1,
+          "hair": 1,
+          "color": 2
+        },
+        "identitySeed": 594704009,
+        "role": "npc"
+      },
+      "file": "npc_0006-191bc80404e2.webp",
+      "width": 427,
+      "height": 960,
+      "sha256": "191bc80404e28aad4d22b6c3a6bc5075a9cf3a82f45789b85aca8e20d5f73b55"
+    },
+    {
+      "actorId": "NPC_0007",
+      "subject": {
+        "sex": "male",
+        "physique": {
+          "build": "curvy",
+          "heightCm": 187,
+          "bustCm": 104,
+          "waistCm": 85,
+          "hipsCm": 108,
+          "apparentAge": 24
+        },
+        "appearance": {
+          "face": 2,
+          "hair": 0,
+          "color": 3
+        },
+        "identitySeed": 369128422,
+        "role": "npc"
+      },
+      "file": "npc_0007-f98378b8d1da.webp",
+      "width": 521,
+      "height": 960,
+      "sha256": "f98378b8d1daf296b63232ba025ad379550c28b1479ec4b619191deb49d3078c"
+    },
+    {
+      "actorId": "NPC_0008",
+      "subject": {
+        "sex": "female",
+        "physique": {
+          "build": "athletic",
+          "heightCm": 171,
+          "bustCm": 90,
+          "waistCm": 68,
+          "hipsCm": 98,
+          "apparentAge": 29
+        },
+        "appearance": {
+          "face": 3,
+          "hair": 3,
+          "color": 2
+        },
+        "identitySeed": 3029997503,
+        "role": "npc"
+      },
+      "file": "npc_0008-2db934404d2a.webp",
+      "width": 444,
+      "height": 960,
+      "sha256": "2db934404d2afcec668272aae82b0e7015910ac22c253a4d37ac926bc6377d50"
+    },
+    {
+      "actorId": "NPC_0009",
+      "subject": {
+        "sex": "male",
+        "physique": {
+          "build": "slender",
+          "heightCm": 177,
+          "bustCm": 98,
+          "waistCm": 76,
+          "hipsCm": 93,
+          "apparentAge": 44
+        },
+        "appearance": {
+          "face": 2,
+          "hair": 1,
+          "color": 0
+        },
+        "identitySeed": 4166449678,
+        "role": "npc"
+      },
+      "file": "npc_0009-8ff306b6ac0c.webp",
+      "width": 444,
+      "height": 960,
+      "sha256": "8ff306b6ac0cd7ba708c6e7ea8c37bb5495dd58cd9494321cf5f5efcbd148c25"
+    },
+    {
+      "actorId": "NPC_0010",
+      "subject": {
+        "sex": "female",
+        "physique": {
+          "build": "athletic",
+          "heightCm": 172,
+          "bustCm": 94,
+          "waistCm": 68,
+          "hipsCm": 95,
+          "apparentAge": 23
+        },
+        "appearance": {
+          "face": 3,
+          "hair": 2,
+          "color": 2
+        },
+        "identitySeed": 1754975379,
+        "role": "npc"
+      },
+      "file": "npc_0010-36d37a2efad8.webp",
+      "width": 470,
+      "height": 960,
+      "sha256": "36d37a2efad8318cb2a6ac0f75b13eae048cf59f975110222b3cce2367ba5bc3"
+    },
+    {
+      "actorId": "NPC_0011",
+      "subject": {
+        "sex": "male",
+        "physique": {
+          "build": "athletic",
+          "heightCm": 173,
+          "bustCm": 105,
+          "waistCm": 78,
+          "hipsCm": 100,
+          "apparentAge": 43
+        },
+        "appearance": {
+          "face": 2,
+          "hair": 0,
+          "color": 3
+        },
+        "identitySeed": 151306950,
+        "role": "npc"
+      },
+      "file": "npc_0011-a95d2f065208.webp",
+      "width": 540,
+      "height": 960,
+      "sha256": "a95d2f065208e4f4679265c8177262e36788731a7f5a7dc184e8acd3b9281c53"
+    },
+    {
+      "actorId": "NPC_0012",
+      "subject": {
+        "sex": "female",
+        "physique": {
+          "build": "curvy",
+          "heightCm": 165,
+          "bustCm": 98,
+          "waistCm": 67,
+          "hipsCm": 102,
+          "apparentAge": 25
+        },
+        "appearance": {
+          "face": 1,
+          "hair": 1,
+          "color": 1
+        },
+        "identitySeed": 412657261,
+        "role": "npc"
+      },
+      "file": "npc_0012-b8ceae574920.webp",
+      "width": 455,
+      "height": 960,
+      "sha256": "b8ceae574920fad9104ba3f7d6e976b0a1c2eb41645876c033222bf5832ff4ac"
+    },
+    {
+      "actorId": "NPC_0013",
+      "subject": {
+        "sex": "male",
+        "physique": {
+          "build": "slender",
+          "heightCm": 180,
+          "bustCm": 98,
+          "waistCm": 76,
+          "hipsCm": 95,
+          "apparentAge": 40
+        },
+        "appearance": {
+          "face": 2,
+          "hair": 1,
+          "color": 1
+        },
+        "identitySeed": 1911032686,
+        "role": "npc"
+      },
+      "file": "npc_0013-370269b06fda.webp",
+      "width": 480,
+      "height": 960,
+      "sha256": "370269b06fda1bcf3a8d01cdd961843ec6cb03ebc2dfde37cf7485ae8cab860f"
+    },
+    {
+      "actorId": "NPC_0014",
+      "subject": {
+        "sex": "female",
+        "physique": {
+          "build": "athletic",
+          "heightCm": 161,
+          "bustCm": 91,
+          "waistCm": 66,
+          "hipsCm": 96,
+          "apparentAge": 28
+        },
+        "appearance": {
+          "face": 1,
+          "hair": 2,
+          "color": 1
+        },
+        "identitySeed": 48729425,
+        "role": "npc"
+      },
+      "file": "npc_0014-ef86a8c1005d.webp",
+      "width": 453,
+      "height": 960,
+      "sha256": "ef86a8c1005d037237aab360afccd8ba3c69e8ababc640ccf1767ad916851527"
+    },
+    {
+      "actorId": "NPC_0015",
+      "subject": {
+        "sex": "male",
+        "physique": {
+          "build": "balanced",
+          "heightCm": 177,
+          "bustCm": 99,
+          "waistCm": 78,
+          "hipsCm": 100,
+          "apparentAge": 39
+        },
+        "appearance": {
+          "face": 2,
+          "hair": 1,
+          "color": 0
+        },
+        "identitySeed": 1002561034,
+        "role": "npc"
+      },
+      "file": "npc_0015-be89d25e2bd2.webp",
+      "width": 454,
+      "height": 960,
+      "sha256": "be89d25e2bd2ef38dfec543e4d9b4dc71531b92a8bfcf5c7cca0b21efcc7c277"
+    },
+    {
+      "actorId": "NPC_0016",
+      "subject": {
+        "sex": "female",
+        "physique": {
+          "build": "curvy",
+          "heightCm": 160,
+          "bustCm": 99,
+          "waistCm": 71,
+          "hipsCm": 102,
+          "apparentAge": 27
+        },
+        "appearance": {
+          "face": 3,
+          "hair": 2,
+          "color": 1
+        },
+        "identitySeed": 3031328855,
+        "role": "npc"
+      },
+      "file": "npc_0016-a4ebb601e9b8.webp",
+      "width": 540,
+      "height": 960,
+      "sha256": "a4ebb601e9b83043ce2f6d7e201914c01ce633b043d1d604356242d8c38dcf0e"
+    },
+    {
+      "actorId": "NPC_0017",
+      "subject": {
+        "sex": "male",
+        "physique": {
+          "build": "slender",
+          "heightCm": 183,
+          "bustCm": 92,
+          "waistCm": 77,
+          "hipsCm": 96,
+          "apparentAge": 42
+        },
+        "appearance": {
+          "face": 2,
+          "hair": 0,
+          "color": 0
+        },
+        "identitySeed": 2719708678,
+        "role": "npc"
+      },
+      "file": "npc_0017-fbbd07efe0bd.webp",
+      "width": 454,
+      "height": 960,
+      "sha256": "fbbd07efe0bd85f220c90963920f8e634801766810116a02b3c0ba131883223c"
+    },
+    {
+      "actorId": "NPC_0018",
+      "subject": {
+        "sex": "female",
+        "physique": {
+          "build": "balanced",
+          "heightCm": 162,
+          "bustCm": 86,
+          "waistCm": 66,
+          "hipsCm": 94,
+          "apparentAge": 29
+        },
+        "appearance": {
+          "face": 1,
+          "hair": 3,
+          "color": 0
+        },
+        "identitySeed": 2604882717,
+        "role": "npc"
+      },
+      "file": "npc_0018-29e2362b23d6.webp",
+      "width": 455,
+      "height": 960,
+      "sha256": "29e2362b23d654c71fe0d4c33d00853eecca429e20f47540b54d1eb54203188b"
+    },
+    {
+      "actorId": "NPC_0019",
+      "subject": {
+        "sex": "male",
+        "physique": {
+          "build": "balanced",
+          "heightCm": 176,
+          "bustCm": 102,
+          "waistCm": 80,
+          "hipsCm": 100,
+          "apparentAge": 39
+        },
+        "appearance": {
+          "face": 0,
+          "hair": 1,
+          "color": 0
+        },
+        "identitySeed": 1633849352,
+        "role": "npc"
+      },
+      "file": "npc_0019-476ecc67bd40.webp",
+      "width": 463,
+      "height": 960,
+      "sha256": "476ecc67bd40519c6d36a3a20dd8ded13d3ab61bf4b6ae12dd1731caeedc8335"
+    },
+    {
+      "actorId": "NPC_0020",
+      "subject": {
+        "sex": "male",
+        "physique": {
+          "build": "athletic",
+          "heightCm": 189,
+          "bustCm": 105,
+          "waistCm": 83,
+          "hipsCm": 100,
+          "apparentAge": 39
+        },
+        "appearance": {
+          "face": 2,
+          "hair": 3,
+          "color": 2
+        },
+        "identitySeed": 292653722,
+        "role": "npc"
+      },
+      "file": "npc_0020-24b7309b3432.webp",
+      "width": 501,
+      "height": 960,
+      "sha256": "24b7309b3432ae634a43dc79cfc2e9cc693096fde8de4747aa7699daa3248901"
+    },
+    {
+      "actorId": "NPC_0021",
+      "subject": {
+        "sex": "female",
+        "physique": {
+          "build": "athletic",
+          "heightCm": 167,
+          "bustCm": 93,
+          "waistCm": 69,
+          "hipsCm": 94,
+          "apparentAge": 28
+        },
+        "appearance": {
+          "face": 1,
+          "hair": 0,
+          "color": 1
+        },
+        "identitySeed": 3432435009,
+        "role": "npc"
+      },
+      "file": "npc_0021-3bac6cbb34bb.webp",
+      "width": 434,
+      "height": 960,
+      "sha256": "3bac6cbb34bb3f7edeabdfe81327037582c21c01d767ca9261465e821b04f358"
+    },
+    {
+      "actorId": "NPC_0022",
+      "subject": {
+        "sex": "male",
+        "physique": {
+          "build": "slender",
+          "heightCm": 180,
+          "bustCm": 95,
+          "waistCm": 80,
+          "hipsCm": 94,
+          "apparentAge": 46
+        },
+        "appearance": {
+          "face": 2,
+          "hair": 3,
+          "color": 1
+        },
+        "identitySeed": 685356158,
+        "role": "npc"
+      },
+      "file": "npc_0022-705f4897fb45.webp",
+      "width": 455,
+      "height": 960,
+      "sha256": "705f4897fb45170426d38cafcd234f803e992a297b712007c7795a0ed5678992"
+    },
+    {
+      "actorId": "NPC_0023",
+      "subject": {
+        "sex": "female",
+        "physique": {
+          "build": "athletic",
+          "heightCm": 166,
+          "bustCm": 92,
+          "waistCm": 66,
+          "hipsCm": 96,
+          "apparentAge": 29
+        },
+        "appearance": {
+          "face": 3,
+          "hair": 0,
+          "color": 1
+        },
+        "identitySeed": 2257026115,
+        "role": "npc"
+      },
+      "file": "npc_0023-3f23d47261d8.webp",
+      "width": 480,
+      "height": 960,
+      "sha256": "3f23d47261d854cf7e54f51ea1d99545c443dcb64afbf1e7a95dc998aa0deb54"
+    },
+    {
+      "actorId": "NPC_0024",
+      "subject": {
+        "sex": "male",
+        "physique": {
+          "build": "slender",
+          "heightCm": 188,
+          "bustCm": 94,
+          "waistCm": 76,
+          "hipsCm": 91,
+          "apparentAge": 50
+        },
+        "appearance": {
+          "face": 0,
+          "hair": 3,
+          "color": 3
+        },
+        "identitySeed": 3841682940,
+        "role": "npc"
+      },
+      "file": "npc_0024-19c153956f4a.webp",
+      "width": 480,
+      "height": 960,
+      "sha256": "19c153956f4aba8e27102f52fc60258f1c828c6c33b2e067a05be0719d1b19e4"
+    },
+    {
+      "actorId": "NPC_0025",
+      "subject": {
+        "sex": "male",
+        "physique": {
+          "build": "athletic",
+          "heightCm": 177,
+          "bustCm": 105,
+          "waistCm": 77,
+          "hipsCm": 103,
+          "apparentAge": 43
+        },
+        "appearance": {
+          "face": 2,
+          "hair": 2,
+          "color": 2
+        },
+        "identitySeed": 3652222646,
+        "role": "npc"
+      },
+      "file": "npc_0025-a70bbc677a37.webp",
+      "width": 458,
+      "height": 960,
+      "sha256": "a70bbc677a37c7601b88f83fc03e47f539800a2db1fd78d13fe861c11718f2cf"
+    },
+    {
+      "actorId": "NPC_0026",
+      "subject": {
+        "sex": "female",
+        "physique": {
+          "build": "curvy",
+          "heightCm": 166,
+          "bustCm": 98,
+          "waistCm": 69,
+          "hipsCm": 98,
+          "apparentAge": 25
+        },
+        "appearance": {
+          "face": 1,
+          "hair": 3,
+          "color": 0
+        },
+        "identitySeed": 1963848249,
+        "role": "npc"
+      },
+      "file": "npc_0026-e139d006dd31.webp",
+      "width": 470,
+      "height": 960,
+      "sha256": "e139d006dd31ac23711104992fc718b2e447403165354cd27f7bfbf9a2e33c8b"
+    },
+    {
+      "actorId": "NPC_0027",
+      "subject": {
+        "sex": "male",
+        "physique": {
+          "build": "athletic",
+          "heightCm": 186,
+          "bustCm": 99,
+          "waistCm": 82,
+          "hipsCm": 102,
+          "apparentAge": 39
+        },
+        "appearance": {
+          "face": 0,
+          "hair": 3,
+          "color": 3
+        },
+        "identitySeed": 2210284508,
+        "role": "npc"
+      },
+      "file": "npc_0027-7a1f8d8c9b85.webp",
+      "width": 427,
+      "height": 960,
+      "sha256": "7a1f8d8c9b85e3d936d9de64a05a080c44e2c8940a497d2e7b3596836126c050"
+    },
+    {
+      "actorId": "NPC_0028",
+      "subject": {
+        "sex": "male",
+        "physique": {
+          "build": "slender",
+          "heightCm": 178,
+          "bustCm": 96,
+          "waistCm": 80,
+          "hipsCm": 93,
+          "apparentAge": 48
+        },
+        "appearance": {
+          "face": 0,
+          "hair": 3,
+          "color": 3
+        },
+        "identitySeed": 3258386392,
+        "role": "npc"
+      },
+      "file": "npc_0028-19a5b9681b7c.webp",
+      "width": 540,
+      "height": 960,
+      "sha256": "19a5b9681b7c5553b1ee788f01b94b7ce6e87ab94f58c4b5398117550f558ae6"
+    },
+    {
+      "actorId": "NPC_0029",
+      "subject": {
+        "sex": "female",
+        "physique": {
+          "build": "slender",
+          "heightCm": 176,
+          "bustCm": 85,
+          "waistCm": 65,
+          "hipsCm": 86,
+          "apparentAge": 29
+        },
+        "appearance": {
+          "face": 3,
+          "hair": 3,
+          "color": 3
+        },
+        "identitySeed": 3936148187,
+        "role": "npc"
+      },
+      "file": "npc_0029-c50341a1ebf3.webp",
+      "width": 452,
+      "height": 960,
+      "sha256": "c50341a1ebf389ff6926230194de1f33eb0c91396b67ff30e50792e3b5f36f98"
+    },
+    {
+      "actorId": "NPC_0030",
+      "subject": {
+        "sex": "female",
+        "physique": {
+          "build": "athletic",
+          "heightCm": 162,
+          "bustCm": 95,
+          "waistCm": 67,
+          "hipsCm": 98,
+          "apparentAge": 27
+        },
+        "appearance": {
+          "face": 3,
+          "hair": 1,
+          "color": 3
+        },
+        "identitySeed": 468773611,
+        "role": "npc"
+      },
+      "file": "npc_0030-e72a22453167.webp",
+      "width": 455,
+      "height": 960,
+      "sha256": "e72a224531670e2dbc9f8643d07beafa825275d1bf004bd41fb8d74fc59bfe64"
+    },
+    {
+      "actorId": "NPC_0031",
+      "subject": {
+        "sex": "male",
+        "physique": {
+          "build": "balanced",
+          "heightCm": 189,
+          "bustCm": 96,
+          "waistCm": 77,
+          "hipsCm": 98,
+          "apparentAge": 45
+        },
+        "appearance": {
+          "face": 2,
+          "hair": 2,
+          "color": 1
+        },
+        "identitySeed": 2887840850,
+        "role": "npc"
+      },
+      "file": "npc_0031-51834387f83d.webp",
+      "width": 437,
+      "height": 960,
+      "sha256": "51834387f83dee97dd655f2c3a47440b6f20b80d06e623a3117e7794e05b36be"
+    },
+    {
+      "actorId": "NPC_0032",
+      "subject": {
+        "sex": "female",
+        "physique": {
+          "build": "athletic",
+          "heightCm": 174,
+          "bustCm": 92,
+          "waistCm": 65,
+          "hipsCm": 92,
+          "apparentAge": 26
+        },
+        "appearance": {
+          "face": 1,
+          "hair": 1,
+          "color": 1
+        },
+        "identitySeed": 3082778477,
+        "role": "npc"
+      },
+      "file": "npc_0032-5754d8c82911.webp",
+      "width": 480,
+      "height": 960,
+      "sha256": "5754d8c82911dae180d220b402a443f3626806cfbb5770f11f3316926b55812e"
+    },
+    {
+      "actorId": "NPC_0033",
+      "subject": {
+        "sex": "male",
+        "physique": {
+          "build": "curvy",
+          "heightCm": 180,
+          "bustCm": 104,
+          "waistCm": 83,
+          "hipsCm": 104,
+          "apparentAge": 28
+        },
+        "appearance": {
+          "face": 0,
+          "hair": 1,
+          "color": 2
+        },
+        "identitySeed": 175417736,
+        "role": "npc"
+      },
+      "file": "npc_0033-d7931a488bc7.webp",
+      "width": 480,
+      "height": 960,
+      "sha256": "d7931a488bc7789c2f0e635a171e7492a17bbde875707706a8711021d3117574"
+    },
+    {
+      "actorId": "NPC_0034",
+      "subject": {
+        "sex": "female",
+        "physique": {
+          "build": "curvy",
+          "heightCm": 173,
+          "bustCm": 100,
+          "waistCm": 69,
+          "hipsCm": 100,
+          "apparentAge": 28
+        },
+        "appearance": {
+          "face": 3,
+          "hair": 0,
+          "color": 0
+        },
+        "identitySeed": 1295689763,
+        "role": "npc"
+      },
+      "file": "npc_0034-341fd9355eb5.webp",
+      "width": 476,
+      "height": 960,
+      "sha256": "341fd9355eb554966190ec4a8c4568f35127d8ba3898731c2da61367f60a4759"
+    },
+    {
+      "actorId": "NPC_0035",
+      "subject": {
+        "sex": "male",
+        "physique": {
+          "build": "curvy",
+          "heightCm": 173,
+          "bustCm": 110,
+          "waistCm": 79,
+          "hipsCm": 105,
+          "apparentAge": 32
+        },
+        "appearance": {
+          "face": 0,
+          "hair": 0,
+          "color": 0
+        },
+        "identitySeed": 3111161348,
+        "role": "npc"
+      },
+      "file": "npc_0035-44a153d6d49e.webp",
+      "width": 504,
+      "height": 960,
+      "sha256": "44a153d6d49e36ea7cfc069163322f052752518940262096082d7ff34143491c"
+    },
+    {
+      "actorId": "NPC_0036",
+      "subject": {
+        "sex": "female",
+        "physique": {
+          "build": "athletic",
+          "heightCm": 169,
+          "bustCm": 92,
+          "waistCm": 63,
+          "hipsCm": 94,
+          "apparentAge": 23
+        },
+        "appearance": {
+          "face": 3,
+          "hair": 3,
+          "color": 3
+        },
+        "identitySeed": 324922331,
+        "role": "npc"
+      },
+      "file": "npc_0036-d9a41e87247e.webp",
+      "width": 480,
+      "height": 960,
+      "sha256": "d9a41e87247efc390be7b4123290b7bf306aa2de119f53c417341a85a958052e"
+    },
+    {
+      "actorId": "NPC_0037",
+      "subject": {
+        "sex": "female",
+        "physique": {
+          "build": "athletic",
+          "heightCm": 160,
+          "bustCm": 89,
+          "waistCm": 67,
+          "hipsCm": 94,
+          "apparentAge": 24
+        },
+        "appearance": {
+          "face": 3,
+          "hair": 3,
+          "color": 0
+        },
+        "identitySeed": 692761631,
+        "role": "npc"
+      },
+      "file": "npc_0037-aa43f901263e.webp",
+      "width": 455,
+      "height": 960,
+      "sha256": "aa43f901263e3173277bbe18430dbd64e50e70071dfb28246884f4a1c87736c3"
+    },
+    {
+      "actorId": "NPC_0038",
+      "subject": {
+        "sex": "female",
+        "physique": {
+          "build": "athletic",
+          "heightCm": 161,
+          "bustCm": 93,
+          "waistCm": 67,
+          "hipsCm": 94,
+          "apparentAge": 24
+        },
+        "appearance": {
+          "face": 1,
+          "hair": 3,
+          "color": 3
+        },
+        "identitySeed": 2427688921,
+        "role": "npc"
+      },
+      "file": "npc_0038-9192970d8d05.webp",
+      "width": 462,
+      "height": 960,
+      "sha256": "9192970d8d0524c712218f8f444ae7f3e5816d5e6dd2360db6d6b0fec37d96cd"
+    },
+    {
+      "actorId": "NPC_0039",
+      "subject": {
+        "sex": "female",
+        "physique": {
+          "build": "balanced",
+          "heightCm": 168,
+          "bustCm": 87,
+          "waistCm": 63,
+          "hipsCm": 94,
+          "apparentAge": 21
+        },
+        "appearance": {
+          "face": 3,
+          "hair": 2,
+          "color": 2
+        },
+        "identitySeed": 1053215895,
+        "role": "npc"
+      },
+      "file": "npc_0039-b49cc87b80a3.webp",
+      "width": 540,
+      "height": 960,
+      "sha256": "b49cc87b80a3430257720000ad22573ed3d9b9210f0b6882b4be93ea3264482e"
+    },
+    {
+      "actorId": "NPC_0040",
+      "subject": {
+        "sex": "female",
+        "physique": {
+          "build": "athletic",
+          "heightCm": 164,
+          "bustCm": 94,
+          "waistCm": 64,
+          "hipsCm": 95,
+          "apparentAge": 23
+        },
+        "appearance": {
+          "face": 1,
+          "hair": 0,
+          "color": 2
+        },
+        "identitySeed": 3180344965,
+        "role": "npc"
+      },
+      "file": "npc_0040-ae4c332d9755.webp",
+      "width": 453,
+      "height": 960,
+      "sha256": "ae4c332d9755aced338870e70aad6fae643249702b1e7b2b72cdad4c3a2b502f"
+    }
+  ]
+}

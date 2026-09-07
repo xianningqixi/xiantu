@@ -1,4 +1,4 @@
-import { boundedText } from "./provider-http";
+import { boundedText, providerUrl } from "./provider-http";
 import { allowedOrigins } from "./negotiation-security";
 import { z } from "zod";
 import { canonicalTerms, proposalSchema, termsSchema } from "../game/negotiation";
@@ -34,9 +34,7 @@ export function providerConfig(env: Record<string, string | undefined>): Provide
   if (env.XIANTU_AI_MOCK === "1")
     return { baseUrl: "", key: "", model: "local-test", timeout: 1000, maxTokens: 600, mock: true };
   if (!env.XIANTU_AI_KEY) return null;
-  const url = new URL(env.XIANTU_AI_BASE_URL ?? "https://api.openai.com/v1");
-  if (url.protocol !== "https:" || url.username || url.password || url.search || url.hash)
-    throw new Error("AI 服务端地址配置无效。");
+  const url = providerUrl(env.XIANTU_AI_BASE_URL ?? "https://api.openai.com/v1");
   const timeout = Number(env.XIANTU_AI_TIMEOUT_MS ?? 10000),
     maxTokens = Number(env.XIANTU_AI_MAX_TOKENS ?? 800);
   if (

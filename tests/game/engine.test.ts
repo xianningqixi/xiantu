@@ -1,3 +1,4 @@
+import { npcSubject } from "../../lib/game/portrait-subject";
 import { canonicalJson, simulationFingerprint } from "./semantic";
 import {
   knowledgeEntries,
@@ -349,10 +350,10 @@ test("same revision on a different character cannot authorize a stale action, re
   );
   assert.doesNotThrow(() => assertSaveExpectation(null, { saveId: null, revision: null }));
 });
-test("default-world NPC portraits are distinct, deterministic, and do not consume world RNG", () => {
+test("NPC portrait identities are distinct and legacy thumbnails remain deterministic without world RNG", () => {
   const w = createWorld(12345, profile, "portraits");
   const before = structuredClone(w);
-  const portraits = w.npcs.map((a) => JSON.stringify(npcPortrait(w, a)));
+  const portraits = w.npcs.map((a) => JSON.stringify(npcSubject(a)));
   assert.equal(new Set(portraits).size, 40);
   assert.deepEqual(w, before);
   for (const a of w.npcs) {

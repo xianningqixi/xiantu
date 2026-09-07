@@ -28,7 +28,9 @@ export function npcPortrait(w: World, a: Actor): { src: string; slot: number | n
   const pool = presentation.atlases
     .filter((atlas) => atlas.sex === a.sex)
     .flatMap((atlas) =>
-      atlas.slots.map((slot) => ({ src: atlas.url, slot: slot.index, age: slot.age })),
+      atlas.slots
+        .filter((slot) => a.sex !== "female" || slot.age < 30)
+        .map((slot) => ({ src: atlas.url, slot: slot.index, age: slot.age })),
     )
     .filter((p) => !reserved.some((r) => r.src === p.src && r.slot === p.slot));
   let available = pool.slice();

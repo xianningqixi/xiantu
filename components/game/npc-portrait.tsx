@@ -2,6 +2,9 @@
 import { imageAsset } from "@/lib/game/images";
 import { npcPortrait } from "@/lib/game/npc-profile";
 import type { Actor, World } from "@/lib/game/types";
+import { usePortrait } from "./portrait-studio";
+import { bundledPortrait } from "@/lib/game/portrait-library";
+import { npcSubject } from "@/lib/game/portrait-subject";
 import { useState } from "react";
 
 export function NpcPortrait({
@@ -13,9 +16,28 @@ export function NpcPortrait({
   actor: Actor;
   className?: string;
 }) {
+  const generated = usePortrait(actor.portraitId);
+  const fullbody = generated || (!actor.portraitId ? bundledPortrait(npcSubject(actor))?.src : "");
   const portrait = npcPortrait(world, actor);
   const asset = imageAsset(portrait.src);
   const [failed, setFailed] = useState<string | null>(null);
+  if (fullbody && failed !== fullbody)
+    return (
+      <div
+        className={`npc-portrait generated-portrait ${className}`}
+        role="img"
+        aria-label={`${actor.name}的全身立绘`}
+      >
+        <img
+          src={fullbody}
+          width={640}
+          height={960}
+          alt=""
+          loading="lazy"
+          onError={() => setFailed(fullbody)}
+        />
+      </div>
+    );
   return (
     <div
       className={`npc-portrait ${portrait.slot === null ? "single-portrait" : ""} ${className}`}

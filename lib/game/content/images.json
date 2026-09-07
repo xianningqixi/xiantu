@@ -61,5 +61,285 @@
     "height": 1152,
     "bytes": 121198,
     "lazy": true
+  },
+  "/art/portraits/npc_lin_wan-e4e642f4ad9f.webp": {
+    "src": "/art/optimized/npc-lin-wan-e4e642f4ad9f-0f5995fce6bd.webp",
+    "width": 483,
+    "height": 960,
+    "bytes": 45438,
+    "lazy": true
+  },
+  "/art/portraits/npc_zhou_an-b414245a2a70.webp": {
+    "src": "/art/optimized/npc-zhou-an-b414245a2a70-87a7ff7f161f.webp",
+    "width": 524,
+    "height": 960,
+    "bytes": 42796,
+    "lazy": true
+  },
+  "/art/portraits/npc_0003-6f7e9d80074a.webp": {
+    "src": "/art/optimized/npc-0003-6f7e9d80074a-d86041eef3ae.webp",
+    "width": 502,
+    "height": 960,
+    "bytes": 39650,
+    "lazy": true
+  },
+  "/art/portraits/npc_0004-407792ef0ec1.webp": {
+    "src": "/art/optimized/npc-0004-407792ef0ec1-b0c1f402a604.webp",
+    "width": 455,
+    "height": 960,
+    "bytes": 34152,
+    "lazy": true
+  },
+  "/art/portraits/npc_0005-4760b4e41198.webp": {
+    "src": "/art/optimized/npc-0005-4760b4e41198-0e140fc9b4ca.webp",
+    "width": 480,
+    "height": 960,
+    "bytes": 45508,
+    "lazy": true
+  },
+  "/art/portraits/npc_0006-191bc80404e2.webp": {
+    "src": "/art/optimized/npc-0006-191bc80404e2-8ae0221d2837.webp",
+    "width": 427,
+    "height": 960,
+    "bytes": 43422,
+    "lazy": true
+  },
+  "/art/portraits/npc_0007-f98378b8d1da.webp": {
+    "src": "/art/optimized/npc-0007-f98378b8d1da-3d421a35d4b7.webp",
+    "width": 521,
+    "height": 960,
+    "bytes": 37004,
+    "lazy": true
+  },
+  "/art/portraits/npc_0008-2db934404d2a.webp": {
+    "src": "/art/optimized/npc-0008-2db934404d2a-32cb0fd63b09.webp",
+    "width": 444,
+    "height": 960,
+    "bytes": 45094,
+    "lazy": true
+  },
+  "/art/portraits/npc_0009-8ff306b6ac0c.webp": {
+    "src": "/art/optimized/npc-0009-8ff306b6ac0c-a75d1677f8c0.webp",
+    "width": 444,
+    "height": 960,
+    "bytes": 35112,
+    "lazy": true
+  },
+  "/art/portraits/npc_0010-36d37a2efad8.webp": {
+    "src": "/art/optimized/npc-0010-36d37a2efad8-617d3b520e39.webp",
+    "width": 470,
+    "height": 960,
+    "bytes": 44170,
+    "lazy": true
+  },
+  "/art/portraits/npc_0011-a95d2f065208.webp": {
+    "src": "/art/optimized/npc-0011-a95d2f065208-f44b4a82b9ba.webp",
+    "width": 540,
+    "height": 960,
+    "bytes": 43066,
+    "lazy": true
+  },
+  "/art/portraits/npc_0012-b8ceae574920.webp": {
+    "src": "/art/optimized/npc-0012-b8ceae574920-f8dfc0b0060c.webp",
+    "width": 455,
+    "height": 960,
+    "bytes": 46622,
+    "lazy": true
+  },
+  "/art/portraits/npc_0013-370269b06fda.webp": {
+    "src": "/art/optimized/npc-0013-370269b06fda-f974c3fddef1.webp",
+    "width": 480,
+    "height": 960,
+    "bytes": 29074,
+    "lazy": true
+  },
+  "/art/portraits/npc_0014-ef86a8c1005d.webp": {
+    "src": "/art/optimized/npc-0014-ef86a8c1005d-e76ebd729f5f.webp",
+    "width": 453,
+    "height": 960,
+    "bytes": 39632,
+    "lazy": true
+  },
+  "/art/portraits/npc_0015-be89d25e2bd2.webp": {
+    "src": "/art/optimized/npc-0015-be89d25e2bd2-1f85d14ee2a7.webp",
+    "width": 454,
+    "height": 960,
+    "bytes": 39326,
+    "lazy": true
+  },
+  "/art/portraits/npc_0016-a4ebb601e9b8.webp": {
+    "src": "/art/optimized/npc-0016-a4ebb601e9b8-75d91fbe072b.webp",
+    "width": 540,
+    "height": 960,
+    "bytes": 50826,
+    "lazy": true
+  },
+  "/art/portraits/npc_0017-fbbd07efe0bd.webp": {
+    "src": "/art/optimized/npc-0017-fbbd07efe0bd-567ee1cd285a.webp",
+    "width": 454,
+    "height": 960,
+    "bytes": 35288,
+    "lazy": true
+  },
+  "/art/portraits/npc_0018-29e2362b23d6.webp": {
+    "src": "/art/optimized/npc-0018-29e2362b23d6-b5ce3d6b5bea.webp",
+    "width": 455,
+    "height": 960,
+    "bytes": 46334,
+    "lazy": true
+  },
+  "/art/portraits/npc_0019-476ecc67bd40.webp": {
+    "src": "/art/optimized/npc-0019-476ecc67bd40-0b6ceff657e0.webp",
+    "width": 463,
+    "height": 960,
+    "bytes": 47514,
+    "lazy": true
+  },
+  "/art/portraits/npc_0020-24b7309b3432.webp": {
+    "src": "/art/optimized/npc-0020-24b7309b3432-6654948bc80f.webp",
+    "width": 501,
+    "height": 960,
+    "bytes": 55918,
+    "lazy": true
+  },
+  "/art/portraits/npc_0021-3bac6cbb34bb.webp": {
+    "src": "/art/optimized/npc-0021-3bac6cbb34bb-0341140f940f.webp",
+    "width": 434,
+    "height": 960,
+    "bytes": 43182,
+    "lazy": true
+  },
+  "/art/portraits/npc_0022-705f4897fb45.webp": {
+    "src": "/art/optimized/npc-0022-705f4897fb45-9449fbd556b6.webp",
+    "width": 455,
+    "height": 960,
+    "bytes": 30796,
+    "lazy": true
+  },
+  "/art/portraits/npc_0023-3f23d47261d8.webp": {
+    "src": "/art/optimized/npc-0023-3f23d47261d8-482ee8b6dc2d.webp",
+    "width": 480,
+    "height": 960,
+    "bytes": 48538,
+    "lazy": true
+  },
+  "/art/portraits/npc_0024-19c153956f4a.webp": {
+    "src": "/art/optimized/npc-0024-19c153956f4a-2a6c52a90d1c.webp",
+    "width": 480,
+    "height": 960,
+    "bytes": 33486,
+    "lazy": true
+  },
+  "/art/portraits/npc_0025-a70bbc677a37.webp": {
+    "src": "/art/optimized/npc-0025-a70bbc677a37-36c9efd47880.webp",
+    "width": 458,
+    "height": 960,
+    "bytes": 43746,
+    "lazy": true
+  },
+  "/art/portraits/npc_0026-e139d006dd31.webp": {
+    "src": "/art/optimized/npc-0026-e139d006dd31-3d61ba7c43e8.webp",
+    "width": 470,
+    "height": 960,
+    "bytes": 42696,
+    "lazy": true
+  },
+  "/art/portraits/npc_0027-7a1f8d8c9b85.webp": {
+    "src": "/art/optimized/npc-0027-7a1f8d8c9b85-ac932cb973f6.webp",
+    "width": 427,
+    "height": 960,
+    "bytes": 38912,
+    "lazy": true
+  },
+  "/art/portraits/npc_0028-19a5b9681b7c.webp": {
+    "src": "/art/optimized/npc-0028-19a5b9681b7c-49e538cb2bc6.webp",
+    "width": 540,
+    "height": 960,
+    "bytes": 41292,
+    "lazy": true
+  },
+  "/art/portraits/npc_0029-c50341a1ebf3.webp": {
+    "src": "/art/optimized/npc-0029-c50341a1ebf3-cf3b8acf8c71.webp",
+    "width": 452,
+    "height": 960,
+    "bytes": 48558,
+    "lazy": true
+  },
+  "/art/portraits/npc_0030-e72a22453167.webp": {
+    "src": "/art/optimized/npc-0030-e72a22453167-b682f37914fa.webp",
+    "width": 455,
+    "height": 960,
+    "bytes": 46874,
+    "lazy": true
+  },
+  "/art/portraits/npc_0031-51834387f83d.webp": {
+    "src": "/art/optimized/npc-0031-51834387f83d-601b5d6fe60a.webp",
+    "width": 437,
+    "height": 960,
+    "bytes": 50062,
+    "lazy": true
+  },
+  "/art/portraits/npc_0032-5754d8c82911.webp": {
+    "src": "/art/optimized/npc-0032-5754d8c82911-f36dd29149c7.webp",
+    "width": 480,
+    "height": 960,
+    "bytes": 37594,
+    "lazy": true
+  },
+  "/art/portraits/npc_0033-d7931a488bc7.webp": {
+    "src": "/art/optimized/npc-0033-d7931a488bc7-d61d82bbf627.webp",
+    "width": 480,
+    "height": 960,
+    "bytes": 40854,
+    "lazy": true
+  },
+  "/art/portraits/npc_0034-341fd9355eb5.webp": {
+    "src": "/art/optimized/npc-0034-341fd9355eb5-8ce96967469a.webp",
+    "width": 476,
+    "height": 960,
+    "bytes": 50456,
+    "lazy": true
+  },
+  "/art/portraits/npc_0035-44a153d6d49e.webp": {
+    "src": "/art/optimized/npc-0035-44a153d6d49e-9c3cb5d251d5.webp",
+    "width": 504,
+    "height": 960,
+    "bytes": 52108,
+    "lazy": true
+  },
+  "/art/portraits/npc_0036-d9a41e87247e.webp": {
+    "src": "/art/optimized/npc-0036-d9a41e87247e-028539533cd2.webp",
+    "width": 480,
+    "height": 960,
+    "bytes": 38546,
+    "lazy": true
+  },
+  "/art/portraits/npc_0037-aa43f901263e.webp": {
+    "src": "/art/optimized/npc-0037-aa43f901263e-cbf9d5f27bd3.webp",
+    "width": 455,
+    "height": 960,
+    "bytes": 60450,
+    "lazy": true
+  },
+  "/art/portraits/npc_0038-9192970d8d05.webp": {
+    "src": "/art/optimized/npc-0038-9192970d8d05-567a92d12a78.webp",
+    "width": 462,
+    "height": 960,
+    "bytes": 41486,
+    "lazy": true
+  },
+  "/art/portraits/npc_0039-b49cc87b80a3.webp": {
+    "src": "/art/optimized/npc-0039-b49cc87b80a3-f264e0850265.webp",
+    "width": 540,
+    "height": 960,
+    "bytes": 46396,
+    "lazy": true
+  },
+  "/art/portraits/npc_0040-ae4c332d9755.webp": {
+    "src": "/art/optimized/npc-0040-ae4c332d9755-acf0480460f6.webp",
+    "width": 453,
+    "height": 960,
+    "bytes": 34934,
+    "lazy": true
   }
 }

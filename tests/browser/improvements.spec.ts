@@ -125,6 +125,14 @@ test("optimized images reserve dimensions and atlas downloads are excluded from 
   expect(manifest.files.some((f: string) => f.includes("npc-"))).toBe(false);
   const source = JSON.parse(readFileSync("lib/game/content/images.json", "utf8"));
   expect(
-    Object.values(source).reduce((total: number, image: any) => total + image.bytes, 0),
+    Object.entries(source)
+      .filter(([url]) => !url.startsWith("/art/portraits/"))
+      .reduce((total: number, [, image]: any) => total + image.bytes, 0),
   ).toBeLessThan(2 * 1024 * 1024);
+  for (const [url, asset] of Object.entries(source) as [string, any][]) {
+    if (!url.startsWith("/art/portraits/")) continue;
+    expect(asset.lazy).toBe(true);
+    expect(asset.bytes).toBeLessThan(300 * 1024);
+    expect(manifest.files).not.toContain(asset.src);
+  }
 });

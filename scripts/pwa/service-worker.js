@@ -78,7 +78,7 @@ self.addEventListener("fetch", (event) => {
         const art = await caches.open(ART_CACHE);
         await art.put(request, response.clone());
         const entries = await art.keys();
-        for (const entry of entries.slice(0, -8)) await art.delete(entry);
+        for (const entry of entries.slice(0, -64)) await art.delete(entry);
       }
       return response;
     })(),

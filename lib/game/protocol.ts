@@ -1,3 +1,4 @@
+import { physiqueSchema, portraitIdSchema } from "./physique";
 import { negotiationCommandSchema } from "./negotiation";
 import balanceLimits from "./content/balance.json";
 import { z } from "zod";
@@ -7,6 +8,8 @@ const id = z.string().min(1).max(160);
 const integer = z.number().int().safe().nonnegative();
 export const profileSchema = z
   .object({
+    physique: physiqueSchema.optional(),
+    portraitId: portraitIdSchema.optional(),
     name: z.string().max(16),
     sex: z.enum(["female", "male"]),
     aptitude: z.number().int().min(1).max(100),
@@ -27,6 +30,9 @@ export const stopConditionSchema = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("importantEvent") }).strict(),
 ]);
 const commandSchemas = [
+  z
+    .object({ type: z.literal("attachPortrait"), target: id, portraitId: portraitIdSchema })
+    .strict(),
   negotiationCommandSchema,
   z.object({ type: z.literal("chooseExtension"), nodeId: id, choiceId: id }).strict(),
   z.object({ type: z.literal("choose"), nodeId: id, choiceId: id }).strict(),

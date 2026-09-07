@@ -24,6 +24,13 @@ type CommandHandlers = {
 };
 
 const commandHandlers: CommandHandlers = {
+  attachPortrait: (w, c) => {
+    const actor = actorById(w, c.target);
+    requireRule(actor, "人物不存在。");
+    actor!.portraitId = c.portraitId;
+    if (c.target === "PLAYER") w.profile.portraitId = c.portraitId;
+    w.notice = `${actor!.name}的全身立绘已保存。`;
+  },
   adoptNegotiation: (w, c) => {
     const p = w.player;
 

@@ -1,3 +1,4 @@
+import { defaultPhysique, profilePhysique } from "./physique";
 import { pruneReceipts } from "./receipts";
 import { validateWorld } from "./engine";
 import { compactKnowledge, migrateKnowledge } from "./knowledge";
@@ -19,7 +20,8 @@ export function migrateSave(value: unknown): { world: World; migrated: boolean }
     version !== 2 &&
     version !== 3 &&
     version !== 4 &&
-    version !== 5
+    version !== 5 &&
+    version !== 6
   ) {
     throw new GameError(
       "SAVE_VERSION_UNSUPPORTED",
@@ -27,8 +29,8 @@ export function migrateSave(value: unknown): { world: World; migrated: boolean }
     );
   }
   const oldRules = (value as { rulesVersion?: unknown }).rulesVersion;
-  const migrated = version !== 5 || oldRules === "0.1.1";
-  if (version !== 4 && version !== 5) {
+  const migrated = version !== 6 || oldRules === "0.1.1";
+  if (version !== 4 && version !== 5 && version !== 6) {
     copy.negotiations = [];
     if (version !== 3) {
       copy.contentLocks = [];
@@ -38,7 +40,7 @@ export function migrateSave(value: unknown): { world: World; migrated: boolean }
       copy.contentState ??= {};
     }
   }
-  if (version !== 3 && version !== 4 && version !== 5) {
+  if (version !== 3 && version !== 4 && version !== 5 && version !== 6) {
     // Old command IDs remain in appliedCommands and stay non-replayable when their
     // original payload is unknown. Do not invent receipts or delete old history.
     if (version !== 2) copy.commandReceipts = {};
@@ -56,10 +58,17 @@ export function migrateSave(value: unknown): { world: World; migrated: boolean }
   if (oldRules === "0.1.1") copy.rulesVersion = "0.1.2";
   if (version === 3 || version === 4)
     copy.knowledge = compactKnowledge(copy, (value as { knowledge: Knowledge[] }).knowledge);
-  if (version !== 5) {
-    copy.schemaVersion = 5;
+  if (version !== 5 && version !== 6) {
     copy.receiptHistory = { count: 0, hash: "0".repeat(64) };
     pruneReceipts(copy);
+  }
+  if (version !== 6) {
+    copy.schemaVersion = 6;
+    copy.profile.physique = profilePhysique(copy.profile);
+    copy.player.physique = { ...copy.profile.physique };
+    if (copy.profile.portraitId) copy.player.portraitId = copy.profile.portraitId;
+    for (const actor of copy.npcs)
+      actor.physique = defaultPhysique(actor.sex, actor.appearanceSeed);
   }
   validateWorld(copy);
   return { world: copy, migrated };

@@ -1,6 +1,7 @@
 import { lookup } from "node:dns/promises";
 import { isIP } from "node:net";
 import { request as httpsRequest } from "node:https";
+import { request as httpRequest } from "node:http";
 import { Readable } from "node:stream";
 
 export function publicAddress(address: string) {
@@ -37,7 +38,7 @@ export function providerUrl(value: string, asset = false) {
   const url = new URL(value);
   const host = url.hostname.replace(/^\[|\]$/g, "");
   if (
-    url.protocol !== "https:" ||
+    !["http:", "https:"].includes(url.protocol) ||
     url.username ||
     url.password ||
     url.hash ||
@@ -47,25 +48,62 @@ export function providerUrl(value: string, asset = false) {
     /(?:^|\.)(?:localhost|local|internal|home|lan)$/.test(host) ||
     (isIP(host) ? !publicAddress(host) : !host.includes("."))
   ) {
-    throw new Error("请填写公开 HTTPS 服务地址，不含账号、查询参数或片段。");
+    throw new Error("请填写公开 HTTP 或 HTTPS 服务地址，不含账号、查询参数或片段。");
   }
   return url;
 }
-/** Resolve once, reject private answers, and pin the verified addresses to the TLS request.
+/** Opt-in for local proxy networks with fake-IP DNS. The resolver is fixed, receives
+ * no provider credentials, and its answers still pass the same public-IP checks.
+ */
+export async function resolveProviderAddresses(
+  host: string,
+  signal?: AbortSignal | null,
+  publicDns = process.env.XIANTU_PROVIDER_DNS === "google",
+  fetcher: typeof fetch = fetch,
+) {
+  signal?.throwIfAborted();
+  let addresses;
+  if (isIP(host)) addresses = [{ address: host, family: isIP(host) }];
+  else if (!publicDns) addresses = await lookup(host, { all: true, verbatim: true });
+  else {
+    const timeout = AbortSignal.timeout(10000);
+    const abort = signal ? AbortSignal.any([signal, timeout]) : timeout;
+    const pairs = await Promise.all(
+      [1, 28].map(async (type) => {
+        const query = new URLSearchParams({ name: host, type: String(type) });
+        const response = await fetcher(`https://dns.google/resolve?${query}`, {
+          signal: abort,
+          redirect: "error",
+        });
+        if (!response.ok) throw new Error("公共 DNS 暂时不可用。");
+        const body = JSON.parse(await boundedText(response, 16384));
+        if (body.Status !== 0) throw new Error("公共 DNS 未能解析服务域名。");
+        return (body.Answer ?? [])
+          .filter((answer: { type: number }) => answer.type === type)
+          .map((answer: { data: string }) => ({
+            address: answer.data,
+            family: type === 1 ? 4 : 6,
+          }));
+      }),
+    );
+    addresses = pairs.flat() as { address: string; family: number }[];
+  }
+  signal?.throwIfAborted();
+  if (!addresses.length || addresses.some(({ address }) => !publicAddress(address)))
+    throw new Error("服务地址不能指向本机或内部网络。");
+  return addresses;
+}
+/** Resolve once, reject private answers, and pin verified addresses to the HTTP(S) request.
  * Never follow redirects or forward an API key to an image download host.
  */
 export const providerFetch: typeof fetch = async (input, init) => {
   const url = providerUrl(String(input), true);
   const host = url.hostname.replace(/^\[|\]$/g, "");
   init?.signal?.throwIfAborted();
-  const addresses = isIP(host)
-    ? [{ address: host, family: isIP(host) }]
-    : await lookup(host, { all: true, verbatim: true });
+  const addresses = await resolveProviderAddresses(host, init?.signal);
   init?.signal?.throwIfAborted();
-  if (!addresses.length || addresses.some(({ address }) => !publicAddress(address)))
-    throw new Error("服务地址不能指向本机或内部网络。");
   return new Promise<Response>((resolve, reject) => {
-    const req = httpsRequest(
+    const req = (url.protocol === "https:" ? httpsRequest : httpRequest)(
       url,
       {
         method: init?.method || "GET",

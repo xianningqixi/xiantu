@@ -6,7 +6,12 @@ import path from "node:path";
 import { handleModelSettings, configuredModel } from "../../lib/server/model-settings";
 import { ModelSettingsStore } from "../../lib/server/model-settings-store";
 import { modelDefaults, type ModelKind } from "../../lib/ai/model-settings";
-import { providerFetch, providerUrl, publicAddress } from "../../lib/server/provider-http";
+import {
+  providerFetch,
+  providerUrl,
+  publicAddress,
+  resolveProviderAddresses,
+} from "../../lib/server/provider-http";
 
 const request = (body: object, cookie = "", origin = "http://localhost") =>
   new Request("http://localhost/api/model-settings", {
@@ -328,4 +333,61 @@ test("cancelled or timed-out image requests finish without saving or late succes
   );
   assert.equal(result.status, 502);
   assert.equal((await (await call({ action: "read" }, cookie)).json()).models.image.hasKey, false);
+});
+
+test("opt-in public DNS uses no credentials and still rejects private or mixed answers", async () => {
+  const resolver: typeof fetch = async (url, init) => {
+    assert.equal(new Headers(init?.headers).get("authorization"), null);
+    const u = new URL(String(url));
+    assert.equal(u.origin, "https://dns.google");
+    assert.equal(u.searchParams.get("name"), "provider.example");
+    const type = Number(u.searchParams.get("type"));
+    return Response.json({
+      Status: 0,
+      Answer: [{ type, data: type === 1 ? "8.8.8.8" : "2606:4700:4700::1111" }],
+    });
+  };
+  assert.equal(
+    (await resolveProviderAddresses("provider.example", undefined, true, resolver)).length,
+    2,
+  );
+  for (const address of ["127.0.0.1", "198.18.0.59", "169.254.169.254"]) {
+    await assert.rejects(
+      resolveProviderAddresses("provider.example", undefined, true, async () =>
+        Response.json({
+          Status: 0,
+          Answer: [
+            { type: 1, data: "8.8.8.8" },
+            { type: 1, data: address },
+          ],
+        }),
+      ),
+    );
+  }
+  await assert.rejects(
+    resolveProviderAddresses("provider.example", undefined, true, async () =>
+      Response.json({ Status: 3 }),
+    ),
+  );
+});
+
+test("both models accept public HTTP services while local and metadata HTTP stay blocked", async (t) => {
+  const { call, cookie } = await fixture(t);
+  const baseUrl = "http://93.184.216.34:3000/v1";
+  assert.equal(providerUrl(baseUrl).href, baseUrl);
+  for (const kind of ["llm", "image"] as const) {
+    assert.equal(
+      (await call({ action: "save", kind, config: { ...draft(kind), baseUrl } }, cookie)).status,
+      200,
+    );
+    const metadata = (await (await call({ action: "read" }, cookie)).json()).models[kind];
+    assert.equal(metadata.baseUrl, baseUrl);
+  }
+  for (const url of [
+    "http://127.0.0.1",
+    "http://10.0.0.1",
+    "http://169.254.169.254",
+    "http://198.18.0.2",
+  ])
+    assert.throws(() => providerUrl(url));
 });

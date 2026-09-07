@@ -336,31 +336,6 @@ export default function Game({ preview = false }: { preview?: boolean }) {
           </div>
         </header>
         <div className="prologue-layout">
-          <section className="prologue-story">
-            <span className="chapter-kicker">{intro.eyebrow}</span>
-            <h1 className="serif">
-              {intro.title.map((line, i) => (
-                <span key={i}>
-                  {i > 0 && <br />}
-                  {line}
-                </span>
-              ))}
-            </h1>
-            <p>
-              {intro.body.map((line, i) => (
-                <span key={i}>
-                  {i > 0 && <br />}
-                  {line}
-                </span>
-              ))}
-            </p>
-            <span className="prologue-note">
-              <Feather size={15} /> {intro.note}
-            </span>
-            <a className="template-link" href="/templates/qingshi-content-pack.zip" download>
-              <ArrowDownToLine size={14} /> 下载故事与配图模板
-            </a>
-          </section>
           <div className="creation-wrap">
             {error && (
               <div

@@ -1,3 +1,4 @@
+import { defaultPhysique, profilePhysique } from "./physique";
 import { selectedExtensions } from "./content/extensions";
 import { PACK, CHARACTERS, PRESENTATION, contentText } from "./content/official";
 import type { Actor, Profile, World } from "./types";
@@ -20,6 +21,7 @@ export function createActor(
     sex: seed % 2 ? "female" : "male",
     ageDays: age * B.world.daysPerYear,
     appearanceSeed: seed,
+    physique: defaultPhysique(seed % 2 ? "female" : "male", seed),
     aptitude,
     personality: ["谨慎", "爽直", "重情", "寡言", "豁达"][seed % 5],
     sect: ["散修", "青岚宗", "归云门"][seed % 3],
@@ -158,7 +160,7 @@ export function createWorld(
   player.goal = "从凡人开始，寻一条自己的道";
   player.sect = "无";
   const w: World = {
-    schemaVersion: 5,
+    schemaVersion: 6,
     negotiations: [],
     contentLocks: options.contentLocks ?? [],
     contentState: {},
@@ -218,6 +220,10 @@ export function createWorld(
       });
       w.npcs.push(a);
     }
+  w.profile.physique = profilePhysique(profile);
+  w.player.physique = { ...w.profile.physique };
+  if (profile.portraitId) w.player.portraitId = profile.portraitId;
+  for (const npc of w.npcs) npc.physique = defaultPhysique(npc.sex, npc.appearanceSeed);
   record(w, "arrival", contentText(PRESENTATION.notices.arrivalEvent, w));
   validateWorld(w);
   return w;

@@ -41,6 +41,9 @@ import {
   Wind,
 } from "lucide-react";
 import { useState } from "react";
+import { BODY_BUILDS, actorPhysique } from "@/lib/game/physique";
+import { npcSubject, playerSubject } from "@/lib/game/portrait-subject";
+import { PortraitStudio } from "./portrait-studio";
 import { NpcPortrait } from "./npc-portrait";
 import { TimeBadge } from "./time-badge";
 
@@ -542,6 +545,7 @@ export function PersonDetail({
   const r = relation(w, id);
   const memories = w.events.filter((e) => e.actors.includes(id) && e.actors.includes("PLAYER"));
   const bio = npcProfile(a);
+  const body = actorPhysique(a);
   const recent = visibleEvents(w)
     .filter((e) => e.actors.includes(id) && !e.actors.includes("PLAYER"))
     .slice(-3);
@@ -549,7 +553,45 @@ export function PersonDetail({
   const present = a.location === w.player.location && a.alive;
   return (
     <div className="person-detail">
-      {!self && <NpcPortrait world={w} actor={a} className="detail-portrait" />}
+      <PortraitStudio
+        key={`${w.saveId}:${a.id}`}
+        subject={self ? playerSubject(w.profile, w.seed) : npcSubject(a)}
+        portraitId={a.portraitId}
+        name={a.name}
+        disabled={busy || !!w.longAction || !!w.battle || w.ended}
+        onAdopt={async (portraitId) => {
+          const ok = await send({ type: "attachPortrait", target: a.id, portraitId });
+          if (!ok) throw new Error("立绘引用尚未保存，请重新读取后重试。");
+        }}
+      />
+      <dl className="physique-facts" aria-label="体貌资料">
+        <div>
+          <dt>身材</dt>
+          <dd>{BODY_BUILDS[body.build]}</dd>
+        </div>
+        <div>
+          <dt>身高</dt>
+          <dd>{body.heightCm} cm</dd>
+        </div>
+        <div>
+          <dt>胸 / 腰 / 臀</dt>
+          <dd>
+            {body.bustCm} / {body.waistCm} / {body.hipsCm} cm
+          </dd>
+        </div>
+        <div>
+          <dt>外貌年龄</dt>
+          <dd>
+            约 {body.apparentAge} 岁{a.sex === "female" ? " · 驻颜" : ""}
+          </dd>
+        </div>
+        {a.sex === "female" && (
+          <div className="physique-attire">
+            <dt>立绘装束</dt>
+            <dd>高开叉裙 · 丝袜美腿 · 高跟鞋</dd>
+          </div>
+        )}
+      </dl>
       <div className="person-facts">
         <span>{REALMS[a.realm]}</span>
         <span>{Math.floor(a.ageDays / 360)} 岁</span>

@@ -3,7 +3,7 @@ import { PACK, visual, VISUAL_IDS } from "./official";
 import { validateExtension, validateRegistry } from "./extension-contract.mjs";
 export type Extension = ReturnType<typeof validateExtension>;
 export const EXTENSIONS = validateRegistry(
-  (entries as { data: Extension; hash: string; lock: string }[]).map((e) => ({
+  entries.map((e) => ({
     ...e,
     data: validateExtension(e.data, { roles: PACK.roles, assets: VISUAL_IDS }),
   })),

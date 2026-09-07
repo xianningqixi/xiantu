@@ -209,6 +209,7 @@ test("a creation draft exports and imports without creating or replacing a world
   await page.getByRole("radio", { name: "男", exact: true }).check();
   await expect(page.locator(".creation-form").getByRole("status")).toHaveText("创角草稿已保存");
   const download = page.waitForEvent("download");
+  await page.getByText("创角草稿文件", { exact: true }).click();
   await page.getByRole("button", { name: "导出创角草稿", exact: true }).click();
   const file = await (await download).path();
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("临时草稿");

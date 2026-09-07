@@ -1,6 +1,7 @@
 "use client";
 import { memo } from "react";
 import { TimeBadge } from "./time-badge";
+import { usePortrait } from "./portrait-studio";
 
 import { Button } from "@/components/ui/button";
 import { ARTIFACTS, REALMS } from "@/lib/game/content/official";
@@ -31,6 +32,7 @@ export const CharacterSidebar = memo(function CharacterSidebar({
   blocked,
 }: SidebarProps) {
   const p = w.player;
+  const portrait = usePortrait(p.portraitId);
   const artifact = ARTIFACTS.find((a) => a.id === w.profile.artifact)!;
   const busyCompanion = w.party
     .map((id) => w.npcs.find((a) => a.id === id))
@@ -38,7 +40,13 @@ export const CharacterSidebar = memo(function CharacterSidebar({
   return (
     <aside className="character-sidebar">
       <button className="player-identity" onClick={() => setProfileId("PLAYER")}>
-        <span className={`player-seal color-${w.profile.appearance.color} serif`}>{p.name[0]}</span>
+        <span className={`player-seal color-${w.profile.appearance.color} serif`}>
+          {portrait ? (
+            <img src={portrait} width={640} height={960} alt={`${p.name}的全身立绘`} />
+          ) : (
+            p.name[0]
+          )}
+        </span>
         <div>
           <small>你的角色</small>
           <h2 className="serif">{p.name}</h2>

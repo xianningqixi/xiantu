@@ -119,6 +119,35 @@ fs.writeFileSync(
   ) + "\n",
 );
 
+// Generated full-body images are presentation assets, independent of the official gameplay lock.
+const portraits = read("art/portraits/catalog.json");
+if (
+  portraits.version !== 1 ||
+  !Array.isArray(portraits.entries) ||
+  new Set(portraits.entries.map((entry) => entry.actorId)).size !== portraits.entries.length
+)
+  throw new Error("全身立绘目录格式或身份重复。");
+for (const entry of portraits.entries) {
+  if (
+    !/^[a-z0-9_-]+-[a-f0-9]{12}\.webp$/.test(entry.file) ||
+    !Number.isInteger(entry.width) ||
+    !Number.isInteger(entry.height) ||
+    entry.width < 1 ||
+    entry.width > 640 ||
+    entry.height < 1 ||
+    entry.height > 960
+  )
+    throw new Error("全身立绘文件或尺寸不合法。");
+  const source = path.join(root, "art/portraits", entry.file);
+  if (sha(fs.readFileSync(source)) !== entry.sha256) throw new Error("全身立绘摘要不匹配。");
+  presentationImages.push({
+    source,
+    url: `/art/portraits/${entry.file}`,
+    lazy: true,
+    preserve: true,
+  });
+}
+
 await prepareImages(presentationImages);
 
 // A small, deterministic ZIP writer (STORE method); no system zip utility or extra dependency.

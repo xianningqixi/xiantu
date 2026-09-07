@@ -1,7 +1,10 @@
+import type { Physique } from "./physique";
 import type { NegotiationRecord, NegotiationProposal } from "./negotiation";
 export type LocationId = "market" | "inn" | "gate" | "ruins";
 export type Artifact = "focus" | "ward" | "bond";
 export interface Profile {
+  physique?: Physique;
+  portraitId?: string;
   name: string;
   sex: "female" | "male";
   aptitude: number;
@@ -10,6 +13,8 @@ export interface Profile {
   appearance: { face: number; hair: number; color: number };
 }
 export interface Actor {
+  physique?: Physique;
+  portraitId?: string;
   id: string;
   name: string;
   sex: "female" | "male";
@@ -131,7 +136,7 @@ export interface LongAction {
   guardian: string | null;
 }
 export interface World {
-  schemaVersion: 5;
+  schemaVersion: 6;
   negotiations: NegotiationRecord[];
   contentLocks: string[];
   contentState: Record<string, boolean>;
@@ -164,6 +169,7 @@ export interface World {
   appliedCommands: string[];
 }
 export type Command =
+  | { type: "attachPortrait"; target: string; portraitId: string }
   | {
       type: "adoptNegotiation";
       proposalId: string;

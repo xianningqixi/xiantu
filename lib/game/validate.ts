@@ -1,3 +1,4 @@
+import { physiqueSchema, portraitIdSchema } from "./physique";
 import { stopConditionSchema } from "./protocol";
 import { knowledgeEntries } from "./knowledge";
 import { B } from "./rules";
@@ -15,7 +16,7 @@ export function validateWorld(w: World) {
   );
   const object = (value: unknown) => !!value && typeof value === "object" && !Array.isArray(value);
   requireRule(
-    w.schemaVersion === 5 && object(w.commandReceipts),
+    w.schemaVersion === 6 && object(w.commandReceipts),
     "存档结构版本不支持，请使用迁移入口。",
   );
   requireRule(
@@ -76,6 +77,9 @@ export function validateWorld(w: World) {
   );
   requireRule(object(w.profile) && object(w.profile.appearance), "角色创建资料不完整。");
   const profile = w.profile;
+  requireRule(physiqueSchema.safeParse(profile.physique).success, "角色身形资料不合法。");
+  if (profile.portraitId !== undefined)
+    requireRule(portraitIdSchema.safeParse(profile.portraitId).success, "角色立绘引用不合法。");
   requireRule(
     typeof profile.name === "string" &&
       profile.name.trim().length > 0 &&
@@ -101,7 +105,11 @@ export function validateWorld(w: World) {
     object(w.player) &&
       w.player.name === profile.name &&
       w.player.sex === profile.sex &&
-      w.player.aptitude === profile.aptitude,
+      w.player.aptitude === profile.aptitude &&
+      w.player.portraitId === profile.portraitId &&
+      Object.entries(profile.physique!).every(
+        ([key, value]) => w.player.physique?.[key as keyof typeof profile.physique] === value,
+      ),
     "玩家身份与创建资料不一致。",
   );
   requireRule(
@@ -145,6 +153,10 @@ export function validateWorld(w: World) {
   requireRule(ids.size === actors.length && w.player.id === "PLAYER", "人物身份重复或缺失。");
   requireRule(ids.has(PACK.roles.primary) && ids.has(PACK.roles.companion), "必要的故事人物缺失。");
   for (const a of actors) {
+    requireRule(physiqueSchema.safeParse(a.physique).success, "人物身形资料不合法。");
+    requireRule(a.sex !== "female" || a.physique!.apparentAge <= 29, "女性外貌年龄须为年轻成年。");
+    if (a.portraitId !== undefined)
+      requireRule(portraitIdSchema.safeParse(a.portraitId).success, "人物立绘引用不合法。");
     requireRule(
       typeof a.name === "string" && a.name.length >= 1 && a.name.length <= 16,
       "人物姓名不合法。",

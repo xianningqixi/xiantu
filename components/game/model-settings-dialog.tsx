@@ -244,7 +244,7 @@ function ModelForm({
           autoCapitalize="none"
           spellCheck={false}
         />
-        <small id={`${id}-base-help`}>填写 HTTPS 接口根地址，例如以 /v1 结尾。</small>
+        <small id={`${id}-base-help`}>填写公网 HTTP / HTTPS 接口根地址，例如以 /v1 结尾。</small>
       </label>
       <label className="form-field">
         <span>模型 ID</span>

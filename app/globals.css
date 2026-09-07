@@ -3215,3 +3215,434 @@ legend,
 .model-enable-row [data-slot="switch-thumb"][data-state="checked"] {
   translate: 24px 0;
 }
+
+/* A single viewport workbench: panels scroll only for unusually short/zoomed screens. */
+.prologue {
+  height: 100dvh;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.prologue-header {
+  width: 100%;
+  max-width: 1560px;
+  flex: 0 0 auto;
+  padding: 16px 3%;
+}
+.prologue-layout {
+  display: block;
+  width: 100%;
+  max-width: 1560px;
+  padding: 0 3% 12px;
+  flex: 1;
+  min-height: 0;
+}
+.creation-wrap {
+  height: 100%;
+}
+.creation-form {
+  position: relative;
+  height: 100%;
+  padding: 18px 24px 12px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.creation-form .form-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding-bottom: 16px;
+}
+.creation-form .form-heading h2 {
+  font-size: 25px;
+  margin: 0;
+}
+.creation-form .form-heading p {
+  margin: 0;
+  font-size: 12px;
+}
+.creation-workbench {
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr 1fr;
+  gap: 26px;
+  flex: 1;
+  min-height: 0;
+}
+.creation-identity,
+.creation-options-panel,
+.creation-portrait-panel {
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  padding: 4px 2px;
+}
+.creation-options-panel {
+  border-left: 1px solid #4a59404d;
+  padding-left: 22px;
+}
+.creation-form .identity-row {
+  grid-template-columns: 1fr 105px;
+  gap: 16px;
+}
+.creation-form .appearance-row {
+  margin: 18px 0;
+  gap: 10px;
+}
+.creation-form .form-field > span,
+.creation-form legend {
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+.creation-form .form-field input,
+.creation-form .form-field select {
+  min-height: 39px;
+  padding: 8px 10px;
+  font-size: 14px;
+}
+.physique-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 12px;
+}
+.physique-fields select {
+  width: 100%;
+  border: 1px solid #3c5140;
+  border-radius: 5px;
+  background: #112218;
+  color: #e2e8d7;
+}
+.physique-note {
+  margin-top: 15px;
+  font-size: 12px;
+  color: #95a38d;
+  line-height: 1.8;
+}
+.creation-form .aptitude-box {
+  margin: 0 0 16px;
+  padding: 12px;
+}
+.creation-form .aptitude-box p {
+  margin: 8px 0 0;
+  font-size: 12px;
+}
+.creation-form .artifact-choices {
+  gap: 8px;
+}
+.creation-form .artifact-option {
+  padding: 9px 10px;
+  gap: 10px;
+}
+.creation-form .artifact-seal {
+  width: 33px;
+  height: 38px;
+  flex-shrink: 0;
+  font-size: 21px;
+}
+.creation-form .artifact-option small {
+  font-size: 11px;
+  line-height: 1.6;
+}
+.creation-form .artifact-option strong {
+  font-size: 14px;
+}
+.creation-form .content-choices {
+  margin-top: 16px;
+}
+.creation-form .content-choice small {
+  font-size: 11px;
+}
+.creation-form .creation-options {
+  margin-top: 16px;
+}
+.creation-bottom {
+  padding-top: 14px;
+  flex: 0 0 auto;
+  margin-top: auto;
+}
+.creation-form .begin-button {
+  height: 43px;
+  min-height: 43px;
+  font-size: 16px;
+}
+.creation-form .save-footnote {
+  margin: 6px 0 0;
+  padding: 0;
+  font-size: 11px;
+  text-align: right;
+  min-height: 18px;
+}
+.creation-file-options {
+  position: absolute;
+  bottom: 9px;
+  left: 24px;
+  font-size: 11px;
+  color: #b0ba9c;
+}
+.creation-file-options > div {
+  position: absolute;
+  bottom: 24px;
+  left: 0;
+  background: #19271d;
+  padding: 10px;
+  border: 1px solid #63754f;
+  border-radius: 7px;
+  width: 220px;
+  z-index: 3;
+}
+.creation-panel-nav {
+  display: none;
+}
+.prologue > .offline-status {
+  flex: 0 0 auto;
+  padding: 5px 3%;
+  min-height: 26px;
+}
+.portrait-studio {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+}
+.creation-portrait-panel .portrait-studio {
+  height: 100%;
+}
+.fullbody-frame {
+  position: relative;
+  min-height: 150px;
+  aspect-ratio: 2/3;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 25%, #30433088, #0c1811 80%);
+  border: 1px solid #59664c70;
+  border-radius: 8px;
+}
+.creation-portrait-panel .fullbody-frame {
+  flex: 1;
+  aspect-ratio: auto;
+}
+.fullbody-frame > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.portrait-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  color: #c5b784;
+}
+.portrait-empty small {
+  font-size: 12px;
+  color: #91a38f;
+  padding: 0 15px;
+  text-align: center;
+}
+.portrait-empty > span {
+  font-family: var(--font-serif);
+  font-size: 23px;
+  letter-spacing: 0.2em;
+}
+.portrait-actions {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.portrait-actions button {
+  font-size: 13px;
+  min-height: 38px;
+}
+.portrait-hint {
+  font-size: 11px;
+  line-height: 1.7;
+  color: #91a38f;
+  text-align: center;
+}
+.portrait-error {
+  margin: 0;
+  font-size: 12px;
+  color: #e7b394;
+  line-height: 1.6;
+}
+.portrait-pending {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  background: #0d1a13d9;
+  font-size: 14px;
+}
+.person-detail .portrait-studio {
+  max-width: 330px;
+  margin: 0 auto 20px;
+}
+.person-detail .fullbody-frame {
+  height: 440px;
+}
+.physique-facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 18px 0;
+  padding: 16px;
+  background: #102016;
+  border: 1px solid #46553c;
+  border-radius: 7px;
+}
+.physique-facts dt {
+  font-size: 12px;
+  color: #98a98e;
+}
+.physique-facts dd {
+  font-size: 14px;
+  color: #d7dec9;
+  margin-top: 5px;
+}
+.npc-portrait.generated-portrait img {
+  position: static;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+@media (max-width: 1050px) {
+  .prologue-header {
+    padding: 12px 3%;
+  }
+  .prologue-header .wordmark span {
+    display: none;
+  }
+  .prologue-header button {
+    font-size: 12px;
+    padding-inline: 10px;
+  }
+  .creation-form {
+    padding: 16px 18px 12px;
+  }
+  .creation-form .form-heading {
+    gap: 10px;
+    padding-bottom: 12px;
+  }
+  .creation-form .form-heading p {
+    display: none;
+  }
+  .creation-panel-nav {
+    display: flex;
+    gap: 5px;
+    border-bottom: 1px solid #536048;
+    padding-bottom: 10px;
+    margin-bottom: 12px;
+  }
+  .creation-panel-nav button {
+    flex: 1;
+    font-size: 13px;
+    padding-inline: 6px;
+  }
+  .creation-workbench {
+    display: flex;
+    min-height: 0;
+  }
+  .creation-workbench > * {
+    display: none;
+    width: 100%;
+  }
+  .creation-panel-identity .creation-identity,
+  .creation-panel-portrait .creation-portrait-panel,
+  .creation-panel-options .creation-options-panel {
+    display: block;
+  }
+  .creation-options-panel {
+    border: 0;
+    padding-left: 0;
+  }
+  .creation-form .artifact-choices {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .creation-form .physique-fields {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .creation-file-options {
+    left: 18px;
+  }
+  .creation-form .save-footnote {
+    max-width: 65%;
+    align-self: flex-end;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+@media (max-width: 500px) {
+  .prologue-header .wordmark {
+    font-size: 27px;
+  }
+  .prologue-header {
+    gap: 8px;
+  }
+  .prologue-header > div {
+    gap: 4px;
+  }
+  .prologue-header button {
+    padding-inline: 6px;
+    font-size: 11px;
+  }
+  .prologue-header button svg {
+    width: 13px;
+  }
+  .creation-form .form-heading .eyebrow {
+    display: none;
+  }
+  .creation-form .form-heading h2 {
+    font-size: 22px;
+  }
+  .creation-form .identity-row {
+    gap: 12px;
+  }
+  .creation-form .physique-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .creation-form .appearance-row {
+    margin: 12px 0;
+  }
+  .creation-form .form-field input,
+  .creation-form .form-field select {
+    min-height: 37px;
+  }
+  .physique-facts {
+    padding: 12px;
+    gap: 12px;
+  }
+}
+@media (max-width: 360px) {
+  .creation-form .physique-fields {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .creation-form .physique-fields .form-field > span {
+    font-size: 11px;
+  }
+  .creation-form .physique-fields input,
+  .creation-form .physique-fields select {
+    padding-inline: 7px;
+  }
+}
+.physique-attire {
+  grid-column: 1 / -1;
+}
+.player-seal > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}

@@ -5,7 +5,7 @@ const llm = {
   key: "fake-key-only-for-browser-test",
 };
 const image = {
-  baseUrl: "https://image.provider.example/v1",
+  baseUrl: "http://image.provider.example/v1",
   model: "image-config-test",
   key: "fake-image-key-only-for-browser-test",
 };

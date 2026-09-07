@@ -1,0 +1,68 @@
+{
+  "status": "passed after documented corrections and reruns",
+  "sourceCommit": "7e50281",
+  "productionFingerprint": "d6f57fc358106ef4bcaa",
+  "finalScenarios": 27,
+  "browsers": {
+    "Chrome": "152.0.7977.77",
+    "Firefox": "153.0"
+  },
+  "runs": [
+    {
+      "browser": "chrome",
+      "note": "Full suite before final stable checkpoint ID / preview additions",
+      "passed": 26,
+      "failedAtThisRun": 0,
+      "logSHA256": "581a7b03d982bebc02a22e4b4d0038b4a49607d8a8080e838ea144cb7d0d27b0",
+      "localLog": "/tmp/xiantu-final-chrome.log"
+    },
+    {
+      "browser": "chrome",
+      "note": "Final checkpoint IDs: faults, features, offline; preview text assertion was corrected subsequently",
+      "passed": 15,
+      "failedAtThisRun": 1,
+      "logSHA256": "2f6aeadfc292b915feb5ddd432f809146d8e3650766fe28144e8df9898daf4c1",
+      "localLog": "/tmp/xiantu-checkpoints-final.log"
+    },
+    {
+      "browser": "chrome",
+      "note": "Corrected official demonstration wording test, no product change",
+      "passed": 1,
+      "failedAtThisRun": 0,
+      "logSHA256": "0740a2d3e6756a8c3491b9a278ff0e21ea523095ad6c59a8b4eea9e7bd46315a",
+      "localLog": "/tmp/xiantu-preview-final.log"
+    },
+    {
+      "browser": "firefox",
+      "note": "23 existing scenarios passed after request-target fix; two new paid tests initially lacked funds",
+      "passed": 23,
+      "failedAtThisRun": 2,
+      "logSHA256": "fe91e236a362d241466fdddf438762962db393db102f6eba8334b4a101118576",
+      "localLog": "/tmp/xiantu-final-firefox.log"
+    },
+    {
+      "browser": "firefox",
+      "note": "Final checkpoint IDs and new offline/preview checks; three timing failures rerun below",
+      "passed": 13,
+      "failedAtThisRun": 3,
+      "logSHA256": "23ed0729fccf1b271f62994a8cda6bc256fa507fedf9373c6ba80955bae81972",
+      "localLog": "/tmp/xiantu-firefox-final-additions.log"
+    },
+    {
+      "browser": "firefox",
+      "note": "Three affected timing cases rerun unchanged: checkpoint beforePut/lostAck and 100 NPC full-size save",
+      "passed": 3,
+      "failedAtThisRun": 0,
+      "logSHA256": "ccb5ed0be5d430cc4d8ad554f24af0e1b5681c85edcf745e63cdd64d49a644b4",
+      "localLog": "/tmp/xiantu-firefox-recovery-retry.log"
+    }
+  ],
+  "timingNote": "Firefox had 60/90-second cases with elapsed durations 16.6, 12.3 and 8.9 minutes. These were timing interruptions, not counted as passes; the same tests subsequently passed in 33.9 seconds, without changing runtime code or relaxing timeouts.",
+  "performanceFinalFirefox": {
+    "importBytes": 7598643,
+    "importMs": 1105,
+    "days": 30,
+    "actionMs": 20290,
+    "maxUiTimerGapMs": 98
+  }
+}

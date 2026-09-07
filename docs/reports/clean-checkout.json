@@ -1,0 +1,49 @@
+{
+  "sourceCommit": "7e50281fecbffb810f748537f3ef1189b2cd6a95",
+  "method": "git archive HEAD extracted into a new directory; fresh npm ci; no node_modules symlink or uncommitted source files",
+  "directory": "/tmp/xiantu-clean-7e50281",
+  "environment": {
+    "os": "macOS 26.5.1 (25F80)",
+    "node": "26.3.0",
+    "npm": "11.16.0",
+    "browser": "Chrome 152.0.7977.77"
+  },
+  "results": [
+    {
+      "command": "npm ci",
+      "exitCode": 0,
+      "packagesInstalled": 680
+    },
+    {
+      "command": "npm run verify",
+      "exitCode": 0,
+      "passed": 71,
+      "strict": true,
+      "productionBuild": true
+    },
+    {
+      "command": "PLAYWRIGHT_CHANNEL=chrome XIANTU_TEST_URL=http://127.0.0.1:3110 npm run test:browser:existing -- tests/browser/storage.spec.ts",
+      "exitCode": 0,
+      "passed": 9,
+      "seconds": 22.2
+    }
+  ],
+  "buildFingerprint": "d6f57fc358106ef4bcaa",
+  "coreFiles": 22,
+  "coreBytes": 24230014,
+  "independentBuildMatchesWorkingCopy": true,
+  "logs": {
+    "install": {
+      "localPath": "/tmp/xiantu-clean-install.log",
+      "sha256": "4f224d244151a1439c94eb74e8f38b4a086da46408811a02b4563c87b05aac81"
+    },
+    "verify": {
+      "localPath": "/tmp/xiantu-clean-verify.log",
+      "sha256": "53b4026de519dc49886910664d7aa3e4906b81a6247b8e08ea601b0e67630a31"
+    },
+    "browser": {
+      "localPath": "/tmp/xiantu-clean-browser.log",
+      "sha256": "233f8a94a3b6dfb0ef181a5cbec3a20d5ceab1c5c72c67503698cbab4f9665ea"
+    }
+  }
+}

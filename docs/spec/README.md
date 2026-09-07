@@ -1,6 +1,6 @@
 # 修仙 Web 图文游戏：可执行规格包 V0.1.1
 
-这是可以交给 Codex 开工的设计、契约、样例和任务包。它包含原型默认与静态一致性校验，尚未包含已实现的游戏页面、正式图片或通过运行验收的世界模拟。
+本目录保留设计、契约、样例与验收基线。游戏已在上层项目实现；2026-09-07 当前入口为 [项目 README](../../README.md)，真实通过／未测状态见 [本地候选验收](../reports/V01-LOCAL-ACCEPTANCE.md)。这里的草案文件不是游戏运行数据。
 
 ## 从哪里开始
 
@@ -8,7 +8,7 @@
 2. 按 docs/TASKS.md 选择可执行Task；对照 docs/ACCEPTANCE.md 的编号验收。
 3. 将 START_WITH_CODEX.md 的正文交给目标项目中的Codex，从 M0-01 开始。
 4. 实施时依 docs/TDD.md、docs/COMMANDS.md 和 docs/UX_CONTENT.md 接口协作。
-5. 内容与图片协作按 docs/CONTENT_PACKS.md 的补充规范；其 CP-01—CP-03 为新增 planned 任务，包含对 M2、M8、M10 的前置门槛。
+5. 内容与图片协作按 docs/CONTENT_PACKS.md 的补充规范；其 CP-01—CP-03 为新增内容任务，现有本地结果已登记，包含对 M2、M8、M10 的前置门槛。
 
 | 文件 | 用途 |
 | --- | --- |

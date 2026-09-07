@@ -1,4 +1,5 @@
 /// <reference lib="webworker" />
+import { advanceStopReason } from "./advance";
 import balanceLimits from "./content/balance.json";
 import { uniqueId } from "./ids";
 import { assertSaveExpectation } from "./save-guard";
@@ -173,6 +174,95 @@ function listBackups(db: IDBDatabase) {
   });
 }
 
+const advances = new Map<string, { cancelled: boolean }>();
+async function advanceBatch(
+  db: IDBDatabase,
+  request: WorkerRequest,
+  raw: World | null,
+): Promise<WorkerResponse> {
+  if (!raw || raw.saveId !== request.expected?.saveId)
+    throw new GameError("STALE_REVISION", "角色已经变化，请重新读取。");
+  let { world, migrated } = migrateSave(raw);
+  const stepId = (checkpoint: number) => `${world.saveId}:${request.actionId}:step:${checkpoint}`;
+  // Lost transport acknowledgments never start another action, even after completion.
+  if (!world.longAction || world.longAction.id !== request.actionId) {
+    if (world.appliedCommands.includes(stepId(request.checkpoint! + 1)))
+      return { id: request.id, ok: true, state: world };
+    throw new GameError("STALE_REVISION", "修行已经变化，请重新读取当前进度。");
+  }
+  if (world.longAction.checkpoint < request.checkpoint!)
+    throw new GameError("STALE_REVISION", "检查点尚未保存，请重新读取。");
+  if (world.longAction.checkpoint === request.checkpoint!)
+    assertSaveExpectation(raw, request.expected);
+  if (migrated) {
+    world.revision++;
+    await commit(db, world, raw, true);
+  }
+  const startDay = world.day;
+  let reason: "paused" | "completed" | "condition" = "paused";
+  try {
+    for (
+      let i = 0;
+      i < request.days! &&
+      world.longAction !== null &&
+      world.longAction.id === request.actionId &&
+      world.longAction.checkpoint < request.checkpoint! + request.days!;
+      i++
+    ) {
+      if (advances.get(request.id)?.cancelled) break;
+      const action = world.longAction;
+      const next = applyCommand(
+        world,
+        { type: "step" },
+        stepId(action.checkpoint + 1),
+        world.revision,
+      );
+      await commit(db, next, world);
+      world = next;
+      const completed = action.checkpoint + 1;
+      scope.postMessage({
+        id: request.id,
+        ok: true,
+        progress: {
+          actionId: action.id,
+          completed,
+          total: action.total,
+          day: world.day,
+          paidStones:
+            world.longAction?.paidStones ??
+            action.paidStones +
+              (action.stoneMethod
+                ? balanceLimits.cultivation.methods.METHOD_SPIRIT_STONE.costSpiritStonesPerDay
+                : 0),
+        },
+      } satisfies WorkerResponse);
+      if (!world.longAction) reason = completed < action.total ? "condition" : "completed";
+      else if (
+        action.stopWhen?.kind === "importantEvent" &&
+        advanceStopReason(world, action.stopWhen, world.day - 1)
+      ) {
+        reason = "condition";
+        break;
+      }
+    }
+    return {
+      id: request.id,
+      ok: true,
+      state: world,
+      advanceResult: { startDay, endDay: world.day, reason },
+    };
+  } catch (error) {
+    // Return only the last durable checkpoint. The failed candidate is never published.
+    return {
+      id: request.id,
+      ok: false,
+      state: world,
+      code: error instanceof GameError ? error.code : "SAVE_WRITE_FAILED",
+      error: error instanceof Error ? error.message : "推进未保存，请重新读取后继续。",
+    };
+  }
+}
+
 async function process(request: WorkerRequest): Promise<WorkerResponse> {
   const db = await openDb();
   try {
@@ -192,6 +282,7 @@ async function process(request: WorkerRequest): Promise<WorkerResponse> {
       return { id: request.id, ok: true, text: JSON.stringify(backup, null, 2) };
     }
     const raw = await read<World>(db, "saves", "current");
+    if (request.kind === "advance") return await advanceBatch(db, request, raw);
     if (request.kind === "load") {
       if (!raw) return { id: request.id, ok: true, state: null };
       try {
@@ -293,9 +384,28 @@ scope.onmessage = (event: MessageEvent<unknown>) => {
     data && typeof data === "object" && typeof (data as { id?: unknown }).id === "string"
       ? (data as { id: string }).id
       : "invalid-request";
+  let request: WorkerRequest;
+  try {
+    request = parseRequest(data);
+  } catch (error) {
+    scope.postMessage({
+      id,
+      ok: false,
+      code: error instanceof GameError ? error.code : "VALIDATION_ERROR",
+      error: error instanceof Error ? error.message : "行动数据不合法。",
+    } satisfies WorkerResponse);
+    return;
+  }
+  if (request.kind === "pauseAdvance") {
+    const control = advances.get(request.advanceId!);
+    if (control) control.cancelled = true;
+    scope.postMessage({ id, ok: true } satisfies WorkerResponse);
+    return;
+  }
+  if (request.kind === "advance") advances.set(id, { cancelled: false });
   queue = queue.then(async () => {
     try {
-      scope.postMessage(await process(parseRequest(data)));
+      scope.postMessage(await process(request));
     } catch (error) {
       scope.postMessage({
         id,
@@ -303,6 +413,8 @@ scope.onmessage = (event: MessageEvent<unknown>) => {
         code: error instanceof GameError ? error.code : "PRECONDITION_FAILED",
         error: error instanceof Error ? error.message : "操作未完成，请重试。",
       } satisfies WorkerResponse);
+    } finally {
+      advances.delete(id);
     }
   });
 };

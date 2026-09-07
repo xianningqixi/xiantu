@@ -1,3 +1,4 @@
+import { advanceStopReason, validateStopCondition } from "./advance";
 import { DEPARTURE_FEE, SHOP_ITEMS, STONE_METHOD } from "./economy";
 import { validTerms } from "./negotiation";
 import { extensionScenes } from "./content-story";
@@ -143,6 +144,12 @@ const commandHandlers: CommandHandlers = {
     return;
   },
   train: (w, c) => {
+    validateStopCondition(w, c.stopWhen);
+    requireRule(
+      !advanceStopReason(w, c.stopWhen),
+      "停止条件已经满足，无需继续修行。",
+      "ACTION_UNAVAILABLE",
+    );
     const p = w.player;
     requireRule(p.manual, "先在客栈领取并学习入门功法。");
     requireRule(p.location !== "ruins", "秘境不宜静修。");
@@ -156,6 +163,7 @@ const commandHandlers: CommandHandlers = {
       checkpoint: 0,
       paidStones: 0,
       kind: "train",
+      ...(c.stopWhen ? { stopWhen: c.stopWhen } : {}),
       total: c.days,
       remaining: c.days,
       stoneMethod: c.stoneMethod,
@@ -166,14 +174,21 @@ const commandHandlers: CommandHandlers = {
     return;
   },
   wait: (w, c) => {
+    validateStopCondition(w, c.stopWhen);
+    requireRule(
+      !advanceStopReason(w, c.stopWhen),
+      "停止条件已经满足，无需继续等候。",
+      "ACTION_UNAVAILABLE",
+    );
     const p = w.player;
     requireRule(p.location !== "ruins", "先离开秘境。");
-    requireRule([1, 3, 7].includes(c.days), "等待天数不合法。");
+    requireRule([1, 3, 7, 30].includes(c.days), "等待天数不合法。");
     w.longAction = {
       id: `action:${w.revision + 1}`,
       checkpoint: 0,
       paidStones: 0,
       kind: "wait",
+      ...(c.stopWhen ? { stopWhen: c.stopWhen } : {}),
       total: c.days,
       remaining: c.days,
       stoneMethod: false,
@@ -194,7 +209,9 @@ const commandHandlers: CommandHandlers = {
     a!.remaining--;
     a!.checkpoint++;
     if (a!.kind === "train" && a!.stoneMethod) a!.paidStones += STONE_METHOD.costSpiritStonesPerDay;
-    if (a!.remaining === 0) {
+    const stopReason =
+      a!.stopWhen?.kind === "importantEvent" ? null : advanceStopReason(w, a!.stopWhen, w.day - 1);
+    if (a!.remaining === 0 || stopReason) {
       if (a!.kind === "breakthrough") {
         const success = breakthroughResult(w, p, a!.chance);
         w.notice = success
@@ -203,8 +220,9 @@ const commandHandlers: CommandHandlers = {
       } else {
         w.notice =
           a!.kind === "train"
-            ? `${a!.total}日修炼结束。山中无甲子，故人也在各自前行。`
-            : `${a!.total}日过去，坊市依旧人来人往。`;
+            ? `${a!.checkpoint}日修炼结束。山中无甲子，故人也在各自前行。`
+            : `${a!.checkpoint}日过去，坊市依旧人来人往。`;
+        if (stopReason) w.notice += ` ${stopReason}`;
         record(w, a!.kind, w.notice);
       }
       w.longAction = null;

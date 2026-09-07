@@ -71,7 +71,7 @@ function environment() {
       return request;
     },
   };
-  function client() {
+  function client(onProgress = () => {}) {
     const id = ++clientSerial;
     let serial = 0;
     const pending = new Map();
@@ -80,6 +80,10 @@ function environment() {
       postMessage(response) {
         const waiter = pending.get(response.id);
         assert.ok(waiter, "unexpected Worker response");
+        if (response.progress) {
+          onProgress(structuredClone(response));
+          return;
+        }
         pending.delete(response.id);
         clearTimeout(waiter.timeout);
         waiter.resolve(structuredClone(response));
@@ -149,7 +153,7 @@ function environment() {
   }
   async function seedLegacy(world) {
     const db = await new Promise((resolve, reject) => {
-      const q = factory.open("xiantu-qingshi", 1);
+      const q = factory.open("xiantu-qingshi");
       q.onupgradeneeded = () => {
         q.result.createObjectStore("saves");
         q.result.createObjectStore("backups");
@@ -492,4 +496,121 @@ test("schema two migration preserves payload receipts and checkpoint resource ac
   assert.equal(result.schemaVersion, 5);
   assert.deepEqual(result.commandReceipts, w.commandReceipts);
   assert.deepEqual({ ...releasedShape(result, 2), revision: legacy.revision }, legacy);
+});
+
+async function startTraining(env, days = 7, stopWhen) {
+  const a = env.client();
+  const initial = fixture("early");
+  await env.seedLegacy(initial);
+  const result = await a.send({
+    kind: "command",
+    id: "training-start",
+    command: { type: "train", days, stoneMethod: true, ...(stopWhen ? { stopWhen } : {}) },
+    revision: initial.revision,
+    expected: expected(initial),
+  });
+  assert.equal(result.ok, true, result.error);
+  return result.state;
+}
+const advanceRequest = (w, id = "batch") => ({
+  kind: "advance",
+  id,
+  actionId: w.longAction.id,
+  checkpoint: w.longAction.checkpoint,
+  days: w.longAction.remaining,
+  expected: expected(w),
+});
+
+test("Worker batches publish only durable progress and one final world, identical to individual checkpoints", async () => {
+  const env = environment();
+  const start = await startTraining(env);
+  const progress = [];
+  const a = env.client((r) => {
+    assert.equal(r.state, undefined);
+    progress.push(r.progress);
+  });
+  const result = await a.send(advanceRequest(start));
+  assert.equal(result.ok, true, result.error);
+  assert.equal(progress.length, 7);
+  assert.equal(result.state.player.stones, start.player.stones - 7);
+  assert.deepEqual(await a.load(), result.state);
+  assert.deepEqual(
+    (await a.send(advanceRequest(start))).state,
+    result.state,
+    "lost ack must not advance again",
+  );
+  const control = environment();
+  await control.seedLegacy(start);
+  const b = control.client();
+  let w = start;
+  for (let i = 1; i <= 7; i++) {
+    const response = await b.send({
+      kind: "command",
+      id: `${start.saveId}:${start.longAction.id}:step:${i}`,
+      command: { type: "step" },
+      revision: w.revision,
+      expected: expected(w),
+    });
+    assert.equal(response.ok, true, response.error);
+    w = response.state;
+  }
+  assert.deepEqual(result.state, w);
+});
+
+test("batch pause and a failed fourth paid checkpoint preserve restartable durable progress", async () => {
+  for (const failure of [false, true]) {
+    const env = environment();
+    const start = await startTraining(env);
+    let pause;
+    const a = env.client((r) => {
+      if (r.progress.completed === 3) {
+        if (failure) env.fault.abortWrite = true;
+        else pause = a.send({ kind: "pauseAdvance", advanceId: "batch" });
+      }
+    });
+    const result = await a.send(advanceRequest(start));
+    if (pause) await pause;
+    assert.equal(result.ok, !failure);
+    assert.equal(result.state.longAction.checkpoint, 3);
+    assert.equal(result.state.player.stones, start.player.stones - 3);
+    assert.deepEqual(await env.client().load(), result.state);
+    env.fault.abortWrite = false;
+    const resumed = await env.client().send(advanceRequest(result.state, "resumed"));
+    assert.equal(resumed.ok, true, resumed.error);
+    assert.equal(resumed.state.player.stones, start.player.stones - 7);
+    assert.equal(resumed.state.longAction, null);
+  }
+});
+
+test("a retried partial batch never advances beyond its original checkpoint boundary", async () => {
+  const env = environment();
+  const start = await startTraining(env);
+  const request = { ...advanceRequest(start), days: 3 };
+  const a = env.client();
+  const first = await a.send(request);
+  const retry = await a.send(request);
+  assert.equal(first.state.longAction.checkpoint, 3);
+  assert.deepEqual(retry.state, first.state);
+});
+
+test("conditional training stops at eligibility and important news pauses a resumable action", async () => {
+  const env = environment();
+  const start = await startTraining(env, 7, { kind: "cultivationReady" });
+  const result = await env.client().send(advanceRequest(start));
+  assert.equal(result.ok, true, result.error);
+  assert.equal(result.advanceResult.reason, "condition");
+  assert.equal(result.state.player.xp, 20);
+  assert.equal(result.state.longAction, null);
+  assert.ok(result.state.day - start.day < 7);
+  const news = environment();
+  const w = await startTraining(news, 7, { kind: "importantEvent" });
+  // A known local lifespan event is guaranteed on the next committed day.
+  w.npcs[0].location = w.player.location;
+  w.npcs[0].ageDays = 43199;
+  await news.seedLegacy(w);
+  const paused = await news.client().send(advanceRequest(w));
+  assert.equal(paused.ok, true, paused.error);
+  assert.equal(paused.advanceResult.reason, "condition");
+  assert.equal(paused.state.longAction.checkpoint, 1);
+  assert.equal(paused.state.npcs[0].alive, false);
 });

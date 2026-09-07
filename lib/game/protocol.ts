@@ -21,6 +21,11 @@ export const profileSchema = z
       .strict(),
   })
   .strict();
+export const stopConditionSchema = z.discriminatedUnion("kind", [
+  z.object({ kind: z.literal("cultivationReady") }).strict(),
+  z.object({ kind: z.literal("npcArrives"), target: id }).strict(),
+  z.object({ kind: z.literal("importantEvent") }).strict(),
+]);
 const commandSchemas = [
   negotiationCommandSchema,
   z.object({ type: z.literal("chooseExtension"), nodeId: id, choiceId: id }).strict(),
@@ -31,10 +36,15 @@ const commandSchemas = [
       type: z.literal("train"),
       days: z.union([z.literal(1), z.literal(3), z.literal(7), z.literal(30)]),
       stoneMethod: z.boolean(),
+      stopWhen: stopConditionSchema.optional(),
     })
     .strict(),
   z
-    .object({ type: z.literal("wait"), days: z.union([z.literal(1), z.literal(3), z.literal(7)]) })
+    .object({
+      type: z.literal("wait"),
+      days: z.union([z.literal(1), z.literal(3), z.literal(7), z.literal(30)]),
+      stopWhen: stopConditionSchema.optional(),
+    })
     .strict(),
   ...(
     [
@@ -83,6 +93,17 @@ export const draftSchema = z
 const expectedSchema = z.object({ saveId: id.nullable(), revision: integer.nullable() }).strict();
 const envelope = { id, protocolVersion: z.literal(1).optional() };
 const requestSchema = z.union([
+  z
+    .object({
+      ...envelope,
+      kind: z.literal("advance"),
+      actionId: id,
+      checkpoint: integer,
+      days: z.number().int().min(1).max(30),
+      expected: expectedSchema,
+    })
+    .strict(),
+  z.object({ ...envelope, kind: z.literal("pauseAdvance"), advanceId: id }).strict(),
   z.object({ ...envelope, kind: z.enum(["load", "loadDraft", "backups"]) }).strict(),
   z.object({ ...envelope, kind: z.literal("saveDraft"), draft: draftSchema }).strict(),
   z

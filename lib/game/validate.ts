@@ -1,3 +1,4 @@
+import { stopConditionSchema } from "./protocol";
 import { knowledgeEntries } from "./knowledge";
 import { B } from "./rules";
 import { requireSave as requireRule } from "./errors";
@@ -338,6 +339,12 @@ export function validateWorld(w: World) {
   }
   if (w.longAction) {
     const a = w.longAction;
+    requireRule(
+      a.stopWhen === undefined || stopConditionSchema.safeParse(a.stopWhen).success,
+      "条件推进设置不合法。",
+    );
+    if (a.stopWhen?.kind === "npcArrives")
+      requireRule(ids.has(a.stopWhen.target), "等候目标不存在。");
     requireRule(
       typeof a.id === "string" &&
         a.id.length > 0 &&

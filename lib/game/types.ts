@@ -113,7 +113,12 @@ export interface Battle {
   auto: boolean;
   lethal: boolean;
 }
+export type StopCondition =
+  | { kind: "cultivationReady" }
+  | { kind: "npcArrives"; target: string }
+  | { kind: "importantEvent" };
 export interface LongAction {
+  stopWhen?: StopCondition;
   id: string;
   checkpoint: number;
   paidStones: number;
@@ -171,8 +176,8 @@ export type Command =
   | { type: "chooseExtension"; nodeId: string; choiceId: string }
   | { type: "choose"; nodeId: string; choiceId: string }
   | { type: "travel"; to: LocationId }
-  | { type: "train"; days: number; stoneMethod: boolean }
-  | { type: "wait"; days: number }
+  | { type: "train"; days: number; stoneMethod: boolean; stopWhen?: StopCondition }
+  | { type: "wait"; days: number; stopWhen?: StopCondition }
   | { type: "step" }
   | { type: "stop" }
   | {
@@ -249,6 +254,8 @@ export interface WorkerRequest {
     | "load"
     | "create"
     | "command"
+    | "advance"
+    | "pauseAdvance"
     | "import"
     | "export"
     | "loadDraft"
@@ -266,8 +273,25 @@ export interface WorkerRequest {
   replace?: boolean;
   draft?: CreationDraft;
   backupKey?: string;
+  actionId?: string;
+  checkpoint?: number;
+  days?: number;
+  advanceId?: string;
+}
+export interface AdvanceProgress {
+  actionId: string;
+  completed: number;
+  total: number;
+  day: number;
+  paidStones: number;
 }
 export interface WorkerResponse {
+  progress?: AdvanceProgress;
+  advanceResult?: {
+    startDay: number;
+    endDay: number;
+    reason: "completed" | "paused" | "condition";
+  };
   id: string;
   ok: boolean;
   state?: World | null;

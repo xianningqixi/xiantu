@@ -2,6 +2,7 @@
 import { uniqueId } from "./ids";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type {
+  AdvanceProgress,
   BackupSummary,
   Command,
   CreationDraft,
@@ -29,6 +30,10 @@ export function useGame(preview = false) {
   const [ready, setReady] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [errorCode, setErrorCode] = useState("");
+  const [progress, setProgress] = useState<AdvanceProgress | null>(null);
+  const [advanceResult, setAdvanceResult] = useState<WorkerResponse["advanceResult"]>();
+  const advancing = useRef<string | null>(null);
   const [recovery, setRecovery] = useState<SaveExpectation | null>(null);
   const [generation, setGeneration] = useState(0);
   const locked = useRef(false);
@@ -82,6 +87,15 @@ export function useGame(preview = false) {
       if (!active) return;
       const response = e.data;
       const waiter = pending.current.get(response.id);
+      if (response.progress && waiter) {
+        clearTimeout(waiter.timer);
+        waiter.timer = setTimeout(() => {
+          pending.current.delete(response.id);
+          waiter.reject(new Error("推进未及时返回，请重新读取已保存的检查点。"));
+        }, 15000);
+        setProgress(response.progress);
+        return;
+      }
       pending.current.delete(response.id);
       if (!waiter) return;
       clearTimeout(waiter.timer);
@@ -90,6 +104,7 @@ export function useGame(preview = false) {
         waiter.reject(
           Object.assign(new Error(response.error || "操作失败。"), {
             code: response.code,
+            state: response.state,
             recovery: response.recovery,
           }),
         );
@@ -135,13 +150,19 @@ export function useGame(preview = false) {
       locked.current = true;
       setBusy(true);
       setError("");
+      setErrorCode("");
       const key = JSON.stringify(input);
       const id =
         failedRequest.current?.key === key
           ? failedRequest.current.id
           : (checkpointId ?? uniqueId());
+      if (input.kind === "advance") {
+        advancing.current = id;
+        setProgress(null);
+      }
       try {
         const result = await ask(input, id);
+        if (result.advanceResult) setAdvanceResult(result.advanceResult);
         if ("state" in result) {
           setWorld(result.state ?? null);
           setRecovery(null);
@@ -153,6 +174,8 @@ export function useGame(preview = false) {
         failedRequest.current = null;
         return true;
       } catch (e) {
+        if (e && typeof e === "object" && "code" in e) setErrorCode(String(e.code));
+        if (e && typeof e === "object" && "state" in e && e.state) setWorld(e.state as World);
         if (e && typeof e === "object" && "recovery" in e && e.recovery)
           setRecovery(e.recovery as SaveExpectation);
         failedRequest.current = { key, id };
@@ -160,12 +183,30 @@ export function useGame(preview = false) {
         setError(e instanceof Error ? e.message : "操作没有完成。");
         return false;
       } finally {
+        if (input.kind === "advance") {
+          advancing.current = null;
+          setProgress(null);
+        }
         locked.current = false;
         setBusy(false);
       }
     },
     [ask],
   );
+  const pauseAdvance = useCallback(() => {
+    if (advancing.current)
+      void ask({ kind: "pauseAdvance", advanceId: advancing.current }).catch(() => {});
+  }, [ask]);
+  const advance = useCallback(() => {
+    if (!world?.longAction) return Promise.resolve(false);
+    return mutate({
+      kind: "advance",
+      actionId: world.longAction.id,
+      checkpoint: world.longAction.checkpoint,
+      days: world.longAction.remaining,
+      expected: { saveId: world.saveId, revision: world.revision },
+    });
+  }, [world, mutate]);
   const expected: SaveExpectation = world
     ? { saveId: world.saveId, revision: world.revision }
     : (recovery ?? { saveId: null, revision: null });
@@ -216,6 +257,11 @@ export function useGame(preview = false) {
     ready,
     busy,
     error,
+    errorCode,
+    progress,
+    advanceResult,
+    advance,
+    pauseAdvance,
     setError,
     command,
     expected,

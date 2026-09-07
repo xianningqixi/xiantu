@@ -152,6 +152,7 @@ export default function Game({ preview = false }: { preview?: boolean }) {
   const [importText, setImportText] = useState("");
   const importRef = useRef<HTMLInputElement>(null);
   const pause = () => {
+    game.pauseAdvance();
     continuations.cancel();
     setRunning(false);
     setAutoRunning(false);
@@ -172,6 +173,7 @@ export default function Game({ preview = false }: { preview?: boolean }) {
     const change = () => {
       setVisible(!document.hidden);
       if (document.hidden) {
+        game.pauseAdvance();
         continuations.cancel();
         setRunning(false);
         setAutoRunning(false);
@@ -179,15 +181,13 @@ export default function Game({ preview = false }: { preview?: boolean }) {
     };
     document.addEventListener("visibilitychange", change);
     return () => document.removeEventListener("visibilitychange", change);
-  }, [continuations]);
+  }, [continuations, game.pauseAdvance]);
   useEffect(() => {
     if (!w || busy || !visible || settings || showCreate || confirm) return;
     if (w.longAction && running) {
       const timer = setTimeout(() => {
-        void send({ type: "step" }).then((ok) => {
-          if (!ok) setRunning(false);
-        });
-      }, 250);
+        void game.advance().then(() => setRunning(false));
+      }, 0);
       return () => clearTimeout(timer);
     }
     if (w.battle && autoRunning) {
@@ -205,7 +205,7 @@ export default function Game({ preview = false }: { preview?: boolean }) {
       }, 700);
       return () => clearTimeout(timer);
     }
-  }, [w, busy, visible, running, autoRunning, settings, showCreate, confirm, send]);
+  }, [w, busy, visible, running, autoRunning, settings, showCreate, confirm, send, game.advance]);
   useEffect(() => {
     if (!w?.longAction) setRunning(false);
   }, [w?.longAction]);
@@ -609,14 +609,18 @@ export default function Game({ preview = false }: { preview?: boolean }) {
                           : "闭关修行"}
                     </span>
                     <h3 className="serif">
-                      {w.longAction.total - w.longAction.remaining} / {w.longAction.total} 日
+                      {game.progress?.completed ?? w.longAction.checkpoint} / {w.longAction.total}{" "}
+                      日
                     </h3>
                   </div>
                   <Wind size={28} className={running ? "gentle-spin" : ""} />
                 </div>
                 <Progress
                   aria-label="时间推进进度"
-                  value={((w.longAction.total - w.longAction.remaining) / w.longAction.total) * 100}
+                  value={
+                    ((game.progress?.completed ?? w.longAction.checkpoint) / w.longAction.total) *
+                    100
+                  }
                 />
                 <div className="spread">
                   <p>
@@ -628,7 +632,7 @@ export default function Game({ preview = false }: { preview?: boolean }) {
                     <Button
                       variant="outline"
                       size="sm"
-                      disabled={busy}
+                      disabled={busy && !running}
                       onClick={() => (running ? pause() : setRunning(true))}
                     >
                       {running ? <Pause size={14} /> : <Play size={14} />}{" "}

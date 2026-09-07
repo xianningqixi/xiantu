@@ -42,6 +42,7 @@ function environment() {
   const requests = [];
   const context = vm.createContext({
     document,
+    game: { pauseAdvance: () => {} },
     continuations: createContinuationGuard(),
     setAutoRunning: (value) => {
       state.auto = value;

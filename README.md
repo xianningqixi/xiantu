@@ -20,7 +20,7 @@ npm run verify
 npm run start:local
 ```
 
-`verify` 运行游戏类型检查、内容／存档／回调／规则测试和生产构建；`start:local` 启动构建后的服务。普通开发请使用以上跨平台命令，原 `install:ci`、`build`、`dev` 等命令保留供 Sites 环境使用。依赖版本和锁文件未升级。开发交接、目录分工、存档迁移和待办详见 [docs/HANDOFF.md](docs/HANDOFF.md)。
+`dev:local` 和构建会自动准备完整剧情模板 ZIP；这个生成文件不随 Git 提交，全部模板源文件和原图都在仓库中。`verify` 运行游戏类型检查、内容／存档／回调／规则测试和生产构建；`start:local` 启动构建后的服务。普通开发请使用以上跨平台命令，原 `install:ci`、`build`、`dev` 等命令保留供 Sites 环境使用。依赖版本和锁文件未升级。开发交接、目录分工、存档迁移和待办详见 [docs/HANDOFF.md](docs/HANDOFF.md)。
 
 ## 当前可玩
 

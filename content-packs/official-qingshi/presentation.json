@@ -1,0 +1,38 @@
+{
+  "prologue": {
+    "eyebrow": "第一卷 · 青石人间",
+    "title": [
+      "人间一程，",
+      "从此入道。"
+    ],
+    "body": [
+      "你带着几枚灵石，来到青山脚下。",
+      "此时尚不知，这条普通的石板路，",
+      "会通向怎样的人与事。"
+    ],
+    "note": "你的名字，将写进他们的记忆。",
+    "visualId": "scene.market.dusk"
+  },
+  "lootReturn": {
+    "eyebrow": "秘境归来 · 一诺之重",
+    "title": "带着收获，回到人间",
+    "body": "石傀已倒，残碑旁重归寂静。你们采下灵草，收起散落的灵石。约定还在，先一起回到坊市吧。",
+    "visualId": "scene.ruins.moon"
+  },
+  "lootSettle": {
+    "eyebrow": "秘境归来 · 一诺之重",
+    "title": "那株凝元草，交给谁？",
+    "body": "十二枚灵石与一株凝元草摆在面前。出发前，你答应将第一株凝元草交给{{primary.name}}。对方站在一旁等着，没有催促。",
+    "visualId": "scene.market.dusk"
+  },
+  "notices": {
+    "arrival": "你来到青石坊市。人间灯火里，你的故事才刚刚开始。",
+    "arrivalEvent": "{{player.name}}来到青石坊市，开始了自己的修仙人生。",
+    "agreement": "你与{{primary.name}}、{{companion.name}}约定同行：第一株凝元草归{{primary.name}}，其余归你。出发时支付两枚灵石。",
+    "party": "{{primary.name}}与{{companion.name}}加入队伍。三人结伴，山路上便不再孤单。",
+    "fulfilled": "你把凝元草递给{{primary.name}}，收下其余十二枚灵石。对方认真地向你道谢。这件事，会被记得。",
+    "breached": "你将药草和灵石一起收入行囊。{{primary.name}}沉默了片刻，收起伸到一半的手。",
+    "compensationEvent": "你用一株凝元草向{{primary.name}}补偿失约。药草收下了，但旧日的经历仍然保留。",
+    "compensated": "{{primary.name}}收下凝元草，愿意再给你一次机会，不过以后会坚持更严格的分配条款。"
+  }
+}

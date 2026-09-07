@@ -1,0 +1,32 @@
+{
+  "primary": {
+    "id": "NPC_LIN_WAN",
+    "name": "林晚",
+    "sex": "female",
+    "age": 24,
+    "realm": 3,
+    "aptitude": 65,
+    "personality": "谨慎 · 重诺",
+    "sect": "散修",
+    "goal": "寻找凝元草，为突破筹备丹药",
+    "xp": 80,
+    "stones": 10,
+    "portraitId": "portrait.primary",
+    "roleDescription": "首章示例 NPC。与玩家没有预设恋爱关系，不是女主角。"
+  },
+  "companion": {
+    "id": "NPC_ZHOU_AN",
+    "name": "周安",
+    "sex": "male",
+    "age": 31,
+    "realm": 2,
+    "aptitude": 50,
+    "personality": "爽直 · 可靠",
+    "sect": "散修",
+    "goal": "护送行人，积攒修行资粮",
+    "xp": 0,
+    "stones": 6,
+    "portraitId": null,
+    "roleDescription": "首章同行 NPC，使用姓名头像占位。"
+  }
+}

@@ -1,0 +1,351 @@
+[
+  {
+    "id": "reunion-honor",
+    "eyebrow": "故人 · 旧日的约定",
+    "title": "她还记得那株草",
+    "portrait": true,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "market"
+      },
+      {
+        "fact": "primaryPresent",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "outcome",
+        "op": "eq",
+        "value": "fulfilled"
+      },
+      {
+        "fact": "sinceSettlement",
+        "op": "gte",
+        "value": 3
+      },
+      {
+        "fact": "reunion",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "body": "药摊旁的人抬头看见你，先是一怔，随即往旁边挪了挪，替你留出一个位置。上次秘境里许下的约定，她似乎一直记在心里。",
+    "quote": "“上回凝元草的事，我记着。若再进山，叫上我便是。”",
+    "choices": [
+      {
+        "id": "remember",
+        "label": "坐下，聊聊这些日子的见闻",
+        "hint": "重逢 · 记录共同经历",
+        "effects": [
+          {
+            "kind": "flag",
+            "key": "reunion"
+          }
+        ],
+        "reply": "你们在暮色里聊了许久。有些信任无需挂在嘴边，却在下一次同行时成为了底气。"
+      }
+    ],
+    "visualId": "scene.market.dusk",
+    "portraitId": "portrait.primary"
+  },
+  {
+    "id": "reunion-breach",
+    "eyebrow": "故人 · 未兑现的话",
+    "title": "一诺之后",
+    "portrait": true,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "market"
+      },
+      {
+        "fact": "primaryPresent",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "outcome",
+        "op": "eq",
+        "value": "breached"
+      },
+      {
+        "fact": "sinceSettlement",
+        "op": "gte",
+        "value": 3
+      },
+      {
+        "fact": "reunion",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "body": "{{primary.name}}看见你，手里的药谱停在半空。她没有立刻离开，也没有像往常那样招呼你。你们之间，隔着一株曾经说好归她的凝元草。",
+    "quote": "“上次说好的事，道友也是这样答应的。若还想同行，先把分法写清楚。”",
+    "choices": [
+      {
+        "id": "acknowledge",
+        "label": "承认自己失约了",
+        "hint": "她会记住这次重逢",
+        "effects": [
+          {
+            "kind": "flag",
+            "key": "reunion"
+          }
+        ],
+        "reply": "她点了点头，没有说原谅。或许你可以找到另一株凝元草补偿她，但旧事不会因此消失。"
+      }
+    ],
+    "visualId": "scene.market.dusk",
+    "portraitId": "portrait.primary"
+  },
+  {
+    "id": "first-meeting",
+    "eyebrow": "奇遇 · 药摊前",
+    "title": "人海中，一面之缘",
+    "portrait": true,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "market"
+      },
+      {
+        "fact": "primaryPresent",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "met",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "body": "一位青白衣衫的女修在药摊前停留许久。她掂了掂钱袋，最终把凝元草放回木匣。察觉到你的目光，她转过身来，神情里带着一点好奇。",
+    "quote": "“道友也是来寻药的？还是……刚到这青石坊市？”",
+    "choices": [
+      {
+        "id": "greet",
+        "label": "上前见礼，询问她的姓名",
+        "hint": "相识 · 不消耗时间",
+        "effects": [
+          {
+            "kind": "meet",
+            "target": "primary"
+          },
+          {
+            "kind": "flag",
+            "key": "met"
+          }
+        ],
+        "reply": "“{{primary.name}}。”她报上姓名，目光落在你尚无灵气流转的经脉上，“若有意入道，我倒知道一处安静的地方。”"
+      }
+    ],
+    "visualId": "scene.market.dusk",
+    "portraitId": "portrait.primary"
+  },
+  {
+    "id": "manual",
+    "eyebrow": "机缘 · 入道之前",
+    "title": "一册吐纳经",
+    "portrait": true,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "market"
+      },
+      {
+        "fact": "primaryPresent",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "met",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "manual",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "body": "{{primary.name}}从袖中取出一册边角微卷的小书。封面没有玄奥的符纹，只写着最朴素的吐纳法门。她说，修行往往就是从这些不起眼的东西开始。",
+    "quote": "“拿去读吧。坊市客栈也备着这本书，初学者都可以领。”",
+    "choices": [
+      {
+        "id": "learn",
+        "label": "谢过{{primary.name}}，记下吐纳法门",
+        "hint": "获得入门功法 · 每人一次",
+        "effects": [
+          {
+            "kind": "learn"
+          }
+        ],
+        "reply": "你逐字读过，将呼吸吐纳的要诀记在心中。接下来，可以去客栈静修，也可以先听听她的打算。"
+      }
+    ],
+    "visualId": "scene.market.dusk",
+    "portraitId": "portrait.primary"
+  },
+  {
+    "id": "shared-goal",
+    "eyebrow": "交谈 · 她的心事",
+    "title": "山中有草，心中有愿",
+    "portrait": true,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "market"
+      },
+      {
+        "fact": "primaryPresent",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "met",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "manual",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "goal",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "body": "话题绕回了药摊。{{primary.name}}坦言，自己正在为后续修炼筹备丹药，凝元草能省下不少灵石。城外残碑附近或许有她需要的药材，但一个人进山，总有些勉强。",
+    "quote": "“{{companion.name}}也想去看看。若你到了炼气，我们三人同行，彼此有个照应。”",
+    "choices": [
+      {
+        "id": "listen",
+        "label": "询问秘境的情况",
+        "hint": "得知共同目标",
+        "effects": [
+          {
+            "kind": "flag",
+            "key": "goal"
+          }
+        ],
+        "reply": "残碑秘境有守路的石傀。{{primary.name}}需要第一株凝元草，其余收获可以归你；出发时给两位同伴各一枚灵石作路费即可。"
+      }
+    ],
+    "visualId": "scene.market.dusk",
+    "portraitId": "portrait.primary"
+  },
+  {
+    "id": "agreement",
+    "eyebrow": "交涉 · 说好的分法",
+    "title": "同行之前，先立一诺",
+    "portrait": true,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "market"
+      },
+      {
+        "fact": "primaryPresent",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "goal",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "hasAgreement",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "canInvite",
+        "op": "eq",
+        "value": true
+      }
+    ],
+    "body": "{{primary.name}}把分法说得清清楚楚：本次秘境若找到凝元草，第一株归她；其余战利品归你。{{companion.name}}也同意照这个约定办。出发时支付两枚灵石，现在不用交付。",
+    "quote": "“找不到草也无妨。只要得了以后，别忘记说过的话。”",
+    "choices": [
+      {
+        "id": "accept",
+        "label": "接受约定，准备三人同行",
+        "hint": "第一株草归{{primary.name}} · 其余归你 · 出发付 2 灵石",
+        "effects": [
+          {
+            "kind": "agreement"
+          }
+        ],
+        "reply": "约定记下了。等你成为炼气修士，在坊市或古道口集齐三人，再一起出发。"
+      }
+    ],
+    "visualId": "scene.market.dusk",
+    "portraitId": "portrait.primary"
+  },
+  {
+    "id": "accepted",
+    "eyebrow": "约定 · 等一场同行",
+    "title": "山路不远，来日可期",
+    "portrait": true,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "market"
+      },
+      {
+        "fact": "primaryPresent",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "hasAgreement",
+        "op": "eq",
+        "value": true
+      }
+    ],
+    "body": "{{primary.name}}朝山路的方向看了一眼，又收好手里的药谱。约定已经记下，眼下仍有准备要做。你可以先去修炼，备上丹药和路费，再邀两位同伴在古道口会合。",
+    "quote": "“准备好了便唤我。说过的话，我记得。”",
+    "choices": [],
+    "visualId": "scene.market.dusk",
+    "portraitId": "portrait.primary"
+  },
+  {
+    "id": "old-friend",
+    "eyebrow": "故人 · 坊市再会",
+    "title": "一盏灯下的故人",
+    "portrait": true,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "market"
+      },
+      {
+        "fact": "primaryPresent",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "met",
+        "op": "eq",
+        "value": true
+      }
+    ],
+    "body": "熟悉的身影仍在药铺檐下。坊市里每天有人来，也有人走；你与{{primary.name}}之间的经历，却已经在彼此的人生里留下了痕迹。",
+    "quote": "“这几日，可还顺遂？”",
+    "choices": [],
+    "visualId": "scene.market.dusk",
+    "portraitId": "portrait.primary"
+  }
+]

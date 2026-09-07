@@ -1,0 +1,1461 @@
+{
+  "schemaVersion": "1.0.0",
+  "contentVersion": "0.1.1",
+  "status": "design-example-not-implemented",
+  "storyScopeId": "STORY_LIN_WAN_01",
+  "entryStoryletId": "STORY_MARKET_FIRST_MEETING",
+  "agreementTemplates": [
+    {
+      "id": "AGREEMENT_LIN_RUINS_V1",
+      "status": "prototype-default",
+      "participantIds": [
+        "PLAYER",
+        "NPC_LIN_WAN",
+        "NPC_ZHOU_AN"
+      ],
+      "scope": "the single expedition bound when StartExpedition succeeds",
+      "terms": [
+        {
+          "kind": "departureFee",
+          "payerId": "PLAYER",
+          "recipientId": "NPC_LIN_WAN",
+          "itemId": "ITEM_SPIRIT_STONE",
+          "quantity": {
+            "ruleRef": "story.departureFeePerNpc"
+          },
+          "paymentTiming": "StartExpeditionAccepted",
+          "repeatPolicy": "once-per-expedition"
+        },
+        {
+          "kind": "departureFee",
+          "payerId": "PLAYER",
+          "recipientId": "NPC_ZHOU_AN",
+          "itemId": "ITEM_SPIRIT_STONE",
+          "quantity": {
+            "ruleRef": "story.departureFeePerNpc"
+          },
+          "paymentTiming": "StartExpeditionAccepted",
+          "repeatPolicy": "once-per-expedition"
+        },
+        {
+          "kind": "futureDrop",
+          "itemId": "ITEM_NINGYUAN_GRASS",
+          "quantity": 1,
+          "selection": "first-acquired-unit-order-by-event-sequence",
+          "recipientId": "NPC_LIN_WAN",
+          "allocationLocationId": "LOC_MARKET",
+          "absentDropStatus": "not_triggered"
+        },
+        {
+          "kind": "remainder",
+          "recipientId": "PLAYER",
+          "includes": "all remaining items and currency from this expedition, including additional grass units",
+          "allocationLocationId": "LOC_MARKET"
+        }
+      ],
+      "explicitExclusions": [
+        "No fee is deducted on proposal, acceptance or party formation.",
+        "No second fee is deducted from loot.",
+        "Previously owned items are outside the agreement.",
+        "No promised drop is not a breach.",
+        "NPC acceptance must still pass eligibility and willingness rules."
+      ]
+    }
+  ],
+  "storylets": [
+    {
+      "id": "STORY_MARKET_FIRST_MEETING",
+      "title": "药摊前的陌生人",
+      "locationId": "LOC_MARKET",
+      "participantIds": [
+        "PLAYER",
+        "NPC_LIN_WAN"
+      ],
+      "backgroundAssetId": "BG_MARKET_DAY",
+      "portraitAssetIds": [
+        "PORTRAIT_LIN_NEUTRAL"
+      ],
+      "body": "药摊前的女修掂了掂钱袋，最终把凝元草放回木匣。见你停步，她收起药谱：“也来寻药？还是想找一条入道的路？”她自称林晚，正为下一段修炼筹备药材。你还不知道她是否值得信任，至少可以先问问。",
+      "conditions": [
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_MARKET"
+        },
+        {
+          "kind": "entity",
+          "subjectId": "NPC_LIN_WAN",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "NPC_LIN_WAN",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_MARKET"
+        },
+        {
+          "kind": "fact",
+          "subjectId": "STORY_LIN_WAN_01",
+          "key": "lin.firstMeetingRecorded",
+          "op": "eq",
+          "value": false
+        }
+      ],
+      "choices": [
+        {
+          "id": "introduce",
+          "label": "报上姓名，询问入道的门路",
+          "commandType": "Talk",
+          "args": {
+            "targetId": "NPC_LIN_WAN",
+            "topicId": "LIN_FIRST_MEETING"
+          },
+          "conditions": [],
+          "nextStoryletId": "STORY_MARKET_MANUAL"
+        },
+        {
+          "id": "profile",
+          "label": "查看人物",
+          "commandType": "OpenProfile",
+          "args": {
+            "entityId": "NPC_LIN_WAN"
+          },
+          "conditions": []
+        },
+        {
+          "id": "leave",
+          "label": "先告辞",
+          "commandType": "LeaveInteraction",
+          "args": {},
+          "conditions": []
+        }
+      ],
+      "once": true,
+      "cooldownDays": 0
+    },
+    {
+      "id": "STORY_MARKET_MANUAL",
+      "title": "一本入门功法",
+      "locationId": "LOC_MARKET",
+      "participantIds": [
+        "PLAYER",
+        "NPC_LIN_WAN"
+      ],
+      "backgroundAssetId": "BG_MARKET_DAY",
+      "portraitAssetIds": [
+        "PORTRAIT_LIN_NEUTRAL"
+      ],
+      "body": "林晚指了指书箱里的入门功法：“坊里的基础法门，胜在稳妥。若还没有，我可以送你一本；已经学过，就去客栈静室把引气的根基练好。遗迹里的事，等你入了炼气再谈。”这条入道的路不要求你先替她做事。",
+      "conditions": [
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_MARKET"
+        },
+        {
+          "kind": "entity",
+          "subjectId": "NPC_LIN_WAN",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "NPC_LIN_WAN",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_MARKET"
+        },
+        {
+          "kind": "fact",
+          "subjectId": "STORY_LIN_WAN_01",
+          "key": "lin.firstMeetingRecorded",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "claim_manual",
+          "label": "领取并学习入门功法",
+          "commandType": "Talk",
+          "args": {
+            "targetId": "NPC_LIN_WAN",
+            "topicId": "CLAIM_BEGINNER_MANUAL",
+            "claimId": "starter-manual"
+          },
+          "conditions": [
+            {
+              "kind": "fact",
+              "subjectId": "STORY_LIN_WAN_01",
+              "key": "lin.manualClaimed",
+              "op": "eq",
+              "value": false
+            }
+          ],
+          "nextStoryletId": "STORY_MARKET_MANUAL"
+        },
+        {
+          "id": "to_inn",
+          "label": "前往客栈修炼",
+          "commandType": "Travel",
+          "args": {
+            "toLocationId": "LOC_INN"
+          },
+          "conditions": [
+            {
+              "kind": "fact",
+              "subjectId": "STORY_LIN_WAN_01",
+              "key": "lin.manualClaimed",
+              "op": "eq",
+              "value": true
+            }
+          ],
+          "nextStoryletId": "STORY_INN_TRAINING"
+        },
+        {
+          "id": "leave",
+          "label": "先告辞",
+          "commandType": "LeaveInteraction",
+          "args": {},
+          "conditions": []
+        }
+      ],
+      "once": false,
+      "cooldownDays": 0
+    },
+    {
+      "id": "STORY_INN_TRAINING",
+      "title": "客栈静室",
+      "locationId": "LOC_INN",
+      "participantIds": [
+        "PLAYER"
+      ],
+      "backgroundAssetId": "BG_INN_ROOM",
+      "portraitAssetIds": [],
+      "body": "窗外的叫卖声渐渐远了。你按功法所述坐定，让呼吸一点点平缓下来。这里有可供散修使用的静室，你可以安心修炼；条件足够时，尝试真正引气入体。每次修炼都会让世界里的日子向前。",
+      "conditions": [
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_INN"
+        },
+        {
+          "kind": "fact",
+          "subjectId": "STORY_LIN_WAN_01",
+          "key": "lin.manualClaimed",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "train_day",
+          "label": "修炼一天",
+          "commandType": "StartTraining",
+          "args": {
+            "actorId": "PLAYER",
+            "methodId": "METHOD_BASIC",
+            "durationDays": 1
+          },
+          "conditions": [],
+          "nextStoryletId": "STORY_INN_TRAINING"
+        },
+        {
+          "id": "breakthrough_qi",
+          "label": "查看引气条件并尝试突破",
+          "commandType": "StartBreakthrough",
+          "args": {
+            "actorId": "PLAYER",
+            "targetRealmId": "QI_1",
+            "usePill": false,
+            "guardianId": null
+          },
+          "conditions": [
+            {
+              "kind": "entity",
+              "subjectId": "PLAYER",
+              "key": "realmTier",
+              "op": "eq",
+              "value": 0
+            },
+            {
+              "kind": "fact",
+              "subjectId": "STORY_LIN_WAN_01",
+              "key": "player.canBreakthroughToQi",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": "back_market",
+          "label": "返回坊市",
+          "commandType": "Travel",
+          "args": {
+            "toLocationId": "LOC_MARKET"
+          },
+          "conditions": [],
+          "nextStoryletId": "STORY_MARKET_GOAL"
+        },
+        {
+          "id": "self_profile",
+          "label": "查看修炼状态",
+          "commandType": "OpenProfile",
+          "args": {
+            "entityId": "PLAYER"
+          },
+          "conditions": []
+        }
+      ],
+      "once": false,
+      "cooldownDays": 0
+    },
+    {
+      "id": "STORY_MARKET_GOAL",
+      "title": "一条可以同行的路",
+      "locationId": "LOC_MARKET",
+      "participantIds": [
+        "PLAYER",
+        "NPC_LIN_WAN",
+        "NPC_ZHOU_AN"
+      ],
+      "backgroundAssetId": "BG_MARKET_DAY",
+      "portraitAssetIds": [
+        "PORTRAIT_LIN_NEUTRAL",
+        "PORTRAIT_ZHOU_NEUTRAL"
+      ],
+      "body": "林晚看出你已经能够运转灵气，便把药谱翻到折角处：“附近遗迹可能长着凝元草。我需要药材，你也需要历练。”一旁的周安愿意同行。他们都要先把报酬和收获的分法说清，再决定是否出发。",
+      "conditions": [
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_MARKET"
+        },
+        {
+          "kind": "entity",
+          "subjectId": "NPC_LIN_WAN",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "NPC_LIN_WAN",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_MARKET"
+        },
+        {
+          "kind": "entity",
+          "subjectId": "NPC_ZHOU_AN",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "NPC_ZHOU_AN",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_MARKET"
+        },
+        {
+          "kind": "fact",
+          "subjectId": "STORY_LIN_WAN_01",
+          "key": "lin.manualClaimed",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "realmTier",
+          "op": "gte",
+          "value": 1
+        },
+        {
+          "kind": "fact",
+          "subjectId": "STORY_LIN_WAN_01",
+          "key": "lin.goalKnown",
+          "op": "eq",
+          "value": false
+        }
+      ],
+      "choices": [
+        {
+          "id": "ask_goal",
+          "label": "询问共同目标与同行条件",
+          "commandType": "Talk",
+          "args": {
+            "targetId": "NPC_LIN_WAN",
+            "topicId": "LIN_COMMON_GOAL"
+          },
+          "conditions": [],
+          "nextStoryletId": "STORY_MARKET_TERMS"
+        },
+        {
+          "id": "profile",
+          "label": "查看人物",
+          "commandType": "OpenProfile",
+          "args": {
+            "entityId": "NPC_LIN_WAN"
+          },
+          "conditions": []
+        },
+        {
+          "id": "leave",
+          "label": "先告辞",
+          "commandType": "LeaveInteraction",
+          "args": {},
+          "conditions": []
+        }
+      ],
+      "once": true,
+      "cooldownDays": 0
+    },
+    {
+      "id": "STORY_MARKET_TERMS",
+      "title": "把约定说清楚",
+      "locationId": "LOC_MARKET",
+      "participantIds": [
+        "PLAYER",
+        "NPC_LIN_WAN",
+        "NPC_ZHOU_AN"
+      ],
+      "backgroundAssetId": "BG_MARKET_DAY",
+      "portraitAssetIds": [
+        "PORTRAIT_LIN_NEUTRAL",
+        "PORTRAIT_ZHOU_NEUTRAL"
+      ],
+      "body": "你提议：本次探索实际取得的第一株凝元草留给林晚，其余收获都归你，回到坊市再分配。林晚与周安各收一笔固定出征报酬，真正开始探索时现付，不从战利品里再扣。若没有取得凝元草，这项赠草承诺便不触发。两人请你核对完整条款。",
+      "conditions": [
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_MARKET"
+        },
+        {
+          "kind": "entity",
+          "subjectId": "NPC_LIN_WAN",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "NPC_LIN_WAN",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_MARKET"
+        },
+        {
+          "kind": "entity",
+          "subjectId": "NPC_ZHOU_AN",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "NPC_ZHOU_AN",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_MARKET"
+        },
+        {
+          "kind": "fact",
+          "subjectId": "STORY_LIN_WAN_01",
+          "key": "lin.goalKnown",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "realmTier",
+          "op": "gte",
+          "value": 1
+        },
+        {
+          "kind": "agreement",
+          "subjectId": "STORY_LIN_WAN_01",
+          "key": "status",
+          "op": "in",
+          "value": [
+            "none",
+            "draft"
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "id": "propose_terms",
+          "label": "提出这份同行约定",
+          "commandType": "ProposeAgreement",
+          "args": {
+            "storyScopeId": "STORY_LIN_WAN_01",
+            "templateId": "AGREEMENT_LIN_RUINS_V1",
+            "participantIds": [
+              "PLAYER",
+              "NPC_LIN_WAN",
+              "NPC_ZHOU_AN"
+            ]
+          },
+          "conditions": [
+            {
+              "kind": "agreement",
+              "subjectId": "STORY_LIN_WAN_01",
+              "key": "status",
+              "op": "eq",
+              "value": "none"
+            }
+          ],
+          "nextStoryletId": "STORY_MARKET_TERMS"
+        },
+        {
+          "id": "accept_terms",
+          "label": "确认完整条款并接受",
+          "commandType": "AcceptAgreement",
+          "args": {
+            "storyScopeId": "STORY_LIN_WAN_01"
+          },
+          "conditions": [
+            {
+              "kind": "agreement",
+              "subjectId": "STORY_LIN_WAN_01",
+              "key": "status",
+              "op": "eq",
+              "value": "draft"
+            }
+          ],
+          "nextStoryletId": "STORY_MARKET_AGREED"
+        },
+        {
+          "id": "leave",
+          "label": "先告辞",
+          "commandType": "LeaveInteraction",
+          "args": {},
+          "conditions": []
+        }
+      ],
+      "once": false,
+      "cooldownDays": 0
+    },
+    {
+      "id": "STORY_MARKET_AGREED",
+      "title": "出发前的准备",
+      "locationId": "LOC_MARKET",
+      "participantIds": [
+        "PLAYER",
+        "NPC_LIN_WAN",
+        "NPC_ZHOU_AN"
+      ],
+      "backgroundAssetId": "BG_MARKET_DAY",
+      "portraitAssetIds": [
+        "PORTRAIT_LIN_NEUTRAL",
+        "PORTRAIT_ZHOU_NEUTRAL"
+      ],
+      "body": "约定已经记下。林晚合上药谱，周安检查行装。出征报酬会在开始探索时支付；现在仍可以先准备丹药、检查修为，再邀请两人正式同行。只有三人都愿意且具备出行条件，队伍才会成立。",
+      "conditions": [
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_MARKET"
+        },
+        {
+          "kind": "entity",
+          "subjectId": "NPC_LIN_WAN",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "NPC_LIN_WAN",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_MARKET"
+        },
+        {
+          "kind": "entity",
+          "subjectId": "NPC_ZHOU_AN",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "NPC_ZHOU_AN",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_MARKET"
+        },
+        {
+          "kind": "agreement",
+          "subjectId": "STORY_LIN_WAN_01",
+          "key": "status",
+          "op": "eq",
+          "value": "accepted"
+        },
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "realmTier",
+          "op": "gte",
+          "value": 1
+        }
+      ],
+      "choices": [
+        {
+          "id": "form_party",
+          "label": "邀请林晚、周安组成三人队伍",
+          "commandType": "FormParty",
+          "args": {
+            "storyScopeId": "STORY_LIN_WAN_01",
+            "memberIds": [
+              "PLAYER",
+              "NPC_LIN_WAN",
+              "NPC_ZHOU_AN"
+            ]
+          },
+          "conditions": [
+            {
+              "kind": "party",
+              "subjectId": "STORY_LIN_WAN_01",
+              "key": "memberCount",
+              "op": "eq",
+              "value": 1
+            }
+          ],
+          "nextStoryletId": "STORY_MARKET_AGREED"
+        },
+        {
+          "id": "to_gate",
+          "label": "一同前往坊门",
+          "commandType": "Travel",
+          "args": {
+            "toLocationId": "LOC_GATE"
+          },
+          "conditions": [
+            {
+              "kind": "party",
+              "subjectId": "STORY_LIN_WAN_01",
+              "key": "memberCount",
+              "op": "eq",
+              "value": 3
+            },
+            {
+              "kind": "party",
+              "subjectId": "STORY_LIN_WAN_01",
+              "key": "memberIds",
+              "op": "contains",
+              "value": "NPC_LIN_WAN"
+            },
+            {
+              "kind": "party",
+              "subjectId": "STORY_LIN_WAN_01",
+              "key": "memberIds",
+              "op": "contains",
+              "value": "NPC_ZHOU_AN"
+            }
+          ],
+          "nextStoryletId": "STORY_GATE_PREPARATION"
+        },
+        {
+          "id": "leave",
+          "label": "先告辞",
+          "commandType": "LeaveInteraction",
+          "args": {},
+          "conditions": []
+        }
+      ],
+      "once": false,
+      "cooldownDays": 0
+    },
+    {
+      "id": "STORY_GATE_PREPARATION",
+      "title": "坊门内外",
+      "locationId": "LOC_GATE",
+      "participantIds": [
+        "PLAYER"
+      ],
+      "backgroundAssetId": "BG_MARKET_GATE",
+      "portraitAssetIds": [],
+      "body": "坊门外的山路通向遗迹，坊门内仍是熟悉的灯火。启程前可以再检查行装；若已经返程，也可以沿路回坊市。队伍与行囊的实际状态，会决定此刻能否继续向山中走。",
+      "conditions": [
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_GATE"
+        }
+      ],
+      "choices": [
+        {
+          "id": "depart",
+          "label": "核对出征报酬并开始探索",
+          "commandType": "StartExpedition",
+          "args": {
+            "storyScopeId": "STORY_LIN_WAN_01",
+            "destinationId": "LOC_RUINS"
+          },
+          "conditions": [
+            {
+              "kind": "agreement",
+              "subjectId": "STORY_LIN_WAN_01",
+              "key": "status",
+              "op": "eq",
+              "value": "accepted"
+            },
+            {
+              "kind": "expedition",
+              "subjectId": "STORY_LIN_WAN_01",
+              "key": "phase",
+              "op": "eq",
+              "value": "ready"
+            },
+            {
+              "kind": "entity",
+              "subjectId": "PLAYER",
+              "key": "realmTier",
+              "op": "gte",
+              "value": 1
+            },
+            {
+              "kind": "party",
+              "subjectId": "STORY_LIN_WAN_01",
+              "key": "memberCount",
+              "op": "eq",
+              "value": 3
+            },
+            {
+              "kind": "party",
+              "subjectId": "STORY_LIN_WAN_01",
+              "key": "memberIds",
+              "op": "contains",
+              "value": "NPC_LIN_WAN"
+            },
+            {
+              "kind": "party",
+              "subjectId": "STORY_LIN_WAN_01",
+              "key": "memberIds",
+              "op": "contains",
+              "value": "NPC_ZHOU_AN"
+            }
+          ],
+          "nextStoryletId": "STORY_RUINS_EXPEDITION"
+        },
+        {
+          "id": "return_market",
+          "label": "沿路回到坊市",
+          "commandType": "Travel",
+          "args": {
+            "toLocationId": "LOC_MARKET"
+          },
+          "conditions": [],
+          "nextStoryletId": "STORY_MARKET_LOOT"
+        },
+        {
+          "id": "self_profile",
+          "label": "检查自身状态",
+          "commandType": "OpenProfile",
+          "args": {
+            "entityId": "PLAYER"
+          },
+          "conditions": []
+        }
+      ],
+      "once": false,
+      "cooldownDays": 0
+    },
+    {
+      "id": "STORY_RUINS_EXPEDITION",
+      "title": "荒草与旧石阶",
+      "locationId": "LOC_RUINS",
+      "participantIds": [
+        "PLAYER"
+      ],
+      "backgroundAssetId": "BG_RUINS_PATH",
+      "portraitAssetIds": [],
+      "body": "断裂的石阶没入荒草，风从残墙间穿过。这里可能有药材，也可能有危险。探索中的遭遇、战斗和实际收获会记录在行程里。若决定返程，需要先摆脱当前遭遇，再循山路回到坊门。",
+      "conditions": [
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_RUINS"
+        },
+        {
+          "kind": "expedition",
+          "subjectId": "STORY_LIN_WAN_01",
+          "key": "phase",
+          "op": "in",
+          "value": [
+            "active",
+            "resolved"
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "id": "continue_expedition",
+          "label": "查看探索进程",
+          "commandType": "LeaveInteraction",
+          "args": {
+            "destinationView": "active-expedition"
+          },
+          "conditions": []
+        },
+        {
+          "id": "return_gate",
+          "label": "循山路返回坊门",
+          "commandType": "Travel",
+          "args": {
+            "toLocationId": "LOC_GATE"
+          },
+          "conditions": [
+            {
+              "kind": "expedition",
+              "subjectId": "STORY_LIN_WAN_01",
+              "key": "phase",
+              "op": "eq",
+              "value": "resolved"
+            }
+          ],
+          "nextStoryletId": "STORY_GATE_PREPARATION"
+        },
+        {
+          "id": "self_profile",
+          "label": "查看自身状态",
+          "commandType": "OpenProfile",
+          "args": {
+            "entityId": "PLAYER"
+          },
+          "conditions": []
+        }
+      ],
+      "once": false,
+      "cooldownDays": 0
+    },
+    {
+      "id": "STORY_MARKET_LOOT",
+      "title": "回坊之后，照约分配",
+      "locationId": "LOC_MARKET",
+      "participantIds": [
+        "PLAYER"
+      ],
+      "backgroundAssetId": "BG_MARKET_DAY",
+      "portraitAssetIds": [],
+      "body": "你回到坊市，终于可以清点本次行程。待分配的收获仍在队伍行囊里，还不属于任何人的私人背包。出征报酬已经单独结清。接下来怎样分配，应当与你们启程前的约定对应。",
+      "conditions": [
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_MARKET"
+        },
+        {
+          "kind": "expedition",
+          "subjectId": "STORY_LIN_WAN_01",
+          "key": "settlementReady",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "honor_allocation",
+          "label": "按约分配：第一株凝元草给林晚，其余归我",
+          "commandType": "AllocateLoot",
+          "args": {
+            "storyScopeId": "STORY_LIN_WAN_01",
+            "policy": "HONOR_AGREEMENT"
+          },
+          "conditions": [
+            {
+              "kind": "expedition",
+              "subjectId": "STORY_LIN_WAN_01",
+              "key": "hasPromisedGrass",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "kind": "entity",
+              "subjectId": "NPC_LIN_WAN",
+              "key": "alive",
+              "op": "eq",
+              "value": true
+            }
+          ],
+          "nextStoryletId": "STORY_MARKET_FULFILLED"
+        },
+        {
+          "id": "breach_allocation",
+          "label": "把凝元草也留给自己（违约）",
+          "commandType": "AllocateLoot",
+          "args": {
+            "storyScopeId": "STORY_LIN_WAN_01",
+            "policy": "TAKE_ALL_DECLARE_BREACH"
+          },
+          "conditions": [
+            {
+              "kind": "expedition",
+              "subjectId": "STORY_LIN_WAN_01",
+              "key": "hasPromisedGrass",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "kind": "entity",
+              "subjectId": "NPC_LIN_WAN",
+              "key": "alive",
+              "op": "eq",
+              "value": true
+            }
+          ],
+          "nextStoryletId": "STORY_MARKET_BREACHED"
+        },
+        {
+          "id": "settle_exception",
+          "label": "按实际经过结清本次行程",
+          "commandType": "AllocateLoot",
+          "args": {
+            "storyScopeId": "STORY_LIN_WAN_01",
+            "policy": "RESOLVE_CONDITION_OR_IMPOSSIBILITY"
+          },
+          "conditions": [
+            {
+              "kind": "expedition",
+              "subjectId": "STORY_LIN_WAN_01",
+              "key": "exceptionSettlementRequired",
+              "op": "eq",
+              "value": true
+            }
+          ],
+          "nextStoryletId": "STORY_MARKET_UNTRIGGERED"
+        },
+        {
+          "id": "review_terms",
+          "label": "再看一次约定",
+          "commandType": "OpenProfile",
+          "args": {
+            "view": "agreement",
+            "storyScopeId": "STORY_LIN_WAN_01"
+          },
+          "conditions": []
+        }
+      ],
+      "once": false,
+      "cooldownDays": 0
+    },
+    {
+      "id": "STORY_MARKET_FULFILLED",
+      "title": "说到做到",
+      "locationId": "LOC_MARKET",
+      "participantIds": [
+        "PLAYER",
+        "NPC_LIN_WAN"
+      ],
+      "backgroundAssetId": "BG_MARKET_DAY",
+      "portraitAssetIds": [
+        "PORTRAIT_LIN_WARM"
+      ],
+      "body": "林晚接过凝元草，认真检查过叶脉，才收进药匣。“出发前说好的，你没有忘。”她把空出来的位置让给你。药材到手只是准备的一步，但她以后再与你谈同行，会记得这一次。",
+      "conditions": [
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_MARKET"
+        },
+        {
+          "kind": "entity",
+          "subjectId": "NPC_LIN_WAN",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "NPC_LIN_WAN",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_MARKET"
+        },
+        {
+          "kind": "fact",
+          "subjectId": "STORY_LIN_WAN_01",
+          "key": "lin.storySettlementResult",
+          "op": "eq",
+          "value": "fulfilled"
+        }
+      ],
+      "choices": [
+        {
+          "id": "acknowledge",
+          "label": "收好自己的那份，继续在坊市停留",
+          "commandType": "AdvanceDialogue",
+          "args": {
+            "topicId": "ACKNOWLEDGE_FULFILLED"
+          },
+          "conditions": [],
+          "nextStoryletId": "STORY_MARKET_REUNION_FULFILLED"
+        },
+        {
+          "id": "to_inn",
+          "label": "告辞，前往客栈修炼",
+          "commandType": "Travel",
+          "args": {
+            "toLocationId": "LOC_INN"
+          },
+          "conditions": [],
+          "nextStoryletId": "STORY_INN_TRAINING"
+        },
+        {
+          "id": "profile",
+          "label": "查看人物",
+          "commandType": "OpenProfile",
+          "args": {
+            "entityId": "NPC_LIN_WAN"
+          },
+          "conditions": []
+        }
+      ],
+      "once": true,
+      "cooldownDays": 0
+    },
+    {
+      "id": "STORY_MARKET_BREACHED",
+      "title": "药匣仍然空着",
+      "locationId": "LOC_MARKET",
+      "participantIds": [
+        "PLAYER",
+        "NPC_LIN_WAN"
+      ],
+      "backgroundAssetId": "BG_MARKET_DAY",
+      "portraitAssetIds": [
+        "PORTRAIT_LIN_GUARDED"
+      ],
+      "body": "林晚望着被你留下的凝元草，没有伸手。“出发前说的是第一株归我。”她合上空药匣，往旁边退了半步。这次违约已经成为你们共同经历的一部分；往后提出同行，原先的信任不会照旧。",
+      "conditions": [
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_MARKET"
+        },
+        {
+          "kind": "entity",
+          "subjectId": "NPC_LIN_WAN",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "NPC_LIN_WAN",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_MARKET"
+        },
+        {
+          "kind": "fact",
+          "subjectId": "STORY_LIN_WAN_01",
+          "key": "lin.storySettlementResult",
+          "op": "eq",
+          "value": "breached"
+        }
+      ],
+      "choices": [
+        {
+          "id": "acknowledge",
+          "label": "记下这次争执，结束分配",
+          "commandType": "AdvanceDialogue",
+          "args": {
+            "topicId": "ACKNOWLEDGE_BREACHED"
+          },
+          "conditions": [],
+          "nextStoryletId": "STORY_MARKET_REUNION_BREACHED"
+        },
+        {
+          "id": "to_inn",
+          "label": "离开，前往客栈",
+          "commandType": "Travel",
+          "args": {
+            "toLocationId": "LOC_INN"
+          },
+          "conditions": [],
+          "nextStoryletId": "STORY_INN_TRAINING"
+        },
+        {
+          "id": "profile",
+          "label": "查看人物",
+          "commandType": "OpenProfile",
+          "args": {
+            "entityId": "NPC_LIN_WAN"
+          },
+          "conditions": []
+        }
+      ],
+      "once": true,
+      "cooldownDays": 0
+    },
+    {
+      "id": "STORY_MARKET_UNTRIGGERED",
+      "title": "未能照原计划完成的行程",
+      "locationId": "LOC_MARKET",
+      "participantIds": [
+        "PLAYER"
+      ],
+      "backgroundAssetId": "BG_MARKET_DAY",
+      "portraitAssetIds": [],
+      "body": "这次行程没能完全照最初的设想完成。结算记录写明了实际发生的事，以及约定为何未触发或无法继续履行。收获已经按可执行的条款处理，你可以继续修炼，也可以日后寻找新的同行机会。",
+      "conditions": [
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_MARKET"
+        },
+        {
+          "kind": "fact",
+          "subjectId": "STORY_LIN_WAN_01",
+          "key": "lin.storySettlementResult",
+          "op": "in",
+          "value": [
+            "not_triggered",
+            "impossible",
+            "cancelled"
+          ]
+        }
+      ],
+      "choices": [
+        {
+          "id": "acknowledge",
+          "label": "查看结算原因，回到坊市",
+          "commandType": "AdvanceDialogue",
+          "args": {
+            "topicId": "ACKNOWLEDGE_EXCEPTION_SETTLEMENT"
+          },
+          "conditions": []
+        },
+        {
+          "id": "to_inn",
+          "label": "前往客栈修炼",
+          "commandType": "Travel",
+          "args": {
+            "toLocationId": "LOC_INN"
+          },
+          "conditions": [],
+          "nextStoryletId": "STORY_INN_TRAINING"
+        }
+      ],
+      "once": true,
+      "cooldownDays": 0
+    },
+    {
+      "id": "STORY_MARKET_REUNION_FULFILLED",
+      "title": "数日后，又见药摊",
+      "locationId": "LOC_MARKET",
+      "participantIds": [
+        "PLAYER",
+        "NPC_LIN_WAN"
+      ],
+      "backgroundAssetId": "BG_MARKET_DAY",
+      "portraitAssetIds": [
+        "PORTRAIT_LIN_WARM"
+      ],
+      "body": "数日后，你又在药摊边见到林晚。她收起药谱，主动替你挪开身旁的木凳：“上回凝元草的事，我记着。你若还想找人同行，先来问我。”熟悉的坊市没有变，你们说话的距离却近了一些。",
+      "conditions": [
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_MARKET"
+        },
+        {
+          "kind": "entity",
+          "subjectId": "NPC_LIN_WAN",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "NPC_LIN_WAN",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_MARKET"
+        },
+        {
+          "kind": "fact",
+          "subjectId": "STORY_LIN_WAN_01",
+          "key": "lin.storySettlementResult",
+          "op": "eq",
+          "value": "fulfilled"
+        },
+        {
+          "kind": "clock",
+          "subjectId": "STORY_LIN_WAN_01",
+          "key": "daysSinceStorySettlement",
+          "op": "gte",
+          "value": {
+            "ruleRef": "story.reunionWaitDays"
+          }
+        },
+        {
+          "kind": "fact",
+          "subjectId": "STORY_LIN_WAN_01",
+          "key": "lin.reunionRecorded",
+          "op": "eq",
+          "value": false
+        }
+      ],
+      "choices": [
+        {
+          "id": "remember",
+          "label": "回应她，谈起上次同行",
+          "commandType": "Talk",
+          "args": {
+            "targetId": "NPC_LIN_WAN",
+            "topicId": "LIN_REUNION_FULFILLED"
+          },
+          "conditions": [],
+          "nextStoryletId": "STORY_MARKET_REUNION_FULFILLED"
+        },
+        {
+          "id": "profile",
+          "label": "查看她记得的共同经历",
+          "commandType": "OpenProfile",
+          "args": {
+            "entityId": "NPC_LIN_WAN",
+            "tab": "shared-experiences"
+          },
+          "conditions": []
+        },
+        {
+          "id": "leave",
+          "label": "先告辞",
+          "commandType": "LeaveInteraction",
+          "args": {},
+          "conditions": []
+        }
+      ],
+      "once": true,
+      "cooldownDays": 0
+    },
+    {
+      "id": "STORY_MARKET_REUNION_BREACHED",
+      "title": "数日后，她仍记得",
+      "locationId": "LOC_MARKET",
+      "participantIds": [
+        "PLAYER",
+        "NPC_LIN_WAN"
+      ],
+      "backgroundAssetId": "BG_MARKET_DAY",
+      "portraitAssetIds": [
+        "PORTRAIT_LIN_GUARDED"
+      ],
+      "body": "数日后，林晚仍在坊市询问药材。她看了眼你的行囊，没有让座：“上次说好的凝元草，道友也是这样答应的。若还要同行，先把分法写清楚。”她认得你，也认得那次没有兑现的承诺。",
+      "conditions": [
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "PLAYER",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_MARKET"
+        },
+        {
+          "kind": "entity",
+          "subjectId": "NPC_LIN_WAN",
+          "key": "alive",
+          "op": "eq",
+          "value": true
+        },
+        {
+          "kind": "entity",
+          "subjectId": "NPC_LIN_WAN",
+          "key": "locationId",
+          "op": "eq",
+          "value": "LOC_MARKET"
+        },
+        {
+          "kind": "fact",
+          "subjectId": "STORY_LIN_WAN_01",
+          "key": "lin.storySettlementResult",
+          "op": "eq",
+          "value": "breached"
+        },
+        {
+          "kind": "clock",
+          "subjectId": "STORY_LIN_WAN_01",
+          "key": "daysSinceStorySettlement",
+          "op": "gte",
+          "value": {
+            "ruleRef": "story.reunionWaitDays"
+          }
+        },
+        {
+          "kind": "fact",
+          "subjectId": "STORY_LIN_WAN_01",
+          "key": "lin.reunionRecorded",
+          "op": "eq",
+          "value": false
+        }
+      ],
+      "choices": [
+        {
+          "id": "respond",
+          "label": "承认她记得的事，听她说完",
+          "commandType": "Talk",
+          "args": {
+            "targetId": "NPC_LIN_WAN",
+            "topicId": "LIN_REUNION_BREACHED"
+          },
+          "conditions": [],
+          "nextStoryletId": "STORY_MARKET_REUNION_BREACHED"
+        },
+        {
+          "id": "profile",
+          "label": "查看这次违约留下的记录",
+          "commandType": "OpenProfile",
+          "args": {
+            "entityId": "NPC_LIN_WAN",
+            "tab": "shared-experiences"
+          },
+          "conditions": []
+        },
+        {
+          "id": "leave",
+          "label": "先告辞",
+          "commandType": "LeaveInteraction",
+          "args": {},
+          "conditions": []
+        }
+      ],
+      "once": true,
+      "cooldownDays": 0
+    }
+  ]
+}

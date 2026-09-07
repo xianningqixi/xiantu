@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "components/game/**/*.tsx",
+    "lib/game/**/*.ts",
+    "tests/game/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "docs",
+    "dist"
+  ]
+}

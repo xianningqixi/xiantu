@@ -1,0 +1,9 @@
+{
+  "contentHash": "c7402c381fe903eaa99784deae2066993da76500f5ea9422e61ae40779670cd9",
+  "lock": "official.qingshi@0.1.1:c7402c381fe903eaa99784deae2066993da76500f5ea9422e61ae40779670cd9",
+  "images": {
+    "scene.market.dusk": "9c4bb59427f1bae6c6a6f6c573e0aa64200c65c68a7bb05b2d72f03802ad3a38",
+    "scene.ruins.moon": "a08b3512d2c043b97f9122406e73a4eabc29f8eaa5c9fc4edd40b55e0c11a34e",
+    "portrait.primary": "de050de9d123a630b81fc28e8b1444fc862a6218ee610ce9251f9f7d0a188ad8"
+  }
+}

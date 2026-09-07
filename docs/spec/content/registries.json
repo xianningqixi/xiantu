@@ -1,0 +1,182 @@
+{
+  "registryVersion": "registry-0.1.1",
+  "status": "prototype-defaults",
+  "scopeIds": [
+    "STORY_LIN_WAN_01"
+  ],
+  "regionIds": [
+    "REGION_QINGHE"
+  ],
+  "factions": [
+    {
+      "id": "FACTION_INDEPENDENT",
+      "label": "散修与凡俗居民"
+    },
+    {
+      "id": "SECT_QINGYUN",
+      "label": "青云门（占位势力）"
+    }
+  ],
+  "personalities": [
+    {
+      "id": "PERSONALITY_CAUTIOUS",
+      "label": "谨慎",
+      "npcActionWeightDelta": {
+        "work": 5,
+        "move": -5
+      }
+    },
+    {
+      "id": "PERSONALITY_SOCIAL",
+      "label": "重交往",
+      "npcActionWeightDelta": {
+        "socialize": 10,
+        "cultivate": -10
+      }
+    },
+    {
+      "id": "PERSONALITY_DILIGENT",
+      "label": "勤修",
+      "npcActionWeightDelta": {
+        "cultivate": 10,
+        "move": -5,
+        "socialize": -5
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "ITEM_SPIRIT_STONE",
+      "label": "灵石",
+      "stackable": true
+    },
+    {
+      "id": "ITEM_MANUAL",
+      "label": "引气诀（占位功法）",
+      "stackable": false,
+      "learnedFlag": "ITEM_MANUAL",
+      "claimKey": "starter-manual"
+    },
+    {
+      "id": "ITEM_NINGYUAN_GRASS",
+      "label": "凝元草",
+      "stackable": true
+    },
+    {
+      "id": "ITEM_HEALING_PILL",
+      "label": "复元丹",
+      "stackable": true
+    },
+    {
+      "id": "ITEM_BREAKTHROUGH_PILL",
+      "label": "筑基丹",
+      "stackable": true
+    }
+  ],
+  "realms": [
+    {
+      "id": "MORTAL",
+      "tier": 0,
+      "layer": 0
+    },
+    {
+      "id": "QI_1",
+      "tier": 1,
+      "layer": 1
+    },
+    {
+      "id": "QI_2",
+      "tier": 1,
+      "layer": 2
+    },
+    {
+      "id": "QI_3",
+      "tier": 1,
+      "layer": 3
+    },
+    {
+      "id": "FOUNDATION_1",
+      "tier": 2,
+      "layer": 1
+    }
+  ],
+  "skills": [
+    {
+      "id": "SKILL_QI_STRIKE",
+      "label": "凝气击",
+      "slot": 0,
+      "rulesPrefix": "combat.prototypeStrike"
+    }
+  ],
+  "goals": [
+    {
+      "id": "GOAL_LEARN_MANUAL",
+      "label": "取得入门功法"
+    },
+    {
+      "id": "GOAL_CULTIVATE",
+      "label": "积累修为"
+    },
+    {
+      "id": "GOAL_PREPARE_BREAKTHROUGH",
+      "label": "准备突破"
+    },
+    {
+      "id": "GOAL_SOCIALIZE",
+      "label": "维持交往"
+    }
+  ],
+  "generation": {
+    "safeLocationIds": [
+      "LOC_MARKET",
+      "LOC_INN",
+      "LOC_GATE"
+    ],
+    "npcInitialSpiritStones": 6,
+    "npcInitialHealingPills": 0,
+    "sectMembershipChanceBp": 3500,
+    "sexFemaleChanceBp": 5000,
+    "initialManualKnownByCultivators": true,
+    "mortalsStartWithManual": false,
+    "surnamePool": [
+      "陈",
+      "林",
+      "周",
+      "沈",
+      "陆",
+      "顾",
+      "许",
+      "江",
+      "秦",
+      "叶",
+      "柳",
+      "苏"
+    ],
+    "givenNamePool": [
+      "知远",
+      "听澜",
+      "清和",
+      "照临",
+      "怀川",
+      "行舟",
+      "晚晴",
+      "映雪",
+      "见山",
+      "问溪",
+      "归鸿",
+      "疏月"
+    ],
+    "relationshipCandidates": "same_location_then_sorted_id",
+    "maxInitialEdgesPerNpc": 2,
+    "initialFriendChanceBp": 0
+  },
+  "effectMappings": {
+    "EFFECT_FIRST_MEETING": "relationships.eventDeltas.firstMeeting",
+    "EFFECT_FULFILL": "relationships.eventDeltas.promiseFulfilled",
+    "EFFECT_BREACH": "relationships.eventDeltas.promiseBreached"
+  },
+  "allowedRuleRefs": [
+    "story.reunionWaitDays",
+    "story.departureFeePerNpc"
+  ]
+}

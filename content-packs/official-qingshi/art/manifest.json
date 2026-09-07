@@ -1,0 +1,31 @@
+{
+  "assets": {
+    "scene.market.dusk": {
+      "file": "art/images/market.png",
+      "url": "/art/market.png",
+      "alt": "暮色里的青石坊市，灯火与青山相映",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "subject": "青石坊市；客栈暂复用此图"
+    },
+    "scene.ruins.moon": {
+      "file": "art/images/ruins.png",
+      "url": "/art/ruins.png",
+      "alt": "月下残碑秘境，山雾环绕石阶",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "subject": "山门古道与残碑秘境；两个地点暂复用此图"
+    },
+    "portrait.primary": {
+      "file": "art/images/lin-wan.png",
+      "url": "/art/lin-wan.png",
+      "alt": "示例 NPC 林晚，青白衣衫的成年女修",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "subject": "primary 角色；不是玩家形象"
+    }
+  }
+}

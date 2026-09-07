@@ -1,0 +1,24 @@
+{
+  "id": "official.qingshi",
+  "version": "0.1.1",
+  "contentApiVersion": 1,
+  "rulesVersion": "0.1.1",
+  "title": "青石人间 · 一诺之重",
+  "roles": {
+    "primary": "NPC_LIN_WAN",
+    "companion": "NPC_ZHOU_AN"
+  },
+  "declaredFlags": [
+    "met",
+    "goal",
+    "reunion"
+  ],
+  "files": {
+    "story": "storylets.json",
+    "locations": "locations.json",
+    "characters": "characters.json",
+    "presentation": "presentation.json",
+    "art": "art/manifest.json",
+    "outline": "outline.md"
+  }
+}

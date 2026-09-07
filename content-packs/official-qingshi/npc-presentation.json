@@ -1,0 +1,420 @@
+{
+  "version": "1.0.0",
+  "description": "纯展示补充包；不参与世界随机、规则判定或存档兼容锁。",
+  "fixed": {
+    "primary": {
+      "origin": "药圃散修",
+      "background": "常在坊市药摊之间寻找合用的灵草。愿意与人合作，但希望出发前就把约定讲清楚。",
+      "interest": "草药、药谱与清静的山路",
+      "wish": "想备齐修炼所需的丹药，稳妥地走过下一道关隘。",
+      "portrait": {
+        "src": "/art/lin-wan.png",
+        "slot": null
+      }
+    },
+    "companion": {
+      "origin": "山路护行人",
+      "background": "靠护送来往行人积攒修行资粮。待人直爽，出门前习惯检查每个人的行囊。",
+      "interest": "山路见闻、修补行装",
+      "wish": "想找几位可靠的同道，一起走得更远。",
+      "portrait": {
+        "src": "/art/npc-male-1.png",
+        "slot": 0
+      }
+    }
+  },
+  "backgrounds": [
+    {
+      "origin": "药农之家",
+      "background": "自幼认识山间药草，习惯先看清山势，再决定往哪里走。",
+      "interest": "辨识灵草，收藏药谱",
+      "wish": "想寻到一处可以长久照料的药园。"
+    },
+    {
+      "origin": "渡口人家",
+      "background": "在来往舟客的故事里长大，见惯离别，也珍惜有缘的同行。",
+      "interest": "山川游记，陌生地名",
+      "wish": "想沿着旧水路，看一看传闻中的远山。"
+    },
+    {
+      "origin": "乡塾旧生",
+      "background": "曾在灯下抄过许多书，入道后仍喜欢把疑问一一记下来。",
+      "interest": "古籍残卷，地方掌故",
+      "wish": "想整理一本普通人也读得懂的修行手记。"
+    },
+    {
+      "origin": "匠户出身",
+      "background": "从做小物件学会了耐心，认为修行和手艺一样，都急不得。",
+      "interest": "旧器修补，器物纹样",
+      "wish": "想亲手修复一件失传已久的旧器。"
+    },
+    {
+      "origin": "山村猎户",
+      "background": "熟悉山路的晴雨变化，对陌生人留有分寸，对同行者讲究照应。",
+      "interest": "追踪足迹，辨风识雨",
+      "wish": "想绘出一条让旅人平安归来的山路。"
+    },
+    {
+      "origin": "行商人家",
+      "background": "跟着商队走过不少路，擅长盘点行囊，也记得谁曾雪中送炭。",
+      "interest": "地方风物，沿途物价",
+      "wish": "想攒足路费，再去拜访一位远方故人。"
+    },
+    {
+      "origin": "客栈帮工",
+      "background": "听过许多修士的闲谈，对夸张的传闻总要留一分怀疑。",
+      "interest": "煮茶，收集旅途见闻",
+      "wish": "想有一间能让旧友歇脚的小院。"
+    },
+    {
+      "origin": "山中散修",
+      "background": "早年习惯独自修行，话不算多，却记得别人顺手给过的帮助。",
+      "interest": "静坐，观察星象",
+      "wish": "想在下一次远行前，为自己找到可信的同道。"
+    }
+  ],
+  "atlases": [
+    {
+      "id": "male-1",
+      "sex": "male",
+      "file": "art/images/npc-male-1.png",
+      "url": "/art/npc-male-1.png",
+      "columns": 3,
+      "rows": 3,
+      "width": 1254,
+      "height": 1254,
+      "slots": [
+        {
+          "index": 0,
+          "age": 31,
+          "description": "31-year-old man Zhou An (周安), straightforward and reliable, slightly sun-tanned skin, short stubble, gentle resolute expression, simply tied dark hair with a small topknot, deep teal plain robes; this identity must occupy top-left cell"
+        },
+        {
+          "index": 1,
+          "age": 22,
+          "description": "22-year-old clean-shaven man, narrow oval face, straight eyebrows, long jet-black hair half tied high, celadon scholar robes, thoughtful expression"
+        },
+        {
+          "index": 2,
+          "age": 54,
+          "description": "54-year-old man, broad square weathered face, greying thick eyebrows, short salt-and-pepper beard, high hair bun, charcoal layered robes, calm stern expression"
+        },
+        {
+          "index": 3,
+          "age": 19,
+          "description": "19-year-old clearly adult man, angular cheekbones, loose swept-back brown-black hair tied with simple cord, moon-white robes with teal trim, energetic smile"
+        },
+        {
+          "index": 4,
+          "age": 43,
+          "description": "43-year-old man, long rectangular face, thin moustache and small pointed goatee, neatly tied black hair, warm brown robes, clever observant eyes"
+        },
+        {
+          "index": 5,
+          "age": 64,
+          "description": "64-year-old man, deep smile lines and kind eyes, silver hair in neat crown bun, short white beard, white and pale sage robes, composed elder"
+        },
+        {
+          "index": 6,
+          "age": 28,
+          "description": "28-year-old man, strong athletic neck and rounder broad face, close trimmed beard, high dark ponytail, black and dark teal robes, confident"
+        },
+        {
+          "index": 7,
+          "age": 37,
+          "description": "37-year-old clean-shaven man, sharp elegant features, long black hair with silver clasp, moon-white inner robe and charcoal outer robe, reserved expression"
+        },
+        {
+          "index": 8,
+          "age": 49,
+          "description": "49-year-old man, full round face and warm smile, shoulder-length dark hair gathered back, sparse moustache, muted celadon and brown robes"
+        }
+      ]
+    },
+    {
+      "id": "male-2",
+      "sex": "male",
+      "file": "art/images/npc-male-2.png",
+      "url": "/art/npc-male-2.png",
+      "columns": 3,
+      "rows": 3,
+      "width": 1254,
+      "height": 1254,
+      "slots": [
+        {
+          "index": 0,
+          "age": 24,
+          "description": "24-year-old man, long narrow eyes and delicate long face, black hair with center part in a low tie, dark jade robe, quiet studious expression"
+        },
+        {
+          "index": 1,
+          "age": 35,
+          "description": "35-year-old man, tan broad cheekbones, very short beard, thick swept-back black hair and simple bun, worn warm-brown robe, serious"
+        },
+        {
+          "index": 2,
+          "age": 61,
+          "description": "61-year-old man, lean face, fine white moustache with short beard, long silver tied hair, charcoal robe with moon-white collar, detached wise expression"
+        },
+        {
+          "index": 3,
+          "age": 20,
+          "description": "20-year-old clearly adult man, long adult jawline, wavy dark hair in a high tied ponytail, pale celadon robe, open friendly expression"
+        },
+        {
+          "index": 4,
+          "age": 47,
+          "description": "47-year-old man, heavy eyebrows and square jaw, long black beard with grey strands, tight high topknot, deep ink-blue robe, strict instructor expression"
+        },
+        {
+          "index": 5,
+          "age": 29,
+          "description": "29-year-old man, oval face with small scar at one eyebrow, clean shaven, side-swept long black hair half tied, moon-white robe and teal vest, focused"
+        },
+        {
+          "index": 6,
+          "age": 56,
+          "description": "56-year-old man, plump cheeks, close-cropped grey beard, grey hair in a low bun, warm umber robe, kind amused expression"
+        },
+        {
+          "index": 7,
+          "age": 40,
+          "description": "40-year-old clean-shaven man, long straight nose and narrow angular chin, dark tied hair with simple wood pin, layered moon-white and charcoal robes, proud composure"
+        },
+        {
+          "index": 8,
+          "age": 33,
+          "description": "33-year-old man, wide face with dimple and subtle stubble, slightly wavy tied hair, deep green robe with brown collar, relaxed smile"
+        }
+      ]
+    },
+    {
+      "id": "male-3",
+      "sex": "male",
+      "file": "art/images/npc-male-3.png",
+      "url": "/art/npc-male-3.png",
+      "columns": 3,
+      "rows": 3,
+      "width": 1254,
+      "height": 1254,
+      "slots": [
+        {
+          "index": 0,
+          "age": 26,
+          "description": "26-year-old man, clear sharp features, high eyebrows, clean shaven, slick long black hair in a high topknot, celadon and charcoal robes, bold gaze"
+        },
+        {
+          "index": 1,
+          "age": 52,
+          "description": "52-year-old man, sun-weathered narrow face and salt-and-pepper stubble, low grey-black hair knot, warm brown linen robes, patient gentle gaze"
+        },
+        {
+          "index": 2,
+          "age": 65,
+          "description": "65-year-old man, rectangular face with fine wrinkles, long narrow silver beard and full white eyebrows, white tied hair, rich dark teal elder robes"
+        },
+        {
+          "index": 3,
+          "age": 18,
+          "description": "18-year-old unmistakably adult man, mature elongated facial proportions, straight black hair in low half tie, moon-white robe, earnest neutral expression"
+        },
+        {
+          "index": 4,
+          "age": 38,
+          "description": "38-year-old man, broad prominent nose, short black beard, tightly braided hair gathered into bun, charcoal robe with subdued jade trim, pragmatic expression"
+        },
+        {
+          "index": 5,
+          "age": 45,
+          "description": "45-year-old clean-shaven man, slim face with crow's feet, long black hair streaked grey at temples, moon-white and brown layered robes, elegant calm smile"
+        },
+        {
+          "index": 6,
+          "age": 23,
+          "description": "23-year-old man, slightly tan angular face, low loose dark ponytail and a few forehead strands, dark teal robe, lively determined gaze"
+        },
+        {
+          "index": 7,
+          "age": 58,
+          "description": "58-year-old man, broad rounded face, neatly trimmed grey moustache and chin beard, grey bun with small wooden pin, warm brown robe, hospitable smile"
+        },
+        {
+          "index": 8,
+          "age": 32,
+          "description": "32-year-old clean-shaven man, high cheekbones, strong chin, long black hair partly loose with simple half-bun, pale green and black robes, distant contemplative gaze"
+        }
+      ]
+    },
+    {
+      "id": "female-1",
+      "sex": "female",
+      "file": "art/images/npc-female-1.png",
+      "url": "/art/npc-female-1.png",
+      "columns": 3,
+      "rows": 3,
+      "width": 1254,
+      "height": 1254,
+      "slots": [
+        {
+          "index": 0,
+          "age": 23,
+          "description": "23-year-old adult woman, oval face and confident brows, black hair in a high tied ponytail, deep teal high-collared robe, composed alert gaze"
+        },
+        {
+          "index": 1,
+          "age": 35,
+          "description": "35-year-old adult woman, angular face and elegant long nose, long black hair half tied with small jade hairpin, moon-white layered robe, calm reserved expression"
+        },
+        {
+          "index": 2,
+          "age": 62,
+          "description": "62-year-old elderly woman, visible fine wrinkles and kind eyes, silver hair in a neat traditional bun, sage-green high-collared robes, warm smile"
+        },
+        {
+          "index": 3,
+          "age": 19,
+          "description": "19-year-old clearly adult woman with mature facial proportions, long straight black hair and simple small hair knot, celadon modest robes, curious gentle expression"
+        },
+        {
+          "index": 4,
+          "age": 44,
+          "description": "44-year-old adult woman, round face with strong eyebrows, dark hair with grey at temples in a practical braided bun, warm brown robe, authoritative gaze"
+        },
+        {
+          "index": 5,
+          "age": 28,
+          "description": "28-year-old adult woman, long diamond face, side-parted black hair low tied, charcoal robe with teal collar, solemn determined expression"
+        },
+        {
+          "index": 6,
+          "age": 54,
+          "description": "54-year-old mature woman, fine smile lines and long face, grey-black hair in a low bun and subtle jade pin, moon-white and brown robe, thoughtful"
+        },
+        {
+          "index": 7,
+          "age": 31,
+          "description": "31-year-old adult woman, slightly tan broad-cheekboned face, high braided ponytail, muted jade robe, straightforward friendly expression"
+        },
+        {
+          "index": 8,
+          "age": 40,
+          "description": "40-year-old adult woman, softly rounded oval face, swept-back wavy dark hair with simple silver clasp, rich dark teal and moon-white robes, dignified smile"
+        }
+      ]
+    },
+    {
+      "id": "female-2",
+      "sex": "female",
+      "file": "art/images/npc-female-2.png",
+      "url": "/art/npc-female-2.png",
+      "columns": 3,
+      "rows": 3,
+      "width": 1254,
+      "height": 1254,
+      "slots": [
+        {
+          "index": 0,
+          "age": 27,
+          "description": "27-year-old adult woman, narrow eyes and long oval face, dark hair in smooth asymmetrical low bun, moon-white robe with jade trim, contemplative gaze"
+        },
+        {
+          "index": 1,
+          "age": 49,
+          "description": "49-year-old mature woman, angular cheekbones and visible crow's feet, dark grey hair in high simple bun, charcoal and warm brown robe, exacting gaze"
+        },
+        {
+          "index": 2,
+          "age": 65,
+          "description": "65-year-old elderly woman, dignified lined face, thick silver hair gathered loosely back, dark teal robe with pale collar, serene"
+        },
+        {
+          "index": 3,
+          "age": 21,
+          "description": "21-year-old clearly adult woman, mature square jaw and strong eyebrows, long loose black hair half tied, muted celadon high collar robe, quiet confidence"
+        },
+        {
+          "index": 4,
+          "age": 37,
+          "description": "37-year-old adult woman, warm tan skin and round face, braided black crown hair gathered low, brown and jade robes, bright smile"
+        },
+        {
+          "index": 5,
+          "age": 59,
+          "description": "59-year-old older woman, thin face with pronounced smile lines, silver streaked dark hair in small low bun, moon-white layered robe, kindly"
+        },
+        {
+          "index": 6,
+          "age": 24,
+          "description": "24-year-old adult woman, high cheekbones and long nose, dark high ponytail and side-swept fringe, deep green robe, sharp perceptive eyes"
+        },
+        {
+          "index": 7,
+          "age": 43,
+          "description": "43-year-old adult woman, broad forehead and thoughtful eyes, black hair gathered in neat twisted bun with tiny wood pin, charcoal robe, reserved"
+        },
+        {
+          "index": 8,
+          "age": 33,
+          "description": "33-year-old adult woman, heart-shaped mature face, wavy black hair partly loose and partly tied, soft warm brown robe with moon-white collar, gentle smile"
+        }
+      ]
+    },
+    {
+      "id": "female-3",
+      "sex": "female",
+      "file": "art/images/npc-female-3.png",
+      "url": "/art/npc-female-3.png",
+      "columns": 3,
+      "rows": 3,
+      "width": 1254,
+      "height": 1254,
+      "slots": [
+        {
+          "index": 0,
+          "age": 29,
+          "description": "29-year-old adult woman, strong jaw and straight nose, long black hair tied high with jade ribbon, charcoal and celadon robes, confident direct gaze"
+        },
+        {
+          "index": 1,
+          "age": 46,
+          "description": "46-year-old mature woman, narrow rectangular face with subtle crow's feet, long dark hair streaked grey at temples and tied back, dark teal robe, serious"
+        },
+        {
+          "index": 2,
+          "age": 60,
+          "description": "60-year-old elderly woman, broad kind face and noticeable wrinkles, silver hair in large tidy bun, moon-white and sage layered robes, welcoming smile"
+        },
+        {
+          "index": 3,
+          "age": 18,
+          "description": "18-year-old unmistakably adult woman, elongated mature facial structure, straight dark shoulder-length hair tied half back, modest jade robe, steady neutral gaze"
+        },
+        {
+          "index": 4,
+          "age": 39,
+          "description": "39-year-old adult woman, tan oval face and strong cheeks, dark hair braided into low bun, warm umber robe, resilient gentle expression"
+        },
+        {
+          "index": 5,
+          "age": 53,
+          "description": "53-year-old mature woman, high cheekbones and smile lines, grey-black hair in elegant high knot, charcoal and moon-white robes, scholarly composed gaze"
+        },
+        {
+          "index": 6,
+          "age": 25,
+          "description": "25-year-old adult woman, soft round adult face, straight black hair center-parted and tied low, moon-white robe with deep teal trim, quiet friendly smile"
+        },
+        {
+          "index": 7,
+          "age": 34,
+          "description": "34-year-old adult woman, narrow angular face, black hair swept into a simple high bun, dark green and brown layered robes, alert focused eyes"
+        },
+        {
+          "index": 8,
+          "age": 63,
+          "description": "63-year-old elderly woman, slender dignified face with wrinkles, silver hair half loose and half tied with tiny jade pin, pale green robe, calm knowing smile"
+        }
+      ]
+    }
+  ]
+}

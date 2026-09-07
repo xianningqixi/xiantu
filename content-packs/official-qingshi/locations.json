@@ -1,0 +1,37 @@
+{
+  "market": {
+    "name": "青石坊市",
+    "subtitle": "灯火初上，人间正好",
+    "body": "青石路被晚霞染成温柔的金色。药摊前有人讨价还价，檐下的风铃偶尔响起。在这座小小的坊市，求道的人与过日子的人擦肩而过。",
+    "destinations": [
+      "inn",
+      "gate"
+    ],
+    "visualId": "scene.market.dusk"
+  },
+  "inn": {
+    "name": "听雨客栈",
+    "subtitle": "一室清静，半卷经书",
+    "body": "隔窗传来坊市隐约的人声。桌上温着一壶清茶，店家为初来者留了一册吐纳入门。这里没有惊天机缘，却足够让你安心迈出第一步。",
+    "destinations": [
+      "market"
+    ],
+    "visualId": "scene.market.dusk"
+  },
+  "gate": {
+    "name": "山门古道",
+    "subtitle": "青山在望，旧路入云",
+    "body": "石阶向山雾深处延伸。{{companion.name}}正在检查行囊，不时朝坊市方向望一眼。残碑秘境就在山路尽头；出发前，最好先把同伴与分配约定都安排妥当。",
+    "destinations": [
+      "market"
+    ],
+    "visualId": "scene.ruins.moon"
+  },
+  "ruins": {
+    "name": "残碑秘境",
+    "subtitle": "月照残碑，草木有灵",
+    "body": "山风穿过断裂的石门，石阶缝隙里泛起点点灵光。每一片寂静背后，都可能藏着一场遭遇。你想起出发时说好的分法，握紧了手中的剑。",
+    "destinations": [],
+    "visualId": "scene.ruins.moon"
+  }
+}

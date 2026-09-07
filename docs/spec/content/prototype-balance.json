@@ -1,0 +1,616 @@
+{
+  "configVersion": "prototype-0.1.1",
+  "status": "prototype_defaults_not_final_product_decisions",
+  "probabilityScaleBp": 10000,
+  "world": {
+    "initialNpcCount": 40,
+    "simulationNpcCountForStressTest": 100,
+    "simulationDaysForStressTest": 3650,
+    "exampleSeed": 12345,
+    "startDay": 0,
+    "daysPerYear": 360,
+    "startAgeYears": 18,
+    "minimumGeneratedAgeYears": 18,
+    "maximumGeneratedAgeYears": 60,
+    "initialRelationshipEdgesPerNpcMax": 2,
+    "dailyNpcActionCountMax": 1,
+    "ordinaryNpcGeneratedIdPrefix": "NPC_",
+    "fixedNpcIds": [
+      "NPC_LIN_WAN",
+      "NPC_ZHOU_AN"
+    ],
+    "initialLocationId": "LOC_MARKET",
+    "initialRealmWeights": {
+      "MORTAL": 40,
+      "QI_1": 30,
+      "QI_2": 15,
+      "QI_3": 10,
+      "FOUNDATION_1": 5
+    },
+    "npcActionWeights": {
+      "cultivate": 55,
+      "work": 20,
+      "move": 10,
+      "socialize": 10,
+      "rest": 5
+    },
+    "npcLifespanDays": {
+      "MORTAL": 25200,
+      "QI_1": 43200,
+      "QI_2": 43200,
+      "QI_3": 43200,
+      "FOUNDATION_1": 64800
+    },
+    "ordinaryNpcOffscreenConflictEnabled": false,
+    "offscreenCombatDeathEnabled": false,
+    "npcMinorAdvanceAuto": true,
+    "npcMajorAttemptPreparationDays": 7,
+    "offscreenConflictTestFixtureRequired": true,
+    "fixedNpcPolicies": {
+      "NPC_LIN_WAN": {
+        "majorAttemptPreparationPreference": "obtain_grass_exchange_for_pill_then_attempt",
+        "requireOwnedPillForAutonomousMajorAttempt": true,
+        "canCultivateWorkMoveWhilePreparing": true,
+        "reserveScheduleWhileAgreementOrPartyActive": false,
+        "preparationSteps": [
+          {
+            "id": "obtain_grass",
+            "itemId": "ITEM_NINGYUAN_GRASS",
+            "completion": "persist_goal_fact_when_acquired"
+          },
+          {
+            "id": "prepare_pill",
+            "itemId": "ITEM_BREAKTHROUGH_PILL",
+            "completion": "exchange_or_purchase_then_own_pill"
+          },
+          {
+            "id": "attempt",
+            "requiresOwnedItemId": "ITEM_BREAKTHROUGH_PILL",
+            "requiresCurrentGrass": false
+          }
+        ],
+        "acceptedAgreementBlocksNormalSchedule": false,
+        "reserveOnlyForActiveAction": true,
+        "idlePartyAllowsSameLocationDailyActivities": true
+      },
+      "NPC_ZHOU_AN": {
+        "reserveScheduleWhileAgreementOrPartyActive": false,
+        "acceptedAgreementBlocksNormalSchedule": false,
+        "reserveOnlyForActiveAction": true,
+        "idlePartyAllowsSameLocationDailyActivities": true
+      }
+    },
+    "stressTestSeeds": [
+      1,
+      42,
+      12345,
+      98765,
+      4294967295
+    ]
+  },
+  "creation": {
+    "nameLengthMin": 1,
+    "nameLengthMax": 16,
+    "aptitudeScoreMin": 1,
+    "aptitudeScoreMax": 100,
+    "rerollLimit": null,
+    "startingSpiritStones": 6,
+    "startingHealingPills": 1,
+    "artifactChoiceCount": 1,
+    "availableArtifacts": [
+      "ARTIFACT_FOCUS",
+      "ARTIFACT_WARD",
+      "ARTIFACT_BOND"
+    ],
+    "sexChoices": [
+      "female",
+      "male"
+    ],
+    "appearance": {
+      "faceOptions": 4,
+      "hairOptions": 4,
+      "clothingPaletteOptions": 4
+    }
+  },
+  "locations": {
+    "LOC_MARKET": {
+      "label": "青石坊市",
+      "safe": true
+    },
+    "LOC_INN": {
+      "label": "坊市客栈",
+      "safe": true
+    },
+    "LOC_GATE": {
+      "label": "山门古道口",
+      "safe": true
+    },
+    "LOC_RUINS": {
+      "label": "残碑秘境",
+      "safe": false
+    }
+  },
+  "travel": {
+    "routes": [
+      {
+        "from": "LOC_MARKET",
+        "to": "LOC_INN",
+        "days": 0,
+        "bidirectional": true
+      },
+      {
+        "from": "LOC_MARKET",
+        "to": "LOC_GATE",
+        "days": 1,
+        "bidirectional": true
+      },
+      {
+        "from": "LOC_GATE",
+        "to": "LOC_RUINS",
+        "days": 1,
+        "bidirectional": true
+      }
+    ],
+    "randomRoadEncounterBp": 0,
+    "combatAdditionalWorldDays": 0,
+    "expeditionReturnDays": 2
+  },
+  "actions": {
+    "inspectDays": 0,
+    "dialogueDays": 0,
+    "learnManualDays": 0,
+    "workDays": 1,
+    "workSpiritStoneReward": 6,
+    "workAvailableAt": [
+      "LOC_MARKET",
+      "LOC_INN",
+      "LOC_GATE"
+    ],
+    "workHasFailureRisk": false,
+    "restDays": 1,
+    "restCostSpiritStones": 0,
+    "restRestoreMaxHpBp": 5000,
+    "cultivateDayOptions": [
+      1,
+      3,
+      7
+    ],
+    "retreatDayOptions": [
+      7,
+      30
+    ],
+    "retreatEarlyExitAllowed": true,
+    "retreatEarlyExitPenaltyBp": 0,
+    "waitDayOptions": [
+      1,
+      3,
+      7
+    ],
+    "resourceCostBeforeOutcome": true
+  },
+  "economy": {
+    "manualClaimLocationId": "LOC_INN",
+    "manualClaimOncePerCharacter": true,
+    "manualBound": true,
+    "manualSellable": false,
+    "manualLearningConsumesItem": true,
+    "safeIncomeAlwaysAvailableWhenAlive": true,
+    "currencyItemId": "ITEM_SPIRIT_STONE",
+    "shopLocationId": "LOC_MARKET",
+    "shopUnlimitedPrototypeStock": true,
+    "shopPrices": {
+      "ITEM_HEALING_PILL": 8,
+      "ITEM_BREAKTHROUGH_PILL": 30,
+      "ITEM_NINGYUAN_GRASS": 40
+    },
+    "pillExchange": {
+      "inputItemId": "ITEM_NINGYUAN_GRASS",
+      "inputQuantity": 1,
+      "spiritStoneCost": 10,
+      "outputItemId": "ITEM_BREAKTHROUGH_PILL",
+      "outputQuantity": 1
+    },
+    "sellEnabled": false,
+    "livingExpensesPerDay": 0,
+    "expeditionSpiritStoneReward": 12,
+    "expeditionNingyuanGrassReward": 1,
+    "expeditionCooldownDays": 3,
+    "lootDropOnRetreat": false,
+    "manualStorySourceNpcId": "NPC_LIN_WAN",
+    "manualClaimSharedScope": "character",
+    "manualPublicFallbackRequiresNpc": false,
+    "manualClaimKey": "starter-manual"
+  },
+  "cultivation": {
+    "manualRequired": true,
+    "aptitudeGainDivisor": 25,
+    "mortalDailyBaseGain": 4,
+    "qiDailyBaseGain": 10,
+    "foundationDailyBaseGain": 10,
+    "experienceIntegerMin": 0,
+    "experienceCapAtCurrentThreshold": true,
+    "excessExperienceCarryForward": false,
+    "compressedQiLayersForPrototypeOnly": true,
+    "qiLayerCount": 3,
+    "realmOrder": [
+      "MORTAL",
+      "QI_1",
+      "QI_2",
+      "QI_3",
+      "FOUNDATION_1"
+    ],
+    "advanceRules": {
+      "MORTAL": {
+        "targetRealm": "QI_1",
+        "requiredExperience": 20,
+        "days": 1,
+        "baseSuccessBp": 9500,
+        "failureExperienceLossBp": 2000,
+        "severeFailureConditionalBp": 0
+      },
+      "QI_1": {
+        "targetRealm": "QI_2",
+        "requiredExperience": 40,
+        "days": 0,
+        "baseSuccessBp": 10000,
+        "failureExperienceLossBp": 0,
+        "severeFailureConditionalBp": 0
+      },
+      "QI_2": {
+        "targetRealm": "QI_3",
+        "requiredExperience": 60,
+        "days": 0,
+        "baseSuccessBp": 10000,
+        "failureExperienceLossBp": 0,
+        "severeFailureConditionalBp": 0
+      },
+      "QI_3": {
+        "targetRealm": "FOUNDATION_1",
+        "requiredExperience": 100,
+        "days": 3,
+        "baseSuccessBp": 6500,
+        "failureExperienceLossBp": 2000,
+        "severeFailureConditionalBp": 1000
+      },
+      "FOUNDATION_1": {
+        "targetRealm": null,
+        "requiredExperience": 100,
+        "days": 0,
+        "baseSuccessBp": 0,
+        "failureExperienceLossBp": 0,
+        "severeFailureConditionalBp": 0
+      }
+    },
+    "breakthrough": {
+      "aptitudeBonusBpPerPoint": 10,
+      "pillBonusBp": 1500,
+      "pillQuantityPerAttempt": 1,
+      "guardianBonusBp": 1000,
+      "maxGuardians": 1,
+      "guardianMinimumRealmRankDifference": 0,
+      "guardianMinimumTrust": 10,
+      "guardianMinimumFavorability": 0,
+      "guardianSpiritStoneFee": 0,
+      "guardianCanBeInjured": false,
+      "guardianCancellationPolicy": "defer_other_actions_until_attempt_ends",
+      "successFloorBp": 1000,
+      "successCeilingBp": 9500,
+      "mortalEntryUsesPreparationBonus": false,
+      "minorAdvanceIsGuaranteed": true,
+      "preparationConsumptionTiming": "attempt_start",
+      "probabilitySnapshotTiming": "attempt_start",
+      "outcomeRandomDrawTiming": "attempt_completion",
+      "restoreRngStateOnLoad": true,
+      "attemptIsInterruptible": false,
+      "experienceAfterSuccess": 0,
+      "severeLossQiLayers": 1,
+      "minimumQiLayerAfterFailure": 1,
+      "severeLossMayCrossMajorRealm": false,
+      "experienceAfterSevereLayerLoss": 0,
+      "healthLossOnFailure": 0,
+      "canDieFromFailure": false,
+      "ordinaryLossRounding": "ceil",
+      "alreadyEarnedOneTimeRewardsRepeatOnRecovery": false,
+      "recoveryUsesSameCultivationRules": true,
+      "foundationAdvancementEnabled": false
+    },
+    "methods": {
+      "METHOD_BASIC": {
+        "costSpiritStonesPerDay": 0,
+        "additionalExperiencePerDay": 0
+      },
+      "METHOD_SPIRIT_STONE": {
+        "costSpiritStonesPerDay": 1,
+        "additionalExperiencePerDay": 4
+      }
+    },
+    "minorAdvanceAutoForPlayerAndNpc": true
+  },
+  "combat": {
+    "mode": "round_based",
+    "partyMaxSize": 3,
+    "actionsPerLivingActorPerRound": 1,
+    "skillSlotCount": 4,
+    "initialUnlockedSkillSlotCount": 1,
+    "initiative": [
+      "speed_desc",
+      "actorId_asc"
+    ],
+    "initiativeSnapshotTiming": "round_start",
+    "basicAttackMinDamage": 1,
+    "guardIncomingDamageBp": 5000,
+    "guardExpiry": "next_actor_turn_start",
+    "healingPillRestoreMaxHpBp": 3500,
+    "healingPillUseCount": 1,
+    "retreatBaseSuccessBp": 8000,
+    "retreatSuccessCeilingBp": 9500,
+    "retreatConsumesActorAction": true,
+    "retreatSuccessEndsWholePartyEncounter": true,
+    "criticalStrikeEnabled": false,
+    "missEnabled": false,
+    "prototypeStrikeCooldownOwnTurns": 2,
+    "automaticHealWhenHpAtOrBelowBp": 3500,
+    "automaticRetreatWhenHpAtOrBelowBp": 2000,
+    "automaticRetreatWhenOnlyOneStanding": true,
+    "maximumRoundCount": 30,
+    "roundCapOutcome": "forced_nonlethal_retreat",
+    "downedDoesNotEqualDead": true,
+    "perRoundCheckpoint": true,
+    "realmStats": {
+      "MORTAL": {
+        "maxHp": 30,
+        "attack": 6,
+        "defense": 2,
+        "speed": 10
+      },
+      "QI_1": {
+        "maxHp": 50,
+        "attack": 10,
+        "defense": 3,
+        "speed": 12
+      },
+      "QI_2": {
+        "maxHp": 70,
+        "attack": 14,
+        "defense": 4,
+        "speed": 14
+      },
+      "QI_3": {
+        "maxHp": 90,
+        "attack": 18,
+        "defense": 5,
+        "speed": 16
+      },
+      "FOUNDATION_1": {
+        "maxHp": 130,
+        "attack": 25,
+        "defense": 8,
+        "speed": 20
+      }
+    },
+    "storyEncounter": {
+      "enemyCount": 2,
+      "enemyMaxHp": 45,
+      "enemyAttack": 9,
+      "enemyDefense": 3,
+      "enemySpeed": 8,
+      "lethal": false
+    },
+    "dangerousEncounterEnabled": false,
+    "dangerousEncounterLethalWarningRequired": true,
+    "dangerousEncounterOptInRequired": true,
+    "prototypeStrikeMultiplierNumerator": 3,
+    "prototypeStrikeMultiplierDenominator": 2,
+    "nonlethalVictoryDownedHpRestoreBp": 1000
+  },
+  "modes": {
+    "simple": {
+      "playerActualDeathEnabled": false,
+      "defeatCurrencyLossBp": 1000,
+      "defeatHpRestoreBp": 3000,
+      "defeatExtraRecoveryDays": 1,
+      "dropEquipmentOnDefeat": false,
+      "fallbackLocationId": "LOC_GATE",
+      "oldAgePlayerPolicy": "continue_with_warning"
+    },
+    "complex": {
+      "playerActualDeathEnabled": true,
+      "nonlethalDefeatCurrencyLossBp": 1500,
+      "nonlethalDefeatHpRestoreBp": 3000,
+      "nonlethalDefeatExtraRecoveryDays": 2,
+      "dropEquipmentOnDefeat": false,
+      "actualDeathEndsRun": true,
+      "lethalDefeatResolution": "explicit_lethal_encounter_and_player_downed",
+      "fallbackLocationId": "LOC_GATE",
+      "oldAgePlayerPolicy": "actual_death_ends_run"
+    },
+    "defeatCurrencyLossRounding": "floor",
+    "retreatCurrencyLossBp": 0,
+    "retreatDownedHpRestoreBp": 1000,
+    "breakthroughFailureIsNeverDefeat": true,
+    "npcUsesEncounterLethalityNotPlayerDifficulty": true,
+    "oldAgeWarningDaysBeforeLimit": 360
+  },
+  "relationships": {
+    "favorability": {
+      "min": -100,
+      "max": 100,
+      "initial": 0
+    },
+    "trust": {
+      "min": -100,
+      "max": 100,
+      "initial": 0
+    },
+    "attraction": {
+      "min": 0,
+      "max": 100,
+      "initial": 0
+    },
+    "directed": true,
+    "acquaintanceLabel": "ACQUAINTANCE",
+    "friendThresholds": {
+      "favorabilityMin": 20,
+      "trustMin": 15
+    },
+    "closeFriendThresholds": {
+      "favorabilityMin": 60,
+      "trustMin": 50,
+      "distinctSharedExperienceCountMin": 3
+    },
+    "hostileThresholds": {
+      "favorabilityAtOrBelow": -30,
+      "trustAtOrBelow": -30
+    },
+    "enemyRequiresExplicitGrievance": true,
+    "intimateRelationshipMinimumAgeYears": 18,
+    "romanceRequiresExplicitMutualConsent": true,
+    "romanceAcquisitionEnabled": false,
+    "attractionGainFromGenericFriendliness": 0,
+    "repeatDialogueRelationshipGain": 0,
+    "eventDeltas": {
+      "firstMeeting": {
+        "favorability": 3,
+        "trust": 0,
+        "attraction": 0
+      },
+      "sharedVictory": {
+        "favorability": 8,
+        "trust": 6,
+        "attraction": 0
+      },
+      "promiseFulfilled": {
+        "favorability": 10,
+        "trust": 12,
+        "attraction": 0
+      },
+      "promiseBreached": {
+        "favorability": -12,
+        "trust": -25,
+        "attraction": 0
+      },
+      "promiseCompensated": {
+        "favorability": 4,
+        "trust": 8,
+        "attraction": 0
+      },
+      "promiseNotTriggered": {
+        "favorability": 0,
+        "trust": 0,
+        "attraction": 0
+      }
+    },
+    "ordinaryInvitationMinimumTrust": -10,
+    "ordinaryInvitationMinimumFavorability": -10,
+    "unremediedBreachBlocksSameTermsInvitation": true,
+    "repairedBreachAllowsStrictTermsInvitation": true,
+    "closeRelationshipDowngradeOnExplicitBreach": true,
+    "generalMemoryRetentionDays": 180,
+    "promiseDeathMajorRealmMemoryNeverExpires": true,
+    "strictInvitationMinimumTrustAfterCompensation": -30,
+    "strictInvitationUsesEnforcedGrassAllocation": true
+  },
+  "promises": {
+    "states": [
+      "draft",
+      "accepted",
+      "active",
+      "fulfilled",
+      "breached",
+      "not_triggered",
+      "impossible",
+      "cancelled"
+    ],
+    "draftMutatesWorld": true,
+    "requireAllPartiesAccept": true,
+    "scope": "one_expedition_id",
+    "lootMustSettleBeforeVoluntaryExit": false,
+    "noEligibleDropStatus": "not_triggered",
+    "unilateralPromiseCancellationAllowed": false,
+    "breachRequiresExplicitAllocationConfirmation": true,
+    "deathOfRecipientStatus": "impossible",
+    "compensationErasesBreach": false,
+    "compensationQuantityMultiplier": 1,
+    "compensationRepeatAllowed": false,
+    "publicKnowledgeOnBreach": false,
+    "absenceProjection": "none",
+    "acceptanceBeforeExpeditionStart": true,
+    "eligibleDropMarksDeliverableWithinActiveState": true,
+    "cancelAcceptedWhenPartyUnavailable": true,
+    "draftChangesResourcesOrRelations": false,
+    "allowReturnTravelWithLockedLoot": true,
+    "blockDisbandAndNewExpeditionUntilSettlement": true
+  },
+  "story": {
+    "primaryNpcId": "NPC_LIN_WAN",
+    "thirdPartyNpcId": "NPC_ZHOU_AN",
+    "primaryNpcRealm": "QI_3",
+    "thirdPartyNpcRealm": "QI_2",
+    "primaryNpcAgeYears": 24,
+    "thirdPartyNpcAgeYears": 31,
+    "primaryNpcAptitude": 65,
+    "thirdPartyNpcAptitude": 50,
+    "primaryNpcInitialExperience": 80,
+    "primaryNpcInitialSpiritStones": 10,
+    "thirdPartyNpcInitialSpiritStones": 6,
+    "playerMinimumExplorationRealm": "QI_1",
+    "partyFeeItemId": "ITEM_SPIRIT_STONE",
+    "partyFeeTiming": "expedition_start",
+    "partyFeeClaimScope": "expedition_id_and_recipient_id",
+    "partyFeeRefundOnRetreat": false,
+    "firstGrassItemId": "ITEM_NINGYUAN_GRASS",
+    "firstGrassQuantity": 1,
+    "firstGrassRecipientId": "NPC_LIN_WAN",
+    "otherLootRecipient": "PLAYER",
+    "reunionWaitDays": 3,
+    "fixedNpcHomeLocationId": "LOC_MARKET",
+    "fixedNpcHomeVisitIntervalDays": 3,
+    "fixedNpcOffscreenLethalEncounterEnabled": false,
+    "storyProgressRequiredForPlayerCultivation": false,
+    "primaryNpcTargetCompletionAutoDisablesInvitation": false,
+    "compensationItemId": "ITEM_NINGYUAN_GRASS",
+    "compensationQuantity": 1,
+    "departureFeePerNpc": 1
+  },
+  "artifacts": {
+    "ARTIFACT_FOCUS": {
+      "temporaryLabel": "定心佩",
+      "cultivationFlatGainPerDay": 2,
+      "retreatBonusBp": 0,
+      "promiseFulfilledAdditionalTrust": 0
+    },
+    "ARTIFACT_WARD": {
+      "temporaryLabel": "归途符",
+      "cultivationFlatGainPerDay": 0,
+      "retreatBonusBp": 1500,
+      "promiseFulfilledAdditionalTrust": 0
+    },
+    "ARTIFACT_BOND": {
+      "temporaryLabel": "同心绳",
+      "cultivationFlatGainPerDay": 0,
+      "retreatBonusBp": 0,
+      "promiseFulfilledAdditionalTrust": 3
+    }
+  },
+  "presentation": {
+    "ordinaryNarrativeChineseCharactersMin": 80,
+    "ordinaryNarrativeChineseCharactersMax": 180,
+    "usualActionCountMin": 2,
+    "usualActionCountMax": 4,
+    "reusableBackgroundCount": 4,
+    "primaryNpcPortraitExpressionCount": 3,
+    "realTimeImageGenerationEnabled": false,
+    "exactRelationshipNumbersVisibleByDefault": false,
+    "debugRelationshipNumbersVisible": true,
+    "summaryKnownNpcEventCountMax": 3,
+    "closedTabAdvancesWorld": false
+  },
+  "limits": {
+    "maxTradeQuantity": 99,
+    "maxImportBytes": 5242880,
+    "maxNameLength": 16,
+    "maxCommandBytes": 16384,
+    "maxPlayerInputCharacters": 1000,
+    "maxAiOutputTokens": 1200
+  }
+}

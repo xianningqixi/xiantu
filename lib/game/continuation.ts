@@ -2,7 +2,9 @@
 export function createContinuationGuard() {
   let generation = 0;
   return {
-    cancel() { generation++; },
+    cancel() {
+      generation++;
+    },
     async run(action: () => Promise<boolean>, onSuccess: () => void) {
       const started = generation;
       const ok = await action();

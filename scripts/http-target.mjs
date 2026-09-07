@@ -4,7 +4,7 @@ export function originTarget(target, host) {
   if (!/^https?:\/\//i.test(target)) return target;
   const url = new URL(target);
   if (url.host !== host || url.username || url.password || url.hash) {
-    throw new Error('Invalid absolute request target');
+    throw new Error("Invalid absolute request target");
   }
   return url.pathname + url.search;
 }

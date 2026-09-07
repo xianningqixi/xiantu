@@ -1,66 +1,773 @@
 "use client";
-import { useState } from 'react';
-import { BookOpen, CircleHelp, Coins, Heart, Leaf, LockKeyhole, Moon, Package, Shield, Sparkles, Sun, Swords, Wind } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Switch } from '@/components/ui/switch';
-import { ART, ARTIFACTS, COLORS, FACES, HAIRS, LOCATIONS, PACK, REALMS } from '@/lib/game/content/official';
-import { breakthroughChance, gainPerDay, relation, relationshipLabel, stats, threshold, visibleEvents } from '@/lib/game/engine';
-import type { Actor, Command, World } from '@/lib/game/types';
-import { npcProfile } from '@/lib/game/npc-profile';
-import { NpcPortrait } from './npc-portrait';
+import { useState } from "react";
+import {
+  BookOpen,
+  CircleHelp,
+  Coins,
+  Heart,
+  Leaf,
+  LockKeyhole,
+  Moon,
+  Package,
+  Shield,
+  Sparkles,
+  Sun,
+  Swords,
+  Wind,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Switch } from "@/components/ui/switch";
+import {
+  ART,
+  ARTIFACTS,
+  COLORS,
+  FACES,
+  HAIRS,
+  LOCATIONS,
+  PACK,
+  REALMS,
+} from "@/lib/game/content/official";
+import {
+  breakthroughChance,
+  gainPerDay,
+  relation,
+  relationshipLabel,
+  stats,
+  threshold,
+  visibleEvents,
+} from "@/lib/game/engine";
+import type { Actor, Command, World } from "@/lib/game/types";
+import { npcProfile } from "@/lib/game/npc-profile";
+import { NpcPortrait } from "./npc-portrait";
 
-export type Send = (c:Command)=>Promise<boolean>;
-export function GameImage({src,alt,className=''}:{src:string;alt:string;className?:string}){
-  const [failedSrc,setFailedSrc]=useState<string|null>(null);return !src||failedSrc===src?<div className={`image-fallback ${className}`} role="img" aria-label={alt}><Leaf/><span>{alt}</span></div>:<img className={className} src={src} alt={alt} onError={()=>setFailedSrc(src)}/>;
+export type Send = (c: Command) => Promise<boolean>;
+export function GameImage({
+  src,
+  alt,
+  className = "",
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+}) {
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  return !src || failedSrc === src ? (
+    <div className={`image-fallback ${className}`} role="img" aria-label={alt}>
+      <Leaf />
+      <span>{alt}</span>
+    </div>
+  ) : (
+    <img className={className} src={src} alt={alt} onError={() => setFailedSrc(src)} />
+  );
 }
-export function Meter({label,value,max,kind=''}:{label:string;value:number;max:number;kind?:string}){return <div className={`meter ${kind}`}><div className="spread"><span>{label}</span><small>{value} <span>/ {max}</span></small></div><Progress aria-label={label} value={Math.min(100,value/max*100)}/></div>}
-export function CultivationPanel({world:w,send,busy,onStart}:{world:World;send:Send;busy:boolean;onStart:()=>void}){
-  const [days,setDays]=useState('7');const [stone,setStone]=useState(false);const [pill,setPill]=useState(false);const [guardian,setGuardian]=useState(false);
-  const p=w.player;const can=p.xp>=threshold(p)&&(p.realm===0||p.realm===3);const lin=w.npcs.find(a=>a.id===PACK.roles.primary)!;const rel=relation(w,lin.id);
-  const guardPossible=lin.alive&&!lin.attempt&&lin.location===p.location&&lin.realm>=p.realm&&(rel?.trust||0)>=10&&(rel?.favor||0)>=0;
-  const act=async(c:Command)=>{if(await send(c))onStart();};
-  return <section className="panel-section cultivation-panel"><div className="section-heading"><span className="eyebrow">道途 · 一呼一吸</span><h2 className="serif">静心修行</h2><p>你在修炼时，故人也在各自的人生里前行。</p></div>
-    <div className="cultivation-summary"><div className="realm-glyph serif">{p.realm===0?'凡':'道'}</div><div><small>当前境界</small><h3 className="serif">{REALMS[p.realm]}</h3><p>{p.realm===4?'筑基已成，青石篇的道途告一段落。':p.realm===0?'感知天地灵气，迈出入道的第一步。':'小层圆满时自动晋升，大境界需要尝试突破。'}</p></div></div>
-    <Meter label="修为" value={p.xp} max={threshold(p)}/>
-    {!p.manual?<div className="quiet-callout"><BookOpen/><div><h3>先寻一册入门经书</h3><p>听雨客栈为初学者备有《基础吐纳诀》，免费领取即可修炼。</p><Button onClick={()=>act({type:'learn'})} disabled={busy||p.location!=='inn'}>领取并学习{p.location!=='inn'?' · 请到客栈':''}</Button></div></div>:<>
-      <div className="practice-card"><div className="spread"><h3><Wind size={18}/> 基础吐纳诀</h3><span className="subtle">每日 +{gainPerDay(w,p,stone)} 修为</span></div><label className="switch-row"><span>以灵石辅助修炼 <small>额外 +4 修为／日，每日消耗 1 灵石</small></span><Switch checked={stone} onCheckedChange={setStone}/></label>
-        <RadioGroup value={days} onValueChange={setDays} className="day-options">{[1,3,7,30].map(d=><label key={d} className={Number(days)===d?'selected':''}><RadioGroupItem value={String(d)}/>{d} 日</label>)}</RadioGroup>
-        <Button className="wide-button" disabled={busy||p.location==='ruins'||(stone&&p.stones<Number(days))||!!w.longAction||!!w.battle} onClick={()=>act({type:'train',days:Number(days),stoneMethod:stone})}><Moon size={17}/> {Number(days)>=7?'开始闭关':'开始修炼'}<span>{days} 日{stone?` · ${days} 灵石`:' · 无消耗'}</span></Button></div>
-      <div className="breakthrough-card"><div className="spread"><h3><Sparkles size={18}/> {p.realm===0?'引气入体':'尝试筑基'}</h3><span className="chance">{p.realm<4?`${breakthroughChance(w,p,pill&&p.realm===3,guardian&&p.realm===3)/100}%`:'已达成'}</span></div><p>突破失败不会致命，可能损失修为；筑基严重失败可能跌落一层。</p>
-        {p.realm===3&&<><label className="switch-row"><span>服用突破丹 <small>成功率 +15%，当前 {p.pills} 枚</small></span><Switch checked={pill} onCheckedChange={setPill} disabled={!p.pills}/></label><label className="switch-row"><span>邀请{lin.name}护法 <small>{guardPossible?'她愿意为你守护这三日。':'需在同一地点、境界足够且彼此信任。'}</small></span><Switch checked={guardian} onCheckedChange={setGuardian} disabled={!guardPossible}/></label></>}
-        <Button variant="outline" className="wide-button" disabled={busy||!can||!!w.longAction||!!w.battle||p.location==='ruins'} onClick={()=>act({type:'breakthrough',usePill:p.realm===3&&pill&&p.pills>0,guardian:p.realm===3&&guardian&&guardPossible})}>{can?'凝神，尝试突破':p.realm===4?'筑基已成':'尚需积累修为'}<span>{p.realm===0?'1 日':'3 日'}</span></Button></div>
-    </>}
-    <div className="routine-row"><Button variant="outline" disabled={busy||p.location==='ruins'} onClick={()=>send({type:'rest'})}><Heart size={16}/> 歇息一日</Button><Button variant="outline" disabled={busy||p.location==='ruins'} onClick={()=>act({type:'wait',days:3})}><Sun size={16}/> 等候三日</Button></div>
-  </section>;
+export function Meter({
+  label,
+  value,
+  max,
+  kind = "",
+}: {
+  label: string;
+  value: number;
+  max: number;
+  kind?: string;
+}) {
+  return (
+    <div className={`meter ${kind}`}>
+      <div className="spread">
+        <span>{label}</span>
+        <small>
+          {value} <span>/ {max}</span>
+        </small>
+      </div>
+      <Progress aria-label={label} value={Math.min(100, (value / max) * 100)} />
+    </div>
+  );
 }
-export function InventoryPanel({world:w,send,busy}:{world:World;send:Send;busy:boolean}){
-  const p=w.player;const artifact=ARTIFACTS.find(a=>a.id===w.profile.artifact)!;
-  const items=[{id:'healing',name:'回春丹',qty:p.healing,description:'恢复 35% 最大气血。',price:8,icon:Heart},{id:'pills',name:'突破丹',qty:p.pills,description:'筑基时服用，成功率提高 15%。',price:30,icon:Sparkles},{id:'grass',name:'凝元草',qty:p.grass,description:'可交付约定，或加十灵石兑换突破丹。',price:40,icon:Leaf}] as const;
-  return <section className="panel-section"><div className="section-heading"><span className="eyebrow">行囊 · 山长水远</span><h2 className="serif">随身之物</h2><p>些许身外物，陪你走过此间山河。</p></div><div className="wealth"><Coins size={24}/><span>灵石</span><strong>{p.stones}</strong><small>枚</small></div>
-    <div className="inventory-grid"><article className="inventory-item"><span className="item-icon serif">{artifact.glyph}</span><div><small>伴生法宝</small><h3>{artifact.name}</h3><p>{artifact.description}</p></div><span className="item-count">唯一</span></article><article className="inventory-item"><BookOpen className="item-icon"/><div><small>功法</small><h3>基础吐纳诀</h3><p>{p.manual?'已学会，永远记在心中。':'尚未习得，可前往客栈领取。'}</p></div><span className="item-count">{p.manual?'已习得':'未习得'}</span></article>{items.map(item=><article className="inventory-item" key={item.id}><item.icon className="item-icon"/><div><h3>{item.name}</h3><p>{item.description}</p>{item.id==='healing'&&item.qty>0&&<Button size="sm" variant="outline" disabled={busy||p.hp>=stats(p).maxHp||!!w.battle||!!w.longAction} onClick={()=>send({type:'heal'})}>服用一枚</Button>}</div><span className="item-count">× {item.qty}</span></article>)}</div>
-    <div className="section-heading compact"><h3 className="serif">坊市药铺</h3><p>{p.location==='market'?'明码标价，童叟无欺。':'来到青石坊市后，可以向药师购买。'}</p></div><div className="shop-list">{items.map(item=><div className="shop-row" key={item.id}><item.icon size={19}/><div><strong>{item.name}</strong><small>{item.price} 灵石／份</small></div><Button variant="outline" size="sm" disabled={busy||p.location!=='market'||p.stones<item.price||!!w.longAction||!!w.battle} onClick={()=>send({type:'buy',item:item.id})}>购买{item.name}</Button></div>)}</div><Button className="exchange-button" variant="ghost" disabled={busy||p.location!=='market'||!p.grass||p.stones<10||!!w.longAction||!!w.battle} onClick={()=>send({type:'exchange'})}>凝元草 ×1 ＋ 灵石 ×10 → 突破丹 ×1</Button>
-  </section>;
+export function CultivationPanel({
+  world: w,
+  send,
+  busy,
+  onStart,
+}: {
+  world: World;
+  send: Send;
+  busy: boolean;
+  onStart: () => void;
+}) {
+  const [days, setDays] = useState("7");
+  const [stone, setStone] = useState(false);
+  const [pill, setPill] = useState(false);
+  const [guardian, setGuardian] = useState(false);
+  const p = w.player;
+  const can = p.xp >= threshold(p) && (p.realm === 0 || p.realm === 3);
+  const lin = w.npcs.find((a) => a.id === PACK.roles.primary)!;
+  const rel = relation(w, lin.id);
+  const guardPossible =
+    lin.alive &&
+    !lin.attempt &&
+    lin.location === p.location &&
+    lin.realm >= p.realm &&
+    (rel?.trust || 0) >= 10 &&
+    (rel?.favor || 0) >= 0;
+  const act = async (c: Command) => {
+    if (await send(c)) onStart();
+  };
+  return (
+    <section className="panel-section cultivation-panel">
+      <div className="section-heading">
+        <span className="eyebrow">道途 · 一呼一吸</span>
+        <h2 className="serif">静心修行</h2>
+        <p>你在修炼时，故人也在各自的人生里前行。</p>
+      </div>
+      <div className="cultivation-summary">
+        <div className="realm-glyph serif">{p.realm === 0 ? "凡" : "道"}</div>
+        <div>
+          <small>当前境界</small>
+          <h3 className="serif">{REALMS[p.realm]}</h3>
+          <p>
+            {p.realm === 4
+              ? "筑基已成，青石篇的道途告一段落。"
+              : p.realm === 0
+                ? "感知天地灵气，迈出入道的第一步。"
+                : "小层圆满时自动晋升，大境界需要尝试突破。"}
+          </p>
+        </div>
+      </div>
+      <Meter label="修为" value={p.xp} max={threshold(p)} />
+      {!p.manual ? (
+        <div className="quiet-callout">
+          <BookOpen />
+          <div>
+            <h3>先寻一册入门经书</h3>
+            <p>听雨客栈为初学者备有《基础吐纳诀》，免费领取即可修炼。</p>
+            <Button onClick={() => act({ type: "learn" })} disabled={busy || p.location !== "inn"}>
+              领取并学习{p.location !== "inn" ? " · 请到客栈" : ""}
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <>
+          <div className="practice-card">
+            <div className="spread">
+              <h3>
+                <Wind size={18} /> 基础吐纳诀
+              </h3>
+              <span className="subtle">每日 +{gainPerDay(w, p, stone)} 修为</span>
+            </div>
+            <label className="switch-row">
+              <span>
+                以灵石辅助修炼 <small>额外 +4 修为／日，每日消耗 1 灵石</small>
+              </span>
+              <Switch checked={stone} onCheckedChange={setStone} />
+            </label>
+            <RadioGroup value={days} onValueChange={setDays} className="day-options">
+              {[1, 3, 7, 30].map((d) => (
+                <label key={d} className={Number(days) === d ? "selected" : ""}>
+                  <RadioGroupItem value={String(d)} />
+                  {d} 日
+                </label>
+              ))}
+            </RadioGroup>
+            <Button
+              className="wide-button"
+              disabled={
+                busy ||
+                p.location === "ruins" ||
+                (stone && p.stones < Number(days)) ||
+                !!w.longAction ||
+                !!w.battle
+              }
+              onClick={() => act({ type: "train", days: Number(days), stoneMethod: stone })}
+            >
+              <Moon size={17} /> {Number(days) >= 7 ? "开始闭关" : "开始修炼"}
+              <span>
+                {days} 日{stone ? ` · ${days} 灵石` : " · 无消耗"}
+              </span>
+            </Button>
+          </div>
+          <div className="breakthrough-card">
+            <div className="spread">
+              <h3>
+                <Sparkles size={18} /> {p.realm === 0 ? "引气入体" : "尝试筑基"}
+              </h3>
+              <span className="chance">
+                {p.realm < 4
+                  ? `${breakthroughChance(w, p, pill && p.realm === 3, guardian && p.realm === 3) / 100}%`
+                  : "已达成"}
+              </span>
+            </div>
+            <p>突破失败不会致命，可能损失修为；筑基严重失败可能跌落一层。</p>
+            {p.realm === 3 && (
+              <>
+                <label className="switch-row">
+                  <span>
+                    服用突破丹 <small>成功率 +15%，当前 {p.pills} 枚</small>
+                  </span>
+                  <Switch checked={pill} onCheckedChange={setPill} disabled={!p.pills} />
+                </label>
+                <label className="switch-row">
+                  <span>
+                    邀请{lin.name}护法{" "}
+                    <small>
+                      {guardPossible
+                        ? "她愿意为你守护这三日。"
+                        : "需在同一地点、境界足够且彼此信任。"}
+                    </small>
+                  </span>
+                  <Switch
+                    checked={guardian}
+                    onCheckedChange={setGuardian}
+                    disabled={!guardPossible}
+                  />
+                </label>
+              </>
+            )}
+            <Button
+              variant="outline"
+              className="wide-button"
+              disabled={busy || !can || !!w.longAction || !!w.battle || p.location === "ruins"}
+              onClick={() =>
+                act({
+                  type: "breakthrough",
+                  usePill: p.realm === 3 && pill && p.pills > 0,
+                  guardian: p.realm === 3 && guardian && guardPossible,
+                })
+              }
+            >
+              {can ? "凝神，尝试突破" : p.realm === 4 ? "筑基已成" : "尚需积累修为"}
+              <span>{p.realm === 0 ? "1 日" : "3 日"}</span>
+            </Button>
+          </div>
+        </>
+      )}
+      <div className="routine-row">
+        <Button
+          variant="outline"
+          disabled={busy || p.location === "ruins"}
+          onClick={() => send({ type: "rest" })}
+        >
+          <Heart size={16} /> 歇息一日
+        </Button>
+        <Button
+          variant="outline"
+          disabled={busy || p.location === "ruins"}
+          onClick={() => act({ type: "wait", days: 3 })}
+        >
+          <Sun size={16} /> 等候三日
+        </Button>
+      </div>
+    </section>
+  );
 }
-export function PeoplePanel({world:w,onProfile}:{world:World;onProfile:(id:string)=>void}){
-  const [all,setAll]=useState(false);const known=w.npcs.filter(a=>relation(w,a.id)?.known);const nearby=w.npcs.filter(a=>a.alive&&a.location===w.player.location&&!relation(w,a.id)?.known);const others=w.npcs.filter(a=>!known.includes(a)&&!nearby.includes(a));
-  const row=(a:Actor)=><button className="person-row" key={a.id} onClick={()=>onProfile(a.id)}><NpcPortrait world={w} actor={a} className="person-avatar"/><div><h3>{a.name}<small>{REALMS[a.realm]}</small></h3><p>{!a.alive?'已逝':a.location===w.player.location?'就在此处':relation(w,a.id)?.known?`行踪：${LOCATIONS[a.location].name}`:'尚未相识'}</p></div><span className="relationship-tag">{relationshipLabel(relation(w,a.id))}</span></button>;
-  return <section className="panel-section"><div className="section-heading"><span className="eyebrow">故人 · 一面一缘</span><h2 className="serif">相逢的人</h2><p>有人萍水相逢，有人会成为你这一世的牵挂。</p></div><h3 className="list-heading">你的故人 <span>{known.length}</span></h3>{known.length?known.map(row):<p className="empty-copy">你还没有结识这里的人。向药摊旁的修士打个招呼吧。</p>}<h3 className="list-heading">此地可结识 <span>{nearby.length}</span></h3>{nearby.length?nearby.map(row):<p className="empty-copy">此地暂时没有其他陌生修士。</p>}<Button variant="outline" onClick={()=>setAll(!all)}>{all?'收起其他人物':`查看世界人物 · ${w.npcs.length} 人`}</Button>{all&&<><h3 className="list-heading">其他修士 <span>{others.length}</span></h3>{others.map(row)}</>}</section>;
+export function InventoryPanel({
+  world: w,
+  send,
+  busy,
+}: {
+  world: World;
+  send: Send;
+  busy: boolean;
+}) {
+  const p = w.player;
+  const artifact = ARTIFACTS.find((a) => a.id === w.profile.artifact)!;
+  const items = [
+    {
+      id: "healing",
+      name: "回春丹",
+      qty: p.healing,
+      description: "恢复 35% 最大气血。",
+      price: 8,
+      icon: Heart,
+    },
+    {
+      id: "pills",
+      name: "突破丹",
+      qty: p.pills,
+      description: "筑基时服用，成功率提高 15%。",
+      price: 30,
+      icon: Sparkles,
+    },
+    {
+      id: "grass",
+      name: "凝元草",
+      qty: p.grass,
+      description: "可交付约定，或加十灵石兑换突破丹。",
+      price: 40,
+      icon: Leaf,
+    },
+  ] as const;
+  return (
+    <section className="panel-section">
+      <div className="section-heading">
+        <span className="eyebrow">行囊 · 山长水远</span>
+        <h2 className="serif">随身之物</h2>
+        <p>些许身外物，陪你走过此间山河。</p>
+      </div>
+      <div className="wealth">
+        <Coins size={24} />
+        <span>灵石</span>
+        <strong>{p.stones}</strong>
+        <small>枚</small>
+      </div>
+      <div className="inventory-grid">
+        <article className="inventory-item">
+          <span className="item-icon serif">{artifact.glyph}</span>
+          <div>
+            <small>伴生法宝</small>
+            <h3>{artifact.name}</h3>
+            <p>{artifact.description}</p>
+          </div>
+          <span className="item-count">唯一</span>
+        </article>
+        <article className="inventory-item">
+          <BookOpen className="item-icon" />
+          <div>
+            <small>功法</small>
+            <h3>基础吐纳诀</h3>
+            <p>{p.manual ? "已学会，永远记在心中。" : "尚未习得，可前往客栈领取。"}</p>
+          </div>
+          <span className="item-count">{p.manual ? "已习得" : "未习得"}</span>
+        </article>
+        {items.map((item) => (
+          <article className="inventory-item" key={item.id}>
+            <item.icon className="item-icon" />
+            <div>
+              <h3>{item.name}</h3>
+              <p>{item.description}</p>
+              {item.id === "healing" && item.qty > 0 && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  disabled={busy || p.hp >= stats(p).maxHp || !!w.battle || !!w.longAction}
+                  onClick={() => send({ type: "heal" })}
+                >
+                  服用一枚
+                </Button>
+              )}
+            </div>
+            <span className="item-count">× {item.qty}</span>
+          </article>
+        ))}
+      </div>
+      <div className="section-heading compact">
+        <h3 className="serif">坊市药铺</h3>
+        <p>
+          {p.location === "market" ? "明码标价，童叟无欺。" : "来到青石坊市后，可以向药师购买。"}
+        </p>
+      </div>
+      <div className="shop-list">
+        {items.map((item) => (
+          <div className="shop-row" key={item.id}>
+            <item.icon size={19} />
+            <div>
+              <strong>{item.name}</strong>
+              <small>{item.price} 灵石／份</small>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={
+                busy ||
+                p.location !== "market" ||
+                p.stones < item.price ||
+                !!w.longAction ||
+                !!w.battle
+              }
+              onClick={() => send({ type: "buy", item: item.id })}
+            >
+              购买{item.name}
+            </Button>
+          </div>
+        ))}
+      </div>
+      <Button
+        className="exchange-button"
+        variant="ghost"
+        disabled={
+          busy ||
+          p.location !== "market" ||
+          !p.grass ||
+          p.stones < 10 ||
+          !!w.longAction ||
+          !!w.battle
+        }
+        onClick={() => send({ type: "exchange" })}
+      >
+        凝元草 ×1 ＋ 灵石 ×10 → 突破丹 ×1
+      </Button>
+    </section>
+  );
 }
-export function JournalPanel({world:w}:{world:World}){
-  const events=visibleEvents(w).slice().reverse();return <section className="panel-section"><div className="section-heading"><span className="eyebrow">历程 · 落笔成忆</span><h2 className="serif">这一世的故事</h2><p>已经发生的选择，留在这里，也留在故人的记忆中。</p></div><div className="journal">{events.map(e=><article className="journal-entry" key={e.id}><time>第 {e.day+1} 日</time><div><span className="journal-mark"/><p>{e.text}</p></div></article>)}</div></section>;
+export function PeoplePanel({
+  world: w,
+  onProfile,
+}: {
+  world: World;
+  onProfile: (id: string) => void;
+}) {
+  const [all, setAll] = useState(false);
+  const known = w.npcs.filter((a) => relation(w, a.id)?.known);
+  const nearby = w.npcs.filter(
+    (a) => a.alive && a.location === w.player.location && !relation(w, a.id)?.known,
+  );
+  const others = w.npcs.filter((a) => !known.includes(a) && !nearby.includes(a));
+  const row = (a: Actor) => (
+    <button className="person-row" key={a.id} onClick={() => onProfile(a.id)}>
+      <NpcPortrait world={w} actor={a} className="person-avatar" />
+      <div>
+        <h3>
+          {a.name}
+          <small>{REALMS[a.realm]}</small>
+        </h3>
+        <p>
+          {!a.alive
+            ? "已逝"
+            : a.location === w.player.location
+              ? "就在此处"
+              : relation(w, a.id)?.known
+                ? `行踪：${LOCATIONS[a.location].name}`
+                : "尚未相识"}
+        </p>
+      </div>
+      <span className="relationship-tag">{relationshipLabel(relation(w, a.id))}</span>
+    </button>
+  );
+  return (
+    <section className="panel-section">
+      <div className="section-heading">
+        <span className="eyebrow">故人 · 一面一缘</span>
+        <h2 className="serif">相逢的人</h2>
+        <p>有人萍水相逢，有人会成为你这一世的牵挂。</p>
+      </div>
+      <h3 className="list-heading">
+        你的故人 <span>{known.length}</span>
+      </h3>
+      {known.length ? (
+        known.map(row)
+      ) : (
+        <p className="empty-copy">你还没有结识这里的人。向药摊旁的修士打个招呼吧。</p>
+      )}
+      <h3 className="list-heading">
+        此地可结识 <span>{nearby.length}</span>
+      </h3>
+      {nearby.length ? nearby.map(row) : <p className="empty-copy">此地暂时没有其他陌生修士。</p>}
+      <Button variant="outline" onClick={() => setAll(!all)}>
+        {all ? "收起其他人物" : `查看世界人物 · ${w.npcs.length} 人`}
+      </Button>
+      {all && (
+        <>
+          <h3 className="list-heading">
+            其他修士 <span>{others.length}</span>
+          </h3>
+          {others.map(row)}
+        </>
+      )}
+    </section>
+  );
 }
-export function PersonDetail({world:w,id,send,busy}:{world:World;id:string;send:Send;busy:boolean}){
-  const a=id==='PLAYER'?w.player:w.npcs.find(n=>n.id===id);if(!a)return null;const r=relation(w,id);const memories=w.events.filter(e=>e.actors.includes(id)&&e.actors.includes('PLAYER'));const bio=npcProfile(a);const recent=visibleEvents(w).filter(e=>e.actors.includes(id)&&!e.actors.includes('PLAYER')).slice(-3);const self=id==='PLAYER';const present=a.location===w.player.location&&a.alive;
-  return <div className="person-detail">{!self&&<NpcPortrait world={w} actor={a} className="detail-portrait"/>}<div className="person-facts"><span>{REALMS[a.realm]}</span><span>{Math.floor(a.ageDays/360)} 岁</span><span>{a.sex==='female'?'女':'男'}</span><span>{a.sect}</span></div><p>{self?`${FACES[w.profile.appearance.face]} · ${HAIRS[w.profile.appearance.hair]} · ${COLORS[w.profile.appearance.color]}`:a.personality}</p>{self?<p>资质 {a.aptitude} · {ARTIFACTS.find(x=>x.id===w.profile.artifact)?.name}</p>:<p className="subtle">{!a.alive?'故人已逝，往事仍在。':present?a.activity:`目前在${LOCATIONS[a.location].name}。`}</p>}
-    {!self&&<><div className="npc-bio"><h3 className="list-heading">人物小传</h3><p>{bio.background}</p><dl><div><dt>出身</dt><dd>{bio.origin}</dd></div><div><dt>资质</dt><dd>{a.aptitude} / 100</dd></div><div><dt>性情</dt><dd>{a.personality}</dd></div><div><dt>所在</dt><dd>{LOCATIONS[a.location].name}</dd></div><div><dt>当前修为</dt><dd>{a.xp} / {threshold(a)}</dd></div><div><dt>眼下之事</dt><dd>{a.attempt?`凝神突破，还需 ${a.attempt.remaining} 日`:a.activity}</dd></div><div><dt>修行目标</dt><dd>{a.goal}</dd></div><div><dt>偏好</dt><dd>{bio.interest}</dd></div><div><dt>心中所愿</dt><dd>{bio.wish}</dd></div></dl></div><div className="relation-detail"><span>你们的关系</span><strong>{relationshipLabel(r)}</strong></div>{r?.known&&<><div className="relationship-qualities"><span>好感 <b>{r.favor>=20?'亲近':r.favor<0?'疏远':'初识'}</b></span><span>信任 <b>{r.trust>=15?'信赖':r.trust<0?'戒备':'观望'}</b></span><span>吸引 <b>{r.attraction>0?'留意':'未显'}</b></span></div><p className="subtle">{a.goal}</p></>}<h3 className="list-heading">共同经历</h3>{memories.length?<div className="memory-list">{memories.map(e=><p key={e!.id}><small>第 {e!.day+1} 日</small>{e!.text}</p>)}</div>:<p className="empty-copy">尚未留下共同经历。</p>}{recent.length>0&&<><h3 className="list-heading">最近经历</h3><div className="memory-list">{recent.map(e=><p key={e.id}><small>第 {e.day+1} 日</small>{e.text}</p>)}</div></>}{<Button disabled={busy||!present||!!w.battle||!!w.longAction} onClick={()=>send({type:'meet',target:id})}>{r?.known?'聊聊近况':'上前见礼'}{!present?' · 对方不在此处':''}</Button>}</>}
-  </div>;
+export function JournalPanel({ world: w }: { world: World }) {
+  const events = visibleEvents(w).slice().reverse();
+  return (
+    <section className="panel-section">
+      <div className="section-heading">
+        <span className="eyebrow">历程 · 落笔成忆</span>
+        <h2 className="serif">这一世的故事</h2>
+        <p>已经发生的选择，留在这里，也留在故人的记忆中。</p>
+      </div>
+      <div className="journal">
+        {events.map((e) => (
+          <article className="journal-entry" key={e.id}>
+            <time>第 {e.day + 1} 日</time>
+            <div>
+              <span className="journal-mark" />
+              <p>{e.text}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
 }
-export function BattlePanel({world:w,send,busy,autoRunning,onAuto}:{world:World;send:Send;busy:boolean;autoRunning:boolean;onAuto:(enabled:boolean)=>Promise<void>}){
-  const b=w.battle!;const p=b.allies.find(a=>a.id==='PLAYER')!;const [target,setTarget]=useState(b.enemies.find(e=>e.hp>0)?.id||'ENEMY_0');const activeTarget=b.enemies.some(e=>e.id===target&&e.hp>0)?target:b.enemies.find(e=>e.hp>0)?.id;
-  return <section className="battle-panel"><div className="section-heading"><span className="eyebrow"><Swords size={14}/> 秘境遭遇 · 第 {b.round} 回合</span><h2 className="serif">残碑守卫</h2><p>主角由你指挥，同伴会自行行动。{b.lethal?'本次遭遇可能造成真实死亡，请谨慎应对。':'本次遭遇不会致命。'}</p></div><div className="battle-scene"><GameImage src={ART.ruins} alt="月下残碑秘境"/><div className="enemy-row">{b.enemies.map(e=><button key={e.id} className={`fighter enemy ${activeTarget===e.id?'targeted':''}`} disabled={e.hp===0} onClick={()=>setTarget(e.id)} aria-pressed={activeTarget===e.id}><Shield size={30}/><h3>{e.name}</h3><Meter label={e.hp?'气血':'已击败'} value={e.hp} max={e.maxHp}/></button>)}</div></div><div className="ally-row">{b.allies.map(a=><div className="fighter ally" key={a.id}><strong>{a.name}<small>{a.id==='PLAYER'?'主角':'同伴'}</small></strong><Meter label={a.hp?'气血':'倒地'} value={a.hp} max={a.maxHp}/></div>)}</div>
-    <div className="battle-controls"><div className="spread"><h3>你的行动</h3><label className="inline-switch">自动战斗<Switch checked={autoRunning} onCheckedChange={enabled=>void onAuto(enabled)} disabled={busy}/></label></div><div className="combat-actions">{([{id:'attack',name:'普攻',icon:Swords},{id:'skill',name:p.cooldown?`剑诀 · 调息 ${p.cooldown}`:'青芒剑诀',icon:Wind},{id:'guard',name:'防御',icon:Shield},{id:'heal',name:`回春丹 · ${w.player.healing}`,icon:Heart},{id:'retreat',name:'撤退',icon:Moon}] as const).map(a=><Button key={a.id} variant={a.id==='skill'?'default':'outline'} disabled={busy||autoRunning||(a.id==='skill'&&p.cooldown>0)||(a.id==='heal'&&(w.player.healing===0||p.hp>=p.maxHp))} onClick={()=>send({type:'battle',action:a.id,...(a.id==='attack'||a.id==='skill'?{target:activeTarget}:{})})}><a.icon size={16}/>{a.name}</Button>)}</div><div className="skill-slots"><span><Wind size={14}/> 青芒剑诀</span>{[2,3,4].map(n=><span key={n} className="locked"><LockKeyhole size={13}/> 未习得</span>)}</div></div>
-    <div className="battle-log" aria-live="polite">{b.logs.slice(-6).map((line,i)=><p key={`${b.logs.length}-${i}`}>{line}</p>)}</div>
-  </section>;
+export function PersonDetail({
+  world: w,
+  id,
+  send,
+  busy,
+}: {
+  world: World;
+  id: string;
+  send: Send;
+  busy: boolean;
+}) {
+  const a = id === "PLAYER" ? w.player : w.npcs.find((n) => n.id === id);
+  if (!a) return null;
+  const r = relation(w, id);
+  const memories = w.events.filter((e) => e.actors.includes(id) && e.actors.includes("PLAYER"));
+  const bio = npcProfile(a);
+  const recent = visibleEvents(w)
+    .filter((e) => e.actors.includes(id) && !e.actors.includes("PLAYER"))
+    .slice(-3);
+  const self = id === "PLAYER";
+  const present = a.location === w.player.location && a.alive;
+  return (
+    <div className="person-detail">
+      {!self && <NpcPortrait world={w} actor={a} className="detail-portrait" />}
+      <div className="person-facts">
+        <span>{REALMS[a.realm]}</span>
+        <span>{Math.floor(a.ageDays / 360)} 岁</span>
+        <span>{a.sex === "female" ? "女" : "男"}</span>
+        <span>{a.sect}</span>
+      </div>
+      <p>
+        {self
+          ? `${FACES[w.profile.appearance.face]} · ${HAIRS[w.profile.appearance.hair]} · ${COLORS[w.profile.appearance.color]}`
+          : a.personality}
+      </p>
+      {self ? (
+        <p>
+          资质 {a.aptitude} · {ARTIFACTS.find((x) => x.id === w.profile.artifact)?.name}
+        </p>
+      ) : (
+        <p className="subtle">
+          {!a.alive
+            ? "故人已逝，往事仍在。"
+            : present
+              ? a.activity
+              : `目前在${LOCATIONS[a.location].name}。`}
+        </p>
+      )}
+      {!self && (
+        <>
+          <div className="npc-bio">
+            <h3 className="list-heading">人物小传</h3>
+            <p>{bio.background}</p>
+            <dl>
+              <div>
+                <dt>出身</dt>
+                <dd>{bio.origin}</dd>
+              </div>
+              <div>
+                <dt>资质</dt>
+                <dd>{a.aptitude} / 100</dd>
+              </div>
+              <div>
+                <dt>性情</dt>
+                <dd>{a.personality}</dd>
+              </div>
+              <div>
+                <dt>所在</dt>
+                <dd>{LOCATIONS[a.location].name}</dd>
+              </div>
+              <div>
+                <dt>当前修为</dt>
+                <dd>
+                  {a.xp} / {threshold(a)}
+                </dd>
+              </div>
+              <div>
+                <dt>眼下之事</dt>
+                <dd>{a.attempt ? `凝神突破，还需 ${a.attempt.remaining} 日` : a.activity}</dd>
+              </div>
+              <div>
+                <dt>修行目标</dt>
+                <dd>{a.goal}</dd>
+              </div>
+              <div>
+                <dt>偏好</dt>
+                <dd>{bio.interest}</dd>
+              </div>
+              <div>
+                <dt>心中所愿</dt>
+                <dd>{bio.wish}</dd>
+              </div>
+            </dl>
+          </div>
+          <div className="relation-detail">
+            <span>你们的关系</span>
+            <strong>{relationshipLabel(r)}</strong>
+          </div>
+          {r?.known && (
+            <>
+              <div className="relationship-qualities">
+                <span>
+                  好感 <b>{r.favor >= 20 ? "亲近" : r.favor < 0 ? "疏远" : "初识"}</b>
+                </span>
+                <span>
+                  信任 <b>{r.trust >= 15 ? "信赖" : r.trust < 0 ? "戒备" : "观望"}</b>
+                </span>
+                <span>
+                  吸引 <b>{r.attraction > 0 ? "留意" : "未显"}</b>
+                </span>
+              </div>
+              <p className="subtle">{a.goal}</p>
+            </>
+          )}
+          <h3 className="list-heading">共同经历</h3>
+          {memories.length ? (
+            <div className="memory-list">
+              {memories.map((e) => (
+                <p key={e!.id}>
+                  <small>第 {e!.day + 1} 日</small>
+                  {e!.text}
+                </p>
+              ))}
+            </div>
+          ) : (
+            <p className="empty-copy">尚未留下共同经历。</p>
+          )}
+          {recent.length > 0 && (
+            <>
+              <h3 className="list-heading">最近经历</h3>
+              <div className="memory-list">
+                {recent.map((e) => (
+                  <p key={e.id}>
+                    <small>第 {e.day + 1} 日</small>
+                    {e.text}
+                  </p>
+                ))}
+              </div>
+            </>
+          )}
+          {
+            <Button
+              disabled={busy || !present || !!w.battle || !!w.longAction}
+              onClick={() => send({ type: "meet", target: id })}
+            >
+              {r?.known ? "聊聊近况" : "上前见礼"}
+              {!present ? " · 对方不在此处" : ""}
+            </Button>
+          }
+        </>
+      )}
+    </div>
+  );
+}
+export function BattlePanel({
+  world: w,
+  send,
+  busy,
+  autoRunning,
+  onAuto,
+}: {
+  world: World;
+  send: Send;
+  busy: boolean;
+  autoRunning: boolean;
+  onAuto: (enabled: boolean) => Promise<void>;
+}) {
+  const b = w.battle!;
+  const p = b.allies.find((a) => a.id === "PLAYER")!;
+  const [target, setTarget] = useState(b.enemies.find((e) => e.hp > 0)?.id || "ENEMY_0");
+  const activeTarget = b.enemies.some((e) => e.id === target && e.hp > 0)
+    ? target
+    : b.enemies.find((e) => e.hp > 0)?.id;
+  return (
+    <section className="battle-panel">
+      <div className="section-heading">
+        <span className="eyebrow">
+          <Swords size={14} /> 秘境遭遇 · 第 {b.round} 回合
+        </span>
+        <h2 className="serif">残碑守卫</h2>
+        <p>
+          主角由你指挥，同伴会自行行动。
+          {b.lethal ? "本次遭遇可能造成真实死亡，请谨慎应对。" : "本次遭遇不会致命。"}
+        </p>
+      </div>
+      <div className="battle-scene">
+        <GameImage src={ART.ruins} alt="月下残碑秘境" />
+        <div className="enemy-row">
+          {b.enemies.map((e) => (
+            <button
+              key={e.id}
+              className={`fighter enemy ${activeTarget === e.id ? "targeted" : ""}`}
+              disabled={e.hp === 0}
+              onClick={() => setTarget(e.id)}
+              aria-pressed={activeTarget === e.id}
+            >
+              <Shield size={30} />
+              <h3>{e.name}</h3>
+              <Meter label={e.hp ? "气血" : "已击败"} value={e.hp} max={e.maxHp} />
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="ally-row">
+        {b.allies.map((a) => (
+          <div className="fighter ally" key={a.id}>
+            <strong>
+              {a.name}
+              <small>{a.id === "PLAYER" ? "主角" : "同伴"}</small>
+            </strong>
+            <Meter label={a.hp ? "气血" : "倒地"} value={a.hp} max={a.maxHp} />
+          </div>
+        ))}
+      </div>
+      <div className="battle-controls">
+        <div className="spread">
+          <h3>你的行动</h3>
+          <label className="inline-switch">
+            自动战斗
+            <Switch
+              checked={autoRunning}
+              onCheckedChange={(enabled) => void onAuto(enabled)}
+              disabled={busy}
+            />
+          </label>
+        </div>
+        <div className="combat-actions">
+          {(
+            [
+              { id: "attack", name: "普攻", icon: Swords },
+              {
+                id: "skill",
+                name: p.cooldown ? `剑诀 · 调息 ${p.cooldown}` : "青芒剑诀",
+                icon: Wind,
+              },
+              { id: "guard", name: "防御", icon: Shield },
+              { id: "heal", name: `回春丹 · ${w.player.healing}`, icon: Heart },
+              { id: "retreat", name: "撤退", icon: Moon },
+            ] as const
+          ).map((a) => (
+            <Button
+              key={a.id}
+              variant={a.id === "skill" ? "default" : "outline"}
+              disabled={
+                busy ||
+                autoRunning ||
+                (a.id === "skill" && p.cooldown > 0) ||
+                (a.id === "heal" && (w.player.healing === 0 || p.hp >= p.maxHp))
+              }
+              onClick={() =>
+                send({
+                  type: "battle",
+                  action: a.id,
+                  ...(a.id === "attack" || a.id === "skill" ? { target: activeTarget } : {}),
+                })
+              }
+            >
+              <a.icon size={16} />
+              {a.name}
+            </Button>
+          ))}
+        </div>
+        <div className="skill-slots">
+          <span>
+            <Wind size={14} /> 青芒剑诀
+          </span>
+          {[2, 3, 4].map((n) => (
+            <span key={n} className="locked">
+              <LockKeyhole size={13} /> 未习得
+            </span>
+          ))}
+        </div>
+      </div>
+      <div className="battle-log" aria-live="polite">
+        {b.logs.slice(-6).map((line, i) => (
+          <p key={`${b.logs.length}-${i}`}>{line}</p>
+        ))}
+      </div>
+    </section>
+  );
 }

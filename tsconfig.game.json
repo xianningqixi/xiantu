@@ -8,9 +8,5 @@
     "app/author/**/*.tsx",
     "lib/server/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "docs",
-    "dist"
-  ]
+  "exclude": ["node_modules", "docs", "dist"]
 }

@@ -1,6 +1,8 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
 @import "tw-animate-css";
-@import "../vendor/shadcn-tailwind-4.13.0.css";
+@source "../app";
+@source "../components/game";
+@source "../components/ui";
 :root {
   color-scheme: dark;
   --background: #0b1411;

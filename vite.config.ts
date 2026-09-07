@@ -23,6 +23,7 @@ export default defineConfig(async () => {
   return {
     server: {
       host: "0.0.0.0",
+      fs: { deny: [".env", ".env.*", "*.{crt,pem}", "**/.git/**", "**/.xiantu-private/**"] },
       allowedHosts: ["terminal.local"],
       ...(isCodexSeatbeltSandbox ? { watch: { useFsEvents: false, usePolling: true } } : {}),
     },

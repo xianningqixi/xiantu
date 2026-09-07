@@ -1,3 +1,4 @@
+import { boundedText } from "./provider-http";
 import { allowedOrigins } from "./negotiation-security";
 import { z } from "zod";
 import { canonicalTerms, proposalSchema, termsSchema } from "../game/negotiation";
@@ -70,31 +71,6 @@ function permitted(key: string, now = Date.now()) {
   }
   return ++value.count <= 6;
 }
-async function limitedText(response: Response | Request, max: number) {
-  if (Number(response.headers.get("content-length")) > max) throw new Error("too_large");
-  if (!response.body) return "";
-  const reader = response.body.getReader(),
-    chunks: Uint8Array[] = [];
-  let size = 0;
-  try {
-    for (;;) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      size += value.byteLength;
-      if (size > max) throw new Error("too_large");
-      chunks.push(value);
-    }
-  } finally {
-    await reader.cancel().catch(() => {});
-  }
-  const bytes = new Uint8Array(size);
-  let at = 0;
-  for (const chunk of chunks) {
-    bytes.set(chunk, at);
-    at += chunk.byteLength;
-  }
-  return new TextDecoder().decode(bytes);
-}
 const json = (status: number, value: object) =>
   Response.json(value, {
     status,
@@ -159,7 +135,7 @@ export async function handleNegotiation(
   if (!options.config) return json(503, { error: "自由交涉尚未配置，当前可继续使用固定选项。" });
   let input: z.infer<typeof negotiationRequestSchema>;
   try {
-    input = negotiationRequestSchema.parse(JSON.parse(await limitedText(request, 16384)));
+    input = negotiationRequestSchema.parse(JSON.parse(await boundedText(request, 16384)));
   } catch {
     return json(400, { error: "交涉内容不完整或过长。" });
   }
@@ -196,6 +172,7 @@ export async function handleNegotiation(
     if (request.signal.aborted) throw new Error("cancelled");
     const upstream = await (options.fetcher ?? fetch)(`${config.baseUrl}/chat/completions`, {
       method: "POST",
+      redirect: "error",
       signal: controller.signal,
       headers: { Authorization: `Bearer ${config.key}`, "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -214,14 +191,16 @@ export async function handleNegotiation(
         },
       }),
     });
-    if (!upstream.ok)
+    if (!upstream.ok) {
+      await upstream.body?.cancel();
       return json(upstream.status === 429 ? 429 : 502, {
         error:
           upstream.status === 429
             ? "交涉服务繁忙，请稍后再试。"
             : "交涉服务暂时不可用，可继续固定选项。",
       });
-    const body = JSON.parse(await limitedText(upstream, 65536));
+    }
+    const body = JSON.parse(await boundedText(upstream, 65536));
     const proposal = proposalSchema.parse(JSON.parse(body.choices?.[0]?.message?.content));
     return json(200, { ...responseBase, mock: false, proposal });
   } catch {

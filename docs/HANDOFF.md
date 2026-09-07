@@ -35,7 +35,11 @@ PLAYWRIGHT_CHANNEL=chrome XIANTU_TEST_URL=http://127.0.0.1:3100 npm run test:por
 
 先运行 Chrome story.spec，再运行 portability；后者读取 `/tmp/xiantu-story-chromium/{honor,breach}.json`，通过真实文件控件从 Chrome 下载后在 Firefox 导入并重新导出。它只剔除导入时重新分配的 `saveId` 与 `revision`，其他全部数据比较。每个检查点的 SHA-256 见 portability 报告。所有这些快照是测试新局，未读取用户真实浏览器存档；不随 Git 提交。
 
-`verify` 包含 Prettier、游戏 strict 检查及其 UI 依赖、82 项自动测试和生产构建；不等于全仓 lint 或真机验收。`npm test` 保留 Sites 构建入口，游戏本地验收使用 `verify`。五 Seed 固定为 1、42、12345、20260906、987654321；历史五 Seed 十年报告对应 schema 4。本轮逐份迁移这五个旧档，新增 200 NPC／365 日模拟和两浏览器十年档续跑；未将旧报告当作重新运行 schema 5 五 Seed 十年的证据。
+`verify` 包含 Prettier、游戏 strict 检查及其 UI 依赖、游戏／AI 配置等自动测试和生产构建；不等于全仓 lint 或真机验收。`npm test` 保留 Sites 构建入口，游戏本地验收使用 `verify`。五 Seed 固定为 1、42、12345、20260906、987654321；历史五 Seed 十年报告对应 schema 4。本轮逐份迁移这五个旧档，新增 200 NPC／365 日模拟和两浏览器十年档续跑；未将旧报告当作重新运行 schema 5 五 Seed 十年的证据。
+
+## 游戏内 AI 配置
+
+创角页右上角或游戏「存档与设置 → AI 模型设置」，分别配置 LLM 与生图。个人设置在 Node 服务端 `.xiantu-private/ai-settings/`（或 `XIANTU_AI_SETTINGS_DIR`），按随机 HttpOnly cookie 隔离；保持 cookie 与私有目录即可跨刷新／服务重启保留。该目录含凭证，已排除 Git 和静态资源，不能并入人生存档或公开备份。LLM 保存后用于交涉；生图目前仅测试预览，不自动替换游戏图片。Cloudflare 等无持久磁盘环境需要另接存储适配，详见 [AI-CONFIG](AI-CONFIG.md)。
 
 ## 存档与恢复
 

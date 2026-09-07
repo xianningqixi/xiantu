@@ -51,3 +51,6 @@ next-env.d.ts
 
 # Build-generated presentation derivatives; authored PNGs remain in content-packs.
 /public/art/optimized/
+
+# Private per-browser AI configuration, never bundled, exported, or committed.
+/.xiantu-private/

@@ -62,6 +62,7 @@ import {
 import { objective } from "@/lib/game/presentation";
 import { CharacterSidebar } from "./character-sidebar";
 import { JourneyTab } from "./journey-tab";
+import { AISettingsEntry } from "./ai-settings-entry";
 import { SettingsDialog } from "./settings-dialog";
 
 import { isRuleRefusal } from "@/lib/game/errors";
@@ -327,6 +328,7 @@ export default function Game({ preview = false }: { preview?: boolean }) {
             仙途<span>青石人间</span>
           </a>
           <div className="flex gap-2">
+            <AISettingsEntry onPause={pause} />
             <BackupManager game={game} onPause={pause} />
             <Button variant="ghost" onClick={() => importRef.current?.click()}>
               <Upload size={16} /> 导入存档

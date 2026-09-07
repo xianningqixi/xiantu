@@ -1,5 +1,7 @@
+import { configuredModel } from "@/lib/server/model-settings";
+import { providerFetch } from "@/lib/server/provider-http";
 import { allowedOrigins, clientRateIdentity } from "@/lib/server/negotiation-security";
-import { handleNegotiation, providerConfig } from "@/lib/server/negotiation";
+import { handleNegotiation } from "@/lib/server/negotiation";
 export async function POST(request: Request) {
   try {
     const origins = allowedOrigins(request, process.env);
@@ -10,7 +12,8 @@ export async function POST(request: Request) {
       );
     const identity = await clientRateIdentity(request, process.env);
     const response = await handleNegotiation(request, {
-      config: providerConfig(process.env),
+      config: await configuredModel(request, "llm"),
+      fetcher: providerFetch,
       rateKey: identity.rateKey,
       allowedOrigins: origins,
     });

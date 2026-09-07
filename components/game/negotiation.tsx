@@ -240,7 +240,7 @@ export function Negotiation({
                   <ul>
                     <li>下一次秘境，由你、{target.name}和周安三人同行。</li>
                     <li>第一株凝元草归{target.name}，其余战利品归你。</li>
-                    <li>出发时支付 2 灵石路费；没有取得药草不算违约。</li>
+                    <li>出发时支付 {DEPARTURE_FEE} 灵石路费；没有取得药草不算违约。</li>
                   </ul>
                   <Button disabled={busy || waiting} onClick={() => void adopt()}>
                     确认以上条款

@@ -12,6 +12,7 @@ import { LOCATIONS, REALMS } from "@/lib/game/content/official";
 import type { World } from "@/lib/game/types";
 import { useGame } from "@/lib/game/use-game";
 import { ArrowDownToLine, RotateCcw, Save, Upload } from "lucide-react";
+import { AISettingsEntry } from "./ai-settings-entry";
 import { BackupManager } from "./backups";
 
 type SettingsProps = {
@@ -56,6 +57,7 @@ export function SettingsDialog({
             进度自动保存在当前浏览器。换设备或清理浏览器前，请导出备份。
           </DialogDescription>
         </DialogHeader>
+        <AISettingsEntry onPause={pause} />
         {error && (
           <div className="error-banner" role="alert">
             {error}
@@ -109,7 +111,7 @@ export function SettingsDialog({
           <small>按包内说明修改后，由开发者更新网页。当前不支持在游戏内上传内容包。</small>
         </div>
         <p className="subtle">
-          青石篇可游玩至筑基。自由交涉需要服务端配置，可随时使用固定选项继续。
+          青石篇可游玩至筑基。LLM 与生图服务可在「AI 模型设置」中分别配置，固定选项随时可用。
         </p>
       </DialogContent>
     </Dialog>

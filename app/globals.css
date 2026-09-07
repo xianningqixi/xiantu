@@ -3094,3 +3094,124 @@ legend,
     font-size: 10px;
   }
 }
+
+/* Model settings are a browser preference, independent from the simulated world. */
+.model-settings-modal {
+  max-width: 620px;
+}
+.model-settings-tabs {
+  width: 100%;
+}
+.model-settings-tabs > button {
+  flex: 1;
+}
+.model-settings-status,
+.model-enable-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.model-settings-status {
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+.model-settings-form {
+  display: grid;
+  gap: 16px;
+  padding-top: 12px;
+  min-width: 0;
+}
+.model-settings-form .form-field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+.model-settings-form .form-field input {
+  width: 100%;
+  min-width: 0;
+}
+.model-settings-form small,
+.model-source {
+  color: #9aa58e;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.model-enable-row label {
+  font-size: 15px;
+}
+.model-advanced {
+  border-block: 1px solid #394232;
+  padding: 10px 0;
+}
+.model-advanced summary {
+  cursor: pointer;
+  color: #b4b99f;
+  font-size: 13px;
+}
+.model-advanced .form-field {
+  margin-top: 12px;
+}
+.model-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.model-message {
+  border: 1px solid #4f6541;
+  background: #1c2a1e;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.model-message.model-error {
+  border-color: #825344;
+  background: #33221c;
+  color: #e4bfae;
+}
+.model-image-preview {
+  margin: 0;
+}
+.model-image-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 6px;
+}
+.model-image-preview figcaption {
+  margin-top: 8px;
+  color: #9aa58e;
+  font-size: 12px;
+}
+.model-clear {
+  justify-self: start;
+}
+@media (max-width: 640px) {
+  .prologue-header > div {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .model-settings-modal {
+    width: calc(100vw - 24px);
+    padding: 20px 16px;
+  }
+  .model-settings-modal [data-slot="dialog-title"] {
+    padding-right: 20px;
+  }
+  .model-actions > button {
+    flex: 1;
+  }
+}
+
+.model-enable-row [role="switch"] {
+  min-height: 24px;
+  height: 24px;
+  min-width: 44px;
+  width: 44px;
+}
+
+.model-enable-row [data-slot="switch-thumb"][data-state="checked"] {
+  translate: 24px 0;
+}

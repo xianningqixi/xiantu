@@ -1,0 +1,238 @@
+{
+  "date": "2026-09-07",
+  "branch": "codex/maintainability-scale-mobile",
+  "sourceCommit": "f8cee152791e279a2309bbd5817dc9382b72779e",
+  "schema": 5,
+  "rulesVersion": "0.1.2",
+  "officialLock": "official.qingshi@0.1.1:c7402c381fe903eaa99784deae2066993da76500f5ea9422e61ae40779670cd9",
+  "status": "Local implementation and available regression checks passed; no remote push/deployment",
+  "cleanDirectory": "/tmp/xiantu-maintainability-clean.bP91Gn",
+  "cleanSource": "git archive f8cee152791e279a2309bbd5817dc9382b72779e",
+  "runs": [
+    {
+      "name": "working-verify",
+      "localLog": "/tmp/xiantu-final-verify.log",
+      "logSHA256": "791010a1f407d788719456da8a7b42319bb80a926c6cf968884ee4a86d14144d",
+      "exitCode": 0,
+      "command": "npm run verify",
+      "passed": 82,
+      "failedAtThisRun": 0,
+      "skipped": 0,
+      "testGroups": [
+        3,
+        7,
+        5,
+        7,
+        19,
+        5,
+        32,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "clean-install",
+      "localLog": "/tmp/xiantu-maintainability-clean-ci.log",
+      "logSHA256": "4248a38de9f9ddfbf407a1466e6fe993bde7507479e9005e7b68d38cde5929cf",
+      "exitCode": 0,
+      "command": "npm ci"
+    },
+    {
+      "name": "clean-verify",
+      "localLog": "/tmp/xiantu-maintainability-clean-verify.log",
+      "logSHA256": "73f0802184bd1d2246ae56302e56d6f070d18783e676ef1f17f2b9dd566d65af",
+      "exitCode": 0,
+      "command": "npm run verify",
+      "passed": 82,
+      "failedAtThisRun": 0,
+      "skipped": 0,
+      "testGroups": [
+        3,
+        7,
+        5,
+        7,
+        19,
+        5,
+        32,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "chrome-full",
+      "localLog": "/tmp/xiantu-full-chrome.log",
+      "logSHA256": "96f0fe9783ae801807ceb349bd1c91bb7833362838898373aba9e6de1baf6b4e",
+      "exitCode": 1,
+      "command": "PLAYWRIGHT_CHANNEL=chrome XIANTU_TEST_URL=http://127.0.0.1:3100 XIANTU_STRESS_OUTPUT=/tmp/xiantu-final-stress npm run test:browser:existing",
+      "passed": 29,
+      "failedAtThisRun": 1,
+      "skipped": 0,
+      "note": "Offline test raced the new retreat summary dialog; corrected to await visibility before Escape. All three offline tests passed in chrome-recheck."
+    },
+    {
+      "name": "chrome-recheck",
+      "localLog": "/tmp/xiantu-chrome-recheck.log",
+      "logSHA256": "d7987841135479069db7bcc2515f47e44c6c7003c6a2d2ea227e8094522b359e",
+      "exitCode": 0,
+      "command": "PLAYWRIGHT_CHANNEL=chrome XIANTU_TEST_URL=http://127.0.0.1:3100 npm run test:browser:existing -- tests/browser/offline.spec.ts tests/browser/improvements.spec.ts tests/browser/story.spec.ts",
+      "passed": 8,
+      "failedAtThisRun": 0,
+      "skipped": 0
+    },
+    {
+      "name": "firefox-full",
+      "localLog": "/tmp/xiantu-full-firefox.log",
+      "logSHA256": "1722095c5719a5272bf41164ff5f20467957c7c1062300df4573fcaf921b2c94",
+      "exitCode": 0,
+      "command": "PLAYWRIGHT_BROWSER=firefox XIANTU_TEST_URL=http://127.0.0.1:3100 XIANTU_STRESS_OUTPUT=/tmp/xiantu-final-stress npm run test:browser:existing",
+      "passed": 30,
+      "failedAtThisRun": 0,
+      "skipped": 0
+    }
+  ],
+  "performance": [
+    {
+      "npcCount": 100,
+      "initialDay": 3650,
+      "days": 30,
+      "importBytes": 7598643,
+      "importMs": 1082,
+      "actionMs": 3095,
+      "maxUiTimerGapMs": 71.5,
+      "samples": 61,
+      "browser": "chromium"
+    },
+    {
+      "npcCount": 100,
+      "initialDay": 3650,
+      "days": 30,
+      "importBytes": 7598643,
+      "importMs": 1154,
+      "actionMs": 6072,
+      "maxUiTimerGapMs": 81,
+      "samples": 112,
+      "browser": "firefox"
+    }
+  ],
+  "assets": {
+    "originalPngBytes": 23226882,
+    "webpBytes": 1364516,
+    "imageCount": 9,
+    "cssBytes": 78816,
+    "offline": {
+      "available": true,
+      "version": "8772923add315e8bd667",
+      "files": [
+        "/",
+        "/author",
+        "/art/optimized/lin-wan-135ea867f0c7.webp",
+        "/art/optimized/market-c7b2869c4ebb.webp",
+        "/art/optimized/ruins-738d103cf714.webp",
+        "/assets/framework-CXnKph_e.js",
+        "/assets/game-BRS2AJMq.js",
+        "/assets/index-D6gccapC.css",
+        "/assets/index-IODmb56f.js",
+        "/assets/layout-segment-context-B9bTedkZ.js",
+        "/assets/rolldown-runtime-S-ySWqyJ.js",
+        "/assets/simulation.worker-DnSy4wWN.js",
+        "/favicon.svg",
+        "/icon-192.png",
+        "/icon-512.png",
+        "/manifest.webmanifest"
+      ],
+      "bytes": 1371816
+    },
+    "offlineByteNote": "Static files only; HTML bytes are fetched separately during atomic installation."
+  },
+  "dependencies": {
+    "baseline": "1fe5a23",
+    "runtimeDirectBefore": 24,
+    "runtimeDirectAfter": 11,
+    "lockEntriesBefore": 885,
+    "lockEntriesAfter": 774,
+    "lockCountIncludesRoot": true,
+    "cleanInstalledPackages": 615
+  },
+  "migration": [
+    {
+      "seed": 1,
+      "oldBytes": 7598643,
+      "newBytes": 4642389,
+      "knowledge": 30546,
+      "receipts": 128,
+      "oldPrettyExportBytes": 11249089,
+      "migrationAndComparisonMs": 178,
+      "newPrettyJsonBytesForComparison": 8298891,
+      "note": "Current export uses newBytes compact JSON. Knowledge provenance, actors, events, relations and RNG compared unchanged."
+    },
+    {
+      "seed": 42,
+      "oldBytes": 7482006,
+      "newBytes": 4619383,
+      "knowledge": 29443,
+      "receipts": 128,
+      "oldPrettyExportBytes": 11073297,
+      "migrationAndComparisonMs": 150,
+      "newPrettyJsonBytesForComparison": 8216411,
+      "note": "Current export uses newBytes compact JSON. Knowledge provenance, actors, events, relations and RNG compared unchanged."
+    },
+    {
+      "seed": 12345,
+      "oldBytes": 7590131,
+      "newBytes": 4629423,
+      "knowledge": 30600,
+      "receipts": 128,
+      "oldPrettyExportBytes": 11236824,
+      "migrationAndComparisonMs": 143,
+      "newPrettyJsonBytesForComparison": 8281864,
+      "note": "Current export uses newBytes compact JSON. Knowledge provenance, actors, events, relations and RNG compared unchanged."
+    },
+    {
+      "seed": 20260906,
+      "oldBytes": 7693939,
+      "newBytes": 4650695,
+      "knowledge": 31577,
+      "receipts": 128,
+      "oldPrettyExportBytes": 11393666,
+      "migrationAndComparisonMs": 142,
+      "newPrettyJsonBytesForComparison": 8356533,
+      "note": "Current export uses newBytes compact JSON. Knowledge provenance, actors, events, relations and RNG compared unchanged."
+    },
+    {
+      "seed": 987654321,
+      "oldBytes": 7573787,
+      "newBytes": 4633867,
+      "knowledge": 30355,
+      "receipts": 128,
+      "oldPrettyExportBytes": 11211546,
+      "migrationAndComparisonMs": 133,
+      "newPrettyJsonBytesForComparison": 8277528,
+      "note": "Current export uses newBytes compact JSON. Knowledge provenance, actors, events, relations and RNG compared unchanged."
+    }
+  ],
+  "scale200Npc": {
+    "npcs": 200,
+    "days": 365,
+    "events": 7472,
+    "knowledge": 57124,
+    "bytes": 3713766,
+    "receipts": 128,
+    "commandIds": 365,
+    "ms": 14055
+  },
+  "scaleNote": "Five existing schema 4 ten-year snapshots migrated and compared, one new schema 5 200-NPC one-year run, plus actual ten-year browser continuations. The entire five-seed decade suite was not rerun this task.",
+  "storageLimits": {
+    "recentFullReceipts": 128,
+    "exactHistoricalCommandIdsRetained": true,
+    "importBytesLimit": 16777216,
+    "fullEventSourcing": false,
+    "hashIsAuthentication": false
+  },
+  "externalNotRun": [
+    "real iPhone Safari",
+    "Windows Chromium",
+    "independent reviewer",
+    "external playtesters",
+    "real AI provider"
+  ]
+}

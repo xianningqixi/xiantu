@@ -219,3 +219,52 @@ test("provider errors, malformed JSON, timeout, mock clarification and rate limi
     429,
   );
 });
+
+test("proxy origins use an explicit whitelist and independent sessions do not share quota", async () => {
+  const { allowedOrigins, clientRateIdentity } = await import(
+    "../../lib/server/negotiation-security"
+  );
+  const req = new Request("http://internal:8080/api/negotiation", {
+    method: "POST",
+    headers: {
+      Origin: "https://game.example",
+      "Content-Type": "application/json",
+      "CF-Connecting-IP": "192.0.2.1",
+    },
+    body: JSON.stringify(input()),
+  });
+  const env = { XIANTU_ALLOWED_ORIGINS: "https://game.example" };
+  assert.deepEqual(allowedOrigins(req, env), ["https://game.example"]);
+  assert.deepEqual(allowedOrigins(req, {}), []);
+  const a = await clientRateIdentity(req, env),
+    b = await clientRateIdentity(req, env);
+  assert.notEqual(a.rateKey, b.rateKey);
+  assert.ok(a.cookie?.includes("HttpOnly; SameSite=Strict"));
+  assert.ok(a.cookie?.includes("Secure"));
+  const repeat = new Request(req.clone(), {
+    headers: { ...Object.fromEntries(req.headers), Cookie: a.cookie!.split(";")[0] },
+  });
+  assert.equal((await clientRateIdentity(repeat, env)).rateKey, a.rateKey);
+  assert.equal(
+    (await clientRateIdentity(req, { XIANTU_TRUST_CF_IP: "1" })).rateKey,
+    "cf:192.0.2.1",
+  );
+  const opts = { config: { ...config, mock: true }, allowedOrigins: allowedOrigins(req, env) };
+  for (let i = 0; i < 6; i++)
+    assert.equal(
+      (await handleNegotiation(req.clone(), { ...opts, rateKey: a.rateKey })).status,
+      200,
+    );
+  assert.equal((await handleNegotiation(req.clone(), { ...opts, rateKey: a.rateKey })).status, 429);
+  assert.equal((await handleNegotiation(req.clone(), { ...opts, rateKey: b.rateKey })).status, 200);
+  assert.equal(
+    (
+      await handleNegotiation(req.clone(), {
+        ...opts,
+        allowedOrigins: ["https://another.example"],
+        rateKey: b.rateKey,
+      })
+    ).status,
+    403,
+  );
+});

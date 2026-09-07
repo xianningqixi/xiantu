@@ -1,3 +1,4 @@
+import { allowedOrigins } from "./negotiation-security";
 import { z } from "zod";
 import { canonicalTerms, proposalSchema, termsSchema } from "../game/negotiation";
 import { PACK } from "../game/content/official";
@@ -61,7 +62,7 @@ const windows = new Map<string, { time: number; count: number }>();
 function permitted(key: string, now = Date.now()) {
   if (windows.size > 2000)
     for (const [k, v] of windows) if (now - v.time > 60000) windows.delete(k);
-  if (windows.size > 2000) return false;
+  if (windows.size >= 2000 && !windows.has(key)) windows.delete(windows.keys().next().value!);
   const value = windows.get(key);
   if (!value || now - value.time >= 60000) {
     windows.set(key, { time: now, count: 1 });
@@ -138,13 +139,22 @@ const outputSchema = {
 };
 export async function handleNegotiation(
   request: Request,
-  options: { config: ProviderConfig | null; fetcher?: typeof fetch; rateKey?: string },
+  options: {
+    config: ProviderConfig | null;
+    fetcher?: typeof fetch;
+    rateKey: string;
+    allowedOrigins?: string[];
+  },
 ) {
-  if (request.headers.get("origin") !== new URL(request.url).origin)
+  if (
+    !(options.allowedOrigins ?? allowedOrigins(request, {})).includes(
+      request.headers.get("origin") ?? "",
+    )
+  )
     return json(403, { error: "请从游戏页面发起交涉。" });
   if (!request.headers.get("content-type")?.includes("application/json"))
     return json(415, { error: "交涉请求格式不支持。" });
-  if (!permitted(options.rateKey ?? "shared-local-prototype"))
+  if (!permitted(options.rateKey))
     return json(429, { error: "交涉太频繁，请稍后再试。固定选项仍可使用。" });
   if (!options.config) return json(503, { error: "自由交涉尚未配置，当前可继续使用固定选项。" });
   let input: z.infer<typeof negotiationRequestSchema>;

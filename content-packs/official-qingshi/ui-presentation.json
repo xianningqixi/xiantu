@@ -1,0 +1,118 @@
+{
+  "version": 1,
+  "objectives": [
+    {
+      "when": {
+        "battle": "present"
+      },
+      "title": "应对秘境遭遇",
+      "text": "指挥你的行动，或开启自动战斗。",
+      "tab": "journey",
+      "anchor": "battle-actions"
+    },
+    {
+      "when": {
+        "player.realm": 4
+      },
+      "title": "筑基已成",
+      "text": "再访故人，看看他们这些日子的变化。",
+      "tab": "people"
+    },
+    {
+      "when": {
+        "player.manual": false,
+        "player.location": "inn"
+      },
+      "title": "领取入门功法",
+      "text": "点击「向店家领取《基础吐纳诀》」，即可开始修炼。",
+      "tab": "journey",
+      "anchor": "learn-manual"
+    },
+    {
+      "when": {
+        "player.manual": false,
+        "story.flags.met": false,
+        "player.location": "market",
+        "primaryPresent": true
+      },
+      "title": "结识药摊旁的修士",
+      "text": "点击「上前见礼，询问她的姓名」，听听她的建议。",
+      "tab": "journey",
+      "anchor": "story-choice-greet"
+    },
+    {
+      "when": {
+        "player.manual": false,
+        "story.flags.met": true,
+        "player.location": "market",
+        "primaryPresent": true
+      },
+      "title": "记下吐纳法门",
+      "text": "点击「谢过{{primary.name}}，记下吐纳法门」，领取功法。",
+      "tab": "journey",
+      "anchor": "story-choice-learn"
+    },
+    {
+      "when": {
+        "player.manual": false
+      },
+      "title": "寻一册入门功法",
+      "text": "前往坊市或客栈领取入门经书。",
+      "tab": "journey",
+      "anchor": "practice-link"
+    },
+    {
+      "when": {
+        "player.realm": 0
+      },
+      "title": "引气入体",
+      "text": "积累 {{balance.cultivation.advanceRules.MORTAL.requiredExperience}} 修为，再尝试突破。",
+      "tab": "cultivation",
+      "anchor": "practice-start"
+    },
+    {
+      "when": {
+        "loot": "present"
+      },
+      "title": "兑现同行的约定",
+      "text": "返回坊市并决定凝元草的归属，你的选择会被记住。",
+      "tab": "journey"
+    },
+    {
+      "when": {
+        "story.flags.reunion": true
+      },
+      "title": "准备下一次突破",
+      "text": "继续修炼，备好丹药，向筑基迈进。",
+      "tab": "cultivation",
+      "anchor": "practice-start"
+    },
+    {
+      "when": {
+        "story.outcome": [
+          "fulfilled",
+          "breached"
+        ]
+      },
+      "title": "再访一位故人",
+      "text": "{{balance.story.reunionWaitDays}} 日后回坊市看看{{primary.name}}。",
+      "tab": "journey"
+    },
+    {
+      "when": {
+        "agreement.status": "accepted"
+      },
+      "title": "结伴探访残碑",
+      "text": "集齐三人，从古道出发；路费每位同伴 {{balance.story.departureFeePerNpc}} 灵石。",
+      "tab": "journey",
+      "anchor": "party-departure"
+    },
+    {
+      "when": {},
+      "title": "找一位同行之人",
+      "text": "听听{{primary.name}}的打算，商定一场秘境之行。",
+      "tab": "journey",
+      "anchor": "story-choice-listen"
+    }
+  ]
+}

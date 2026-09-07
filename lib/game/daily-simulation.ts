@@ -171,14 +171,15 @@ export function advanceDay(w: World, occupied: Set<string> = new Set(["PLAYER"])
       continue;
     }
     const draw = random(w, "simulation", 100);
-    if (draw < 55) cultivate(w, a);
-    else if (draw < 75) {
+    const weights = B.world.npcActionWeights;
+    if (draw < weights.cultivate) cultivate(w, a);
+    else if (draw < weights.cultivate + weights.work) {
       a.stones += B.actions.workSpiritStoneReward;
       a.activity = "接些杂务，赚取灵石";
-    } else if (draw < 85 && !isParty) {
+    } else if (draw < weights.cultivate + weights.work + weights.move && !isParty) {
       a.location = SAFE[random(w, "simulation", SAFE.length)];
       a.activity = "在附近走动";
-    } else if (draw < 95) {
+    } else if (draw < weights.cultivate + weights.work + weights.move + weights.socialize) {
       a.activity = "与当地修士交谈";
       const others = w.npcs.filter((b) => b.id !== a.id && b.alive && b.location === a.location);
       if (others.length) {

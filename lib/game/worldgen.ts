@@ -128,7 +128,11 @@ export function createWorld(
   }
   for (let i = 2; i < npcCount; i++) {
     const roll = draw(100);
-    const realm = roll < 40 ? 0 : roll < 70 ? 1 : roll < 85 ? 2 : roll < 95 ? 3 : 4;
+    let cumulative = 0;
+    const realm = REALM_KEYS.findIndex((key) => {
+      cumulative += B.world.initialRealmWeights[key];
+      return roll < cumulative;
+    });
     const npc = createActor(
       `NPC_${String(i + 1).padStart(4, "0")}`,
       surnames[draw(surnames.length)] + names[draw(names.length)],

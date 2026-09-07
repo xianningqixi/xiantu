@@ -3,6 +3,7 @@ import { extensionScenes } from "@/lib/game/content-story";
 import { extensionVisual } from "@/lib/game/content/extensions";
 import type { Command, World } from "@/lib/game/types";
 import { GameImage } from "./panels";
+import { TimeBadge } from "./time-badge";
 export function SideStories({
   world,
   busy,
@@ -43,6 +44,10 @@ export function SideStories({
                       <strong>{c.label}</strong>
                       <small>{c.hint}</small>
                     </span>
+                    <TimeBadge
+                      world={world}
+                      command={{ type: "chooseExtension", nodeId: scene.id, choiceId: c.id }}
+                    />
                   </button>
                 ))}
               </div>

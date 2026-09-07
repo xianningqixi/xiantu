@@ -1,15 +1,5 @@
 "use client";
-import { useState } from "react";
-import { Archive, Download } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,8 +10,18 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import type { BackupSummary, SaveExpectation } from "@/lib/game/types";
 import type { useGame } from "@/lib/game/use-game";
+import { Archive, Download } from "lucide-react";
+import { useState } from "react";
 
 type Props = { game: ReturnType<typeof useGame>; onPause: () => void };
 export function BackupManager({ game, onPause }: Props) {

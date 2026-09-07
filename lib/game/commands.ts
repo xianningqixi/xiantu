@@ -1,3 +1,4 @@
+import { commandDays, travelDays } from "./action-cost";
 import { advanceStopReason, validateStopCondition } from "./advance";
 import { DEPARTURE_FEE, SHOP_ITEMS, STONE_METHOD } from "./economy";
 import { validTerms } from "./negotiation";
@@ -39,7 +40,7 @@ const commandHandlers: CommandHandlers = {
     );
     requireRule(
       w.party.length === 1 && p.stones >= DEPARTURE_FEE,
-      "需要空出的队伍与至少两枚灵石路费。",
+      `需要空出的队伍与至少 ${DEPARTURE_FEE} 枚灵石路费。`,
     );
     acceptAgreement(w);
     w.negotiations.push({
@@ -53,7 +54,7 @@ const commandHandlers: CommandHandlers = {
     record(
       w,
       "negotiation",
-      `你确认了与${actorById(w, c.target)!.name}的同行草案：${c.proposal.reply} 条款：下一次秘境，三人同行，第一株凝元草归对方，其余战利品归你，出发支付2灵石。`,
+      `你确认了与${actorById(w, c.target)!.name}的同行草案：${c.proposal.reply} 条款：下一次秘境，三人同行，第一株凝元草归对方，其余战利品归你，出发支付 ${DEPARTURE_FEE} 灵石。`,
       ["PLAYER", c.target],
     );
     w.notice = "同行条款已确认并保存。会合后即可组队出发。";
@@ -134,7 +135,7 @@ const commandHandlers: CommandHandlers = {
       (LOCATIONS[p.location].destinations as readonly string[]).includes(c.to),
       "这里不能直接到达那个地点。",
     );
-    const time = p.location === "gate" || c.to === "gate" ? 1 : 0;
+    const time = travelDays(p.location, c.to);
     for (let d = 0; d < time; d++) advanceDay(w, new Set(w.party));
     if (w.ended) return;
     p.location = c.to;
@@ -242,7 +243,7 @@ const commandHandlers: CommandHandlers = {
   work: (w, c) => {
     const p = w.player;
     requireRule(p.location !== "ruins", "这里没有可接的杂务。");
-    advanceDay(w);
+    for (let d = 0; d < commandDays(w, c); d++) advanceDay(w);
     if (w.ended) return;
     p.stones += B.actions.workSpiritStoneReward;
     w.notice = `你替人整理药材、搬运货物，忙过 ${B.actions.workDays} 日，获得 ${B.actions.workSpiritStoneReward} 枚灵石。`;
@@ -252,7 +253,7 @@ const commandHandlers: CommandHandlers = {
   rest: (w, c) => {
     const p = w.player;
     requireRule(p.location !== "ruins", "先离开秘境再休息。");
-    advanceDay(w);
+    for (let d = 0; d < commandDays(w, c); d++) advanceDay(w);
     if (w.ended) return;
     p.hp = Math.min(
       stats(p).maxHp,
@@ -374,7 +375,7 @@ const commandHandlers: CommandHandlers = {
       "同伴已经离世，这份约定无法继续。",
     );
     w.agreement!.meeting = { location: p.location };
-    advanceDay(w);
+    for (let d = 0; d < commandDays(w, c); d++) advanceDay(w);
     if (w.ended) return;
     const status = partyReadiness(w);
     w.notice = status.ready
@@ -398,10 +399,13 @@ const commandHandlers: CommandHandlers = {
       w.agreement?.status === "accepted" && w.party.length === 3,
       "需要已接受的约定和三人队伍。",
     );
-    requireRule(!w.loot && p.stones >= DEPARTURE_FEE, "先结清上次战利品，并备好两枚灵石路费。");
+    requireRule(
+      !w.loot && p.stones >= DEPARTURE_FEE,
+      `先结清上次战利品，并备好 ${DEPARTURE_FEE} 枚灵石路费。`,
+    );
     requireRule(
       w.day - w.lastExpeditionDay >= B.economy.expeditionCooldownDays,
-      "秘境气息未定，三日后再入山。",
+      `秘境气息未定，${B.economy.expeditionCooldownDays} 日后再入山。`,
     );
     for (const id of w.party)
       requireRule(
@@ -417,7 +421,7 @@ const commandHandlers: CommandHandlers = {
     const id = `expedition:${w.events.length + 1}`;
     w.agreement!.status = "active";
     w.agreement!.expeditionId = id;
-    advanceDay(w, new Set(w.party));
+    for (let d = 0; d < commandDays(w, c); d++) advanceDay(w, new Set(w.party));
     if (w.ended) return;
     for (const id of w.party) actorById(w, id)!.location = "ruins";
     w.lastExpeditionDay = w.day;
@@ -459,8 +463,7 @@ const commandHandlers: CommandHandlers = {
     const p = w.player;
 
     requireRule(p.location === "ruins" && !w.battle, "先结束秘境中的战斗。");
-    advanceDay(w, new Set(w.party));
-    advanceDay(w, new Set(w.party));
+    for (let d = 0; d < commandDays(w, c); d++) advanceDay(w, new Set(w.party));
     if (w.ended) return;
     for (const id of w.party) actorById(w, id)!.location = "market";
     w.notice = "两日山路后，坊市的灯火重新映入眼帘。该清点这次的收获了。";

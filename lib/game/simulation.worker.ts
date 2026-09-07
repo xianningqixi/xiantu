@@ -198,7 +198,7 @@ async function advanceBatch(
     world.revision++;
     await commit(db, world, raw, true);
   }
-  const startDay = world.day;
+  const startDay = world.day - world.longAction!.checkpoint;
   let reason: "paused" | "completed" | "condition" = "paused";
   try {
     for (

@@ -1,5 +1,4 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -8,15 +7,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { PACK } from "@/lib/game/content/official";
+import { uniqueId } from "@/lib/game/ids";
 import {
   negotiationContext,
   proposalSchema,
   validTerms,
   type NegotiationProposal,
 } from "@/lib/game/negotiation";
-import { PACK } from "@/lib/game/content/official";
-import { uniqueId } from "@/lib/game/ids";
 import type { Command, World } from "@/lib/game/types";
+import { useEffect, useRef, useState } from "react";
 export function Negotiation({
   world,
   busy,
@@ -176,7 +176,7 @@ export function Negotiation({
           setOpen(true);
         }}
       >
-        与{target.name}自由交涉
+        与{target.name}同行交涉
       </Button>
       <Dialog
         open={open}
@@ -189,7 +189,7 @@ export function Negotiation({
           <DialogHeader>
             <DialogTitle>与{target.name}商议同行</DialogTitle>
             <DialogDescription>
-              自由交涉可选；等待和阅读不推进游戏日。草案需由你确认，双方资格会再次核对。
+              同行交涉可选；等待和阅读不推进游戏日。草案需由你确认，双方资格会再次核对。
             </DialogDescription>
           </DialogHeader>
           <form
@@ -226,7 +226,7 @@ export function Negotiation({
               )}
             </div>
           </form>
-          {offline && <p role="status">当前离线，自由交涉不可用。关闭此窗后可以继续固定选项。</p>}
+          {offline && <p role="status">当前离线，同行交涉不可用。关闭此窗后可以继续固定选项。</p>}
           {waiting && <p role="status">正在等待回应…</p>}
           {message && <p role="alert">{message}</p>}
           {proposal && (

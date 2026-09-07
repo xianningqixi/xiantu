@@ -48,3 +48,6 @@ next-env.d.ts
 /public/templates/*.zip
 # Browser-exported snapshots stay local; public tests generate synthetic worlds.
 /tests/game/fixtures/*.json
+
+# Build-generated presentation derivatives; authored PNGs remain in content-packs.
+/public/art/optimized/

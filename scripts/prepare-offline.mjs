@@ -6,8 +6,15 @@ const files = (dir) =>
   fs
     .readdirSync(dir, { withFileTypes: true })
     .flatMap((e) => (e.isDirectory() ? files(path.join(dir, e.name)) : [path.join(dir, e.name)]));
+const imageMap = JSON.parse(fs.readFileSync("lib/game/content/images.json", "utf8"));
+const lazyImages = new Set(
+  Object.values(imageMap)
+    .filter((image) => image.lazy)
+    .map((image) => image.src),
+);
 const assets = files(root)
   .filter((p) => /\.(js|css|png|jpg|jpeg|webp|svg|webmanifest)$/.test(p) && !p.endsWith("/sw.js"))
+  .filter((p) => !lazyImages.has("/" + path.relative(root, p)))
   .sort();
 const fingerprint = crypto.createHash("sha256");
 for (const file of assets) {

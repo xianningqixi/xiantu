@@ -42,6 +42,7 @@ function environment() {
   const requests = [];
   const context = vm.createContext({
     document,
+    useCallback: (fn) => fn,
     game: { pauseAdvance: () => {} },
     continuations: createContinuationGuard(),
     setAutoRunning: (value) => {

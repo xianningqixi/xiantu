@@ -1,0 +1,65 @@
+{
+  "/art/market.png": {
+    "src": "/art/optimized/market-c7b2869c4ebb.webp",
+    "width": 1280,
+    "height": 720,
+    "bytes": 166750,
+    "lazy": false
+  },
+  "/art/ruins.png": {
+    "src": "/art/optimized/ruins-738d103cf714.webp",
+    "width": 1280,
+    "height": 720,
+    "bytes": 150052,
+    "lazy": false
+  },
+  "/art/lin-wan.png": {
+    "src": "/art/optimized/lin-wan-135ea867f0c7.webp",
+    "width": 853,
+    "height": 1280,
+    "bytes": 87202,
+    "lazy": false
+  },
+  "/art/npc-male-1.png": {
+    "src": "/art/optimized/npc-male-1-0593d050c94b.webp",
+    "width": 1152,
+    "height": 1152,
+    "bytes": 123794,
+    "lazy": true
+  },
+  "/art/npc-male-2.png": {
+    "src": "/art/optimized/npc-male-2-db90399c8d02.webp",
+    "width": 1152,
+    "height": 1152,
+    "bytes": 345158,
+    "lazy": true
+  },
+  "/art/npc-male-3.png": {
+    "src": "/art/optimized/npc-male-3-08dc22afeab3.webp",
+    "width": 1152,
+    "height": 1152,
+    "bytes": 139976,
+    "lazy": true
+  },
+  "/art/npc-female-1.png": {
+    "src": "/art/optimized/npc-female-1-6e0e310fca14.webp",
+    "width": 1152,
+    "height": 1152,
+    "bytes": 120894,
+    "lazy": true
+  },
+  "/art/npc-female-2.png": {
+    "src": "/art/optimized/npc-female-2-d45e1798baf2.webp",
+    "width": 1152,
+    "height": 1152,
+    "bytes": 109492,
+    "lazy": true
+  },
+  "/art/npc-female-3.png": {
+    "src": "/art/optimized/npc-female-3-6fe00dc0eaa5.webp",
+    "width": 1152,
+    "height": 1152,
+    "bytes": 121198,
+    "lazy": true
+  }
+}

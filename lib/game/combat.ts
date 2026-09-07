@@ -19,7 +19,19 @@ export function finishBattle(w: World, outcome: "win" | "retreat" | "defeat") {
     if (!a.alive) continue;
     if (battle.lethal && f.hp === 0 && (a.id !== "PLAYER" || w.profile.mode === "complex"))
       die(w, a, "在致命遭遇中身亡");
-    else a.hp = Math.max(1, f.hp || Math.ceil(f.maxHp * (outcome === "defeat" ? 0.3 : 0.1)));
+    else
+      a.hp = Math.max(
+        1,
+        f.hp ||
+          Math.ceil(
+            f.maxHp *
+              (outcome === "defeat"
+                ? (w.profile.mode === "simple"
+                    ? B.modes.simple.defeatHpRestoreBp
+                    : B.modes.complex.nonlethalDefeatHpRestoreBp) / B.probabilityScaleBp
+                : B.combat.nonlethalVictoryDownedHpRestoreBp / B.probabilityScaleBp),
+          ),
+      );
   }
   updateAgreementAvailability(w);
   if (w.ended) {
@@ -45,9 +57,18 @@ export function finishBattle(w: World, outcome: "win" | "retreat" | "defeat") {
     w.player.location = "gate";
     for (const id of w.party) actorById(w, id)!.location = "gate";
     if (outcome === "defeat") {
-      w.player.stones -= Math.floor(w.player.stones * (w.profile.mode === "simple" ? 0.1 : 0.15));
-      advanceDay(w, new Set(w.party));
-      if (w.profile.mode === "complex") advanceDay(w, new Set(w.party));
+      w.player.stones -= Math.floor(
+        (w.player.stones *
+          (w.profile.mode === "simple"
+            ? B.modes.simple.defeatCurrencyLossBp
+            : B.modes.complex.nonlethalDefeatCurrencyLossBp)) /
+          B.probabilityScaleBp,
+      );
+      const days =
+        w.profile.mode === "simple"
+          ? B.modes.simple.defeatExtraRecoveryDays
+          : B.modes.complex.nonlethalDefeatExtraRecoveryDays;
+      for (let d = 0; d < days; d++) advanceDay(w, new Set(w.party));
     }
     w.notice =
       outcome === "retreat"

@@ -1,3 +1,4 @@
+import { prepareImages } from "./prepare-images.mjs";
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
@@ -23,15 +24,14 @@ const p = validateContent({
 });
 const sha = (data) => crypto.createHash("sha256").update(data).digest("hex");
 const hashes = {};
+const presentationImages = [];
 for (const [id, art] of Object.entries(p.art.assets)) {
   const source = path.join(root, art.file);
   if (!fs.existsSync(source)) throw new Error(`内容包缺图：${id} → ${art.file}`);
   const bytes = fs.readFileSync(source);
   if (!bytes.length) throw new Error(`图片为空：${art.file}`);
   hashes[id] = sha(bytes);
-  const target = path.join(project, "public", art.url);
-  fs.mkdirSync(path.dirname(target), { recursive: true });
-  fs.copyFileSync(source, target);
+  presentationImages.push({ source, url: art.url });
 }
 const digest = sha(JSON.stringify({ content: p, images: hashes }));
 fs.writeFileSync(
@@ -97,7 +97,7 @@ for (const atlas of npc.atlases) {
     throw new Error(`NPC 图集尺寸不匹配：${atlas.id}`);
   npcHashes[atlas.id] = sha(bytes);
   urls.add(atlas.url);
-  fs.copyFileSync(source, path.join(project, "public", atlas.url));
+  presentationImages.push({ source, url: atlas.url, lazy: true });
 }
 for (const bio of Object.values(npc.fixed))
   if (
@@ -118,6 +118,8 @@ fs.writeFileSync(
     2,
   ) + "\n",
 );
+
+await prepareImages(presentationImages);
 
 // A small, deterministic ZIP writer (STORE method); no system zip utility or extra dependency.
 function crc32(data) {

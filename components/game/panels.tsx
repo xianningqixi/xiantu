@@ -1,26 +1,10 @@
 "use client";
-import { SHOP_ITEMS, STONE_METHOD } from "@/lib/game/economy";
-import B from "@/lib/game/content/balance.json";
-import { useState } from "react";
-import {
-  BookOpen,
-  CircleHelp,
-  Coins,
-  Heart,
-  Leaf,
-  LockKeyhole,
-  Moon,
-  Package,
-  Shield,
-  Sparkles,
-  Sun,
-  Swords,
-  Wind,
-} from "lucide-react";
+import { imageAsset } from "@/lib/game/images";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
+import B from "@/lib/game/content/balance.json";
 import {
   ART,
   ARTIFACTS,
@@ -31,6 +15,7 @@ import {
   PACK,
   REALMS,
 } from "@/lib/game/content/official";
+import { SHOP_ITEMS, STONE_METHOD } from "@/lib/game/economy";
 import {
   breakthroughChance,
   gainPerDay,
@@ -40,9 +25,24 @@ import {
   threshold,
   visibleEvents,
 } from "@/lib/game/engine";
-import type { Actor, Command, World } from "@/lib/game/types";
 import { npcProfile } from "@/lib/game/npc-profile";
+import type { Actor, Command, World } from "@/lib/game/types";
+import {
+  BookOpen,
+  Coins,
+  Heart,
+  Leaf,
+  LockKeyhole,
+  Moon,
+  Shield,
+  Sparkles,
+  Sun,
+  Swords,
+  Wind,
+} from "lucide-react";
+import { useState } from "react";
 import { NpcPortrait } from "./npc-portrait";
+import { TimeBadge } from "./time-badge";
 
 export type Send = (c: Command) => Promise<boolean>;
 export function GameImage({
@@ -54,6 +54,7 @@ export function GameImage({
   alt: string;
   className?: string;
 }) {
+  const asset = imageAsset(src);
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
   return !src || failedSrc === src ? (
     <div className={`image-fallback ${className}`} role="img" aria-label={alt}>
@@ -61,7 +62,15 @@ export function GameImage({
       <span>{alt}</span>
     </div>
   ) : (
-    <img className={className} src={src} alt={alt} onError={() => setFailedSrc(src)} />
+    <img
+      className={className}
+      src={asset.src}
+      width={asset.width}
+      height={asset.height}
+      decoding="async"
+      alt={alt}
+      onError={() => setFailedSrc(src)}
+    />
   );
 }
 export function Meter({
@@ -99,10 +108,12 @@ export function CultivationPanel({
   onStart: () => void;
 }) {
   const [days, setDays] = useState("7");
+  const [stopMode, setStopMode] = useState("days");
   const [stone, setStone] = useState(false);
   const [pill, setPill] = useState(false);
   const [guardian, setGuardian] = useState(false);
   const p = w.player;
+  const duration = stopMode === "ready" ? 30 : Number(days);
   const can = p.xp >= threshold(p) && (p.realm === 0 || p.realm === 3);
   const lin = w.npcs.find((a) => a.id === PACK.roles.primary)!;
   const rel = relation(w, lin.id);
@@ -146,6 +157,7 @@ export function CultivationPanel({
             <p>听雨客栈为初学者备有《基础吐纳诀》，免费领取即可修炼。</p>
             <Button onClick={() => act({ type: "learn" })} disabled={busy || p.location !== "inn"}>
               领取并学习{p.location !== "inn" ? " · 请到客栈" : ""}
+              <TimeBadge world={w} command={{ type: "learn" }} />
             </Button>
           </div>
         </div>
@@ -168,6 +180,18 @@ export function CultivationPanel({
               </span>
               <Switch checked={stone} onCheckedChange={setStone} />
             </label>
+            <label className="field-label">
+              推进方式
+              <select
+                aria-label="推进方式"
+                value={stopMode}
+                onChange={(e) => setStopMode(e.target.value)}
+              >
+                <option value="days">按选定日数</option>
+                <option value="ready">修炼至圆满（最多 30 日）</option>
+                <option value="important">有重要事件时暂停</option>
+              </select>
+            </label>
             <RadioGroup value={days} onValueChange={setDays} className="day-options">
               {[1, 3, 7, 30].map((d) => (
                 <label key={d} className={Number(days) === d ? "selected" : ""}>
@@ -177,15 +201,27 @@ export function CultivationPanel({
               ))}
             </RadioGroup>
             <Button
-              className="wide-button"
               disabled={
                 busy ||
                 p.location === "ruins" ||
-                (stone && p.stones < Number(days) * STONE_METHOD.costSpiritStonesPerDay) ||
+                (stone && p.stones < duration * STONE_METHOD.costSpiritStonesPerDay) ||
                 !!w.longAction ||
                 !!w.battle
               }
-              onClick={() => act({ type: "train", days: Number(days), stoneMethod: stone })}
+              id="practice-start"
+              className="wide-button guide-target"
+              onClick={() =>
+                act({
+                  type: "train",
+                  days: duration,
+                  stoneMethod: stone,
+                  ...(stopMode === "ready"
+                    ? { stopWhen: { kind: "cultivationReady" } }
+                    : stopMode === "important"
+                      ? { stopWhen: { kind: "importantEvent" } }
+                      : {}),
+                })
+              }
             >
               <Moon size={17} /> {Number(days) >= 7 ? "开始闭关" : "开始修炼"}
               <span>
@@ -194,6 +230,19 @@ export function CultivationPanel({
                   ? ` · ${Number(days) * STONE_METHOD.costSpiritStonesPerDay} 灵石`
                   : " · 无消耗"}
               </span>
+              <TimeBadge
+                world={w}
+                command={{
+                  type: "train",
+                  days: duration,
+                  stoneMethod: stone,
+                  ...(stopMode === "ready"
+                    ? { stopWhen: { kind: "cultivationReady" } }
+                    : stopMode === "important"
+                      ? { stopWhen: { kind: "importantEvent" } }
+                      : {}),
+                }}
+              />
             </Button>
           </div>
           <div className="breakthrough-card">
@@ -250,6 +299,14 @@ export function CultivationPanel({
             >
               {can ? "凝神，尝试突破" : p.realm === 4 ? "筑基已成" : "尚需积累修为"}
               <span>{p.realm === 0 ? "1 日" : "3 日"}</span>
+              <TimeBadge
+                world={w}
+                command={{
+                  type: "breakthrough",
+                  usePill: p.realm === 3 && pill && p.pills > 0,
+                  guardian: p.realm === 3 && guardian && guardPossible,
+                }}
+              />
             </Button>
           </div>
         </>
@@ -261,6 +318,7 @@ export function CultivationPanel({
           onClick={() => send({ type: "rest" })}
         >
           <Heart size={16} /> 歇息一日
+          <TimeBadge world={w} command={{ type: "rest" }} />
         </Button>
         <Button
           variant="outline"
@@ -268,6 +326,7 @@ export function CultivationPanel({
           onClick={() => act({ type: "wait", days: 3 })}
         >
           <Sun size={16} /> 等候三日
+          <TimeBadge world={w} command={{ type: "wait", days: 3 }} />
         </Button>
       </div>
     </section>
@@ -337,6 +396,7 @@ export function InventoryPanel({
                   onClick={() => send({ type: "heal" })}
                 >
                   服用一枚
+                  <TimeBadge world={w} command={{ type: "heal" }} />
                 </Button>
               )}
             </div>
@@ -373,6 +433,7 @@ export function InventoryPanel({
               onClick={() => send({ type: "buy", item: item.id })}
             >
               购买{item.name}
+              <TimeBadge world={w} command={{ type: "buy", item: item.id }} />
             </Button>
           </div>
         ))}
@@ -392,6 +453,7 @@ export function InventoryPanel({
       >
         凝元草 ×{B.economy.pillExchange.inputQuantity} ＋ 灵石 ×
         {B.economy.pillExchange.spiritStoneCost} → 突破丹 ×{B.economy.pillExchange.outputQuantity}
+        <TimeBadge world={w} command={{ type: "exchange" }} />
       </Button>
     </section>
   );
@@ -463,29 +525,7 @@ export function PeoplePanel({
     </section>
   );
 }
-export function JournalPanel({ world: w }: { world: World }) {
-  const events = visibleEvents(w).slice().reverse();
-  return (
-    <section className="panel-section">
-      <div className="section-heading">
-        <span className="eyebrow">历程 · 落笔成忆</span>
-        <h2 className="serif">这一世的故事</h2>
-        <p>已经发生的选择，留在这里，也留在故人的记忆中。</p>
-      </div>
-      <div className="journal">
-        {events.map((e) => (
-          <article className="journal-entry" key={e.id}>
-            <time>第 {e.day + 1} 日</time>
-            <div>
-              <span className="journal-mark" />
-              <p>{e.text}</p>
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
+export { JournalPanel } from "./journal-panel";
 export function PersonDetail({
   world: w,
   id,
@@ -607,6 +647,7 @@ export function PersonDetail({
                 <p key={e!.id}>
                   <small>第 {e!.day + 1} 日</small>
                   {e!.text}
+                  <RelationshipTrend kind={e.kind} />
                 </p>
               ))}
             </div>
@@ -633,6 +674,7 @@ export function PersonDetail({
             >
               {r?.known ? "聊聊近况" : "上前见礼"}
               {!present ? " · 对方不在此处" : ""}
+              <TimeBadge world={w} command={{ type: "meet", target: id }} />
             </Button>
           }
         </>
@@ -745,6 +787,14 @@ export function BattlePanel({
             >
               <a.icon size={16} />
               {a.name}
+              <TimeBadge
+                world={w}
+                command={{
+                  type: "battle",
+                  action: a.id,
+                  ...(a.id === "attack" || a.id === "skill" ? { target: activeTarget } : {}),
+                }}
+              />
             </Button>
           ))}
         </div>
@@ -754,7 +804,7 @@ export function BattlePanel({
           </span>
           {[2, 3, 4].map((n) => (
             <span key={n} className="locked">
-              <LockKeyhole size={13} /> 未习得
+              <LockKeyhole size={13} /> 本版未开放
             </span>
           ))}
         </div>
@@ -765,5 +815,24 @@ export function BattlePanel({
         ))}
       </div>
     </section>
+  );
+}
+
+function RelationshipTrend({ kind }: { kind: string }) {
+  const change = B.relationships.eventDeltas[kind as keyof typeof B.relationships.eventDeltas];
+  if (!change) return null;
+  return (
+    <span className="relationship-trend">
+      {change.favorability !== 0 && (
+        <small className={change.favorability > 0 ? "trend-up" : "trend-down"}>
+          好感 {change.favorability > 0 ? "↑" : "↓"}
+        </small>
+      )}
+      {change.trust !== 0 && (
+        <small className={change.trust > 0 ? "trend-up" : "trend-down"}>
+          信任 {change.trust > 0 ? "↑" : "↓"}
+        </small>
+      )}
+    </span>
   );
 }

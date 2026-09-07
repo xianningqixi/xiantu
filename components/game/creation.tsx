@@ -1,7 +1,6 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import { Dices, ArrowRight, Sparkles, Leaf } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Select,
@@ -10,13 +9,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Progress } from "@/components/ui/progress";
+import { EXTENSIONS, selectedExtensions } from "@/lib/game/content/extensions";
 import { ARTIFACTS, COLORS, FACES, HAIRS } from "@/lib/game/content/official";
-import { draftSchema } from "@/lib/game/protocol";
-import { selectedExtensions } from "@/lib/game/content/extensions";
-import { EXTENSIONS } from "@/lib/game/content/extensions";
 import { rollAptitude } from "@/lib/game/engine";
+import { draftSchema } from "@/lib/game/protocol";
 import type { CreationDraft, Profile } from "@/lib/game/types";
+import { ArrowRight, Dices, Leaf, Sparkles } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 export function Creation({
   onCreate,

@@ -1,7 +1,8 @@
 "use client";
-import { useState } from "react";
+import { imageAsset } from "@/lib/game/images";
 import { npcPortrait } from "@/lib/game/npc-profile";
 import type { Actor, World } from "@/lib/game/types";
+import { useState } from "react";
 
 export function NpcPortrait({
   world,
@@ -13,6 +14,7 @@ export function NpcPortrait({
   className?: string;
 }) {
   const portrait = npcPortrait(world, actor);
+  const asset = imageAsset(portrait.src);
   const [failed, setFailed] = useState<string | null>(null);
   return (
     <div
@@ -24,7 +26,10 @@ export function NpcPortrait({
         <span className="serif">{actor.name[0]}</span>
       ) : (
         <img
-          src={portrait.src}
+          src={asset.src}
+          width={asset.width}
+          height={asset.height}
+          decoding="async"
           alt=""
           loading="lazy"
           onError={() => setFailed(portrait.src)}

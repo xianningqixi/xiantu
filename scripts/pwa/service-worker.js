@@ -1,6 +1,7 @@
 /* VERSION and CORE are replaced from the exact production build by prepare-offline.mjs. */
 const VERSION = __VERSION__;
 const CORE = __CORE__;
+const ART_CACHE = `xiantu-art-${VERSION}`;
 const CACHE = `xiantu-core-${VERSION}`;
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -20,6 +21,8 @@ self.addEventListener("activate", (event) => {
     (async () => {
       const keys = (await caches.keys()).filter((k) => k.startsWith("xiantu-core-"));
       for (const key of keys.slice(0, -2)) if (key !== CACHE) await caches.delete(key);
+      const artKeys = (await caches.keys()).filter((k) => k.startsWith("xiantu-art-"));
+      for (const key of artKeys.slice(0, -2)) if (key !== ART_CACHE) await caches.delete(key);
       await self.clients.claim();
     })(),
   );
@@ -70,7 +73,14 @@ self.addEventListener("fetch", (event) => {
       if (exact) return exact;
       const previous = await caches.match(request);
       if (previous) return previous;
-      return fetch(request);
+      const response = await fetch(request);
+      if (url.pathname.startsWith("/art/optimized/") && response.ok) {
+        const art = await caches.open(ART_CACHE);
+        await art.put(request, response.clone());
+        const entries = await art.keys();
+        for (const entry of entries.slice(0, -8)) await art.delete(entry);
+      }
+      return response;
     })(),
   );
 });

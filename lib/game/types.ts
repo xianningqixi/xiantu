@@ -46,6 +46,7 @@ export interface Relation {
   grievance?: boolean;
 }
 export interface WorldEvent {
+  relationshipChange?: { favor: number; trust: number };
   id: string;
   day: number;
   kind: string;

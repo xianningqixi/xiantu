@@ -1,3 +1,5 @@
+import B from "./content/balance.json";
+import { DEPARTURE_FEE } from "./economy";
 import { z } from "zod";
 import { PACK } from "./content/official";
 import { knownEvents } from "./knowledge";
@@ -8,9 +10,9 @@ export const termsSchema = z
     members: z.array(id).length(3),
     recipient: id,
     item: z.literal("grass"),
-    quantity: z.literal(1),
+    quantity: z.literal(B.story.firstGrassQuantity),
     remainder: z.literal("PLAYER"),
-    travelStones: z.literal(2),
+    travelStones: z.literal(DEPARTURE_FEE),
     scope: z.literal("next_expedition"),
   })
   .strict();
@@ -46,9 +48,9 @@ export const canonicalTerms = () => ({
   members: ["PLAYER", PACK.roles.primary, PACK.roles.companion],
   recipient: PACK.roles.primary,
   item: "grass" as const,
-  quantity: 1 as const,
+  quantity: B.story.firstGrassQuantity,
   remainder: "PLAYER" as const,
-  travelStones: 2 as const,
+  travelStones: DEPARTURE_FEE,
   scope: "next_expedition" as const,
 });
 export function validTerms(proposal: NegotiationProposal) {

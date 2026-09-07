@@ -1,4 +1,5 @@
 "use client";
+import { DEPARTURE_FEE } from "@/lib/game/economy";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -189,7 +190,8 @@ export function Negotiation({
           <DialogHeader>
             <DialogTitle>与{target.name}商议同行</DialogTitle>
             <DialogDescription>
-              同行交涉可选；等待和阅读不推进游戏日。草案需由你确认，双方资格会再次核对。
+              当前只支持三人同行、第一株草归{target.name}、其余归你、路费 {DEPARTURE_FEE}{" "}
+              灵石的标准约定；不支持自由定价或其他分配。等待和阅读不推进游戏日。
             </DialogDescription>
           </DialogHeader>
           <form

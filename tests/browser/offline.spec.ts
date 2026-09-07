@@ -1,3 +1,4 @@
+import { installPauseControl, armPause } from "./pause-control";
 import { test, expect } from "@playwright/test";
 import { readFileSync } from "node:fs";
 import { createServer, type Server } from "node:http";
@@ -51,6 +52,7 @@ test("production core can close and reopen offline, act and recover the saved da
   test.skip(!manifest.ok(), "Production-only: development has no service worker");
   const metadata = await manifest.json();
   test.skip(!metadata.available, "Production-only");
+  await installPauseControl(page);
   await page.goto("/");
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("离线修士");
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
@@ -66,13 +68,11 @@ test("production core can close and reopen offline, act and recover the saved da
   const reopened = await context.newPage();
   await reopened.goto("/");
   await expect(reopened.getByRole("heading", { name: "离线修士", exact: true })).toBeVisible();
-  await reopened
-    .getByRole("button", { name: "接些坊市杂务 1 日 · 获得 6 灵石", exact: true })
-    .click();
+  await reopened.getByRole("button", { name: /接些坊市杂务/ }).click();
   await expect(reopened.locator("header").getByText("第 2 日", { exact: true })).toBeVisible();
   await reopened.reload();
   await expect(reopened.locator("header").getByText("第 2 日", { exact: true })).toBeVisible();
-  await reopened.getByRole("button", { name: "与林晚自由交涉", exact: true }).click();
+  await reopened.getByRole("button", { name: "与林晚同行交涉", exact: true }).click();
   await expect(reopened.getByRole("dialog")).toContainText("当前离线");
   await expect(reopened.getByRole("button", { name: "提出商议", exact: true })).toBeDisabled();
 });
@@ -84,6 +84,7 @@ test("waiting update keeps the active version and refuses another open game tab 
   test.skip(!manifest.ok(), "Production-only");
   test.skip(!(await manifest.json()).available, "Production-only");
   script = original;
+  await installPauseControl(page);
   await page.goto("/");
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("更新修士");
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
@@ -120,6 +121,7 @@ test("a failed update retains the old cache, and a paused long action blocks act
   page,
 }) => {
   script = original;
+  await installPauseControl(page);
   await page.goto("/");
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("安全更新");
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
@@ -144,9 +146,9 @@ test("a failed update retains the old cache, and a paused long action blocks act
     await page.getByRole("button", { name: /向店家领取/ }).click();
     await page.getByRole("tab", { name: "修行", exact: true }).click();
     await page.getByRole("radio", { name: "30 日", exact: true }).check();
+    await armPause(page, 1);
     await page.getByRole("button", { name: /开始闭关/ }).click();
-    await expect(page.getByRole("button", { name: "暂停", exact: true })).toBeVisible();
-    await page.getByRole("button", { name: "暂停", exact: true }).click();
+    await expect(page.getByText("计算已暂停，已完成的日数和进度均已保存。")).toBeVisible();
     script = original.replace(/const VERSION = "([^"]+)"/, 'const VERSION = "$1-qa-safe"');
     await page.evaluate(async () => {
       await (await navigator.serviceWorker.getRegistration())!.update();
@@ -155,6 +157,9 @@ test("a failed update retains the old cache, and a paused long action blocks act
       timeout: 30000,
     });
     await page.getByRole("button", { name: "结束修行", exact: true }).click();
+    const summary = page.getByRole("dialog", { name: "闭关期间", exact: true });
+    await expect(summary).toBeVisible();
+    await page.keyboard.press("Escape");
     await expect(page.getByRole("button", { name: "应用更新并重开" })).toBeEnabled();
     await page.getByRole("button", { name: "应用更新并重开" }).click();
     await expect(page.getByRole("heading", { name: "安全更新", exact: true })).toBeVisible();

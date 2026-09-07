@@ -516,7 +516,9 @@ export default function Game({ preview = false }: { preview?: boolean }) {
                   <p>
                     {running
                       ? "你在修行，世界也在继续。"
-                      : "计算已暂停，已完成的日数和进度均已保存。"}
+                      : busy
+                        ? "正在暂停，当前一日保存后停止。"
+                        : "计算已暂停，已完成的日数和进度均已保存。"}
                   </p>
                   <div>
                     <Button

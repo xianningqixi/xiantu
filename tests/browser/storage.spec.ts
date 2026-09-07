@@ -38,9 +38,7 @@ test("draft fields and aptitude survive reloading before the world is created", 
 
 test("double click makes one reward and refresh recovers the committed day", async ({ page }) => {
   await create(page);
-  await page
-    .getByRole("button", { name: "接些坊市杂务 1 日 · 获得 6 灵石", exact: true })
-    .dblclick();
+  await page.getByRole("button", { name: /接些坊市杂务/ }).dblclick();
   await expect(page.locator("header").getByText("第 2 日", { exact: true })).toBeVisible();
   await page.reload();
   await expect(page.locator("header").getByText("第 2 日", { exact: true })).toBeVisible();
@@ -84,7 +82,7 @@ test("another page cannot write to a replaced character even at the same revisio
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
   await page.getByRole("button", { name: "确认继续", exact: true }).click();
   await expect(page.getByRole("heading", { name: "新角色", exact: true })).toBeVisible();
-  await other.getByRole("button", { name: "接些坊市杂务 1 日 · 获得 6 灵石", exact: true }).click();
+  await other.getByRole("button", { name: /接些坊市杂务/ }).click();
   await expect(other.getByRole("alert")).toContainText("另一页面");
   await other.getByRole("button", { name: "重新读取", exact: true }).click();
   await expect(other.getByRole("heading", { name: "新角色", exact: true })).toBeVisible();

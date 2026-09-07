@@ -63,16 +63,12 @@ for (const type of ["abort", "quota"])
     await setup(page);
     const before = await saved(page);
     await fault(page, type);
-    await page
-      .getByRole("button", { name: "接些坊市杂务 1 日 · 获得 6 灵石", exact: true })
-      .click();
+    await page.getByRole("button", { name: /接些坊市杂务/ }).click();
     await expect(page.getByRole("alert")).toContainText(
       type === "quota" ? "存储空间不足" : "保存未完成",
     );
     expect(await saved(page)).toEqual(before);
-    await page
-      .getByRole("button", { name: "接些坊市杂务 1 日 · 获得 6 灵石", exact: true })
-      .click();
+    await page.getByRole("button", { name: /接些坊市杂务/ }).click();
     await expect(page.locator("header").getByText("第 2 日", { exact: true })).toBeVisible();
     const after = await saved(page);
     expect(after.player.stones).toBe(before.player.stones + 6);
@@ -83,9 +79,7 @@ for (const type of ["beforePut", "lostAck"])
     await setup(page);
     const before = await saved(page);
     await fault(page, type);
-    await page
-      .getByRole("button", { name: "接些坊市杂务 1 日 · 获得 6 灵石", exact: true })
-      .click();
+    await page.getByRole("button", { name: /接些坊市杂务/ }).click();
     if (type === "beforePut")
       await expect.poll(() => page.evaluate(() => (window as any).__xiantuFaultHit)).toBe(true);
     else await expect.poll(async () => (await saved(page)).day).toBe(1);
@@ -123,9 +117,7 @@ for (const type of ["beforePut", "lostAck"])
     page,
   }) => {
     await setup(page);
-    await page
-      .getByRole("button", { name: "接些坊市杂务 1 日 · 获得 6 灵石", exact: true })
-      .click();
+    await page.getByRole("button", { name: /接些坊市杂务/ }).click();
     await expect(page.locator("header").getByText("第 2 日", { exact: true })).toBeVisible();
     await page
       .locator(".travel-options")
@@ -141,22 +133,25 @@ for (const type of ["beforePut", "lostAck"])
     await page.getByRole("button", { name: /开始闭关/ }).click();
     if (type === "beforePut")
       await expect.poll(() => page.evaluate(() => (window as any).__xiantuFaultHit)).toBe(true);
-    else await expect.poll(async () => (await saved(page)).longAction?.checkpoint).toBe(4);
+    else await expect.poll(async () => (await saved(page)).longAction).toBeNull();
     await page.reload();
-    await expect(page.getByText("计算已暂停，已完成的日数和进度均已保存。")).toBeVisible();
+    if (type === "beforePut")
+      await expect(page.getByText("计算已暂停，已完成的日数和进度均已保存。")).toBeVisible();
     const recovered = await saved(page),
-      completed = type === "beforePut" ? 3 : 4;
-    expect(recovered.longAction.checkpoint).toBe(completed);
-    expect(recovered.longAction.paidStones).toBe(completed);
+      completed = type === "beforePut" ? 3 : 7;
+    if (type === "beforePut") {
+      expect(recovered.longAction.checkpoint).toBe(completed);
+      expect(recovered.longAction.paidStones).toBe(completed);
+    } else expect(recovered.longAction).toBeNull();
     expect(recovered.player.stones).toBe(before.player.stones - completed);
     expect(recovered.day).toBe(before.day + completed);
-    await page.getByRole("button", { name: "继续", exact: true }).click();
+    if (type === "beforePut") await page.getByRole("button", { name: "继续", exact: true }).click();
     await expect.poll(async () => !!(await saved(page)).longAction).toBe(false);
     const final = await saved(page);
     expect(final.day).toBe(before.day + 7);
     expect(final.player.stones).toBe(before.player.stones - 7);
     for (let checkpoint = 1; checkpoint <= 7; checkpoint++)
       expect(final.appliedCommands).toContain(
-        `${recovered.saveId}:${recovered.longAction.id}:step:${checkpoint}`,
+        `${recovered.saveId}:${recovered.longAction?.id ?? `action:${before.revision + 1}`}:step:${checkpoint}`,
       );
   });

@@ -188,7 +188,7 @@ export function validateWorld(w: World) {
     "事件 ID 重复。",
   );
   const eventIds = new Set(w.events.map((e) => e.id));
-  for (const e of w.events)
+  for (const e of w.events) {
     requireRule(
       typeof e.text === "string" &&
         Number.isInteger(e.day) &&
@@ -196,6 +196,14 @@ export function validateWorld(w: World) {
         e.actors.every((id) => ids.has(id)),
       "事件引用不合法。",
     );
+    if (e.relationshipChange)
+      requireRule(
+        [e.relationshipChange.favor, e.relationshipChange.trust].every(
+          (n) => Number.isInteger(n) && n >= -200 && n <= 200,
+        ),
+        "关系变化记录不合法。",
+      );
+  }
   requireRule(
     object(w.simulationOptions) && typeof w.simulationOptions.backgroundConflicts === "boolean",
     "世界演化设置不合法。",

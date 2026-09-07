@@ -647,7 +647,7 @@ export function PersonDetail({
                 <p key={e!.id}>
                   <small>第 {e!.day + 1} 日</small>
                   {e!.text}
-                  <RelationshipTrend kind={e.kind} />
+                  <RelationshipTrend change={e.relationshipChange} />
                 </p>
               ))}
             </div>
@@ -818,14 +818,13 @@ export function BattlePanel({
   );
 }
 
-function RelationshipTrend({ kind }: { kind: string }) {
-  const change = B.relationships.eventDeltas[kind as keyof typeof B.relationships.eventDeltas];
+function RelationshipTrend({ change }: { change?: { favor: number; trust: number } }) {
   if (!change) return null;
   return (
     <span className="relationship-trend">
-      {change.favorability !== 0 && (
-        <small className={change.favorability > 0 ? "trend-up" : "trend-down"}>
-          好感 {change.favorability > 0 ? "↑" : "↓"}
+      {change.favor !== 0 && (
+        <small className={change.favor > 0 ? "trend-up" : "trend-down"}>
+          好感 {change.favor > 0 ? "↑" : "↓"}
         </small>
       )}
       {change.trust !== 0 && (

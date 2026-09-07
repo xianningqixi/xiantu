@@ -32,6 +32,7 @@ export function memory(
   text: string,
 ) {
   const r = ensureRelation(w, target);
+  const before = { favor: r.favor, trust: r.trust };
   const d = B.relationships.eventDeltas[kind];
   r.favor = clamp(r.favor + d.favorability, -100, 100);
   r.trust = clamp(
@@ -44,6 +45,10 @@ export function memory(
     100,
   );
   r.memories.push(record(w, kind, text, ["PLAYER", target]));
+  w.events.at(-1)!.relationshipChange = {
+    favor: r.favor - before.favor,
+    trust: r.trust - before.trust,
+  };
 }
 
 export function relationshipLabel(r?: Relation) {

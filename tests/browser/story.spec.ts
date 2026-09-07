@@ -1,3 +1,4 @@
+import { installPauseControl, armPause } from "./pause-control";
 import { test, expect, type Page, type Locator } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 async function saved(page: Page) {
@@ -25,6 +26,8 @@ async function click(page: Page, button: Locator) {
 async function finish(page: Page) {
   await expect.poll(async () => !!(await saved(page)).longAction, { timeout: 30000 }).toBe(false);
   await expect(page.getByText("本机已存", { exact: true })).toBeVisible();
+  await expect(page.getByRole("dialog", { name: "闭关期间", exact: true })).toBeVisible();
+  await page.keyboard.press("Escape");
 }
 async function train(page: Page, days: number) {
   await page.getByRole("tab", { name: "修行", exact: true }).click();
@@ -47,6 +50,7 @@ for (const honor of [true, false])
     test.setTimeout(180000);
     const errors: string[] = [];
     page.on("pageerror", (e) => errors.push(e.message));
+    await installPauseControl(page);
     await page.goto("/");
     await page
       .getByRole("textbox", { name: "姓名", exact: true })
@@ -66,12 +70,12 @@ for (const honor of [true, false])
     for (let i = 0; i < 5 && (await saved(page)).party.length === 1; i++)
       await click(
         page,
-        page.getByRole("button", { name: /^(邀二人同行|约在此处会合 · 1 日|等候同伴 · 1 日)$/ }),
+        page.getByRole("button", { name: /^(邀二人同行|约在此处会合 · 1 日|等候同伴 · 1 日)/ }),
       );
     expect((await saved(page)).party).toHaveLength(3);
     await click(page, page.locator(".travel-options").getByRole("button", { name: /山门古道/ }));
     await click(page, page.getByRole("button", { name: /三人同行，进入残碑秘境/ }));
-    await click(page, page.getByRole("button", { name: "普攻", exact: true }));
+    await click(page, page.getByRole("button", { name: "普攻 1 回合", exact: true }));
     const battle = await saved(page);
     expect(battle.battle).toBeTruthy();
     await page.reload();
@@ -80,7 +84,7 @@ for (const honor of [true, false])
     if (honor) {
       for (const action of ["青芒剑诀", "普攻", "防御", "普攻", "青芒剑诀"]) {
         if (!(await saved(page)).battle) break;
-        await click(page, page.getByRole("button", { name: action, exact: true }));
+        await click(page, page.getByRole("button", { name: `${action} 1 回合`, exact: true }));
       }
     } else {
       await page.getByRole("switch", { name: "自动战斗", exact: true }).click();
@@ -104,11 +108,11 @@ for (const honor of [true, false])
     ).toBe(true);
     await page.getByRole("tab", { name: "修行", exact: true }).click();
     await page.getByRole("radio", { name: "30 日", exact: true }).check();
+    await armPause(page);
     await click(page, page.getByRole("button", { name: /开始闭关/ }));
     await expect
       .poll(async () => (await saved(page)).longAction?.checkpoint ?? 30)
       .toBeGreaterThanOrEqual(3);
-    await page.getByRole("button", { name: "暂停", exact: true }).click();
     await expect(page.getByText("计算已暂停，已完成的日数和进度均已保存。")).toBeVisible();
     const paused = await saved(page);
     await page.getByRole("tab", { name: "故人", exact: true }).click();
@@ -140,10 +144,7 @@ for (const honor of [true, false])
         if (/重逢|失约|约定/.test(currentText) && (await sceneButtons.count()))
           await click(page, sceneButtons.first());
         else {
-          await click(
-            page,
-            page.getByRole("button", { name: "等候故人 3 日 · 世界继续前行", exact: true }),
-          );
+          await click(page, page.getByRole("button", { name: /等候故人/ }));
           await finish(page);
         }
       }
@@ -152,7 +153,7 @@ for (const honor of [true, false])
     if (!honor) {
       const before = await saved(page);
       if (before.npcs[0].location === "market")
-        await click(page, page.getByRole("button", { name: "交付药草，赔礼", exact: true }));
+        await click(page, page.getByRole("button", { name: /交付药草，赔礼/ }));
       expect((await saved(page)).events.some((e: any) => e.kind === "promiseBreached")).toBe(true);
     }
     await breakthrough(page);

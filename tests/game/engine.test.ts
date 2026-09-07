@@ -669,3 +669,16 @@ test("schema four knowledge migration preserves provenance and bounded receipts 
   corrupt.knowledge[corrupt.events[0].id][0][0] = 999;
   assert.throws(() => validateWorld(corrupt));
 });
+
+test("shared-event trends record actual relationship changes and do not claim increases at the cap", async () => {
+  const { memory } = await import("../../lib/game/relationships");
+  const world = createWorld(42, profile, "trend-test");
+  memory(world, PACK.roles.primary, "sharedVictory", "并肩取胜。");
+  assert.deepEqual(world.events.at(-1)?.relationshipChange, { favor: 8, trust: 6 });
+  const edge = relation(world, PACK.roles.primary)!;
+  edge.favor = 100;
+  edge.trust = 100;
+  memory(world, PACK.roles.primary, "sharedVictory", "再次并肩取胜。");
+  assert.deepEqual(world.events.at(-1)?.relationshipChange, { favor: 0, trust: 0 });
+  validateWorld(world);
+});

@@ -33,7 +33,7 @@ async function agreeReady(page: Page) {
   }
 }
 async function openNegotiation(page: Page) {
-  await page.getByRole("button", { name: "与林晚自由交涉", exact: true }).click();
+  await page.getByRole("button", { name: "与林晚同行交涉", exact: true }).click();
   return page.getByRole("dialog", { name: "与林晚商议同行" });
 }
 const terms = {
@@ -173,7 +173,7 @@ test("320px layout, 200 percent text and failed illustrations preserve actions a
   await page.addStyleTag({ content: "html{font-size:200% !important}" });
   await expect(page.getByRole("heading", { name: "窄屏修士", exact: true })).toBeVisible();
   expect(await world(page)).toEqual(before);
-  await page.getByRole("button", { name: "接些坊市杂务 1 日 · 获得 6 灵石", exact: true }).click();
+  await page.getByRole("button", { name: /接些坊市杂务/ }).click();
   await expect(page.locator("header").getByText("第 2 日", { exact: true })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });

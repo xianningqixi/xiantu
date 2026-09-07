@@ -1,3 +1,4 @@
+import { knowledgeEntries } from "./knowledge";
 import { B } from "./rules";
 import { requireSave as requireRule } from "./errors";
 import { validTerms, proposalSchema } from "./negotiation";
@@ -13,7 +14,7 @@ export function validateWorld(w: World) {
   );
   const object = (value: unknown) => !!value && typeof value === "object" && !Array.isArray(value);
   requireRule(
-    w.schemaVersion === 4 && object(w.commandReceipts),
+    w.schemaVersion === 5 && object(w.commandReceipts),
     "存档结构版本不支持，请使用迁移入口。",
   );
   requireRule(
@@ -38,6 +39,18 @@ export function validateWorld(w: World) {
         validTerms(n.proposal),
       "交涉历史无效。",
     );
+  requireRule(
+    object(w.receiptHistory) &&
+      Number.isSafeInteger(w.receiptHistory.count) &&
+      w.receiptHistory.count >= 0 &&
+      w.receiptHistory.count <= w.appliedCommands?.length &&
+      /^[0-9a-f]{64}$/.test(w.receiptHistory.hash),
+    "回执累计记录不合法。",
+  );
+  requireRule(
+    Object.keys(w.commandReceipts).length <= B.limits.recentCommandReceipts,
+    "近期回执超过上限。",
+  );
   const commandIds = new Set(Array.isArray(w.appliedCommands) ? w.appliedCommands : []);
   requireRule(
     Object.entries(w.commandReceipts).every(
@@ -186,10 +199,10 @@ export function validateWorld(w: World) {
     object(w.simulationOptions) && typeof w.simulationOptions.backgroundConflicts === "boolean",
     "世界演化设置不合法。",
   );
-  requireRule(Array.isArray(w.knowledge), "知情记忆缺失。");
+  requireRule(object(w.knowledge), "知情记忆缺失。");
   const evidence = new Map(w.events.map((e) => [e.id, e]));
   const knowledgeKeys = new Set<string>();
-  for (const m of w.knowledge) {
+  for (const m of knowledgeEntries(w)) {
     const e = evidence.get(m.eventId);
     const key = JSON.stringify([m.eventId, m.knower]);
     requireRule(
@@ -209,7 +222,7 @@ export function validateWorld(w: World) {
     if (m.source === "told") requireRule(m.sourceActor !== null, "告知必须保留来源。");
     knowledgeKeys.add(key);
   }
-  for (const m of w.knowledge)
+  for (const m of knowledgeEntries(w))
     if (m.source === "told")
       requireRule(
         knowledgeKeys.has(JSON.stringify([m.eventId, m.sourceActor])),

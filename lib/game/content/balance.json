@@ -612,6 +612,7 @@
     "maxNameLength": 16,
     "maxCommandBytes": 16384,
     "maxPlayerInputCharacters": 1000,
-    "maxAiOutputTokens": 1200
+    "maxAiOutputTokens": 1200,
+    "recentCommandReceipts": 128
   }
 }

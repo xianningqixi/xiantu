@@ -232,7 +232,7 @@ async function process(request: WorkerRequest): Promise<WorkerResponse> {
     assertSaveExpectation(raw, request.expected);
     if (request.kind === "export") {
       if (!raw) throw new GameError("PRECONDITION_FAILED", "尚无可导出的存档。");
-      const text = JSON.stringify(raw, null, 2);
+      const text = JSON.stringify(raw);
       return {
         id: request.id,
         ok: true,

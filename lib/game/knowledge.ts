@@ -1,4 +1,5 @@
-import type { Actor, Knowledge, Relation, World, WorldEvent } from "./types";
+import { GameError } from "./errors";
+import type { Actor, Knowledge, KnowledgeEntry, Relation, World, WorldEvent } from "./types";
 
 const observable = new Set([
   "advance",
@@ -10,7 +11,63 @@ const observable = new Set([
   "battle-retreat",
   "conflict",
 ]);
-const cachedKnowledge = new WeakMap<World, Set<string>>();
+export const KNOWLEDGE_SOURCES = ["participant", "witness", "told", "public", "legacy"] as const;
+const actorIndexes = new WeakMap<World, Map<string, number>>();
+function indexes(world: World) {
+  let map = actorIndexes.get(world);
+  if (!map) {
+    map = new Map([world.player, ...world.npcs].map((a, i) => [a.id, i]));
+    actorIndexes.set(world, map);
+  }
+  return map;
+}
+export function compactKnowledge(world: World, entries: Knowledge[]): World["knowledge"] {
+  const index = indexes(world);
+  const result: World["knowledge"] = {};
+  for (const m of entries) {
+    const row: KnowledgeEntry = [
+      index.get(m.knower) ?? -1,
+      KNOWLEDGE_SOURCES.indexOf(m.source),
+      m.sourceActor === null ? -1 : (index.get(m.sourceActor) ?? -2),
+      m.learnedDay,
+    ];
+    if (!Object.hasOwn(result, m.eventId))
+      Object.defineProperty(result, m.eventId, {
+        value: [],
+        enumerable: true,
+        writable: true,
+        configurable: true,
+      });
+    result[m.eventId].push(row);
+  }
+  return result;
+}
+/** Decode on demand at presentation/validation boundaries, never store expanded duplicates. */
+export function* knowledgeEntries(world: World): Generator<Knowledge> {
+  const people = [world.player, ...world.npcs];
+  for (const [eventId, rows] of Object.entries(world.knowledge)) {
+    if (!Array.isArray(rows)) throw new GameError("INVALID_SAVE", "知情记录分组不合法。");
+    for (const row of rows) {
+      if (
+        !Array.isArray(row) ||
+        row.length !== 4 ||
+        !row.every(Number.isSafeInteger) ||
+        row[2] < -1
+      )
+        throw new GameError("INVALID_SAVE", "知情记录编码不合法。");
+      const [knower, source, from, learnedDay] = row;
+      if (!people[knower] || !KNOWLEDGE_SOURCES[source] || (from !== -1 && !people[from]))
+        throw new GameError("INVALID_SAVE", "知情记录引用不合法。");
+      yield {
+        eventId,
+        knower: people[knower].id,
+        source: KNOWLEDGE_SOURCES[source],
+        sourceActor: from === -1 ? null : people[from].id,
+        learnedDay,
+      };
+    }
+  }
+}
 const actor = (world: World, id: string) =>
   id === "PLAYER" ? world.player : world.npcs.find((npc) => npc.id === id);
 
@@ -21,16 +78,24 @@ export function rememberFact(
   source: Knowledge["source"],
   sourceActor: string | null = null,
 ) {
-  if (!actor(world, knower)) throw new Error("记忆知情人不存在。");
-  let keys = cachedKnowledge.get(world);
-  if (!keys) {
-    keys = new Set(world.knowledge.map((m) => JSON.stringify([m.eventId, m.knower])));
-    cachedKnowledge.set(world, keys);
-  }
-  const key = JSON.stringify([event.id, knower]);
-  if (keys.has(key)) return;
-  keys.add(key);
-  world.knowledge.push({ eventId: event.id, knower, source, sourceActor, learnedDay: world.day });
+  const index = indexes(world);
+  const who = index.get(knower);
+  if (who === undefined) throw new GameError("INVALID_SAVE", "记忆知情人不存在。");
+  if (!Object.hasOwn(world.knowledge, event.id))
+    Object.defineProperty(world.knowledge, event.id, {
+      value: [],
+      enumerable: true,
+      writable: true,
+      configurable: true,
+    });
+  const rows = world.knowledge[event.id];
+  if (rows.some((row) => row[0] === who)) return;
+  rows.push([
+    who,
+    KNOWLEDGE_SOURCES.indexOf(source),
+    sourceActor === null ? -1 : (index.get(sourceActor) ?? -2),
+    world.day,
+  ]);
 }
 
 export function recordFact(
@@ -64,10 +129,9 @@ export function recordFact(
 }
 
 export function knownEvents(world: World, knower = "PLAYER") {
-  const ids = new Set(
-    world.knowledge.filter((memory) => memory.knower === knower).map((memory) => memory.eventId),
-  );
-  return world.events.filter((event) => ids.has(event.id));
+  const who = indexes(world).get(knower);
+  if (who === undefined) return [];
+  return world.events.filter((event) => world.knowledge[event.id]?.some((row) => row[0] === who));
 }
 
 export function tellOwnRecentFacts(world: World, speakerId: string, listenerId = "PLAYER") {

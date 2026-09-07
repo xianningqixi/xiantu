@@ -1,3 +1,4 @@
+import { knowledgeEntries } from "../../lib/game/knowledge";
 import { createHash } from "node:crypto";
 import type { World } from "../../lib/game/types";
 export function canonicalJson(value: unknown): string {
@@ -15,7 +16,8 @@ export function canonicalJson(value: unknown): string {
 // train/wait facts, corresponding knowledge and notice are not gameplay effects.
 // Important facts and every reference are retained under content-based aliases.
 export function simulationFingerprint(world: World): string {
-  const { saveId, revision, commandReceipts, appliedCommands, notice, ...state } = world;
+  const { saveId, revision, commandReceipts, receiptHistory, appliedCommands, notice, ...state } =
+    world;
   const events = world.events.filter((e) => !["train", "wait"].includes(e.kind));
   const aliases = new Map(
     events.map(({ id, ...event }) => [
@@ -36,7 +38,7 @@ export function simulationFingerprint(world: World): string {
         replace({
           ...state,
           events,
-          knowledge: world.knowledge.filter((k) => aliases.has(k.eventId)),
+          knowledge: [...knowledgeEntries(world)].filter((k) => aliases.has(k.eventId)),
         }),
       ),
     )

@@ -154,12 +154,13 @@ export function createWorld(
   player.goal = "从凡人开始，寻一条自己的道";
   player.sect = "无";
   const w: World = {
-    schemaVersion: 4,
+    schemaVersion: 5,
     negotiations: [],
     contentLocks: options.contentLocks ?? [],
     contentState: {},
     commandReceipts: {},
-    knowledge: [],
+    knowledge: {},
+    receiptHistory: { count: 0, hash: "0".repeat(64) },
     simulationOptions: {
       backgroundConflicts:
         options.backgroundConflicts ?? B.world.ordinaryNpcOffscreenConflictEnabled,

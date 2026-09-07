@@ -63,6 +63,13 @@ export interface Knowledge {
   sourceActor: string | null;
   learnedDay: number;
 }
+/** Actor indexes address [player, ...npcs], whose identities are never deleted or reordered. */
+export type KnowledgeEntry = [
+  knower: number,
+  source: number,
+  sourceActor: number,
+  learnedDay: number,
+];
 export interface StoryState {
   flags: Record<string, boolean>;
   outcome: "none" | "fulfilled" | "breached" | "not_triggered";
@@ -118,11 +125,12 @@ export interface LongAction {
   guardian: string | null;
 }
 export interface World {
-  schemaVersion: 4;
+  schemaVersion: 5;
   negotiations: NegotiationRecord[];
   contentLocks: string[];
   contentState: Record<string, boolean>;
-  knowledge: Knowledge[];
+  knowledge: Record<string, KnowledgeEntry[]>;
+  receiptHistory: { count: number; hash: string };
   simulationOptions: { backgroundConflicts: boolean };
   commandReceipts: Record<string, { fingerprint: string; revision: number }>;
   format: "xiantu-web-1";

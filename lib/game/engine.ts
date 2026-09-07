@@ -1,3 +1,4 @@
+import { pruneReceipts } from "./receipts";
 import type { Command, World } from "./types";
 import { commandFingerprint, GameError, parseCommand } from "./protocol";
 import { requireRule } from "./rules";
@@ -47,6 +48,7 @@ export function applyCommand(
     writable: true,
     configurable: true,
   });
+  pruneReceipts(next);
   validateWorld(next);
   return next;
 }

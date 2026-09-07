@@ -1,5 +1,10 @@
 import { canonicalJson, simulationFingerprint } from "./semantic";
-import { recordFact, knownEvents, tellOwnRecentFacts } from "../../lib/game/knowledge";
+import {
+  knowledgeEntries,
+  recordFact,
+  knownEvents,
+  tellOwnRecentFacts,
+} from "../../lib/game/knowledge";
 import B from "../../lib/game/content/balance.json";
 const REALM_KEYS = ["MORTAL", "QI_1", "QI_2", "QI_3", "FOUNDATION_1"] as const;
 import test from "node:test";
@@ -403,7 +408,8 @@ test("knowledge distinguishes private participants, local witnesses and sourced 
   r.state.player.location = "inn";
   tellOwnRecentFacts(r.state, a.id);
   assert.equal(
-    r.state.knowledge.find((m) => m.eventId === privateId && m.knower === "PLAYER")?.sourceActor,
+    [...knowledgeEntries(r.state)].find((m) => m.eventId === privateId && m.knower === "PLAYER")
+      ?.sourceActor,
     a.id,
   );
   const before = JSON.stringify(r.state);
@@ -635,4 +641,31 @@ test("xorshift golden vectors, object-key permutations and one hundred rerolls p
     assert.ok(aptitude >= 1 && aptitude <= 100);
     assert.deepEqual(createWorld(12345, { ...profile, aptitude }, "reroll").npcs, w.npcs);
   }
+});
+
+test("schema four knowledge migration preserves provenance and bounded receipts retain old-ID protection", async () => {
+  const { migrateSave } = await import("../../lib/game/migrations");
+  let world = createWorld(42, profile, "compact-migration");
+  for (let i = 0; i < 140; i++)
+    world = applyCommand(world, { type: "work" }, `work-${i}`, world.revision);
+  assert.equal(Object.keys(world.commandReceipts).length, B.limits.recentCommandReceipts);
+  assert.equal(world.receiptHistory.count, 12);
+  assert.notEqual(world.receiptHistory.hash, "0".repeat(64));
+  assert.equal(applyCommand(world, { type: "work" }, "work-139", 0), world);
+  assert.throws(
+    () => applyCommand(world, { type: "work" }, "work-0", 0),
+    (e: unknown) => !!e && typeof e === "object" && "code" in e && e.code === "COMMAND_ID_REUSE",
+  );
+  const evidence = [...knowledgeEntries(world)];
+  const legacy = { ...structuredClone(world), schemaVersion: 4, knowledge: evidence };
+  const before = JSON.stringify(legacy);
+  const { world: migrated, migrated: changed } = migrateSave(legacy);
+  assert.equal(changed, true);
+  assert.deepEqual([...knowledgeEntries(migrated)], evidence);
+  assert.deepEqual(migrated.rng, world.rng);
+  assert.equal(migrated.day, world.day);
+  assert.equal(JSON.stringify(legacy), before);
+  const corrupt = structuredClone(migrated);
+  corrupt.knowledge[corrupt.events[0].id][0][0] = 999;
+  assert.throws(() => validateWorld(corrupt));
 });

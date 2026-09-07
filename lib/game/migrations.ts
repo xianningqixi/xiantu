@@ -1,7 +1,8 @@
+import { pruneReceipts } from "./receipts";
 import { validateWorld } from "./engine";
-import { migrateKnowledge } from "./knowledge";
+import { compactKnowledge, migrateKnowledge } from "./knowledge";
 import { GameError } from "./protocol";
-import type { World } from "./types";
+import type { Knowledge, World } from "./types";
 
 /** Registered additive migration for the released xiantu-web-1 snapshot only.
  * Content/rules locks remain subject to validateWorld; this never blesses an unknown pack.
@@ -12,16 +13,22 @@ export function migrateSave(value: unknown): { world: World; migrated: boolean }
   }
   const copy = structuredClone(value) as World;
   const version = (value as { schemaVersion?: unknown }).schemaVersion;
-  if (version !== undefined && version !== 1 && version !== 2 && version !== 3 && version !== 4) {
+  if (
+    version !== undefined &&
+    version !== 1 &&
+    version !== 2 &&
+    version !== 3 &&
+    version !== 4 &&
+    version !== 5
+  ) {
     throw new GameError(
       "SAVE_VERSION_UNSUPPORTED",
       "这是尚不支持的存档版本，请保留文件并使用对应版本打开。",
     );
   }
   const oldRules = (value as { rulesVersion?: unknown }).rulesVersion;
-  const migrated = version !== 4 || oldRules === "0.1.1";
-  if (version !== 4) {
-    copy.schemaVersion = 4;
+  const migrated = version !== 5 || oldRules === "0.1.1";
+  if (version !== 4 && version !== 5) {
     copy.negotiations = [];
     if (version !== 3) {
       copy.contentLocks = [];
@@ -31,11 +38,11 @@ export function migrateSave(value: unknown): { world: World; migrated: boolean }
       copy.contentState ??= {};
     }
   }
-  if (version !== 3 && version !== 4) {
+  if (version !== 3 && version !== 4 && version !== 5) {
     // Old command IDs remain in appliedCommands and stay non-replayable when their
     // original payload is unknown. Do not invent receipts or delete old history.
     if (version !== 2) copy.commandReceipts = {};
-    copy.knowledge = migrateKnowledge(copy);
+    copy.knowledge = compactKnowledge(copy, migrateKnowledge(copy));
     copy.simulationOptions = { backgroundConflicts: false };
     for (const actor of [copy.player, ...copy.npcs]) actor.lastActionDay = copy.day - 1;
     if (copy.battle) copy.battle.lethal = false;
@@ -47,6 +54,13 @@ export function migrateSave(value: unknown): { world: World; migrated: boolean }
     }
   }
   if (oldRules === "0.1.1") copy.rulesVersion = "0.1.2";
+  if (version === 3 || version === 4)
+    copy.knowledge = compactKnowledge(copy, (value as { knowledge: Knowledge[] }).knowledge);
+  if (version !== 5) {
+    copy.schemaVersion = 5;
+    copy.receiptHistory = { count: 0, hash: "0".repeat(64) };
+    pruneReceipts(copy);
+  }
   validateWorld(copy);
   return { world: copy, migrated };
 }

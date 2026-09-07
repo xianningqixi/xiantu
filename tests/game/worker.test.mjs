@@ -413,10 +413,12 @@ test("released version-one snapshots migrate additively with an exact old backup
   const response = await env.client().send({ kind: "load" });
   assert.equal(response.ok, true, response.error);
   assert.equal(response.migrated, true);
-  assert.equal(response.state.schemaVersion, 4);
+  assert.equal(response.state.schemaVersion, 5);
   assert.deepEqual({ ...releasedShape(response.state), revision: legacy.revision }, legacy);
   assert.ok(
-    response.state.knowledge.every((m) => ["participant", "public", "legacy"].includes(m.source)),
+    Object.values(response.state.knowledge)
+      .flat()
+      .every((m) => [0, 3, 4].includes(m[1])),
   );
   assert.deepEqual(await env.records("backups"), [legacy]);
   assert.deepEqual(await env.client().load(), response.state);
@@ -487,7 +489,7 @@ test("schema two migration preserves payload receipts and checkpoint resource ac
   const clean = environment();
   await clean.seedLegacy(legacy);
   const result = await clean.client().load();
-  assert.equal(result.schemaVersion, 4);
+  assert.equal(result.schemaVersion, 5);
   assert.deepEqual(result.commandReceipts, w.commandReceipts);
   assert.deepEqual({ ...releasedShape(result, 2), revision: legacy.revision }, legacy);
 });

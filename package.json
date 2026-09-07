@@ -14,8 +14,8 @@
     "prebuild:local": "npm run content:prepare",
     "build:local": "vinext build",
     "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
-    "start:local": "vinext start",
-    "verify": "npm run check:boundaries && npm run test:boundaries && npm run typecheck:game && npm run test:content && npm run test:storage && npm run test:client && npm run test:game && npm run build:local",
+    "start:local": "node scripts/start-local.mjs",
+    "verify": "npm run check:boundaries && npm run test:boundaries && npm run typecheck:game && npm run test:content && npm run test:extensions && npm run test:ai && npm run test:storage && npm run test:client && npm run test:game && npm run build:local",
     "test": "npm run build && node --test tests/*.test.mjs",
     "lint": "bash scripts/sites-env.sh -- eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "bash scripts/sites-env.sh -- drizzle-kit generate",
@@ -28,8 +28,17 @@
     "test:client": "node --test tests/game/continuation.test.mjs",
     "test:browser": "npm run build:local && playwright test",
     "test:browser:existing": "playwright test",
-    "test:boundaries": "node --test tests/boundaries.test.mjs",
-    "check:boundaries": "node scripts/check-boundaries.mjs"
+    "test:boundaries": "node --test tests/boundaries.test.mjs tests/http-target.test.mjs",
+    "check:boundaries": "node scripts/check-boundaries.mjs",
+    "test:stress": "esbuild tests/game/stress.test.ts --bundle --platform=node --format=esm --outfile=.game-test-build/stress.test.mjs && node --test .game-test-build/stress.test.mjs",
+    "content:fixtures": "npm run content:prepare && esbuild scripts/content/fixtures.ts --bundle --platform=node --format=esm --outfile=.game-test-build/content-fixtures.mjs && node .game-test-build/content-fixtures.mjs",
+    "test:extensions": "npm run content:prepare && esbuild tests/game/extensions.test.ts --bundle --platform=node --format=esm --outfile=.game-test-build/extensions.test.mjs && node --test .game-test-build/extensions.test.mjs",
+    "test:ai": "esbuild tests/game/negotiation.test.ts --bundle --platform=node --format=esm --outfile=.game-test-build/negotiation.test.mjs && node --test .game-test-build/negotiation.test.mjs",
+    "postbuild:local": "node scripts/prepare-offline.mjs",
+    "postbuild": "node scripts/prepare-offline.mjs",
+    "verify:release": "npm run verify && npm run test:stress && npm run test:browser:existing",
+    "pretest:browser:existing": "npm run content:fixtures",
+    "test:portability": "node scripts/qa-portability.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
@@ -76,7 +85,8 @@
     "typescript": "5.9.3",
     "vinext": "0.0.50",
     "vite": "8.0.13",
-    "wrangler": "4.92.0"
+    "wrangler": "4.92.0",
+    "zod-to-json-schema": "3.25.2"
   },
   "type": "module"
 }

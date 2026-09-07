@@ -19,7 +19,7 @@ test('draft fields and aptitude survive reloading before the world is created', 
   await page.getByRole('radio', { name: '男', exact: true }).check();
   await page.getByRole('button', { name: '重掷', exact: true }).click();
   const aptitude = await page.getByRole('progressbar', { name: '灵根资质' }).getAttribute('aria-valuenow');
-  await expect(page.getByRole('status')).toHaveText('创角草稿已保存');
+  await expect(page.locator('.creation-form').getByRole('status')).toHaveText('创角草稿已保存');
   await page.reload();
   await expect(page.getByRole('textbox', { name: '姓名', exact: true })).toHaveValue('草稿修士');
   await expect(page.getByRole('radio', { name: '男', exact: true })).toBeChecked();
@@ -113,7 +113,7 @@ async function mutateStoredSave(page: Page, change: 'legacy' | 'corrupt') {
       let original: Record<string, unknown>;
       q.onsuccess = () => {
         original = structuredClone(q.result);
-        if (change === 'legacy') { delete q.result.schemaVersion; delete q.result.commandReceipts; }
+        if (change === 'legacy') { delete q.result.schemaVersion; delete q.result.commandReceipts; q.result.rulesVersion='0.1.1'; delete q.result.negotiations;delete q.result.contentLocks;delete q.result.contentState;delete q.result.knowledge; delete q.result.simulationOptions; for(const a of [q.result.player,...q.result.npcs])delete a.lastActionDay; if(q.result.battle)delete q.result.battle.lethal; if(q.result.longAction)for(const key of ['id','checkpoint','paidStones'])delete q.result.longAction[key]; }
         else q.result.profile = null;
         store.put(q.result, 'current');
       };
@@ -147,4 +147,11 @@ test('a corrupt current save stays exportable and a valid backup can recover it'
   await backups.getByRole('button', { name: '恢复', exact: true }).click();
   await page.getByRole('button', { name: '确认恢复', exact: true }).click();
   await expect(page.getByRole('heading', { name: '损坏前修士', exact: true })).toBeVisible();
+});
+
+test('a creation draft exports and imports without creating or replacing a world',async({page})=>{
+ await page.goto('/');await page.getByRole('textbox',{name:'姓名',exact:true}).fill('可携草稿');await page.getByRole('radio',{name:'男',exact:true}).check();await expect(page.locator('.creation-form').getByRole('status')).toHaveText('创角草稿已保存');
+ const download=page.waitForEvent('download');await page.getByRole('button',{name:'导出创角草稿',exact:true}).click();const file=await(await download).path();
+ await page.getByRole('textbox',{name:'姓名',exact:true}).fill('临时草稿');await expect(page.locator('.creation-form').getByRole('status')).toHaveText('创角草稿已保存');await page.getByLabel('选择创角草稿', {exact:true}).setInputFiles(file!);await expect(page.getByRole('textbox',{name:'姓名',exact:true})).toHaveValue('可携草稿');await expect(page.getByRole('radio',{name:'男',exact:true})).toBeChecked();
+ await page.reload();await expect(page.getByRole('textbox',{name:'姓名',exact:true})).toHaveValue('可携草稿');await expect(page.getByRole('button',{name:'踏入仙途',exact:true})).toBeVisible();
 });

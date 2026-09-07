@@ -1,0 +1,426 @@
+[
+  {
+    "id": "guest.roadside.introduction",
+    "title": "归来时，捎一句话",
+    "eyebrow": "古道小事 · 相识",
+    "body": "{{NPC_ZHOU_AN.name}}把行囊的系带重新打了个结，抬头看见你，便让开半边石阶。说起护送行人的日子，他没有讲多少惊险，只说每回见到坊市灯火，才觉得这一程落了地。\n\n“{{player.name}}，你若顺路回坊市，不必替我办什么差事。下回在这里碰上，捎一句街上的灯火就好。赶路久了，也想听点寻常消息。”",
+    "quote": "“药留给自己，平安走路。口信能捎到就好。”",
+    "visualId": "guest.roadside.gate",
+    "participants": [
+      "NPC_ZHOU_AN"
+    ],
+    "priority": 60,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "gate"
+      },
+      {
+        "fact": "actor.NPC_ZHOU_AN.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.guest.roadside.started",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.guest.roadside.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "guest.roadside.listen",
+        "label": "报上姓名，记下这句口信",
+        "hint": "与周安相识；先去坊市看看，下次当面再说。没有时限或物资承诺。",
+        "reply": "你报上姓名，答应若再碰面，就聊聊坊市的近况。周安笑着应下，没有把这件小事写成约定。",
+        "effects": [
+          {
+            "kind": "meet",
+            "target": "NPC_ZHOU_AN"
+          },
+          {
+            "kind": "progress",
+            "key": "guest.roadside.started"
+          },
+          {
+            "kind": "experience",
+            "target": "NPC_ZHOU_AN",
+            "text": "玩家与周安在山门古道交谈，约好若再相逢，就聊聊青石坊市的寻常灯火；双方没有订立物资或同行约定。"
+          }
+        ]
+      },
+      {
+        "id": "guest.roadside.decline-introduction",
+        "label": "拱手别过，今天独自赶路",
+        "hint": "结束这段相识，不承接口信；本段不会再次出现。",
+        "reply": "你拱手告辞。周安让出石阶，没有追问，也没有凭这一面之缘托付什么。",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "guest.roadside.market-supplies",
+    "title": "给归途留一份药",
+    "eyebrow": "坊市小事 · 有余力的选择",
+    "body": "坊市的灯火照常亮着。你记起周安那句“药留给自己”，在药摊前停了停。回春丹标价八枚灵石，买下一份，放进自己的行囊，往后遇到伤势也能多一份准备。\n\n这与替人办差无关。若不想买药，把眼前的寻常灯火记住，也足够当作下一次见面的口信。",
+    "visualId": "guest.roadside.market",
+    "participants": [],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "market"
+      },
+      {
+        "fact": "actor.NPC_ZHOU_AN.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.guest.roadside.started",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.guest.roadside.ready",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.guest.roadside.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "player.stones",
+        "op": "gte",
+        "value": 8
+      }
+    ],
+    "choices": [
+      {
+        "id": "guest.roadside.buy-healing",
+        "label": "花 8 灵石，为自己买一份回春丹",
+        "hint": "玩家灵石 −8、回春丹 +1；丹药归玩家所有，回访不会收走它。",
+        "reply": "你付清八枚灵石，把回春丹收进自己的行囊，又回头望了一眼灯火。这一眼的见闻，已经足够捎回古道。",
+        "effects": [
+          {
+            "kind": "buyItem",
+            "item": "healing"
+          },
+          {
+            "kind": "progress",
+            "key": "guest.roadside.ready"
+          },
+          {
+            "kind": "progress",
+            "key": "guest.roadside.bought"
+          }
+        ]
+      },
+      {
+        "id": "guest.roadside.keep-stones",
+        "label": "留着灵石，只记下街上的灯火",
+        "hint": "不购买物品；口信同样可以当面带给周安。",
+        "reply": "你没有动用灵石。灯下的人声依旧，青石路也依旧——这便是值得说给故人听的消息。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "guest.roadside.ready"
+          }
+        ]
+      },
+      {
+        "id": "guest.roadside.leave-stall",
+        "label": "先离开药摊",
+        "hint": "结束本段备药选择，不花钱；仍可在坊市选择只带口信。",
+        "reply": "你离开药摊，行囊和灵石都没有变化。那句口信仍可从街上的寻常见闻说起。",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "guest.roadside.market-words",
+    "title": "一句话也足够",
+    "eyebrow": "坊市小事 · 无须花费",
+    "body": "你没有在这次停留中购置新药。摊贩收拢药纸，檐下的灯将青石路照得温暖。周安要听的原本也不是一桩丰厚收获，只是归途那头还有寻常日子的声音。\n\n一枚灵石不花，也能把眼前这一幕记住。",
+    "visualId": "guest.roadside.market",
+    "participants": [],
+    "priority": 60,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "market"
+      },
+      {
+        "fact": "actor.NPC_ZHOU_AN.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.guest.roadside.started",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.guest.roadside.ready",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.guest.roadside.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "guest.roadside.remember-lights",
+        "label": "记下灯火，下次见面时告诉他",
+        "hint": "不需要灵石或物品；周安在古道时可当面回访。",
+        "reply": "你把“坊市的灯还亮着”这句话记在心里。它不抵一枚丹药，却也不需要用丹药来换。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "guest.roadside.ready"
+          }
+        ]
+      },
+      {
+        "id": "guest.roadside.leave-message",
+        "label": "让这句话留在心里",
+        "hint": "结束这段口信准备，不花费资源，也不进入回访。",
+        "reply": "你没有再安排下一次见面。这句话只留在自己的心里，没有被算作已经送达的消息。",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "guest.roadside.absent",
+    "title": "石阶旁暂时无人",
+    "eyebrow": "古道小事 · 未能碰面",
+    "body": "你在熟悉的石阶旁停步，却没有看见周安。风从行囊边掠过，没有人接下那句准备好的口信。\n\n他有自己的路要走。你可以继续自己的行程，等以后当面碰上，再说坊市的灯火。",
+    "visualId": "guest.roadside.gate",
+    "participants": [],
+    "priority": 50,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "gate"
+      },
+      {
+        "fact": "actor.NPC_ZHOU_AN.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "actor.NPC_ZHOU_AN.present",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.guest.roadside.ready",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.guest.roadside.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "guest.roadside.wait-for-another-meeting",
+        "label": "继续赶路，改日再来",
+        "hint": "关闭本次提示；没有完成口信，也没有强行召回周安。",
+        "reply": "你离开石阶，把口信留待下一次真正的碰面。这一刻，没有新增属于周安的共同经历。",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "guest.roadside.return-with-supplies",
+    "title": "灯火还在，药留自己",
+    "eyebrow": "古道小事 · 带药后的回访",
+    "body": "你又在古道遇到了周安，正想把坊市的见闻说给他听。想起那次在药摊前的停步，你也记得他嘱咐过：“那是你自己的备药，好好留着。肯告诉我街上还是老样子，就够了。”\n\n周安抻平行囊的系带，朝你点点头，等你开口。",
+    "quote": "“有时候，人缺的就是一句：归途那边，灯还亮着。”",
+    "visualId": "guest.roadside.message",
+    "participants": [
+      "NPC_ZHOU_AN"
+    ],
+    "priority": 65,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "gate"
+      },
+      {
+        "fact": "actor.NPC_ZHOU_AN.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.guest.roadside.ready",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.guest.roadside.bought",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.guest.roadside.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "guest.roadside.deliver-after-purchase",
+        "label": "告诉他：坊市的灯还亮着",
+        "hint": "记录与周安当面谈起坊市的经历；不发奖励，不转移丹药，也不直接增加关系数值。",
+        "reply": "“坊市的灯还亮着，慢些走。”你把口信说完整。周安应了一声，两人各自收好行囊，这段小事便有了落处。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "guest.roadside.closed"
+          },
+          {
+            "kind": "experience",
+            "target": "NPC_ZHOU_AN",
+            "text": "玩家与周安在山门古道再次当面交谈，告诉他青石坊市的灯火如常；谈及玩家曾为自己购置回春丹，没有转移药物或订立新约定。"
+          }
+        ]
+      },
+      {
+        "id": "guest.roadside.leave-purchased-return",
+        "label": "不再续谈，挥手道别",
+        "hint": "结束这段回访；不记录正式送达口信，不改变灵石和丹药。",
+        "reply": "你没有再把那句口信说出口，只向周安挥了挥手。双方各自赶路，没有新的物资往来。",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "guest.roadside.return-with-words",
+    "title": "一字不少的寻常消息",
+    "eyebrow": "古道小事 · 只带口信的回访",
+    "body": "周安仍是熟悉的爽直模样。你与他在石阶边停下，还没想好怎样开口，他已经笑着招了招手：“没带东西也不妨事，本来就没让你带。”\n\n他侧过身来，留出一处避风的位置：“灵石自有要用的地方，话肯当面说，就是话的分量。”",
+    "visualId": "guest.roadside.message",
+    "participants": [
+      "NPC_ZHOU_AN"
+    ],
+    "priority": 65,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "gate"
+      },
+      {
+        "fact": "actor.NPC_ZHOU_AN.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.guest.roadside.ready",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.guest.roadside.bought",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.guest.roadside.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "guest.roadside.deliver-words",
+        "label": "把“灯还亮着”这句话送到",
+        "hint": "记录当面交谈的经历；无需灵石，不领取物品，不直接增加关系数值。",
+        "reply": "你将那句“坊市的灯还亮着”说给周安听。他点点头，向坊市的方向望了一眼。没有谁欠谁一份报酬，两人只是记住了这次照面。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "guest.roadside.closed"
+          },
+          {
+            "kind": "experience",
+            "target": "NPC_ZHOU_AN",
+            "text": "玩家与周安在山门古道再次当面交谈，带回青石坊市灯火如常的口信；这次相逢没有花费灵石、转移物品或订立新约定。"
+          }
+        ]
+      },
+      {
+        "id": "guest.roadside.leave-words-return",
+        "label": "不再续谈，挥手道别",
+        "hint": "结束这段回访；不记录正式送达口信，不花费或获得资源。",
+        "reply": "你向周安挥手道别，没有再把准备好的话说下去。石阶仍向山中延伸，两人各自赶路。",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "guest.roadside.unfinished-message",
+    "title": "再无当面的一句",
+    "eyebrow": "古道小事 · 未竟的口信",
+    "body": "周安的旅程已经走到了尽头，原本准备当面说的话，也失去了送达的机会。坊市的灯仍会亮起，却不能把离去的人带回石阶旁。\n\n你记得先前真实发生过的那次交谈。未能送达的口信不算背诺，也不会被记成周安已经听过的新经历。",
+    "visualId": "guest.roadside.gate",
+    "participants": [],
+    "priority": 100,
+    "conditions": [
+      {
+        "fact": "actor.NPC_ZHOU_AN.alive",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.guest.roadside.started",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.guest.roadside.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "guest.roadside.close-unfinished-message",
+        "label": "把未竟的话留在记忆里",
+        "hint": "收束本支线；保留已有经历，不复活人物，不领取补偿，也不制造违约。",
+        "reply": "你把这件小事收在记忆里。曾经的照面仍然作数，未竟的话就留在这里。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "guest.roadside.closed"
+          }
+        ]
+      },
+      {
+        "id": "guest.roadside.close-journal",
+        "label": "合上这页记事",
+        "hint": "结束这段收束文字；没有口信送达，也没有额外物资。",
+        "reply": "你合上记事。那位爽直的散修仍以原本的身份留在旧日经历中，没有人替他接下这句口信。",
+        "effects": []
+      }
+    ]
+  }
+]

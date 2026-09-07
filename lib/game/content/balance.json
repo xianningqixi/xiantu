@@ -84,8 +84,8 @@
       1,
       42,
       12345,
-      98765,
-      4294967295
+      20260906,
+      987654321
     ]
   },
   "creation": {
@@ -607,7 +607,7 @@
   },
   "limits": {
     "maxTradeQuantity": 99,
-    "maxImportBytes": 5242880,
+    "maxImportBytes": 16777216,
     "maxNameLength": 16,
     "maxCommandBytes": 16384,
     "maxPlayerInputCharacters": 1000,

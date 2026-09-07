@@ -2,6 +2,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import {zodToJsonSchema} from 'zod-to-json-schema';
+import {extensionSchema,validateExtension,validateRegistry} from '../lib/game/content/extension-contract.mjs';
 import { validateContent } from '../lib/game/content/contract.mjs';
 
 const project = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -58,3 +60,19 @@ const output = path.join(project, 'public/templates/qingshi-content-pack.zip');
 fs.mkdirSync(path.dirname(output), { recursive: true });
 fs.writeFileSync(output, Buffer.concat([...local, ...central, end]));
 console.log(`内容包校验完成：${p.story.length} 个故事节点，${Object.keys(hashes).length} 张故事图片、${npc.atlases.length} 张 NPC 图集。下载模板已同步。`);
+
+// Build-time, data-only registration. Existing official locks remain unchanged.
+const extensionEntries=[];
+for(const name of fs.readdirSync(path.join(project,'content-packs')).sort()){
+  const dir=path.join(project,'content-packs',name);if(name==='official-qingshi'||!fs.statSync(dir).isDirectory()||!fs.existsSync(path.join(dir,'manifest.json')))continue;
+  const get=file=>JSON.parse(fs.readFileSync(path.join(dir,file),'utf8'));
+  const data=validateExtension({manifest:get('manifest.json'),definitions:get('definitions.json'),storylets:get('storylets.json'),visuals:get('visuals.json')},{roles:p.manifest.roles,assets:Object.keys(p.art.assets)});
+  for(const file of Object.values(data.manifest.entryFiles))if(!fs.existsSync(path.join(dir,file)))throw new Error(`${name}: 缺少 ${file}`);
+  const hash=sha(JSON.stringify(data));extensionEntries.push({data,hash,lock:`${data.manifest.packId}@${data.manifest.packVersion}:${hash}`});
+}
+validateRegistry(extensionEntries,{version:p.manifest.version,hash:digest});
+fs.writeFileSync(path.join(project,'lib/game/content/extensions.json'),JSON.stringify(extensionEntries,null,2)+'\n');
+console.log(`已登记 ${extensionEntries.length} 个精确锁定的支线包。`);
+
+fs.mkdirSync(path.join(project,'content-packs/schema'),{recursive:true});
+fs.writeFileSync(path.join(project,'content-packs/schema/extension.schema.json'),JSON.stringify(zodToJsonSchema(extensionSchema,'XiantuExtension'),null,2)+'\n');

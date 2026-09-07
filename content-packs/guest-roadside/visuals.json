@@ -1,0 +1,17 @@
+{
+  "guest.roadside.gate": {
+    "assetId": "scene.ruins.moon",
+    "alt": "青石山门外的古道与石阶；复用官方山景作地点氛围，不表示已进入秘境",
+    "status": "reused"
+  },
+  "guest.roadside.market": {
+    "assetId": "scene.market.dusk",
+    "alt": "青石坊市的暮色灯火，药摊与归途都在这条街上",
+    "status": "reused"
+  },
+  "guest.roadside.message": {
+    "assetId": "guest.roadside.art.return-message",
+    "alt": "待绘插图：山门古道旁的一盏小灯与两个交谈的身影；成年男散修周安与玩家分属独立人物，玩家面容不作固定描绘",
+    "status": "planned"
+  }
+}

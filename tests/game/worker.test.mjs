@@ -218,20 +218,29 @@ test('creation drafts survive Worker restart, reject stale editing, and clear on
   env.fault.abortWrite = false; await a.create(); assert.equal((await a.send({ kind: 'loadDraft' })).draft, null);
 });
 
+function releasedShape(world, version = 1) {
+  const copy = structuredClone(world);
+  if(version===1){delete copy.schemaVersion; delete copy.commandReceipts;}else copy.schemaVersion=2;
+  copy.rulesVersion='0.1.1';delete copy.negotiations;delete copy.contentLocks;delete copy.contentState;delete copy.knowledge;delete copy.simulationOptions;
+  for(const actor of [copy.player,...copy.npcs])delete actor.lastActionDay;
+  if(copy.battle)delete copy.battle.lethal;
+  if(copy.longAction)for(const key of ['id','checkpoint','paidStones'])delete copy.longAction[key];
+  return copy;
+}
+
 test('released version-one snapshots migrate additively with an exact old backup and no RNG/time changes', async () => {
-  const env = environment(); const legacy = fixture('early');
-  delete legacy.schemaVersion; delete legacy.commandReceipts;
+  const env = environment(); const legacy = releasedShape(fixture('early'));
   await env.seedLegacy(legacy);
   const response = await env.client().send({ kind: 'load' }); assert.equal(response.ok, true, response.error);
-  assert.equal(response.migrated, true); assert.equal(response.state.schemaVersion, 2);
-  const { schemaVersion, commandReceipts, ...rest } = response.state;
-  assert.deepEqual({ ...rest, revision: legacy.revision }, legacy);
+  assert.equal(response.migrated, true); assert.equal(response.state.schemaVersion, 4);
+  assert.deepEqual({ ...releasedShape(response.state), revision: legacy.revision }, legacy);
+  assert.ok(response.state.knowledge.every(m=>['participant','public','legacy'].includes(m.source)));
   assert.deepEqual(await env.records('backups'), [legacy]);
   assert.deepEqual(await env.client().load(), response.state);
 });
 
 test('failed migration preserves the original legacy snapshot; restoring a backup retains the replaced world', async () => {
-  const env = environment(); const legacy = fixture('early'); delete legacy.schemaVersion; delete legacy.commandReceipts;
+  const env = environment(); const legacy = releasedShape(fixture('early'));
   await env.seedLegacy(legacy); env.fault.abortWrite = true;
   assert.equal((await env.client().send({ kind: 'load' })).ok, false);
   assert.deepEqual(await env.records('saves'), [legacy]); assert.deepEqual(await env.records('backups'), []);
@@ -253,3 +262,13 @@ test('future save schemas and unrelated content locks never migrate or replace t
     assert.equal(r.ok, false); assert.deepEqual(await a.load(), current); assert.deepEqual(await env.records('backups'), []);
   }
 });
+
+ test('schema two migration preserves payload receipts and checkpoint resource accounting',async()=>{
+  const env=environment();const client=env.client();let w=await client.create();
+  const done=await client.work(w);assert.equal(done.ok,true);w=done.state;
+  const legacy=releasedShape(w,2);
+  const clean=environment();await clean.seedLegacy(legacy);
+  const result=await clean.client().load();
+  assert.equal(result.schemaVersion,4);assert.deepEqual(result.commandReceipts,w.commandReceipts);
+  assert.deepEqual({...releasedShape(result,2),revision:legacy.revision},legacy);
+ });

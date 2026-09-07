@@ -9,6 +9,7 @@ import integrity from '../../../content-packs/official-qingshi/integrity.json';
 import { validateContent } from './contract.mjs';
 
 const data = validateContent({ manifest, story, locations, characters, presentation, art });
+export const VISUAL_IDS=Object.keys(data.art.assets);
 export const PACK = { ...data.manifest, lock: integrity.lock };
 export const CHARACTERS = data.characters;
 export const PRESENTATION = data.presentation;

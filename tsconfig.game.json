@@ -3,7 +3,10 @@
   "include": [
     "components/game/**/*.tsx",
     "lib/game/**/*.ts",
-    "tests/game/**/*.ts"
+    "tests/game/**/*.ts",
+    "app/api/**/*.ts",
+    "app/author/**/*.tsx",
+    "lib/server/**/*.ts"
   ],
   "exclude": [
     "node_modules",

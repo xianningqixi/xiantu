@@ -6,7 +6,7 @@ import type { BackupSummary, Command, CreationDraft, Profile, SaveExpectation, W
 type Input = Omit<WorkerRequest, 'id'>;
 type Waiter = { resolve: (r: WorkerResponse) => void; reject: (e: Error) => void; timer: ReturnType<typeof setTimeout> };
 
-export function useGame() {
+export function useGame(preview = false) {
   const worker = useRef<Worker | null>(null);
   const pending = useRef(new Map<string, Waiter>());
   const [world, setWorld] = useState<World | null>(null);
@@ -42,7 +42,7 @@ export function useGame() {
       for (const waiter of pending.current.values()) { clearTimeout(waiter.timer); waiter.reject(new Error(message)); }
       pending.current.clear();
     };
-    try { instance = new Worker(new URL('./simulation.worker.ts', import.meta.url), { type: 'module' }); }
+    try { instance = new Worker(new URL('./simulation.worker.ts', import.meta.url), { type: 'module', name: preview ? 'xiantu-author-preview' : 'xiantu-game' }); }
     catch { fail('世界进程未能启动，请重新读取；本机进度仍保留。'); return; }
     worker.current = instance;
     instance.onmessage = (e: MessageEvent<WorkerResponse>) => {
@@ -68,13 +68,13 @@ export function useGame() {
       for (const waiter of pending.current.values()) { clearTimeout(waiter.timer); waiter.reject(new Error('页面已关闭。')); }
       pending.current.clear();
     };
-  }, [ask, generation]);
+  }, [ask, generation, preview]);
 
-  const mutate = useCallback(async (input: Input) => {
+  const mutate = useCallback(async (input: Input, checkpointId?: string) => {
     if (locked.current) return false;
     locked.current = true; setBusy(true); setError('');
     const key = JSON.stringify(input);
-    const id = failedRequest.current?.key === key ? failedRequest.current.id : uniqueId();
+    const id = failedRequest.current?.key === key ? failedRequest.current.id : checkpointId ?? uniqueId();
     try {
       const result = await ask(input, id);
       if ('state' in result) { setWorld(result.state ?? null); setRecovery(null); }
@@ -83,7 +83,7 @@ export function useGame() {
       return true;
     } catch (e) {
       if (e && typeof e === 'object' && 'recovery' in e && e.recovery) setRecovery(e.recovery as SaveExpectation);
-      failedRequest.current = { key, id };
+      failedRequest.current = { key, id };lastCommand.current={key:'',at:0};
       setError(e instanceof Error ? e.message : '操作没有完成。'); return false;
     } finally { locked.current = false; setBusy(false); }
   }, [ask]);
@@ -92,8 +92,8 @@ export function useGame() {
     const key = JSON.stringify(command); const now = Date.now();
     if (command.type !== 'step' && lastCommand.current.key === key && now - lastCommand.current.at < 400) return Promise.resolve(false);
     lastCommand.current = { key, at: now };
-    return mutate({ kind: 'command', command, revision: world?.revision, expected: { saveId: world?.saveId ?? null, revision: world?.revision ?? null } });
-  }, [mutate, world?.saveId, world?.revision]);
+    return mutate({ kind: 'command', command, revision: world?.revision, expected: { saveId: world?.saveId ?? null, revision: world?.revision ?? null } }, command.type === 'step' && world?.longAction ? `${world.saveId}:${world.longAction.id}:step:${world.longAction.checkpoint + 1}` : undefined);
+  }, [mutate, world]);
   const saveCreationDraft = useCallback((value: Omit<CreationDraft, 'revision' | 'version'>) => {
     const operation = draftQueue.current.then(async () => {
       const response = await ask({ kind: 'saveDraft', draft: { ...value, version: 1, revision: draftRevision.current } });
@@ -107,7 +107,7 @@ export function useGame() {
   return {
     world, draft, ready, busy, error, setError, command, expected, saveCreationDraft, recovery, hasSavedRun: !!world || !!recovery,
     refreshDraft: async () => { const result = await ask({ kind: 'loadDraft' }); setDraft(result.draft ?? null); draftRevision.current = result.draft?.revision ?? 0; },
-    create: (profile: Profile, seed: number, replace = false, snapshot = expected) => mutate({ kind: 'create', profile, seed, replace, expected: snapshot }),
+    create: (profile: Profile, seed: number, replace = false, snapshot = expected, contentLocks:string[] = []) => mutate({ kind: 'create', profile, seed, replace, expected: snapshot, contentLocks }),
     importSave: (text: string, replace = false, snapshot = expected) => mutate({ kind: 'import', text, replace, expected: snapshot }),
     restoreBackup: (backupKey: string, snapshot = expected) => mutate({ kind: 'restore', backupKey, replace: true, expected: snapshot }),
     listBackups: async (): Promise<BackupSummary[]> => (await ask({ kind: 'backups' })).backups ?? [],

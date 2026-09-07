@@ -1,0 +1,487 @@
+{
+  "$ref": "#/definitions/XiantuExtension",
+  "definitions": {
+    "XiantuExtension": {
+      "type": "object",
+      "properties": {
+        "manifest": {
+          "type": "object",
+          "properties": {
+            "packId": {
+              "type": "string",
+              "pattern": "^[a-zA-Z][a-zA-Z0-9_.-]{0,119}$"
+            },
+            "packVersion": {
+              "type": "string",
+              "pattern": "^\\d+\\.\\d+\\.\\d+$"
+            },
+            "contentApiVersion": {
+              "type": "number",
+              "const": 2
+            },
+            "title": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            },
+            "requiresCapabilities": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "progress.v1",
+                  "meet.v1",
+                  "starterManual.v1",
+                  "buyItem.v1",
+                  "experience.v1",
+                  "agreement.v1"
+                ]
+              },
+              "maxItems": 6
+            },
+            "dependencies": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "packId": {
+                    "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+                  },
+                  "packVersion": {
+                    "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packVersion"
+                  },
+                  "hash": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  }
+                },
+                "required": [
+                  "packId",
+                  "packVersion",
+                  "hash"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 8
+            },
+            "entryFiles": {
+              "type": "object",
+              "properties": {
+                "definitions": {
+                  "type": "string",
+                  "const": "definitions.json"
+                },
+                "storylets": {
+                  "type": "string",
+                  "const": "storylets.json"
+                },
+                "visuals": {
+                  "type": "string",
+                  "const": "visuals.json"
+                },
+                "outline": {
+                  "type": "string",
+                  "const": "outline.md"
+                },
+                "acceptance": {
+                  "type": "string",
+                  "const": "acceptance.md"
+                }
+              },
+              "required": [
+                "definitions",
+                "storylets",
+                "visuals",
+                "outline",
+                "acceptance"
+              ],
+              "additionalProperties": false
+            },
+            "author": {
+              "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/title"
+            },
+            "license": {
+              "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/title"
+            },
+            "flags": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+              },
+              "maxItems": 40
+            },
+            "references": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+              },
+              "maxItems": 20
+            }
+          },
+          "required": [
+            "packId",
+            "packVersion",
+            "contentApiVersion",
+            "title",
+            "requiresCapabilities",
+            "dependencies",
+            "entryFiles",
+            "author",
+            "license",
+            "flags",
+            "references"
+          ],
+          "additionalProperties": false
+        },
+        "definitions": {
+          "type": "object",
+          "properties": {
+            "characters": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 16
+                  },
+                  "sex": {
+                    "type": "string",
+                    "enum": [
+                      "female",
+                      "male"
+                    ]
+                  },
+                  "age": {
+                    "type": "integer",
+                    "minimum": 18,
+                    "maximum": 70
+                  },
+                  "aptitude": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100
+                  },
+                  "realm": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4
+                  },
+                  "personality": {
+                    "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/title"
+                  },
+                  "sect": {
+                    "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/title"
+                  },
+                  "goal": {
+                    "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/title"
+                  },
+                  "location": {
+                    "type": "string",
+                    "enum": [
+                      "market",
+                      "inn",
+                      "gate"
+                    ]
+                  }
+                },
+                "required": [
+                  "id",
+                  "name",
+                  "sex",
+                  "age",
+                  "aptitude",
+                  "realm",
+                  "personality",
+                  "sect",
+                  "goal",
+                  "location"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 10
+            }
+          },
+          "required": [
+            "characters"
+          ],
+          "additionalProperties": false
+        },
+        "visuals": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "assetId": {
+                "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+              },
+              "alt": {
+                "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/title"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "reused",
+                  "planned"
+                ]
+              }
+            },
+            "required": [
+              "assetId",
+              "alt",
+              "status"
+            ],
+            "additionalProperties": false
+          },
+          "propertyNames": {
+            "pattern": "^[a-zA-Z][a-zA-Z0-9_.-]{0,119}$"
+          }
+        },
+        "storylets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+              },
+              "title": {
+                "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/title"
+              },
+              "eyebrow": {
+                "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/title"
+              },
+              "body": {
+                "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/title"
+              },
+              "quote": {
+                "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/title"
+              },
+              "visualId": {
+                "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+              },
+              "participants": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+                },
+                "maxItems": 3
+              },
+              "priority": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "conditions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "fact": {
+                      "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+                    },
+                    "op": {
+                      "type": "string",
+                      "enum": [
+                        "eq",
+                        "gte"
+                      ]
+                    },
+                    "value": {
+                      "anyOf": [
+                        {
+                          "type": "boolean"
+                        },
+                        {
+                          "type": "string",
+                          "maxLength": 160
+                        },
+                        {
+                          "type": "integer"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "fact",
+                    "op",
+                    "value"
+                  ],
+                  "additionalProperties": false
+                },
+                "maxItems": 20
+              },
+              "choices": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+                    },
+                    "label": {
+                      "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/title"
+                    },
+                    "hint": {
+                      "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/title"
+                    },
+                    "reply": {
+                      "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/title"
+                    },
+                    "effects": {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "const": "progress"
+                              },
+                              "key": {
+                                "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "key"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "const": "meet"
+                              },
+                              "target": {
+                                "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "target"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "const": "starterManual"
+                              }
+                            },
+                            "required": [
+                              "kind"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "const": "buyItem"
+                              },
+                              "item": {
+                                "type": "string",
+                                "enum": [
+                                  "healing",
+                                  "pills",
+                                  "grass"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "item"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "const": "experience"
+                              },
+                              "target": {
+                                "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+                              },
+                              "text": {
+                                "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/title"
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "target",
+                              "text"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "const": "agreement"
+                              }
+                            },
+                            "required": [
+                              "kind"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      },
+                      "maxItems": 5
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "label",
+                    "hint",
+                    "reply",
+                    "effects"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1,
+                "maxItems": 6
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "eyebrow",
+              "body",
+              "visualId",
+              "participants",
+              "priority",
+              "conditions",
+              "choices"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "maxItems": 40
+        }
+      },
+      "required": [
+        "manifest",
+        "definitions",
+        "visuals",
+        "storylets"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

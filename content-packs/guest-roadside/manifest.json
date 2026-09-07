@@ -1,0 +1,37 @@
+{
+  "packId": "guest.roadside",
+  "packVersion": "1.0.0",
+  "contentApiVersion": 2,
+  "title": "周安的归途口信",
+  "requiresCapabilities": [
+    "progress.v1",
+    "meet.v1",
+    "buyItem.v1",
+    "experience.v1"
+  ],
+  "dependencies": [
+    {
+      "packId": "official.qingshi",
+      "packVersion": "0.1.1",
+      "hash": "c7402c381fe903eaa99784deae2066993da76500f5ea9422e61ae40779670cd9"
+    }
+  ],
+  "entryFiles": {
+    "definitions": "definitions.json",
+    "storylets": "storylets.json",
+    "visuals": "visuals.json",
+    "outline": "outline.md",
+    "acceptance": "acceptance.md"
+  },
+  "author": "CP-03 独立内容代理 second_content_author；只编写本包 JSON 与 Markdown 故事资产",
+  "license": "项目内部原型文字；供仙途项目开发、评审与试玩使用。",
+  "flags": [
+    "guest.roadside.started",
+    "guest.roadside.ready",
+    "guest.roadside.bought",
+    "guest.roadside.closed"
+  ],
+  "references": [
+    "NPC_ZHOU_AN"
+  ]
+}

@@ -18,7 +18,7 @@ export function createActor(
     id,
     name,
     sex: seed % 2 ? "female" : "male",
-    ageDays: age * 360,
+    ageDays: age * B.world.daysPerYear,
     appearanceSeed: seed,
     aptitude,
     personality: ["谨慎", "爽直", "重情", "寡言", "豁达"][seed % 5],
@@ -27,15 +27,15 @@ export function createActor(
     realm,
     xp: 0,
     hp: B.combat.realmStats[REALM_KEYS[realm]].maxHp,
-    stones: 6,
-    healing: 1,
+    stones: B.creation.startingSpiritStones,
+    healing: B.creation.startingHealingPills,
     pills: 0,
     grass: 0,
     manual: realm > 0,
     alive: true,
     location: "market",
     activity: "在坊市停留",
-    readyDay: 7,
+    readyDay: B.world.npcMajorAttemptPreparationDays,
     lastActionDay: -1,
     attempt: null,
   };
@@ -45,7 +45,7 @@ export function createWorld(
   seed: number,
   profile: Profile,
   saveId: string,
-  npcCount = 40,
+  npcCount = B.world.initialNpcCount,
   options: { backgroundConflicts?: boolean; contentLocks?: string[] } = {},
 ): World {
   requireRule(
@@ -133,7 +133,8 @@ export function createWorld(
       `NPC_${String(i + 1).padStart(4, "0")}`,
       surnames[draw(surnames.length)] + names[draw(names.length)],
       realm,
-      18 + draw(43),
+      B.world.minimumGeneratedAgeYears +
+        draw(B.world.maximumGeneratedAgeYears - B.world.minimumGeneratedAgeYears + 1),
       1 + draw(100),
       draw(4294967295),
     );
@@ -145,7 +146,7 @@ export function createWorld(
     "PLAYER",
     profile.name.trim(),
     0,
-    18,
+    B.world.startAgeYears,
     profile.aptitude,
     hashSeed(seed, "appearance"),
   );
@@ -159,7 +160,10 @@ export function createWorld(
     contentState: {},
     commandReceipts: {},
     knowledge: [],
-    simulationOptions: { backgroundConflicts: options.backgroundConflicts ?? false },
+    simulationOptions: {
+      backgroundConflicts:
+        options.backgroundConflicts ?? B.world.ordinaryNpcOffscreenConflictEnabled,
+    },
     format: "xiantu-web-1",
     rulesVersion: "0.1.2",
     packLock: PACK.lock,

@@ -7,15 +7,14 @@ export const REALM_KEYS = ["MORTAL", "QI_1", "QI_2", "QI_3", "FOUNDATION_1"] as 
 
 export const SAFE: LocationId[] = ["market", "inn", "gate"];
 
-export const threshold = (a: Actor) => [20, 40, 60, 100, 100][a.realm];
+export const advanceRule = (a: Actor) => B.cultivation.advanceRules[REALM_KEYS[a.realm]];
+export const threshold = (a: Actor) => advanceRule(a).requiredExperience;
 
 export const stats = (a: Actor) => B.combat.realmStats[REALM_KEYS[a.realm]];
 
 export const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
 
-export const requireRule = (ok: unknown, message: string) => {
-  if (!ok) throw new Error(message);
-};
+export { requireRule } from "./errors";
 
 export const actorById = (w: World, id: string) =>
   id === "PLAYER" ? w.player : w.npcs.find((a) => a.id === id);
@@ -27,5 +26,11 @@ export function combatDamage(attack: number, defense: number, skill = false, gua
           B.combat.prototypeStrikeMultiplierDenominator,
       )
     : attack;
-  return Math.max(1, Math.floor(Math.max(1, power - defense) * (guarding ? 0.5 : 1)));
+  return Math.max(
+    B.combat.basicAttackMinDamage,
+    Math.floor(
+      Math.max(B.combat.basicAttackMinDamage, power - defense) *
+        (guarding ? B.combat.guardIncomingDamageBp / B.probabilityScaleBp : 1),
+    ),
+  );
 }

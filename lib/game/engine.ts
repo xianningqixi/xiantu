@@ -32,7 +32,11 @@ export function applyCommand(
       );
     return source;
   }
-  requireRule(source.revision === revision, "存档已经更新，请重新读取后再行动。");
+  requireRule(
+    source.revision === revision,
+    "存档已经更新，请重新读取后再行动。",
+    "REVISION_CONFLICT",
+  );
   const next = structuredClone(source);
   handle(next, command);
   next.revision++;

@@ -132,14 +132,19 @@ export function advanceDay(w: World, occupied: Set<string> = new Set(["PLAYER"])
     const isParty = w.party.includes(a.id);
     const primary = a.id === PACK.roles.primary;
     const fixed = primary || a.id === PACK.roles.companion;
-    if (fixed && !isParty && w.day % 3 === 0 && a.location !== "market") {
+    if (
+      fixed &&
+      !isParty &&
+      w.day % B.story.fixedNpcHomeVisitIntervalDays === 0 &&
+      a.location !== "market"
+    ) {
       a.location = "market";
       a.activity = "回坊市访友";
       continue;
     }
-    if (primary && a.grass >= 1 && a.stones >= 10 && !a.pills) {
+    if (primary && a.grass >= 1 && a.stones >= B.economy.pillExchange.spiritStoneCost && !a.pills) {
       a.grass--;
-      a.stones -= 10;
+      a.stones -= B.economy.pillExchange.spiritStoneCost;
       a.pills++;
       a.goal = "丹药齐备，等待合适的突破时机";
       a.activity = "兑换丹药";
@@ -147,12 +152,12 @@ export function advanceDay(w: World, occupied: Set<string> = new Set(["PLAYER"])
     }
     if ((a.realm === 0 || a.realm === 3) && a.xp >= threshold(a) && w.day >= a.readyDay) {
       if (a.realm === 3 && !a.pills) {
-        if (a.stones >= 30) {
-          a.stones -= 30;
+        if (a.stones >= B.economy.shopPrices.ITEM_BREAKTHROUGH_PILL) {
+          a.stones -= B.economy.shopPrices.ITEM_BREAKTHROUGH_PILL;
           a.pills++;
           a.activity = "购置突破丹";
         } else {
-          a.stones += 6;
+          a.stones += B.actions.workSpiritStoneReward;
           a.activity = "赚取修炼资粮";
         }
         continue;
@@ -161,14 +166,14 @@ export function advanceDay(w: World, occupied: Set<string> = new Set(["PLAYER"])
       const chance = breakthroughChance(w, a, hasPill, false);
       if (hasPill) a.pills--;
       if (a.realm === 0) breakthroughResult(w, a, chance);
-      else a.attempt = { remaining: 2, chance };
+      else a.attempt = { remaining: B.cultivation.advanceRules.QI_3.days - 1, chance };
       a.activity = "凝神突破，暂不外出";
       continue;
     }
     const draw = random(w, "simulation", 100);
     if (draw < 55) cultivate(w, a);
     else if (draw < 75) {
-      a.stones += 6;
+      a.stones += B.actions.workSpiritStoneReward;
       a.activity = "接些杂务，赚取灵石";
     } else if (draw < 85 && !isParty) {
       a.location = SAFE[random(w, "simulation", SAFE.length)];
@@ -194,7 +199,7 @@ export function advanceDay(w: World, occupied: Set<string> = new Set(["PLAYER"])
         recordSocialContact(w, r, a, b);
       }
     } else {
-      a.hp = Math.min(stats(a).maxHp, a.hp + 5);
+      a.hp = Math.min(stats(a).maxHp, a.hp + B.world.npcIdleRestoreHp);
       a.activity = "闲坐休息";
     }
   }

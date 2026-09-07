@@ -35,7 +35,11 @@ export function memory(
   const d = B.relationships.eventDeltas[kind];
   r.favor = clamp(r.favor + d.favorability, -100, 100);
   r.trust = clamp(
-    r.trust + d.trust + (kind === "promiseFulfilled" && w.profile.artifact === "bond" ? 3 : 0),
+    r.trust +
+      d.trust +
+      (kind === "promiseFulfilled" && w.profile.artifact === "bond"
+        ? B.artifacts.ARTIFACT_BOND.promiseFulfilledAdditionalTrust
+        : 0),
     -100,
     100,
   );
@@ -53,9 +57,17 @@ export function relationshipLabel(r?: Relation) {
   )
     return "挚友";
   if (!r?.known) return "尚未相识";
-  if (r.favor <= -30 || r.trust <= -30) return "心存芥蒂";
+  if (
+    r.favor <= B.relationships.hostileThresholds.favorabilityAtOrBelow ||
+    r.trust <= B.relationships.hostileThresholds.trustAtOrBelow
+  )
+    return "心存芥蒂";
   if (r.trust < 0) return "有所戒备";
-  if (r.favor >= 20 && r.trust >= 15) return "朋友";
+  if (
+    r.favor >= B.relationships.friendThresholds.favorabilityMin &&
+    r.trust >= B.relationships.friendThresholds.trustMin
+  )
+    return "朋友";
   return "相识";
 }
 

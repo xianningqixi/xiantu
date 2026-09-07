@@ -1,3 +1,4 @@
+import { B } from "./rules";
 import type { Actor, Fighter, World } from "./types";
 import { stats, requireRule, actorById, combatDamage } from "./rules";
 import { random } from "./rng";
@@ -27,10 +28,14 @@ export function finishBattle(w: World, outcome: "win" | "retreat" | "defeat") {
     return;
   }
   if (outcome === "win") {
-    w.loot = { stones: 12, grass: 1, expeditionId: battle.id };
+    w.loot = {
+      stones: B.economy.expeditionSpiritStoneReward,
+      grass: B.economy.expeditionNingyuanGrassReward,
+      expeditionId: battle.id,
+    };
     for (const id of w.party.filter((id) => id !== "PLAYER"))
       memory(w, id, "sharedVictory", `你与${actorById(w, id)!.name}在残碑秘境并肩取胜。`);
-    w.notice = "石傀轰然倒下。你们找到一株凝元草和十二枚灵石。战利品暂存，回到坊市后再按约分配。";
+    w.notice = `石傀轰然倒下。你们找到 ${B.economy.expeditionNingyuanGrassReward} 株凝元草和 ${B.economy.expeditionSpiritStoneReward} 枚灵石。战利品暂存，回到坊市后再按约分配。`;
   } else {
     if (w.agreement) w.agreement.status = "not_triggered";
     if (w.story.outcome === "none") {
@@ -90,11 +95,20 @@ export function battleRound(
     const owner = ally ? actorById(w, f.id) : undefined;
     if (ally && f.id !== "PLAYER")
       selected =
-        owner!.healing > 0 && f.hp / f.maxHp <= 0.35 ? "heal" : skillReady ? "skill" : "attack";
+        owner!.healing > 0 &&
+        f.hp / f.maxHp <= B.combat.automaticHealWhenHpAtOrBelowBp / B.probabilityScaleBp
+          ? "heal"
+          : skillReady
+            ? "skill"
+            : "attack";
     if (selected === "retreat") {
       if (
         random(w, "combat", 10000) <
-        Math.min(9500, 8000 + (w.profile.artifact === "ward" ? 1500 : 0))
+        Math.min(
+          B.combat.retreatSuccessCeilingBp,
+          B.combat.retreatBaseSuccessBp +
+            (w.profile.artifact === "ward" ? B.artifacts.ARTIFACT_WARD.retreatBonusBp : 0),
+        )
       ) {
         finishBattle(w, "retreat");
         return;
@@ -109,7 +123,7 @@ export function battleRound(
     }
     if (selected === "heal" && owner) {
       owner.healing--;
-      const gain = Math.ceil(f.maxHp * 0.35);
+      const gain = Math.ceil((f.maxHp * B.combat.healingPillRestoreMaxHpBp) / B.probabilityScaleBp);
       f.hp = Math.min(f.maxHp, f.hp + gain);
       logs.push(`${f.name}服下回春丹，恢复气血。`);
       continue;
@@ -117,7 +131,7 @@ export function battleRound(
     const t = (f.id === "PLAYER" && enemies.find((t) => t.id === target)) || enemies[0];
     const damage = combatDamage(f.attack, t.defense, selected === "skill", t.guard);
     t.hp = Math.max(0, t.hp - damage);
-    if (selected === "skill") f.cooldown = 2;
+    if (selected === "skill") f.cooldown = B.combat.prototypeStrikeCooldownOwnTurns;
     logs.push(
       `${f.name}${selected === "skill" ? "使出青芒剑诀" : "攻击"}${t.name}，造成 ${damage} 点伤害${t.hp === 0 ? "，使其倒地" : ""}。`,
     );
@@ -133,7 +147,7 @@ export function battleRound(
     finishBattle(w, "defeat");
     return;
   }
-  if (battle.round > 30) {
+  if (battle.round > B.combat.maximumRoundCount) {
     finishBattle(w, "retreat");
     return;
   }

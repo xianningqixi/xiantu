@@ -86,7 +86,8 @@
       12345,
       20260906,
       987654321
-    ]
+    ],
+    "npcIdleRestoreHp": 5
   },
   "creation": {
     "nameLengthMin": 1,

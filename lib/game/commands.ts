@@ -1,8 +1,9 @@
+import { DEPARTURE_FEE, SHOP_ITEMS, STONE_METHOD } from "./economy";
 import { validTerms } from "./negotiation";
 import { extensionScenes } from "./content-story";
 import { PACK, REALMS, LOCATIONS, PRESENTATION, contentText } from "./content/official";
 import type { Command, World } from "./types";
-import { threshold, stats, requireRule, actorById } from "./rules";
+import { B, advanceRule, threshold, stats, requireRule, actorById } from "./rules";
 import { relation, ensureRelation, memory, meet } from "./relationships";
 import {
   partyReadiness,
@@ -35,7 +36,10 @@ const commandHandlers: CommandHandlers = {
         validTerms(c.proposal),
       "条款尚未完整或超出当前可商议范围，请继续澄清。",
     );
-    requireRule(w.party.length === 1 && p.stones >= 2, "需要空出的队伍与至少两枚灵石路费。");
+    requireRule(
+      w.party.length === 1 && p.stones >= DEPARTURE_FEE,
+      "需要空出的队伍与至少两枚灵石路费。",
+    );
     acceptAgreement(w);
     w.negotiations.push({
       proposalId: c.proposalId,
@@ -143,7 +147,10 @@ const commandHandlers: CommandHandlers = {
     requireRule(p.manual, "先在客栈领取并学习入门功法。");
     requireRule(p.location !== "ruins", "秘境不宜静修。");
     requireRule([1, 3, 7, 30].includes(c.days), "修炼天数不合法。");
-    requireRule(!c.stoneMethod || p.stones >= c.days, "灵石不足以完成这段修炼。");
+    requireRule(
+      !c.stoneMethod || p.stones >= c.days * STONE_METHOD.costSpiritStonesPerDay,
+      "灵石不足以完成这段修炼。",
+    );
     w.longAction = {
       id: `action:${w.revision + 1}`,
       checkpoint: 0,
@@ -186,7 +193,7 @@ const commandHandlers: CommandHandlers = {
     if (a!.kind === "train") cultivate(w, p, a!.stoneMethod);
     a!.remaining--;
     a!.checkpoint++;
-    if (a!.kind === "train" && a!.stoneMethod) a!.paidStones++;
+    if (a!.kind === "train" && a!.stoneMethod) a!.paidStones += STONE_METHOD.costSpiritStonesPerDay;
     if (a!.remaining === 0) {
       if (a!.kind === "breakthrough") {
         const success = breakthroughResult(w, p, a!.chance);
@@ -219,8 +226,8 @@ const commandHandlers: CommandHandlers = {
     requireRule(p.location !== "ruins", "这里没有可接的杂务。");
     advanceDay(w);
     if (w.ended) return;
-    p.stones += 6;
-    w.notice = "你替人整理药材、搬运货物，忙过一日，获得 6 枚灵石。";
+    p.stones += B.actions.workSpiritStoneReward;
+    w.notice = `你替人整理药材、搬运货物，忙过 ${B.actions.workDays} 日，获得 ${B.actions.workSpiritStoneReward} 枚灵石。`;
     record(w, "work", w.notice);
     return;
   },
@@ -229,7 +236,10 @@ const commandHandlers: CommandHandlers = {
     requireRule(p.location !== "ruins", "先离开秘境再休息。");
     advanceDay(w);
     if (w.ended) return;
-    p.hp = Math.min(stats(p).maxHp, p.hp + Math.ceil(stats(p).maxHp * 0.5));
+    p.hp = Math.min(
+      stats(p).maxHp,
+      p.hp + Math.ceil((stats(p).maxHp * B.actions.restRestoreMaxHpBp) / B.probabilityScaleBp),
+    );
     w.notice = "你歇息一日，气血渐复。";
     record(w, "rest", w.notice);
     return;
@@ -238,7 +248,11 @@ const commandHandlers: CommandHandlers = {
     const p = w.player;
     requireRule(p.healing > 0 && p.hp < stats(p).maxHp, "没有丹药，或气血已经充足。");
     p.healing--;
-    p.hp = Math.min(stats(p).maxHp, p.hp + Math.ceil(stats(p).maxHp * 0.35));
+    p.hp = Math.min(
+      stats(p).maxHp,
+      p.hp +
+        Math.ceil((stats(p).maxHp * B.combat.healingPillRestoreMaxHpBp) / B.probabilityScaleBp),
+    );
     w.notice = "服下回春丹，气血恢复。";
     record(w, "heal", w.notice);
     return;
@@ -247,24 +261,26 @@ const commandHandlers: CommandHandlers = {
     const p = w.player;
 
     requireRule(p.location === "market", "请到坊市药铺购买。");
-    const price = { healing: 8, pills: 30, grass: 40 }[c.item];
-    requireRule(price && p.stones >= price, "灵石不足。");
+    const price = SHOP_ITEMS[c.item].price;
+    requireRule(price && p.stones >= price, "灵石不足。", "INSUFFICIENT_RESOURCES");
     p.stones -= price;
     p[c.item]++;
-    w.notice = `你花费 ${price} 枚灵石，购得${{ healing: "回春丹", pills: "突破丹", grass: "凝元草" }[c.item]}。`;
+    w.notice = `你花费 ${price} 枚灵石，购得${SHOP_ITEMS[c.item].name}。`;
     record(w, "buy", w.notice);
     return;
   },
   exchange: (w, c) => {
     const p = w.player;
     requireRule(
-      p.location === "market" && p.grass >= 1 && p.stones >= 10,
-      "兑换需要在坊市交付一株凝元草和十枚灵石。",
+      p.location === "market" &&
+        p.grass >= B.economy.pillExchange.inputQuantity &&
+        p.stones >= B.economy.pillExchange.spiritStoneCost,
+      `兑换需要在坊市交付 ${B.economy.pillExchange.inputQuantity} 株凝元草和 ${B.economy.pillExchange.spiritStoneCost} 枚灵石。`,
     );
     p.grass--;
-    p.stones -= 10;
+    p.stones -= B.economy.pillExchange.spiritStoneCost;
     p.pills++;
-    w.notice = "药师收下凝元草与十枚灵石，交给你一枚突破丹。";
+    w.notice = `药师收下凝元草与 ${B.economy.pillExchange.spiritStoneCost} 枚灵石，交给你突破丹。`;
     record(w, "exchange", w.notice);
     return;
   },
@@ -286,8 +302,8 @@ const commandHandlers: CommandHandlers = {
           !a.attempt &&
           a.location === p.location &&
           a.realm >= p.realm &&
-          (r?.trust || 0) >= 10 &&
-          (r?.favor || 0) >= 0,
+          (r?.trust || 0) >= B.cultivation.breakthrough.guardianMinimumTrust &&
+          (r?.favor || 0) >= B.cultivation.breakthrough.guardianMinimumFavorability,
         "护法需要在场、空闲、境界足够且信任你的同伴。",
       );
       guardian = a.id;
@@ -299,8 +315,8 @@ const commandHandlers: CommandHandlers = {
       checkpoint: 0,
       paidStones: 0,
       kind: "breakthrough",
-      total: p.realm === 0 ? 1 : 3,
-      remaining: p.realm === 0 ? 1 : 3,
+      total: advanceRule(p).days,
+      remaining: advanceRule(p).days,
       stoneMethod: false,
       chance,
       guardian,
@@ -364,8 +380,11 @@ const commandHandlers: CommandHandlers = {
       w.agreement?.status === "accepted" && w.party.length === 3,
       "需要已接受的约定和三人队伍。",
     );
-    requireRule(!w.loot && p.stones >= 2, "先结清上次战利品，并备好两枚灵石路费。");
-    requireRule(w.day - w.lastExpeditionDay >= 3, "秘境气息未定，三日后再入山。");
+    requireRule(!w.loot && p.stones >= DEPARTURE_FEE, "先结清上次战利品，并备好两枚灵石路费。");
+    requireRule(
+      w.day - w.lastExpeditionDay >= B.economy.expeditionCooldownDays,
+      "秘境气息未定，三日后再入山。",
+    );
     for (const id of w.party)
       requireRule(
         actorById(w, id)?.alive &&
@@ -374,8 +393,9 @@ const commandHandlers: CommandHandlers = {
           actorById(w, id)!.location === p.location,
         "同伴须在场、存活、空闲并能行动。",
       );
-    p.stones -= 2;
-    for (const id of w.party.filter((id) => id !== "PLAYER")) actorById(w, id)!.stones++;
+    p.stones -= DEPARTURE_FEE;
+    for (const id of w.party.filter((id) => id !== "PLAYER"))
+      actorById(w, id)!.stones += B.story.departureFeePerNpc;
     const id = `expedition:${w.events.length + 1}`;
     w.agreement!.status = "active";
     w.agreement!.expeditionId = id;
@@ -387,20 +407,20 @@ const commandHandlers: CommandHandlers = {
       id,
       round: 1,
       allies: w.party.map((id) => fighter(actorById(w, id)!)),
-      enemies: [0, 1].map((i) => ({
+      enemies: Array.from({ length: B.combat.storyEncounter.enemyCount }, (_, i) => i).map((i) => ({
         id: `ENEMY_${i}`,
         name: `守碑石傀${i === 0 ? "·甲" : "·乙"}`,
-        maxHp: 45,
-        hp: 45,
-        attack: 9,
-        defense: 3,
-        speed: 8,
+        maxHp: B.combat.storyEncounter.enemyMaxHp,
+        hp: B.combat.storyEncounter.enemyMaxHp,
+        attack: B.combat.storyEncounter.enemyAttack,
+        defense: B.combat.storyEncounter.enemyDefense,
+        speed: B.combat.storyEncounter.enemySpeed,
         guard: false,
         cooldown: 0,
       })),
       logs: ["两具石傀从残碑旁苏醒，拦住了去路。"],
       auto: false,
-      lethal: false,
+      lethal: B.combat.storyEncounter.lethal,
     };
     w.notice = "一日山行后，你们抵达残碑。守碑石傀横在路中，战斗开始。";
     record(w, "expedition", w.notice, w.party);

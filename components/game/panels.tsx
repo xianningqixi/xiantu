@@ -1,4 +1,6 @@
 "use client";
+import { SHOP_ITEMS, STONE_METHOD } from "@/lib/game/economy";
+import B from "@/lib/game/content/balance.json";
 import { useState } from "react";
 import {
   BookOpen,
@@ -158,7 +160,11 @@ export function CultivationPanel({
             </div>
             <label className="switch-row">
               <span>
-                以灵石辅助修炼 <small>额外 +4 修为／日，每日消耗 1 灵石</small>
+                以灵石辅助修炼{" "}
+                <small>
+                  额外 +{STONE_METHOD.additionalExperiencePerDay} 修为／日，每日消耗{" "}
+                  {STONE_METHOD.costSpiritStonesPerDay} 灵石
+                </small>
               </span>
               <Switch checked={stone} onCheckedChange={setStone} />
             </label>
@@ -175,7 +181,7 @@ export function CultivationPanel({
               disabled={
                 busy ||
                 p.location === "ruins" ||
-                (stone && p.stones < Number(days)) ||
+                (stone && p.stones < Number(days) * STONE_METHOD.costSpiritStonesPerDay) ||
                 !!w.longAction ||
                 !!w.battle
               }
@@ -183,7 +189,10 @@ export function CultivationPanel({
             >
               <Moon size={17} /> {Number(days) >= 7 ? "开始闭关" : "开始修炼"}
               <span>
-                {days} 日{stone ? ` · ${days} 灵石` : " · 无消耗"}
+                {days} 日
+                {stone
+                  ? ` · ${Number(days) * STONE_METHOD.costSpiritStonesPerDay} 灵石`
+                  : " · 无消耗"}
               </span>
             </Button>
           </div>
@@ -203,7 +212,10 @@ export function CultivationPanel({
               <>
                 <label className="switch-row">
                   <span>
-                    服用突破丹 <small>成功率 +15%，当前 {p.pills} 枚</small>
+                    服用突破丹{" "}
+                    <small>
+                      成功率 +{B.cultivation.breakthrough.pillBonusBp / 100}%，当前 {p.pills} 枚
+                    </small>
                   </span>
                   <Switch checked={pill} onCheckedChange={setPill} disabled={!p.pills} />
                 </label>
@@ -272,32 +284,13 @@ export function InventoryPanel({
 }) {
   const p = w.player;
   const artifact = ARTIFACTS.find((a) => a.id === w.profile.artifact)!;
-  const items = [
-    {
-      id: "healing",
-      name: "回春丹",
-      qty: p.healing,
-      description: "恢复 35% 最大气血。",
-      price: 8,
-      icon: Heart,
-    },
-    {
-      id: "pills",
-      name: "突破丹",
-      qty: p.pills,
-      description: "筑基时服用，成功率提高 15%。",
-      price: 30,
-      icon: Sparkles,
-    },
-    {
-      id: "grass",
-      name: "凝元草",
-      qty: p.grass,
-      description: "可交付约定，或加十灵石兑换突破丹。",
-      price: 40,
-      icon: Leaf,
-    },
-  ] as const;
+  const icons = { healing: Heart, pills: Sparkles, grass: Leaf };
+  const items = (Object.keys(SHOP_ITEMS) as (keyof typeof SHOP_ITEMS)[]).map((id) => ({
+    id,
+    ...SHOP_ITEMS[id],
+    qty: p[id],
+    icon: icons[id],
+  }));
   return (
     <section className="panel-section">
       <div className="section-heading">
@@ -363,7 +356,9 @@ export function InventoryPanel({
             <item.icon size={19} />
             <div>
               <strong>{item.name}</strong>
-              <small>{item.price} 灵石／份</small>
+              <small data-shop-item={item.id} data-price={item.price}>
+                {item.price} 灵石／份
+              </small>
             </div>
             <Button
               variant="outline"
@@ -389,13 +384,14 @@ export function InventoryPanel({
           busy ||
           p.location !== "market" ||
           !p.grass ||
-          p.stones < 10 ||
+          p.stones < B.economy.pillExchange.spiritStoneCost ||
           !!w.longAction ||
           !!w.battle
         }
         onClick={() => send({ type: "exchange" })}
       >
-        凝元草 ×1 ＋ 灵石 ×10 → 突破丹 ×1
+        凝元草 ×{B.economy.pillExchange.inputQuantity} ＋ 灵石 ×
+        {B.economy.pillExchange.spiritStoneCost} → 突破丹 ×{B.economy.pillExchange.outputQuantity}
       </Button>
     </section>
   );

@@ -127,14 +127,8 @@ const requestSchema = z.union([
   z.object({ ...envelope, kind: z.literal("exportBackup"), backupKey: id }).strict(),
 ]);
 
-export class GameError extends Error {
-  constructor(
-    public code: string,
-    message: string,
-  ) {
-    super(message);
-  }
-}
+import { GameError } from "./errors";
+export { GameError } from "./errors";
 export function parseRequest(value: unknown): WorkerRequest {
   const result = requestSchema.safeParse(value);
   if (!result.success)

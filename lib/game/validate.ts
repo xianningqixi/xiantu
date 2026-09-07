@@ -1,8 +1,10 @@
+import { B } from "./rules";
+import { requireSave as requireRule } from "./errors";
 import { validTerms, proposalSchema } from "./negotiation";
 import { selectedExtensions } from "./content/extensions";
 import { PACK, LOCATIONS } from "./content/official";
 import type { Fighter, World } from "./types";
-import { threshold, stats, requireRule, actorById } from "./rules";
+import { threshold, stats, actorById } from "./rules";
 
 export function validateWorld(w: World) {
   requireRule(
@@ -329,7 +331,8 @@ export function validateWorld(w: World) {
         a.checkpoint === a.total - a.remaining &&
         Number.isSafeInteger(a.paidStones) &&
         a.paidStones >= 0 &&
-        a.paidStones <= a.checkpoint,
+        a.paidStones <=
+          a.checkpoint * B.cultivation.methods.METHOD_SPIRIT_STONE.costSpiritStonesPerDay,
       "长行动检查点或已付款记录不合法。",
     );
     requireRule(
@@ -344,8 +347,8 @@ export function validateWorld(w: World) {
   }
   if (w.loot)
     requireRule(
-      w.loot.stones === 12 &&
-        w.loot.grass === 1 &&
+      w.loot.stones === B.economy.expeditionSpiritStoneReward &&
+        w.loot.grass === B.economy.expeditionNingyuanGrassReward &&
         !!w.agreement &&
         w.agreement.expeditionId === w.loot.expeditionId,
       "战利品与约定不匹配。",

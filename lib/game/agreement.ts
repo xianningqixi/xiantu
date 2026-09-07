@@ -1,3 +1,5 @@
+import { B } from "./rules";
+import { DEPARTURE_FEE } from "./economy";
 import { PACK, LOCATIONS, PRESENTATION, contentText } from "./content/official";
 import type { World } from "./types";
 import { requireRule, actorById } from "./rules";
@@ -34,7 +36,7 @@ export function partyReadiness(w: World) {
 }
 
 export function departureStatus(w: World) {
-  const remaining = Math.max(0, 3 - (w.day - w.lastExpeditionDay));
+  const remaining = Math.max(0, B.economy.expeditionCooldownDays - (w.day - w.lastExpeditionDay));
   const unavailable = w.party
     .map((id) => actorById(w, id))
     .find((a) => !a?.alive || a.attempt || !a.hp || a.location !== w.player.location);
@@ -45,8 +47,8 @@ export function departureStatus(w: World) {
         ? "先约定同行，并集齐三人。"
         : w.loot
           ? "请先结清上次战利品。"
-          : w.player.stones < 2
-            ? "还需备好 2 枚灵石路费。"
+          : w.player.stones < DEPARTURE_FEE
+            ? `还需备好 ${DEPARTURE_FEE} 枚灵石路费。`
             : unavailable
               ? `${unavailable.name}尚未准备好${unavailable.attempt ? `，突破还需 ${unavailable.attempt.remaining} 日` : ""}。`
               : remaining

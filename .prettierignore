@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.next/
+.wrangler/
+.game-test-build/
+playwright-report/
+test-results/
+vendor/
+public/
+content-packs/
+docs/
+package-lock.json
+lib/game/content/extensions.json
+lib/game/content/official.ts
+lib/game/content/balance.json
+*.md
+drizzle/

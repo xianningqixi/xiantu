@@ -1,3 +1,5 @@
+import { deduplicateNpcNames } from "./npc-names";
+import { MAIN_STORY_LOCK } from "./main-story";
 import { defaultPhysique, profilePhysique } from "./physique";
 import { selectedExtensions } from "./content/extensions";
 import { PACK, CHARACTERS, PRESENTATION, contentText } from "./content/official";
@@ -6,42 +8,10 @@ import { B, REALM_KEYS, SAFE, threshold, requireRule } from "./rules";
 import { hashSeed, nextRandom } from "./rng";
 import { validateWorld } from "./validate";
 import { recordFact as record } from "./knowledge";
+import { actorNpcTemplate, expandedNpcTemplate, expandedAppearanceSeed } from "./npc-roster";
 
-export function createActor(
-  id: string,
-  name: string,
-  realm: number,
-  age: number,
-  aptitude: number,
-  seed: number,
-): Actor {
-  return {
-    id,
-    name,
-    sex: seed % 2 ? "female" : "male",
-    ageDays: age * B.world.daysPerYear,
-    appearanceSeed: seed,
-    physique: defaultPhysique(seed % 2 ? "female" : "male", seed),
-    aptitude,
-    personality: ["谨慎", "爽直", "重情", "寡言", "豁达"][seed % 5],
-    sect: ["散修", "青岚宗", "归云门"][seed % 3],
-    goal: realm === 0 ? "寻得功法，踏入仙途" : "积蓄修为，筹备下一次突破",
-    realm,
-    xp: 0,
-    hp: B.combat.realmStats[REALM_KEYS[realm]].maxHp,
-    stones: B.creation.startingSpiritStones,
-    healing: B.creation.startingHealingPills,
-    pills: 0,
-    grass: 0,
-    manual: realm > 0,
-    alive: true,
-    location: "market",
-    activity: "在坊市停留",
-    readyDay: B.world.npcMajorAttemptPreparationDays,
-    lastActionDay: -1,
-    attempt: null,
-  };
-}
+export { createActor } from "./actor-factory";
+import { createActor } from "./actor-factory";
 
 export function createWorld(
   seed: number,
@@ -146,6 +116,15 @@ export function createWorld(
     );
     npc.location = SAFE[draw(3)];
     npc.xp = draw(threshold(npc));
+    const template = expandedNpcTemplate(npc.id);
+    if (template) {
+      npc.npcTemplateId = template.id;
+      npc.name = template.name;
+      npc.sex = template.sex;
+      npc.goal = template.hook;
+      npc.appearanceSeed = expandedAppearanceSeed(template.id);
+      npc.ageDays = Math.max(npc.ageDays, template.physique.apparentAge * B.world.daysPerYear);
+    }
     npcs.push(npc);
   }
   const player = createActor(
@@ -160,6 +139,7 @@ export function createWorld(
   player.goal = "从凡人开始，寻一条自己的道";
   player.sect = "无";
   const w: World = {
+    campaignLock: MAIN_STORY_LOCK,
     schemaVersion: 6,
     negotiations: [],
     contentLocks: options.contentLocks ?? [],
@@ -172,7 +152,7 @@ export function createWorld(
         options.backgroundConflicts ?? B.world.ordinaryNpcOffscreenConflictEnabled,
     },
     format: "xiantu-web-1",
-    rulesVersion: "0.1.2",
+    rulesVersion: "0.1.4",
     packLock: PACK.lock,
     saveId,
     revision: 0,
@@ -208,8 +188,27 @@ export function createWorld(
         memories: [],
       });
   }
-  for (const { data } of selectedExtensions(w.contentLocks))
-    for (const c of data.definitions.characters) {
+  w.npcs.push(...createContentActors(seed, w.contentLocks));
+  w.profile.physique = profilePhysique(profile);
+  w.player.physique = { ...w.profile.physique };
+  if (profile.portraitId) w.player.portraitId = profile.portraitId;
+  for (const npc of w.npcs)
+    npc.physique = {
+      ...defaultPhysique(npc.sex, npc.appearanceSeed),
+      ...actorNpcTemplate(npc)?.physique,
+    };
+  deduplicateNpcNames(w);
+  record(w, "arrival", contentText(PRESENTATION.notices.arrivalEvent, w));
+  validateWorld(w);
+  return w;
+}
+
+/** Also used when introducing previously absent campaign residents into a saved world.
+ * Identity seeds are independent of the live simulation and combat random streams.
+ */
+export function createContentActors(seed: number, locks: string[], day = 0): Actor[] {
+  return selectedExtensions(locks).flatMap(({ data }) =>
+    data.definitions.characters.map((c) => {
       const a = createActor(c.id, c.name, c.realm, c.age, c.aptitude, hashSeed(seed, c.id));
       Object.assign(a, {
         sex: c.sex,
@@ -217,14 +216,16 @@ export function createWorld(
         sect: c.sect,
         goal: c.goal,
         location: c.location,
+        activity: "在当地停留",
+        ageDays: a.ageDays + day,
+        readyDay: a.readyDay + day,
+        lastActionDay: day - 1,
       });
-      w.npcs.push(a);
-    }
-  w.profile.physique = profilePhysique(profile);
-  w.player.physique = { ...w.profile.physique };
-  if (profile.portraitId) w.player.portraitId = profile.portraitId;
-  for (const npc of w.npcs) npc.physique = defaultPhysique(npc.sex, npc.appearanceSeed);
-  record(w, "arrival", contentText(PRESENTATION.notices.arrivalEvent, w));
-  validateWorld(w);
-  return w;
+      a.physique = {
+        ...defaultPhysique(a.sex, a.appearanceSeed),
+        ...actorNpcTemplate(a)?.physique,
+      };
+      return a;
+    }),
+  );
 }

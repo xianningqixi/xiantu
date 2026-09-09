@@ -25,6 +25,7 @@ const draft = (kind: ModelKind, revision = 0) => ({
   baseUrl: `https://${kind}.provider.example/v1`,
   model: `${kind}-model`,
   key: `fake-private-${kind}-key`,
+  maxTokens: kind === "llm" ? 8192 : 800,
   revision,
 });
 async function fixture(t: { after: (fn: () => Promise<void>) => void }) {
@@ -48,6 +49,7 @@ test("separate browser credentials persist both models privately, never returnin
   }
   const read = await (await call({ action: "read" }, cookie)).json();
   assert.equal(read.models.llm.model, "llm-model");
+  assert.equal(read.models.llm.maxTokens, 8192);
   assert.equal(read.models.image.model, "image-model");
   const other = await (await call({ action: "read" })).json();
   assert.equal(other.models.llm.hasKey, false);
@@ -157,6 +159,15 @@ test("cross-origin, private upstream, malformed and oversized requests cannot wr
       .status,
     400,
   );
+  assert.equal(
+    (
+      await call(
+        { action: "save", kind: "llm", config: { ...draft("llm"), maxTokens: 8193 } },
+        cookie,
+      )
+    ).status,
+    400,
+  );
   for (const baseUrl of [
     "http://localhost:8000",
     "https://127.0.0.1/v1",
@@ -182,6 +193,7 @@ test("LLM test uses the chosen model and strict schema without saving credential
     assert.equal(new Headers(init?.headers).get("authorization"), `Bearer ${draft("llm").key}`);
     const body = JSON.parse(init?.body as string);
     assert.equal(body.model, "llm-model");
+    assert.equal(body.max_completion_tokens, 8192);
     assert.equal(body.response_format.json_schema.strict, true);
     return Response.json({
       choices: [

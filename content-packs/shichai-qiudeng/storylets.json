@@ -1,0 +1,2121 @@
+[
+  {
+    "id": "shichai.qiudeng.intro",
+    "title": "秋灯",
+    "eyebrow": "引子 · 卷三",
+    "body": "秋天的云岚境风大。青石坊市只是这方大世界的一角：往北是青岚宗的九重山门，往西是归云门的剑冢，更远处传说有金丹真人乘飞舟过境，元婴老祖在天外闭关。凡人一生七十年，炼气可活百二十，筑基一百八，再往上便是逆天而行。\n\n你在客栈的书堆里翻到第三页残卷：“既济之道，非采非予。行之者，需先问己心。”这一页比前两页新，墨迹未干。有人在等你翻到它。",
+    "visualId": "shichai.qiudeng.intro",
+    "participants": [],
+    "priority": 55,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "shichai.qiudeng.inn"
+      },
+      {
+        "fact": "flag.shichai.qiudeng.prologue",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.intro.keep",
+        "label": "把三页残卷合在一起",
+        "hint": "记下引子；不影响任何数值。",
+        "reply": "三页合在一起，纸上的字连成了一句：问己心。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.prologue"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.intro.pass",
+        "label": "放回书堆",
+        "hint": "不记录引子。",
+        "reply": "你放回残卷。灯笼在秋风里晃。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.qiudeng.main.scroll",
+    "title": "老道与卷轴",
+    "eyebrow": "秋灯 · 主线 · 一",
+    "body": "客栈角落坐着一个白须老道，见你翻残卷，笑眯眯地招手：“小友翻了三页，可想看全本？”他从袖中取出一卷金线装订的卷轴，推过桌面：“《既济诀》，上古合欢宗正统。阴阳互济，两不相欠，双修之人皆得增益。”\n\n他自称{{shichai.qiudeng.xuanxuzi.name}}，游方多年。他的目光落在你身上时，有一瞬间空洞得像在看一件器物。",
+    "quote": "“修行一途，独行者难。小友命格特殊，是万中无一的阳鼎之体。”",
+    "visualId": "shichai.qiudeng.main.cg.scroll",
+    "participants": [
+      "shichai.qiudeng.xuanxuzi"
+    ],
+    "priority": 52,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "shichai.qiudeng.inn"
+      },
+      {
+        "fact": "flag.shichai.qiudeng.prologue",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.main1",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.main.scroll.take",
+        "label": "接过卷轴，拜谢老道",
+        "hint": "开始主线；与玄虚子相识。",
+        "reply": "他把卷轴交到你手里，说“记住，行之者先问己心”。你没有注意到他指尖在你腕上停了一瞬。",
+        "effects": [
+          {
+            "kind": "meet",
+            "target": "shichai.qiudeng.xuanxuzi"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.main1"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.qiudeng.xuanxuzi",
+            "text": "{{player.name}}在听雨客栈从游方老道玄虚子手中接过全本《既济诀》。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.main.scroll.refuse",
+        "label": "不接来路不明的功法",
+        "hint": "不开始主线；老道仍在世界里。",
+        "reply": "老道笑了笑，把卷轴收回袖中：“小友谨慎。缘分未到。”",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.qiudeng.main.sign",
+    "title": "丹田里的线",
+    "eyebrow": "秋灯 · 主线 · 二",
+    "body": "自从修行《既济诀》，你的修为进得比旁人快。可每到夜里入定，你都看见丹田深处有一根几不可见的金线，牵向窗外，牵向不知何处。\n\n更怪的是心魔。梦里总有女子的脸，一张接一张，都在问同一句话：“你拿走的东西，去了哪里？”你醒来时冷汗透衣，那根线还在。",
+    "quote": "“问己心。”你想起卷轴上的话，却不敢问。",
+    "visualId": "shichai.qiudeng.main.cg.sign",
+    "participants": [],
+    "priority": 55,
+    "conditions": [
+      {
+        "fact": "player.manual",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.main1",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.main2",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.main.sign.trace",
+        "label": "顺着金线追查",
+        "hint": "推进主线。",
+        "reply": "你循着金线入定，线的尽头有一个熟悉的气息：老道。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.main2"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.main.sign.ignore",
+        "label": "当作修行的正常异象",
+        "hint": "推进主线（另一种心态）。",
+        "reply": "你压下心魔继续修行。可线越来越粗，你终究得面对它。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.main2"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.main.sign.exit",
+        "label": "先不管它",
+        "hint": "主线停在这里。",
+        "reply": "你把这件事放下。金线还在，只是你不再看它。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.qiudeng.main.reveal",
+    "title": "十根金线",
+    "eyebrow": "秋灯 · 主线 · 三",
+    "body": "客栈后院，月下。{{shichai.qiudeng.xuanxuzi.name}}背对你，衣袖里垂出十根金线，每一根尽头都是一个女子的虚影，有的你认识，有的还没遇到。\n\n“《既济诀》是合欢宗的‘牵丝引’。”他转过身，眼里没有一丝笑，“你是阳鼎，她们是炉。你与她们合修一次，她们的阴元和你的阳元便顺着线，一并流到老夫这里。你以为你在帮她们？小友，你在替我采她们。”",
+    "quote": "“老夫寿元只剩三年。十位炉女的阴元凑齐，便能逆天。小友，你是老夫的天命。”",
+    "visualId": "shichai.qiudeng.main.cg.reveal",
+    "participants": [
+      "shichai.qiudeng.xuanxuzi"
+    ],
+    "priority": 65,
+    "conditions": [
+      {
+        "fact": "actor.shichai.qiudeng.xuanxuzi.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.main2",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.main3",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.main.reveal.confront",
+        "label": "翻脸：这些线，今日就断",
+        "hint": "推进主线，与玄虚子决裂。",
+        "reply": "老道叹了口气：“断不了。线在你丹田，也在她们身上。你敢断，她们先死。”他消失在月色里。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.main3"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.qiudeng.xuanxuzi",
+            "text": "{{player.name}}在客栈后院得知《既济诀》实为合欢宗牵丝引，自己一直是玄虚子采补众女的阳鼎，当面与他决裂。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.main.reveal.feign",
+        "label": "假意顺从，先把线的走法学全",
+        "hint": "推进主线，并记下你选择了隐忍；后续对峙时另有说法。",
+        "reply": "你低头称是。老道满意地拍拍你的肩：“乖孩子。再收三个，老夫便教你金丹之路。”你把每一句话都记下了。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.main3"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.feign"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.qiudeng.xuanxuzi",
+            "text": "{{player.name}}得知牵丝引的真相后假意顺从玄虚子，暗中记下金线的走法。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.main.reveal.exit",
+        "label": "转身离开，什么也没说",
+        "hint": "主线停在这里。",
+        "reply": "你走出后院。金线在你身后绷直，又松开。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.qiudeng.main.choice",
+    "title": "火折与丹田",
+    "eyebrow": "秋灯 · 主线 · 四",
+    "body": "溪边，你把《既济诀》摊在膝上，一手持火折，一手按在自己丹田。\n\n烧了它，线不会断，只是不再有新的线。逆炼它，把“采”反过来变成“济”，把每一根线从你这里剪断，再把流走的东西还回去。第二条路没人走过。卷轴上那句“问己心”，你终于明白是什么意思：不是问你敢不敢，是问你为了什么。",
+    "quote": "“行之者，需先问己心。”",
+    "visualId": "shichai.qiudeng.main.cg.choice",
+    "participants": [],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "flag.shichai.qiudeng.main3",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.main4",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.main.choice.reverse",
+        "label": "逆炼：把采变成济",
+        "hint": "推进主线并记下你选择了逆炼；对峙时你手里有线。",
+        "reply": "你以心魔为火，把《既济诀》逆着炼了一遍。丹田剧痛，十根金线一根根从你这里断开，断口处流出的不是灵气，是她们的东西。你把它们一一送回去。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.main4"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.reversed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.main.choice.burn",
+        "label": "烧了它",
+        "hint": "推进主线；线不再增加，但旧线仍在。",
+        "reply": "卷轴烧成灰。你的修为从此只能靠自己。旧线还在，但不会再粗了。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.main4"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.main.choice.exit",
+        "label": "放下火折，今天做不了决定",
+        "hint": "主线停在这里。",
+        "reply": "你把卷轴收回行囊。溪水照旧流。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.qiudeng.main.duel",
+    "title": "秋叶悬停",
+    "eyebrow": "秋灯 · 主线 · 五",
+    "body": "古道石阶。{{shichai.qiudeng.xuanxuzi.name}}拦在你面前，不再是笑眯眯的老道。金线在两人之间绷直，秋叶悬停在半空。\n\n“小友，把线还给老夫。”他伸出手。你感觉到丹田里的东西在往他那里走。这一刻，你想起每一个把手交到你掌心的人。",
+    "quote": "“你以为你在救她们？小友，没有老夫的线，你不过是个凡人。”",
+    "visualId": "shichai.qiudeng.main.cg.duel",
+    "participants": [
+      "shichai.qiudeng.xuanxuzi"
+    ],
+    "priority": 75,
+    "conditions": [
+      {
+        "fact": "actor.shichai.qiudeng.xuanxuzi.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.main4",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.main5",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.main.duel.cut",
+        "label": "把线从他那一头剪断",
+        "hint": "推进主线并收束；若你曾逆炼，线会反噬他；若只是烧诀，你只能断线自保。",
+        "reply": "线断的那一刻，老道苍老了十岁。他跌坐在石阶上，喃喃“三年……只剩三年”。秋叶落了下来。你转身下山，没有回头。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.main5"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.qiudeng.xuanxuzi",
+            "text": "{{player.name}}在山门古道剪断玄虚子的牵丝引，众女被采走的阴元不再流向他。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.main.duel.spare",
+        "label": "断线，但放他走",
+        "hint": "推进主线并收束。",
+        "reply": "你剪断线，让开路。他看了你很久，说“你比老夫强”，拄着杖进了雾里。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.main5"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.main.duel.exit",
+        "label": "退后一步，不与他动手",
+        "hint": "主线停在这里；线仍在。",
+        "reply": "你退下石阶。金线在两人之间松了，但没有断。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.qiudeng.main.gone",
+    "title": "熄灭的灯笼",
+    "eyebrow": "秋灯 · 主线 · 收束",
+    "body": "客栈角落那张桌子空了。店家说，那位老道昨夜在桌边坐着，坐着坐着就没了气。桌上留着半卷烧焦的纸。\n\n你丹田里的金线松脱了，像被人从另一头放了手。你不知道他是寿元到了，还是别的什么。你只知道，那句“问己心”，以后得你自己问。",
+    "visualId": "shichai.qiudeng.main.cg.gone",
+    "participants": [],
+    "priority": 100,
+    "conditions": [
+      {
+        "fact": "actor.shichai.qiudeng.xuanxuzi.alive",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.main1",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.main5",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.main.gone.close",
+        "label": "把那半卷纸收进行囊",
+        "hint": "收束主线。",
+        "reply": "纸上还剩三个字：问己心。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.main5"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.main.gone.exit",
+        "label": "让店家把纸扫了",
+        "hint": "结束这段文字，不作记录。",
+        "reply": "纸被扫进灶膛。灯笼再没有点过。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.qiudeng.wenrenshuang.meet",
+    "title": "灵石税牌",
+    "eyebrow": "秋灯 · 相识",
+    "body": "坊市的青岚宗执事所前排着队，商户们把灵石税牌递进去。核牌的是个玄青袍的女修，眉目冷得像秋霜，看牌的速度比裴家的算盘还快。\n\n轮到你，她抬眼：“无牌。散修？凡人？”她叫{{shichai.qiudeng.wenrenshuang.name}}，青岚宗坊市执事，筑基修士。她多看了你一眼，眼神里有一种你说不清的东西。",
+    "quote": "“你身上的气息不对。阳气太盛，盛得像……一口鼎。”",
+    "visualId": "shichai.qiudeng.wenrenshuang.cg.meet",
+    "participants": [
+      "shichai.qiudeng.wenrenshuang"
+    ],
+    "priority": 50,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "shichai.qiudeng.market"
+      },
+      {
+        "fact": "actor.shichai.qiudeng.wenrenshuang.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.met",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.later",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.wenrenshuang.meet.greet",
+        "label": "报上姓名，任她打量",
+        "hint": "与{{shichai.qiudeng.wenrenshuang.name}}相识 · 记入共同经历。",
+        "reply": "她把你的名字记在册上，又添了一笔什么。“下月再来核一次。”她说。",
+        "effects": [
+          {
+            "kind": "meet",
+            "target": "shichai.qiudeng.wenrenshuang"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.wenrenshuang.flag.met"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.qiudeng.wenrenshuang",
+            "text": "{{player.name}}在坊市青岚宗执事所与筑基执事闻人霜相识，她注意到他异于常人的阳气。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.wenrenshuang.meet.later",
+        "label": "先不打扰，改日再说",
+        "hint": "不相识；下次遇到她时还有一次机会。",
+        "reply": "你退到队伍后面，她没有再看你。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.wenrenshuang.flag.later"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.wenrenshuang.meet.pass",
+        "label": "只当擦肩而过",
+        "hint": "彻底错过这条线；她仍会在世界里过自己的日子。",
+        "reply": "你没有排队。执事所的门在暮色里关上。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.qiudeng.wenrenshuang.meet-again",
+    "title": "再核一次",
+    "eyebrow": "秋灯 · 再逢",
+    "body": "{{shichai.qiudeng.wenrenshuang.name}}又在执事所前核牌。看见你，她放下笔：“上次无牌的。这次报名字。”",
+    "visualId": "shichai.qiudeng.wenrenshuang.cg.meet",
+    "participants": [
+      "shichai.qiudeng.wenrenshuang"
+    ],
+    "priority": 45,
+    "conditions": [
+      {
+        "fact": "actor.shichai.qiudeng.wenrenshuang.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.later",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.met",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.wenrenshuang.again.greet",
+        "label": "报上姓名",
+        "hint": "与{{shichai.qiudeng.wenrenshuang.name}}相识 · 记入共同经历。",
+        "reply": "她记下，抬眼看你许久：“你的气息，比上次更盛了。”",
+        "effects": [
+          {
+            "kind": "meet",
+            "target": "shichai.qiudeng.wenrenshuang"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.wenrenshuang.flag.met"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.qiudeng.wenrenshuang",
+            "text": "{{player.name}}在坊市青岚宗执事所与筑基执事闻人霜相识，她注意到他异于常人的阳气。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.wenrenshuang.again.pass",
+        "label": "终究没有开口",
+        "hint": "彻底错过这条线。",
+        "reply": "你摇头走开。她的笔停了一下。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.qiudeng.wenrenshuang.bond",
+    "title": "裂开的丹药",
+    "eyebrow": "秋灯 · 相知",
+    "body": "执事所后堂，{{shichai.qiudeng.wenrenshuang.name}}卸下玉冠，按着眉心，桌上摆着一枚裂开的筑基丹。“我夫君崔九章，青岚宗长老，筑基一百七十年，寿元只剩十年。金丹无望，他便以我的阴元续命。每月一次，在宗门刑堂，名为‘夫妻双修’。”\n\n她抬起眼，眼下的青影很重：“我筑基三十年，修为一寸未进。我今年三十四，寿元却已耗去一半。”",
+    "quote": "“我读过《既济诀》残页。我在找一口鼎。你就是。我不骗你。”",
+    "visualId": "shichai.qiudeng.wenrenshuang.cg.bond",
+    "participants": [
+      "shichai.qiudeng.wenrenshuang"
+    ],
+    "priority": 60,
+    "conditions": [
+      {
+        "fact": "actor.shichai.qiudeng.wenrenshuang.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.met",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.bond",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "player.manual",
+        "op": "eq",
+        "value": true
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.wenrenshuang.bond.a",
+        "label": "问她，她想从你身上拿走什么",
+        "hint": "进入相知；记入共同经历。",
+        "reply": "她坦然：“你的阳元。以阳补阴，我能多活二十年。我不做偷的事，先告诉你。”你说你知道了。她愣了一下。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.wenrenshuang.flag.bond"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.qiudeng.wenrenshuang",
+            "text": "{{player.name}}在执事所后堂听闻人霜坦言丈夫崔九章以她续命，以及她打算借他的阳气自救。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.wenrenshuang.bond.b",
+        "label": "替她把那枚裂开的丹药收好",
+        "hint": "进入相知；不记入经历。",
+        "reply": "你把丹药包起来。她说：“三十年，第一个不问我要什么、先替我收东西的人。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.wenrenshuang.flag.bond"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.wenrenshuang.bond.exit",
+        "label": "说自己不掺和宗门长老的家事",
+        "hint": "结束这条线；已有经历保留。",
+        "reply": "她戴上玉冠，冷冷地说“很好”。此后她只核你的牌，不再多言。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.qiudeng.wenrenshuang.spark",
+    "title": "屋顶上的玉佩",
+    "eyebrow": "秋灯 · 心动",
+    "body": "坊市屋顶，月下。{{shichai.qiudeng.wenrenshuang.name}}把一枚冰凉的玉佩按进你掌心，灵气顺着玉佩往你身上流：“这是我的本命玉。给了你，我便瞒不住你任何事。”\n\n她的手没有收回去：“我原本只想采你。可你让我想起我入门时的样子。那时我也以为，修行是为了自己。”",
+    "quote": "“筑基修士的心魔，是知道自己在做什么，却停不下来。”",
+    "visualId": "shichai.qiudeng.wenrenshuang.cg.spark",
+    "participants": [
+      "shichai.qiudeng.wenrenshuang"
+    ],
+    "priority": 60,
+    "conditions": [
+      {
+        "fact": "actor.shichai.qiudeng.wenrenshuang.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.bond",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.spark",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.wenrenshuang.spark.a",
+        "label": "握住玉佩和她的手，说你不是鼎",
+        "hint": "进入心动；记入共同经历。",
+        "reply": "她的手在你掌心里终于暖了。她说：“那你是什么？”你说是人。她笑了，三十年来第一次。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.wenrenshuang.flag.spark"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.qiudeng.wenrenshuang",
+            "text": "{{player.name}}在坊市屋顶收下闻人霜的本命玉佩，两人第一次越过执事与散修的界线。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.wenrenshuang.spark.b",
+        "label": "收下玉佩，说你会想清楚",
+        "hint": "进入心动；不记入经历。",
+        "reply": "她说“想清楚再来”。玉佩在你怀里一直是暖的。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.wenrenshuang.flag.spark"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.wenrenshuang.spark.exit",
+        "label": "把玉佩还她，说自己担不起",
+        "hint": "结束这条线；已有经历保留。",
+        "reply": "她收回玉佩，说“你是对的”。此后她核你的牌时目光不再停留。",
+        "effects": []
+      }
+    ],
+    "minRealm": 4
+  },
+  {
+    "id": "shichai.qiudeng.wenrenshuang.rival",
+    "title": "拂尘",
+    "eyebrow": "秋灯 · 情敌",
+    "body": "{{shichai.qiudeng.cuijiuzhang.name}}立于执事所门口，白须慈目，手中拂尘一动不动。他身后是宗门刑堂的弟子。“霜儿，本月的双修，你迟了三日。”他看向你，笑容慈祥：“这位小友，气息不凡。可是想入我青岚宗？”\n\n{{shichai.qiudeng.wenrenshuang.name}}站在门内，脸色比玉冠还白。你明白了：他知道。他一直知道。他只是在等你送上门。",
+    "quote": "“霜儿是老夫的丹炉。小友若是想借用，也不是不可以。宗门讲规矩。”",
+    "visualId": "shichai.qiudeng.wenrenshuang.cg.rival",
+    "participants": [
+      "shichai.qiudeng.wenrenshuang"
+    ],
+    "priority": 75,
+    "conditions": [
+      {
+        "fact": "actor.shichai.qiudeng.wenrenshuang.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.spark",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.contest",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.lost",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "actor.shichai.qiudeng.cuijiuzhang.alive",
+        "op": "eq",
+        "value": true
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.wenrenshuang.rival.fight",
+        "label": "站到她身前，说她不是炉",
+        "hint": "争 · 进入初夜路线；崔九章会记住你。",
+        "reply": "拂尘动了一下。崔九章笑意不减：“好，那便看小友的道心，撑不撑得住宗门的规矩。”他带着弟子走了。她在门内慢慢跪坐下去，不是给谁，是腿软了。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.wenrenshuang.flag.contest"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.qiudeng.wenrenshuang",
+            "text": "{{player.name}}当着青岚宗长老崔九章的面，说闻人霜不是任何人的丹炉。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.wenrenshuang.rival.yield",
+        "label": "低头，说自己不敢有非分之想",
+        "hint": "让 · 进入被夺结局。",
+        "reply": "崔九章满意地点头。她跟着他走进宗门的雾里，没有回头。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.wenrenshuang.flag.lost"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.wenrenshuang.rival.leave",
+        "label": "一言不发地离开",
+        "hint": "既不争也不让；这条线停在这里，不再继续。",
+        "reply": "你退出执事所。拂尘的影子在门上晃。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.qiudeng.wenrenshuang.rival-honored",
+    "title": "守信之人",
+    "eyebrow": "秋灯 · 情敌 · 守信",
+    "body": "{{shichai.qiudeng.cuijiuzhang.name}}立于执事所门口，拂尘一动不动。他看着你，笑意里多了点别的：“坊市传闻，小友对林晚姑娘一诺千金。宗门重信。”\n\n他转向{{shichai.qiudeng.wenrenshuang.name}}：“霜儿，你若要走，老夫不拦。宗门的规矩，老夫来担。”她愣住了。你也愣住了。这不是让步，是试探：他要看她敢不敢走。",
+    "quote": "“霜儿，走不走，你自己说。老夫的寿元，你不必再管。”",
+    "visualId": "shichai.qiudeng.wenrenshuang.cg.rival",
+    "participants": [
+      "shichai.qiudeng.wenrenshuang"
+    ],
+    "priority": 76,
+    "conditions": [
+      {
+        "fact": "actor.shichai.qiudeng.wenrenshuang.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.spark",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.contest",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.lost",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "actor.shichai.qiudeng.cuijiuzhang.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "official.outcome",
+        "op": "eq",
+        "value": "fulfilled"
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.wenrenshuang.rival-honored.fight",
+        "label": "告诉她，你等她自己说",
+        "hint": "争 · 进入初夜路线；她的选择是她自己的。",
+        "reply": "她看了崔九章很久，然后摘下玉冠，放在案上。崔九章闭了闭眼，拂尘垂了下去。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.wenrenshuang.flag.contest"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.qiudeng.wenrenshuang",
+            "text": "{{player.name}}以守信之名，让闻人霜在崔九章面前自己选择离开。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.wenrenshuang.rival-honored.yield",
+        "label": "退开，说这是宗门的事",
+        "hint": "让 · 进入被夺结局。",
+        "reply": "她把玉冠戴了回去。崔九章的拂尘又抬了起来。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.wenrenshuang.flag.lost"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.wenrenshuang.rival-honored.leave",
+        "label": "一言不发地离开",
+        "hint": "既不争也不让；这条线停在这里，不再继续。",
+        "reply": "你走出执事所。身后没有人说话。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.qiudeng.wenrenshuang.rival-gone",
+    "title": "拂尘落地",
+    "eyebrow": "秋灯 · 空门",
+    "body": "青岚宗的钟响了九声：{{shichai.qiudeng.cuijiuzhang.name}}长老坐化。他没等到金丹，也没等到下一次“双修”。\n\n{{shichai.qiudeng.wenrenshuang.name}}在执事所里坐了一夜。天亮时她说：“他死了，我的寿元不会回来。可我的修为，从今天起是我自己的。”她看向你：“你还想做人，不做鼎么？”",
+    "visualId": "shichai.qiudeng.wenrenshuang.cg.rival",
+    "participants": [
+      "shichai.qiudeng.wenrenshuang"
+    ],
+    "priority": 74,
+    "conditions": [
+      {
+        "fact": "actor.shichai.qiudeng.wenrenshuang.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.spark",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.contest",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.lost",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "actor.shichai.qiudeng.cuijiuzhang.alive",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.wenrenshuang.gone.stay",
+        "label": "说想",
+        "hint": "无人相争，仍需你亲口应下。",
+        "reply": "她把玉冠摘下来放在案上：“那我陪你。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.wenrenshuang.flag.contest"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.qiudeng.wenrenshuang",
+            "text": "{{player.name}}在崔九章坐化后与闻人霜约定同修。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.wenrenshuang.gone.leave",
+        "label": "把这份沉默留给她",
+        "hint": "这条线停在这里。",
+        "reply": "你没有回答。她戴上玉冠，去核下一张牌。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.qiudeng.wenrenshuang.lost",
+    "title": "刑堂外",
+    "eyebrow": "秋灯 · 被夺",
+    "body": "青岚宗刑堂。你被两名弟子押在堂外，隔着门看：{{shichai.qiudeng.wenrenshuang.name}}跪于蒲团，{{shichai.qiudeng.cuijiuzhang.name}}手按她的头顶，她的阴元化作白雾从眉心被吸走。她没有挣扎。她三十年都没有挣扎。\n\n你想起屋顶上她说的“停不下来”。她停不下来，而你退开了。白雾散尽时她睁开眼，看见了门外的你。\n\n门只开一条缝。缝里是蒲团、她的膝盖、崔九章按在她顶心的掌。白雾从她眉心抽出来，细得像丝，一寸寸往他袖里走。你听见她呼吸，匀，浅，像在核一块税牌。三十年，她都是这样把东西交出去的。\n\n弟子按着你的肩。你本可以争。你在门口低头说了不敢有非分之想，于是今夜你只配看。刑堂里烛火稳，拂尘挂在架上，一动不动。崔九章的声音从门里送出来，慈，也冷：\n\n“小友看清楚了。这便是宗门的规矩。”\n\n她的中衣被解开到腰。你隔着门缝看见锁骨下旧年采补留下的淡痕，一道叠一道，像账本。崔九章另一只手按上她小腹，指尖一旋，阴元便从丹田涌出，比眉心那一缕更浓。白雾贴着她乳尖、腰侧往上爬，经过咽喉时她轻轻咳了一声，仍不躲。她跪着，脊背直，像在执事所里坐到天黑。\n\n你听见衣料摩擦，听见他低声念宗门双修的口诀。那口诀你识得，和《既济诀》前半几乎一样，只是把“互济”写成了“予”。予的人是她。得的人是他。你退开的那一步，把“予”写死了。\n\n雾越来越白。她的手指在膝上收紧，又松开，指甲在布面上划出浅痕。没有叫声。只有极轻的一声“是”，像应答差事。崔九章俯身，须拂过她肩，阳气压进去，把她体内残余的潮热一寸寸挤出来。门缝里你看见她腿根发颤，看见白雾从她两腿之间也丝丝抽出，混进顶心那一股，一并没入他掌心。\n\n你想推门。手抬到一半，弟子的剑鞘横过来。你想起屋顶上那枚本命玉，想起她问你是不是鼎。你说你是人。人退了，鼎的位置便空给了她真正的炉主。\n\n散的时候很快。白雾抽尽，她肩一塌，仍跪着。崔九章收回手，替她把中衣拉好，动作像抚一件用完的法器。他说：“霜儿，下月还是今日。”她应了。应完，才抬眼。\n\n她看见门外的你。\n\n那一眼没有恨。恨还要力气。她只是看，看清楚你还站在那里，看清楚你把她让了回去。烛火在她瞳里跳了一下，心魔的影子从眉间掠过，又沉回去。她把玉冠戴上，站起来，腿软得几乎跪回去，到底还是站直了。\n\n门在你眼前合上。你被押着退下石阶。秋风灌进领口，丹田那根金线忽然烫了一烫——不是她的，是你自己的愧。你在门口说过不敢。今夜刑堂把这句话炼成了真。",
+    "quote": "“小友看清楚了。这便是宗门的规矩。”崔九章说。",
+    "visualId": "shichai.qiudeng.wenrenshuang.cg.lost",
+    "participants": [],
+    "priority": 85,
+    "conditions": [
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.lost",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.wenrenshuang.lost.swallow",
+        "label": "看到最后，把这一幕刻进心里",
+        "hint": "记入你独自承受的经历；结束这条线。",
+        "reply": "她从刑堂出来时寿元又少了一年。她把玉佩要了回去，说“你担不起”。你记住了这一夜。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.wenrenshuang.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.wenrenshuang.lost.turn",
+        "label": "挣开弟子，逃出宗门",
+        "hint": "结束这条线，不再记挂。",
+        "reply": "你没有再进过青岚宗的山门。后来听说她修为始终没进。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.wenrenshuang.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.wenrenshuang.lost.exit",
+        "label": "合上这一页",
+        "hint": "结束这段文字，不作任何记录。",
+        "reply": "你合上这一页。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.qiudeng.wenrenshuang.night",
+    "title": "素白中衣",
+    "eyebrow": "秋灯 · 初夜",
+    "body": "客栈上房。{{shichai.qiudeng.wenrenshuang.name}}解下执事袍，只着素白中衣，玉冠放在案上。她的眼神清冷而决绝：“我三十年没有为自己做过一件事。今晚算一件。”\n\n她走过来，手按在你丹田上：“你的阳气很盛。我不采。我只想知道，不采的时候，是什么滋味。”\n\n玉冠在案上轻轻一响。她素白中衣的领口系得极严，解的时候手指稳，像核税牌，一颗结一颗结。中衣落到肘弯，锁骨下那些旧年的淡痕便露出来，她并不遮。三十四年，筑基三十年，她把身体当过差事，今夜她把差事放下。\n\n她跨坐到你腿上，掌心仍按在你丹田。阳气一碰她的手就热。她闭了闭眼，像在辨真假，随即俯身，额抵你额：“我不采。”三个字说完，她才吻下来。吻也冷，齿关咬得很紧，是克制惯了的人第一次把克制用在自己身上。\n\n你伸手去解她腰间的最后一根绦。她没有躲，只把你的手按回自己小腹：“慢。我要记得每一步是我要的。”于是慢。中衣褪尽，她乳尖因秋凉而紧缩，腰侧有一道极浅的禁制纹，是宗门双修留下的印。你的指腹过那道纹时她呼吸滞了一滞，随即自己握住你的手指，引到更软处。\n\n那里已湿。她自己也怔。三十年为续命而打开的路，今夜没有人逼，水却先到了。她咬住下唇，把你纳入时眉心皱起，不是痛，是太清楚自己在做什么。你进到最深，她仍按着你丹田，像守一门，不许阳元越过那条线。既济的口诀在舌底滚了一圈，她没有念。她只要滋味。\n\n上房的灯摇。她起初不动，只含着你，呼吸越来越沉。后来自己腰一沉一送，幅度极小，像怕惊动什么。你抬头看她眉间——那道心魔的影，平日入定便现，今夜空着。空着。她察觉你在看，低声说：“它不来。它要来的是被拿走的时候。”\n\n于是你也不拿。手只覆上她的背，掌心贴着脊骨，一下一下。她的克制是从骨头里长出来的，崩的时候也从骨头里崩。乳尖擦过你胸口，她忽然把脸埋进你颈窝，齿关松开，溢出生平第一声不为应付的喘。那声音很短，她立刻咬住，又泄出更短的一截。\n\n你问她要不要停。她摇头，发落下来扫你脸：“停过三十年了。”她把你的手从丹田移开，改按在自己心口。“这里。看着这里。不要看鼎。”你便看。看她眼底那一层霜化开，看她自己把节奏加快，看她在快到边缘时仍记得把你的阳元轻轻向外推，不吞，只共颤。\n\n泄的一瞬她睁着眼。没有白雾，没有抽离，只有热从交合处漫上来，漫过小腹，漫过她按着你的那只手。她伏在你身上很久，中衣皱在腰间，玉冠仍在案上。过了片刻，她摸自己眉心，像确认一件不可思议的事。\n\n“没有。”她说。声音哑。“三十年，它第一次不来。”\n\n窗外秋灯晃。她没有立刻起身穿袍。她只是躺着，手还放在你丹田上，却不再防，只是放着。像一个执事把牌核完，第一次把桌子留给自己。",
+    "quote": "“筑基修士，三十四岁，第一次不为续命而躺下。”",
+    "visualId": "shichai.qiudeng.wenrenshuang.cg.night",
+    "participants": [
+      "shichai.qiudeng.wenrenshuang"
+    ],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "actor.shichai.qiudeng.wenrenshuang.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "shichai.qiudeng.inn"
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.contest",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.night",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.wenrenshuang.night.stay",
+        "label": "握住她按在丹田的手，说今夜不谈采与济",
+        "hint": "记入共同经历；不改变灵石、物品或数值。",
+        "reply": "那一夜她的眉间心魔第一次没有出现。天亮时她说：“原来不是每一次都要付出寿元。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.wenrenshuang.flag.night"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.qiudeng.wenrenshuang",
+            "text": "{{player.name}}与闻人霜在客栈上房共度初夜，她三十年来第一次不为续命。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.wenrenshuang.night.stop",
+        "label": "替她披上执事袍，送她回宗门",
+        "hint": "止步于此；这条线到此为止。",
+        "reply": "她愣了一下，说“你比我狠”。这一夜后来没有再来。",
+        "effects": []
+      }
+    ],
+    "minRealm": 4
+  },
+  {
+    "id": "shichai.qiudeng.wenrenshuang.dual",
+    "title": "寒潭",
+    "eyebrow": "秋灯 · 双修",
+    "body": "青岚宗禁地寒潭，水冷得刺骨。{{shichai.qiudeng.wenrenshuang.name}}坐在潭中，银雾一样的阴元在她周身浮动：“崔九章采我三十年，采走的东西都在他身上。可我读《既济诀》读到最后，明白了一件事：既济不是采，也不是补。是两个人一起把失去的东西找回来。”\n\n她伸出手：“你敢么？寒潭里逆行周天，一个不慎，我们都会走火。”\n\n潭水没到胸口。冷从四肢百骸往里钻，阴元在她身外凝成一层银雾，刚结便被寒意撕碎。她拉你的手按上自己脐下气海：“逆行。从尾闾上，别顺宗门口诀走。顺走，就是再给他一次。”\n\n你们在水里相对而坐，腿缠着腿。她的身体因冷而紧，纳入时两人都抽气。灵气却在接触的那一点上忽然活了——不是单向的抽，是两股细流对撞，又各自退半寸，再重新咬合。她咬着牙念《既济诀》末句：行之者，需先问己心。问完，她把心口那一点残存的阴元送出来，不是送进你的丹田，是送进两人之间那寸空隙。\n\n你也送。阳元离开你时发烫，入水即散成金丝，去寻她经脉里被掏空的旧路。路是堵的。崔九章采了三十年，十二正经上全是倒刺一样的采痕，金丝一碰就断。她额上冷汗和潭水分不清，低喝：“逆。从断处逆回去。”\n\n于是逆。你托着她的腰，在刺骨的水里一下一下顶开那些倒刺。每顶一次，她体内就有一寸旧路被烫开，白雾从采痕里溢出来，不是被抽走，是被挤回她自己的气海。她喘得厉害，乳尖在水下擦过你胸口，禁制纹一亮一灭。走火的兆头从命门冒上来，像一根烧红的针。她抓住你的肩：“别停。停了，针就扎穿。”\n\n周天逆行到一半，潭面起旋。银雾与金丝绞在一处，既不是采也不是补，像两个人在黑里摸同一件失落的东西。摸到了——是她自己的阴元，被锁在对岸一个更老的身体里，今夜借你的阳为桥，一寸寸爬回来。她眼眶红了，不是情，是三十年第一次觉得丹田里有东西在长。\n\n你进到最深的那一下，她小腹贴上你小腹，两枚气海隔着皮肉相撞。倒刺齐齐崩开。她短促地叫出声，随即把脸埋进你肩，牙磕在你锁骨上。热从交合处炸开，逆着寒潭往上走，走完一圈大周天，她筑基三十年纹丝未动的那一层壁垒，轻轻响了一声。\n\n一寸。\n\n只挪了一寸。可那一寸是她的。银雾收回毛孔，禁制纹淡成几乎看不见的影子。她还含着你，人却已经在抖，不是冷，是哭。眼泪掉进潭里，和冰水一个温度。她骂自己：“三十年，一寸。”骂完又笑，笑完又把你抱紧，让余韵在水下慢慢平。\n\n“不是你的阳元。”她贴着你耳朵说，声哑得像从很远的地方来，“是我的。你陪我把它要回来了。”\n\n月在潭底碎成一片。她没有急着上岸。她把额头抵着你的，确认眉间心魔仍不在，确认那一寸还在。寒意重新围上来，她却比入水时暖。暖的是自己的东西回了自己的身。",
+    "quote": "“我不要你的阳元。我要你陪我把我的阴元要回来。”",
+    "visualId": "shichai.qiudeng.wenrenshuang.cg.dual",
+    "participants": [
+      "shichai.qiudeng.wenrenshuang"
+    ],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "actor.shichai.qiudeng.wenrenshuang.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "player.manual",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.night",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.dual",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.wenrenshuang.dual.go",
+        "label": "与她在寒潭中逆行周天",
+        "hint": "记入共同经历；修为增长由正常修炼规则决定，这里不发放数值。",
+        "reply": "潭水沸了，又冷了。她眉间的黑烟散尽，筑基三十年不动的修为，在这一夜往前挪了一寸。她哭了，说“动了，它动了”。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.wenrenshuang.flag.dual"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.qiudeng.wenrenshuang",
+            "text": "{{player.name}}与闻人霜在青岚宗禁地寒潭以既济之法逆行周天，她三十年停滞的筑基修为第一次前进。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.wenrenshuang.dual.stop",
+        "label": "只陪她坐在潭边",
+        "hint": "止步于此；这条线到此为止。",
+        "reply": "她说“也好，不急”。修为没动，心魔却淡了。",
+        "effects": []
+      }
+    ],
+    "minRealm": 4
+  },
+  {
+    "id": "shichai.qiudeng.wenrenshuang.vow",
+    "title": "交还令牌",
+    "eyebrow": "秋灯 · 道侣",
+    "body": "青岚宗山门前，秋叶满阶。{{shichai.qiudeng.wenrenshuang.name}}把执事令牌交还给弟子：“告诉长老，坊市执事我不做了。宗门的规矩，我也不守了。”\n\n她转过身，玉冠已摘，长发披着：“我寿元剩四十年。四十年够走到金丹么？我不知道。可我知道，我要和谁一起走。”",
+    "quote": "“不做鼎，不做炉，做道侣。”",
+    "visualId": "shichai.qiudeng.wenrenshuang.cg.vow",
+    "participants": [
+      "shichai.qiudeng.wenrenshuang"
+    ],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "actor.shichai.qiudeng.wenrenshuang.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.dual",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.vow",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.wenrenshuang.vow.bind",
+        "label": "握住她的手，与她并肩下山",
+        "hint": "结为道侣 · 记入共同经历，收束本线。",
+        "reply": "秋叶在两人脚下响。她说：“金丹路上要是死了，也是我自己选的。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.wenrenshuang.flag.vow"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.wenrenshuang.flag.closed"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.qiudeng.wenrenshuang",
+            "text": "{{player.name}}与闻人霜结为道侣，她辞去青岚宗执事之职与他同修。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.wenrenshuang.vow.friend",
+        "label": "送她下山，说你还有路要走",
+        "hint": "只做知己 · 收束本线。",
+        "reply": "她说“那我在金丹路上等你”。你们从此是彼此最信得过的人。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.wenrenshuang.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.wenrenshuang.vow.exit",
+        "label": "此刻不答",
+        "hint": "不作决定；这条线停在这里。",
+        "reply": "你没有伸手。她一个人下了山。",
+        "effects": []
+      }
+    ],
+    "minRealm": 4
+  },
+  {
+    "id": "shichai.qiudeng.wenrenshuang.mourn",
+    "title": "白幡",
+    "eyebrow": "秋灯 · 身故",
+    "body": "执事所门口挂着白幡。她的玉冠放在案上，那枚裂开的丹药已成灰。宗门说，{{shichai.qiudeng.wenrenshuang.name}}执事寿元耗尽。\n\n你想起她说“三十年一寸未进”。她走的时候，修为停在哪里，没有人知道。",
+    "visualId": "shichai.qiudeng.wenrenshuang.cg.mourn",
+    "participants": [],
+    "priority": 100,
+    "conditions": [
+      {
+        "fact": "actor.shichai.qiudeng.wenrenshuang.alive",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.met",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.wenrenshuang.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.wenrenshuang.mourn.close",
+        "label": "把玉冠收好",
+        "hint": "收束本线；不复活、不改写已有经历。",
+        "reply": "玉冠你收进行囊。她的金丹路没有人续走，也没有人改写。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.wenrenshuang.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.wenrenshuang.mourn.exit",
+        "label": "合上这一页",
+        "hint": "结束这段文字，不作记录。",
+        "reply": "你合上这一页。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.qiudeng.jiangzhaoxue.meet",
+    "title": "妖血溅石阶",
+    "eyebrow": "秋灯 · 相识",
+    "body": "古道上一声兽吼，一头山魈扑向石阶。刀光一闪，妖血溅了一地。持刀的是个短发女修，狼皮半肩，左眼在光下泛着淡金。她回头看你：“散修？凡人？站远点，妖血沾身要烂皮。”\n\n她叫{{shichai.qiudeng.jiangzhaoxue.name}}，猎妖散修，云岚境的妖见了她都绕路。她擦刀的时候你注意到她左臂缠着绷带，绷带下有什么在动。",
+    "quote": "“云岚境的妖，我杀了一百三十七头。第一百三十八头，在我血里。”",
+    "visualId": "shichai.qiudeng.jiangzhaoxue.cg.meet",
+    "participants": [
+      "shichai.qiudeng.jiangzhaoxue"
+    ],
+    "priority": 50,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "shichai.qiudeng.gate"
+      },
+      {
+        "fact": "actor.shichai.qiudeng.jiangzhaoxue.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.met",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.later",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.meet.greet",
+        "label": "报上姓名，帮她把山魈的妖丹挖出来",
+        "hint": "与{{shichai.qiudeng.jiangzhaoxue.name}}相识 · 记入共同经历。",
+        "reply": "她看你挖妖丹的手法，说“不像凡人”。她把妖丹扔给你：“十灵石的东西，拿去换酒。”",
+        "effects": [
+          {
+            "kind": "meet",
+            "target": "shichai.qiudeng.jiangzhaoxue"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.jiangzhaoxue.flag.met"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.qiudeng.jiangzhaoxue",
+            "text": "{{player.name}}在山门古道帮猎妖散修江照雪取出山魈妖丹，两人相识。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.meet.later",
+        "label": "先不打扰，改日再说",
+        "hint": "不相识；下次遇到她时还有一次机会。",
+        "reply": "你退到一旁，她擦完刀走了。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.jiangzhaoxue.flag.later"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.meet.pass",
+        "label": "只当擦肩而过",
+        "hint": "彻底错过这条线；她仍会在世界里过自己的日子。",
+        "reply": "你绕开妖血走过。她没有回头。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.qiudeng.jiangzhaoxue.meet-again",
+    "title": "第一百三十九头",
+    "eyebrow": "秋灯 · 再逢",
+    "body": "{{shichai.qiudeng.jiangzhaoxue.name}}又在古道上，刀上的血还没干。看见你，她说：“上次站远点的。今天靠近点，报个名字。”",
+    "visualId": "shichai.qiudeng.jiangzhaoxue.cg.meet",
+    "participants": [
+      "shichai.qiudeng.jiangzhaoxue"
+    ],
+    "priority": 45,
+    "conditions": [
+      {
+        "fact": "actor.shichai.qiudeng.jiangzhaoxue.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.later",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.met",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.again.greet",
+        "label": "报上姓名",
+        "hint": "与{{shichai.qiudeng.jiangzhaoxue.name}}相识 · 记入共同经历。",
+        "reply": "她说“记住了”，把新挖的妖丹扔给你。",
+        "effects": [
+          {
+            "kind": "meet",
+            "target": "shichai.qiudeng.jiangzhaoxue"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.jiangzhaoxue.flag.met"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.qiudeng.jiangzhaoxue",
+            "text": "{{player.name}}在山门古道帮猎妖散修江照雪取出山魈妖丹，两人相识。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.again.pass",
+        "label": "终究没有开口",
+        "hint": "彻底错过这条线。",
+        "reply": "你摆摆手，她耸耸肩。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.qiudeng.jiangzhaoxue.bond",
+    "title": "绷带下的妖纹",
+    "eyebrow": "秋灯 · 相知",
+    "body": "猎妖营地，篝火。{{shichai.qiudeng.jiangzhaoxue.name}}拆开左臂的绷带，露出一道妖纹，在火光下像活的。“我义兄白无咎捡到我时，我快死了。他喂了我一口血，我活了，从此能看见妖、闻见妖、追上妖。”\n\n她把绷带扔进火里：“他说那是灵药。我猎了十年妖才明白，那是妖血。他是妖。我血里有一半是他的。”",
+    "quote": "“我杀了一百三十七头妖。可我不敢杀第一百三十八头。”",
+    "visualId": "shichai.qiudeng.jiangzhaoxue.cg.bond",
+    "participants": [
+      "shichai.qiudeng.jiangzhaoxue"
+    ],
+    "priority": 60,
+    "conditions": [
+      {
+        "fact": "actor.shichai.qiudeng.jiangzhaoxue.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.met",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.bond",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "player.manual",
+        "op": "eq",
+        "value": true
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.bond.a",
+        "label": "问她，义兄现在在哪",
+        "hint": "进入相知；记入共同经历。",
+        "reply": "她说：“在雾里。他一直在雾里等我回去。”她的左眼在火光里金得刺目。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.jiangzhaoxue.flag.bond"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.qiudeng.jiangzhaoxue",
+            "text": "{{player.name}}在猎妖营地得知江照雪血里有妖，她的义兄白无咎是隐藏的妖修。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.bond.b",
+        "label": "替她重新缠上绷带",
+        "hint": "进入相知；不记入经历。",
+        "reply": "你缠绷带的手法让她笑了：“像给妖包扎。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.jiangzhaoxue.flag.bond"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.bond.exit",
+        "label": "劝她别再猎妖了",
+        "hint": "结束这条线；已有经历保留。",
+        "reply": "她把刀收起来，说“你不懂”。此后她见你只点头，不再拆绷带。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.qiudeng.jiangzhaoxue.spark",
+    "title": "悬崖上的刀",
+    "eyebrow": "秋灯 · 心动",
+    "body": "古道悬崖，星空。{{shichai.qiudeng.jiangzhaoxue.name}}把斩妖刀横放在两人之间，自己靠在你肩上：“刀放中间，是猎妖人的规矩。靠在你肩上，是我的规矩。”\n\n她的左眼在星光下金得像妖：“我夜里会梦见义兄。梦里他说‘回来’。我每次都想回去。你要是敢让我回去，我就把刀往你那边挪一寸。”",
+    "quote": "“我这半身妖血，你怕不怕？”",
+    "visualId": "shichai.qiudeng.jiangzhaoxue.cg.spark",
+    "participants": [
+      "shichai.qiudeng.jiangzhaoxue"
+    ],
+    "priority": 60,
+    "conditions": [
+      {
+        "fact": "actor.shichai.qiudeng.jiangzhaoxue.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.bond",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.spark",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.spark.a",
+        "label": "把刀往自己这边挪，说不怕",
+        "hint": "进入心动；记入共同经历。",
+        "reply": "她愣了一下，然后笑得很大声，笑到眼角有泪。她说：“你是第一个往自己这边挪刀的。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.jiangzhaoxue.flag.spark"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.qiudeng.jiangzhaoxue",
+            "text": "{{player.name}}在古道悬崖把江照雪的斩妖刀挪向自己，说不怕她血里的妖。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.spark.b",
+        "label": "握住她的手，什么也不说",
+        "hint": "进入心动；不记入经历。",
+        "reply": "她握回来，握得很紧。星星落了一夜。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.jiangzhaoxue.flag.spark"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.spark.exit",
+        "label": "把刀往她那边挪回去",
+        "hint": "结束这条线；已有经历保留。",
+        "reply": "她把刀收回鞘里，说“你怕了”。此后她待你如猎妖同行，不再靠你的肩。",
+        "effects": []
+      }
+    ],
+    "minRealm": 4
+  },
+  {
+    "id": "shichai.qiudeng.jiangzhaoxue.rival",
+    "title": "九尾虚影",
+    "eyebrow": "秋灯 · 情敌",
+    "body": "{{shichai.qiudeng.baiwujiu.name}}从雾里走出来，白衣温润，眼尾泛红，身后隐约有九条狐尾的虚影。“照雪，血契到期了。跟兄长回去。”他看向你，笑意温柔得让人发冷：“这位小友，身上一口鼎的气息。妖域也缺这样的人。”\n\n{{shichai.qiudeng.jiangzhaoxue.name}}握刀的手在抖，左眼金得几乎要滴出来。血契在她血里叫她走。",
+    "quote": "“照雪，你杀的每一头妖，都是兄长放出来给你练手的。你以为你是猎妖人？你是兄长养的猎犬。”",
+    "visualId": "shichai.qiudeng.jiangzhaoxue.cg.rival",
+    "participants": [
+      "shichai.qiudeng.jiangzhaoxue"
+    ],
+    "priority": 75,
+    "conditions": [
+      {
+        "fact": "actor.shichai.qiudeng.jiangzhaoxue.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.spark",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.contest",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.lost",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "actor.shichai.qiudeng.baiwujiu.alive",
+        "op": "eq",
+        "value": true
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.rival.fight",
+        "label": "站到她身前，说她是人",
+        "hint": "争 · 进入初夜路线；白无咎会记住你。",
+        "reply": "白无咎的九尾虚影抖了一下。他说：“好，那便看小友能不能替她挡住血契。”他退回雾里。她跪在石阶上，刀撑着地，哭得像个孩子。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.jiangzhaoxue.flag.contest"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.qiudeng.jiangzhaoxue",
+            "text": "{{player.name}}当着妖修白无咎的面，说江照雪是人不是妖的猎犬。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.rival.yield",
+        "label": "退开，说妖与人自有界限",
+        "hint": "让 · 进入被夺结局。",
+        "reply": "她看你退开，左眼的金色暗了下去。她跟着白无咎走进雾里，刀留在石阶上。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.jiangzhaoxue.flag.lost"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.rival.leave",
+        "label": "一言不发地离开",
+        "hint": "既不争也不让；这条线停在这里，不再继续。",
+        "reply": "你转身下山。雾里传来狐狸的笑。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.qiudeng.jiangzhaoxue.rival-shamed",
+    "title": "失信之人配不上猎妖人",
+    "eyebrow": "秋灯 · 情敌 · 失信",
+    "body": "{{shichai.qiudeng.baiwujiu.name}}从雾里走出来，先看你：“小友对林晚姑娘失约的事，妖域都听说了。猎妖人最重一个信字。照雪，你要跟一个失信的人？”\n\n{{shichai.qiudeng.jiangzhaoxue.name}}握刀的手停了。她看着你，左眼金得刺目：“是真的？”",
+    "quote": "“兄长骗过你。可兄长从没失约。”",
+    "visualId": "shichai.qiudeng.jiangzhaoxue.cg.rival",
+    "participants": [
+      "shichai.qiudeng.jiangzhaoxue"
+    ],
+    "priority": 80,
+    "conditions": [
+      {
+        "fact": "actor.shichai.qiudeng.jiangzhaoxue.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.spark",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.contest",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.lost",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "actor.shichai.qiudeng.baiwujiu.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "official.outcome",
+        "op": "eq",
+        "value": "breached"
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.rival-shamed.fight",
+        "label": "承认失约，把缘由说清楚",
+        "hint": "争 · 她未必信你；进入初夜路线仍需后续。",
+        "reply": "她听完，把刀往自己这边挪了一寸：“一次。就一次。”白无咎的笑僵了。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.jiangzhaoxue.flag.contest"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.qiudeng.jiangzhaoxue",
+            "text": "{{player.name}}在白无咎面前向江照雪坦白自己曾对林晚失约，求得一次机会。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.rival-shamed.yield",
+        "label": "无话可说",
+        "hint": "让 · 进入被夺结局。",
+        "reply": "她把刀留在石阶上，跟着白无咎走了。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.jiangzhaoxue.flag.lost"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.rival-shamed.leave",
+        "label": "一言不发地离开",
+        "hint": "既不争也不让；这条线停在这里，不再继续。",
+        "reply": "你转身下山。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.qiudeng.jiangzhaoxue.rival-gone",
+    "title": "狐尾散了",
+    "eyebrow": "秋灯 · 空门",
+    "body": "雾里传来一声很长的狐鸣，然后是死寂。{{shichai.qiudeng.baiwujiu.name}}的气息从云岚境消失了。{{shichai.qiudeng.jiangzhaoxue.name}}左臂的妖纹淡了一半，血契断了。\n\n她坐在石阶上很久：“他死了，我血里的妖没死。我还是一半人一半妖。”她看向你：“你还要不要这一半？”",
+    "visualId": "shichai.qiudeng.jiangzhaoxue.cg.rival",
+    "participants": [
+      "shichai.qiudeng.jiangzhaoxue"
+    ],
+    "priority": 74,
+    "conditions": [
+      {
+        "fact": "actor.shichai.qiudeng.jiangzhaoxue.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.spark",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.contest",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.lost",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "actor.shichai.qiudeng.baiwujiu.alive",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.gone.stay",
+        "label": "说要，两半都要",
+        "hint": "无人相争，仍需你亲口应下。",
+        "reply": "她笑了，说：“那你得替我挡剩下那一半。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.jiangzhaoxue.flag.contest"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.qiudeng.jiangzhaoxue",
+            "text": "{{player.name}}在白无咎身故后向江照雪表明接受她的妖血。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.gone.leave",
+        "label": "把这份沉默留给她",
+        "hint": "这条线停在这里。",
+        "reply": "你没有说话。她拾起刀，走进雾里猎妖去了。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.qiudeng.jiangzhaoxue.lost",
+    "title": "白骨门",
+    "eyebrow": "秋灯 · 被夺",
+    "body": "妖域入口是一道白骨门。{{shichai.qiudeng.baiwujiu.name}}牵着{{shichai.qiudeng.jiangzhaoxue.name}}的手走进去，她的短发在雾中一寸寸变白，妖纹爬满脖颈。她没有回头。血契在她血里，你退开的那一刻它就赢了。\n\n你跪在门外，听见门里九尾拂过她身体的声音，听见她的声音从人变成别的。\n\n白骨门没有门扇，只有两排肋骨样的白柱，雾在柱间来回。你跪在门槛外，膝下是冰的石。门里的光是红的，像狐火。你看不见她的脸，只看见短发在雾里一寸寸失色，从墨到霜，再到几乎透明的白。\n\n{{shichai.qiudeng.baiwujiu.name}}的声音温润，像劝一个不肯喝药的孩子：\n\n“照雪，兄长养了你十年。今夜，你还给兄长。”\n\n她没有答。先听见的是衣扣。狼皮落地的闷响，然后是劲装。再然后，是某种柔软的、多出来的东西拂过皮肤的声音——九尾。尾尖过她小腹时她吸了一口气，那口气还是人的。过乳、过喉、绕上后颈妖纹时，气声变了，带出一点不是喉嗓能发的颤。\n\n你把指甲抠进石缝。你本可以站到她身前。你说了妖与人自有界限，于是界限在这里，你在这一侧，她在那一侧。门里有水声，像有人把她按进浅池。白无咎低语，一句句都清楚，清清楚楚地穿过雾来到你耳朵里：血契到期，猎犬归巢，鼎的气息不必带进来——那一句是说给你听的。\n\n她开始出声。起初是忍住的哼，和营地帐中那夜很像。你认得。接着那哼被拉长，尾音上挑，像狐狸。她喊了一声“兄长”，喊完自己怔住，又被尾尖弄得再说一遍，再说第三遍，一遍比一遍不像她白日里擦刀时的口吻。妖纹亮起来，从门缝里漏出淡金，爬过你能看见的那截脖颈，一直没入雾里更深处。\n\n肉体相接的声音很轻，却一下一下数得清。她被放在什么上面，骨节撞骨节。九尾缠她的腕、她的膝，把人打开。她骂了一句很粗的猎户话，骂着骂着断了，变成一声绵长的、从胸腔底拽出来的鸣。那鸣不是人会发的。门内红光一盛，你看见她小腿在雾里绷直，趾尖蜷起，又软下去。\n\n白无咎问她还认不认得门外那口鼎。沉默。然后是她的声音，已经沙了，还勉强是她：“……认。”又问她要不要出去。更长的沉默。九尾大概又动了，她的呼吸乱成一串，终于说：“契在。我不出去。”\n\n这句话比骂更伤。伤的不是她。是你把退路让给了契。\n\n后半夜她不再说人话。有时是喘，有时是那种短促的、幼兽似的呜。白无咎叫她的名字，叫照雪，叫她好孩子，叫她把十年的血一一还清。你听见她应，应的时候发已经全白，像一蓬落在骨门里的雪。你跪到膝盖失去知觉。刀还在门外，是她留下的。刀柄冰凉，比你的手更像一个活物。\n\n雾退一些的时候，门里只剩安稳的呼吸，两个人的。她的那一串已经变成兽类睡时的节律。你没有进去。你没有资格进去。你只是听见自己在门槛上把“界限”两个字嚼碎，嚼到满嘴是血，也改不了今夜的归还。",
+    "quote": "“照雪，兄长养了你十年。今夜，你还给兄长。”",
+    "visualId": "shichai.qiudeng.jiangzhaoxue.cg.lost",
+    "participants": [],
+    "priority": 85,
+    "conditions": [
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.lost",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.lost.swallow",
+        "label": "跪到门关上",
+        "hint": "记入你独自承受的经历；结束这条线。",
+        "reply": "门关上时她的刀留在外面。你把刀带回坊市。后来云岚境多了一头白发的妖，谁也猎不到。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.jiangzhaoxue.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.lost.turn",
+        "label": "拾起刀，转身下山",
+        "hint": "结束这条线，不再记挂。",
+        "reply": "你把刀留在了铁匠铺。后来没有人再见过猎妖人江照雪。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.jiangzhaoxue.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.lost.exit",
+        "label": "合上这一页",
+        "hint": "结束这段文字，不作任何记录。",
+        "reply": "你合上这一页。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.qiudeng.jiangzhaoxue.night",
+    "title": "帐中金瞳",
+    "eyebrow": "秋灯 · 初夜",
+    "body": "猎妖营地帐中，篝火。{{shichai.qiudeng.jiangzhaoxue.name}}解下狼皮和劲装，左眼在火光下泛金：“我血里的妖，每到月圆就闹。义兄说，只有他能压。”\n\n她把你的手按在她左臂的妖纹上：“今晚月圆。你压压看。压不住，我就把你咬了。”\n\n帐外月圆，光从皮缝里切进来，切在她左臂那道妖纹上。纹是活的，一跳一跳，像有什么在皮底下转身。她把你的掌根按死在纹上，指节用力，倒像怕你先撤：“压压看。压不住，我就把你咬了。”\n\n你没有压。你只是覆着。纹下的热立刻爬上你的手，顺腕骨往身上走，带着一股甜、腥、不属于人的躁。她左眼金亮，瞳仁竖了一线，又强行圆回去。狼皮垫在身下，劲装褪到膝弯，她自己跨上来，短发扫你下巴：“猎妖人第一次，跟一半是妖的人。你不后悔？”\n\n你摇头。她便咬你。不是玩笑，是真咬，齿尖陷进肩头，见血，随即用舌把血舔掉，像给一头猎物做记号。记号做完，她握住你，往自己体内坐。月圆之夜她比白日紧，也比白日热，内里有细小的纹在收缩，一下一下吮。她骂了一声，骂的是自己的血：“闹。又闹。”\n\n你的手仍在她左臂。她把另一只手按上你的后颈，迫使你抬头看她的眼。金了。暗了。又金。像有人在她瞳里来回关门。你顶她的时候她喘，喘到一半会突然偏头去听帐外，仿佛义兄会从雾里走进来。没有人来。只有篝火爆一颗松油。\n\n她的动作是猎手的动作，直，狠，不绕弯。腰沉到底就碾，碾到自己腿根发颤也不肯换成更软的法子。乳尖在火光里颜色深，你含住时她喉间滚出一声不像人的哼，随即用手捂嘴，又嫌自己矫情，把手拿开：“叫就叫。帐里没有别人。”\n\n于是叫。短的、从牙缝里挤的。你换角度去磨那一点最躁的地方，她左眼骤金，妖纹在你掌下猛地一烫——像要挣开。你没有按灭它，只把拇指顺着纹的走向抚过，顺着它，不逆。她忽然愣住，动作慢了半拍：“你……不压？”\n\n“陪。”你说。\n\n这两个字比压更叫那一半安静。她盯你，金光一寸寸退，又不愿全退，退到琥珀色的边上停住。体内的绞却更狠了，像要把你留下。她俯身，额抵你额，齿还带着你肩上的血味：“那你受着。”\n\n后半夜她把你翻下去，自己从上面一次一次坐满。汗把短发贴在颊边，狼皮被蹭到帐角。快到尽头时她抓住你按在妖纹上的那只手，十指嵌进你指缝，像怕那一半突然改主意。泄的时候她咬住你另一侧肩，没有破皮，只是咬着，直到颤停。\n\n帐里静了。她的左眼还余一点金，已经暗。你掌下的纹平了，不再跳，像一头跑了一夜的兽终于卧下。她喘着笑，笑完骂你：“第一次没闹。你倒有点用。”\n\n她没有立刻穿衣。她把你的手从纹上拿开，看了看自己的臂，又放回去，像确认那安静还在。月从皮缝里移走。她在你耳边说，声音已经是人的：“第一百三十八头，今晚不猎。”",
+    "quote": "“猎妖人第一次，跟一半是妖的人。你不后悔？”",
+    "visualId": "shichai.qiudeng.jiangzhaoxue.cg.night",
+    "participants": [
+      "shichai.qiudeng.jiangzhaoxue"
+    ],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "actor.shichai.qiudeng.jiangzhaoxue.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "shichai.qiudeng.gate"
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.contest",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.night",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.night.stay",
+        "label": "把手留在妖纹上，说你不压，你陪",
+        "hint": "记入共同经历；不改变灵石、物品或数值。",
+        "reply": "那一夜她的左眼金了又暗，暗了又金。天亮时妖纹安静了，她说“它没闹，第一次没闹”。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.jiangzhaoxue.flag.night"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.qiudeng.jiangzhaoxue",
+            "text": "{{player.name}}与江照雪在猎妖营地共度月圆之夜，她血里的妖第一次安静。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.night.stop",
+        "label": "替她披上狼皮，守着篝火到天亮",
+        "hint": "止步于此；这条线到此为止。",
+        "reply": "她说“胆小鬼”，靠在你肩上睡了。这一夜后来没有再来。",
+        "effects": []
+      }
+    ],
+    "minRealm": 4
+  },
+  {
+    "id": "shichai.qiudeng.jiangzhaoxue.dual",
+    "title": "断红线",
+    "eyebrow": "秋灯 · 双修",
+    "body": "古道溪涧，月下。{{shichai.qiudeng.jiangzhaoxue.name}}周身的妖气化作淡金光：“义兄的惑术在我血里种了十年，一根根红线，每一根都在叫我回去。我猎妖十年，其实是在替他练兵。”\n\n她把手伸出来：“你的既济之法，能不能把线断了？妖血我留着，那是我。红线不是我。”\n\n溪水没过腰。月在她睫毛上碎开，周身妖气却不散，凝成一层淡金的光膜，把两个人从夜色里单独剖出来。她拉你的手掌贴上自己心口，另一只手往下，把你引入已经湿热的地方：“线在血里。你既济的时候，会看见红的。红的断，金的留。听清楚。”\n\n纳入的瞬间你果然看见。不是眼见，是气感——十数根细红的丝从她尾闾、气海、喉间牵出去，尽头隐进北面的雾。每一根都在轻轻抽，抽她的注意，抽她的欲，抽她“回去”这两个字。她咬牙：“十年。猎的每一头，都是这些线教我的。”\n\n你按《既济诀》逆着走。阳元不吞她的妖气，只沿着红线的外壁走，走一寸，烫一寸。她腿缠紧你的腰，溪石抵着她后背，乳尖在凉里硬着，被你含住时红线会猛地一收，像主人在远方拽绳。她骂：“拽吧。今晚断。”\n\n第一根断在喉间。轻响，像弦崩。她瞳孔一缩，左眼金光暴涨，随即落下半寸。第二根在气海，断的时候她整个人弹了一下，内里绞死，又松开，水声大了。你托着她的臀继续送，每送一次便有一根红线被磨亮、被烫脆、被齐根剪开。淡金光越来越盛，不是惑术的红，是她自己的妖气终于不必借别人的颜色。\n\n走到第七根，走火的热从她命门撞上来。她抓住你的头发，额抵你额：“别把妖血也断了。那是我。红线不是我。”你应了。阳元绕开那些更深的、与生俱来的金纹，只咬红的。她听见你应，眼眶红了，却笑，笑出一声很野的气音。\n\n最后三根缠在交合处，最密，也最无耻，专门把快感往“归巢”上引。你便把快感留下，把去处改掉。改的办法简单：更深，更慢，让她每一次收紧都收向自己，而不是收向雾里那个温润的人。她起初还跟着线走，腰会不自觉往某个方向送；你把她按回溪石，一次一次纠正。纠正到后来，她自己会喘着说：“这边。是这边。”\n\n末一根崩开时，淡金光爆成一轮。她叫出声，声音还是她的，只是底下多了一点兽的共鸣。你感觉到那些红线的断口往回缩，缩进她血里，化成无害的热。妖血仍在，热、甜、不安分，可它不再朝北。它在她身体里转了一圈，像一头认主的兽，最后停在她左眼。\n\n左眼仍金。金得彻底。可眼神是她的——猎手的、直来直去的、问你怕不怕的那一双。她还含着你，余韵让她小腹一阵阵跳，她却腾出手来抹自己的眼角，确认没有红丝从瞳里爬出来。\n\n“还在。”她说，把你的掌重新按上左臂妖纹，“听我的了。”\n\n溪水继续流。她把下巴搁在你肩上，短发湿了，贴着你的颈。远处雾里仿佛有一声极轻的狐鸣，像断线的人远远吃痛。她没有回头。她只在你耳边补了一句，像立一条自己的规矩：“我不要变回人。我要做一个自己说了算的妖。”",
+    "quote": "“我不要变回人。我要做一个自己说了算的妖。”",
+    "visualId": "shichai.qiudeng.jiangzhaoxue.cg.dual",
+    "participants": [
+      "shichai.qiudeng.jiangzhaoxue"
+    ],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "actor.shichai.qiudeng.jiangzhaoxue.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "player.manual",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.night",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.dual",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.dual.go",
+        "label": "与她对坐，以既济之法断去惑术",
+        "hint": "记入共同经历；修为增长由正常修炼规则决定，这里不发放数值。",
+        "reply": "红线一根根断，淡金光越来越亮。她睁开眼时左眼还是金的，可眼神是她自己的。“它还在，”她说，“可它听我的了。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.jiangzhaoxue.flag.dual"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.qiudeng.jiangzhaoxue",
+            "text": "{{player.name}}与江照雪在溪涧月下以既济之法断去白无咎种下的惑术红线。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.dual.stop",
+        "label": "只陪她坐到月落",
+        "hint": "止步于此；这条线到此为止。",
+        "reply": "她说“也好”。红线还在，只是她学会了不听。",
+        "effects": []
+      }
+    ],
+    "minRealm": 4
+  },
+  {
+    "id": "shichai.qiudeng.jiangzhaoxue.vow",
+    "title": "狼皮",
+    "eyebrow": "秋灯 · 道侣",
+    "body": "山门古道尽头，{{shichai.qiudeng.jiangzhaoxue.name}}把斩妖刀插在石阶上，把狼皮披在你肩上：“猎妖人的规矩，狼皮给谁，命就给谁。”\n\n她左眼金光一闪：“以后云岚境的妖，我们一起猎。血里那一半，也一起养。”",
+    "quote": "“人妖殊途？我半人半妖，你不人不鼎。正好一路。”",
+    "visualId": "shichai.qiudeng.jiangzhaoxue.cg.vow",
+    "participants": [
+      "shichai.qiudeng.jiangzhaoxue"
+    ],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "actor.shichai.qiudeng.jiangzhaoxue.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.dual",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.vow",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.vow.bind",
+        "label": "披上狼皮，拔起她的刀递给她",
+        "hint": "结为道侣 · 记入共同经历，收束本线。",
+        "reply": "她接过刀，笑得眼角有泪：“第一百三十八头，不猎了。留着。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.jiangzhaoxue.flag.vow"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.jiangzhaoxue.flag.closed"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.qiudeng.jiangzhaoxue",
+            "text": "{{player.name}}与江照雪结为道侣，接下她的狼皮。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.vow.friend",
+        "label": "把狼皮还她，说你还要远行",
+        "hint": "只做知己 · 收束本线。",
+        "reply": "她说“那狼皮我留着，回来再披”。你们从此是彼此最信得过的人。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.jiangzhaoxue.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.vow.exit",
+        "label": "此刻不答",
+        "hint": "不作决定；这条线停在这里。",
+        "reply": "你没有接狼皮。她把刀拔起来，走进雾里。",
+        "effects": []
+      }
+    ],
+    "minRealm": 4
+  },
+  {
+    "id": "shichai.qiudeng.jiangzhaoxue.mourn",
+    "title": "弩弦断了",
+    "eyebrow": "秋灯 · 身故",
+    "body": "古道石阶上放着一把斩妖刀和一具猎妖弩，弩弦断了。猎妖人{{shichai.qiudeng.jiangzhaoxue.name}}没有回来。\n\n有人说她猎的最后一头妖是白色的。有人说那头妖是她自己。",
+    "visualId": "shichai.qiudeng.jiangzhaoxue.cg.mourn",
+    "participants": [],
+    "priority": 100,
+    "conditions": [
+      {
+        "fact": "actor.shichai.qiudeng.jiangzhaoxue.alive",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.met",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.qiudeng.jiangzhaoxue.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.mourn.close",
+        "label": "把刀和弩带回坊市",
+        "hint": "收束本线；不复活、不改写已有经历。",
+        "reply": "你把它们挂在客栈墙上。她的一百三十八头妖，没有人续数。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.qiudeng.jiangzhaoxue.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.qiudeng.jiangzhaoxue.mourn.exit",
+        "label": "合上这一页",
+        "hint": "结束这段文字，不作记录。",
+        "reply": "你合上这一页。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  }
+]

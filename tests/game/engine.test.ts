@@ -94,15 +94,52 @@ function prepare() {
   r.do({ type: "return" });
   return r;
 }
-test("same seed reproduces 40 NPCs; player sex/appearance do not replace the NPC protagonist", () => {
+test("same seed reproduces 100 NPCs; player sex/appearance do not replace fixed NPC identities", () => {
   const a = createWorld(12345, profile, "a");
   const b = createWorld(12345, { ...profile, sex: "male", name: "顾长宁" }, "b");
   assert.deepEqual(a.npcs, b.npcs);
-  assert.equal(a.npcs.length, 40);
+  assert.equal(a.npcs.length, 100);
+  assert.ok(a.npcs.slice(40).every((npc) => npc.sex === "female"));
   assert.notDeepEqual(a.npcs, createWorld(42, profile, "c").npcs);
   assert.equal(b.player.name, "顾长宁");
   assert.equal(b.player.sex, "male");
   assert.notEqual(b.player.id, PACK.roles.primary);
+});
+test("the expanded roster preserves the original forty and gives sixty adult women stable identities across seeds", () => {
+  const first = createWorld(12345, profile, "expanded");
+  const portraits = first.npcs.slice(40).map(npcSubject);
+  assert.equal(new Set(first.npcs.slice(40).map((a) => a.name)).size, 60);
+  for (const seed of [0, 42, 12345, 98765, 4294967295]) {
+    const world = createWorld(seed, profile, "expanded");
+    assert.deepEqual(world.npcs.slice(0, 40), createWorld(seed, profile, "legacy", 40).npcs);
+    assert.deepEqual(world.npcs.slice(40).map(npcSubject), portraits);
+    for (const npc of world.npcs.slice(40)) {
+      assert.equal(npc.sex, "female");
+      assert.equal(npc.npcTemplateId, npc.id);
+      assert.ok(npc.ageDays >= 22 * 360);
+      assert.ok(npc.physique!.apparentAge >= 22);
+      assert.ok(npcProfile(npc).background);
+    }
+  }
+  assert.notDeepEqual(
+    first.npcs.slice(40).map((a) => [a.aptitude, a.realm, a.location]),
+    createWorld(42, profile, "other")
+      .npcs.slice(40)
+      .map((a) => [a.aptitude, a.realm, a.location]),
+  );
+});
+test("expanded NPC templates cannot replace the player or another saved actor", () => {
+  const world = createWorld(12345, profile, "identity");
+  for (const mutate of [
+    (w: any) => (w.player.npcTemplateId = "NPC_0041"),
+    (w: any) => (w.npcs[40].npcTemplateId = "NPC_0042"),
+    (w: any) => (w.npcs[40].sex = "male"),
+    (w: any) => (w.npcs[40].name = "冒名角色"),
+  ]) {
+    const invalid = structuredClone(world);
+    mutate(invalid);
+    assert.throws(() => validateWorld(invalid), /模板与存档身份/);
+  }
 });
 test("rejected command preserves RNG, resources, revision and all source data", () => {
   const r = new Run();
@@ -189,6 +226,7 @@ test("full story: agreement, 3-person combat, honor, memory and reunion", () => 
   r.do({ type: "settle", honor: true, confirm: true });
   assert.equal(r.state.player.stones, before + 12);
   assert.equal(r.state.story.outcome, "fulfilled");
+  assert.equal(scene(r.state)?.id, "old-friend");
   assert.equal(r.state.player.grass, 0);
   const rel = relation(r.state, PACK.roles.primary)!;
   assert.ok(rel.trust >= 15);
@@ -205,6 +243,69 @@ test("full story: agreement, 3-person combat, honor, memory and reunion", () => 
   assert.equal(scene(r.state)?.id, "reunion-honor");
   r.choose();
   assert.ok(r.state.story.flags.reunion);
+  assert.equal(scene(r.state)?.id, "old-friend");
+  const completed = structuredClone(r.state);
+  for (let i = 0; i < 3; i++) scene(r.state);
+  assert.deepEqual(r.state, completed);
+  assert.throws(() => r.do({ type: "choose", nodeId: "agreement", choiceId: "accept" }));
+  assert.deepEqual(r.state, completed);
+  r.do({ type: "travel", to: "inn" });
+  r.do({ type: "travel", to: "market" });
+  assert.notEqual(scene(r.state)?.id, "agreement");
+  assert.notEqual(scene(JSON.parse(JSON.stringify(r.state)))?.id, "agreement");
+});
+test("renewal is explicit, immediate, idempotent and preserves the previous settlement", () => {
+  const r = prepare();
+  r.do({ type: "settle", honor: true, confirm: true });
+  const before = structuredClone(r.state);
+  const command = { type: "renewAgreement" } as const;
+  const next = applyCommand(before, command, "renewal", before.revision);
+  assert.equal(next.agreement?.status, "accepted");
+  assert.notEqual(next.agreement?.id, before.agreement?.id);
+  assert.deepEqual(next.story, before.story);
+  assert.deepEqual(next.events.slice(0, before.events.length), before.events);
+  assert.equal(next.events.at(-1)?.kind, "agreement");
+  assert.deepEqual(next.relations, before.relations);
+  assert.deepEqual(next.player, before.player);
+  assert.deepEqual(next.npcs, before.npcs);
+  assert.equal(next.day, before.day);
+  assert.deepEqual(next.rng, before.rng);
+  assert.equal(applyCommand(next, command, "renewal", before.revision), next);
+  assert.throws(() => applyCommand(next, command, "renewal-duplicate", next.revision));
+});
+test("cancelled invitations stay completed and can be renewed without replaying the first scene", () => {
+  const r = new Run();
+  assert.throws(() => r.do({ type: "renewAgreement" }), /初次/);
+  for (let i = 0; i < 4; i++) r.choose();
+  r.do({ type: "disband" });
+  assert.equal(scene(r.state)?.id, "old-friend");
+  assert.throws(() => r.do({ type: "choose", nodeId: "agreement", choiceId: "accept" }));
+  r.do({ type: "renewAgreement" });
+  assert.equal(r.state.agreement?.status, "accepted");
+});
+test("renewal rejects unresolved loot, breach, absent or busy companions and other locations", () => {
+  const r = prepare();
+  assert.throws(() => r.do({ type: "renewAgreement" }), /现有约定/);
+  r.do({ type: "settle", honor: false, confirm: true });
+  assert.throws(() => r.do({ type: "renewAgreement" }), /不愿/);
+  r.do({ type: "compensate" });
+  for (const change of [
+    (w: World) => (w.player.location = "inn"),
+    (w: World) => (w.npcs[1].location = "gate"),
+    (w: World) => (w.npcs[1].attempt = { remaining: 2, chance: 9500 }),
+    (w: World) => (w.npcs[1].alive = false),
+  ]) {
+    const unavailable = structuredClone(r.state);
+    change(unavailable);
+    const snapshot = structuredClone(unavailable);
+    assert.throws(() =>
+      applyCommand(unavailable, { type: "renewAgreement" }, "unavailable", unavailable.revision),
+    );
+    assert.deepEqual(unavailable, snapshot);
+  }
+  r.do({ type: "renewAgreement" });
+  assert.equal(r.state.agreement?.strict, true);
+  assert.equal(r.state.story.outcome, "breached");
 });
 test("breach requires explicit confirmation; compensation retains the original memory", () => {
   const r = prepare();
@@ -239,6 +340,8 @@ test("day-15 missing companions can reliably gather without interrupting a break
   r.wait(3);
   r.wait(3);
   assert.equal(r.state.day, 14);
+  // Availability must be a deliberate fixture, independent of evolving NPC RNG choices.
+  r.state.npcs[1].location = "gate";
   assert.equal(partyReadiness(r.state).ready, false);
   const originalDay = r.state.day;
   for (let i = 0; i < 4 && !partyReadiness(r.state).ready; i++) r.do({ type: "rally" });
@@ -267,7 +370,7 @@ test("rendezvous waits for an ongoing attempt and keeps the arrived companion av
 test("a later breach overrides the latest response while preserving earlier fulfilled memories", () => {
   const r = prepare();
   r.do({ type: "settle", honor: true, confirm: true });
-  r.choose();
+  r.do({ type: "renewAgreement" });
   while (!partyReadiness(r.state).ready) r.do({ type: "rally" });
   r.do({ type: "formParty" });
   r.do({ type: "travel", to: "gate" });
@@ -287,7 +390,7 @@ test("a later breach overrides the latest response while preserving earlier fulf
 test("departure availability exposes the same cooldown and attempt restrictions as the command", () => {
   const r = prepare();
   r.do({ type: "settle", honor: true, confirm: true });
-  r.choose();
+  r.do({ type: "renewAgreement" });
   r.do({ type: "formParty" });
   r.do({ type: "travel", to: "gate" });
   r.state.lastExpeditionDay = r.state.day - 2;
@@ -300,7 +403,7 @@ test("departure availability exposes the same cooldown and attempt restrictions 
 test("player and NPC skills both skip exactly two own turns before becoming available", () => {
   const r = prepare();
   r.do({ type: "settle", honor: true, confirm: true });
-  r.choose();
+  r.do({ type: "renewAgreement" });
   r.do({ type: "formParty" });
   r.do({ type: "travel", to: "gate" });
   r.do({ type: "expedition" });
@@ -354,7 +457,7 @@ test("NPC portrait identities are distinct and legacy thumbnails remain determin
   const w = createWorld(12345, profile, "portraits");
   const before = structuredClone(w);
   const portraits = w.npcs.map((a) => JSON.stringify(npcSubject(a)));
-  assert.equal(new Set(portraits).size, 40);
+  assert.equal(new Set(portraits).size, 100);
   assert.deepEqual(w, before);
   for (const a of w.npcs) {
     assert.ok(npcProfile(a).background);
@@ -492,7 +595,7 @@ test("lethal complex encounter ends life, simple mode rescues, teaching defeat i
   ] as const) {
     const r = prepare();
     r.do({ type: "settle", honor: true, confirm: true });
-    r.choose();
+    r.do({ type: "renewAgreement" });
     r.do({ type: "formParty" });
     r.do({ type: "travel", to: "gate" });
     r.do({ type: "expedition" });
@@ -682,4 +785,87 @@ test("shared-event trends record actual relationship changes and do not claim in
   memory(world, PACK.roles.primary, "sharedVictory", "再次并肩取胜。");
   assert.deepEqual(world.events.at(-1)?.relationshipChange, { favor: 0, trust: 0 });
   validateWorld(world);
+});
+
+test("character inspection uses shared combat attributes, live battle HP and preserved death state without writing the world", async () => {
+  const { characterVitals } = await import("../../lib/game/character-sheet");
+  const { fighter } = await import("../../lib/game/combat");
+  const w = createWorld(12345, profile, "sheet-test");
+  const before = structuredClone(w);
+  for (const a of [w.player, ...w.npcs]) {
+    const sheet = characterVitals(w, a.id)!;
+    assert.equal(sheet.hp, a.hp);
+    for (const key of ["maxHp", "attack", "defense", "speed"] as const)
+      assert.equal(sheet[key], stats(a)[key]);
+  }
+  assert.deepEqual(w, before);
+  const actor = w.npcs[0];
+  const ally = fighter(actor);
+  ally.hp = 3;
+  w.battle = {
+    id: "sheet-battle",
+    round: 1,
+    allies: [ally],
+    enemies: [],
+    logs: [],
+    auto: false,
+    lethal: false,
+  };
+  assert.equal(characterVitals(w, actor.id)!.hp, 3);
+  assert.equal(actor.hp, before.npcs[0].hp);
+  w.battle = null;
+  actor.alive = false;
+  actor.hp = 0;
+  assert.equal(characterVitals(w, actor.id)!.state, "已逝");
+  assert.equal(characterVitals(w, actor.id)!.hp, 0);
+});
+
+test("profiles show the subject's own history without changing world knowledge or relationship directions", async () => {
+  const { characterRelations, characterHistory } = await import("../../lib/game/character-sheet");
+  const w = createWorld(12345, profile, "sheet-knowledge");
+  const [a, b, c] = w.npcs;
+  w.relations = [
+    { from: a.id, to: b.id, favor: 52, trust: -20, attraction: 8, known: true, memories: [] },
+    { from: b.id, to: a.id, favor: 3, trust: 40, attraction: 0, known: true, memories: [] },
+    { from: c.id, to: a.id, favor: 7, trust: 2, attraction: 0, known: true, memories: [] },
+  ];
+  const secret = recordFact(w, "private-test", "未告知玩家的秘密", [a.id, b.id]);
+  const shared = recordFact(w, "shared-test", "玩家亲见", ["PLAYER", a.id]);
+  const witnessed = recordFact(w, "public-test", "旁观的他人经历", [c.id], true);
+  assert.ok(knownEvents(w, a.id).some((e) => e.id === witnessed));
+  const before = structuredClone(w);
+  const peers = characterRelations(w, a.id);
+  assert.equal(peers.find((r) => r.peer.id === b.id)!.outgoing!.favor, 52);
+  assert.equal(peers.find((r) => r.peer.id === b.id)!.incoming!.favor, 3);
+  assert.equal(peers.find((r) => r.peer.id === c.id)!.outgoing, undefined);
+  assert.equal(
+    characterHistory(w, a.id).some((e) => e.id === secret),
+    true,
+  );
+  assert.equal(
+    characterHistory(w, a.id).some((e) => e.id === shared),
+    true,
+  );
+  assert.equal(
+    characterHistory(w, "PLAYER").some((e) => e.id === shared),
+    true,
+  );
+  assert.equal(
+    characterHistory(w, "PLAYER").some((e) => e.id === secret),
+    false,
+  );
+  assert.equal(
+    characterHistory(w, a.id).some((e) => e.id === witnessed),
+    false,
+  );
+  assert.equal(
+    knownEvents(w).some((e) => e.id === secret),
+    false,
+  );
+  assert.deepEqual(characterHistory(w, "absent"), []);
+  assert.deepEqual(w, before);
+  const summary = w.events.find((e) => e.id === secret)!;
+  summary.lastDay = w.day + 2;
+  summary.count = 3;
+  assert.equal(characterHistory(w, a.id)[0].id, secret);
 });

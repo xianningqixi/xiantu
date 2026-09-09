@@ -136,5 +136,5 @@ test("a fresh explicit long-action request can resume after an earlier pause", a
   e.requests.shift().resolve(true);
   await pending;
   assert.equal(e.state.running, true);
-  assert.equal(e.state.tab, "journey");
+  assert.equal(e.state.tab, "cultivation");
 });

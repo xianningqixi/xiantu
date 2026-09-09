@@ -1,0 +1,2500 @@
+[
+  {
+    "id": "shichai.chunshui.intro",
+    "title": "春水初涨",
+    "eyebrow": "引子 · 卷一",
+    "body": "坊市的春天来得悄无声息。药摊换了新鲜的草药，客栈门口的桃树落了一地花瓣，山门古道上的雪水汇成溪流，一路淌进青石街的沟渠。青石坊市只是云岚境的一角：北面青岚宗的九重山门刚开春试，归云门的剑修下山采买，古道上偶尔有筑基修士御剑掠过，凡人仰头看一眼，又低头做自己的营生。修仙大世界很大，大到一个坊市的春天不值一提；可对这里的人来说，一年也就这一个春天。\n\n你在客栈的旧书堆里翻到半页残卷，上面只有一句话：“阴阳既济，水火相成，其道在人不在天。”你不明白，却莫名记住了。这一年春天，你会遇见几个人。她们各有各的来处，也各有各的难处。",
+    "visualId": "shichai.chunshui.intro",
+    "participants": [],
+    "priority": 55,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "inn"
+      },
+      {
+        "fact": "flag.shichai.chunshui.prologue",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.intro.keep",
+        "label": "把这半页残卷收进行囊",
+        "hint": "记下引子；不影响任何数值。",
+        "reply": "你把残卷折好。窗外桃花又落了一层。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.prologue"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.intro.pass",
+        "label": "随手放回书堆",
+        "hint": "不记录引子。",
+        "reply": "你把纸放回原处。春天照样会来。",
+        "effects": []
+      }
+    ],
+    "minRealm": 1
+  },
+  {
+    "id": "shichai.chunshui.suqingyan.meet",
+    "title": "药摊前的一句多谢",
+    "eyebrow": "春水 · 相识",
+    "body": "药摊前的姑娘正把晒干的当归一根根码进木匣，动作又快又稳。你只是站着看了一会儿，她就抬头笑了笑：“客官要什么？回春丹八枚灵石，凝元草四十。要是没钱，站着看也不收钱。”\n\n她叫{{shichai.chunshui.suqingyan.name}}，是这家药铺的女儿。她的话里有一点无奈，笑容却没有半分敷衍。",
+    "quote": "“药是给活人用的。人来了，我就得好好招呼。”",
+    "visualId": "shichai.chunshui.suqingyan.cg.meet",
+    "participants": [
+      "shichai.chunshui.suqingyan"
+    ],
+    "priority": 50,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "market"
+      },
+      {
+        "fact": "actor.shichai.chunshui.suqingyan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.met",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.later",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.suqingyan.meet.greet",
+        "label": "报上姓名，问她这些药的来历",
+        "hint": "与{{shichai.chunshui.suqingyan.name}}相识 · 记入共同经历。",
+        "reply": "她一样样说给你听：哪一味产自后山，哪一味是父亲亲手炮制。说到父亲时，她的声音低了一些。",
+        "effects": [
+          {
+            "kind": "meet",
+            "target": "shichai.chunshui.suqingyan"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.suqingyan.flag.met"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.suqingyan",
+            "text": "{{player.name}}在坊市药摊与苏清晏相识，听她讲述药材来历与父亲的药铺。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.suqingyan.meet.later",
+        "label": "先不打扰，改日再说",
+        "hint": "不相识；下次遇到她时还有一次机会。",
+        "reply": "你朝她点了点头，她也点了点头。药摊前的春风继续吹。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.suqingyan.flag.later"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.suqingyan.meet.pass",
+        "label": "只当擦肩而过",
+        "hint": "彻底错过这条线；她仍会在世界里过自己的日子。",
+        "reply": "你走过药摊，没有回头。她继续码她的当归。",
+        "effects": []
+      }
+    ],
+    "minRealm": 1
+  },
+  {
+    "id": "shichai.chunshui.suqingyan.meet-again",
+    "title": "又见药摊",
+    "eyebrow": "春水 · 再逢",
+    "body": "{{shichai.chunshui.suqingyan.name}}又在药摊前忙碌。她记得你上次站在这里的样子，先开口了：“上回没买药的那位？今天也不买么？”\n\n语气里没有催促，只有一点熟人的笑意。",
+    "visualId": "shichai.chunshui.suqingyan.cg.meet",
+    "participants": [
+      "shichai.chunshui.suqingyan"
+    ],
+    "priority": 45,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.suqingyan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.later",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.met",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.suqingyan.again.greet",
+        "label": "这次报上姓名",
+        "hint": "与{{shichai.chunshui.suqingyan.name}}相识 · 记入共同经历。",
+        "reply": "她把名字念了一遍，说记住了。你也记住了她说话时微微偏头的样子。",
+        "effects": [
+          {
+            "kind": "meet",
+            "target": "shichai.chunshui.suqingyan"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.suqingyan.flag.met"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.suqingyan",
+            "text": "{{player.name}}在坊市药摊与苏清晏相识，听她讲述药材来历与父亲的药铺。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.suqingyan.again.pass",
+        "label": "终究没有开口",
+        "hint": "彻底错过这条线。",
+        "reply": "你终究只是买了一味无关紧要的药，就走了。",
+        "effects": []
+      }
+    ],
+    "minRealm": 1
+  },
+  {
+    "id": "shichai.chunshui.suqingyan.bond",
+    "title": "账本上的欠条",
+    "eyebrow": "春水 · 相知",
+    "body": "夜里你路过药铺，看见后堂还亮着灯。{{shichai.chunshui.suqingyan.name}}坐在灯下翻账本，见你进来也不遮掩：“青岚宗要收我家的药方，说是‘入库存档’。父亲不肯，他们就扣下了后山的采药牌。”\n\n她合上账本，笑得很淡：“他们派了个内门弟子来提亲。父亲答应了，只要我嫁过去，采药牌就还。”",
+    "quote": "“我不是不肯嫁。我是不肯用我去换一张牌子。”",
+    "visualId": "shichai.chunshui.suqingyan.cg.bond",
+    "participants": [
+      "shichai.chunshui.suqingyan"
+    ],
+    "priority": 60,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.suqingyan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.met",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.bond",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.suqingyan.bond.a",
+        "label": "问她需要什么样的帮手",
+        "hint": "进入相知；记入共同经历。",
+        "reply": "她想了很久，说：“先替我去后山看看，采药牌被扣了，药圃没人照看。”你答应了。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.suqingyan.flag.bond"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.suqingyan",
+            "text": "{{player.name}}在药铺后堂听苏清晏说起青岚宗逼婚与扣牌之事，答应替她照看后山药圃。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.suqingyan.bond.b",
+        "label": "替她把账本上的错账挑出来",
+        "hint": "进入相知；不记入经历。",
+        "reply": "你挑出三处算错的地方，她一边改一边笑，说你比她父亲请的账房强。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.suqingyan.flag.bond"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.suqingyan.bond.exit",
+        "label": "劝她顺了父亲的意",
+        "hint": "结束这条线；已有经历保留。",
+        "reply": "她沉默了一下，说：“也许你说得对。”然后送你出门。之后她再没和你提起这些。",
+        "effects": []
+      }
+    ],
+    "minRealm": 1
+  },
+  {
+    "id": "shichai.chunshui.suqingyan.spark",
+    "title": "药圃里的一株苗",
+    "eyebrow": "春水 · 心动",
+    "body": "雨停了，后山药圃的泥土还是湿的。{{shichai.chunshui.suqingyan.name}}蹲在田垄间，把一株凝元草的幼苗小心地移到你手里：“这是父亲留的种。齐家要的方子，就靠它。”\n\n她的手指沾着泥，碰到你的掌心时停了一下，没有立刻抽回去。你们谁都没有说话，山雾从林梢慢慢落下来。",
+    "quote": "“你要是走了，这株苗我一个人也照样种。可我不想一个人种。”",
+    "visualId": "shichai.chunshui.suqingyan.cg.spark",
+    "participants": [
+      "shichai.chunshui.suqingyan"
+    ],
+    "priority": 60,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.suqingyan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.bond",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.spark",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.suqingyan.spark.a",
+        "label": "握住她的手，说你不会走",
+        "hint": "进入心动；记入共同经历。",
+        "reply": "她的手在你掌心里安静了很久，然后她把苗埋进土里，用你的手压实。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.suqingyan.flag.spark"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.suqingyan",
+            "text": "{{player.name}}与苏清晏在后山药圃共同栽下凝元草苗，两人第一次牵手。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.suqingyan.spark.b",
+        "label": "把苗还给她，说等它长成再说",
+        "hint": "进入心动；不记入经历。",
+        "reply": "她接过苗，笑了：“那你可得等到秋天。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.suqingyan.flag.spark"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.suqingyan.spark.exit",
+        "label": "放下苗，说自己还有事",
+        "hint": "结束这条线；已有经历保留。",
+        "reply": "你走出药圃时，她还蹲在那里。这之后她待你如常，只是不再说药圃的事。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.chunshui.suqingyan.rival",
+    "title": "聘礼抬到门口",
+    "eyebrow": "春水 · 情敌",
+    "body": "青岚宗的聘礼在药铺门口摆了整整一条街。{{shichai.chunshui.qiheng.name}}穿着内门的青衫，温和地对苏父说：“采药牌今日就还，婚期定在下月初。”然后他看向你，笑意不减：“这位是……药铺新请的伙计？”\n\n{{shichai.chunshui.suqingyan.name}}站在柜台后面，指尖抠着台面，没有抬头。你知道她在等一句话，等谁说都行。",
+    "quote": "“齐师兄，采药牌我不要了。我家的药方，也不卖。”她终于抬头。",
+    "visualId": "shichai.chunshui.suqingyan.cg.rival",
+    "participants": [
+      "shichai.chunshui.suqingyan"
+    ],
+    "priority": 75,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.suqingyan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.spark",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.contest",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.lost",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "actor.shichai.chunshui.qiheng.alive",
+        "op": "eq",
+        "value": true
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.suqingyan.rival.fight",
+        "label": "站到她身边，当众说你要娶她",
+        "hint": "争 · 进入初夜路线；齐珩会记住你。",
+        "reply": "满街安静了一瞬。齐珩笑容不变，只说了一句“好，那便看谁能护住苏家”。她攥住了你的袖子。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.suqingyan.flag.contest"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.suqingyan",
+            "text": "{{player.name}}当众向苏清晏求亲，与青岚宗弟子齐珩正面相争。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.suqingyan.rival.yield",
+        "label": "退到人群里，看她自己决定",
+        "hint": "让 · 进入被夺结局。",
+        "reply": "她等了很久，等到父亲把她的手交到齐珩手里。她最后看了你一眼。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.suqingyan.flag.lost"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.suqingyan.rival.leave",
+        "label": "一言不发地离开",
+        "hint": "既不争也不让；这条线停在这里，不再继续。",
+        "reply": "你转身走进雨里，没有回头。药铺的门在你身后关上。",
+        "effects": []
+      }
+    ],
+    "minRealm": 1
+  },
+  {
+    "id": "shichai.chunshui.suqingyan.rival-gone",
+    "title": "无人再来抬聘礼",
+    "eyebrow": "春水 · 空门",
+    "body": "齐珩的消息传到坊市：那位内门弟子没能再回到青石街。青岚宗收回了聘礼，采药牌却没人再提。\n\n{{shichai.chunshui.suqingyan.name}}把药摊摆回门口，像什么都没发生过。只有你知道她夜里数了多少遍那株苗的叶子。",
+    "visualId": "shichai.chunshui.suqingyan.cg.rival",
+    "participants": [
+      "shichai.chunshui.suqingyan"
+    ],
+    "priority": 74,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.suqingyan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.spark",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.contest",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.lost",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "actor.shichai.chunshui.qiheng.alive",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.suqingyan.gone.stay",
+        "label": "告诉她，如今没人拦着你了",
+        "hint": "无人相争，仍需你亲口应下。",
+        "reply": "她说：“那你可要说清楚，你是来买药的，还是来提亲的。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.suqingyan.flag.contest"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.suqingyan",
+            "text": "{{player.name}}在齐珩身故之后向苏清晏表明心意。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.suqingyan.gone.leave",
+        "label": "把这份沉默留给她",
+        "hint": "这条线停在这里。",
+        "reply": "你没有开口。药摊的春风照旧。",
+        "effects": []
+      }
+    ],
+    "minRealm": 1
+  },
+  {
+    "id": "shichai.chunshui.suqingyan.lost",
+    "title": "红烛透窗",
+    "eyebrow": "春水 · 被夺",
+    "body": "婚礼在药铺后堂办的，青岚宗来了不少人。你没有被请，却还是站在了巷口。\n\n雨下得很细。窗上的红烛把两个人影投在纸上，{{shichai.chunshui.qiheng.name}}的影子低下去，另一个影子先是僵着，然后软了。你听见她压得很低的声音，不知道是在哭，还是别的什么。\n\n雨丝贴着巷壁往下爬。你站在屋檐外，鞋底已经湿透。红烛把窗纸照得发亮，两个人影叠在一起，分不清谁是谁，直到那个穿着青岚内门袍的影子俯下去，把另一个影子整个罩住。\n\n她先是僵着。肩背那一道轮廓绷得很直，像白天站在柜台后抠台面的样子。窗纸上传来极轻的一声抽气，随即被压住。齐珩的声音隔着墙，温和，几乎称得上客气：“别怕。采药牌已经还了。今晚把方子也交了，苏家便没事。”影子动了一下。她没有答。过了片刻，那道绷直的肩垮下来，软成一团含糊的轮廓，随着他的起伏一下一下轻轻抖。\n\n你听得见布料、听得见床榻、听得见她把声音咬碎了咽回去。偶尔漏出半声，分不清是疼还是忍。雨比那些声音更响，可你还是听见了。你想起她说过“我不是不肯嫁，我是不肯用我去换一张牌子”，想起药圃里她把苗放进你手里时没有抽走的手指。那些话现在都隔着一扇窗。窗里的人不是来问她愿不愿意的。\n\n齐珩又说了一句什么，笑意不减。影子压得更低。她那一侧的轮廓完全看不见了，只剩红烛一晃一晃。你站在巷口，手插在袖里，袖里空的。聘礼抬到门口那天你退进了人群，此刻便只能站在人群该站的地方——门外、雨里、什么也改变不了的位置。羞辱不是她的。是你自己把她交出去之后，还要来听她被领走的声音。\n\n雨没有停。窗上的影子终于叠成一团，不再分得清。你听见她极低极低地叫了一声，随即又没有了。巷口的春水从青石缝里往外冒，没过你的靴面。你仍站着。采药牌还了，药方也交了，你还站在这里——不是来救人的，是来把自己的退让听完的。你知道自己在罚自己。",
+    "quote": "“采药牌还了。药方也交了。你还站在这里做什么？”",
+    "visualId": "shichai.chunshui.suqingyan.cg.lost",
+    "participants": [],
+    "priority": 85,
+    "conditions": [
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.lost",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.suqingyan.lost.swallow",
+        "label": "站到天亮，把这一夜记住",
+        "hint": "记入你独自承受的经历；结束这条线。",
+        "reply": "天亮时红烛灭了。你走出巷口，把那扇窗永远关在身后。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.suqingyan.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.suqingyan.lost.turn",
+        "label": "转身走进雨里",
+        "hint": "结束这条线，不再记挂。",
+        "reply": "你没有再回那条街。药铺后来换了青岚宗的招牌。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.suqingyan.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.suqingyan.lost.exit",
+        "label": "合上这一页",
+        "hint": "结束这段文字，不作任何记录。",
+        "reply": "你合上这一页。",
+        "effects": []
+      }
+    ],
+    "minRealm": 1
+  },
+  {
+    "id": "shichai.chunshui.suqingyan.night",
+    "title": "药香里的一夜",
+    "eyebrow": "春水 · 初夜",
+    "body": "药庐后院只剩一盏灯。{{shichai.chunshui.suqingyan.name}}解下围裙挂在门后，回过身看你，脸颊比灯还红：“父亲今夜宿在山上。我……我不太懂这些，你别笑。”\n\n她伸手过来，碰到你衣襟时又停住，像在药圃里那样等你握住。\n\n你握住她的手。她掌心有炮制药材留下的薄茧，指尖却在发颤。灯火把药庐后院照成一小块暖黄，当归、陈皮和未收尽的凝元草香缠在一起，沉得像能用手捧住。\n\n她主动把你拉近，额抵着你的锁骨，呼吸乱了一拍。解衣时她的动作很稳，像在分拣一味不能弄错的药，可每解一粒扣子，耳根便更红一分。贴身的里衣落下，烛光顺着锁骨滑到胸口，她下意识想挡，手抬到一半又放下，低声说：“你看吧。我也不知道该怎么藏。”\n\n你吻她时她不会回，只会把嘴唇轻轻贴上来，生涩得近乎认真。带到榻上后她自己分开膝，却在你靠近时绷紧了肩。你停住，她反而先开口，声音小，却清楚：“药有药性，人也有。你慢一点，我记性好。”\n\n你便真的慢。进入时她咬住下唇，眼眶瞬间湿了，手指抠进你的衣襟，却没有推开。她把痛记在脸上，也把你的节奏记在呼吸里——你深一分，她便喘一分；你停一停，她便悄悄把腰送上来，像怕这味药会冷掉。烛芯爆了一声轻响，药香更浓。她渐渐从僵硬变成发软，腿环上你的腰，生疏地学着迎合，偶尔漏出一声压得很低的鼻音，随即自己羞得把脸埋进你肩窝。\n\n夜里她主动得克制又清楚。她会在你耳边报自己的感觉，像报药性：“这里……热。”“可以。”说到后来话少了，只剩下细密的喘息，和掌心一下一下按在你背上的力道。高潮来时她没有叫，只是整个人绷直，随即软进你怀里，眼角有泪，不知是疼还是别的。\n\n事后灯将尽。她侧过身，一只手仍攥着你的衣角，攥得很死，像攥着药圃里那株刚埋下的苗。呼吸渐渐匀了，嘴边还剩半句没说完的“记得”，便睡着了。院外春虫叫了一夜。药香没有散。",
+    "quote": "“药有药性，人也有。你慢一点，我记性好。”",
+    "visualId": "shichai.chunshui.suqingyan.cg.night",
+    "participants": [
+      "shichai.chunshui.suqingyan"
+    ],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.suqingyan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "market"
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.contest",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.night",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.suqingyan.night.stay",
+        "label": "吹灭灯，把她抱进屋",
+        "hint": "记入共同经历；不改变灵石、物品或数值。",
+        "reply": "那一夜药香很沉。她在你怀里睡着时，手还攥着你的衣角。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.suqingyan.flag.night"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.suqingyan",
+            "text": "{{player.name}}与苏清晏在药庐后院共度初夜。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.suqingyan.night.stop",
+        "label": "替她把围裙重新系好，送她回房",
+        "hint": "止步于此；这条线到此为止。",
+        "reply": "她愣了很久，轻声说“好”。之后你们之间隔了一层再也没捅破的纸。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.chunshui.suqingyan.dual",
+    "title": "地窖温泉",
+    "eyebrow": "春水 · 双修",
+    "body": "药庐地窖下有一眼温泉，是苏家炮制灵药的地方。{{shichai.chunshui.suqingyan.name}}把你带下来，水汽把她的鬓发打湿：“父亲的《百草炼元方》，最后一页是‘既济’二字。我以前不明白，现在……我想试试。”\n\n她把掌心贴上你的，灵气在两人之间像水一样流动。你忽然明白齐珩要的从来不是药方，而是这眼泉与能与它相合的人。\n\n她没有立刻抽手。温泉没过腰际，热气把两人的肩背都蒸出一层薄红。掌心相抵处先是温的，随后有细流从她指缝渗进你的经脉，又从你的脉门返回她的腕骨，来回一圈，像两股水在同一条沟渠里相遇。\n\n“方子写的是水火既济，”她低声说，额发贴在颊边，“可它没写，人要靠这么近。”你引她跨坐上来。水声轻轻响了一下。她咬着唇坐下，内里仍紧，却主动把掌心压得更实，生怕灵气的线会断。你们在水里慢慢动，每一次送入都带着一缕灵息，沿着任督往上走，走到心口再散开。她第一次感到自己那浅浅的炼气一层真的在流动——不是书上的口诀，是热，是涨，是丹田里忽然被点亮的一点。\n\n池水开始打转。先是两人腰间一小圈，后来越转越急，热泉被两道灵息搅出漩涡，拍在石壁上又落回来。她仰起颈，声音发颤：“我够到了……经脉是通的。原来方子在人身上。”你忽然把那句话听真切：齐珩要的从来不是一册写完的药方，而是这眼能引灵的泉，和能与这眼泉相合的人。他算过水温、算过药性、算过婚期，唯独没算到她会把自己交到你手里。水汽里她的修为第一次真的动了，浅浅一层炼气像被春水推着往前走了半步，你自己经脉里那点滞涩也被温热化开，两不相欠。\n\n双修不是采，也不是予。灵气在交合处来回走完一周天，她软在你肩上，你也觉得四肢百骸多了一股温润，像刚喝过一碗熬到恰到好处的汤。水漩渐渐平。她没有松掌，直到那点温润在两人体内各自安顿下来。她睁眼看你，笑得很浅：“齐珩算了那么多，唯独没算到这一点。”",
+    "quote": "“原来方子在人身上。齐珩算了那么多，唯独没算到这一点。”",
+    "visualId": "shichai.chunshui.suqingyan.cg.dual",
+    "participants": [
+      "shichai.chunshui.suqingyan"
+    ],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.suqingyan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "player.manual",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.night",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.dual",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.suqingyan.dual.go",
+        "label": "与她相对而坐，引灵气互济",
+        "hint": "记入共同经历；修为增长由正常修炼规则决定，这里不发放数值。",
+        "reply": "温泉的水在两人之间起了漩涡。天亮时，你觉得经脉里多了一股温润的东西，她的脸色也从未如此好过。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.suqingyan.flag.dual"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.suqingyan",
+            "text": "{{player.name}}与苏清晏在药庐地窖温泉中以《百草炼元方》末页的既济之法相互调息。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.suqingyan.dual.stop",
+        "label": "只泡泉，不谈修行",
+        "hint": "止步于此；这条线到此为止。",
+        "reply": "她笑你胆小。这之后她没再提那一页方子。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.chunshui.suqingyan.vow",
+    "title": "换一块匾",
+    "eyebrow": "春水 · 道侣",
+    "body": "药铺门口的旧匾摘了下来，{{shichai.chunshui.suqingyan.name}}拿着抹布擦新匾上的灰。“父亲说，铺子以后归我。他还说，谁要是站在这匾底下，就得一辈子帮我看铺子。”\n\n她把抹布递给你，眼睛亮亮的，等你接。",
+    "quote": "“药铺不大，够两个人站。”",
+    "visualId": "shichai.chunshui.suqingyan.cg.vow",
+    "participants": [
+      "shichai.chunshui.suqingyan"
+    ],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.suqingyan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.dual",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.vow",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.suqingyan.vow.bind",
+        "label": "接过抹布，与她一起挂匾",
+        "hint": "结为道侣 · 记入共同经历，收束本线。",
+        "reply": "新匾挂上去那一刻，她靠在你肩上。青石街的春天，终于是你们的了。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.suqingyan.flag.vow"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.suqingyan.flag.closed"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.suqingyan",
+            "text": "{{player.name}}与苏清晏结为道侣，共同接下苏家药铺。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.suqingyan.vow.friend",
+        "label": "替她挂匾，说自己还要远行",
+        "hint": "只做知己 · 收束本线。",
+        "reply": "她点点头，说药铺的门永远给你留着。你们从此是彼此最信得过的人。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.suqingyan.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.suqingyan.vow.exit",
+        "label": "此刻不答",
+        "hint": "不作决定；这条线停在这里。",
+        "reply": "你没有接抹布。她自己把匾挂了上去。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.chunshui.suqingyan.mourn",
+    "title": "当归没有分拣完",
+    "eyebrow": "春水 · 身故",
+    "body": "药铺的门关了，门上挂着白布。柜台上还摆着{{shichai.chunshui.suqingyan.name}}没分拣完的当归。\n\n你站在门口，想起她说“药是给活人用的”。你把那半匣当归分拣完，放回木架。",
+    "visualId": "shichai.chunshui.suqingyan.cg.mourn",
+    "participants": [],
+    "priority": 100,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.suqingyan.alive",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.met",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.suqingyan.mourn.close",
+        "label": "把她留下的药圃照看下去",
+        "hint": "收束本线；不复活、不改写已有经历。",
+        "reply": "你把她的名字留在药圃的木牌上。她的经历没有被改写，只是不再有人续写。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.suqingyan.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.suqingyan.mourn.exit",
+        "label": "合上这一页",
+        "hint": "结束这段文字，不作记录。",
+        "reply": "你合上这一页。",
+        "effects": []
+      }
+    ],
+    "minRealm": 1
+  },
+  {
+    "id": "shichai.chunshui.gutinglan.meet",
+    "title": "石阶上的一剑",
+    "eyebrow": "春水 · 相识",
+    "body": "古道上有人在试剑。剑气把山雾劈成两半，又缓缓合拢。{{shichai.chunshui.gutinglan.name}}收剑回鞘，回头看你，眼神像剑一样直：“归云门顾听澜。你挡了我的路。”\n\n她没有让路的意思，也没有动手的意思。她只是在等你说明来意。",
+    "quote": "“古道不是你家的，也不是我家的。可我先来的。”",
+    "visualId": "shichai.chunshui.gutinglan.cg.meet",
+    "participants": [
+      "shichai.chunshui.gutinglan"
+    ],
+    "priority": 50,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "gate"
+      },
+      {
+        "fact": "actor.shichai.chunshui.gutinglan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.met",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.later",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.gutinglan.meet.greet",
+        "label": "报上姓名，退到一旁看她练完",
+        "hint": "与{{shichai.chunshui.gutinglan.name}}相识 · 记入共同经历。",
+        "reply": "她练了整整一个时辰。收剑时她说：“你没走。”你说是。她说：“那便记住你了。”",
+        "effects": [
+          {
+            "kind": "meet",
+            "target": "shichai.chunshui.gutinglan"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.gutinglan.flag.met"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.gutinglan",
+            "text": "{{player.name}}在山门古道与归云门剑修顾听澜相识，看她练完一整套剑。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.gutinglan.meet.later",
+        "label": "先不打扰，改日再说",
+        "hint": "不相识；下次遇到她时还有一次机会。",
+        "reply": "你侧身让开，她点头，继续练她的剑。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.gutinglan.flag.later"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.gutinglan.meet.pass",
+        "label": "只当擦肩而过",
+        "hint": "彻底错过这条线；她仍会在世界里过自己的日子。",
+        "reply": "你从她身边走过，她的剑没有停。",
+        "effects": []
+      }
+    ],
+    "minRealm": 1
+  },
+  {
+    "id": "shichai.chunshui.gutinglan.meet-again",
+    "title": "又在古道上",
+    "eyebrow": "春水 · 再逢",
+    "body": "{{shichai.chunshui.gutinglan.name}}又在古道上。这次她没有试剑，而是坐在石阶上擦剑身。看见你，她说：“上次让路的那个。”\n\n她把剑收好，似乎在等你开口。",
+    "visualId": "shichai.chunshui.gutinglan.cg.meet",
+    "participants": [
+      "shichai.chunshui.gutinglan"
+    ],
+    "priority": 45,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.gutinglan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.later",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.met",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.gutinglan.again.greet",
+        "label": "这次报上姓名",
+        "hint": "与{{shichai.chunshui.gutinglan.name}}相识 · 记入共同经历。",
+        "reply": "她把你的名字念了一遍，说“记住了”，然后继续擦剑。",
+        "effects": [
+          {
+            "kind": "meet",
+            "target": "shichai.chunshui.gutinglan"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.gutinglan.flag.met"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.gutinglan",
+            "text": "{{player.name}}在山门古道与归云门剑修顾听澜相识，看她练完一整套剑。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.gutinglan.again.pass",
+        "label": "终究没有开口",
+        "hint": "彻底错过这条线。",
+        "reply": "你点了点头，走过石阶。",
+        "effects": []
+      }
+    ],
+    "minRealm": 1
+  },
+  {
+    "id": "shichai.chunshui.gutinglan.bond",
+    "title": "破亭里的篝火",
+    "eyebrow": "春水 · 相知",
+    "body": "山雨来得急，你和{{shichai.chunshui.gutinglan.name}}躲进古道旁的破亭。她生了火，隔着火堆擦剑，忽然说：“三年前我走火入魔，是师兄卫岑救的。从那以后我的剑再也快不起来。”\n\n她说这话时没有看你，火光在剑身上跳。",
+    "quote": "“门里都说，我和他是天定的道侣。可我从没答应过。”",
+    "visualId": "shichai.chunshui.gutinglan.cg.bond",
+    "participants": [
+      "shichai.chunshui.gutinglan"
+    ],
+    "priority": 60,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.gutinglan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.met",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.bond",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "player.manual",
+        "op": "eq",
+        "value": true
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.gutinglan.bond.a",
+        "label": "问她那道滞涩在哪里",
+        "hint": "进入相知；记入共同经历。",
+        "reply": "她把手按在心口下方三寸：“这里。像一根线，拽着我的剑。”你伸手，她没有躲。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.gutinglan.flag.bond"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.gutinglan",
+            "text": "{{player.name}}在古道破亭与顾听澜避雨，听她说起三年前走火入魔与剑心滞涩。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.gutinglan.bond.b",
+        "label": "陪她把火守到天亮",
+        "hint": "进入相知；不记入经历。",
+        "reply": "天亮时雨停了。她说：“你话不多，挺好。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.gutinglan.flag.bond"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.gutinglan.bond.exit",
+        "label": "劝她回门里找卫岑",
+        "hint": "结束这条线；已有经历保留。",
+        "reply": "她把剑收进鞘里，说“你说得对”。此后她见你只点头，不再多言。",
+        "effects": []
+      }
+    ],
+    "minRealm": 1
+  },
+  {
+    "id": "shichai.chunshui.gutinglan.spark",
+    "title": "雨夜里的心口",
+    "eyebrow": "春水 · 心动",
+    "body": "客栈的窗被雨打得响。{{shichai.chunshui.gutinglan.name}}坐在窗边，一只手按着心口，脸色发白。“又来了。每逢雨夜，那根线就拽得更紧。”\n\n你点亮灯，她忽然抓住你的手腕，把你的手按在她心口那道滞涩上：“你摸。你摸得到么？”那一刻她的眼神不再像剑。",
+    "quote": "“我不怕疼。我怕的是，这根线是谁系的。”",
+    "visualId": "shichai.chunshui.gutinglan.cg.spark",
+    "participants": [
+      "shichai.chunshui.gutinglan"
+    ],
+    "priority": 60,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.gutinglan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.bond",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.spark",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.gutinglan.spark.a",
+        "label": "把手留在那里，告诉她你摸到了",
+        "hint": "进入心动；记入共同经历。",
+        "reply": "她闭上眼，慢慢靠进你怀里。窗外的雨一整夜没停。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.gutinglan.flag.spark"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.gutinglan",
+            "text": "{{player.name}}在雨夜客栈探到顾听澜剑心的滞涩，她第一次靠进他怀里。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.gutinglan.spark.b",
+        "label": "替她运功压下那道滞涩",
+        "hint": "进入心动；不记入经历。",
+        "reply": "她的脸色缓过来，说：“多谢。”然后很久没有松开你的手腕。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.gutinglan.flag.spark"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.gutinglan.spark.exit",
+        "label": "抽回手，说自己不懂剑修的事",
+        "hint": "结束这条线；已有经历保留。",
+        "reply": "她松开你，把窗关上。此后她见你依旧客气，却再也没有靠近过。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.chunshui.gutinglan.rival",
+    "title": "伞下的师兄",
+    "eyebrow": "春水 · 情敌",
+    "body": "{{shichai.chunshui.weicen.name}}撑着伞从古道上来，温文尔雅，先向你行礼，再看向{{shichai.chunshui.gutinglan.name}}：“师妹，掌门定了日子，下月你我行道侣礼。”\n\n她握剑的手指发白。卫岑笑着补了一句：“师妹心口那道旧伤，除了我，谁也压不住。这位道友，你说是不是？”",
+    "quote": "“师兄，那道伤是你压的，还是你系的？”她问。卫岑的笑僵了一瞬。",
+    "visualId": "shichai.chunshui.gutinglan.cg.rival",
+    "participants": [
+      "shichai.chunshui.gutinglan"
+    ],
+    "priority": 75,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.gutinglan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.spark",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.contest",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.lost",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "actor.shichai.chunshui.weicen.alive",
+        "op": "eq",
+        "value": true
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.gutinglan.rival.fight",
+        "label": "站到她身前，说那道伤你来解",
+        "hint": "争 · 进入初夜路线；卫岑会记住你。",
+        "reply": "卫岑收了伞，说：“好，我等着看。”他走后，她把剑塞进你手里：“你要是解不开，我就用这把剑杀了你。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.gutinglan.flag.contest"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.gutinglan",
+            "text": "{{player.name}}在古道上当众与归云门筑基修士卫岑相争，承诺解开顾听澜剑心的滞涩。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.gutinglan.rival.yield",
+        "label": "退开一步，说这是归云门的家事",
+        "hint": "让 · 进入被夺结局。",
+        "reply": "她看着你退开，眼里的光灭了。卫岑撑起伞，把她带回门里。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.gutinglan.flag.lost"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.gutinglan.rival.leave",
+        "label": "一言不发地离开",
+        "hint": "既不争也不让；这条线停在这里，不再继续。",
+        "reply": "你转身下山。雨把你的脚印冲得干干净净。",
+        "effects": []
+      }
+    ],
+    "minRealm": 1
+  },
+  {
+    "id": "shichai.chunshui.gutinglan.rival-shamed",
+    "title": "失信之人",
+    "eyebrow": "春水 · 情敌 · 失信",
+    "body": "{{shichai.chunshui.weicen.name}}撑伞而来，没有先看{{shichai.chunshui.gutinglan.name}}，而是看你：“坊市都在传，这位道友对林晚姑娘许下的凝元草，最后落进了自己囊中。”\n\n{{shichai.chunshui.gutinglan.name}}握剑的手慢慢松开。她看着你，像在看一个陌生人：“是真的？”",
+    "quote": "“我不怕人弱。我怕人失信。”",
+    "visualId": "shichai.chunshui.gutinglan.cg.rival",
+    "participants": [
+      "shichai.chunshui.gutinglan"
+    ],
+    "priority": 80,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.gutinglan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.spark",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.contest",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.lost",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "actor.shichai.chunshui.weicen.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "official.outcome",
+        "op": "eq",
+        "value": "breached"
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.gutinglan.rival-shamed.fight",
+        "label": "承认失约，但把当年的缘由说清楚",
+        "hint": "争 · 她未必信你；进入初夜路线仍需后续。",
+        "reply": "她听完，沉默很久：“我给你一次机会。只此一次。”卫岑的笑收了起来。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.gutinglan.flag.contest"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.gutinglan",
+            "text": "{{player.name}}在卫岑面前向顾听澜坦白自己曾对林晚失约，并求得一次机会。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.gutinglan.rival-shamed.yield",
+        "label": "无话可说，退开",
+        "hint": "让 · 进入被夺结局。",
+        "reply": "她把剑收回鞘中，跟着卫岑走了。她没有回头。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.gutinglan.flag.lost"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.gutinglan.rival-shamed.leave",
+        "label": "一言不发地离开",
+        "hint": "既不争也不让；这条线停在这里，不再继续。",
+        "reply": "你转身下山。她的目光落在你背上，像剑。",
+        "effects": []
+      }
+    ],
+    "minRealm": 1
+  },
+  {
+    "id": "shichai.chunshui.gutinglan.rival-gone",
+    "title": "伞不再来",
+    "eyebrow": "春水 · 空门",
+    "body": "归云门传来消息，{{shichai.chunshui.weicen.name}}没能撑过这一劫。掌门收回了道侣礼的日子。\n\n{{shichai.chunshui.gutinglan.name}}在古道上练了整整三天剑。第四天她坐在石阶上，对你说：“那根线还在。系线的人不在了，线不会自己断。”",
+    "visualId": "shichai.chunshui.gutinglan.cg.rival",
+    "participants": [
+      "shichai.chunshui.gutinglan"
+    ],
+    "priority": 74,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.gutinglan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.spark",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.contest",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.lost",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "actor.shichai.chunshui.weicen.alive",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.gutinglan.gone.stay",
+        "label": "告诉她，你来解",
+        "hint": "无人相争，仍需你亲口应下。",
+        "reply": "她把剑递给你：“解不开就杀了你。”她说这话时嘴角在笑。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.gutinglan.flag.contest"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.gutinglan",
+            "text": "{{player.name}}在卫岑身故后向顾听澜承诺解开她剑心的滞涩。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.gutinglan.gone.leave",
+        "label": "把这份沉默留给她",
+        "hint": "这条线停在这里。",
+        "reply": "你没有接剑。她把剑收回鞘中。",
+        "effects": []
+      }
+    ],
+    "minRealm": 1
+  },
+  {
+    "id": "shichai.chunshui.gutinglan.lost",
+    "title": "剑留门外",
+    "eyebrow": "春水 · 被夺",
+    "body": "归云门的山院你进不去，但你听得见。{{shichai.chunshui.weicen.name}}牵着{{shichai.chunshui.gutinglan.name}}的手腕走进内室，她的剑留在门外石阶上，被雨打湿。\n\n门里传出她压不住的声音。你终于明白那根线是什么：是他系在她剑心上的东西，每一次“压”都拽得更紧。而你把她让给了系线的人。\n\n山院的墙只有一人多高，瓦上全是雨。你站在墙外，听得见里间木门合上的声音。石阶上那柄窄剑没人收，鞘面被雨打得发亮，剑穗贴着青石，一缕一缕往下滴水。像她本人被留在了门外，人却被牵了进去。\n\n卫岑的声音先传出来，温文，几乎称得上体贴：“师妹，乖一点。这道伤，只有我能压。”随即是衣带落地。她没有立刻出声。过了片刻，你听见一声极短的痛呼，被他按了回去。床榻响。他的呼吸稳，她的呼吸乱。每一次撞击都伴随着他掌心按上她心口的声音——那不是抚慰，是压。你听得懂。三年前他“救”她时也是这样压的；今夜每压一次，那根线就往剑心里再钉一分。\n\n她开始忍不住。声音从齿缝里挤出来，又碎又冷，不像欢爱，像一个人在撑。墙里他说：“放松。我在帮你。”墙外你的手按在湿砖上，砖缝里的苔藓全是冰的。你想起古道上他问你“这位道友，你说是不是”，想起你退开那一步。那一步把她送回了系线的人手里。此刻他在用她的身体加深那道禁制，而她的剑还躺在你脚边的雨里。\n\n雨大了。石阶上的剑穗彻底湿透，颜色深成近黑。里间的声音高了一阵，又忽然低下去，只剩他均匀的调息，和她断断续续的、压不住的抽气。你分不清那些抽气里有多少是疼，多少是被“压”开之后身体自己给出的反应。你只知道自己不该再听，却还是听完了。羞辱是你的。她在门里被当成一只永远快不起来的炉鼎；你在门外把自己活成了把她交出去的人。\n\n后半夜他不再说话。只有一下一下的压，一下一下的响。剑在雨里一夜。你也在雨里一夜。你终于明白：让开一步，不是成全归云门的家事，是亲手把她的剑心递回那个系结的人掌上。",
+    "quote": "“师妹，乖一点。这道伤，只有我能压。”",
+    "visualId": "shichai.chunshui.gutinglan.cg.lost",
+    "participants": [],
+    "priority": 85,
+    "conditions": [
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.lost",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.gutinglan.lost.swallow",
+        "label": "站在雨里听到天亮",
+        "hint": "记入你独自承受的经历；结束这条线。",
+        "reply": "天亮时门开了，她走出来，看见你，什么也没说。她的剑从此再也没有快过。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.gutinglan.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.gutinglan.lost.turn",
+        "label": "拾起她的剑，转身下山",
+        "hint": "结束这条线，不再记挂。",
+        "reply": "你把剑留在坊市铁匠铺。后来有人说她回来取过，又走了。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.gutinglan.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.gutinglan.lost.exit",
+        "label": "合上这一页",
+        "hint": "结束这段文字，不作任何记录。",
+        "reply": "你合上这一页。",
+        "effects": []
+      }
+    ],
+    "minRealm": 1
+  },
+  {
+    "id": "shichai.chunshui.gutinglan.night",
+    "title": "解开束发",
+    "eyebrow": "春水 · 初夜",
+    "body": "雨夜客栈。{{shichai.chunshui.gutinglan.name}}坐在床沿，慢慢解开束发的绳，长发披下来，她的眼神从冷变成慌：“我不会。剑我会，这个……我不会。”\n\n她把剑放在床头，手按在心口：“你说要解那根线。那你从这里开始。”\n\n你的手覆上她按着的地方。心口下方三寸，皮肤底下有一道极细的滞涩，像一根凉线横在剑脉里，随着呼吸轻轻拽。她浑身一抖，束发已经解开，长发覆住肩背，冷意从眉眼退到耳根，再变成慌：“剑我会。这个……我真的不会。”\n\n灯很小。雨打窗棂。你没有立刻解她的衣，只把掌心留在那道滞涩上，顺着她的呼吸一点点按开。她的剑放在床头，鞘口对着屋梁，像还在守夜。衣带是她自己松开的，动作干脆，可触到你胸口时手指冰凉，全是抖的。你吻她额、吻她眼，她都不会躲，只是睁着眼看你，像看一场她没有练过的剑。\n\n进入时她吸了一口气，牙齿咬住，没有出声。内里紧得近乎涩，你停在那里等。她的腿在发抖，小腿筋绷成两道线，双手死死攥着身下的被。你说慢，她点头，额发湿了，分不清是汗还是刚才未干的雨。“从这里开始，”她又重复一次，把你的手按回心口，“线在这儿。别走。”\n\n你便从那儿走。每送深一分，掌下那根凉线就松一分。她起初抖得厉害，肩、腰、膝，全在抖，像刚出鞘还带着山风的剑。你吻她锁骨时她忽然抓住你的后颈，力道大得不像求欢，倒像怕自己被那根线再拽回去。雨一夜未停。她的声音从齿缝里漏出来，短、碎，没有一句多余的话。直到某一次你抵到最深处，她整个人猛地绷直，随即长长地喘出一口气——掌下那道滞涩软了，不再拽。\n\n她从发抖到不再抖，用了大半夜。后来她自己把腿环上来，生疏地迎，眼神却重新变直，像她在古道上挡路时那样。高潮到时她把脸埋进你肩里，咬住你的衣服，没有叫，可你感觉到那根线彻底松了一截。窗外雨小了。她在你怀里平复了很久，才哑着嗓子说：“别笑我。我只是……没让人碰过。”\n\n天将亮时她先起身。束发没有重新扎，披着头发走到窗前，拔剑。剑出鞘的声音又薄又快，像风从石阶上削过去。她看了看刃，又看了看你，什么也没说。可那一剑，是三年来第一次快的。",
+    "quote": "“别笑我。我只是……没让人碰过。”",
+    "visualId": "shichai.chunshui.gutinglan.cg.night",
+    "participants": [
+      "shichai.chunshui.gutinglan"
+    ],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.gutinglan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "inn"
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.contest",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.night",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.gutinglan.night.stay",
+        "label": "从她按着的地方开始",
+        "hint": "记入共同经历；不改变灵石、物品或数值。",
+        "reply": "那根线在你掌下一点点松开。她在你怀里发抖，然后不再抖。天亮时她的剑第一次出鞘如风。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.gutinglan.flag.night"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.gutinglan",
+            "text": "{{player.name}}与顾听澜在雨夜客栈共度初夜，剑心的滞涩初次松动。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.gutinglan.night.stop",
+        "label": "替她把头发重新束好",
+        "hint": "止步于此；这条线到此为止。",
+        "reply": "她愣住，然后笑了，说“胆小鬼”。此后她待你如友，却再没有解过束发。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.chunshui.gutinglan.dual",
+    "title": "溪涧剑心",
+    "eyebrow": "春水 · 双修",
+    "body": "古道旁的溪涧，月色如水。{{shichai.chunshui.gutinglan.name}}把剑横在膝上：“那根线我看清了。是卫岑当年‘救’我时，用剑气种在我剑心里的禁制。每压一次，他的印记就深一分。”\n\n她把手伸给你：“你的灵气和我的不同。既济之法，水火相成。帮我把它烧干净。”\n\n溪水没过两人腰腹，月在水底碎成无数片。她盘膝而坐，剑横在膝上，刃面朝天，接一层冷白的光。你对坐，掌心扣进她掌心。既济起时，她的剑气是金的、薄的、带伤的；你的灵息是温的、缓的、往里走的。两道气息在交合处相遇，既不吞也不让，只在彼此经脉里走完同一圈。\n\n她先把衣裳褪到腰际，水没过乳下，呼吸却稳。你进入她时她只低低“嗯”了一声，随即把周天的引子咬在齿间，不肯乱。水下的动作极慢，每一次送入都推着一缕火性的灵息去撞她剑心里那点冰凉。禁制像一根钉，钉在心口下方三寸，钉帽上刻着卫岑的印。你每撞一次，她眉心就皱一分，膝上的剑却始终平着，没有偏。\n\n“烧它。”她说。不是求，是令。你把灵息在她体内走完任脉，再从督脉压回去，走到那枚印上，两气交叠，又热又密。她忽然仰头，颈项拉出一道弧，水面上的月光碎得更厉害。交合处的水被搅热了。禁制开始响——不是耳听的响，是剑心里细金线一根根崩断的响。她腿夹紧你的腰，手指扣进你肩里，终于泄出一声压了三年的痛。\n\n溪水沸了一瞬。白汽从两人腰间轰地立起来，月色都模糊了。那枚印在热里化开，化成一缕黑金的烟，从她心口散进夜风。她整个人软下来，额头抵着你的，汗与溪水分不清。周天还在转，可已经通了。你感到自己经脉里多了一截清亮的剑意，她感到丹田里那口一直被拽住的气忽然归了位。\n\n汽散之后，溪水复凉。她睁开眼，把膝上的剑握回手里，刃鸣极轻，却快。“他要的不是道侣，”她看着剑，也看着你，“是一个永远快不起来的炉鼎。每压一次，印就深一分。”她把湿发拢到耳后，声音低而稳：“我三年来第一次觉得，这把剑是我自己的。”",
+    "quote": "“他要的不是道侣，是一个永远快不起来的炉鼎。”",
+    "visualId": "shichai.chunshui.gutinglan.cg.dual",
+    "participants": [
+      "shichai.chunshui.gutinglan"
+    ],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.gutinglan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "player.manual",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.night",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.dual",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.gutinglan.dual.go",
+        "label": "与她共坐溪中，以既济之法焚去禁制",
+        "hint": "记入共同经历；修为增长由正常修炼规则决定，这里不发放数值。",
+        "reply": "溪水沸了一瞬。她睁开眼时，剑心澄澈得像洗过。她说：“我三年来第一次觉得剑是我自己的。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.gutinglan.flag.dual"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.gutinglan",
+            "text": "{{player.name}}与顾听澜在溪涧中以既济之法焚去卫岑种下的剑心禁制。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.gutinglan.dual.stop",
+        "label": "只陪她坐到天亮",
+        "hint": "止步于此；这条线到此为止。",
+        "reply": "她说“也好”。那根线还在，只是不再拽得那么紧。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.chunshui.gutinglan.vow",
+    "title": "剑穗",
+    "eyebrow": "春水 · 道侣",
+    "body": "山巅，日出。{{shichai.chunshui.gutinglan.name}}解下剑穗，系在你腕上：“归云门的规矩，剑穗给谁，剑就认谁。”\n\n她收剑回鞘，第一次在你面前笑得毫无防备：“掌门要问，我就说道侣礼已经行过了。就在这里。”",
+    "quote": "“你要是敢再让开一步，我就用这把剑追你到天边。”",
+    "visualId": "shichai.chunshui.gutinglan.cg.vow",
+    "participants": [
+      "shichai.chunshui.gutinglan"
+    ],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.gutinglan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.dual",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.vow",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.gutinglan.vow.bind",
+        "label": "握住剑穗，与她并肩看日出",
+        "hint": "结为道侣 · 记入共同经历，收束本线。",
+        "reply": "日出把两人的影子拉得很长。她说以后古道不用让了，两个人一起走。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.gutinglan.flag.vow"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.gutinglan.flag.closed"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.gutinglan",
+            "text": "{{player.name}}与顾听澜在山巅结为道侣，接下她的剑穗。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.gutinglan.vow.friend",
+        "label": "把剑穗还给她，说你配不上",
+        "hint": "只做知己 · 收束本线。",
+        "reply": "她把剑穗收回，说：“那你便做我唯一信得过的人。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.gutinglan.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.gutinglan.vow.exit",
+        "label": "此刻不答",
+        "hint": "不作决定；这条线停在这里。",
+        "reply": "你没有接剑穗。她把它系回剑柄上。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.chunshui.gutinglan.mourn",
+    "title": "剑插石阶",
+    "eyebrow": "春水 · 身故",
+    "body": "古道的石阶上插着一柄窄剑，剑穗被雨打湿。归云门没有来收。\n\n你在石阶上坐了一夜。想起{{shichai.chunshui.gutinglan.name}}说过“我先来的”。这条古道，从此是她的。",
+    "visualId": "shichai.chunshui.gutinglan.cg.mourn",
+    "participants": [],
+    "priority": 100,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.gutinglan.alive",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.met",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.gutinglan.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.gutinglan.mourn.close",
+        "label": "把剑带回坊市，替她收好",
+        "hint": "收束本线；不复活、不改写已有经历。",
+        "reply": "剑穗晒干后你系在了自己腕上。她的剑心澄澈与否，再没有人能知道。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.gutinglan.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.gutinglan.mourn.exit",
+        "label": "合上这一页",
+        "hint": "结束这段文字，不作记录。",
+        "reply": "你合上这一页。",
+        "effects": []
+      }
+    ],
+    "minRealm": 1
+  },
+  {
+    "id": "shichai.chunshui.wenzhiwei.meet",
+    "title": "条凳上的说书人",
+    "eyebrow": "春水 · 相识",
+    "body": "听雨客栈的大堂里，一个姑娘站在条凳上说书，说的是“婢女夜逃三百里”。她说到那婢女翻墙时，全堂人都屏住了气。\n\n醒木一拍，她跳下条凳，正好落在你面前：“客官听得入神。要不要赏点什么？不赏也行，我叫{{shichai.chunshui.wenzhiwei.name}}，明儿还说。”",
+    "quote": "“故事嘛，哪有真的。真的都不好说。”",
+    "visualId": "shichai.chunshui.wenzhiwei.cg.meet",
+    "participants": [
+      "shichai.chunshui.wenzhiwei"
+    ],
+    "priority": 50,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "inn"
+      },
+      {
+        "fact": "actor.shichai.chunshui.wenzhiwei.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.met",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.later",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.wenzhiwei.meet.greet",
+        "label": "赏她一句“说得好”，报上姓名",
+        "hint": "与{{shichai.chunshui.wenzhiwei.name}}相识 · 记入共同经历。",
+        "reply": "她笑出一对梨涡，把你的名字记在扇子背面：“下回给你编进书里。”",
+        "effects": [
+          {
+            "kind": "meet",
+            "target": "shichai.chunshui.wenzhiwei"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.wenzhiwei.flag.met"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.wenzhiwei",
+            "text": "{{player.name}}在听雨客栈听温知微说书，两人相识。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.wenzhiwei.meet.later",
+        "label": "先不打扰，改日再说",
+        "hint": "不相识；下次遇到她时还有一次机会。",
+        "reply": "你点点头，她眨眨眼，转身去收赏钱。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.wenzhiwei.flag.later"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.wenzhiwei.meet.pass",
+        "label": "只当擦肩而过",
+        "hint": "彻底错过这条线；她仍会在世界里过自己的日子。",
+        "reply": "你从大堂走过，醒木又响了一声。",
+        "effects": []
+      }
+    ],
+    "minRealm": 1
+  },
+  {
+    "id": "shichai.chunshui.wenzhiwei.meet-again",
+    "title": "又来听书",
+    "eyebrow": "春水 · 再逢",
+    "body": "{{shichai.chunshui.wenzhiwei.name}}又站在条凳上。看见你，她把书停了：“那位不赏钱的客官又来了。今日说什么？你点。”\n\n满堂的人都回头看你。",
+    "visualId": "shichai.chunshui.wenzhiwei.cg.meet",
+    "participants": [
+      "shichai.chunshui.wenzhiwei"
+    ],
+    "priority": 45,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.wenzhiwei.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.later",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.met",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.wenzhiwei.again.greet",
+        "label": "点一段，顺便报上姓名",
+        "hint": "与{{shichai.chunshui.wenzhiwei.name}}相识 · 记入共同经历。",
+        "reply": "她说了你点的那段，末了在扇子背面写下你的名字。",
+        "effects": [
+          {
+            "kind": "meet",
+            "target": "shichai.chunshui.wenzhiwei"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.wenzhiwei.flag.met"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.wenzhiwei",
+            "text": "{{player.name}}在听雨客栈听温知微说书，两人相识。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.wenzhiwei.again.pass",
+        "label": "终究没有开口",
+        "hint": "彻底错过这条线。",
+        "reply": "你摆摆手，坐在角落里听完就走。",
+        "effects": []
+      }
+    ],
+    "minRealm": 1
+  },
+  {
+    "id": "shichai.chunshui.wenzhiwei.bond",
+    "title": "手腕上的烙印",
+    "eyebrow": "春水 · 相知",
+    "body": "客栈后院，{{shichai.chunshui.wenzhiwei.name}}在晾衣绳下拧衣裳。她卷起袖子，你看见她手腕内侧有一枚旧烙印，是郑氏商行的记号。\n\n她发现你在看，没有遮：“书里那个婢女，是我。郑百川买了我七年，我逃出来两年。攒够五十灵石就能托人把卖身契买回来。”",
+    "quote": "“我说了两年的书，攒了三十二枚。你别可怜我，我不缺可怜。”",
+    "visualId": "shichai.chunshui.wenzhiwei.cg.bond",
+    "participants": [
+      "shichai.chunshui.wenzhiwei"
+    ],
+    "priority": 60,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.wenzhiwei.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.met",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.bond",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.wenzhiwei.bond.a",
+        "label": "问她还差多少，你来想办法",
+        "hint": "进入相知；记入共同经历。",
+        "reply": "她说差十八枚。你说记下了。她说“你要是骗我，我就把你编进书里骂三年”。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.wenzhiwei.flag.bond"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.wenzhiwei",
+            "text": "{{player.name}}在客栈后院得知温知微是逃出郑家的婢女，答应帮她凑齐赎身的灵石。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.wenzhiwei.bond.b",
+        "label": "替她把衣裳晾完",
+        "hint": "进入相知；不记入经历。",
+        "reply": "你晾衣裳的手法让她笑了半天。她说“你也是个吃过苦的”。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.wenzhiwei.flag.bond"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.wenzhiwei.bond.exit",
+        "label": "说自己帮不上忙，先走",
+        "hint": "结束这条线；已有经历保留。",
+        "reply": "她放下袖子，说“我也没求你”。此后她说书照旧，只是不再和你多说。",
+        "effects": []
+      }
+    ],
+    "minRealm": 1
+  },
+  {
+    "id": "shichai.chunshui.wenzhiwei.spark",
+    "title": "屋顶上的星",
+    "eyebrow": "春水 · 心动",
+    "body": "客栈屋顶，夜风很轻。{{shichai.chunshui.wenzhiwei.name}}把折扇递给你：“扇子背面记着我这两年遇到的好人，一共七个。你排第八。”\n\n她靠过来，肩膀碰着你的肩膀：“我编了那么多故事，就没编过一个好结局。你说，我这故事能有好结局么？”",
+    "quote": "“你要是说不能，我就从屋顶上把你推下去。”",
+    "visualId": "shichai.chunshui.wenzhiwei.cg.spark",
+    "participants": [
+      "shichai.chunshui.wenzhiwei"
+    ],
+    "priority": 60,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.wenzhiwei.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.bond",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.spark",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.wenzhiwei.spark.a",
+        "label": "告诉她，结局由你们一起写",
+        "hint": "进入心动；记入共同经历。",
+        "reply": "她把头靠在你肩上，很久没说话。后来她说“那你可得写好点”。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.wenzhiwei.flag.spark"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.wenzhiwei",
+            "text": "{{player.name}}与温知微在客栈屋顶看星，她把他记进扇子背面的名单。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.wenzhiwei.spark.b",
+        "label": "接过扇子，替她写下第八个名字",
+        "hint": "进入心动；不记入经历。",
+        "reply": "她看着你写，笑得梨涡很深，说“字真丑”。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.wenzhiwei.flag.spark"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.wenzhiwei.spark.exit",
+        "label": "把扇子还她，说夜深了",
+        "hint": "结束这条线；已有经历保留。",
+        "reply": "她收好扇子，跳下屋顶。此后她待你如常，只是不再叫你上屋顶。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.chunshui.wenzhiwei.rival",
+    "title": "卖身契摊在桌上",
+    "eyebrow": "春水 · 情敌",
+    "body": "{{shichai.chunshui.zhengbaichuan.name}}带着家仆坐在客栈大堂正中，桌上摊着一叠纸。“知微，跟我回府，做个妾，比你在这儿站条凳强。契还在我手里，官府也认。”\n\n{{shichai.chunshui.wenzhiwei.name}}站在条凳旁，攥着醒木，脸色发白。她看向你，又很快移开。",
+    "quote": "“客官，这是郑某的家事。”郑百川笑着对你说。",
+    "visualId": "shichai.chunshui.wenzhiwei.cg.rival",
+    "participants": [
+      "shichai.chunshui.wenzhiwei"
+    ],
+    "priority": 75,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.wenzhiwei.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.spark",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.contest",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.lost",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "actor.shichai.chunshui.zhengbaichuan.alive",
+        "op": "eq",
+        "value": true
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.wenzhiwei.rival.fight",
+        "label": "走到桌前，说这契你来断",
+        "hint": "争 · 进入初夜路线；郑百川会记住你。",
+        "reply": "郑百川打量你许久，说：“好，三日后坊市见。”他走后她抓着你的袖子，手一直在抖。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.wenzhiwei.flag.contest"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.wenzhiwei",
+            "text": "{{player.name}}在客栈大堂当众与郑百川相争，承诺替温知微断了卖身契。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.wenzhiwei.rival.yield",
+        "label": "坐回角落，不插手",
+        "hint": "让 · 进入被夺结局。",
+        "reply": "她等了一会儿，放下醒木，跟着家仆走了。折扇留在条凳上。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.wenzhiwei.flag.lost"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.wenzhiwei.rival.leave",
+        "label": "一言不发地离开",
+        "hint": "既不争也不让；这条线停在这里，不再继续。",
+        "reply": "你起身离开客栈。醒木没有再响。",
+        "effects": []
+      }
+    ],
+    "minRealm": 1
+  },
+  {
+    "id": "shichai.chunshui.wenzhiwei.rival-rich",
+    "title": "有底气的谈判",
+    "eyebrow": "春水 · 情敌 · 灵石在手",
+    "body": "{{shichai.chunshui.zhengbaichuan.name}}在客栈大堂摊开卖身契。你走到桌前，把行囊放在桌上，灵石的声音让他停了一下。\n\n“客官这是要替她赎？”他眯起眼，“五十枚是两年前的价。如今，一百。”{{shichai.chunshui.wenzhiwei.name}}在你身后拽你的衣角，她想让你别管。",
+    "quote": "“灵石能买契，买不了人。可先买契。”",
+    "visualId": "shichai.chunshui.wenzhiwei.cg.rival",
+    "participants": [
+      "shichai.chunshui.wenzhiwei"
+    ],
+    "priority": 76,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.wenzhiwei.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.spark",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.contest",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.lost",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "actor.shichai.chunshui.zhengbaichuan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "player.stones",
+        "op": "gte",
+        "value": 60
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.wenzhiwei.rival-rich.fight",
+        "label": "把行囊推过去，说契先拿来",
+        "hint": "争 · 进入初夜路线；本节点不实际扣除灵石，谈判在文字里进行。",
+        "reply": "郑百川收起契，说“三日后坊市，你我一手交钱一手交契”。他没想到你真敢。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.wenzhiwei.flag.contest"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.wenzhiwei",
+            "text": "{{player.name}}在客栈大堂以灵石为底气与郑百川谈判，逼他答应交出温知微的卖身契。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.wenzhiwei.rival-rich.yield",
+        "label": "收回行囊，说这是她的事",
+        "hint": "让 · 进入被夺结局。",
+        "reply": "她愣住，然后笑了一下，把折扇放在条凳上，跟郑家人走了。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.wenzhiwei.flag.lost"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.wenzhiwei.rival-rich.leave",
+        "label": "一言不发地离开",
+        "hint": "既不争也不让；这条线停在这里，不再继续。",
+        "reply": "你拎着行囊离开客栈。",
+        "effects": []
+      }
+    ],
+    "minRealm": 1
+  },
+  {
+    "id": "shichai.chunshui.wenzhiwei.rival-gone",
+    "title": "郑家再没来人",
+    "eyebrow": "春水 · 空门",
+    "body": "{{shichai.chunshui.zhengbaichuan.name}}的死讯传到客栈时，{{shichai.chunshui.wenzhiwei.name}}正在说书。她停了一下，接着说完，然后跳下条凳，蹲在角落里哭了很久。\n\n“契烧了。他们家没人认得我。”她抬头看你，“可我怎么一点也不高兴。”",
+    "visualId": "shichai.chunshui.wenzhiwei.cg.rival",
+    "participants": [
+      "shichai.chunshui.wenzhiwei"
+    ],
+    "priority": 74,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.wenzhiwei.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.spark",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.contest",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.lost",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "actor.shichai.chunshui.zhengbaichuan.alive",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.wenzhiwei.gone.stay",
+        "label": "陪她坐着，直到她愿意说话",
+        "hint": "无人相争，仍需你亲口应下。",
+        "reply": "她说：“以后我说的书，要有好结局。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.wenzhiwei.flag.contest"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.wenzhiwei",
+            "text": "{{player.name}}在郑百川身故后陪伴温知微，她决定重写自己的故事。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.wenzhiwei.gone.leave",
+        "label": "把这份沉默留给她",
+        "hint": "这条线停在这里。",
+        "reply": "你没有走过去。她哭完，继续说书。",
+        "effects": []
+      }
+    ],
+    "minRealm": 1
+  },
+  {
+    "id": "shichai.chunshui.wenzhiwei.lost",
+    "title": "花轿出坊市",
+    "eyebrow": "春水 · 被夺",
+    "body": "郑府的花轿从青石街抬出去，没有吹打。轿帘掀起一角，{{shichai.chunshui.wenzhiwei.name}}的手抓着轿杆，指节发白。她看见了你，然后把帘子放下。\n\n后来你听人说，郑府那夜灯亮到天明。再后来你听说，她不再说书了。\n\n花轿没有吹打，只有轿杆擦着青石的声音。帘掀起一角时你看见她的手，抓着轿杆，指节发白，腕内侧那枚郑氏的烙印被袖口遮了半截。她看见了你。对视只有一瞬，她把帘子放下，像把一段书词当场掐断。\n\n你跟着轿子走到坊市口，又跟着走到郑府门前。门开，轿进，门关。家仆散了。你没有请帖，只能站在门外的槐树下。夜里郑府内院的灯一盏盏亮起来，亮到后堂那一扇窗。窗纸上人影绰绰，有人笑，有人劝酒，随后酒声歇了，剩下更里的一声门闩。\n\n你听见她。先是极低的“不要”，被一句富态的、和气的嗓音盖过去：“知微，契还在我手里。今晚认了，往后就是郑家的人。”接着是布料、床榻、一只手拍在木面上的闷响。她骂过一句你在客栈听过的书词，骂到一半破了，变成压着的痛呼。郑百川不急，像在谈一桩已经谈拢的买卖，不时说“别喊，府里都睡着了”，说“逃了两年，也该还了”。你站在门外，把这些字一个一个听全。\n\n后半夜灯未灭。里面的动静断了又续，续了又断。她不再骂，也不再叫，只剩偶尔一声抽气，像说书说到气口却把醒木落下了。你想起扇子背面那七个好人，想起屋顶上她问你“我这故事能有好结局么”。答案现在隔着一扇郑府的门。门里没有好结局。有的只是一张卖身契被重新按上的印。\n\n天将亮时里面彻底静了。你仍站着。槐花落了你一头。有个早起的仆人出门倒水，看见你，停了一停，说：“那位客官，她编的故事，怎么都没有你。”你没有答。你知道从今夜起，条凳会空，醒木会闲，坊市里再不会有人把“婢女夜逃三百里”说成一段能笑出来的书。她从此不再说书。而你站在门外站到天明，把这一夜的声音全部收下——收下的不是她的羞，是你自己让开那一步之后，该记住的价。",
+    "quote": "“那位客官，她编的故事，怎么都没有你。”郑家的仆人这么说。",
+    "visualId": "shichai.chunshui.wenzhiwei.cg.lost",
+    "participants": [],
+    "priority": 85,
+    "conditions": [
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.lost",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.wenzhiwei.lost.swallow",
+        "label": "跟着轿子走到坊市口",
+        "hint": "记入你独自承受的经历；结束这条线。",
+        "reply": "轿子进了郑府的门。你在门外站到天亮，听见里面的动静。你记住了这一夜。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.wenzhiwei.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.wenzhiwei.lost.turn",
+        "label": "转身回客栈",
+        "hint": "结束这条线，不再记挂。",
+        "reply": "条凳上的折扇你收了起来。后来你没有再翻开过。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.wenzhiwei.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.wenzhiwei.lost.exit",
+        "label": "合上这一页",
+        "hint": "结束这段文字，不作任何记录。",
+        "reply": "你合上这一页。",
+        "effects": []
+      }
+    ],
+    "minRealm": 1
+  },
+  {
+    "id": "shichai.chunshui.wenzhiwei.night",
+    "title": "红绳落枕边",
+    "eyebrow": "春水 · 初夜",
+    "body": "客栈阁楼，窗外是坊市的灯。{{shichai.chunshui.wenzhiwei.name}}解开双丫髻，红绳落在枕边：“我说过那么多书，说到这儿都是‘一夜无话’。可我想知道，一夜到底有什么话。”\n\n她笑得梨涡很深，眼睛却红了：“我第一次，你别嫌我。”\n\n红绳落在枕边，像一句被她随手放下的书词。窗外坊市的灯还亮着，一声一声的叫卖从窗缝里挤进来，和阁楼里突然安静的呼吸叠在一起。她解开双丫髻之后显得更小一些，却把笑维持得很好，梨涡还在，眼睛是红的。\n\n“客官请了，”她用说书的口吻起头，扇子早不在手里，只能拿被角当醒木，轻轻拍了一下榻沿，“今日不说婢女夜逃，说一夜无话。一夜无话到底有什么话？下面请看——”话说到一半她自己先卡了，耳根烧起来，把脸埋进你颈侧，闷声道：“编不下去了。你别看我。”\n\n你吹了灯。灯灭之后坊市的光仍从窗纸上透进来，把她肩线勾出一圈浅金。解衣时她一直在找词，找到后来只剩下短句：“轻一点。”“我第一次。”“你别嫌我。”触到她手腕内侧那枚旧烙印时她抖了一下，却没有遮，反倒把那只手塞进你掌心：“看过就看过。书里那个婢女，是我。今晚不是。”\n\n进入时她疼得把那套口吻彻底忘了。没有醒木，没有扇子，只有她咬着你的肩、腿绷直、呼吸乱成一团。你停着等她。她过了好一会儿才松开牙，小声说：“继续。书里写到这儿都要翻页了。”你便慢慢送。她起初不会动，只会抓紧你，后来试着抬腰，生疏得像第一次踩条凳。坊市的锣鼓远了一阵又近了一阵。她忽然在你耳边用气音问：“一夜无话……到底有什么话？”你没有答。她自己把答案喘了出来，是一声压不住的呜咽，随即又羞成笑，“原来有话，只是不像书上写的。”\n\n她第一次，什么都不会，却什么都肯学。会把红绳无意识地缠上你的手指，会在你深的时候把说书人的尾音漏出来，又立刻咬住。高潮到时她没有编出任何词，只是睁大眼看着你，梨涡还在，眼泪也在。事后她把脸埋进你胸口，声音已经哑了：“你要是把今晚编进书里，我就……我也编进去。”红绳仍在枕边。窗外灯火一盏盏灭。她在你怀里睡着时，嘴角还像在说书，只是这一回，故事是她自己的。",
+    "quote": "“你要是把今晚编进书里，我就……我就也编进去。”",
+    "visualId": "shichai.chunshui.wenzhiwei.cg.night",
+    "participants": [
+      "shichai.chunshui.wenzhiwei"
+    ],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.wenzhiwei.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "inn"
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.contest",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.night",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.wenzhiwei.night.stay",
+        "label": "吹灭灯，告诉她这一夜不必说话",
+        "hint": "记入共同经历；不改变灵石、物品或数值。",
+        "reply": "她在你怀里时忘了所有书里的台词。天亮时她说：“原来一夜无话是这个意思。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.wenzhiwei.flag.night"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.wenzhiwei",
+            "text": "{{player.name}}与温知微在客栈阁楼共度初夜。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.wenzhiwei.night.stop",
+        "label": "把红绳替她系回去",
+        "hint": "止步于此；这条线到此为止。",
+        "reply": "她愣了一下，说“好吧，那你欠我一夜”。这一夜后来没有再来。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.chunshui.wenzhiwei.dual",
+    "title": "第一口灵气",
+    "eyebrow": "春水 · 双修",
+    "body": "清晨的阁楼。{{shichai.chunshui.wenzhiwei.name}}盘坐在床上，学你教她的吐纳，脸憋得通红：“书里说凡人也能入道，我怎么一点都感觉不到？”\n\n你从她身后抵住她的后背，把灵气送过去。她忽然一颤：“……有东西。凉凉的。”她回头看你，眼里有一种你从没见过的光。她的故事，从这一刻开始不再是别人的。\n\n清晨的光从窗格子里切进来。她盘坐在床上，学你教的吐纳，肩背绷得笔直，脸却憋得通红。衣裳只松松挂在肘上，红绳还在枕边，昨夜的痕迹留在锁骨上，她全不在意，只皱眉跟那口吸不进来的气较劲。“书里说凡人也能入道，”她喘着抱怨，“我怎么一点都感觉不到？”\n\n你绕到她身后坐下，胸贴上她的背，掌心扣住她的小腹。既济不采不予，只要把你经脉里那一点温的、活的东西，从她脊骨正中送进去。她先是一僵，随即整个人颤了一下：“……有东西。凉凉的。”那是灵气第一次进她体内，像一滴春水落进干井，井壁都醒了。她回头看你，眼里那点光不是说书时演给客人看的，是真的吓到了，也真的喜欢。\n\n你没有抽身。灵息要走完一周天才稳。她自己把腰沉下来，将你重新纳入体内，背脊却仍尽量挺直，好让那道凉意顺着督脉往上爬。交合与引气叠在同一处：你每送一次，便有一缕灵息从交合处散开，沿她从未被打通的细脉走一寸。她咬着唇忍那又凉又涨的奇异，偶尔漏出一句全无章法的感叹：“这就是道？这么近？”你应她，她便又笑，笑完又喘，梨涡深深浅浅。\n\n周天合拢那一瞬，她整个人软进你怀里，丹田里忽然多了一点极淡的暖。不是修士能看上眼的根基，可对一个凡人来说，天地第一次肯承认她。她捂着小腹，半天说不出话，后来才低声道：“原来这就是你们说的道。我以为要很多年。”你把下巴搁在她肩上。阁楼外有人在扫阶。她的故事从这一刻起不再只是别人的逃与赎——她摸到了自己也能走的那条路。\n\n灵气在两人体内各安顿了一缕。她没有立刻起身去客栈领功法，只是反过来抱住你，把昨夜没说完的那句补上：“好结局，我自己写。你得在旁边听。”",
+    "quote": "“原来这就是你们说的‘道’。我以为要很多年。”",
+    "visualId": "shichai.chunshui.wenzhiwei.cg.dual",
+    "participants": [
+      "shichai.chunshui.wenzhiwei"
+    ],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.wenzhiwei.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "player.manual",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.night",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.dual",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.wenzhiwei.dual.go",
+        "label": "以既济之法引她入道",
+        "hint": "记入共同经历；修为增长由正常修炼规则决定，这里不发放数值。",
+        "reply": "灵气在两人之间转了一周天。她第一次感到了丹田里那一丝暖意。“我要自己去客栈领那册功法，”她说，“自己学。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.wenzhiwei.flag.dual"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.wenzhiwei",
+            "text": "{{player.name}}以既济之法为温知微引灵入体，她第一次感知天地灵气。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.wenzhiwei.dual.stop",
+        "label": "只教她吐纳，不引灵气",
+        "hint": "止步于此；这条线到此为止。",
+        "reply": "她说“那我慢慢来”。她后来自己去领了功法。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.chunshui.wenzhiwei.vow",
+    "title": "新幌子",
+    "eyebrow": "春水 · 道侣",
+    "body": "客栈门口挂了新的说书幌子，上面写着“温记 · 只说好结局”。{{shichai.chunshui.wenzhiwei.name}}站在条凳上，指着台下的你：“各位客官，今日说的是‘婢女夜逃三百里，遇一人’。这个人，就坐在那儿。”\n\n满堂人回头看你。她笑得很大声：“他要是不上来，这书就没结局。”",
+    "quote": "“我这故事的结局，得两个人一起说。”",
+    "visualId": "shichai.chunshui.wenzhiwei.cg.vow",
+    "participants": [
+      "shichai.chunshui.wenzhiwei"
+    ],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.wenzhiwei.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.dual",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.vow",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.wenzhiwei.vow.bind",
+        "label": "走上条凳，和她一起说完",
+        "hint": "结为道侣 · 记入共同经历，收束本线。",
+        "reply": "醒木一拍，满堂喝彩。她在人声里握住你的手，说“这回真的是好结局了”。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.wenzhiwei.flag.vow"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.wenzhiwei.flag.closed"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.chunshui.wenzhiwei",
+            "text": "{{player.name}}与温知微结为道侣，在客栈大堂共同说完她的故事。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.wenzhiwei.vow.friend",
+        "label": "坐在台下听她说完",
+        "hint": "只做知己 · 收束本线。",
+        "reply": "她说完了，跳下来坐在你旁边：“那你就做我永远的第八个。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.wenzhiwei.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.wenzhiwei.vow.exit",
+        "label": "此刻不答",
+        "hint": "不作决定；这条线停在这里。",
+        "reply": "你没有上去。她自己把结局说完了。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.chunshui.wenzhiwei.mourn",
+    "title": "空条凳",
+    "eyebrow": "春水 · 身故",
+    "body": "客栈大堂的条凳空着，醒木放在上面，折扇合着。店家说，{{shichai.chunshui.wenzhiwei.name}}的书说到一半就停了。\n\n你翻开折扇背面，看到八个名字。你的在最后一个。",
+    "visualId": "shichai.chunshui.wenzhiwei.cg.mourn",
+    "participants": [],
+    "priority": 100,
+    "conditions": [
+      {
+        "fact": "actor.shichai.chunshui.wenzhiwei.alive",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.met",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.chunshui.wenzhiwei.mourn.close",
+        "label": "把折扇收进行囊",
+        "hint": "收束本线；不复活、不改写已有经历。",
+        "reply": "你把折扇带在身上。她的故事没有人续写，但也没有人改写。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.chunshui.wenzhiwei.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.chunshui.wenzhiwei.mourn.exit",
+        "label": "合上这一页",
+        "hint": "结束这段文字，不作记录。",
+        "reply": "你合上这一页。",
+        "effects": []
+      }
+    ],
+    "minRealm": 1
+  }
+]

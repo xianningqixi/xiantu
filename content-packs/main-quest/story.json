@@ -1,0 +1,173 @@
+{
+  "version": "0.2.0",
+  "title": "残碑寻源",
+  "intervalDays": 2,
+  "chapters": [
+    {
+      "id": "qingshi",
+      "regionName": "青石坊市",
+      "packId": null,
+      "sites": {
+        "market": "market",
+        "inn": "inn",
+        "gate": "gate"
+      },
+      "minRealm": 1,
+      "guide": "NPC_ZHOU_AN",
+      "guideSite": "market",
+      "guidePlace": "青石坊市",
+      "arrivalDelay": 0,
+      "dialogue": {
+        "id": "main.qingshi.rubbing",
+        "title": "碑背的水纹",
+        "body": "勘察过残碑之后，你把拓下的纹路摊在石桌上。{{guide}}沿着一道水纹看了许久：这不是寻常符箓，而是旧时运送灵砂的标记。几批灵砂沿同一条商路离开青石，此后再无回音。\n\n你决定查清它们去了哪里。{{guide}}提起听雨客栈收藏的一册旧驿图，或许能找到第一处落脚地。",
+        "fallbackBody": "你带着残碑纹路回到听雨客栈。原本打算请教的人已经离世，柜中的旧行路札记却留下了同样的水纹：那是运送灵砂的标记。你记下线索，决定继续查证。",
+        "choice": "记下水纹，查访旧驿图",
+        "reply": "水纹的来历已记入主线。过两日，到听雨客栈核对送来的旧驿图。"
+      },
+      "discovery": {
+        "id": "main.qingshi.route",
+        "site": "inn",
+        "place": "听雨客栈",
+        "title": "旧驿图上的去处",
+        "body": "旧驿图翻到了最后一页。你将碑纹与商路对照，终于找到相合的水道。有人多年运送灵砂，却刻意抹去收货人的姓名。\n\n下一条线索指向{{nextRegion}}。离开青石前，你把经过的村镇逐一记在图上，免得再被一句传闻牵着走。",
+        "choices": [
+          {
+            "id": "follow",
+            "label": "标记商道，继续追查",
+            "reply": "你标记了通往{{nextRegion}}的道路。远行有了明确的去处。"
+          }
+        ]
+      },
+      "volumePackId": "shichai.chunshui",
+      "volumeTitle": "卷一 · 春水",
+      "volumeLead": "半页残卷将你引向青石的药摊与古道。先在听雨客栈读过残卷，再勘察残碑，寻找同样的水纹。"
+    },
+    {
+      "id": "xiaye",
+      "regionName": "临江城",
+      "packId": "shichai.xiaye",
+      "sites": {
+        "market": "shichai.xiaye.market",
+        "inn": "shichai.xiaye.inn",
+        "gate": "shichai.xiaye.gate"
+      },
+      "minRealm": 2,
+      "guide": "shichai.xiaye.peisi",
+      "guideSite": "market",
+      "guidePlace": "临江城坊市",
+      "arrivalDelay": 2,
+      "dialogue": {
+        "id": "main.xiaye.ledger",
+        "title": "渡口旧账",
+        "body": "你在临江住了两日，打听到{{guide}}熟悉商队旧事。她看过水纹，取出一页残缺的货账：每批灵砂都在雨后改道，送往山城；账尾还记着几处泉眼枯竭的日期。\n\n货物与枯泉是否有关，还需要亲自走一趟旧商道。她指出了留有车辙的河岸。",
+        "fallbackBody": "熟悉旧商队的人已经离世。你在临江客栈找到留存的货账抄本，水纹与几次改道的日期仍清楚可辨。没有人替你作证，你决定去商道亲自核实。",
+        "choice": "抄下货账，约定两日后核查",
+        "reply": "货账记载已存下。两日后到临江商道，核对退水后的车辙。"
+      },
+      "discovery": {
+        "id": "main.xiaye.route",
+        "site": "gate",
+        "place": "临江商道",
+        "title": "退水后的车辙",
+        "body": "河水退去，埋在泥中的车辙露了出来。你依照账目找到卸货处，石桩上的纹路与残碑相同。灵砂只是幌子，真正被引走的，是沿途泉眼中的灵气。\n\n石桩上保留着山城旧阵的编号。你需要去{{nextRegion}}寻找记录这座阵法的人。",
+        "choices": [
+          {
+            "id": "follow",
+            "label": "拓下阵号，沿商路入山",
+            "reply": "车辙与阵号互相印证。下一程，前往{{nextRegion}}查找旧阵。"
+          }
+        ]
+      },
+      "volumePackId": "shichai.xiaye",
+      "volumeTitle": "卷二 · 夏夜",
+      "volumeLead": "沿旧驿图抵达临江，先到听潮客栈打听城中人事。这里的人与旧商队，藏着下一程的去处。"
+    },
+    {
+      "id": "qiudeng",
+      "regionName": "青岚山城",
+      "packId": "shichai.qiudeng",
+      "sites": {
+        "market": "shichai.qiudeng.market",
+        "inn": "shichai.qiudeng.inn",
+        "gate": "shichai.qiudeng.gate"
+      },
+      "minRealm": 3,
+      "guide": "shichai.qiudeng.jiangzhaoxue",
+      "guideSite": "gate",
+      "guidePlace": "青岚山门",
+      "arrivalDelay": 2,
+      "dialogue": {
+        "id": "main.qiudeng.chart",
+        "title": "猎人的旧阵图",
+        "body": "{{guide}}听完你追查枯泉的来意，展开一张进山时描下的阵图。山中的兽群一直绕开阵心，灵气却像溪水一般向北流去。\n\n她不替你断定谁在操纵，只让你看清图上的缺口。山城客舍存有旧阵修补的抄录，再等两日，散页便能从库中整理出来。",
+        "fallbackBody": "进山的向导已经离世。客舍保管的遗留阵图仍画着兽群避开的山谷。你依据图中的缺口继续查证，将这份未竟的调查记在自己的行路簿上。",
+        "choice": "接过阵图，等待旧录整理",
+        "reply": "旧阵图已经记下。两日后到山城客舍，核对阵法的改动。"
+      },
+      "discovery": {
+        "id": "main.qiudeng.route",
+        "site": "inn",
+        "place": "青岚问道客舍",
+        "title": "被改过的阵眼",
+        "body": "你把手头的拓纹与旧阵修补抄录并排放好。旧阵原本用于分送山中灵气，后来的修补却逆转了流向。几处枯泉和荒谷，原来是同一条线上的伤口。\n\n最后一份修补记录被送往北地。只有找到它，才知道怎样断开这条暗流，而不伤及依赖泉眼生活的人。",
+        "choices": [
+          {
+            "id": "follow",
+            "label": "记下缺口，前往北地寻卷",
+            "reply": "旧阵的改动已经查明。修成筑基后，前往{{nextRegion}}寻找最后的记录。"
+          }
+        ]
+      },
+      "volumePackId": "shichai.qiudeng",
+      "volumeTitle": "卷三 · 秋灯",
+      "volumeLead": "循阵号来到青岚山城，先在问道客舍安顿，了解此地的人与宗门旧事，再向进山的猎人查证旧阵。"
+    },
+    {
+      "id": "dongxue",
+      "regionName": "霜河城",
+      "packId": "shichai.dongxue",
+      "sites": {
+        "market": "shichai.dongxue.market",
+        "inn": "shichai.dongxue.inn",
+        "gate": "shichai.dongxue.gate"
+      },
+      "minRealm": 4,
+      "guide": "shichai.dongxue.chulian",
+      "guideSite": "market",
+      "guidePlace": "霜河城坊市",
+      "arrivalDelay": 2,
+      "dialogue": {
+        "id": "main.dongxue.notes",
+        "title": "藏书楼的旁注",
+        "body": "{{guide}}认出了你手里的阵图。藏书楼的一册旧卷边缘，写着分流与封阵的方法：强行打碎阵眼会使灵气反冲，唯有等雪融后的水位回落，才能看清各支流的去向。\n\n她把旁注逐字读给你听。走过几座城后，你终于有机会作出自己的判断。",
+        "fallbackBody": "知晓旧卷的人已经离世，藏书楼保存的旁注仍在。你把分流与封阵的记载抄下，独自等待水位回落。最后的判断，需要由走完这一路的你来作。",
+        "choice": "抄下旁注，等候查验支流",
+        "reply": "最后一份旁注已保存。两日后前往霜河雪村，核对全部线索。"
+      },
+      "discovery": {
+        "id": "main.dongxue.ending",
+        "site": "gate",
+        "place": "霜河雪村",
+        "title": "把路还给来人",
+        "body": "你在雪道的石亭里摊开全部记录。沿途收集的拓纹与北地保存的旧阵记录终于相合：被改写的旧阵，一直将各地灵气引向同一处私设阵眼。\n\n你已查明来路，也知道该如何留下证据。可以将封阵方法与拓本一同封存，交由各地共同核查；也可以公开完整记录，让后来的人都有机会辨认这条暗流。无论怎样选择，这一路的见闻都不会被抹去。",
+        "choices": [
+          {
+            "id": "seal",
+            "label": "封存方法，交各地共同核查",
+            "reply": "你封好拓本与封阵方法，留下可核对的记录。残碑寻源至此告一段落；此后的行路，仍由你自己决定。"
+          },
+          {
+            "id": "share",
+            "label": "公开拓本，让后来者查证",
+            "reply": "你将完整拓本留在来往客舍，署下自己的见证。残碑寻源至此告一段落；往后的山河里，仍有未见的故人与新事。"
+          }
+        ]
+      },
+      "volumePackId": "shichai.dongxue",
+      "volumeTitle": "卷四 · 冬雪",
+      "volumeLead": "带着旧阵抄录抵达霜河，先在照雪客栈听取北地见闻。最后的记录与故人的遭际，将汇入这一路的答案。"
+    }
+  ],
+  "surveyDays": 2
+}

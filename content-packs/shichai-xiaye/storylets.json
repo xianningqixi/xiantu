@@ -1,0 +1,2593 @@
+[
+  {
+    "id": "shichai.xiaye.intro",
+    "title": "夏夜长",
+    "eyebrow": "引子 · 卷二",
+    "body": "夏天的坊市夜里比白天热闹。酒肆的灯笼一直亮到三更，商队的驼铃从街头响到街尾，古道口的守夜人把火烧得很旺。云岚境的夏天是妖兽出没的季节，青岚宗派执事下坊市核灵石税，归云门的剑修在古道上巡山，散修们靠护送商队和猎妖换灵石。传闻北边有筑基修士冲金丹失败走火，尸身被人抬着经过坊市，围观的凡人第一次知道，修士也会死，而且死得比凡人难看。\n\n你在客栈的旧书堆里又翻到半页残卷，接着上次那一句：“既济者，非取非予，两不相欠。”你隐约明白了点什么。这一年夏天，你会遇见几个人。她们都有名义上属于谁的东西，可名义从来不算数。",
+    "visualId": "shichai.xiaye.intro",
+    "participants": [],
+    "priority": 55,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "shichai.xiaye.inn"
+      },
+      {
+        "fact": "flag.shichai.xiaye.prologue",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.intro.keep",
+        "label": "把残卷夹进上次那一页",
+        "hint": "记下引子；不影响任何数值。",
+        "reply": "两页残卷叠在一起。夏夜的风从窗缝钻进来。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.prologue"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.intro.pass",
+        "label": "放回书堆",
+        "hint": "不记录引子。",
+        "reply": "你放回残卷。夏夜照旧漫长。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.xiaye.peisi.meet",
+    "title": "算盘珠子",
+    "eyebrow": "夏夜 · 相识",
+    "body": "货栈门口，一个妇人手持算盘核货，伙计们围着她转。她算得极快，算完抬眼看你：“看货还是看人？看货，回春丹八枚，我们家比药铺便宜一枚。看人，不卖。”\n\n她叫{{shichai.xiaye.peisi.name}}，裴氏商队的当家。伙计管她叫“夫人”，她自己不提这个称呼。",
+    "quote": "“青石街上的账，我都清楚。你的账，还没在我这儿开过。”",
+    "visualId": "shichai.xiaye.peisi.cg.meet",
+    "participants": [
+      "shichai.xiaye.peisi"
+    ],
+    "priority": 50,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "shichai.xiaye.market"
+      },
+      {
+        "fact": "actor.shichai.xiaye.peisi.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.met",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.later",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.peisi.meet.greet",
+        "label": "报上姓名，问她商队的路线",
+        "hint": "与{{shichai.xiaye.peisi.name}}相识 · 记入共同经历。",
+        "reply": "她说了三条路线，每条都带着价钱。末了她说：“记住了。下次你的名字会在我账上。”",
+        "effects": [
+          {
+            "kind": "meet",
+            "target": "shichai.xiaye.peisi"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.peisi.flag.met"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.peisi",
+            "text": "{{player.name}}在坊市货栈与裴氏商队当家裴姒相识。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.peisi.meet.later",
+        "label": "先不打扰，改日再说",
+        "hint": "不相识；下次遇到她时还有一次机会。",
+        "reply": "你点点头，她继续拨算盘。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.peisi.flag.later"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.peisi.meet.pass",
+        "label": "只当擦肩而过",
+        "hint": "彻底错过这条线；她仍会在世界里过自己的日子。",
+        "reply": "你从货栈门口走过，算盘声没停。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.xiaye.peisi.meet-again",
+    "title": "账上的名字",
+    "eyebrow": "夏夜 · 再逢",
+    "body": "{{shichai.xiaye.peisi.name}}又在货栈门口。她看见你，把算盘一收：“上次看货不买的那位。今天开账么？”",
+    "visualId": "shichai.xiaye.peisi.cg.meet",
+    "participants": [
+      "shichai.xiaye.peisi"
+    ],
+    "priority": 45,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.peisi.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.later",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.met",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.peisi.again.greet",
+        "label": "报上姓名，开一笔账",
+        "hint": "与{{shichai.xiaye.peisi.name}}相识 · 记入共同经历。",
+        "reply": "她在账上写下你的名字，笔迹很漂亮。",
+        "effects": [
+          {
+            "kind": "meet",
+            "target": "shichai.xiaye.peisi"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.peisi.flag.met"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.peisi",
+            "text": "{{player.name}}在坊市货栈与裴氏商队当家裴姒相识。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.peisi.again.pass",
+        "label": "终究没有开口",
+        "hint": "彻底错过这条线。",
+        "reply": "你没有开账。她也没有留你。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.xiaye.peisi.bond",
+    "title": "脱下一只绣鞋",
+    "eyebrow": "夏夜 · 相知",
+    "body": "酒肆二楼的雅间，{{shichai.xiaye.peisi.name}}独自喝酒，脱了一只绣鞋踩在凳上，毫不在意你看见。“我丈夫沈万山，五年前走火入魔，从那以后不能人道。他把商队交给我，把我当门面。”\n\n她喝了一口酒：“坊市都说我是沈家的夫人。可我连沈家的账都不能看。”",
+    "quote": "“你知道当门面的人最怕什么？怕有人真的看她。”",
+    "visualId": "shichai.xiaye.peisi.cg.bond",
+    "participants": [
+      "shichai.xiaye.peisi"
+    ],
+    "priority": 60,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.peisi.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.met",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.bond",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "player.stones",
+        "op": "gte",
+        "value": 20
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.peisi.bond.a",
+        "label": "陪她喝完这壶酒，听她说完",
+        "hint": "进入相知；记入共同经历。",
+        "reply": "她说到三更，把另一只绣鞋也脱了。你送她回沈府时，她在门口说：“今晚的账记你头上。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.peisi.flag.bond"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.peisi",
+            "text": "{{player.name}}在酒肆雅间陪裴姒饮酒，听她说起丈夫沈万山走火入魔之后的婚姻。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.peisi.bond.b",
+        "label": "帮她把沈家的账算清楚",
+        "hint": "进入相知；不记入经历。",
+        "reply": "你算出三处对不上的地方。她看着账本，眼神慢慢冷下来：“他在瞒我。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.peisi.flag.bond"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.peisi.bond.exit",
+        "label": "说自己不便管别人的家事",
+        "hint": "结束这条线；已有经历保留。",
+        "reply": "她穿上绣鞋，说“你说得对”。此后她见你依旧客气，只谈生意。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.xiaye.peisi.spark",
+    "title": "荷花缸旁的银链",
+    "eyebrow": "夏夜 · 心动",
+    "body": "货栈后院有一口荷花缸。{{shichai.xiaye.peisi.name}}靠在缸边，把腰间的银链解下来放进你手里：“这是沈家给的。戴了五年，今天想摘一夜。”\n\n她的手指在你掌心停了很久：“你要是敢收，就得替我拿一夜。”荷花的香在夏夜里很沉。",
+    "quote": "“我不是要背叛谁。我只是想知道，我这个人还值不值得被人看。”",
+    "visualId": "shichai.xiaye.peisi.cg.spark",
+    "participants": [
+      "shichai.xiaye.peisi"
+    ],
+    "priority": 60,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.peisi.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.bond",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.spark",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.peisi.spark.a",
+        "label": "握住银链，说你拿一夜也拿一世",
+        "hint": "进入心动；记入共同经历。",
+        "reply": "她笑了，眼角的倦意散了一些。她没有把银链要回去。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.peisi.flag.spark"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.peisi",
+            "text": "{{player.name}}在货栈后院接过裴姒摘下的银链，两人第一次越过界。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.peisi.spark.b",
+        "label": "把银链收好，说明早还她",
+        "hint": "进入心动；不记入经历。",
+        "reply": "她说“那你明早得来”。第二天你去还链，她说“再拿一天”。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.peisi.flag.spark"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.peisi.spark.exit",
+        "label": "把银链系回她腰上",
+        "hint": "结束这条线；已有经历保留。",
+        "reply": "她看着你的手，说“你比我丈夫还像个丈夫”。此后她待你如故，只谈生意。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.xiaye.peisi.rival",
+    "title": "主位上的丈夫",
+    "eyebrow": "夏夜 · 情敌",
+    "body": "{{shichai.xiaye.shenwanshan.name}}设宴请你。他坐在主位，豪爽地敬了三杯，然后把{{shichai.xiaye.peisi.name}}的手按在桌上，推向你：“兄弟，我家夫人这五年不易。你是修行人，阳气足，替我陪陪她。”\n\n满座静了。裴姒的手在桌上一动不动，脸色白得像纸。你忽然明白，这场宴席不是撞破，是安排。",
+    "quote": "“沈某走火之后，采不了阳。可夫人采得了。夫人采了，我再从夫人身上……兄弟你懂的。”",
+    "visualId": "shichai.xiaye.peisi.cg.rival",
+    "participants": [
+      "shichai.xiaye.peisi"
+    ],
+    "priority": 75,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.peisi.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.spark",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.contest",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.lost",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "actor.shichai.xiaye.shenwanshan.alive",
+        "op": "eq",
+        "value": true
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.peisi.rival.fight",
+        "label": "站起来，说她不是货",
+        "hint": "争 · 进入初夜路线；沈万山会记住你。",
+        "reply": "沈万山笑容没变，只说“兄弟性子直”。宴散后她在门口拉住你，声音在抖：“你是第一个说不的。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.peisi.flag.contest"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.peisi",
+            "text": "{{player.name}}在沈万山的宴席上拒绝把裴姒当作可以转手的物件，与沈万山当面翻脸。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.peisi.rival.yield",
+        "label": "低头喝酒，装作没听懂",
+        "hint": "让 · 进入被夺结局。",
+        "reply": "沈万山哈哈大笑，说“兄弟真是个明白人”。裴姒抽回手，再也没有看你。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.peisi.flag.lost"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.peisi.rival.leave",
+        "label": "一言不发地离开",
+        "hint": "既不争也不让；这条线停在这里，不再继续。",
+        "reply": "你放下酒杯离席。身后沈万山又敬了一杯。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.xiaye.peisi.rival-partner",
+    "title": "合伙人",
+    "eyebrow": "夏夜 · 情敌 · 灵石在手",
+    "body": "{{shichai.xiaye.shenwanshan.name}}设宴，这回敬的不是酒，是账本。“兄弟灵石不少，做我沈氏的合伙人如何？商队归你管，夫人也归你管。”他把{{shichai.xiaye.peisi.name}}的手按在账本上，推向你。\n\n裴姒抬头看你。她在等你把她和账本分开。",
+    "quote": "“兄弟，货和人，都能入股。”",
+    "visualId": "shichai.xiaye.peisi.cg.rival",
+    "participants": [
+      "shichai.xiaye.peisi"
+    ],
+    "priority": 76,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.peisi.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.spark",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.contest",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.lost",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "actor.shichai.xiaye.shenwanshan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "player.stones",
+        "op": "gte",
+        "value": 100
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.peisi.rival-partner.fight",
+        "label": "推回账本，说人不入股",
+        "hint": "争 · 进入初夜路线；不实际动用灵石。",
+        "reply": "沈万山愣了愣，笑着说“兄弟有意思”。她在桌下握住了你的手。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.peisi.flag.contest"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.peisi",
+            "text": "{{player.name}}拒绝沈万山以裴姒入股的提议，当面表明她不是货。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.peisi.rival-partner.yield",
+        "label": "收下账本",
+        "hint": "让 · 进入被夺结局。",
+        "reply": "你收了账本。她把手抽回去，从此在账上叫你“东家”。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.peisi.flag.lost"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.peisi.rival-partner.leave",
+        "label": "一言不发地离开",
+        "hint": "既不争也不让；这条线停在这里，不再继续。",
+        "reply": "你离席，账本留在桌上。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.xiaye.peisi.rival-gone",
+    "title": "主位空了",
+    "eyebrow": "夏夜 · 空门",
+    "body": "{{shichai.xiaye.shenwanshan.name}}没能等到下一次走火。沈氏商行的匾被摘下，货栈归了{{shichai.xiaye.peisi.name}}。\n\n她坐在主位上，第一次翻开沈家的账。翻到一半她停下来，抬头看你：“他账上有你的名字。他写的是‘阳气’。”",
+    "visualId": "shichai.xiaye.peisi.cg.rival",
+    "participants": [
+      "shichai.xiaye.peisi"
+    ],
+    "priority": 74,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.peisi.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.spark",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.contest",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.lost",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "actor.shichai.xiaye.shenwanshan.alive",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.peisi.gone.stay",
+        "label": "告诉她，那本账烧了吧",
+        "hint": "无人相争，仍需你亲口应下。",
+        "reply": "她真的烧了。火光里她说：“现在我的账上，只有我自己的字。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.peisi.flag.contest"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.peisi",
+            "text": "{{player.name}}在沈万山身故后陪裴姒烧掉他的账本。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.peisi.gone.leave",
+        "label": "把这份沉默留给她",
+        "hint": "这条线停在这里。",
+        "reply": "你没有说话。她把账本合上，收进箱底。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.xiaye.peisi.lost",
+    "title": "院墙外",
+    "eyebrow": "夏夜 · 被夺",
+    "body": "沈府的偏院你进不去，可院墙不高。门缝透出光，{{shichai.xiaye.shenwanshan.name}}在门内说话，声音很温和：“夫人，兄弟不肯，那便还是照老规矩。”\n\n你听见{{shichai.xiaye.peisi.name}}跪坐下去的声音，听见她说“是”。你想起那条银链，还在你行囊里。她被他一点一点采干，而你把她推回了那张桌子。\n\n门缝里的光很长，把她跪坐的影子投在地上。沈万山的声音始终温和，像谈一笔旧账，不像在要人。\n\n“还是照老规矩。夫人先把阳气收全，我再从夫人身上取。兄弟不肯，便不能怪我。你我夫妻一场，这点规矩，夫人懂的。”\n\n她应了一声“是”，很轻。衣料落地的声音随后响起，不算乱，像她自己一件件解的。你贴在墙外，砖上的苔凉到掌心。院墙不高，可你没有翻。你已经在宴席上低过一次头，再翻过去，也只是把那次低头变成笑话。\n\n你听见他让她坐好，听见他问“账还记得吗”。她又说“是”。然后是一种你听过的节奏，却比任何一处客栈都更机械——他不急，也不哄，只按图谱上的路一寸寸采。她起初还能把呼吸压住，后来压不住，嗓子里溢出短促的声音，不是欢，是被抽空时的那种颤。\n\n“别咬唇。”沈万山仍旧温和，“咬破了，明日见客不好看。你是沈家的门面。”\n\n门内静了一息。她松开牙，那点声音便漏出来，一声一声，像算盘珠子被拨走。你想起荷花缸旁她把银链放进你手里的样子，想起她说“你要是敢收，就得替我拿一夜”。链子还在你行囊里。你本可以不低头喝酒。你本可以说她不是货。\n\n你把她推回了那张桌子。\n\n后半夜光暗了又亮。他大约是在收功。她咳嗽了两声，很轻，像怕被人听见。沈万山说：“睡吧。明日照常开市。阳气我收下了，夫人好好养着，过些日子还要再用。”\n\n墙外的夏虫叫到天快亮。你没有走。你知道门一开她会看见你，也会看见你手里那条链。你已经把该听的都听完了。羞辱的不是跪着说“是”的人，是站在墙外把她让回去的人。荷花的香从后院飘过来，很沉，像五年都没散。",
+    "quote": "“老规矩。夫人先去坊市找个人，回来我再……”",
+    "visualId": "shichai.xiaye.peisi.cg.lost",
+    "participants": [],
+    "priority": 85,
+    "conditions": [
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.lost",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.peisi.lost.swallow",
+        "label": "在院墙外听到天明",
+        "hint": "记入你独自承受的经历；结束这条线。",
+        "reply": "天亮时门开了。她走出来，看见你，把手伸出来，说“链子还我”。你还了。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.peisi.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.peisi.lost.turn",
+        "label": "把银链扔进荷花缸",
+        "hint": "结束这条线，不再记挂。",
+        "reply": "银链沉到缸底。后来货栈换了掌柜，没人提起她。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.peisi.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.peisi.lost.exit",
+        "label": "合上这一页",
+        "hint": "结束这段文字，不作任何记录。",
+        "reply": "你合上这一页。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.xiaye.peisi.night",
+    "title": "卸下发簪",
+    "eyebrow": "夏夜 · 初夜",
+    "body": "客栈上房。{{shichai.xiaye.peisi.name}}褪去外衫，只剩中衣，坐在床沿慢慢卸下发簪。“我嫁过人，可我没被人要过。他要的是我身上能采的东西，不是我。”\n\n她把发簪放在枕边，抬头看你：“你要的是什么？”\n\n你没有立刻答。灯芯跳了一下。她等着，中衣领口松着，剩下的发丝贴在颈侧，眼里那点倦意今晚不是装出来的从容。上房很静，只有楼下偶尔一声驼铃。\n\n你说：“要你。一丝也不采。”\n\n她盯着你，像在核一笔账，核到最后才点头。“说话算数。今晚你要是敢采我一丝，我就把银链塞回你嘴里。”\n\n你应了。她自己解开中衣，动作利落，不像新婚，像把一件压了五年的货从架上取下来。胸乳落出来时她没有躲，只把你的手按上去，掌心对着她心口那一点热：“看。不是丹，不是灵石。是我。”\n\n她嫁过，身子却生涩。沈万山走火之后不能人道，所谓夫妻不过一块招牌。你进去的时候她咬住下唇，腿绷得很紧，手指扣进你肩里。痛是有的，她不喊，只在你耳边说：“慢。我要自己感觉。我嫁过人，可我没被人要过。这一回，得我自己点头。”\n\n你依她。灯把两个人的影子叠在墙上，她渐渐从紧里松开，腰开始自己迎。精明的人连这件事也算得清楚：哪里可以，哪里要停一停，呼吸乱到哪一步该换一口气。算到后来她算不动了，眼尾红着，声音发哑：“别停。不是采。是要。”\n\n你守着那句话，灵气收在经脉里一丝不放。她热起来，五年没被人真正碰过的地方又湿又紧，每一次都把你绞住。她忽然抬眼，确认你没有顺着她的脉偷走什么，确认完便把脸埋进你颈窝，发簪在枕边轻轻响了一下。\n\n完事之后她在你怀里哭了一场。不是委屈，是账平了。哭完又笑，倦意散开，用指腹抹自己的眼角，说：“原来这才叫要。我从前连这两个字都不会写。”\n\n天亮前她把发簪握在手里，没有插回去。中衣堆在床尾，她看着你，第一次没有用看货的眼神看人。",
+    "quote": "“今晚你要是敢采我一丝，我就把银链塞回你嘴里。”",
+    "visualId": "shichai.xiaye.peisi.cg.night",
+    "participants": [
+      "shichai.xiaye.peisi"
+    ],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.peisi.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "shichai.xiaye.inn"
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.contest",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.night",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.peisi.night.stay",
+        "label": "告诉她，你什么都不采，只要她",
+        "hint": "记入共同经历；不改变灵石、物品或数值。",
+        "reply": "她在你怀里哭了一场，然后笑了。天亮时她说：“原来这才叫要。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.peisi.flag.night"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.peisi",
+            "text": "{{player.name}}与裴姒在客栈上房共度初夜。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.peisi.night.stop",
+        "label": "替她把发簪插回去",
+        "hint": "止步于此；这条线到此为止。",
+        "reply": "她愣住，然后轻声说“你比我想的还狠”。这一夜后来没有再来。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.xiaye.peisi.dual",
+    "title": "暗格里的图谱",
+    "eyebrow": "夏夜 · 双修",
+    "body": "沈府密室。{{shichai.xiaye.peisi.name}}揭开墙上的暗格，里面是{{shichai.xiaye.shenwanshan.name}}的采补图谱：先让她与人合修得阳，再由他从她身上取走。“五年，每一次都是这样。我一直以为是我不行。”\n\n她坐下来，把图谱翻到最后一页，那里画着一个她没见过的法门：“你说过的‘既济’。取和予都不是。我想试试两不相欠是什么滋味。”\n\n她把图谱摊在两人中间。那些图是教人怎么从她身上抽阳的：先让她被人灌满，再由沈万山一寸寸取走。穴位、时辰、呼吸，都标得清楚。她指尖点过自己腰间、胸口、丹田的位置，声音很稳：“五年，我每次合修完都虚。我当是自己不行。原来不行的不是我。”\n\n你握住她的手：“今晚不按这张图。”\n\n既济起手极慢。你们对坐，后来她跨到你身上，中衣褪到腰际。阳气与阴气在交合处相会，不往任何一方倾。她起初还防着，丹田里有一道旧禁，像沈万山留的闸。你每进一分，那闸就咯一声，像算盘珠子被硬拨开。\n\n“疼？”\n\n“不是疼。”她咬着牙，“是它在拦。拦了五年。今晚要它让。”\n\n你依着既济逆着图谱走。他画的是取，你们走的是还。灵气在两人之间逆流，先是细线，后来成河。她被取走的那些零碎——一层一层薄了的修为、被抽空的暖意、夜里自己都养不回来的那点底气——顺着交合的地方一点点回到她经脉里。她的身子越来越热，越来越紧，腿夹着你的腰，额头抵着你的额头，呼吸里带着湿。\n\n转过第四个周天时暗格里的纸自己焦了边。她忽然仰头，一声压得很低的喘，内里绞着你不放。灵气灌回她四肢百骸，像把一件旧衣重新熨烫，连指尖都开始发暖。\n\n第七个周天落定时她睁开眼。脸色红润，鬓边有汗，不像那个在宴席上被按住手的人，像另一个人。\n\n她低头看自己的手，又看你，笑了一下，眼里那点倦意淡了：“回来了。是我的。这回不是他安排的。是我。”\n\n图谱在案上烧成灰。她没有去救。密室里只剩两个人的呼吸，和一点点还没散尽的暖白。",
+    "quote": "“这回不是他安排的。是我。”",
+    "visualId": "shichai.xiaye.peisi.cg.dual",
+    "participants": [
+      "shichai.xiaye.peisi"
+    ],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.peisi.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "player.manual",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.night",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.dual",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.peisi.dual.go",
+        "label": "与她对坐，以既济之法逆转采补的路",
+        "hint": "记入共同经历；修为增长由正常修炼规则决定，这里不发放数值。",
+        "reply": "灵气在两人之间逆流，图谱上那些取走的东西一点一点回到她身上。她睁开眼时脸色红润得像另一个人。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.peisi.flag.dual"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.peisi",
+            "text": "{{player.name}}与裴姒在沈府密室以既济之法逆转沈万山的采补图谱，她第一次夺回自己的修为。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.peisi.dual.stop",
+        "label": "劝她把图谱烧了就好",
+        "hint": "止步于此；这条线到此为止。",
+        "reply": "她烧了图谱，没有再提那一页。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.xiaye.peisi.vow",
+    "title": "驼铃",
+    "eyebrow": "夏夜 · 道侣",
+    "body": "商队出发的清晨，{{shichai.xiaye.peisi.name}}骑在骆驼上，回头看沈府的匾。“我给沈万山留了一封休书。商队是我的，货是我的，账也是我的。”\n\n她伸手把你拉上骆驼：“你的名字在我账上五年了。现在换个写法。”",
+    "quote": "“不叫东家，不叫兄弟。叫什么，你自己填。”",
+    "visualId": "shichai.xiaye.peisi.cg.vow",
+    "participants": [
+      "shichai.xiaye.peisi"
+    ],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.peisi.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.dual",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.vow",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.peisi.vow.bind",
+        "label": "接过缰绳，与她一起出坊市",
+        "hint": "结为道侣 · 记入共同经历，收束本线。",
+        "reply": "驼铃从街头响到街尾。她靠在你背上，说“这回是我拿一世”。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.peisi.flag.vow"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.peisi.flag.closed"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.peisi",
+            "text": "{{player.name}}与裴姒结为道侣，随她的商队离开沈府。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.peisi.vow.friend",
+        "label": "送她到坊市口，说你还有路要走",
+        "hint": "只做知己 · 收束本线。",
+        "reply": "她说“那我账上给你留一行”。你们从此是彼此最信得过的人。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.peisi.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.peisi.vow.exit",
+        "label": "此刻不答",
+        "hint": "不作决定；这条线停在这里。",
+        "reply": "你没有上骆驼。商队走远了。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.xiaye.peisi.mourn",
+    "title": "珠子停在一半",
+    "eyebrow": "夏夜 · 身故",
+    "body": "货栈门口挂着{{shichai.xiaye.peisi.name}}的算盘，珠子停在一半。伙计们说，她最后一笔账没算完。\n\n你把那笔账算完了，是你的名字。",
+    "visualId": "shichai.xiaye.peisi.cg.mourn",
+    "participants": [],
+    "priority": 100,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.peisi.alive",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.met",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.peisi.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.peisi.mourn.close",
+        "label": "把算盘收进行囊",
+        "hint": "收束本线；不复活、不改写已有经历。",
+        "reply": "算盘珠子你没再动过。她的账，就停在那里。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.peisi.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.peisi.mourn.exit",
+        "label": "合上这一页",
+        "hint": "结束这段文字，不作记录。",
+        "reply": "你合上这一页。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.xiaye.shenqiyue.meet",
+    "title": "撒了一地的木牌",
+    "eyebrow": "夏夜 · 相识",
+    "body": "古道上有人摔倒了。一个浅青弟子服的姑娘趴在石阶上，腰间的木牌撒了一地，每一块都写满了字。她爬起来先说“对不起”，然后才看你。\n\n“我、我是青岚宗外门的{{shichai.xiaye.shenqiyue.name}}。对不起挡了路。对不起。”她一块块捡木牌，手在抖。",
+    "quote": "“木牌上记的是我不能忘的事。可我总忘。”",
+    "visualId": "shichai.xiaye.shenqiyue.cg.meet",
+    "participants": [
+      "shichai.xiaye.shenqiyue"
+    ],
+    "priority": 50,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "shichai.xiaye.gate"
+      },
+      {
+        "fact": "actor.shichai.xiaye.shenqiyue.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.met",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.later",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.shenqiyue.meet.greet",
+        "label": "蹲下帮她捡，报上姓名",
+        "hint": "与{{shichai.xiaye.shenqiyue.name}}相识 · 记入共同经历。",
+        "reply": "她捡完最后一块，小声说了第三次对不起，然后把你的名字写在一块新木牌上。",
+        "effects": [
+          {
+            "kind": "meet",
+            "target": "shichai.xiaye.shenqiyue"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.shenqiyue.flag.met"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.shenqiyue",
+            "text": "{{player.name}}在山门古道帮青岚宗外门弟子沈栖月捡起散落的木牌，两人相识。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.shenqiyue.meet.later",
+        "label": "先不打扰，改日再说",
+        "hint": "不相识；下次遇到她时还有一次机会。",
+        "reply": "你侧身让路，她抱着木牌鞠了一躬。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.shenqiyue.flag.later"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.shenqiyue.meet.pass",
+        "label": "只当擦肩而过",
+        "hint": "彻底错过这条线；她仍会在世界里过自己的日子。",
+        "reply": "你从她身边走过。她还在捡。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.xiaye.shenqiyue.meet-again",
+    "title": "木牌上的名字",
+    "eyebrow": "夏夜 · 再逢",
+    "body": "{{shichai.xiaye.shenqiyue.name}}又在古道上。她的木牌少了两块，看见你，她先鞠躬：“上次的、那位。对不起，我没记住名字。”",
+    "visualId": "shichai.xiaye.shenqiyue.cg.meet",
+    "participants": [
+      "shichai.xiaye.shenqiyue"
+    ],
+    "priority": 45,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.shenqiyue.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.later",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.met",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.shenqiyue.again.greet",
+        "label": "这次报上姓名",
+        "hint": "与{{shichai.xiaye.shenqiyue.name}}相识 · 记入共同经历。",
+        "reply": "她认认真真写在木牌上，写完举给你看：“这次不会忘了。”",
+        "effects": [
+          {
+            "kind": "meet",
+            "target": "shichai.xiaye.shenqiyue"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.shenqiyue.flag.met"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.shenqiyue",
+            "text": "{{player.name}}在山门古道帮青岚宗外门弟子沈栖月捡起散落的木牌，两人相识。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.shenqiyue.again.pass",
+        "label": "终究没有开口",
+        "hint": "彻底错过这条线。",
+        "reply": "你摆摆手走了。她低头看着空木牌。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.xiaye.shenqiyue.bond",
+    "title": "抄错的功法",
+    "eyebrow": "夏夜 · 相知",
+    "body": "古道旁的守夜小屋，{{shichai.xiaye.shenqiyue.name}}在灯下抄功法，抄错一行就划掉，划了满纸。“我灵根是纯阴的，师父说要找阳属的人合修才能平衡。门里都说陆师兄合适。可我……我一想到要靠别人，就抄错。”\n\n她把笔放下，低头：“对不起，跟你说这些。”",
+    "quote": "“陆师兄很好。好到我不敢欠他。”",
+    "visualId": "shichai.xiaye.shenqiyue.cg.bond",
+    "participants": [
+      "shichai.xiaye.shenqiyue"
+    ],
+    "priority": 60,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.shenqiyue.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.met",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.bond",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "player.manual",
+        "op": "eq",
+        "value": true
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.shenqiyue.bond.a",
+        "label": "告诉她，不欠也可以合修",
+        "hint": "进入相知；记入共同经历。",
+        "reply": "她抬起头，眼睛睁得很圆：“可以么？”你说可以。她把那张划满的纸折起来收进袖子。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.shenqiyue.flag.bond"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.shenqiyue",
+            "text": "{{player.name}}在古道守夜小屋听沈栖月说起纯阴灵根与合修之事，告诉她不欠人也能修。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.shenqiyue.bond.b",
+        "label": "替她把抄错的几行改正",
+        "hint": "进入相知；不记入经历。",
+        "reply": "你改了七处。她看着说“你比陆师兄还细”。然后又说了对不起。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.shenqiyue.flag.bond"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.shenqiyue.bond.exit",
+        "label": "劝她听师父的话",
+        "hint": "结束这条线；已有经历保留。",
+        "reply": "她点头，说“你说得对”。此后她见你只鞠躬，不再说话。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.xiaye.shenqiyue.spark",
+    "title": "溪水凉",
+    "eyebrow": "夏夜 · 心动",
+    "body": "古道溪边。{{shichai.xiaye.shenqiyue.name}}把手伸进溪水里：“师父说纯阴的人怕凉，可我不怕。”你握住她的手腕，教她把灵气从溪水里引回来。\n\n她的手腕在你掌心里很细，也很凉。引回来的那一刻她忽然说：“暖的。”然后脸红到耳根，又说了对不起。",
+    "quote": "“对不起。这次不是道歉。是……我不知道该说什么。”",
+    "visualId": "shichai.xiaye.shenqiyue.cg.spark",
+    "participants": [
+      "shichai.xiaye.shenqiyue"
+    ],
+    "priority": 60,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.shenqiyue.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.bond",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.spark",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.shenqiyue.spark.a",
+        "label": "告诉她，以后不用再对不起",
+        "hint": "进入心动；记入共同经历。",
+        "reply": "她的嘴张了张，把那三个字咽了回去。溪水从两人手边流过。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.shenqiyue.flag.spark"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.shenqiyue",
+            "text": "{{player.name}}在古道溪边握住沈栖月的手腕教她引气，她第一次没有道歉。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.shenqiyue.spark.b",
+        "label": "替她把袖子卷好，说下次再试",
+        "hint": "进入心动；不记入经历。",
+        "reply": "她小声说“下次”，脸还是红的。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.shenqiyue.flag.spark"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.shenqiyue.spark.exit",
+        "label": "松开手，说溪水太凉了",
+        "hint": "结束这条线；已有经历保留。",
+        "reply": "她把手收回袖子里，说“对不起”。此后她待你客气，不再让你碰她的手。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.xiaye.shenqiyue.rival",
+    "title": "玉牌",
+    "eyebrow": "夏夜 · 情敌",
+    "body": "{{shichai.xiaye.luqingyao.name}}站在山门前，一身内门白衣，手里拿着一枚玉牌：“师妹，师父把道侣玉牌给我了。我没答应。我说要问你。”\n\n他看向你，微微一笑，没有敌意：“道友，我知道你的事。师妹想选谁，我都不拦。可我想请道友也说一句实话。”{{shichai.xiaye.shenqiyue.name}}站在两人之间，木牌攥得咯咯响。",
+    "quote": "“师妹不用道歉。选谁都不用。”陆青遥说。",
+    "visualId": "shichai.xiaye.shenqiyue.cg.rival",
+    "participants": [
+      "shichai.xiaye.shenqiyue"
+    ],
+    "priority": 75,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.shenqiyue.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.spark",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.contest",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.lost",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "actor.shichai.xiaye.luqingyao.alive",
+        "op": "eq",
+        "value": true
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.shenqiyue.rival.fight",
+        "label": "说实话：你要她，也会护她",
+        "hint": "争 · 进入初夜路线；陆青遥会退，也会记住。",
+        "reply": "陆青遥点点头，把玉牌收回袖中：“那我等师妹说。”她看着你，眼睛里有水光，这回没有道歉。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.shenqiyue.flag.contest"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.shenqiyue",
+            "text": "{{player.name}}在青岚宗山门前当着陆青遥的面向沈栖月表明心意。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.shenqiyue.rival.yield",
+        "label": "说自己配不上，让她选师兄",
+        "hint": "让 · 进入被夺结局。",
+        "reply": "她愣了很久，然后对陆青遥鞠了一躬。陆青遥看了你一眼，那一眼有些惋惜。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.shenqiyue.flag.lost"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.shenqiyue.rival.leave",
+        "label": "一言不发地离开",
+        "hint": "既不争也不让；这条线停在这里，不再继续。",
+        "reply": "你转身下山。身后没有人喊你。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.xiaye.shenqiyue.rival-shamed",
+    "title": "失信的人配不配",
+    "eyebrow": "夏夜 · 情敌 · 失信",
+    "body": "{{shichai.xiaye.luqingyao.name}}站在山门前，手里拿着道侣玉牌，神情却不是平日的温和：“道友，坊市传你对林晚姑娘失约。师妹信人信得太重，我不能不问。”\n\n{{shichai.xiaye.shenqiyue.name}}低着头，木牌攥在手里，小声说：“是真的么？”她没有说对不起。",
+    "quote": "“我可以退。但我不能把师妹交给一个会失约的人。”",
+    "visualId": "shichai.xiaye.shenqiyue.cg.rival",
+    "participants": [
+      "shichai.xiaye.shenqiyue"
+    ],
+    "priority": 80,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.shenqiyue.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.spark",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.contest",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.lost",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "actor.shichai.xiaye.luqingyao.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "official.outcome",
+        "op": "eq",
+        "value": "breached"
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.shenqiyue.rival-shamed.fight",
+        "label": "承认失约，把缘由说清楚，请她自己判断",
+        "hint": "争 · 她未必信你；进入初夜路线仍需后续。",
+        "reply": "她听完，抬起头：“那你以后不许再失约。”陆青遥沉默片刻，收起玉牌。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.shenqiyue.flag.contest"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.shenqiyue",
+            "text": "{{player.name}}在陆青遥面前向沈栖月坦白自己曾对林晚失约，求她自己判断。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.shenqiyue.rival-shamed.yield",
+        "label": "无话可说",
+        "hint": "让 · 进入被夺结局。",
+        "reply": "她对你鞠了一躬，然后接过了玉牌。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.shenqiyue.flag.lost"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.shenqiyue.rival-shamed.leave",
+        "label": "一言不发地离开",
+        "hint": "既不争也不让；这条线停在这里，不再继续。",
+        "reply": "你转身下山。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.xiaye.shenqiyue.rival-gone",
+    "title": "玉牌无人递",
+    "eyebrow": "夏夜 · 空门",
+    "body": "青岚宗传来消息，{{shichai.xiaye.luqingyao.name}}没能撑过这一劫。道侣玉牌被收回宗门。\n\n{{shichai.xiaye.shenqiyue.name}}在守夜小屋里坐了三天。第四天她说：“陆师兄临走前把玉牌给了我，说让我自己给谁都行。”她把玉牌放在桌上，没有看你。",
+    "visualId": "shichai.xiaye.shenqiyue.cg.rival",
+    "participants": [
+      "shichai.xiaye.shenqiyue"
+    ],
+    "priority": 74,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.shenqiyue.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.spark",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.contest",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.lost",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "actor.shichai.xiaye.luqingyao.alive",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.shenqiyue.gone.stay",
+        "label": "告诉她，你等她自己给",
+        "hint": "无人相争，仍需你亲口应下。",
+        "reply": "她把玉牌推到你面前，说：“不是因为没人了。是因为是你。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.shenqiyue.flag.contest"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.shenqiyue",
+            "text": "{{player.name}}在陆青遥身故后接过沈栖月自己递来的道侣玉牌。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.shenqiyue.gone.leave",
+        "label": "把这份沉默留给她",
+        "hint": "这条线停在这里。",
+        "reply": "你没有伸手。玉牌留在桌上。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.xiaye.shenqiyue.lost",
+    "title": "她笑得很真",
+    "eyebrow": "夏夜 · 被夺",
+    "body": "青岚宗内门的婚礼，你站在人群最后。{{shichai.xiaye.shenqiyue.name}}穿着红衣站在{{shichai.xiaye.luqingyao.name}}身边，真心在笑，一次也没有道歉。\n\n最难受的不是她走了。是她过得好。入夜后内门的灯亮了很久，你在山门外坐着，想起溪水的凉。她在里面，终于暖了，暖的人不是你。\n\n山门在夜里也不关。内门灯火隔着一道门槛，红绸被风吹得猎猎响。喜宴散了很久，还有人在廊下说陆师兄今晚把人娶回去了，说她穿红衣很好看，说她一次也没有道歉。没有人提起你。\n\n你坐在山门外的石阶上。隔着好几进院子，房里的灯亮着，窗纸上只是两个人并坐的影子，安安静静。没有哭，没有求，也没有那三个字漏出来。她在里面，连笑声都是稳的。你听得见杯盏轻轻碰了一下，听得见她应了一句“嗯”，干净，没有后半截。\n\n过了一会儿，{{shichai.xiaye.luqingyao.name}}出来倒茶，看见你。他没有过那条门槛，也不问你为什么还坐在这里。他只拱手，声音温和，从不逼人，连这一句也不逼：\n\n“道友，谢谢你让她学会不说对不起。”\n\n你无话可答。他点点头，把茶盏放稳，转身回去。灯没有灭。窗纸上的两个人影重新并在一起，像本来就该那样坐着。\n\n你想起古道上的溪水有多凉，想起守夜小屋里她把脸埋进你胸口时说“就打断我”。她做到了。她可以一整夜不道歉，也可以穿红衣站在该站的人身边，过得很好。最难受的不是她走了，是暖的人不是你。陆青遥不是恶人。她在他身边不必再笨拙地解释自己。\n\n山风把红绸吹到后半夜。你没有推门，也没有往窗下走近一步。门里的日子会好好过下去——这才是你让出去的东西。石阶凉到天明，内门的灯才一盏盏暗了。你起身时红绸还在响，像一场与你无关的喜。溪水在山门下响了一夜，凉的还是凉，暖过的人已经进了门。你把这一夜记住了，没有写下，也没有对人说。",
+    "quote": "“道友，谢谢你让她学会不说对不起。”陆青遥在门口对你说。",
+    "visualId": "shichai.xiaye.shenqiyue.cg.lost",
+    "participants": [],
+    "priority": 85,
+    "conditions": [
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.lost",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.shenqiyue.lost.swallow",
+        "label": "在山门外坐到天亮",
+        "hint": "记入你独自承受的经历；结束这条线。",
+        "reply": "天亮时她从门里出来，看见你，笑着鞠了一躬。你记住了那个笑。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.shenqiyue.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.shenqiyue.lost.turn",
+        "label": "下山，不再回头",
+        "hint": "结束这条线，不再记挂。",
+        "reply": "你没有再走那条古道。后来听说她修为进得很快。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.shenqiyue.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.shenqiyue.lost.exit",
+        "label": "合上这一页",
+        "hint": "结束这段文字，不作任何记录。",
+        "reply": "你合上这一页。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.xiaye.shenqiyue.night",
+    "title": "守夜小屋",
+    "eyebrow": "夏夜 · 初夜",
+    "body": "古道守夜小屋，篝火。{{shichai.xiaye.shenqiyue.name}}把弟子服的领口解开一点，脸埋在你胸口：“师父说纯阴的人第一次会很疼。我不怕。我只怕又说对不起。”\n\n她抬头看你，眼睛很亮：“你要是听见我说了，就……就打断我。”\n\n篝火把小屋照成一块暖的地方。她弟子服只解开了领口，手却抖。你问她要不要停，她拼命摇头，又把那句要出口的“对不起”咬回去，牙齿在下唇上留下浅印。\n\n“不说了。”她重复了一遍，像立规矩，“你要是听见我说了，就打断我。今晚不许说。”\n\n纯阴灵根碰上来时真的凉，凉得你一怔。她感觉到了，慌忙要解释，你用吻堵住。她不会接吻，牙齿碰到你的唇，笨拙得厉害，却不肯退。火光在她眼里跳，像她把整个人的认真都押在这一晚上。\n\n你进去的时候她整个人绷直，指节扣白。疼是有的，师父说得没错，纯阴第一次会疼。她不怕疼，只把脸埋进你颈窝，呼吸乱成一团。你停着等她。过了很久她才哑着嗓子说：“可以。不是要你道歉。是我自己要。”\n\n你慢慢动。她的凉一点点化开，内里从紧涩变成湿软，腿也学会环你的腰。认真的人连这种事都做得一丝不苟，迎合的角度都在学，学不会就再试一次。学到后来她不会了，只会抓你的背，把声音全部闷在喉咙里——她怕一开口，那三个字会自己跑出来。\n\n整夜她都没有说对不起。疼的时候没有，快要到的时候没有，过了之后靠在你胸口喘气的时候也没有。她只是看着你，眼睛很亮，像守住了一件很重要的东西。有一次她张了张嘴，你以为那三个字要来，她却只是喊了你的名字，随即把脸藏起来。\n\n你的阳气没有去补她，只在交合处与那层冷银缠在一起。她的灵根第一次不那么凉。她把手放在自己小腹上，小声说：“暖的。是我的暖。不是偷来的。”\n\n篝火塌下去的时候她已经睡着了，嘴角还抿着，像防着梦里也会道歉。小屋外古道有风，火塘里最后那一点红一直亮到后半夜。",
+    "quote": "“对不……”她咬住嘴唇，“不说了。”",
+    "visualId": "shichai.xiaye.shenqiyue.cg.night",
+    "participants": [
+      "shichai.xiaye.shenqiyue"
+    ],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.shenqiyue.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "shichai.xiaye.gate"
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.contest",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.night",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.shenqiyue.night.stay",
+        "label": "抱紧她，替她把那三个字堵回去",
+        "hint": "记入共同经历；不改变灵石、物品或数值。",
+        "reply": "她那一夜说了很多话，没有一句是对不起。天亮时她的灵根第一次不那么凉。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.shenqiyue.flag.night"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.shenqiyue",
+            "text": "{{player.name}}与沈栖月在古道守夜小屋共度初夜。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.shenqiyue.night.stop",
+        "label": "替她把领口系好，守着篝火到天亮",
+        "hint": "止步于此；这条线到此为止。",
+        "reply": "她说“谢谢”，没有说对不起。这一夜后来没有再来。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.xiaye.shenqiyue.dual",
+    "title": "冷银与青",
+    "eyebrow": "夏夜 · 双修",
+    "body": "古道尽头的月下平台。{{shichai.xiaye.shenqiyue.name}}盘坐，灵气是冷银色的；你的是青色。她说：“陆师兄教过我合修的法门，可他说那是取阳补阴，我总觉得像在偷。”\n\n她把手伸出来：“你说过既济。两不相欠。我想试试不偷的。”冷银与青在两人之间交汇，变成暖白。\n\n冷银与青在两人相接的地方缠成一缕暖白，先是细，后来稳。她跨坐着，弟子服褪到臂弯，动作仍旧笨，可不再问“这样对不对”。月在平台正中，把两个人的影子拉得很长。\n\n“陆师兄那套，是取阳补阴。”她咬着字，说得极认真，“我练的时候总觉得自己在偷。偷他的，也偷自己的。既济要是也这样，你就停。我不怕停，我怕再欠。”\n\n你按着她的腰，让灵气不往任何一边倒：“既济不是偷。转周天，一圈还一圈。谁也不欠谁。”\n\n第一圈她还在数息，眉心皱着，像在做功课。第二圈她的纯阴不再往外吞你的阳，开始自己转。第三圈暖白顺着任督走，她忽然低喘出声，内里绞紧，手指在你肩上留下印。她张了张嘴，把那句习惯性的道歉咽回去，只说：“别停。我没有要说对不起。”\n\n第四圈到第六圈，她肩上那层常年不化的寒意一点点褪。月光照着两个人的交合处，水色里有细碎的银光，又有青，最后都变成白。经脉里那些发僵的地方被暖白一一走过，像冰河开了缝。她不再像在还债，像在把多年欠自己的暖一口一口讨回来。\n\n第七圈落定时她整个人软在你身上，额发被汗贴住。灵气在她经脉里走完一圈完整的周天，没有缺，也没有余。她睁开眼，看着自己的手，又看着你，第一次没有先低头。\n\n“原来不是我笨。”她的声音很轻，却没有道歉的尾音，“是我一直在学怎么欠人。这一回，两不相欠。”\n\n月还在。平台上的暖白慢慢散开，她的灵根不再是一块冰，是一汪能自己发热的水。她把额头抵在你肩上，安静地坐了很久，一句话也不多说。风从古道尽头来，带着一点凉，可她身上那点暖没有退。",
+    "quote": "“原来不是我笨。是我一直在学怎么欠人。”",
+    "visualId": "shichai.xiaye.shenqiyue.cg.dual",
+    "participants": [
+      "shichai.xiaye.shenqiyue"
+    ],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.shenqiyue.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "player.manual",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.night",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.dual",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.shenqiyue.dual.go",
+        "label": "与她以既济之法合修",
+        "hint": "记入共同经历；修为增长由正常修炼规则决定，这里不发放数值。",
+        "reply": "暖白的灵气转了七个周天。她睁开眼说：“我以后不抄木牌了。记得住。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.shenqiyue.flag.dual"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.shenqiyue",
+            "text": "{{player.name}}与沈栖月在古道月下以既济之法合修，她的纯阴灵根第一次自行平衡。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.shenqiyue.dual.stop",
+        "label": "只陪她坐到月落",
+        "hint": "止步于此；这条线到此为止。",
+        "reply": "她说“也好”。冷银色的灵气还是凉的，只是不那么怕了。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.xiaye.shenqiyue.vow",
+    "title": "扔进溪里的木牌",
+    "eyebrow": "夏夜 · 道侣",
+    "body": "青岚宗外门院墙外，{{shichai.xiaye.shenqiyue.name}}把腰间的木牌一块块摘下来，扔进溪里。“不用记了。要记的事我都记得。”\n\n最后一块她没扔，是写着你名字的那块。她把它塞进你手里：“这块你拿着。丢了我可不会再写。”",
+    "quote": "“师父问我选谁，我说我选不欠的那个。”",
+    "visualId": "shichai.xiaye.shenqiyue.cg.vow",
+    "participants": [
+      "shichai.xiaye.shenqiyue"
+    ],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.shenqiyue.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.dual",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.vow",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.shenqiyue.vow.bind",
+        "label": "收下木牌，和她一起看溪水",
+        "hint": "结为道侣 · 记入共同经历，收束本线。",
+        "reply": "木牌顺流而下。她靠在你肩上，说“以后我们不欠谁，也不欠彼此”。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.shenqiyue.flag.vow"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.shenqiyue.flag.closed"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.shenqiyue",
+            "text": "{{player.name}}与沈栖月结为道侣，收下她唯一留下的木牌。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.shenqiyue.vow.friend",
+        "label": "把木牌还给她，说你要远行",
+        "hint": "只做知己 · 收束本线。",
+        "reply": "她收回木牌，说“那这块我留着，你回来再要”。你们从此是彼此最信得过的人。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.shenqiyue.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.shenqiyue.vow.exit",
+        "label": "此刻不答",
+        "hint": "不作决定；这条线停在这里。",
+        "reply": "你没有伸手。木牌落进溪里。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.xiaye.shenqiyue.mourn",
+    "title": "字迹晕开",
+    "eyebrow": "夏夜 · 身故",
+    "body": "古道石阶上散落着木牌，字迹被雨水晕开。你一块块捡起来，最后一块写着你的名字。\n\n{{shichai.xiaye.shenqiyue.name}}不在了。你想起她第一次没有道歉的那个下午。",
+    "visualId": "shichai.xiaye.shenqiyue.cg.mourn",
+    "participants": [],
+    "priority": 100,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.shenqiyue.alive",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.met",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.shenqiyue.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.shenqiyue.mourn.close",
+        "label": "把木牌带走",
+        "hint": "收束本线；不复活、不改写已有经历。",
+        "reply": "木牌晒干后你用绳子串起来。她的话没有人续写，但也没有人改写。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.shenqiyue.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.shenqiyue.mourn.exit",
+        "label": "合上这一页",
+        "hint": "结束这段文字，不作记录。",
+        "reply": "你合上这一页。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.xiaye.liuhanyan.meet",
+    "title": "酒旗",
+    "eyebrow": "夏夜 · 相识",
+    "body": "酒肆柜台后的老板娘倚着柜台笑：“客官面生。喝什么？我们家的青梅酒坊市第一，不喝也可以坐，坐着不收钱，看我收钱。”\n\n她叫{{shichai.xiaye.liuhanyan.name}}，坊市人管她叫韩家娘子。她自己纠正：“柳家。韩家五年前就没了。”",
+    "quote": "“寡妇开酒肆，坊市里的闲话比酒还多。你要听哪一种？”",
+    "visualId": "shichai.xiaye.liuhanyan.cg.meet",
+    "participants": [
+      "shichai.xiaye.liuhanyan"
+    ],
+    "priority": 50,
+    "conditions": [
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "shichai.xiaye.market"
+      },
+      {
+        "fact": "actor.shichai.xiaye.liuhanyan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.met",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.later",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.liuhanyan.meet.greet",
+        "label": "报上姓名，点一壶青梅酒",
+        "hint": "与{{shichai.xiaye.liuhanyan.name}}相识 · 记入共同经历。",
+        "reply": "她给你斟酒，手腕上有一道旧疤。她看见你在看，笑着把袖子放下。",
+        "effects": [
+          {
+            "kind": "meet",
+            "target": "shichai.xiaye.liuhanyan"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.liuhanyan.flag.met"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.liuhanyan",
+            "text": "{{player.name}}在青石酒肆与老板娘柳含烟相识，喝了她的青梅酒。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.liuhanyan.meet.later",
+        "label": "先不打扰，改日再说",
+        "hint": "不相识；下次遇到她时还有一次机会。",
+        "reply": "你点点头，她把酒壶收回去。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.liuhanyan.flag.later"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.liuhanyan.meet.pass",
+        "label": "只当擦肩而过",
+        "hint": "彻底错过这条线；她仍会在世界里过自己的日子。",
+        "reply": "你从酒肆门口走过。酒旗在风里飘。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.xiaye.liuhanyan.meet-again",
+    "title": "又来喝酒",
+    "eyebrow": "夏夜 · 再逢",
+    "body": "{{shichai.xiaye.liuhanyan.name}}又倚在柜台后。看见你，她笑：“上次坐着不喝的。今天呢？”",
+    "visualId": "shichai.xiaye.liuhanyan.cg.meet",
+    "participants": [
+      "shichai.xiaye.liuhanyan"
+    ],
+    "priority": 45,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.liuhanyan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.later",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.met",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.liuhanyan.again.greet",
+        "label": "这次报上姓名，点酒",
+        "hint": "与{{shichai.xiaye.liuhanyan.name}}相识 · 记入共同经历。",
+        "reply": "她把酒斟满，说“名字我记住了，账也记住了”。",
+        "effects": [
+          {
+            "kind": "meet",
+            "target": "shichai.xiaye.liuhanyan"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.liuhanyan.flag.met"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.liuhanyan",
+            "text": "{{player.name}}在青石酒肆与老板娘柳含烟相识，喝了她的青梅酒。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.liuhanyan.again.pass",
+        "label": "终究没有开口",
+        "hint": "彻底错过这条线。",
+        "reply": "你摆摆手，还是没喝。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.xiaye.liuhanyan.bond",
+    "title": "楼梯上的旧信",
+    "eyebrow": "夏夜 · 相知",
+    "body": "酒肆打烊后，{{shichai.xiaye.liuhanyan.name}}坐在楼梯上，手里拿着一封旧信，酒壶放在脚边。“我丈夫韩铁衣，五年前进山打妖，没回来。坊市说他死了。”\n\n她把信递给你。信是一年前的，字迹潦草，落款是韩铁衣。“他没死。他在山里，身上带了妖气，回不来，也不敢回。我收到信一年了，一次也没去找他。”",
+    "quote": "“你说我这算什么？守寡？还是逃？”",
+    "visualId": "shichai.xiaye.liuhanyan.cg.bond",
+    "participants": [
+      "shichai.xiaye.liuhanyan"
+    ],
+    "priority": 60,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.liuhanyan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.met",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.bond",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.liuhanyan.bond.a",
+        "label": "告诉她，她有权不去",
+        "hint": "进入相知；记入共同经历。",
+        "reply": "她看了你很久，把信收回袖子：“你是第一个不劝我去的。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.liuhanyan.flag.bond"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.liuhanyan",
+            "text": "{{player.name}}在酒肆楼梯上得知柳含烟的丈夫韩铁衣尚在人世，她一年未去寻他。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.liuhanyan.bond.b",
+        "label": "陪她把那壶酒喝完",
+        "hint": "进入相知；不记入经历。",
+        "reply": "酒喝完了，她说“明天还有”。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.liuhanyan.flag.bond"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.liuhanyan.bond.exit",
+        "label": "劝她去山里找他",
+        "hint": "结束这条线；已有经历保留。",
+        "reply": "她把信折好，说“你也这么说”。此后她待你如客，不再让你坐楼梯。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.xiaye.liuhanyan.spark",
+    "title": "雨里的人",
+    "eyebrow": "夏夜 · 心动",
+    "body": "酒肆后巷，夏夜闷雷。{{shichai.xiaye.liuhanyan.name}}把伞塞给你，自己站在雨里，仰着脸笑：“三十三岁了，第一次淋雨没人骂。”\n\n雨把她的胭脂红衣打得贴在身上。她走回你伞下，肩膀碰着你的肩膀：“你要是也想淋，把伞扔了。”",
+    "quote": "“我不是想让你可怜我。我是想让你看我。”",
+    "visualId": "shichai.xiaye.liuhanyan.cg.spark",
+    "participants": [
+      "shichai.xiaye.liuhanyan"
+    ],
+    "priority": 60,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.liuhanyan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.bond",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.spark",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.liuhanyan.spark.a",
+        "label": "扔了伞，和她一起淋",
+        "hint": "进入心动；记入共同经历。",
+        "reply": "雨里她笑得像个小姑娘。回到酒肆时两个人都湿透了，她说“今晚不打烊”。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.liuhanyan.flag.spark"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.liuhanyan",
+            "text": "{{player.name}}与柳含烟在酒肆后巷的夏雨里一起淋雨。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.liuhanyan.spark.b",
+        "label": "把她拉回伞下，替她挡雨",
+        "hint": "进入心动；不记入经历。",
+        "reply": "她靠在你肩上，说“也行，这样也行”。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.liuhanyan.flag.spark"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.liuhanyan.spark.exit",
+        "label": "把伞留给她，自己走了",
+        "hint": "结束这条线；已有经历保留。",
+        "reply": "她撑着伞站在巷口看你走远。此后她待你如客。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.xiaye.liuhanyan.rival",
+    "title": "半边黑纹",
+    "eyebrow": "夏夜 · 情敌",
+    "body": "{{shichai.xiaye.hantieyi.name}}站在酒肆门口。他半边脸有妖气留下的黑纹，身后是古道的雾。“含烟，我回来了。”他看见你，眼神像刀：“这位是……酒客？”\n\n{{shichai.xiaye.liuhanyan.name}}站在柜台后，手扶着酒壶，一动不动。五年了，她想过一千次他回来的样子，没有一次是这样。",
+    "quote": "“五年，我在山里想的就是这间酒肆，和你。你倒好，酒肆开得热闹。”",
+    "visualId": "shichai.xiaye.liuhanyan.cg.rival",
+    "participants": [
+      "shichai.xiaye.liuhanyan"
+    ],
+    "priority": 75,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.liuhanyan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.spark",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.contest",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.lost",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "actor.shichai.xiaye.hantieyi.alive",
+        "op": "eq",
+        "value": true
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.liuhanyan.rival.fight",
+        "label": "站到柜台前，说她不欠他五年",
+        "hint": "争 · 进入初夜路线；韩铁衣会记住你。",
+        "reply": "韩铁衣盯着你，黑纹在脸上跳。他说“好，那便看她选谁”，然后转身进了雾里。她在柜台后慢慢坐下来。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.liuhanyan.flag.contest"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.liuhanyan",
+            "text": "{{player.name}}在酒肆门口当面对韩铁衣说柳含烟不欠他五年。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.liuhanyan.rival.yield",
+        "label": "退到一旁，说这是他们夫妻的事",
+        "hint": "让 · 进入被夺结局。",
+        "reply": "她看着你退开，笑了一下，那笑比哭还难看。她跟韩铁衣上了楼。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.liuhanyan.flag.lost"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.liuhanyan.rival.leave",
+        "label": "一言不发地离开",
+        "hint": "既不争也不让；这条线停在这里，不再继续。",
+        "reply": "你放下酒钱离开。酒旗在你身后飘。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.xiaye.liuhanyan.rival-mortal",
+    "title": "凡人管什么",
+    "eyebrow": "夏夜 · 情敌 · 凡人",
+    "body": "{{shichai.xiaye.hantieyi.name}}站在酒肆门口，半边脸的黑纹在动。他打量你，忽然笑了：“凡人？连口吐纳都不会，也敢站在我妻子的酒肆里？”\n\n{{shichai.xiaye.liuhanyan.name}}把酒壶放下：“铁衣，他是不是凡人，跟你有什么关系。”她看向你，眼神在问：你走不走。",
+    "quote": "“凡人的骨头，我一只手就能捏碎。”",
+    "visualId": "shichai.xiaye.liuhanyan.cg.rival",
+    "participants": [
+      "shichai.xiaye.liuhanyan"
+    ],
+    "priority": 76,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.liuhanyan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.spark",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.contest",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.lost",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "actor.shichai.xiaye.hantieyi.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "player.manual",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.liuhanyan.rival-mortal.fight",
+        "label": "不走，站在她身边",
+        "hint": "争 · 进入初夜路线；你此刻的确是凡人。",
+        "reply": "韩铁衣没有动手。他说“好，你等我”，转身进雾。她把一壶酒推到你面前：“今晚的酒不要钱。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.liuhanyan.flag.contest"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.liuhanyan",
+            "text": "{{player.name}}以凡人之身站在柳含烟身边，与身带妖气的韩铁衣对峙。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.liuhanyan.rival-mortal.yield",
+        "label": "退到门外",
+        "hint": "让 · 进入被夺结局。",
+        "reply": "她看你退出门，把酒壶收回柜台底下。韩铁衣上了楼。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.liuhanyan.flag.lost"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.liuhanyan.rival-mortal.leave",
+        "label": "一言不发地离开",
+        "hint": "既不争也不让；这条线停在这里，不再继续。",
+        "reply": "你走出酒肆。雾把门口盖住了。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.xiaye.liuhanyan.rival-gone",
+    "title": "雾散了",
+    "eyebrow": "夏夜 · 空门",
+    "body": "{{shichai.xiaye.hantieyi.name}}的尸身在古道上被人发现，妖气已经散尽。坊市说，韩家娘子这回是真的寡了。\n\n{{shichai.xiaye.liuhanyan.name}}关了三天门。第四天她开门，把酒旗重新挂上，看见你：“他死了两次。我这次不用再等了。”",
+    "visualId": "shichai.xiaye.liuhanyan.cg.rival",
+    "participants": [
+      "shichai.xiaye.liuhanyan"
+    ],
+    "priority": 74,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.liuhanyan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.spark",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.contest",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.lost",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "actor.shichai.xiaye.hantieyi.alive",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.liuhanyan.gone.stay",
+        "label": "陪她喝这三天欠下的酒",
+        "hint": "无人相争，仍需你亲口应下。",
+        "reply": "她喝到半夜，说：“这次是我自己选的。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.liuhanyan.flag.contest"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.liuhanyan",
+            "text": "{{player.name}}在韩铁衣身故后陪柳含烟重开酒肆。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.liuhanyan.gone.leave",
+        "label": "把这份沉默留给她",
+        "hint": "这条线停在这里。",
+        "reply": "你没有进去。酒旗在风里飘。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.xiaye.liuhanyan.lost",
+    "title": "楼上",
+    "eyebrow": "夏夜 · 被夺",
+    "body": "酒肆楼上，窗帘半掩。你在楼下柜台前坐着，听见{{shichai.xiaye.hantieyi.name}}的声音，很低，带着妖气的沙哑。然后是{{shichai.xiaye.liuhanyan.name}}的声音，先是抗拒，后来是别的。\n\n你想起她说过“他从前采我”。他回来了，还是那样，而你把她让回了楼上。酒壶在你手边，你一口没喝。\n\n楼上的床响了一下。然后是他的嗓音，沙哑，带着妖气，像从雾里滤出来的，一字一字都压在楼板上。\n\n“含烟，五年了。你身上的东西，还是我的。”\n\n她先是抗拒。你听见她说“别”，听见她说“你带了妖气”，听见她说“这酒肆是柳家的”。随后是衣料被扯动的声音，银钗落地的一声脆响，滚过楼板，又停住。柜台前的酒壶还温着，你一口没喝。\n\n后来她的声音变了。不是答应，是撑不住。压抑的喘从楼板缝里漏下来，一下一下，像他从前采她时那种被抽空的节奏。韩铁衣低声说话，听不清全句，只反复落在“还是我的”四个字上。有一次她想把那口喘咬回去，被他按住，那点声音还是漏了下来。\n\n你想起她在雨里把伞塞给你，仰着脸说“我想让你看我”。你看了。然后你退到一旁，说这是他们夫妻的事。她跟他上了楼。现在你坐在自己让出来的位置上，听他重新把她当成一份没有取完的货。酒旗在门外拍打门框，像有人一遍一遍提醒你：你本可以站在柜台前不退。\n\n后半夜她哭了一小会儿，很快被他按了下去。你把酒钱压在壶底下，又拿开。她天亮会下楼，脸色会白，会把钱推回来，会说“不收”。你已经能把那一幕想完。\n\n羞辱的不是楼上那个先抗拒、后不能抗拒的人。是柜台前把她让回去的人。酒你一口没喝，可这一夜已经进了你的肚子。楼上的灯灭了很久，你还坐着，像在替她守一间不打烊的、空的店。天快亮时楼板又响了一下，再没有人说话。青梅酒的香还在，你却知道这壶酒从今夜起不再是她请你的那一壶。你把壶盖盖上，坐到真正天亮。",
+    "quote": "“含烟，五年了。你身上的东西，还是我的。”",
+    "visualId": "shichai.xiaye.liuhanyan.cg.lost",
+    "participants": [],
+    "priority": 85,
+    "conditions": [
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.lost",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.liuhanyan.lost.swallow",
+        "label": "坐到天亮，把酒喝完",
+        "hint": "记入你独自承受的经历；结束这条线。",
+        "reply": "天亮时她下楼，脸色白得像纸，看见你，把酒钱推回给你：“不收。”你记住了这一夜。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.liuhanyan.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.liuhanyan.lost.turn",
+        "label": "放下酒钱走人",
+        "hint": "结束这条线，不再记挂。",
+        "reply": "后来酒肆换了招牌，叫“韩家酒肆”。你没有再进去。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.liuhanyan.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.liuhanyan.lost.exit",
+        "label": "合上这一页",
+        "hint": "结束这段文字，不作任何记录。",
+        "reply": "你合上这一页。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.xiaye.liuhanyan.night",
+    "title": "拔下银钗",
+    "eyebrow": "夏夜 · 初夜",
+    "body": "酒肆楼上，窗外雷声。{{shichai.xiaye.liuhanyan.name}}拔下银钗，乌发散下来，坐在床沿看你：“我不是没经过人事的小姑娘。可我经的那些，没有一次是我想要的。”\n\n她把银钗放在窗台上：“今晚是我想要的。你要是也想要，就过来。”\n\n雷又响了一声。你走过去。她没有闭眼，看着你把外衫解了，看着你在床沿坐下，看着你问她：“想不想。”\n\n她笑了一下，那笑里有酒意，也有通透，像柜台后惯常的那种笑，只是今夜不收钱：“想。问完了？过来。三十三岁，第一次有人问我想不想。你问了，我便答。”\n\n银钗在窗台上轻轻响。她拉你的手进衣襟，胸乳软而沉，腕上那道旧疤擦过你的掌心。她经过人事，身子却不像习惯被要的人——每一步都等你先问，得到点头才肯继续。你解开她的胭脂红衣，吻到肩上那道浅痕时她哼了一声，不是疼，是被人看见了。\n\n“别装没看见。”她说，“看见就看见。今晚不是给谁还的。也不是给韩家留的。”\n\n你进去的时候她腿盘上来，很热，很湿，却紧得不像经过许多年的人。她把你的后脑按下来，额头抵着你，声音发哑：“慢点。我想自己感觉。以前没有一次是我想要的。那些次有人要，有人采，就是没有人问。”\n\n雷声把窗纸打得发颤。她在雷与雷的间隔里迎你，腰主动，嘴也主动，妩媚是真的，可眼里那点笑一直在。做到深处她忽然抓住你的手腕，咬着牙笑：“别采我。也别可怜我。我今晚只要这个。你要是也想要，就留下。”\n\n你没有采。灵气连动都没动，只把她一次一次送过去。她哭了一次，很短，随即又笑，泪还挂在眼尾，说：“原来可以是这样。不是还，不是欠，是我想。”\n\n雨打到天快亮。她赤着脚去窗台取银钗，没有插，只握在手里，靠在你肩上看雷走远。楼下酒旗被风吹得啪啪响，她说：“今晚不打烊。打烊的事，明天再说。”雷停了，她还是没有把银钗插回去。",
+    "quote": "“三十三岁，第一次有人问我想不想。”",
+    "visualId": "shichai.xiaye.liuhanyan.cg.night",
+    "participants": [
+      "shichai.xiaye.liuhanyan"
+    ],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.liuhanyan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "shichai.xiaye.market"
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.contest",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.night",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.liuhanyan.night.stay",
+        "label": "走过去，把雷声关在窗外",
+        "hint": "记入共同经历；不改变灵石、物品或数值。",
+        "reply": "那一夜她笑了很多次，也哭了一次。天亮时她说：“原来可以是这样。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.liuhanyan.flag.night"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.liuhanyan",
+            "text": "{{player.name}}与柳含烟在酒肆楼上共度初夜。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.liuhanyan.night.stop",
+        "label": "把银钗替她插回去，下楼守着柜台",
+        "hint": "止步于此；这条线到此为止。",
+        "reply": "她愣了很久，笑着说“你这人”。这一夜后来没有再来。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.xiaye.liuhanyan.dual",
+    "title": "酒缸之间",
+    "eyebrow": "夏夜 · 双修",
+    "body": "酒肆地窖，酒缸之间。{{shichai.xiaye.liuhanyan.name}}把衣襟解开一点，露出肩上的旧伤痕：“铁衣从前跟我合修，他说那是夫妻的道。可每次之后我都要病一场。后来我明白了，他在采我。”\n\n她坐下来，把手伸给你：“你说的既济，我想试试。要是也疼，你就停。”\n\n地窖里酒香很沉。酒缸一口一口排到墙根，像把整个夏夜都封在这里。她把衣襟再解开些，让你看清肩上那些旧伤痕：不是刀，是经年累月被抽过灵气留下的青白纹，像枯了的藤，从肩头一直淡到锁骨下。\n\n“他每次都说是夫妻合修。”她按着你的手按上去，触到那纹时自己都微微一顿，“完了要病一场。后来我算明白了，他在采我。采完还要我谢他。谢他肯回家，谢他肯要我。”\n\n既济起手时她有一瞬的僵。你停住。她摇头，笑还在，只是浅：“不是要你停。是我自己怕。怕再疼。你说了既济，我想试。要是也疼，你就真的停。”\n\n你进得极慢。阳与阴在交合处相会，不往他身上走，也不从她身上抽。灵气先爬上那些青白纹，像温酒渗进旧裂缝。她起初还咬唇防着那熟悉的空，后来发现空没有来——来的是还。经脉里那些被抽薄的地方一点点回温，像酒缸壁上的寒气被手捂化。\n\n“转。”你说。\n\n周天一圈圈走。伤痕从深青变成浅，再变成几乎看不清的粉。她骑在你身上，酒缸在两边，呼吸里全是酒。做到第四圈她忽然俯下来，发梢扫你的脸，声音又笑又颤：“不疼。你听见没有。一点都不疼。”\n\n第五圈到第七圈，韩铁衣留在她肩上、腰上、丹田里的那些闸一一松脱。她的修为浅，可那点浅是她自己的，不再被人抽走。她绞着你到最后一圈，眼眶红了，笑得像酒醒了，肩上那道藤几乎看不出来。\n\n收功时她摸自己的肩，摸了很久。“藤断了。”她说，“我等了五年，不是等他回来。是等我自己敢说不。今晚我说了。不疼，一点都不疼。”\n\n酒缸壁上凝着一层水。她把额头抵在你肩上，再没有发抖。地窖里只剩酒香，和两个人平下来的呼吸。",
+    "quote": "“我等了五年，不是等他回来。是等我自己敢说不。”",
+    "visualId": "shichai.xiaye.liuhanyan.cg.dual",
+    "participants": [
+      "shichai.xiaye.liuhanyan"
+    ],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.liuhanyan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "player.manual",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.night",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.dual",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.liuhanyan.dual.go",
+        "label": "与她对坐，以既济之法互济",
+        "hint": "记入共同经历；修为增长由正常修炼规则决定，这里不发放数值。",
+        "reply": "青色的灵气把她肩上的旧伤痕一点点淡去。她睁开眼时笑得像酒醒了：“不疼。一点都不疼。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.liuhanyan.flag.dual"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.liuhanyan",
+            "text": "{{player.name}}与柳含烟在酒肆地窖以既济之法合修，韩铁衣留下的旧伤痕开始淡去。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.liuhanyan.dual.stop",
+        "label": "只陪她坐着，不合修",
+        "hint": "止步于此；这条线到此为止。",
+        "reply": "她说“也好，慢慢来”。伤痕还在，只是她不再遮了。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.xiaye.liuhanyan.vow",
+    "title": "新酿开封",
+    "eyebrow": "夏夜 · 道侣",
+    "body": "酒肆新酿开封。{{shichai.xiaye.liuhanyan.name}}把第一杯递给你，门口挂着新写的酒旗：“柳家酒肆”。“韩家的旗我烧了。以后这酒肆不靠任何男人也开得下去。”\n\n她笑着补了一句：“可要是有个人愿意帮我看柜台，我也不赶。”",
+    "quote": "“不是靠你。是想跟你。”",
+    "visualId": "shichai.xiaye.liuhanyan.cg.vow",
+    "participants": [
+      "shichai.xiaye.liuhanyan"
+    ],
+    "priority": 70,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.liuhanyan.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.dual",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.vow",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.liuhanyan.vow.bind",
+        "label": "接过酒，说你来看柜台",
+        "hint": "结为道侣 · 记入共同经历，收束本线。",
+        "reply": "她把酒壶塞进你手里，说“那从今晚开始”。酒旗在夏夜里飘得很高。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.liuhanyan.flag.vow"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.liuhanyan.flag.closed"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.xiaye.liuhanyan",
+            "text": "{{player.name}}与柳含烟结为道侣，一起看守柳家酒肆。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.liuhanyan.vow.friend",
+        "label": "喝完这杯，说自己还要远行",
+        "hint": "只做知己 · 收束本线。",
+        "reply": "她说“回来还有酒”。你们从此是彼此最信得过的人。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.liuhanyan.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.liuhanyan.vow.exit",
+        "label": "此刻不答",
+        "hint": "不作决定；这条线停在这里。",
+        "reply": "你没有接杯。她自己喝了。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.xiaye.liuhanyan.mourn",
+    "title": "酒旗落地",
+    "eyebrow": "夏夜 · 身故",
+    "body": "酒旗被风吹落在地，酒肆的门锁着。坊市说，柳家娘子走了。\n\n你把酒旗捡起来，叠好，放在门口的石阶上。她说过“坐着不收钱”。你坐了一夜。",
+    "visualId": "shichai.xiaye.liuhanyan.cg.mourn",
+    "participants": [],
+    "priority": 100,
+    "conditions": [
+      {
+        "fact": "actor.shichai.xiaye.liuhanyan.alive",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.met",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.xiaye.liuhanyan.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.xiaye.liuhanyan.mourn.close",
+        "label": "把酒旗带走",
+        "hint": "收束本线；不复活、不改写已有经历。",
+        "reply": "酒旗你收在行囊里。她的酒肆没有人续开，也没有人改名。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.xiaye.liuhanyan.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.xiaye.liuhanyan.mourn.exit",
+        "label": "合上这一页",
+        "hint": "结束这段文字，不作记录。",
+        "reply": "你合上这一页。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  }
+]

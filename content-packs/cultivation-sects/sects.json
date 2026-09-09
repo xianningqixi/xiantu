@@ -1,0 +1,35 @@
+{
+  "version": "1.0.0",
+  "sects": [
+    {
+      "id": "yunv", "name": "玉女宗", "home": "atlas.cangzhu",
+      "motto": "冰心守真，清修自立", "technique": "玉心清静诀",
+      "description": "苍竹深处的女修宗门，以清修剑道和守贞誓约立宗。只收成年女子，入门须自陈未有性经历并愿守戒；门人可自由离宗，守戒期间不结道侣、不行双修。",
+      "task": "照料竹泉药圃", "taskStory": "你在竹泉药圃辨认灵草、疏通泉脉，从照料细微之处练习定心。",
+      "residents": [
+        {"id":"SECT_YUNV_GU", "name":"顾清蘅", "sex":"female", "age":26, "realm":3, "aptitude":76, "personality":"外冷内热，守诺好学", "background":"苍竹林采药人之女，成年后自愿入玉女宗。她自述从未有过性经历，愿守清修之誓，以剑术保护山下药农。", "interest":"药性与剑谱", "wish":"将护身剑法传给山下女子"},
+        {"id":"SECT_YUNV_BAI", "name":"白疏月", "sex":"female", "age":23, "realm":2, "aptitude":70, "personality":"温柔坚定，细致耐心", "background":"曾随母亲行医，成年后选择独身清修。她自述未有性经历，入宗立下守贞誓，常在竹泉旁教初学者吐纳。", "interest":"医书与竹笛", "wish":"完善玉心清静诀的入门讲义"}
+      ]
+    },
+    {
+      "id": "hehuan", "name": "合欢宗", "home": "atlas.yunmeng",
+      "motto": "两心相契，阴阳共济", "technique": "两仪同心诀",
+      "description": "云梦泽水榭间的宗门，专研道侣双修与气机调和。只收成年人，亲密往来须双方自愿；入宗可独修，结侣与双修均不作为入门或晋升条件。",
+      "task": "修护水榭灵阵", "taskStory": "你沿水榭检查灵阵的阴阳两路，逐一补齐阵石，从气机平衡中领会调和之法。",
+      "residents": [
+        {"id":"SECT_HEHUAN_YAN", "name":"晏栖霞", "sex":"female", "age":28, "realm":3, "aptitude":74, "personality":"明艳坦率，重视边界", "background":"出身江上乐师之家，喜用琴音校准气机。她与容照夜情投意合，约定在水榭相伴修行；是否结侣与双修，由两人当面决定。", "interest":"琴曲与阵法", "wish":"证明合修之道也能光明磊落", "partner":"SECT_HEHUAN_RONG"},
+        {"id":"SECT_HEHUAN_RONG", "name":"容照夜", "sex":"male", "age":30, "realm":3, "aptitude":68, "personality":"温文克制，善于倾听", "background":"曾独自行走商路，后入合欢宗研究调息。他倾心于晏栖霞，尊重她的每一个决定，也愿指导独自修行的新人。", "interest":"阵石与江路见闻", "wish":"与心上人携手稳固道基", "partner":"SECT_HEHUAN_YAN"}
+      ]
+    },
+    {
+      "id": "quanzhen", "name": "全真派", "home": "atlas.wendao",
+      "motto": "性命双修，济世求真", "technique": "全真养气经",
+      "description": "问道峰上的正统道门，以静坐、剑术与济世历练打磨道基。这里的性命双修指心性与生命的共同修养。收成年有志之人，以扎实日课和护山行善积累功行。",
+      "task": "巡护山道救助行旅", "taskStory": "你沿问道峰巡护山道，为迷途旅人指路，并修补风雨损坏的石阶，在行善中磨炼心性。",
+      "residents": [
+        {"id":"SECT_QUAN_CHANG", "name":"常玄一", "sex":"male", "age":36, "realm":3, "aptitude":72, "personality":"沉稳正直，不拘小节", "background":"原是山下的护路人，见过行旅艰险后拜入全真派。他把日课与巡山看得同样重要，常提醒后辈修为应当用来护人。", "interest":"剑术与修桥", "wish":"让问道峰商路常年平安"},
+        {"id":"SECT_QUAN_NING", "name":"宁含章", "sex":"female", "age":27, "realm":2, "aptitude":78, "personality":"直率清醒，勤于求证", "background":"从小喜读山川志，成年后登峰问道。她并不把离群索居当作修行，每逢晴日便为行人讲解山路与星象。", "interest":"星图与山川志", "wish":"亲自走遍云岚山河，再写一部行路经"}
+      ]
+    }
+  ]
+}

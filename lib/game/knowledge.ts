@@ -1,3 +1,5 @@
+import { intimacyKind, isIntimacyStoryEvent } from "./intimacy-history";
+import { regionOf } from "./world-map";
 import { GameError } from "./errors";
 import type { Actor, Knowledge, KnowledgeEntry, Relation, World, WorldEvent } from "./types";
 
@@ -10,12 +12,18 @@ const observable = new Set([
   "battle-defeat",
   "battle-retreat",
   "conflict",
+  "npc-meet",
+  "npc-friendship",
+  "npc-depart",
+  "npc-arrive",
+  "sect-join",
+  "sect-art",
 ]);
 export const KNOWLEDGE_SOURCES = ["participant", "witness", "told", "public", "legacy"] as const;
 const actorIndexes = new WeakMap<World, Map<string, number>>();
 function indexes(world: World) {
   let map = actorIndexes.get(world);
-  if (!map) {
+  if (!map || map.size !== world.npcs.length + 1) {
     map = new Map([world.player, ...world.npcs].map((a, i) => [a.id, i]));
     actorIndexes.set(world, map);
   }
@@ -121,7 +129,11 @@ export function recordFact(
   for (const id of participants) rememberFact(world, event, id, "participant");
   if (isPublic || observable.has(kind)) {
     for (const person of [world.player, ...world.npcs]) {
-      if (person.alive && (isPublic || person.location === location))
+      if (
+        person.alive &&
+        !person.npcJourney &&
+        (isPublic ? regionOf(person.location) === regionOf(location) : person.location === location)
+      )
         rememberFact(world, event, person.id, isPublic ? "public" : "witness");
     }
   }
@@ -137,10 +149,22 @@ export function knownEvents(world: World, knower = "PLAYER") {
 export function tellOwnRecentFacts(world: World, speakerId: string, listenerId = "PLAYER") {
   const speaker = actor(world, speakerId),
     listener = actor(world, listenerId);
-  if (!speaker?.alive || !listener?.alive || speaker.location !== listener.location)
+  if (
+    !speaker?.alive ||
+    !listener?.alive ||
+    speaker.npcJourney ||
+    listener.npcJourney ||
+    speaker.location !== listener.location
+  )
     throw new Error("需要与知情人在场交谈。");
   const available = knownEvents(world, speakerId)
-    .filter((event) => event.actors.includes(speakerId) && !event.actors.includes(listenerId))
+    .filter(
+      (event) =>
+        !intimacyKind(world, event) &&
+        !isIntimacyStoryEvent(event) &&
+        event.actors.includes(speakerId) &&
+        !event.actors.includes(listenerId),
+    )
     .slice(-3);
   for (const event of available) rememberFact(world, event, listenerId, "told", speakerId);
   return available;
@@ -149,9 +173,16 @@ export function tellOwnRecentFacts(world: World, speakerId: string, listenerId =
 /** Repeated ordinary contact is a bounded factual summary per directed pair.
  * Important story, promise, death and breakthrough events are never summarized away.
  */
-export function recordSocialContact(world: World, relation: Relation, from: Actor, to: Actor) {
-  if (relation.favor >= 100) return;
-  relation.favor++;
+export function recordSocialContact(
+  world: World,
+  relation: Relation,
+  from: Actor,
+  to: Actor,
+  favor = 1,
+  trust = 0,
+) {
+  relation.favor = Math.min(100, relation.favor + favor);
+  relation.trust = Math.min(100, relation.trust + trust);
   let event = relation.socialEventId
     ? world.events.find((entry) => entry.id === relation.socialEventId)
     : undefined;

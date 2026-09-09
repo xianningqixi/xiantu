@@ -1,0 +1,63 @@
+{
+  "packId": "shichai.chunshui",
+  "packVersion": "0.2.0",
+  "contentApiVersion": 2,
+  "title": "青石十钗 · 卷一《春水》",
+  "requiresCapabilities": [
+    "progress.v1",
+    "meet.v1",
+    "experience.v1"
+  ],
+  "dependencies": [
+    {
+      "packId": "official.qingshi",
+      "packVersion": "0.1.1",
+      "hash": "c7402c381fe903eaa99784deae2066993da76500f5ea9422e61ae40779670cd9"
+    }
+  ],
+  "entryFiles": {
+    "definitions": "definitions.json",
+    "storylets": "storylets.json",
+    "visuals": "visuals.json",
+    "outline": "outline.md",
+    "acceptance": "acceptance.md",
+    "art": "art/manifest.json",
+    "journey": "journey.json"
+  },
+  "author": "Claude 草稿；R18 段落与全部图片由作者补写",
+  "license": "项目内部草稿；成人向文字与图片由作者补写并自行负责审查。仅供仙途项目开发与评审使用。",
+  "flags": [
+    "shichai.chunshui.prologue",
+    "shichai.chunshui.suqingyan.flag.met",
+    "shichai.chunshui.suqingyan.flag.later",
+    "shichai.chunshui.suqingyan.flag.bond",
+    "shichai.chunshui.suqingyan.flag.spark",
+    "shichai.chunshui.suqingyan.flag.contest",
+    "shichai.chunshui.suqingyan.flag.lost",
+    "shichai.chunshui.suqingyan.flag.closed",
+    "shichai.chunshui.suqingyan.flag.night",
+    "shichai.chunshui.suqingyan.flag.dual",
+    "shichai.chunshui.suqingyan.flag.vow",
+    "shichai.chunshui.gutinglan.flag.met",
+    "shichai.chunshui.gutinglan.flag.later",
+    "shichai.chunshui.gutinglan.flag.bond",
+    "shichai.chunshui.gutinglan.flag.spark",
+    "shichai.chunshui.gutinglan.flag.contest",
+    "shichai.chunshui.gutinglan.flag.lost",
+    "shichai.chunshui.gutinglan.flag.closed",
+    "shichai.chunshui.gutinglan.flag.night",
+    "shichai.chunshui.gutinglan.flag.dual",
+    "shichai.chunshui.gutinglan.flag.vow",
+    "shichai.chunshui.wenzhiwei.flag.met",
+    "shichai.chunshui.wenzhiwei.flag.later",
+    "shichai.chunshui.wenzhiwei.flag.bond",
+    "shichai.chunshui.wenzhiwei.flag.spark",
+    "shichai.chunshui.wenzhiwei.flag.contest",
+    "shichai.chunshui.wenzhiwei.flag.lost",
+    "shichai.chunshui.wenzhiwei.flag.closed",
+    "shichai.chunshui.wenzhiwei.flag.night",
+    "shichai.chunshui.wenzhiwei.flag.dual",
+    "shichai.chunshui.wenzhiwei.flag.vow"
+  ],
+  "references": []
+}

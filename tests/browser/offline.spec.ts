@@ -1,3 +1,4 @@
+import { openCurrentLocation, travelTo } from "./journey-controls";
 import { installPauseControl, armPause } from "./pause-control";
 import { test, expect } from "@playwright/test";
 import { readFileSync } from "node:fs";
@@ -56,22 +57,50 @@ test("production core can close and reopen offline, act and recover the saved da
   await page.goto("/");
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("离线修士");
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
+  await expect(page.locator("#world-map")).toBeVisible();
+  await expect(page.getByText("本机已存", { exact: true })).toBeVisible();
   await expect(page.getByText("离线可用", { exact: true })).toBeVisible({ timeout: 30000 });
+  // Creation and gameplay mount separate status observers. Wait for the saved game
+  // and its active controller before injecting an update failure.
+  await expect
+    .poll(() => page.evaluate(() => navigator.serviceWorker.controller?.state))
+    .toBe("activated");
   const cached = await page.evaluate(async () => {
     const keys = await caches.keys();
     const cache = await caches.open(keys.find((k) => k.startsWith("xiantu-core-"))!);
     return (await cache.keys()).map((r) => new URL(r.url).pathname);
   });
   for (const file of metadata.files) expect(cached).toContain(file);
+  await openCurrentLocation(page);
+  const scene = page.locator('img[src*="/art/optimized/market-"]').first();
+  await expect(scene).toBeVisible();
+  await expect
+    .poll(() => scene.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0))
+    .toBe(true);
+  const sceneUrl = await scene.evaluate((img: HTMLImageElement) => img.currentSrc);
+  expect(metadata.files).not.toContain(new URL(sceneUrl).pathname);
+  await expect
+    .poll(() => page.evaluate(async (url) => !!(await caches.match(url)), sceneUrl))
+    .toBe(true);
   await context.setOffline(true);
   await page.close();
   const reopened = await context.newPage();
   await reopened.goto("/");
   await expect(reopened.getByRole("heading", { name: "离线修士", exact: true })).toBeVisible();
+  await openCurrentLocation(reopened);
+  await expect
+    .poll(() =>
+      reopened
+        .locator('img[src*="/art/optimized/market-"]')
+        .first()
+        .evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0),
+    )
+    .toBe(true);
   await reopened.getByRole("button", { name: /接些坊市杂务/ }).click();
   await expect(reopened.locator("header").getByText("第 2 日", { exact: true })).toBeVisible();
   await reopened.reload();
   await expect(reopened.locator("header").getByText("第 2 日", { exact: true })).toBeVisible();
+  await openCurrentLocation(reopened);
   await reopened.getByRole("button", { name: "与林晚同行交涉", exact: true }).click();
   await expect(reopened.getByRole("dialog")).toContainText("当前离线");
   await expect(reopened.getByRole("button", { name: "提出商议", exact: true })).toBeDisabled();
@@ -88,7 +117,14 @@ test("waiting update keeps the active version and refuses another open game tab 
   await page.goto("/");
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("更新修士");
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
+  await expect(page.locator("#world-map")).toBeVisible();
+  await expect(page.getByText("本机已存", { exact: true })).toBeVisible();
   await expect(page.getByText("离线可用", { exact: true })).toBeVisible({ timeout: 30000 });
+  // Creation and gameplay mount separate status observers. Wait for the saved game
+  // and its active controller before injecting an update failure.
+  await expect
+    .poll(() => page.evaluate(() => navigator.serviceWorker.controller?.state))
+    .toBe("activated");
   const other = await context.newPage();
   await other.goto("/");
   await expect(other.getByRole("heading", { name: "更新修士", exact: true })).toBeVisible();
@@ -125,8 +161,17 @@ test("a failed update retains the old cache, and a paused long action blocks act
   await page.goto("/");
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("安全更新");
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
+  await expect(page.locator("#world-map")).toBeVisible();
+  await expect(page.getByText("本机已存", { exact: true })).toBeVisible();
   await expect(page.getByText("离线可用", { exact: true })).toBeVisible({ timeout: 30000 });
-  const cachesBefore = await page.evaluate(() => caches.keys());
+  // Creation and gameplay mount separate status observers. Wait for the saved game
+  // and its active controller before injecting an update failure.
+  await expect
+    .poll(() => page.evaluate(() => navigator.serviceWorker.controller?.state))
+    .toBe("activated");
+  const cachesBefore = await page.evaluate(async () =>
+    (await caches.keys()).filter((key) => key.startsWith("xiantu-core-")),
+  );
   try {
     script = original
       .replace(/const VERSION = "([^"]+)"/, 'const VERSION = "$1-qa-failure"')
@@ -137,11 +182,12 @@ test("a failed update retains the old cache, and a paused long action blocks act
     await expect(page.getByText("离线内容未准备完整，请联网重开后重试。")).toBeVisible({
       timeout: 30000,
     });
-    expect(await page.evaluate(() => caches.keys())).toEqual(cachesBefore);
-    await page
-      .locator(".travel-options")
-      .getByRole("button", { name: /听雨客栈/ })
-      .click();
+    expect(
+      await page.evaluate(async () =>
+        (await caches.keys()).filter((key) => key.startsWith("xiantu-core-")),
+      ),
+    ).toEqual(cachesBefore);
+    await travelTo(page, "听雨客栈");
     await expect(page.locator(".place-heading h1")).toHaveText("听雨客栈");
     await page.getByRole("button", { name: /向店家领取/ }).click();
     await page.getByRole("tab", { name: "修行", exact: true }).click();

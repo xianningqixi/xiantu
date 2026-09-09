@@ -14,6 +14,7 @@ export type ModelSummary = ModelFields & {
 };
 export type ModelDraft = ModelFields & { key: string; revision: number };
 export type ModelSummaries = Record<ModelKind, ModelSummary>;
+export const MAX_REPLY_TOKENS = 8192;
 export const modelDefaults = (kind: ModelKind): ModelFields => ({
   enabled: false,
   baseUrl: "https://api.openai.com/v1",

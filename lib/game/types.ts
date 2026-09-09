@@ -1,8 +1,11 @@
 import type { Physique } from "./physique";
+import type { PortraitFeatures } from "./portrait-features";
+import type { PortraitLook, PortraitOriginal } from "./portrait-look";
 import type { NegotiationRecord, NegotiationProposal } from "./negotiation";
-export type LocationId = "market" | "inn" | "gate" | "ruins";
+export type LocationId = "market" | "inn" | "gate" | "ruins" | `${string}.${string}`;
 export type Artifact = "focus" | "ward" | "bond";
 export interface Profile {
+  portraitFeatures?: PortraitFeatures;
   physique?: Physique;
   portraitId?: string;
   name: string;
@@ -12,7 +15,22 @@ export interface Profile {
   mode: "simple" | "complex";
   appearance: { face: number; hair: number; color: number };
 }
+export type SectId = "yunv" | "hehuan" | "quanzhen";
+export interface SectMembership {
+  id: SectId;
+  joinedDay: number;
+  contribution: number;
+  earned: number;
+  artLearned: boolean;
+  previousSect: string;
+}
 export interface Actor {
+  npcJourney?: { to: LocationId; startedDay: number; total: number; remaining: number };
+  portraitOriginal?: PortraitOriginal;
+  sectMembership?: SectMembership;
+  portraitAppearance?: Profile["appearance"];
+  portraitFeatures?: PortraitFeatures;
+  npcTemplateId?: string;
   physique?: Physique;
   portraitId?: string;
   id: string;
@@ -51,6 +69,9 @@ export interface Relation {
   grievance?: boolean;
 }
 export interface WorldEvent {
+  intimacy?: { kind: "bond" | "night" | "dual"; consent: "mutual" };
+  mainStory?: { nodeId: string; choiceId: string };
+  storyNodeId?: string;
   relationshipChange?: { favor: number; trust: number };
   id: string;
   day: number;
@@ -136,6 +157,10 @@ export interface LongAction {
   guardian: string | null;
 }
 export interface World {
+  visitedSects?: SectId[];
+  campaignLock?: string;
+  /** Preserved chapter graph for events written before the fixed four-volume campaign. */
+  campaignHistory?: { eventCount: number; chapters: string[] };
   schemaVersion: 6;
   negotiations: NegotiationRecord[];
   contentLocks: string[];
@@ -145,7 +170,7 @@ export interface World {
   simulationOptions: { backgroundConflicts: boolean };
   commandReceipts: Record<string, { fingerprint: string; revision: number }>;
   format: "xiantu-web-1";
-  rulesVersion: "0.1.2";
+  rulesVersion: "0.1.2" | "0.1.3" | "0.1.4" | "0.1.5" | "0.1.6";
   packLock: string;
   saveId: string;
   revision: number;
@@ -169,7 +194,15 @@ export interface World {
   appliedCommands: string[];
 }
 export type Command =
-  | { type: "attachPortrait"; target: string; portraitId: string }
+  | { type: "visitSect"; sectId: SectId }
+  | { type: "joinSect"; sectId: SectId; confirmed: true }
+  | { type: "sectTask" | "learnSectArt" | "leaveSect" }
+  | { type: "spendTime"; target: string }
+  | { type: "intimacy"; target: string; kind: "bond" | "night" | "dual"; confirmed: true }
+  | { type: "chooseMain"; nodeId: string; choiceId: string }
+  | { type: "surveyRuins" }
+  | { type: "attachPortrait"; target: string; portraitId: string; look?: PortraitLook }
+  | { type: "restorePortrait"; target: string }
   | {
       type: "adoptNegotiation";
       proposalId: string;
@@ -192,6 +225,7 @@ export type Command =
         | "work"
         | "rest"
         | "learn"
+        | "renewAgreement"
         | "expedition"
         | "return"
         | "disband"
@@ -247,8 +281,13 @@ export interface CreationDraft {
   roll: number;
   profile: Profile;
   contentLocks?: string[];
+  previousLook?: { profile: Profile; seed: number; roll: number };
 }
 export interface BackupSummary {
+  createdAt?: number;
+  reason?: "create" | "import" | "restore" | "migration";
+  mode?: string;
+  realm?: number;
   key: string;
   name: string;
   day: number;

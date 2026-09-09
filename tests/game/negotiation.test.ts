@@ -119,7 +119,7 @@ const config = {
   key: "mock-secret-never-return",
   model: "configured-model",
   timeout: 1000,
-  maxTokens: 800,
+  maxTokens: 8192,
   mock: false,
 };
 let serial = 0;
@@ -152,6 +152,14 @@ test("server rejects missing configuration, client proxy overrides, cross-origin
   assert.throws(() =>
     providerConfig({ XIANTU_AI_KEY: "x", XIANTU_AI_MODEL: "x", XIANTU_AI_MAX_TOKENS: "99999" }),
   );
+  assert.equal(
+    providerConfig({ XIANTU_AI_KEY: "x", XIANTU_AI_MODEL: "x", XIANTU_AI_MAX_TOKENS: "8192" })
+      ?.maxTokens,
+    8192,
+  );
+  assert.throws(() =>
+    providerConfig({ XIANTU_AI_KEY: "x", XIANTU_AI_MODEL: "x", XIANTU_AI_MAX_TOKENS: "8193" }),
+  );
 });
 test("structured upstream uses configured model and bounded tokens; credentials never enter output", async () => {
   let calls = 0;
@@ -162,7 +170,7 @@ test("structured upstream uses configured model and bounded tokens; credentials 
       assert.equal(url, "https://provider.example/v1/chat/completions");
       const body = JSON.parse(init!.body as string);
       assert.equal(body.model, config.model);
-      assert.equal(body.max_completion_tokens, 800);
+      assert.equal(body.max_completion_tokens, 8192);
       assert.equal(body.response_format.json_schema.strict, true);
       return Response.json({
         choices: [

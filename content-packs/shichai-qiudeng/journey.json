@@ -1,0 +1,17 @@
+{
+  "order": 3,
+  "regionName": "青岚山城",
+  "minRealm": 3,
+  "minExpeditions": 1,
+  "travelDays": 4,
+  "sceneIntervalDays": 2,
+  "clueCount": 3,
+  "introId": "shichai.qiudeng.intro",
+  "lead": "山城依青岚宗而建，猎妖人带回的消息指向残卷的源头。",
+  "routeLead": "临江旧纸提到青岚山城，那里或许有人认识这部残卷。",
+  "locations": {
+    "market": "shichai.qiudeng.market",
+    "inn": "shichai.qiudeng.inn",
+    "gate": "shichai.qiudeng.gate"
+  }
+}

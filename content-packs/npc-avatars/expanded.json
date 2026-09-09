@@ -1,0 +1,725 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "actorId": "NPC_0041",
+      "sourceUrl": "/art/portraits/npc_0041-794cc1243adb.webp",
+      "sourceSha256": "794cc1243adb6a6331a7145aea5481eebf4caba6ddd4ea2c88501cbf4ad7c2ef",
+      "file": "expanded/npc_0041-a9d196aa9985.webp",
+      "sha256": "a9d196aa9985c2b2c9c4a2547887ba0b2bf00952199648c5e443ed237a4078e2",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 261,
+        "top": 15,
+        "size": 380
+      },
+      "sourceWidth": 864,
+      "sourceHeight": 1821,
+      "derivationSource": "outputs/npc100/originals/npc_0041.png",
+      "derivationSha256": "37c49c327468ccef15cde214bc8033bedc55c03a3dcb3487d48d6a1f8588095a"
+    },
+    {
+      "actorId": "NPC_0042",
+      "sourceUrl": "/art/portraits/npc_0042-8a8bb54ec2c2.webp",
+      "sourceSha256": "8a8bb54ec2c2603f0227edf45542a0e33822e0ed8e870bd4517e3a4f0a289585",
+      "file": "expanded/npc_0042-00bcb51499e6.webp",
+      "sha256": "00bcb51499e689fc69ca65bc796a6742714750a5df097fbd6863667ddaf3e6e7",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 275,
+        "top": 81,
+        "size": 383
+      },
+      "sourceWidth": 836,
+      "sourceHeight": 1881,
+      "derivationSource": "outputs/npc100/originals/npc_0042.png",
+      "derivationSha256": "4237a9823aa4ff48ecdff94646a4b1b54badbf4f60c03b4bbba7604e0f51267b"
+    },
+    {
+      "actorId": "NPC_0043",
+      "sourceUrl": "/art/portraits/npc_0043-d1c0840b9163.webp",
+      "sourceSha256": "d1c0840b9163d88564a3fd60ee3fa480a166eaadb16eab731fe7508484bbb2e9",
+      "file": "expanded/npc_0043-d3b9827a2500.webp",
+      "sha256": "d3b9827a2500843f5528ce9139e1d42de544c3606fe92b5422d9fc705e72a63f",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 275,
+        "top": 26,
+        "size": 374
+      },
+      "sourceWidth": 908,
+      "sourceHeight": 1732,
+      "derivationSource": "outputs/npc100/originals/npc_0043.png",
+      "derivationSha256": "4d55d9ef8d02e523fb6d67615f220ef3731061df7f49da10cc46d6bf5b2eb5bf"
+    },
+    {
+      "actorId": "NPC_0044",
+      "sourceUrl": "/art/portraits/npc_0044-f4f97497ffff.webp",
+      "sourceSha256": "f4f97497ffff7234ce62b1f7d743f9eb3f1b61e200b43732d2a27ef6f96571f4",
+      "file": "expanded/npc_0044-5488913d44fd.webp",
+      "sha256": "5488913d44fdfde67353eafe17caca94298a75a33d74a6302714644cb018cb22",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 287,
+        "top": 36,
+        "size": 380
+      },
+      "sourceWidth": 864,
+      "sourceHeight": 1821,
+      "derivationSource": "outputs/npc100/originals/npc_0044.png",
+      "derivationSha256": "5b7b7acda1ae9e490942063fb6fab656d3fbc8e9a664d8b53319479ae4a0ec20"
+    },
+    {
+      "actorId": "NPC_0045",
+      "sourceUrl": "/art/portraits/npc_0045-c9d0f592b4a1.webp",
+      "sourceSha256": "c9d0f592b4a1b69f059e85707798fbea6cef3532c3182dc09c0b13f0238e9e36",
+      "file": "expanded/npc_0045-f8dce95e7f01.webp",
+      "sha256": "f8dce95e7f018fd38622be8abf7fb06b9f4d0518eae5020008f3d9974378c8a5",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 270,
+        "top": 21,
+        "size": 375
+      },
+      "sourceWidth": 864,
+      "sourceHeight": 1821,
+      "derivationSource": "outputs/npc100/originals/npc_0045.png",
+      "derivationSha256": "04cc8237f236925a55d9665e2d169a2309c3be361de8316e42ce09210ad51980"
+    },
+    {
+      "actorId": "NPC_0046",
+      "sourceUrl": "/art/portraits/npc_0046-0e5c919c7513.webp",
+      "sourceSha256": "0e5c919c7513fff9f28be21e85e7e50e33ada494922ba8e9529acefefd92384a",
+      "file": "expanded/npc_0046-5c64ce30a73e.webp",
+      "sha256": "5c64ce30a73e24dca4438c68ad126d25ff5cce0e87c674d78ece322b58683d5a",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 275,
+        "top": 55,
+        "size": 373
+      },
+      "sourceWidth": 890,
+      "sourceHeight": 1767,
+      "derivationSource": "outputs/npc100/originals/npc_0046.png",
+      "derivationSha256": "fc8e3fa5824edd35ad2087a9e165fb5867d1506f53ff4edfacda1e2a4d40237a"
+    },
+    {
+      "actorId": "NPC_0047",
+      "sourceUrl": "/art/portraits/npc_0047-5e00b8b111f8.webp",
+      "sourceSha256": "5e00b8b111f8c3814240d3362826e51ae19ee9bad71cfbf0a6c45febcc07c0f3",
+      "file": "expanded/npc_0047-e6cefe08de76.webp",
+      "sha256": "e6cefe08de7603e21b5662ef19c31f2699950d984ce9de5d02c4c6f39230a188",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 288,
+        "top": 93,
+        "size": 357
+      },
+      "sourceWidth": 887,
+      "sourceHeight": 1774,
+      "derivationSource": "outputs/npc100/originals/npc_0047.png",
+      "derivationSha256": "705144a141b73d31147975d63d0abee4b8ee006c328ca613d30e52034df09353"
+    },
+    {
+      "actorId": "NPC_0048",
+      "sourceUrl": "/art/portraits/npc_0048-0efb93906a7d.webp",
+      "sourceSha256": "0efb93906a7d9e264d86bd0af496cb039fc9cbcd638a005f2b95b19d173200cd",
+      "file": "expanded/npc_0048-b0a6890a87f5.webp",
+      "sha256": "b0a6890a87f5be5bc3424c012e6592b98989b34709f3aeebfc26dd6485bc88ec",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 244,
+        "top": 24,
+        "size": 384
+      },
+      "sourceWidth": 864,
+      "sourceHeight": 1821,
+      "derivationSource": "outputs/npc100/originals/npc_0048.png",
+      "derivationSha256": "f3cd547857a743aaf1b6592a3cf85c431ae6bcb6f3c6f4a7800c03f29bc22e56"
+    },
+    {
+      "actorId": "NPC_0049",
+      "sourceUrl": "/art/portraits/npc_0049-4edeb34d7b9c.webp",
+      "sourceSha256": "4edeb34d7b9c4f1a5fde002c599a1ed9a98ed82d30879140285c56cfe3665265",
+      "file": "expanded/npc_0049-1883ef901f5f.webp",
+      "sha256": "1883ef901f5fdd499e360bc08066e8aa9d223226c2d43898459d4d58436d4f36",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 270,
+        "top": 14,
+        "size": 373
+      },
+      "sourceWidth": 900,
+      "sourceHeight": 1748,
+      "derivationSource": "outputs/npc100/originals/npc_0049.png",
+      "derivationSha256": "91280ef9e8a92528918aae4cd3155223406dfbf82d0d58c1443cba4888f351ae"
+    },
+    {
+      "actorId": "NPC_0050",
+      "sourceUrl": "/art/portraits/npc_0050-807e78a88c9e.webp",
+      "sourceSha256": "807e78a88c9eddddbe398bb8e75621a12b6123166cd361ce04baf76350f55c68",
+      "file": "expanded/npc_0050-9fb2d363f9e5.webp",
+      "sha256": "9fb2d363f9e56627e7454a4d175cdf922f73727ad345a9cb512f0aba5c580d49",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 272,
+        "top": 88,
+        "size": 392
+      },
+      "sourceWidth": 864,
+      "sourceHeight": 1821,
+      "derivationSource": "outputs/npc100/originals/npc_0050.png",
+      "derivationSha256": "d49e74f85b2c08441068aca9736e38a961057965f2ea32b2b014479a78262a64"
+    },
+    {
+      "actorId": "NPC_0051",
+      "sourceUrl": "/art/portraits/npc_0051-5915ab9a151e.webp",
+      "sourceSha256": "5915ab9a151efb3c0ffbeccb75439fbc8070f00a74313c136e00aeb5c5f81053",
+      "file": "expanded/npc_0051-9509b154f022.webp",
+      "sha256": "9509b154f0226224e586e5690a0bf09954b4e8b02198381c4d016c4e243986c7",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 248,
+        "top": 60,
+        "size": 387
+      },
+      "sourceWidth": 872,
+      "sourceHeight": 1802,
+      "derivationSource": "outputs/npc100/originals/npc_0051.png",
+      "derivationSha256": "6ce607207792bb702eab6095e828246632d65b35e3918381b352b9bfe4180d48"
+    },
+    {
+      "actorId": "NPC_0052",
+      "sourceUrl": "/art/portraits/npc_0052-66fc983c5943.webp",
+      "sourceSha256": "66fc983c59437f21332e60af3d2493ee2f99a95a02dcd1a64df8f60ba1c86444",
+      "file": "expanded/npc_0052-287b06c3d408.webp",
+      "sha256": "287b06c3d4084ccd6be27d85761b4971aec72162d768aa15b351782e34fce5ef",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 320,
+        "top": 78,
+        "size": 337
+      },
+      "sourceWidth": 935,
+      "sourceHeight": 1683,
+      "derivationSource": "outputs/npc100/originals/npc_0052.png",
+      "derivationSha256": "9d2ec490407865d9f539996c9469e7866a47587b12354fd654970eeebde06893"
+    },
+    {
+      "actorId": "NPC_0053",
+      "sourceUrl": "/art/portraits/npc_0053-22177ff12d7e.webp",
+      "sourceSha256": "22177ff12d7e02f43a959d17c23b2e60c3f258b8a4581d8ff8acee7b62a0e9e0",
+      "file": "expanded/npc_0053-c62776c48762.webp",
+      "sha256": "c62776c48762266133f75871793f410f2ac87c88ae508c6ec4a0ec817b5ab9a0",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 244,
+        "top": 36,
+        "size": 401
+      },
+      "sourceWidth": 864,
+      "sourceHeight": 1821,
+      "derivationSource": "outputs/npc100/originals/npc_0053.png",
+      "derivationSha256": "dd74f9b5c83a570c8d5b87087e7d8ac44e860f403f7b30eb9e4a514772a07ab0"
+    },
+    {
+      "actorId": "NPC_0054",
+      "sourceUrl": "/art/portraits/npc_0054-1d1ab7c35828.webp",
+      "sourceSha256": "1d1ab7c3582862df4037689622912289cbc1d0493f50736942261f7dd8ba0db7",
+      "file": "expanded/npc_0054-59237c0386a2.webp",
+      "sha256": "59237c0386a2c862f5c9bfbd4c185c5277a3e2f13824b388d76f2ec657e204c3",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 349,
+        "top": 48,
+        "size": 326
+      },
+      "sourceWidth": 1024,
+      "sourceHeight": 1536,
+      "derivationSource": "outputs/npc100/originals/npc_0054.png",
+      "derivationSha256": "de8b25e465191409900cda67ae446ed40de902fb3ebfc8635c373ade370b21a1"
+    },
+    {
+      "actorId": "NPC_0055",
+      "sourceUrl": "/art/portraits/npc_0055-23f4a5aee0e3.webp",
+      "sourceSha256": "23f4a5aee0e3352081528710c2fb0d8f6709adda7b3d4c9adcdf69352856d9a4",
+      "file": "expanded/npc_0055-3690c4a66720.webp",
+      "sha256": "3690c4a667207779a675dcda46dce520406b529f01e7702406176f3599465f22",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 238,
+        "top": 41,
+        "size": 410
+      },
+      "sourceWidth": 864,
+      "sourceHeight": 1821,
+      "derivationSource": "outputs/npc100/originals/npc_0055.png",
+      "derivationSha256": "79ec3a7ea32dce53545357709dc47c502dc147590435af3401d3dea582125dbb"
+    },
+    {
+      "actorId": "NPC_0056",
+      "sourceUrl": "/art/portraits/npc_0056-e3a5d4ad17b9.webp",
+      "sourceSha256": "e3a5d4ad17b9cbb2028c7974827f58f574f0b2e7c61d09ace5cb509b32d97228",
+      "file": "expanded/npc_0056-12420246325a.webp",
+      "sha256": "12420246325aad1365f4edcd2c1742b04d36ddbf70ecc5d6f8b4ee675f2c83a4",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 192,
+        "top": 41,
+        "size": 434
+      },
+      "sourceWidth": 854,
+      "sourceHeight": 1842,
+      "derivationSource": "outputs/npc100/originals/npc_0056.png",
+      "derivationSha256": "f172cdfad04c29d7b06b888b42fe7438401b72c25571ac968becdf9c2a60d7cb"
+    },
+    {
+      "actorId": "NPC_0057",
+      "sourceUrl": "/art/portraits/npc_0057-294f0a47acbc.webp",
+      "sourceSha256": "294f0a47acbcd1d058c5c65de4106a28f2a087c7d4163aab0793195af2d5e908",
+      "file": "expanded/npc_0057-15c3ad38fe72.webp",
+      "sha256": "15c3ad38fe72dea00e26f1226159b24ca4abfe28d073ac9068df0dbab15eecf6",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 265,
+        "top": 14,
+        "size": 376
+      },
+      "sourceWidth": 887,
+      "sourceHeight": 1774,
+      "derivationSource": "outputs/npc100/originals/npc_0057.png",
+      "derivationSha256": "e6ce8328cee8bdfb54c508d41023f2cc08559ef4fbb0ccbb68f42b8506b2a3ca"
+    },
+    {
+      "actorId": "NPC_0058",
+      "sourceUrl": "/art/portraits/npc_0058-71516ef0ee13.webp",
+      "sourceSha256": "71516ef0ee1373c985e3af49b1e1da42405f2b84b98339dbbaeb464ebe5a8cb7",
+      "file": "expanded/npc_0058-08f4d1a130b7.webp",
+      "sha256": "08f4d1a130b7eb3389a3fc57bab2a5240b1bfe8b5ed69934fe2a1918de77238a",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 297,
+        "top": 87,
+        "size": 349
+      },
+      "sourceWidth": 931,
+      "sourceHeight": 1690,
+      "derivationSource": "outputs/npc100/originals/npc_0058.png",
+      "derivationSha256": "95581e4e013ed4f65f30f0a247b7ffdad254ad789efd96e4be94423547d0d839"
+    },
+    {
+      "actorId": "NPC_0059",
+      "sourceUrl": "/art/portraits/npc_0059-c801983861a9.webp",
+      "sourceSha256": "c801983861a98ef6faea6301bc9cbbea39276e69f3d51c4307fe9cc566209dbd",
+      "file": "expanded/npc_0059-b4bd2147a71e.webp",
+      "sha256": "b4bd2147a71e553a081ed1314e6791b8c44bb8e2a9154f90825b61bb52756773",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 253,
+        "top": 58,
+        "size": 385
+      },
+      "sourceWidth": 862,
+      "sourceHeight": 1825,
+      "derivationSource": "outputs/npc100/originals/npc_0059.png",
+      "derivationSha256": "6ddc7232301ce20df3b9fe30ddbd45699a169599c50f82efe72ebe384adf4d23"
+    },
+    {
+      "actorId": "NPC_0060",
+      "sourceUrl": "/art/portraits/npc_0060-901e7eb9b14d.webp",
+      "sourceSha256": "901e7eb9b14d4bb8d79e154b51b5432ece71220ce027662eca2e8159b9387ffd",
+      "file": "expanded/npc_0060-22a70aaa4e84.webp",
+      "sha256": "22a70aaa4e84baf4b6bb38149e850d5d23a692ba970a831532807a422ead26ce",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 212,
+        "top": 22,
+        "size": 437
+      },
+      "sourceWidth": 814,
+      "sourceHeight": 1932,
+      "derivationSource": "outputs/npc100/originals/npc_0060.png",
+      "derivationSha256": "3e159c7b8bca07c90a32608d3aa23df2007c10e8b340f9ba1338abfd37c6cb60"
+    },
+    {
+      "actorId": "NPC_0061",
+      "sourceUrl": "/art/portraits/npc_0061-e3a5137eb062.webp",
+      "sourceSha256": "e3a5137eb0628f9b1727ff2508520302dffcab25b7d932270224d1b77e0ad535",
+      "file": "expanded/npc_0061-b1dd0579e669.webp",
+      "sha256": "b1dd0579e6691d73542c10e46eebbc3c7cdee85af2ac65db023b2e5699de3cf9",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 251,
+        "top": 53,
+        "size": 386
+      },
+      "sourceWidth": 864,
+      "sourceHeight": 1821,
+      "derivationSource": "outputs/npc100/originals/npc_0061.png",
+      "derivationSha256": "9e9f3e1f344bf98cdde4ee43aa4838e0a0462aeb0cea5730c1b9fb2e4304142e"
+    },
+    {
+      "actorId": "NPC_0062",
+      "sourceUrl": "/art/portraits/npc_0062-eb1c546c02b7.webp",
+      "sourceSha256": "eb1c546c02b7ff8ab85c38e4aaddd998e4368adb865fb5966d31586cb0e0eb7e",
+      "file": "expanded/npc_0062-5092ecd496a0.webp",
+      "sha256": "5092ecd496a0eca2464c58812f7fbe65c6bc78d2ea2a9de2a32ad33827703fee",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 274,
+        "top": 31,
+        "size": 366
+      },
+      "sourceWidth": 887,
+      "sourceHeight": 1774,
+      "derivationSource": "outputs/npc100/originals/npc_0062.png",
+      "derivationSha256": "1c818396e97058d54817cee01f730023fe7578caee39dc5df31dd485838bb52c"
+    },
+    {
+      "actorId": "NPC_0063",
+      "sourceUrl": "/art/portraits/npc_0063-c67e92a539bd.webp",
+      "sourceSha256": "c67e92a539bd99e4433b37e235602d0ea124363984286b48fe0e9541ed3387e2",
+      "file": "expanded/npc_0063-af10d2ac1ccd.webp",
+      "sha256": "af10d2ac1ccdce574b7b50909ff19c2b29060c0e804b1d769b0c146785f30a81",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 255,
+        "top": 15,
+        "size": 388
+      },
+      "sourceWidth": 864,
+      "sourceHeight": 1821,
+      "derivationSource": "outputs/npc100/originals/npc_0063.png",
+      "derivationSha256": "d125929d7f1b8cc0a498fe8998d075c697005ae9d3fc2abe50596074b52aa155"
+    },
+    {
+      "actorId": "NPC_0064",
+      "sourceUrl": "/art/portraits/npc_0064-59985e0f8d88.webp",
+      "sourceSha256": "59985e0f8d88a0fd3af17fac95df899bf79f759a2c4bf248a129dc656e0ae81f",
+      "file": "expanded/npc_0064-899af8d3fb0f.webp",
+      "sha256": "899af8d3fb0f74610b931cdae190e94e2c86552fa3c41989a6f084adec29c8a4",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 259,
+        "top": 75,
+        "size": 367
+      },
+      "sourceWidth": 864,
+      "sourceHeight": 1821,
+      "derivationSource": "outputs/npc100/originals/npc_0064.png",
+      "derivationSha256": "5259c22c4f19c2902f4deef5e8fcd6f891842d863c6beb52b9dbca2229a047d2"
+    },
+    {
+      "actorId": "NPC_0065",
+      "sourceUrl": "/art/portraits/npc_0065-0b5f09a2fe29.webp",
+      "sourceSha256": "0b5f09a2fe2947d2bec209a83ef3cb348d4c6e29be0a19adb33ccb6e45be36f3",
+      "file": "expanded/npc_0065-a10ada00f6e1.webp",
+      "sha256": "a10ada00f6e15e9c73144d325909d1165e7063aab8d33b8ff5d09cd447641857",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 269,
+        "top": 70,
+        "size": 384
+      },
+      "sourceWidth": 865,
+      "sourceHeight": 1819,
+      "derivationSource": "outputs/npc100/originals/npc_0065.png",
+      "derivationSha256": "20aa2cc627573e29afce1c665fdb053b029bdd40330d3e3ca82d282bc7aa74f7"
+    },
+    {
+      "actorId": "NPC_0066",
+      "sourceUrl": "/art/portraits/npc_0066-17f8be5bef50.webp",
+      "sourceSha256": "17f8be5bef50b4bdc0f7f79de22bce8421c19aa8224c8478aa56c8ab8a9d58e3",
+      "file": "expanded/npc_0066-a0cba1042b51.webp",
+      "sha256": "a0cba1042b5109de4f75383d5f313c5167a19ab1b214fc20ada07d77c15f94cb",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 218,
+        "top": 17,
+        "size": 410
+      },
+      "sourceWidth": 854,
+      "sourceHeight": 1842,
+      "derivationSource": "outputs/npc100/originals/npc_0066.png",
+      "derivationSha256": "ab289443a1ec6c6a057cf4cbc09b36216a55aac650e3fd14e0b1a7ecab255ffb"
+    },
+    {
+      "actorId": "NPC_0067",
+      "sourceUrl": "/art/portraits/npc_0067-0e5117ad0562.webp",
+      "sourceSha256": "0e5117ad05623d8b4a728d3d41ac279d04347167b26e2274a339abc72a57b764",
+      "file": "expanded/npc_0067-3ee5414a1e78.webp",
+      "sha256": "3ee5414a1e78cdc2e0d2eda2171d87b1e4d7845f5ab3f961fdead697e4d74769",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 280,
+        "top": 60,
+        "size": 377
+      },
+      "sourceWidth": 885,
+      "sourceHeight": 1778,
+      "derivationSource": "outputs/npc100/originals/npc_0067.png",
+      "derivationSha256": "7c22004e91435d392ccdf1c526938db895df297302fec0195e3fbcdde76f6078"
+    },
+    {
+      "actorId": "NPC_0068",
+      "sourceUrl": "/art/portraits/npc_0068-f8451dc4505f.webp",
+      "sourceSha256": "f8451dc4505ff7ba9d7e36cd03877697629f4abd8bfe837531f90961c4ba3a7d",
+      "file": "expanded/npc_0068-fa28c39fa6d4.webp",
+      "sha256": "fa28c39fa6d496db94034397051019c0a76780c347f9d565e8e19e035b9f07c0",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 209,
+        "top": 182,
+        "size": 393
+      },
+      "sourceWidth": 863,
+      "sourceHeight": 1822,
+      "derivationSource": "outputs/npc100/originals/npc_0068.png",
+      "derivationSha256": "dbf02c1166a9c450853a6e03fafe215e86e94b37b9821f487bfbe7e4188abda4"
+    },
+    {
+      "actorId": "NPC_0069",
+      "sourceUrl": "/art/portraits/npc_0069-d17c46555f89.webp",
+      "sourceSha256": "d17c46555f89fe3dfdfa3135de942aff8cfeb17d87eb7fbfb9bc9d1a46fdabc3",
+      "file": "expanded/npc_0069-c9009cf5c6ba.webp",
+      "sha256": "c9009cf5c6badbb7be650bdccd068526f6b22215153cc92a089f54c7531d3060",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 268,
+        "top": 47,
+        "size": 363
+      },
+      "sourceWidth": 864,
+      "sourceHeight": 1821,
+      "derivationSource": "outputs/npc100/originals/npc_0069.png",
+      "derivationSha256": "1b02bffc3e82bc7c1e6eeeead0e92d43fca7a80293bb95d1f3357a0e2e0b4332"
+    },
+    {
+      "actorId": "NPC_0070",
+      "sourceUrl": "/art/portraits/npc_0070-6c2f89c0dcee.webp",
+      "sourceSha256": "6c2f89c0dcee4e75d9c682fb5ace740bf237fee867863f315a5174f2df6cf712",
+      "file": "expanded/npc_0070-382cd2bb7093.webp",
+      "sha256": "382cd2bb70934afe03d60701dab3ff4ae585c54dfbd00c77302016d428f007fe",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 251,
+        "top": 19,
+        "size": 403
+      },
+      "sourceWidth": 864,
+      "sourceHeight": 1821,
+      "derivationSource": "outputs/npc100/originals/npc_0070.png",
+      "derivationSha256": "55eb481b5b62934670928472a7efe9df5cb3b589f0c05f0a1d16d809706b4e2f"
+    },
+    {
+      "actorId": "NPC_0071",
+      "sourceUrl": "/art/portraits/npc_0071-4317ec068436.webp",
+      "sourceSha256": "4317ec06843693eae54f62587a3454ba565d1feff3161ac8e6449ff8faa15818",
+      "file": "expanded/npc_0071-c9998188bdd5.webp",
+      "sha256": "c9998188bdd588368efe9e3aa4b1cc095d9a84a8359958b19b35699e741eb8c0",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 298,
+        "top": 71,
+        "size": 361
+      },
+      "sourceWidth": 909,
+      "sourceHeight": 1730,
+      "derivationSource": "outputs/npc100/originals/npc_0071.png",
+      "derivationSha256": "7a3c79b3baee1949fff17ac9096edda3b5136f1b1f13dd20a5c76f39c51cdf9e"
+    },
+    {
+      "actorId": "NPC_0072",
+      "sourceUrl": "/art/portraits/npc_0072-d3406a10a8ca.webp",
+      "sourceSha256": "d3406a10a8caab0e01864b821701f42b2917ffa78d72e4771231e4adc3fe7391",
+      "file": "expanded/npc_0072-e6f49f86033a.webp",
+      "sha256": "e6f49f86033a2ed0072b173d7795e90986c0da51958b5afca91f7fdd052d376b",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 274,
+        "top": 35,
+        "size": 405
+      },
+      "sourceWidth": 887,
+      "sourceHeight": 1774,
+      "derivationSource": "outputs/npc100/originals/npc_0072.png",
+      "derivationSha256": "4d29fcf839b599d18124be24c062fa88fa626ab62a57c04488e3c379f73cde76"
+    },
+    {
+      "actorId": "NPC_0073",
+      "sourceUrl": "/art/portraits/npc_0073-8a1e54ca3e29.webp",
+      "sourceSha256": "8a1e54ca3e290f375c74ba73ceeb5af7c8374cbab84e1a0efa2462a3b29e4872",
+      "file": "expanded/npc_0073-f554a306f079.webp",
+      "sha256": "f554a306f079443c0a404741e9b8b728be8d3e7ccf72cde99b412432143b05d6",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 258,
+        "top": 25,
+        "size": 375
+      },
+      "sourceWidth": 869,
+      "sourceHeight": 1810,
+      "derivationSource": "outputs/npc100/originals/npc_0073.png",
+      "derivationSha256": "37e5a0b6a0a0038c133ec86763f2afcef60883d8732dcf4d17513b7ba4cc2318"
+    },
+    {
+      "actorId": "NPC_0074",
+      "sourceUrl": "/art/portraits/npc_0074-377e1f64ce31.webp",
+      "sourceSha256": "377e1f64ce317d2807ec8e8286882491bf94b5a9fc291e6aa51207a796f3fbcd",
+      "file": "expanded/npc_0074-51b0cdc22ac1.webp",
+      "sha256": "51b0cdc22ac1524275efa120c2f258cb2593ec345a7cf8e9c8efb5ea332d121d",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 253,
+        "top": 38,
+        "size": 384
+      },
+      "sourceWidth": 864,
+      "sourceHeight": 1821,
+      "derivationSource": "outputs/npc100/originals/npc_0074.png",
+      "derivationSha256": "85af53e29b6eb4d3f8b028518c8b1176a861ddb864bf278c8f2f9de7d24e3d9a"
+    },
+    {
+      "actorId": "NPC_0075",
+      "sourceUrl": "/art/portraits/npc_0075-f6855947b85a.webp",
+      "sourceSha256": "f6855947b85a28e3fe04646830a101f089cd46748133921dff63ea4f6988a7b7",
+      "file": "expanded/npc_0075-751d181e551c.webp",
+      "sha256": "751d181e551cd6f13e110cd29060cb15ea100b78fe4547d5fefeddb5b7f6d2a3",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 291,
+        "top": 14,
+        "size": 389
+      },
+      "sourceWidth": 904,
+      "sourceHeight": 1740,
+      "derivationSource": "outputs/npc100/originals/npc_0075.png",
+      "derivationSha256": "cc29c5930c67697afc118574a77d5a43c2bbb86ae786e05eb7f41e724b558fd2"
+    },
+    {
+      "actorId": "NPC_0076",
+      "sourceUrl": "/art/portraits/npc_0076-f23582d7c823.webp",
+      "sourceSha256": "f23582d7c823aab9f9735e3855d7c2d7e6083cac00977528b19d156f8cd2d057",
+      "file": "expanded/npc_0076-8038271ed04e.webp",
+      "sha256": "8038271ed04e5b295630547f91772605d6a6a4600eacb7380de293578cc44e5f",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 237,
+        "top": 62,
+        "size": 386
+      },
+      "sourceWidth": 865,
+      "sourceHeight": 1819,
+      "derivationSource": "outputs/npc100/originals/npc_0076.png",
+      "derivationSha256": "55521e28af82960eee00225910002ad07e6bab84d334f4b8c906f8d8f5c6e190"
+    },
+    {
+      "actorId": "NPC_0077",
+      "sourceUrl": "/art/portraits/npc_0077-a8912cb46865.webp",
+      "sourceSha256": "a8912cb46865517caf0a89d8e906c5d05a503c981b0f32966e2c158a3c01d870",
+      "file": "expanded/npc_0077-b11812f986a3.webp",
+      "sha256": "b11812f986a3f675fc0054c4935d1cd8e58db7408c6195204147b29812d18bfe",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 212,
+        "top": 32,
+        "size": 405
+      },
+      "sourceWidth": 864,
+      "sourceHeight": 1821,
+      "derivationSource": "outputs/npc100/originals/npc_0077.png",
+      "derivationSha256": "b1181900af641738fb033e69a46eca8749ce105719e1f760aa209696a89bbd6c"
+    },
+    {
+      "actorId": "NPC_0078",
+      "sourceUrl": "/art/portraits/npc_0078-e04f06dcf8dd.webp",
+      "sourceSha256": "e04f06dcf8dddc86f6225e96a4b31bb9bfc384d3c6ba3017d25fb71534f14673",
+      "file": "expanded/npc_0078-ed12f2da18ea.webp",
+      "sha256": "ed12f2da18ea335db2a6a7151a04141061fb660efea6feeddbc4146208fb8a4f",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 219,
+        "top": 15,
+        "size": 424
+      },
+      "sourceWidth": 864,
+      "sourceHeight": 1821,
+      "derivationSource": "outputs/npc100/originals/npc_0078.png",
+      "derivationSha256": "46995764a8e8fee97309838a9e26a6ae4de4f635cb3f74f01626f76dedbd2719"
+    },
+    {
+      "actorId": "NPC_0079",
+      "sourceUrl": "/art/portraits/npc_0079-8d715526fecf.webp",
+      "sourceSha256": "8d715526fecffe93b3f7a312ae50d8ea8d6dd03b929c3914e579d29b043e31d8",
+      "file": "expanded/npc_0079-3c3c6681cd20.webp",
+      "sha256": "3c3c6681cd208b500f9f8182dbe1dabab1f69f2674decc3e553c87cc85f5c105",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 255,
+        "top": 53,
+        "size": 375
+      },
+      "sourceWidth": 864,
+      "sourceHeight": 1821,
+      "derivationSource": "outputs/npc100/originals/npc_0079.png",
+      "derivationSha256": "6f8c8af66f364f77b6c49f053bc04424e4658b10aef837307f62c29bb77d1867"
+    },
+    {
+      "actorId": "NPC_0080",
+      "sourceUrl": "/art/portraits/npc_0080-9e650b9210ba.webp",
+      "sourceSha256": "9e650b9210ba89c767a0fa0599a00a6ab582db2105c5f3c8cf157ede473b51c2",
+      "file": "expanded/npc_0080-4d3c7f3c68e1.webp",
+      "sha256": "4d3c7f3c68e1a4f7ea5cb4ba10fd149d71fd2d744c6e3d0f62d43f0fef9f44ea",
+      "width": 512,
+      "height": 512,
+      "crop": {
+        "left": 261,
+        "top": 22,
+        "size": 378
+      },
+      "sourceWidth": 887,
+      "sourceHeight": 1774,
+      "derivationSource": "outputs/npc100/originals/npc_0080.png",
+      "derivationSha256": "0e04b9c72cbbc89088099e4001bbdda1a0f07e9ede9367be0cd91070de597dc1"
+    }
+  ]
+}

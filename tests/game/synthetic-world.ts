@@ -2,7 +2,7 @@ import { applyCommand, createWorld, scene, validateWorld } from "../../lib/game/
 import type { Command, Profile } from "../../lib/game/types";
 
 // Purely generated at test runtime. No browser export, fixture JSON or personal data is read.
-export function syntheticFixture(stage: "early" | "evolved") {
+export function syntheticFixture(stage: "early" | "evolved", legacy = false) {
   if (stage !== "early" && stage !== "evolved") throw new Error("Unknown synthetic fixture stage");
   const profile: Profile = {
     name: "自动测试角色",
@@ -13,6 +13,9 @@ export function syntheticFixture(stage: "early" | "evolved") {
     appearance: { face: 0, hair: 2, color: 1 },
   };
   let world = createWorld(20260907, profile, `generated-fixture:${stage}`, 40);
+  // Released-schema fixtures use already affiliated NPCs so modern autonomous
+  // enrolment/journey fields cannot masquerade as historical version-one data.
+  if (legacy) for (const a of world.npcs.slice(2)) a.sect = "青岚宗";
   let serial = 0;
   const act = (command: Command) => {
     world = applyCommand(world, command, `generated:${++serial}`, world.revision);

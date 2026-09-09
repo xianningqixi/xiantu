@@ -1,5 +1,6 @@
 "use client";
 
+import { useDialogFocus } from "@/lib/ui/dialog-focus";
 import * as React from "react";
 import { AlertDialog as AlertDialogPrimitive } from "radix-ui";
 
@@ -43,6 +44,7 @@ function AlertDialogContent({
 }: React.ComponentProps<typeof AlertDialogPrimitive.Content> & {
   size?: "default" | "sm";
 }) {
+  const focus = useDialogFocus();
   return (
     <AlertDialogPortal>
       <AlertDialogOverlay />
@@ -54,6 +56,14 @@ function AlertDialogContent({
           className,
         )}
         {...props}
+        onOpenAutoFocus={(event) => {
+          focus.opened();
+          props.onOpenAutoFocus?.(event);
+        }}
+        onCloseAutoFocus={(event) => {
+          props.onCloseAutoFocus?.(event);
+          focus.closed(event);
+        }}
       />
     </AlertDialogPortal>
   );

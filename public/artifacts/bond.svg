@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192" fill="none">
+  <defs>
+    <radialGradient id="halo"><stop stop-color="#d98169" stop-opacity=".22"/><stop offset="1" stop-color="#d98169" stop-opacity="0"/></radialGradient>
+    <linearGradient id="cord" x1="53" y1="41" x2="129" y2="153" gradientUnits="userSpaceOnUse"><stop stop-color="#e3a185"/><stop offset=".35" stop-color="#c56751"/><stop offset=".7" stop-color="#934035"/><stop offset="1" stop-color="#e29973"/></linearGradient>
+    <linearGradient id="gold" x1="69" y1="0" x2="82" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#977048"/><stop offset=".5" stop-color="#edd6a0"/><stop offset="1" stop-color="#b1844e"/></linearGradient>
+    <path id="knot" d="M96 96C52 63 44 45 59 39C75 31 91 53 96 76C103 49 116 32 131 39C149 48 133 67 96 96C55 128 39 107 51 93C67 76 86 81 96 96C111 79 133 78 143 94C155 115 132 122 96 96ZM96 65L126 94L97 125L66 95Z"/>
+  </defs>
+  <circle cx="96" cy="96" r="88" fill="url(#halo)"/>
+  <ellipse cx="98" cy="177" rx="38" ry="5" fill="#000" opacity=".2"/>
+  <path d="M95 42C79 15 116 15 98 42" stroke="#c39060" stroke-width="3"/>
+  <path d="M83 118C85 136 76 141 74 153M110 117C107 133 121 145 122 155" stroke="#72352c" stroke-width="8" stroke-linecap="round"/>
+  <path d="M83 118C85 136 76 141 74 153M110 117C107 133 121 145 122 155" stroke="url(#cord)" stroke-width="5" stroke-linecap="round"/>
+  <use href="#knot" stroke="#67372c" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+  <use href="#knot" stroke="url(#cord)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <use href="#knot" stroke="#f4bb95" stroke-opacity=".45" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="96" cy="95" r="7" fill="#487565" stroke="#d4b779" stroke-width="2"/>
+  <circle cx="95" cy="93" r="2" fill="#acd0ac"/>
+  <path d="M69 152L65 170M74 153L73 176M79 152L82 172M117 156L113 174M122 157L122 179M127 156L131 174" stroke="url(#cord)" stroke-width="4" stroke-linecap="round"/>
+  <rect x="67" y="144" width="15" height="11" rx="3" fill="url(#gold)"/>
+  <rect x="115" y="148" width="15" height="11" rx="3" fill="url(#gold)"/>
+  <path d="M47 129V139M42 134H52" stroke="#dcb58c" stroke-linecap="round" opacity=".7"/>
+</svg>

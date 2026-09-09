@@ -1,0 +1,17 @@
+{
+  "order": 4,
+  "regionName": "霜河城",
+  "minRealm": 4,
+  "minExpeditions": 1,
+  "travelDays": 5,
+  "sceneIntervalDays": 2,
+  "clueCount": 3,
+  "introId": "shichai.dongxue.intro",
+  "lead": "北地的藏书楼与雪村，在漫长冬日里等着远行的人。",
+  "routeLead": "线索指向北地藏书楼；修成筑基后，循旧信前往霜河城。",
+  "locations": {
+    "market": "shichai.dongxue.market",
+    "inn": "shichai.dongxue.inn",
+    "gate": "shichai.dongxue.gate"
+  }
+}

@@ -5,7 +5,7 @@ import { configuredModel } from "./model-settings";
 import { modelIdentity, type ModelSettingsStore } from "./model-settings-store";
 import { allowedOrigins } from "./negotiation-security";
 import { boundedText, providerFetch } from "./provider-http";
-import { portraitPrompt } from "./portrait-prompt";
+import { composePortraitPrompt } from "./portrait-composition";
 const inputSchema = z
   .object({ subject: portraitSubjectSchema, variation: z.string().uuid() })
   .strict();
@@ -31,18 +31,26 @@ export async function handlePortrait(request: Request, options: Options = {}) {
   try {
     input = inputSchema.parse(JSON.parse(await boundedText(request, 8192)));
   } catch {
-    return reply(400, { error: "角色形貌资料无效，请检查身高和三围。" });
+    return reply(400, { error: "角色形貌资料无效，请检查身高、胸围选项和立绘特征。" });
   }
   const identity = modelIdentity(request, true);
   if (identity.cookie) headers.set("Set-Cookie", identity.cookie);
-  let config;
+  let config, llm;
   try {
-    config = await configuredModel(request, "image", options);
+    [config, llm] = await Promise.all([
+      configuredModel(request, "image", options),
+      configuredModel(request, "llm", options),
+    ]);
   } catch {
-    return reply(503, { error: "生图配置无法读取，请在 AI 模型设置中重新检查。" });
+    return reply(503, { error: "模型配置无法读取，请在 AI 模型设置中检查文字与生图模型。" });
   }
   if (!config)
     return reply(409, { error: "请先打开「AI 模型设置 → 生图模型」，填写配置、启用并保存。" });
+  if (!llm || llm.mock)
+    return reply(409, {
+      error:
+        "请先打开「AI 模型设置 → LLM 文字模型」，配置并启用文字模型，用于综合形貌生成立绘提示词。",
+    });
   const now = Date.now();
   for (const [id, value] of requests)
     if (!value.busy && now - value.started > 60000) requests.delete(id);
@@ -54,19 +62,28 @@ export async function handlePortrait(request: Request, options: Options = {}) {
   window.busy = true;
   window.count++;
   requests.set(identity.id!, window);
+  let stage: "prompt" | "image" = "prompt";
   try {
-    const image = await generateImage(
+    const fetcher = options.fetcher ?? providerFetch;
+    const prompt = await composePortraitPrompt(
       request,
-      config,
-      options.fetcher ?? providerFetch,
-      portraitPrompt(input.subject, input.variation),
-      "1024x1536",
+      llm,
+      fetcher,
+      input.subject,
+      input.variation,
     );
+    request.signal.throwIfAborted();
+    stage = "image";
+    const image = await generateImage(request, config, fetcher, prompt, "1024x1536");
     if (request.signal.aborted) return reply(499, { error: "生成已取消。" });
     return reply(200, { image });
   } catch {
     return reply(request.signal.aborted ? 499 : 502, {
-      error: "立绘生成未完成。请检查模型权限、余额、等待时间，以及是否支持 1024×1536 竖图。",
+      error: request.signal.aborted
+        ? "生成已取消。"
+        : stage === "prompt"
+          ? "文字模型未能生成完整立绘提示词，请检查 LLM 配置、等待时间与回复上限后重试。"
+          : "提示词已生成，但立绘绘制未完成。请检查生图模型权限、余额、等待时间及 1024×1536 竖图支持。",
     });
   } finally {
     window.busy = false;

@@ -1,5 +1,14 @@
 "use client";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,159 +19,144 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { saveDownloadName, downloadSaveText } from "@/lib/ui/save-download";
+import { REALMS } from "@/lib/game/content/official";
 import type { BackupSummary, SaveExpectation } from "@/lib/game/types";
 import type { useGame } from "@/lib/game/use-game";
-import { Archive, Download } from "lucide-react";
-import { useState } from "react";
-
 type Props = { game: ReturnType<typeof useGame>; onPause: () => void };
-export function BackupManager({ game, onPause }: Props) {
-  const [open, setOpen] = useState(false);
-  const [backups, setBackups] = useState<BackupSummary[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+export function BackupList({ game, onRestored }: { game: Props["game"]; onRestored: () => void }) {
+  const [backups, setBackups] = useState<BackupSummary[]>([]),
+    [loading, setLoading] = useState(true),
+    [error, setError] = useState("");
   const [selection, setSelection] = useState<{
     backup: BackupSummary;
     expected: SaveExpectation;
   } | null>(null);
-  const show = async () => {
-    onPause();
-    setOpen(true);
-    setLoading(true);
-    setError("");
+  useEffect(() => {
+    let active = true;
+    game
+      .listBackups()
+      .then((value) => {
+        if (active) setBackups(value);
+      })
+      .catch((e) => {
+        if (active) setError(e.message);
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+  const download = async (backup?: BackupSummary) => {
     try {
-      setBackups(await game.listBackups());
+      const text = backup ? await game.exportBackup(backup.key) : await game.exportSave();
+      if (text)
+        downloadSaveText(
+          text,
+          saveDownloadName({
+            name: backup?.name ?? game.world?.player.name,
+            day: backup?.day ?? game.world?.day,
+            kind: backup ? "备份" : "原始进度",
+            preview:
+              backup?.key.startsWith("preview:") ?? game.world?.saveId.startsWith("preview:"),
+          }),
+        );
     } catch (e) {
-      setError(e instanceof Error ? e.message : "备份读取失败。");
-    } finally {
-      setLoading(false);
+      setError(e instanceof Error ? e.message : "导出失败，请重新读取。");
     }
   };
-  const download = async (backup: BackupSummary) => {
-    try {
-      const text = await game.exportBackup(backup.key);
-      if (!text) return;
-      const url = URL.createObjectURL(new Blob([text], { type: "application/json" }));
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `仙途_备份_${backup.name}_第${backup.day + 1}日.json`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 60000);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "备份导出失败。");
-    }
-  };
+  const reason = { create: "开始新局前", import: "导入前", restore: "恢复前", migration: "升级前" };
   return (
-    <>
-      <Button variant="outline" disabled={game.busy} onClick={() => void show()}>
-        <Archive data-icon="inline-start" />
-        本机备份
-      </Button>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="game-modal">
-          <DialogHeader>
-            <DialogTitle>找回一段人生</DialogTitle>
-            <DialogDescription>
-              开始新局、导入或升级前保留的完整快照。恢复时也会备份当前进度。
-            </DialogDescription>
-          </DialogHeader>
-          {error && (
-            <Alert variant="destructive">
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
-          {game.recovery && (
-            <Button
-              variant="outline"
-              onClick={async () => {
-                const text = await game.exportSave();
-                if (!text) {
-                  setError("原始数据未能导出，请重新读取后重试。");
-                  return;
-                }
-                const url = URL.createObjectURL(new Blob([text], { type: "application/json" }));
-                const a = document.createElement("a");
-                a.href = url;
-                a.download = "仙途_原始进度_待恢复.json";
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                setTimeout(() => URL.revokeObjectURL(url), 60000);
-              }}
-            >
-              导出原始进度
-            </Button>
-          )}
-          {loading ? (
-            <p role="status">正在读取备份…</p>
-          ) : backups.length === 0 ? (
-            <p>暂无备份。首次开始新局、导入或升级存档时会自动保留。</p>
-          ) : (
-            <ul className="flex max-h-96 flex-col gap-4 overflow-y-auto">
-              {backups.map((backup) => (
-                <li key={backup.key} className="flex flex-wrap items-center justify-between gap-2">
-                  <span>
-                    {backup.name} · 第 {backup.day + 1} 日
-                  </span>
-                  <div className="flex gap-2">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => void download(backup)}
-                      aria-label={`导出${backup.name}第${backup.day + 1}日备份`}
-                    >
-                      <Download data-icon="inline-start" />
-                      导出
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      disabled={game.busy}
-                      onClick={() => setSelection({ backup, expected: { ...game.expected } })}
-                    >
-                      恢复
-                    </Button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
-        </DialogContent>
-      </Dialog>
-      <AlertDialog
-        open={!!selection}
-        onOpenChange={(value) => {
-          if (!value) setSelection(null);
-        }}
-      >
-        <AlertDialogContent className="game-modal">
+    <section className="backup-list">
+      {error && (
+        <p className="error-banner" role="alert">
+          {error}
+        </p>
+      )}
+      {game.recovery && (
+        <Button variant="outline" onClick={() => void download()}>
+          导出原始进度
+        </Button>
+      )}
+      {loading ? (
+        <p role="status">正在读取备份…</p>
+      ) : backups.length ? (
+        <ul>
+          {backups.map((backup) => (
+            <li key={backup.key}>
+              <div>
+                <strong>
+                  {backup.name} · 第 {backup.day + 1} 日
+                </strong>
+                <p>
+                  {backup.realm !== undefined ? REALMS[backup.realm] : "境界未记录"} ·{" "}
+                  {backup.mode === "complex"
+                    ? "复杂模式"
+                    : backup.mode === "simple"
+                      ? "简单模式"
+                      : "模式未记录"}{" "}
+                  · 版本 {backup.revision}
+                </p>
+                <small>
+                  {backup.createdAt
+                    ? new Date(backup.createdAt).toLocaleString("zh-CN")
+                    : "历史备份 · 时间未记录"}
+                  {backup.reason ? ` · ${reason[backup.reason]}` : ""}
+                </small>
+              </div>
+              <div className="backup-actions">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => void download(backup)}
+                  aria-label={`导出${backup.name}第${backup.day + 1}日备份`}
+                >
+                  导出
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={game.busy}
+                  onClick={() => setSelection({ backup, expected: { ...game.expected } })}
+                >
+                  恢复
+                </Button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>暂无备份。开始新局、导入或升级存档时会自动保留。</p>
+      )}
+      <AlertDialog open={!!selection} onOpenChange={(open) => !open && setSelection(null)}>
+        <AlertDialogContent className="game-modal compact-confirm">
           <AlertDialogHeader>
             <AlertDialogTitle>恢复这份备份？</AlertDialogTitle>
             <AlertDialogDescription>
-              将恢复「{selection?.backup.name}」第 {(selection?.backup.day ?? 0) + 1}{" "}
-              日。当前进度会先保留为另一份备份。
+              用「{selection?.backup.name} · 第 {(selection?.backup.day ?? 0) + 1} 日」替换「
+              {game.world?.player.name ?? "待读取角色"} · 第 {(game.world?.day ?? 0) + 1}{" "}
+              日」。当前完整进度会先保留为另一份备份。
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>再想一想</AlertDialogCancel>
+            <Button variant="outline" onClick={() => void download()}>
+              先导出当前存档
+            </Button>
+            <AlertDialogCancel>取消恢复</AlertDialogCancel>
             <AlertDialogAction
               disabled={game.busy}
-              onClick={async () => {
+              onClick={async (event) => {
+                event.preventDefault();
                 if (!selection) return;
-                if (await game.restoreBackup(selection.backup.key, selection.expected))
-                  setOpen(false);
-                else setError("备份未恢复，请查看原页面提示，重新读取后再试。");
-                setSelection(null);
+                if (await game.restoreBackup(selection.backup.key, selection.expected)) {
+                  setSelection(null);
+                  onRestored();
+                } else {
+                  setSelection(null);
+                  setError("备份未恢复，当前进度保留。请重新读取后再试。");
+                }
               }}
             >
               确认恢复
@@ -170,6 +164,33 @@ export function BackupManager({ game, onPause }: Props) {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </>
+    </section>
+  );
+}
+export function BackupManager({ game, onPause }: Props) {
+  const [open, setOpen] = useState(false);
+  return (
+    <Dialog
+      open={open}
+      onOpenChange={(value) => {
+        if (value) onPause();
+        setOpen(value);
+      }}
+    >
+      <DialogTrigger asChild>
+        <Button type="button" variant="outline" disabled={game.busy}>
+          本机备份
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="game-modal backups-modal">
+        <DialogHeader>
+          <DialogTitle>找回一段人生</DialogTitle>
+          <DialogDescription>
+            开始新局、导入或升级前的完整快照。恢复时也会备份当前进度。
+          </DialogDescription>
+        </DialogHeader>
+        {open && <BackupList game={game} onRestored={() => setOpen(false)} />}
+      </DialogContent>
+    </Dialog>
   );
 }

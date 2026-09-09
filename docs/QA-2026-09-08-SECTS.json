@@ -1,0 +1,93 @@
+{
+  "build": "a1114f2022c4f4ff1824",
+  "browser": "Chrome",
+  "result": "passed",
+  "uniqueTests": 17,
+  "tests": {
+    "a new mortal previews and visits all ten map places, with gated NPC stories and durable travel": {
+      "source": "/tmp/xiantu-sects-final-browser.log",
+      "test": "tests/browser/atlas.spec.ts:70:1",
+      "duration": "18.8s"
+    },
+    "the 390px map keeps every destination visible and tappable without horizontal overflow": {
+      "source": "/tmp/xiantu-sects-final-browser.log",
+      "test": "tests/browser/atlas.spec.ts:111:3",
+      "duration": "4.4s"
+    },
+    "the 320px map keeps every destination visible and tappable without horizontal overflow": {
+      "source": "/tmp/xiantu-sects-final-browser.log",
+      "test": "tests/browser/atlas.spec.ts:111:3",
+      "duration": "4.3s"
+    },
+    "the atlas opens on demand, closes without travel, and restores focus and the current destination": {
+      "source": "/tmp/xiantu-sects-final-browser.log",
+      "test": "tests/browser/atlas.spec.ts:144:1",
+      "duration": "7.4s"
+    },
+    "NPC history shows personal events before acquaintance, with biography and no knowledge or save writes": {
+      "source": "/tmp/xiantu-people-main-recheck.log",
+      "test": "tests/browser/characters.spec.ts:156:1",
+      "duration": "4.5s"
+    },
+    "mobile status, guided controls, prices, time badges and immediate feedback remain visible": {
+      "source": "/tmp/xiantu-sects-final-browser.log",
+      "test": "tests/browser/improvements.spec.ts:28:1",
+      "duration": "3.4s"
+    },
+    "conditional retreat sends one batch request, summarizes known events, and journal filters are bounded": {
+      "source": "/tmp/xiantu-sects-final-browser.log",
+      "test": "tests/browser/improvements.spec.ts:56:1",
+      "duration": "2.3s"
+    },
+    "optimized images reserve dimensions and atlas downloads are excluded from initial offline core": {
+      "source": "/tmp/xiantu-sects-final-browser.log",
+      "test": "tests/browser/improvements.spec.ts:108:1",
+      "duration": "1.6s"
+    },
+    "production core can close and reopen offline, act and recover the saved day": {
+      "source": "/tmp/xiantu-offline-verified.log",
+      "test": "tests/browser/offline.spec.ts:48:1",
+      "duration": "2.9s"
+    },
+    "waiting update keeps the active version and refuses another open game tab before explicit activation": {
+      "source": "/tmp/xiantu-offline-verified.log",
+      "test": "tests/browser/offline.spec.ts:108:1",
+      "duration": "4.5s"
+    },
+    "three sect routes, contribution economy, NPC relationship choices and reload work through real UI": {
+      "source": "/tmp/xiantu-sects-final-browser.log",
+      "test": "tests/browser/sects.spec.ts:50:1",
+      "duration": "24.2s"
+    },
+    "a new adult woman can voluntarily take the Jade vow; viewing or cancelling never joins": {
+      "source": "/tmp/xiantu-sects-final-browser.log",
+      "test": "tests/browser/sects.spec.ts:134:1",
+      "duration": "5.3s"
+    },
+    "normal UI story honor reaches reunion and foundation attempt, with reload and long-action pause": {
+      "source": "/tmp/xiantu-sects-final-browser.log",
+      "test": "tests/browser/story.spec.ts:48:3",
+      "duration": "1.1m"
+    },
+    "normal UI story breach reaches reunion and foundation attempt, with reload and long-action pause": {
+      "source": "/tmp/xiantu-sects-final-browser.log",
+      "test": "tests/browser/story.spec.ts:48:3",
+      "duration": "1.3m"
+    },
+    "all local NPCs and the player expose live attributes, directed relations and history without revealing remote residents": {
+      "source": "/tmp/xiantu-people-main-recheck.log",
+      "test": "tests/browser/characters.spec.ts:48:1",
+      "duration": "40.1s"
+    },
+    "the default game integrates all four volumes into its main quest through local introductions, people, growth and travel": {
+      "source": "/tmp/xiantu-people-main-recheck.log",
+      "test": "tests/browser/main-quest.spec.ts:111:1",
+      "duration": "1.2m"
+    },
+    "a failed update retains the old cache, and a paused long action blocks activation": {
+      "source": "/tmp/xiantu-offline-verified.log",
+      "test": "tests/browser/offline.spec.ts:156:1",
+      "duration": "3.5s"
+    }
+  }
+}

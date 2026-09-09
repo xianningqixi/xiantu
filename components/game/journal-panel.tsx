@@ -1,4 +1,5 @@
 "use client";
+import { MainQuestLog } from "./main-quest-log";
 import { Button } from "@/components/ui/button";
 import B from "@/lib/game/content/balance.json";
 import { visibleEvents } from "@/lib/game/engine";
@@ -8,12 +9,40 @@ const PAGE_SIZE = 50;
 type Seen = { day: number; ids: string[] };
 const key = (world: World) => `xiantu:journal-seen:${world.saveId}`;
 const labels: Record<string, string> = {
+  buy: "购买",
+  heal: "服丹疗伤",
+  rest: "歇息",
+  exchange: "兑换",
+  learn: "学习功法",
+  negotiation: "同行交涉",
+  agreement: "订立约定",
+  "agreement-ended": "约定了结",
+  expedition: "秘境出征",
+  "battle-win": "战斗获胜",
+  "battle-retreat": "退出战斗",
+  "battle-defeat": "战斗失利",
+  "story-choice": "剧情选择",
+  "shared-experience": "共同经历",
+  "npc-meet": "结识同道",
+  "npc-friendship": "结为朋友",
+  "npc-depart": "辞行访宗",
+  "npc-arrive": "行路抵达",
+  "sect-visit": "拜访宗门",
+  "sect-join": "拜入宗门",
+  "sect-resident": "门人修行",
+  "sect-task": "宗门委托",
+  "sect-art": "研习心法",
+  "sect-leave": "辞别师门",
+  companionship: "相伴交流",
+  intimacy: "性与亲密经历",
   advance: "境界提升",
   breakthrough: "突破成功",
   "breakthrough-failed": "突破未成",
   death: "离世",
   conflict: "冲突",
   travel: "行旅",
+  "main-story": "主线线索",
+  survey: "残碑勘察",
   work: "劳务",
   train: "修炼",
   wait: "等候",
@@ -25,6 +54,7 @@ const labels: Record<string, string> = {
   social: "日常交往",
 };
 export function JournalPanel({ world: w }: { world: World }) {
+  const [newOnly, setNewOnly] = useState(false);
   const [person, setPerson] = useState("");
   const [kind, setKind] = useState("");
   const [year, setYear] = useState("");
@@ -43,15 +73,20 @@ export function JournalPanel({ world: w }: { world: World }) {
       /* Browser preferences are optional; world data is never touched. */
     }
   }, [w.saveId]);
+  const isNew = (id: string) => {
+    const learned = w.knowledge[id]?.find((row) => row[0] === 0)?.[3] ?? -1;
+    return learned > seen.day || (learned === seen.day && !seen.ids.includes(id));
+  };
   const filtered = useMemo(
     () =>
       events.filter(
         (e) =>
           (!person || e.actors.includes(person)) &&
-          (!kind || e.kind === kind) &&
+          (!kind || (kind === "other" ? !labels[e.kind] : e.kind === kind)) &&
+          (!newOnly || isNew(e.id)) &&
           (!year || String(Math.floor(e.day / B.world.daysPerYear) + 1) === year),
       ),
-    [events, person, kind, year],
+    [events, person, kind, year, newOnly, seen],
   );
   const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const visible = filtered.slice(
@@ -71,12 +106,15 @@ export function JournalPanel({ world: w }: { world: World }) {
     <section className="panel-section">
       <div className="section-heading">
         <span className="eyebrow">历程 · 落笔成忆</span>
-        <h2 className="serif">这一世的故事</h2>
+        <h2 className="serif" id="journal-heading" tabIndex={-1}>
+          这一世的故事
+        </h2>
         <p>
           共 {filtered.length} 条已知经历，{events.filter((e) => newFact(e.id)).length}{" "}
           条上次查看后新增。
         </p>
       </div>
+      <MainQuestLog world={w} />
       <div className="journal-filters">
         <label>
           人物
@@ -103,9 +141,9 @@ export function JournalPanel({ world: w }: { world: World }) {
             onChange={(e) => change(setKind, e.target.value)}
           >
             <option value="">所有类型</option>
-            {[...new Set(events.map((e) => e.kind))].map((k) => (
+            {[...new Set(events.map((e) => (labels[e.kind] ? e.kind : "other")))].map((k) => (
               <option key={k} value={k}>
-                {labels[k] ?? k}
+                {labels[k] ?? "其他经历"}
               </option>
             ))}
           </select>
@@ -128,6 +166,32 @@ export function JournalPanel({ world: w }: { world: World }) {
           </select>
         </label>
       </div>
+      <div className="list-pagination">
+        <label>
+          <input
+            type="checkbox"
+            checked={newOnly}
+            onChange={(e) => {
+              setNewOnly(e.target.checked);
+              setPage(0);
+            }}
+          />{" "}
+          仅看上次查看后新增
+        </label>
+        <Button variant="ghost" disabled={!page} onClick={() => setPage((n) => n - 1)}>
+          上一页
+        </Button>
+        <span>
+          {Math.min(page + 1, pageCount)} / {pageCount}
+        </span>
+        <Button
+          variant="ghost"
+          disabled={page + 1 >= pageCount}
+          onClick={() => setPage((n) => n + 1)}
+        >
+          下一页
+        </Button>
+      </div>
       <div className="journal">
         {[...groups].map(([year, rows]) => (
           <section key={year}>
@@ -137,7 +201,7 @@ export function JournalPanel({ world: w }: { world: World }) {
                 <time>第 {e.day + 1} 日</time>
                 <div>
                   <span className="journal-mark" />
-                  {newFact(e.id) && <small className="new-event">上次查看后新增</small>}
+                  {newFact(e.id) && <small className="new-event">新增</small>}
                   <p>{e.text}</p>
                 </div>
               </article>
@@ -145,7 +209,23 @@ export function JournalPanel({ world: w }: { world: World }) {
           </section>
         ))}
       </div>
-      {!filtered.length && <p>没有符合筛选条件的经历。</p>}
+      {!filtered.length && (
+        <div className="empty-copy">
+          <p>没有符合筛选条件的经历。</p>
+          <Button
+            variant="outline"
+            onClick={() => {
+              setPerson("");
+              setKind("");
+              setYear("");
+              setNewOnly(false);
+              setPage(0);
+            }}
+          >
+            清除筛选
+          </Button>
+        </div>
+      )}
       <nav className="journal-pagination" aria-label="历程分页">
         <Button variant="outline" disabled={page === 0} onClick={() => setPage((n) => n - 1)}>
           上一页

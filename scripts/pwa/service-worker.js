@@ -28,6 +28,41 @@ self.addEventListener("activate", (event) => {
   );
 });
 self.addEventListener("message", (event) => {
+  if (event.data?.type === "CACHE_VIEWED_ART" && Array.isArray(event.data.urls)) {
+    // Images loaded before the first controller claimed the page also count as viewed.
+    const urls = [...new Set(event.data.urls)]
+      .filter((value) => {
+        if (typeof value !== "string") return false;
+        try {
+          const url = new URL(value);
+          return (
+            url.origin === self.location.origin &&
+            !url.search &&
+            /^\/art\/optimized\/[a-z0-9-]+-[a-f0-9]{12}\.webp$/.test(url.pathname)
+          );
+        } catch {
+          return false;
+        }
+      })
+      .slice(0, 64);
+    event.waitUntil(
+      (async () => {
+        const art = await caches.open(ART_CACHE);
+        for (const url of urls) {
+          try {
+            if (await art.match(url)) continue;
+            const response = await fetch(new Request(url, { cache: "force-cache" }));
+            if (response.ok) await art.put(url, response);
+          } catch {
+            /* Optional art never prevents offline gameplay. */
+          }
+        }
+        const entries = await art.keys();
+        for (const entry of entries.slice(0, -64)) await art.delete(entry);
+      })(),
+    );
+    return;
+  }
   if (event.data?.type === "VERSION") {
     event.source?.postMessage({ type: "VERSION", version: VERSION });
     return;
@@ -39,7 +74,7 @@ self.addEventListener("message", (event) => {
       if (clients.some((client) => client.id !== event.source?.id)) {
         event.source?.postMessage({
           type: "UPDATE_BLOCKED",
-          message: "请先关闭其他游戏或预览页面，再应用更新。",
+          message: `另有 ${clients.filter((client) => client.id !== event.source?.id).length} 个本站页面打开，请关闭后重试更新。`,
         });
         return;
       }

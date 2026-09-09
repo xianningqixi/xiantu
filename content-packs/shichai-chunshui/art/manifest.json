@@ -1,0 +1,252 @@
+{
+  "assets": {
+    "shichai.chunshui.art.intro": {
+      "file": "art/images/intro.png",
+      "url": "/art/shichai.chunshui/intro.png",
+      "alt": "春日青石坊市清晨，桃花落在药摊与青石路上，远处山雾未散；无人物特写",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.suqingyan-cg-meet": {
+      "file": "art/images/suqingyan-cg-meet.png",
+      "url": "/art/shichai.chunshui/suqingyan-cg-meet.png",
+      "alt": "春日药摊前，苏清晏正把晒好的当归分拣入匣，抬头看向来客",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.suqingyan-cg-bond": {
+      "file": "art/images/suqingyan-cg-bond.png",
+      "url": "/art/shichai.chunshui/suqingyan-cg-bond.png",
+      "alt": "夜里药铺后堂，苏清晏在灯下翻账本，眉心有一道浅浅的愁纹",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.suqingyan-cg-spark": {
+      "file": "art/images/suqingyan-cg-spark.png",
+      "url": "/art/shichai.chunshui/suqingyan-cg-spark.png",
+      "alt": "雨后药圃，苏清晏把一株凝元草苗递给男主，两人的手指在泥土上碰到一起",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.suqingyan-cg-rival": {
+      "file": "art/images/suqingyan-cg-rival.png",
+      "url": "/art/shichai.chunshui/suqingyan-cg-rival.png",
+      "alt": "齐珩站在药铺门口，身后是青岚宗弟子抬来的聘礼，苏清晏低头站在柜台后",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.suqingyan-cg-lost": {
+      "file": "art/images/suqingyan-cg-lost.png",
+      "url": "/art/shichai.chunshui/suqingyan-cg-lost.png",
+      "alt": "苏家婚房外，红烛透窗；男主站在巷口的雨里，看着窗上的影子",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.suqingyan-cg-night": {
+      "file": "art/images/suqingyan-cg-night.png",
+      "url": "/art/shichai.chunshui/suqingyan-cg-night.png",
+      "alt": "药庐后院，药香与烛光，苏清晏解下围裙，回头望向男主",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.suqingyan-cg-dual": {
+      "file": "art/images/suqingyan-cg-dual.png",
+      "url": "/art/shichai.chunshui/suqingyan-cg-dual.png",
+      "alt": "药庐地窖的温泉，水汽氤氲，两人相对而坐，掌心相抵，灵气如青色细流交缠",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.suqingyan-cg-vow": {
+      "file": "art/images/suqingyan-cg-vow.png",
+      "url": "/art/shichai.chunshui/suqingyan-cg-vow.png",
+      "alt": "药铺门口换了新匾，苏清晏与男主并肩站在匾下，齐珩的聘礼被原样抬走",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.suqingyan-cg-mourn": {
+      "file": "art/images/suqingyan-cg-mourn.png",
+      "url": "/art/shichai.chunshui/suqingyan-cg-mourn.png",
+      "alt": "药铺关门歇业，门上挂着白布，柜台上摆着她没分拣完的当归",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.suqingyan-portrait": {
+      "file": "art/images/suqingyan-portrait.png",
+      "url": "/art/shichai.chunshui/suqingyan-portrait.png",
+      "alt": "苏清晏立绘：22岁药铺之女，杏眼柔和，青布围裙外罩浅碧襦裙，袖口沾着药渍，发髻插一根木簪",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait"
+    },
+    "shichai.chunshui.art.gutinglan-cg-meet": {
+      "file": "art/images/gutinglan-cg-meet.png",
+      "url": "/art/shichai.chunshui/gutinglan-cg-meet.png",
+      "alt": "山门古道，顾听澜背对来人在石阶上试剑，剑气把雾切成两半",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.gutinglan-cg-bond": {
+      "file": "art/images/gutinglan-cg-bond.png",
+      "url": "/art/shichai.chunshui/gutinglan-cg-bond.png",
+      "alt": "古道破亭夜雨，两人隔着一堆篝火，顾听澜擦拭剑身",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.gutinglan-cg-spark": {
+      "file": "art/images/gutinglan-cg-spark.png",
+      "url": "/art/shichai.chunshui/gutinglan-cg-spark.png",
+      "alt": "雨夜客栈，顾听澜坐在窗边，手按着心口，眉头紧锁；男主在旁点灯",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.gutinglan-cg-rival": {
+      "file": "art/images/gutinglan-cg-rival.png",
+      "url": "/art/shichai.chunshui/gutinglan-cg-rival.png",
+      "alt": "卫岑撑伞立于古道，笑容温和，身后跟着几名归云门弟子",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.gutinglan-cg-lost": {
+      "file": "art/images/gutinglan-cg-lost.png",
+      "url": "/art/shichai.chunshui/gutinglan-cg-lost.png",
+      "alt": "归云门山院，卫岑牵着顾听澜的手腕走进内室，她的剑留在门外石阶上",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.gutinglan-cg-night": {
+      "file": "art/images/gutinglan-cg-night.png",
+      "url": "/art/shichai.chunshui/gutinglan-cg-night.png",
+      "alt": "雨夜客栈窗前，顾听澜解开束发，长发披下，眼神从冷变成慌",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.gutinglan-cg-dual": {
+      "file": "art/images/gutinglan-cg-dual.png",
+      "url": "/art/shichai.chunshui/gutinglan-cg-dual.png",
+      "alt": "古道旁的溪涧，两人盘坐水中，剑横于膝，月光落在交缠的青色剑气上",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.gutinglan-cg-vow": {
+      "file": "art/images/gutinglan-cg-vow.png",
+      "url": "/art/shichai.chunshui/gutinglan-cg-vow.png",
+      "alt": "山巅日出，顾听澜把剑穗解下系在男主腕上",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.gutinglan-cg-mourn": {
+      "file": "art/images/gutinglan-cg-mourn.png",
+      "url": "/art/shichai.chunshui/gutinglan-cg-mourn.png",
+      "alt": "古道石阶上插着一柄窄剑，剑穗被雨打湿",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.gutinglan-portrait": {
+      "file": "art/images/gutinglan-portrait.png",
+      "url": "/art/shichai.chunshui/gutinglan-portrait.png",
+      "alt": "顾听澜立绘：26岁归云门剑修，凤眼冷峻，墨发高束，月白劲装外罩灰青短氅，腰悬窄剑，指节有茧",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait"
+    },
+    "shichai.chunshui.art.wenzhiwei-cg-meet": {
+      "file": "art/images/wenzhiwei-cg-meet.png",
+      "url": "/art/shichai.chunshui/wenzhiwei-cg-meet.png",
+      "alt": "听雨客栈大堂，温知微站在条凳上说书，满堂客人仰头听",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.wenzhiwei-cg-bond": {
+      "file": "art/images/wenzhiwei-cg-bond.png",
+      "url": "/art/shichai.chunshui/wenzhiwei-cg-bond.png",
+      "alt": "客栈后院晾衣绳下，温知微背对男主，卷起袖子露出手腕上的旧烙印",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.wenzhiwei-cg-spark": {
+      "file": "art/images/wenzhiwei-cg-spark.png",
+      "url": "/art/shichai.chunshui/wenzhiwei-cg-spark.png",
+      "alt": "客栈屋顶，星空，两人并肩坐着，温知微把折扇递给男主",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.wenzhiwei-cg-rival": {
+      "file": "art/images/wenzhiwei-cg-rival.png",
+      "url": "/art/shichai.chunshui/wenzhiwei-cg-rival.png",
+      "alt": "郑百川带着家仆坐在客栈大堂正中，桌上摆着一叠卖身契",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.wenzhiwei-cg-lost": {
+      "file": "art/images/wenzhiwei-cg-lost.png",
+      "url": "/art/shichai.chunshui/wenzhiwei-cg-lost.png",
+      "alt": "郑府花轿抬出坊市，轿帘掀起一角，温知微的手抓着轿杆，男主站在街边",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.wenzhiwei-cg-night": {
+      "file": "art/images/wenzhiwei-cg-night.png",
+      "url": "/art/shichai.chunshui/wenzhiwei-cg-night.png",
+      "alt": "客栈阁楼，温知微解开双丫髻，红绳落在枕边，窗外坊市灯火",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.wenzhiwei-cg-dual": {
+      "file": "art/images/wenzhiwei-cg-dual.png",
+      "url": "/art/shichai.chunshui/wenzhiwei-cg-dual.png",
+      "alt": "客栈阁楼清晨，温知微盘坐床上学吐纳，男主在她身后以掌心抵住她后背，青色灵气第一次在她体内流动",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.wenzhiwei-cg-vow": {
+      "file": "art/images/wenzhiwei-cg-vow.png",
+      "url": "/art/shichai.chunshui/wenzhiwei-cg-vow.png",
+      "alt": "客栈门口新挂的说书幌子，温知微站在条凳上，指着台下的男主",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.wenzhiwei-cg-mourn": {
+      "file": "art/images/wenzhiwei-cg-mourn.png",
+      "url": "/art/shichai.chunshui/wenzhiwei-cg-mourn.png",
+      "alt": "客栈大堂空着的条凳，醒木放在凳上，折扇合着",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.wenzhiwei-portrait": {
+      "file": "art/images/wenzhiwei-portrait.png",
+      "url": "/art/shichai.chunshui/wenzhiwei-portrait.png",
+      "alt": "温知微立绘：20岁说书娘，圆脸杏眼，双丫髻系红绳，藕色短襦配靛蓝裙，手持折扇与醒木，笑起来有梨涡",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait"
+    }
+  }
+}

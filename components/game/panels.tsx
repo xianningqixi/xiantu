@@ -1,20 +1,20 @@
 "use client";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+  DialogHeader,
+} from "@/components/ui/dialog";
+import { profileTabForClick, type OpenProfile } from "@/lib/ui/profile-navigation";
 import { imageAsset } from "@/lib/game/images";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Switch } from "@/components/ui/switch";
 import B from "@/lib/game/content/balance.json";
-import {
-  ART,
-  ARTIFACTS,
-  COLORS,
-  FACES,
-  HAIRS,
-  LOCATIONS,
-  PACK,
-  REALMS,
-} from "@/lib/game/content/official";
+import { ART, ARTIFACTS, PACK, REALMS } from "@/lib/game/content/official";
+import { LOCATIONS, locationKind, regionOf } from "@/lib/game/world-map";
 import { SHOP_ITEMS, STONE_METHOD } from "@/lib/game/economy";
 import {
   breakthroughChance,
@@ -23,9 +23,7 @@ import {
   relationshipLabel,
   stats,
   threshold,
-  visibleEvents,
 } from "@/lib/game/engine";
-import { npcProfile } from "@/lib/game/npc-profile";
 import type { Actor, Command, World } from "@/lib/game/types";
 import {
   BookOpen,
@@ -36,44 +34,85 @@ import {
   Moon,
   Shield,
   Sparkles,
+  Sprout,
   Sun,
   Swords,
   Wind,
 } from "lucide-react";
-import { useState } from "react";
-import { BODY_BUILDS, actorPhysique } from "@/lib/game/physique";
-import { npcSubject, playerSubject } from "@/lib/game/portrait-subject";
-import { PortraitStudio } from "./portrait-studio";
+import {
+  peopleRows,
+  relationshipDisplay,
+  type PeopleFilter,
+} from "@/lib/ui/character-presentation";
+import { useMemo, useState } from "react";
+import { trainingPreview } from "@/lib/game/training-preview";
+import { advanceRule } from "@/lib/game/rules";
 import { NpcPortrait } from "./npc-portrait";
 import { TimeBadge } from "./time-badge";
 
+export { JournalPanel } from "./journal-panel";
 export type Send = (c: Command) => Promise<boolean>;
 export function GameImage({
   src,
   alt,
   className = "",
+  zoom = false,
 }: {
   src: string;
   alt: string;
   className?: string;
+  zoom?: boolean;
 }) {
+  const [open, setOpen] = useState(false);
   const asset = imageAsset(src);
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
-  return !src || failedSrc === src ? (
-    <div className={`image-fallback ${className}`} role="img" aria-label={alt}>
-      <Leaf />
-      <span>{alt}</span>
-    </div>
+  const picture =
+    !src || failedSrc === src ? (
+      <div className={`image-fallback ${className}`} role="img" aria-label={alt}>
+        <Leaf />
+        <span>{alt}</span>
+      </div>
+    ) : (
+      <img
+        className={className}
+        src={asset.src}
+        width={asset.width}
+        height={asset.height}
+        decoding="async"
+        loading={asset.lazy ? "lazy" : undefined}
+        alt={alt}
+        onError={() => setFailedSrc(src)}
+      />
+    );
+  return zoom ? (
+    <>
+      <button
+        type="button"
+        className="image-expand"
+        onClick={() => setOpen(true)}
+        aria-label={`放大查看：${alt}`}
+      >
+        {picture}
+        <span>查看全图 ↗</span>
+      </button>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="game-modal image-viewer">
+          <DialogHeader>
+            <DialogTitle>{alt}</DialogTitle>
+            <DialogDescription>完整构图 · 查看图片不改变游戏进度。</DialogDescription>
+          </DialogHeader>
+          <img
+            src={asset.src}
+            alt={alt}
+            className="image-viewer-image"
+            width={asset.width}
+            height={asset.height}
+          />
+        </DialogContent>
+      </Dialog>
+    </>
   ) : (
-    <img
-      className={className}
-      src={asset.src}
-      width={asset.width}
-      height={asset.height}
-      decoding="async"
-      alt={alt}
-      onError={() => setFailedSrc(src)}
-    />
+    picture
   );
 }
 export function Meter({
@@ -104,11 +143,13 @@ export function CultivationPanel({
   send,
   busy,
   onStart,
+  onNavigate,
 }: {
   world: World;
   send: Send;
   busy: boolean;
   onStart: () => void;
+  onNavigate?: (tab: string) => void;
 }) {
   const [days, setDays] = useState("7");
   const [stopMode, setStopMode] = useState("days");
@@ -116,17 +157,26 @@ export function CultivationPanel({
   const [pill, setPill] = useState(false);
   const [guardian, setGuardian] = useState(false);
   const p = w.player;
-  const duration = stopMode === "ready" ? 30 : Number(days);
+  const preview = trainingPreview(w, { days: Number(days), mode: stopMode, stone });
+  const attempt = advanceRule(p);
   const can = p.xp >= threshold(p) && (p.realm === 0 || p.realm === 3);
   const lin = w.npcs.find((a) => a.id === PACK.roles.primary)!;
   const rel = relation(w, lin.id);
-  const guardPossible =
-    lin.alive &&
-    !lin.attempt &&
-    lin.location === p.location &&
-    lin.realm >= p.realm &&
-    (rel?.trust || 0) >= 10 &&
-    (rel?.favor || 0) >= 0;
+  const guardChecks = [
+    { ok: lin.alive, text: "在世" },
+    { ok: !lin.attempt, text: "未在突破" },
+    { ok: lin.location === p.location, text: `同一地点（她在${LOCATIONS[lin.location].name}）` },
+    { ok: lin.realm >= p.realm, text: `境界不低于你（${REALMS[lin.realm]}）` },
+    {
+      ok: (rel?.trust || 0) >= B.cultivation.breakthrough.guardianMinimumTrust,
+      text: `信任 ${rel?.trust ?? 0}/${B.cultivation.breakthrough.guardianMinimumTrust}`,
+    },
+    {
+      ok: (rel?.favor || 0) >= B.cultivation.breakthrough.guardianMinimumFavorability,
+      text: `好感 ${rel?.favor ?? 0}/${B.cultivation.breakthrough.guardianMinimumFavorability}`,
+    },
+  ];
+  const guardPossible = guardChecks.every((c) => c.ok);
   const act = async (c: Command) => {
     if (await send(c)) onStart();
   };
@@ -138,7 +188,9 @@ export function CultivationPanel({
         <p>你在修炼时，故人也在各自的人生里前行。</p>
       </div>
       <div className="cultivation-summary">
-        <div className="realm-glyph serif">{p.realm === 0 ? "凡" : "道"}</div>
+        <div className="realm-glyph" aria-hidden="true">
+          {p.realm === 0 ? <Sprout /> : <Sparkles />}
+        </div>
         <div>
           <small>当前境界</small>
           <h3 className="serif">{REALMS[p.realm]}</h3>
@@ -151,6 +203,18 @@ export function CultivationPanel({
           </p>
         </div>
       </div>
+      {p.realm === 4 && (
+        <section className="cultivation-complete" aria-label="筑基之后">
+          <h3>筑基已成 · 这一程修行已圆满</h3>
+          <p>本版修为上限已达成。主线调查、宗门往来与故人的故事仍可继续。</p>
+          <div className="modal-actions">
+            <Button onClick={() => onNavigate?.("journey")}>回到地图继续探索</Button>
+            <Button variant="outline" onClick={() => onNavigate?.("people")}>
+              回访故人
+            </Button>
+          </div>
+        </section>
+      )}
       <Meter label="修为" value={p.xp} max={threshold(p)} />
       {!p.manual ? (
         <div className="quiet-callout">
@@ -158,8 +222,11 @@ export function CultivationPanel({
           <div>
             <h3>先寻一册入门经书</h3>
             <p>听雨客栈为初学者备有《基础吐纳诀》，免费领取即可修炼。</p>
-            <Button onClick={() => act({ type: "learn" })} disabled={busy || p.location !== "inn"}>
-              领取并学习{p.location !== "inn" ? " · 请到客栈" : ""}
+            <Button
+              onClick={() => act({ type: "learn" })}
+              disabled={busy || locationKind(p.location) !== "inn"}
+            >
+              领取并学习{locationKind(p.location) !== "inn" ? " · 请到客栈" : ""}
               <TimeBadge world={w} command={{ type: "learn" }} />
             </Button>
           </div>
@@ -181,7 +248,7 @@ export function CultivationPanel({
                   {STONE_METHOD.costSpiritStonesPerDay} 灵石
                 </small>
               </span>
-              <Switch checked={stone} onCheckedChange={setStone} />
+              <Switch checked={stone} onCheckedChange={setStone} disabled={busy} />
             </label>
             <label className="field-label">
               推进方式
@@ -195,71 +262,67 @@ export function CultivationPanel({
                 <option value="important">有重要事件时暂停</option>
               </select>
             </label>
-            <RadioGroup value={days} onValueChange={setDays} className="day-options">
-              {[1, 3, 7, 30].map((d) => (
-                <label key={d} className={Number(days) === d ? "selected" : ""}>
-                  <RadioGroupItem value={String(d)} />
-                  {d} 日
-                </label>
-              ))}
-            </RadioGroup>
+            {stopMode !== "ready" && (
+              <RadioGroup value={days} onValueChange={setDays} className="day-options">
+                {[1, 3, 7, 30].map((d) => (
+                  <label key={d} className={Number(days) === d ? "selected" : ""}>
+                    <RadioGroupItem value={String(d)} />
+                    {d} 日
+                  </label>
+                ))}
+              </RadioGroup>
+            )}
+            <p className="action-preview">
+              最多 {preview.maxDays} 日 · {preview.stopLabel}。
+              {preview.readyAfter > 0 && p.realm < 4 && (
+                <> 按当前修炼速度约第 {preview.readyAfter} 日圆满。</>
+              )}
+              {stone
+                ? ` 需备足 ${preview.stoneBudget} 灵石，按实际日数扣除，提前结束不扣剩余日数。`
+                : " 无灵石消耗。"}
+            </p>
+            {preview.reason && (
+              <p className="action-reason" id="practice-reason">
+                {preview.reason}
+              </p>
+            )}
             <Button
-              disabled={
-                busy ||
-                p.location === "ruins" ||
-                (stone && p.stones < duration * STONE_METHOD.costSpiritStonesPerDay) ||
-                !!w.longAction ||
-                !!w.battle
-              }
+              disabled={busy || !!preview.reason}
               id="practice-start"
+              aria-describedby="practice-reason"
               className="wide-button guide-target"
-              onClick={() =>
-                act({
-                  type: "train",
-                  days: duration,
-                  stoneMethod: stone,
-                  ...(stopMode === "ready"
-                    ? { stopWhen: { kind: "cultivationReady" } }
-                    : stopMode === "important"
-                      ? { stopWhen: { kind: "importantEvent" } }
-                      : {}),
-                })
-              }
+              onClick={() => act(preview.command)}
             >
-              <Moon size={17} /> {Number(days) >= 7 ? "开始闭关" : "开始修炼"}
+              <Moon size={17} /> {preview.maxDays >= 7 ? "开始闭关" : "开始修炼"}
               <span>
-                {days} 日
-                {stone
-                  ? ` · ${Number(days) * STONE_METHOD.costSpiritStonesPerDay} 灵石`
-                  : " · 无消耗"}
+                最多 {preview.maxDays} 日
+                {stone ? ` · 备足 ${preview.stoneBudget} 灵石` : " · 无灵石消耗"}
               </span>
-              <TimeBadge
-                world={w}
-                command={{
-                  type: "train",
-                  days: duration,
-                  stoneMethod: stone,
-                  ...(stopMode === "ready"
-                    ? { stopWhen: { kind: "cultivationReady" } }
-                    : stopMode === "important"
-                      ? { stopWhen: { kind: "importantEvent" } }
-                      : {}),
-                }}
-              />
             </Button>
           </div>
-          <div className="breakthrough-card">
+          <div className="breakthrough-card" id="breakthrough-preparation" tabIndex={-1}>
             <div className="spread">
               <h3>
                 <Sparkles size={18} /> {p.realm === 0 ? "引气入体" : "尝试筑基"}
               </h3>
               <span className="chance">
                 {p.realm < 4
-                  ? `${breakthroughChance(w, p, pill && p.realm === 3, guardian && p.realm === 3) / 100}%`
+                  ? `${breakthroughChance(w, p, pill && p.realm === 3 && p.pills > 0, guardian && p.realm === 3 && guardPossible) / 100}%`
                   : "已达成"}
               </span>
             </div>
-            <p>突破失败不会致命，可能损失修为；筑基严重失败可能跌落一层。</p>
+            <p>
+              {p.realm === 4
+                ? "筑基已成。本版没有更高境界的突破，可回到地图继续调查、拜访宗门和故人。"
+                : `突破耗时 ${attempt.days} 日；失败不致命。普通失败损失 ${attempt.failureExperienceLossBp / 100}% 修为${p.realm === 3 ? `，失败时有 ${attempt.severeFailureConditionalBp / 100}% 概率跌落一层` : ""}。`}
+            </p>
+            {!can && p.realm < 4 && (
+              <p className="action-reason">
+                {[1, 2].includes(p.realm)
+                  ? "炼气小层修满会自动晋升，修至三层圆满后再尝试筑基。"
+                  : `还需 ${Math.max(0, threshold(p) - p.xp)} 修为。`}
+              </p>
+            )}
             {p.realm === 3 && (
               <>
                 <label className="switch-row">
@@ -269,23 +332,51 @@ export function CultivationPanel({
                       成功率 +{B.cultivation.breakthrough.pillBonusBp / 100}%，当前 {p.pills} 枚
                     </small>
                   </span>
-                  <Switch checked={pill} onCheckedChange={setPill} disabled={!p.pills} />
+                  <Switch
+                    checked={pill && p.pills > 0}
+                    onCheckedChange={setPill}
+                    disabled={busy || !p.pills}
+                  />
                 </label>
+                {!p.pills && (
+                  <div className="preparation-source">
+                    <p>
+                      突破丹可在坊市购买（{SHOP_ITEMS.pills.price} 灵石），或用{" "}
+                      {B.economy.pillExchange.inputQuantity} 株凝元草与{" "}
+                      {B.economy.pillExchange.spiritStoneCost} 灵石兑换。
+                    </p>
+                    <Button variant="ghost" size="sm" onClick={() => onNavigate?.("inventory")}>
+                      查看丹药与兑换
+                    </Button>
+                    {locationKind(p.location) !== "market" && (
+                      <Button variant="ghost" size="sm" onClick={() => onNavigate?.("journey")}>
+                        查看地图，前往坊市
+                      </Button>
+                    )}
+                  </div>
+                )}
                 <label className="switch-row">
                   <span>
                     邀请{lin.name}护法{" "}
                     <small>
                       {guardPossible
-                        ? "她愿意为你守护这三日。"
-                        : "需在同一地点、境界足够且彼此信任。"}
+                        ? `成功率 +${B.cultivation.breakthrough.guardianBonusBp / 100}%，她会为你守护 ${attempt.days} 日。`
+                        : "还需满足下列护法条件。"}
                     </small>
                   </span>
                   <Switch
-                    checked={guardian}
+                    checked={guardian && guardPossible}
                     onCheckedChange={setGuardian}
-                    disabled={!guardPossible}
+                    disabled={busy || !guardPossible}
                   />
                 </label>
+                <div className="guardian-checks" aria-label="护法条件">
+                  {guardChecks.map((check) => (
+                    <span key={check.text}>
+                      {check.ok ? "✓" : "未满足："} {check.text}
+                    </span>
+                  ))}
+                </div>
               </>
             )}
             <Button
@@ -301,7 +392,7 @@ export function CultivationPanel({
               }
             >
               {can ? "凝神，尝试突破" : p.realm === 4 ? "筑基已成" : "尚需积累修为"}
-              <span>{p.realm === 0 ? "1 日" : "3 日"}</span>
+
               <TimeBadge
                 world={w}
                 command={{
@@ -366,9 +457,16 @@ export function InventoryPanel({
         <strong>{p.stones}</strong>
         <small>枚</small>
       </div>
+      <h3 className="list-heading">已拥有的物品</h3>
       <div className="inventory-grid">
         <article className="inventory-item">
-          <span className="item-icon serif">{artifact.glyph}</span>
+          <img
+            className="item-icon artifact-art"
+            src={`/artifacts/${artifact.id}.svg`}
+            alt=""
+            width={36}
+            height={36}
+          />
           <div>
             <small>伴生法宝</small>
             <h3>{artifact.name}</h3>
@@ -385,32 +483,39 @@ export function InventoryPanel({
           </div>
           <span className="item-count">{p.manual ? "已习得" : "未习得"}</span>
         </article>
-        {items.map((item) => (
-          <article className="inventory-item" key={item.id}>
-            <item.icon className="item-icon" />
-            <div>
-              <h3>{item.name}</h3>
-              <p>{item.description}</p>
-              {item.id === "healing" && item.qty > 0 && (
-                <Button
-                  size="sm"
-                  variant="outline"
-                  disabled={busy || p.hp >= stats(p).maxHp || !!w.battle || !!w.longAction}
-                  onClick={() => send({ type: "heal" })}
-                >
-                  服用一枚
-                  <TimeBadge world={w} command={{ type: "heal" }} />
-                </Button>
-              )}
-            </div>
-            <span className="item-count">× {item.qty}</span>
-          </article>
-        ))}
+        {items
+          .filter((item) => item.qty > 0)
+          .map((item) => (
+            <article className="inventory-item" key={item.id}>
+              <item.icon className="item-icon" />
+              <div>
+                <h3>{item.name}</h3>
+                <p>{item.description}</p>
+                {item.id === "healing" && p.hp >= stats(p).maxHp && (
+                  <small>气血已满，无需服用。</small>
+                )}
+                {item.id === "healing" && item.qty > 0 && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    disabled={busy || p.hp >= stats(p).maxHp || !!w.battle || !!w.longAction}
+                    onClick={() => send({ type: "heal" })}
+                  >
+                    服用一枚
+                    <TimeBadge world={w} command={{ type: "heal" }} />
+                  </Button>
+                )}
+              </div>
+              <span className="item-count">× {item.qty}</span>
+            </article>
+          ))}
       </div>
       <div className="section-heading compact">
-        <h3 className="serif">坊市药铺</h3>
+        <h3 className="serif">坊市药铺 · 可购买</h3>
         <p>
-          {p.location === "market" ? "明码标价，童叟无欺。" : "来到青石坊市后，可以向药师购买。"}
+          {locationKind(p.location) === "market"
+            ? "明码标价，童叟无欺。"
+            : "来到当地坊市后，可以向药师购买。"}
         </p>
       </div>
       <div className="shop-list">
@@ -418,17 +523,24 @@ export function InventoryPanel({
           <div className="shop-row" key={item.id}>
             <item.icon size={19} />
             <div>
-              <strong>{item.name}</strong>
+              <strong>
+                {item.name} · 已有 {item.qty}
+              </strong>
               <small data-shop-item={item.id} data-price={item.price}>
                 {item.price} 灵石／份
               </small>
+              {locationKind(p.location) !== "market" ? (
+                <small>需到坊市购买</small>
+              ) : (
+                p.stones < item.price && <small>还缺 {item.price - p.stones} 灵石</small>
+              )}
             </div>
             <Button
               variant="outline"
               size="sm"
               disabled={
                 busy ||
-                p.location !== "market" ||
+                locationKind(p.location) !== "market" ||
                 p.stones < item.price ||
                 !!w.longAction ||
                 !!w.battle
@@ -441,12 +553,21 @@ export function InventoryPanel({
           </div>
         ))}
       </div>
+      <p className="action-reason">
+        {locationKind(p.location) !== "market"
+          ? "来到坊市后可兑换突破丹。"
+          : !p.grass
+            ? "兑换还需一株凝元草。"
+            : p.stones < B.economy.pillExchange.spiritStoneCost
+              ? `兑换还缺 ${B.economy.pillExchange.spiritStoneCost - p.stones} 灵石。`
+              : "凝元草可用于突破丹，也可能用于履行同行约定。"}
+      </p>
       <Button
         className="exchange-button"
         variant="ghost"
         disabled={
           busy ||
-          p.location !== "market" ||
+          locationKind(p.location) !== "market" ||
           !p.grass ||
           p.stones < B.economy.pillExchange.spiritStoneCost ||
           !!w.longAction ||
@@ -461,21 +582,19 @@ export function InventoryPanel({
     </section>
   );
 }
-export function PeoplePanel({
-  world: w,
-  onProfile,
-}: {
-  world: World;
-  onProfile: (id: string) => void;
-}) {
-  const [all, setAll] = useState(false);
-  const known = w.npcs.filter((a) => relation(w, a.id)?.known);
-  const nearby = w.npcs.filter(
-    (a) => a.alive && a.location === w.player.location && !relation(w, a.id)?.known,
-  );
-  const others = w.npcs.filter((a) => !known.includes(a) && !nearby.includes(a));
+export function PeoplePanel({ world: w, onProfile }: { world: World; onProfile: OpenProfile }) {
+  const [query, setQuery] = useState("");
+  const [filter, setFilter] = useState<PeopleFilter>("nearby");
+  const [sort, setSort] = useState("present");
+  const [page, setPage] = useState(0);
+  const people = useMemo(() => peopleRows(w, query, filter, sort), [w, query, filter, sort]);
+  const currentPage = Math.min(page, Math.max(0, Math.ceil(people.length / 24) - 1));
   const row = (a: Actor) => (
-    <button className="person-row" key={a.id} onClick={() => onProfile(a.id)}>
+    <button
+      className="person-row"
+      key={a.id}
+      onClick={(event) => onProfile(a.id, profileTabForClick(event))}
+    >
       <NpcPortrait world={w} actor={a} className="person-avatar" />
       <div>
         <h3>
@@ -485,14 +604,18 @@ export function PeoplePanel({
         <p>
           {!a.alive
             ? "已逝"
-            : a.location === w.player.location
-              ? "就在此处"
-              : relation(w, a.id)?.known
-                ? `行踪：${LOCATIONS[a.location].name}`
-                : "尚未相识"}
+            : a.npcJourney
+              ? `赶路中 · ${a.npcJourney.remaining} 日后抵达`
+              : a.location === w.player.location
+                ? "就在此处"
+                : relation(w, a.id)?.known
+                  ? `行踪：${LOCATIONS[a.location].name}`
+                  : "尚未相识"}
         </p>
       </div>
-      <span className="relationship-tag">{relationshipLabel(relation(w, a.id))}</span>
+      <span className="relationship-tag">
+        {relationshipDisplay(w, "PLAYER", a.id).label} · 资料 →
+      </span>
     </button>
   );
   return (
@@ -502,240 +625,102 @@ export function PeoplePanel({
         <h2 className="serif">相逢的人</h2>
         <p>有人萍水相逢，有人会成为你这一世的牵挂。</p>
       </div>
-      <h3 className="list-heading">
-        你的故人 <span>{known.length}</span>
-      </h3>
-      {known.length ? (
-        known.map(row)
-      ) : (
-        <p className="empty-copy">你还没有结识这里的人。向药摊旁的修士打个招呼吧。</p>
-      )}
-      <h3 className="list-heading">
-        此地可结识 <span>{nearby.length}</span>
-      </h3>
-      {nearby.length ? nearby.map(row) : <p className="empty-copy">此地暂时没有其他陌生修士。</p>}
-      <Button variant="outline" onClick={() => setAll(!all)}>
-        {all ? "收起其他人物" : `查看世界人物 · ${w.npcs.length} 人`}
-      </Button>
-      {all && (
-        <>
-          <h3 className="list-heading">
-            其他修士 <span>{others.length}</span>
-          </h3>
-          {others.map(row)}
-        </>
+      <div className="people-controls">
+        <label>
+          搜索姓名
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setPage(0);
+            }}
+            placeholder="搜索可见人物"
+          />
+        </label>
+        <label>
+          人物范围
+          <select
+            value={filter}
+            onChange={(e) => {
+              setFilter(e.target.value as PeopleFilter);
+              setPage(0);
+            }}
+          >
+            <option value="nearby">已结识与此地可结识</option>
+            <option value="known">已结识</option>
+            <option value="present">在场</option>
+            <option value="region">同城</option>
+            <option value="agreement">有约定</option>
+          </select>
+        </label>
+        <label>
+          排序
+          <select
+            value={sort}
+            onChange={(e) => {
+              setSort(e.target.value);
+              setPage(0);
+            }}
+          >
+            <option value="present">在场优先</option>
+            <option value="recent">最近共同经历</option>
+            <option value="name">姓名</option>
+          </select>
+        </label>
+      </div>
+      <div className="list-pagination">
+        <span>
+          共 {people.length} 人 · 第 {currentPage + 1} /{" "}
+          {Math.max(1, Math.ceil(people.length / 24))} 页
+        </span>
+        <Button variant="ghost" disabled={!currentPage} onClick={() => setPage(currentPage - 1)}>
+          上一页
+        </Button>
+        <Button
+          variant="ghost"
+          disabled={(currentPage + 1) * 24 >= people.length}
+          onClick={() => setPage(currentPage + 1)}
+        >
+          下一页
+        </Button>
+      </div>
+      <div className="people-grid">
+        {people.slice(currentPage * 24, (currentPage + 1) * 24).map(row)}
+      </div>
+      {!people.length && (
+        <div className="empty-copy">
+          <p>当前筛选没有匹配人物。</p>
+          <Button
+            variant="outline"
+            onClick={() => {
+              setQuery("");
+              setFilter("nearby");
+              setPage(0);
+            }}
+          >
+            清除筛选
+          </Button>
+        </div>
       )}
     </section>
   );
 }
-export { JournalPanel } from "./journal-panel";
-export function PersonDetail({
-  world: w,
-  id,
-  send,
-  busy,
-}: {
-  world: World;
-  id: string;
-  send: Send;
-  busy: boolean;
-}) {
-  const a = id === "PLAYER" ? w.player : w.npcs.find((n) => n.id === id);
-  if (!a) return null;
-  const r = relation(w, id);
-  const memories = w.events.filter((e) => e.actors.includes(id) && e.actors.includes("PLAYER"));
-  const bio = npcProfile(a);
-  const body = actorPhysique(a);
-  const recent = visibleEvents(w)
-    .filter((e) => e.actors.includes(id) && !e.actors.includes("PLAYER"))
-    .slice(-3);
-  const self = id === "PLAYER";
-  const present = a.location === w.player.location && a.alive;
-  return (
-    <div className="person-detail">
-      <PortraitStudio
-        key={`${w.saveId}:${a.id}`}
-        subject={self ? playerSubject(w.profile, w.seed) : npcSubject(a)}
-        portraitId={a.portraitId}
-        name={a.name}
-        disabled={busy || !!w.longAction || !!w.battle || w.ended}
-        onAdopt={async (portraitId) => {
-          const ok = await send({ type: "attachPortrait", target: a.id, portraitId });
-          if (!ok) throw new Error("立绘引用尚未保存，请重新读取后重试。");
-        }}
-      />
-      <dl className="physique-facts" aria-label="体貌资料">
-        <div>
-          <dt>身材</dt>
-          <dd>{BODY_BUILDS[body.build]}</dd>
-        </div>
-        <div>
-          <dt>身高</dt>
-          <dd>{body.heightCm} cm</dd>
-        </div>
-        <div>
-          <dt>胸 / 腰 / 臀</dt>
-          <dd>
-            {body.bustCm} / {body.waistCm} / {body.hipsCm} cm
-          </dd>
-        </div>
-        <div>
-          <dt>外貌年龄</dt>
-          <dd>
-            约 {body.apparentAge} 岁{a.sex === "female" ? " · 驻颜" : ""}
-          </dd>
-        </div>
-        {a.sex === "female" && (
-          <div className="physique-attire">
-            <dt>立绘装束</dt>
-            <dd>高开叉裙 · 丝袜美腿 · 高跟鞋</dd>
-          </div>
-        )}
-      </dl>
-      <div className="person-facts">
-        <span>{REALMS[a.realm]}</span>
-        <span>{Math.floor(a.ageDays / 360)} 岁</span>
-        <span>{a.sex === "female" ? "女" : "男"}</span>
-        <span>{a.sect}</span>
-      </div>
-      <p>
-        {self
-          ? `${FACES[w.profile.appearance.face]} · ${HAIRS[w.profile.appearance.hair]} · ${COLORS[w.profile.appearance.color]}`
-          : a.personality}
-      </p>
-      {self ? (
-        <p>
-          资质 {a.aptitude} · {ARTIFACTS.find((x) => x.id === w.profile.artifact)?.name}
-        </p>
-      ) : (
-        <p className="subtle">
-          {!a.alive
-            ? "故人已逝，往事仍在。"
-            : present
-              ? a.activity
-              : `目前在${LOCATIONS[a.location].name}。`}
-        </p>
-      )}
-      {!self && (
-        <>
-          <div className="npc-bio">
-            <h3 className="list-heading">人物小传</h3>
-            <p>{bio.background}</p>
-            <dl>
-              <div>
-                <dt>出身</dt>
-                <dd>{bio.origin}</dd>
-              </div>
-              <div>
-                <dt>资质</dt>
-                <dd>{a.aptitude} / 100</dd>
-              </div>
-              <div>
-                <dt>性情</dt>
-                <dd>{a.personality}</dd>
-              </div>
-              <div>
-                <dt>所在</dt>
-                <dd>{LOCATIONS[a.location].name}</dd>
-              </div>
-              <div>
-                <dt>当前修为</dt>
-                <dd>
-                  {a.xp} / {threshold(a)}
-                </dd>
-              </div>
-              <div>
-                <dt>眼下之事</dt>
-                <dd>{a.attempt ? `凝神突破，还需 ${a.attempt.remaining} 日` : a.activity}</dd>
-              </div>
-              <div>
-                <dt>修行目标</dt>
-                <dd>{a.goal}</dd>
-              </div>
-              <div>
-                <dt>偏好</dt>
-                <dd>{bio.interest}</dd>
-              </div>
-              <div>
-                <dt>心中所愿</dt>
-                <dd>{bio.wish}</dd>
-              </div>
-            </dl>
-          </div>
-          <div className="relation-detail">
-            <span>你们的关系</span>
-            <strong>{relationshipLabel(r)}</strong>
-          </div>
-          {r?.known && (
-            <>
-              <div className="relationship-qualities">
-                <span>
-                  好感 <b>{r.favor >= 20 ? "亲近" : r.favor < 0 ? "疏远" : "初识"}</b>
-                </span>
-                <span>
-                  信任 <b>{r.trust >= 15 ? "信赖" : r.trust < 0 ? "戒备" : "观望"}</b>
-                </span>
-                <span>
-                  吸引 <b>{r.attraction > 0 ? "留意" : "未显"}</b>
-                </span>
-              </div>
-              <p className="subtle">{a.goal}</p>
-            </>
-          )}
-          <h3 className="list-heading">共同经历</h3>
-          {memories.length ? (
-            <div className="memory-list">
-              {memories.map((e) => (
-                <p key={e!.id}>
-                  <small>第 {e!.day + 1} 日</small>
-                  {e!.text}
-                  <RelationshipTrend change={e.relationshipChange} />
-                </p>
-              ))}
-            </div>
-          ) : (
-            <p className="empty-copy">尚未留下共同经历。</p>
-          )}
-          {recent.length > 0 && (
-            <>
-              <h3 className="list-heading">最近经历</h3>
-              <div className="memory-list">
-                {recent.map((e) => (
-                  <p key={e.id}>
-                    <small>第 {e.day + 1} 日</small>
-                    {e.text}
-                  </p>
-                ))}
-              </div>
-            </>
-          )}
-          {
-            <Button
-              disabled={busy || !present || !!w.battle || !!w.longAction}
-              onClick={() => send({ type: "meet", target: id })}
-            >
-              {r?.known ? "聊聊近况" : "上前见礼"}
-              {!present ? " · 对方不在此处" : ""}
-              <TimeBadge world={w} command={{ type: "meet", target: id }} />
-            </Button>
-          }
-        </>
-      )}
-    </div>
-  );
-}
+
 export function BattlePanel({
   world: w,
   send,
   busy,
   autoRunning,
   onAuto,
+  onProfile,
 }: {
   world: World;
   send: Send;
   busy: boolean;
   autoRunning: boolean;
   onAuto: (enabled: boolean) => Promise<void>;
+  onProfile: OpenProfile;
 }) {
   const b = w.battle!;
   const p = b.allies.find((a) => a.id === "PLAYER")!;
@@ -775,16 +760,21 @@ export function BattlePanel({
       </div>
       <div className="ally-row">
         {b.allies.map((a) => (
-          <div className="fighter ally" key={a.id}>
+          <button
+            className="fighter ally"
+            key={a.id}
+            onClick={(event) => onProfile(a.id, profileTabForClick(event))}
+            aria-label={`查看${a.name}的人物资料`}
+          >
             <strong>
               {a.name}
               <small>{a.id === "PLAYER" ? "主角" : "同伴"}</small>
             </strong>
             <Meter label={a.hp ? "气血" : "倒地"} value={a.hp} max={a.maxHp} />
-          </div>
+          </button>
         ))}
       </div>
-      <div className="battle-controls">
+      <div className="battle-controls" id="battle-controls" tabIndex={-1}>
         <div className="spread">
           <h3>你的行动</h3>
           <label className="inline-switch">
@@ -795,6 +785,19 @@ export function BattlePanel({
               disabled={busy}
             />
           </label>
+        </div>
+        <div className="battle-log" aria-live="polite" aria-label="最近战报">
+          {b.logs
+            .slice(-6)
+            .reverse()
+            .map((line, i) => (
+              <p
+                className={line.includes(w.player.name) ? "player-turn" : ""}
+                key={`${b.logs.length}-${i}`}
+              >
+                {line}
+              </p>
+            ))}
         </div>
         <div className="combat-actions">
           {(
@@ -828,7 +831,7 @@ export function BattlePanel({
               }
             >
               <a.icon size={16} />
-              {a.name}
+              <span className="combat-action-label">{a.name}</span>
               <TimeBadge
                 world={w}
                 command={{
@@ -840,40 +843,11 @@ export function BattlePanel({
             </Button>
           ))}
         </div>
-        <div className="skill-slots">
-          <span>
-            <Wind size={14} /> 青芒剑诀
-          </span>
-          {[2, 3, 4].map((n) => (
-            <span key={n} className="locked">
-              <LockKeyhole size={13} /> 本版未开放
-            </span>
-          ))}
-        </div>
-      </div>
-      <div className="battle-log" aria-live="polite">
-        {b.logs.slice(-6).map((line, i) => (
-          <p key={`${b.logs.length}-${i}`}>{line}</p>
-        ))}
+        <p className="skill-status">
+          {p.cooldown ? `剑诀调息还需 ${p.cooldown} 回合。` : "青芒剑诀可以使用。"}
+          {!w.player.healing ? " 当前没有回春丹。" : p.hp >= p.maxHp ? " 气血已满，无需服丹。" : ""}
+        </p>
       </div>
     </section>
-  );
-}
-
-function RelationshipTrend({ change }: { change?: { favor: number; trust: number } }) {
-  if (!change) return null;
-  return (
-    <span className="relationship-trend">
-      {change.favor !== 0 && (
-        <small className={change.favor > 0 ? "trend-up" : "trend-down"}>
-          好感 {change.favor > 0 ? "↑" : "↓"}
-        </small>
-      )}
-      {change.trust !== 0 && (
-        <small className={change.trust > 0 ? "trend-up" : "trend-down"}>
-          信任 {change.trust > 0 ? "↑" : "↓"}
-        </small>
-      )}
-    </span>
   );
 }

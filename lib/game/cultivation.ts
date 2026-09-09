@@ -14,7 +14,7 @@ export function learn(w: World, a: Actor) {
   }
 }
 
-export function gainPerDay(w: World, a: Actor, stoneMethod = false) {
+export function gainPerDay(w: World, a: Actor, stoneMethod = false, dualPractice = false) {
   return (
     (a.realm === 0
       ? B.cultivation.mortalDailyBaseGain
@@ -25,11 +25,15 @@ export function gainPerDay(w: World, a: Actor, stoneMethod = false) {
     (a.id === "PLAYER" && w.profile.artifact === "focus"
       ? B.artifacts.ARTIFACT_FOCUS.cultivationFlatGainPerDay
       : 0) +
-    (stoneMethod ? STONE_METHOD.additionalExperiencePerDay : 0)
+    (stoneMethod ? STONE_METHOD.additionalExperiencePerDay : 0) +
+    (a.sectMembership?.artLearned
+      ? B.sects.growth[a.sectMembership.id].dailyGain +
+        (dualPractice ? B.sects.growth[a.sectMembership.id].dualGain : 0)
+      : 0)
   );
 }
 
-export function cultivate(w: World, a: Actor, stoneMethod = false) {
+export function cultivate(w: World, a: Actor, stoneMethod = false, dualPractice = false) {
   requireRule(a.alive && a.manual, "修炼需要先习得功法。");
   if (stoneMethod) {
     requireRule(
@@ -39,7 +43,7 @@ export function cultivate(w: World, a: Actor, stoneMethod = false) {
     );
     a.stones -= STONE_METHOD.costSpiritStonesPerDay;
   }
-  a.xp = Math.min(threshold(a), a.xp + gainPerDay(w, a, stoneMethod));
+  a.xp = Math.min(threshold(a), a.xp + gainPerDay(w, a, stoneMethod, dualPractice));
   a.activity = "静心修炼";
   if ((a.realm === 1 || a.realm === 2) && a.xp >= threshold(a)) {
     a.realm++;

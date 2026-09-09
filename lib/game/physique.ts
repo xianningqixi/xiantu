@@ -7,14 +7,17 @@ export const BODY_BUILDS = {
   curvy: "丰盈",
   athletic: "健美",
 } as const;
+export const BUST_CUPS = ["A", "B", "C", "D", "E"] as const;
 export const physiqueSchema = z
   .object({
     build: z.enum(["slender", "balanced", "curvy", "athletic"]),
     heightCm: z.number().int().min(145).max(210),
     bustCm: z.number().int().min(65).max(135),
+    // Legacy measurements remain intact; a selected cup takes precedence for presentation.
+    bustCup: z.enum(BUST_CUPS).optional(),
     waistCm: z.number().int().min(48).max(115),
     hipsCm: z.number().int().min(70).max(140),
-    apparentAge: z.number().int().min(21).max(75),
+    apparentAge: z.number().int().min(18).max(75),
   })
   .strict();
 export type Physique = z.infer<typeof physiqueSchema>;
@@ -42,5 +45,7 @@ export function actorPhysique(actor: Actor) {
   return actor.physique ?? defaultPhysique(actor.sex, actor.appearanceSeed);
 }
 export function physiqueText(body: Physique) {
+  if (body.bustCup)
+    return `${BODY_BUILDS[body.build]} · ${body.heightCm} cm · 胸围 ${body.bustCup}`;
   return `${BODY_BUILDS[body.build]} · ${body.heightCm} cm · ${body.bustCm}/${body.waistCm}/${body.hipsCm} cm`;
 }

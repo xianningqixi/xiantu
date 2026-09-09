@@ -18,6 +18,9 @@ export function portraitSubjectKey(s: PortraitSubject) {
     b.waistCm,
     b.hipsCm,
     b.apparentAge,
+    s.portraitFeatures,
+    b.bustCup,
+    s.designId,
   ]);
 }
 const portraits = new Map(

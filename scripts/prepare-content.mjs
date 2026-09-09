@@ -1,9 +1,13 @@
+import { validateMainStory } from "../lib/game/content/main-story-contract.mjs";
+import { extensionImages } from "./extension-images.mjs";
 import { prepareImages } from "./prepare-images.mjs";
+import { prepareAvatars } from "./prepare-avatars.mjs";
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { zodToJsonSchema } from "zod-to-json-schema";
+import { z } from "zod";
 import {
   extensionSchema,
   validateExtension,
@@ -23,6 +27,10 @@ const p = validateContent({
   art: read("art/manifest.json"),
 });
 const sha = (data) => crypto.createHash("sha256").update(data).digest("hex");
+function writeIfChanged(file, value) {
+  if (!fs.existsSync(file) || fs.readFileSync(file, "utf8") !== value)
+    fs.writeFileSync(file, value);
+}
 const hashes = {};
 const presentationImages = [];
 for (const [id, art] of Object.entries(p.art.assets)) {
@@ -34,7 +42,7 @@ for (const [id, art] of Object.entries(p.art.assets)) {
   presentationImages.push({ source, url: art.url });
 }
 const digest = sha(JSON.stringify({ content: p, images: hashes }));
-fs.writeFileSync(
+writeIfChanged(
   path.join(root, "integrity.json"),
   JSON.stringify(
     {
@@ -106,7 +114,7 @@ for (const bio of Object.values(npc.fixed))
       (!Number.isInteger(bio.portrait.slot) || bio.portrait.slot < 0 || bio.portrait.slot > 8))
   )
     throw new Error("固定 NPC 立绘引用无效");
-fs.writeFileSync(
+writeIfChanged(
   path.join(root, "npc-presentation-integrity.json"),
   JSON.stringify(
     {
@@ -140,15 +148,16 @@ for (const entry of portraits.entries) {
     throw new Error("全身立绘文件或尺寸不合法。");
   const source = path.join(root, "art/portraits", entry.file);
   if (sha(fs.readFileSync(source)) !== entry.sha256) throw new Error("全身立绘摘要不匹配。");
+  const url = `/art/portraits/${entry.file}`;
+  if (urls.has(url)) throw new Error(`图片 URL 重复：${url}`);
+  urls.add(url);
   presentationImages.push({
     source,
-    url: `/art/portraits/${entry.file}`,
+    url,
     lazy: true,
     preserve: true,
   });
 }
-
-await prepareImages(presentationImages);
 
 // A small, deterministic ZIP writer (STORE method); no system zip utility or extra dependency.
 function crc32(data) {
@@ -228,9 +237,12 @@ for (const name of fs.readdirSync(path.join(project, "content-packs")).sort()) {
   )
     continue;
   const get = (file) => JSON.parse(fs.readFileSync(path.join(dir, file), "utf8"));
+  const manifest = get("manifest.json");
   const data = validateExtension(
     {
-      manifest: get("manifest.json"),
+      manifest,
+      ...(manifest.entryFiles.art ? { art: get("art/manifest.json") } : {}),
+      ...(manifest.entryFiles.journey ? { journey: get("journey.json") } : {}),
       definitions: get("definitions.json"),
       storylets: get("storylets.json"),
       visuals: get("visuals.json"),
@@ -239,14 +251,104 @@ for (const name of fs.readdirSync(path.join(project, "content-packs")).sort()) {
   );
   for (const file of Object.values(data.manifest.entryFiles))
     if (!fs.existsSync(path.join(dir, file))) throw new Error(`${name}: 缺少 ${file}`);
-  const hash = sha(JSON.stringify(data));
-  extensionEntries.push({
-    data,
-    hash,
-    lock: `${data.manifest.packId}@${data.manifest.packVersion}:${hash}`,
-  });
+  const owned = extensionImages(dir, data.art?.assets ?? {}, urls);
+  presentationImages.push(...owned.entries);
+  const hash = sha(JSON.stringify({ content: data, images: owned.images }));
+  const lock = `${data.manifest.packId}@${data.manifest.packVersion}:${hash}`;
+  if (data.art)
+    writeIfChanged(
+      path.join(dir, "integrity.json"),
+      JSON.stringify({ contentHash: hash, lock, images: owned.images }, null, 2) + "\n",
+    );
+  extensionEntries.push({ data, hash, lock, images: owned.images });
 }
 validateRegistry(extensionEntries, { version: p.manifest.version, hash: digest });
+
+const mainStory = validateMainStory(
+  JSON.parse(fs.readFileSync(path.join(project, "content-packs/main-quest/story.json"), "utf8")),
+  {
+    actors: [
+      ...Object.values(p.characters).map((c) => c.id),
+      ...extensionEntries.flatMap((e) => e.data.definitions.characters.map((c) => c.id)),
+    ],
+    locations: [
+      ...Object.keys(p.locations),
+      ...extensionEntries.flatMap((e) => Object.keys(e.data.definitions.locations ?? {})),
+    ],
+    packs: extensionEntries.map((e) => e.data.manifest.packId),
+  },
+);
+const mainHash = sha(JSON.stringify(mainStory));
+writeIfChanged(
+  path.join(project, "lib/game/content/main-story.json"),
+  JSON.stringify(
+    { data: mainStory, lock: `main.quest@${mainStory.version}:${mainHash}` },
+    null,
+    2,
+  ) + "\n",
+);
+
+// Supplemental NPC art is cosmetic: never re-lock an installed story or rewrite a save.
+const supplementalDir = path.join(project, "content-packs/shichai-portraits");
+const supplemental = z
+  .object({
+    version: z.literal(1),
+    assets: z.record(
+      z
+        .object({
+          file: z.string().regex(/^art\/images\/[a-z0-9-]+\.png$/),
+          url: z.string().regex(/^\/art\/portraits\/shichai\/[a-z0-9-]+\.png$/),
+          alt: z.string().trim().min(1),
+          width: z.literal(1024),
+          height: z.literal(1536),
+          kind: z.literal("portrait"),
+          sha256: z.string().regex(/^[a-f0-9]{64}$/),
+        })
+        .strict(),
+    ),
+  })
+  .strict()
+  .parse(JSON.parse(fs.readFileSync(path.join(supplementalDir, "catalog.json"), "utf8")));
+for (const [actorId, art] of Object.entries(supplemental.assets)) {
+  const actor = extensionEntries
+    .flatMap((e) => e.data.definitions.characters)
+    .find((a) => a.id === actorId);
+  if (!actor || actor.portraitId) throw new Error(`补充立绘角色未知或已有专属图：${actorId}`);
+  if (sha(fs.readFileSync(path.join(supplementalDir, art.file))) !== art.sha256)
+    throw new Error(`补充立绘摘要不匹配：${actorId}`);
+}
+presentationImages.push(...extensionImages(supplementalDir, supplemental.assets, urls).entries);
+const avatarPortraits = portraits.entries.map((entry) => ({
+  actorId: entry.actorId,
+  sourceUrl: `/art/portraits/${entry.file}`,
+}));
+for (const { data } of extensionEntries)
+  for (const actor of data.definitions.characters) {
+    const slot = actor.portraitId ? data.visuals[actor.portraitId] : null;
+    const sourceUrl =
+      slot?.status === "owned"
+        ? data.art.assets[slot.assetId].url
+        : supplemental.assets[actor.id]?.url;
+    if (sourceUrl) avatarPortraits.push({ actorId: actor.id, sourceUrl });
+  }
+const avatarUrls = await prepareAvatars(presentationImages, avatarPortraits);
+await prepareImages(presentationImages);
+const imageMetadata = JSON.parse(
+  fs.readFileSync(path.join(project, "lib/game/content/images.json"), "utf8"),
+);
+writeIfChanged(
+  path.join(project, "lib/game/content/avatars.json"),
+  JSON.stringify(
+    Object.fromEntries(
+      Object.entries(avatarUrls).map(([source, url]) => {
+        // Dimensions and cache policy stay in images.json; avatar consumers only need the URL.
+        return [source, imageMetadata[url].src];
+      }),
+    ),
+    null,
+    2,
+  ) + "\n",
+);
 fs.writeFileSync(
   path.join(project, "lib/game/content/extensions.json"),
   JSON.stringify(extensionEntries, null, 2) + "\n",

@@ -1,4 +1,5 @@
-import { PACK, LOCATIONS } from "./content/official";
+import { PACK } from "./content/official";
+import { LOCATIONS } from "./world-map";
 import type { Relation, World } from "./types";
 import { tellOwnRecentFacts } from "./knowledge";
 import { B, clamp, requireRule, actorById } from "./rules";
@@ -79,7 +80,7 @@ export function relationshipLabel(r?: Relation) {
 export function meet(w: World, target: string) {
   const a = actorById(w, target);
   requireRule(
-    a?.alive && a.location === w.player.location && target !== "PLAYER",
+    a?.alive && !a.npcJourney && a.location === w.player.location && target !== "PLAYER",
     "对方目前不在这里。",
   );
   const r = ensureRelation(w, target);

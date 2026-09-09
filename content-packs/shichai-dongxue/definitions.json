@@ -1,0 +1,120 @@
+{
+  "characters": [
+    {
+      "id": "shichai.dongxue.yeshutong",
+      "name": "叶疏桐",
+      "sex": "female",
+      "age": 19,
+      "aptitude": 93,
+      "realm": 0,
+      "personality": "沉静 · 悟性极高 · 只信书",
+      "sect": "叶氏藏书楼",
+      "goal": "把藏书楼里三千卷功法读完，找出一条不用靠别人的道",
+      "location": "shichai.dongxue.inn",
+      "portraitId": "shichai.dongxue.yeshutong.portrait",
+      "homeVisitIntervalDays": 7
+    },
+    {
+      "id": "shichai.dongxue.yecheng",
+      "name": "叶承",
+      "sex": "male",
+      "age": 29,
+      "aptitude": 41,
+      "realm": 1,
+      "personality": "斯文 · 势利 · 惦记藏书楼",
+      "sect": "叶氏旁支",
+      "goal": "娶了表妹，把藏书楼和楼里的上古功法一并收进自己手里",
+      "location": "shichai.dongxue.market",
+      "homeVisitIntervalDays": 7
+    },
+    {
+      "id": "shichai.dongxue.songxiaoman",
+      "name": "宋小满",
+      "sex": "female",
+      "age": 21,
+      "aptitude": 35,
+      "realm": 0,
+      "personality": "直率 · 泼辣 · 血里有山神",
+      "sect": "山下猎户",
+      "goal": "打一头筑基期的雪妖，让全村人闭嘴",
+      "location": "shichai.dongxue.gate",
+      "portraitId": "shichai.dongxue.songxiaoman.portrait",
+      "homeVisitIntervalDays": 7
+    },
+    {
+      "id": "shichai.dongxue.wanghu",
+      "name": "王虎",
+      "sex": "male",
+      "age": 24,
+      "aptitude": 38,
+      "realm": 0,
+      "personality": "憨厚 · 重情 · 认死理",
+      "sect": "山下猎户",
+      "goal": "娶青梅竹马的宋小满，替她爹守住猎屋",
+      "location": "shichai.dongxue.gate",
+      "homeVisitIntervalDays": 7
+    },
+    {
+      "id": "shichai.dongxue.chulian",
+      "name": "楚莲",
+      "sex": "female",
+      "age": 26,
+      "aptitude": 66,
+      "realm": 2,
+      "personality": "温柔 · 眼神躲闪 · 身上有采痕",
+      "sect": "严孤鹤的炉鼎",
+      "goal": "从严孤鹤手里逃出来，哪怕要回去找那个被她抛下的人",
+      "location": "shichai.dongxue.market",
+      "portraitId": "shichai.dongxue.chulian.portrait",
+      "homeVisitIntervalDays": 7
+    },
+    {
+      "id": "shichai.dongxue.yanguhe",
+      "name": "严孤鹤",
+      "sex": "male",
+      "age": 40,
+      "aptitude": 84,
+      "realm": 4,
+      "personality": "清高 · 冷酷 · 视女子为丹炉",
+      "sect": "散修筑基",
+      "goal": "以楚莲为饵，采得一口阳鼎之体，冲击金丹",
+      "location": "shichai.dongxue.market",
+      "homeVisitIntervalDays": 7
+    }
+  ],
+  "locations": {
+    "shichai.dongxue.market": {
+      "name": "霜河城坊市",
+      "subtitle": "霜河城 · 人来人往",
+      "body": "北地的藏书楼与雪村，在漫长冬日里等着远行的人。",
+      "kind": "market",
+      "destinations": [
+        "shichai.dongxue.inn",
+        "shichai.dongxue.gate"
+      ],
+      "visualId": "shichai.dongxue.intro"
+    },
+    "shichai.dongxue.inn": {
+      "name": "霜河藏书客舍",
+      "subtitle": "霜河城 · 歇脚问讯",
+      "body": "北地的藏书楼与雪村，在漫长冬日里等着远行的人。",
+      "kind": "inn",
+      "destinations": [
+        "shichai.dongxue.market",
+        "shichai.dongxue.gate"
+      ],
+      "visualId": "shichai.dongxue.intro"
+    },
+    "shichai.dongxue.gate": {
+      "name": "霜河雪村",
+      "subtitle": "霜河城 · 远行之路",
+      "body": "北地的藏书楼与雪村，在漫长冬日里等着远行的人。",
+      "kind": "gate",
+      "destinations": [
+        "shichai.dongxue.market",
+        "shichai.dongxue.inn"
+      ],
+      "visualId": "shichai.dongxue.intro"
+    }
+  }
+}

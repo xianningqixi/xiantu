@@ -1,4 +1,6 @@
 import { physiqueSchema, portraitIdSchema } from "./physique";
+import { portraitFeaturesSchema } from "./portrait-features";
+import { portraitLookSchema } from "./portrait-look";
 import { negotiationCommandSchema } from "./negotiation";
 import balanceLimits from "./content/balance.json";
 import { z } from "zod";
@@ -8,6 +10,7 @@ const id = z.string().min(1).max(160);
 const integer = z.number().int().safe().nonnegative();
 export const profileSchema = z
   .object({
+    portraitFeatures: portraitFeaturesSchema.optional(),
     physique: physiqueSchema.optional(),
     portraitId: portraitIdSchema.optional(),
     name: z.string().max(16),
@@ -29,14 +32,39 @@ export const stopConditionSchema = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("npcArrives"), target: id }).strict(),
   z.object({ kind: z.literal("importantEvent") }).strict(),
 ]);
+const sectId = z.enum(["yunv", "hehuan", "quanzhen"]);
 const commandSchemas = [
+  z.object({ type: z.literal("restorePortrait"), target: id }).strict(),
+  z.object({ type: z.literal("visitSect"), sectId }).strict(),
+  z.object({ type: z.literal("joinSect"), sectId, confirmed: z.literal(true) }).strict(),
+  z.object({ type: z.literal("spendTime"), target: id }).strict(),
   z
-    .object({ type: z.literal("attachPortrait"), target: id, portraitId: portraitIdSchema })
+    .object({
+      type: z.literal("intimacy"),
+      target: id,
+      kind: z.enum(["bond", "night", "dual"]),
+      confirmed: z.literal(true),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal("attachPortrait"),
+      target: id,
+      portraitId: portraitIdSchema,
+      look: portraitLookSchema.optional(),
+    })
     .strict(),
   negotiationCommandSchema,
+  z.object({ type: z.literal("chooseMain"), nodeId: id, choiceId: id }).strict(),
+  z.object({ type: z.literal("surveyRuins") }).strict(),
   z.object({ type: z.literal("chooseExtension"), nodeId: id, choiceId: id }).strict(),
   z.object({ type: z.literal("choose"), nodeId: id, choiceId: id }).strict(),
-  z.object({ type: z.literal("travel"), to: z.enum(["market", "inn", "gate", "ruins"]) }).strict(),
+  z
+    .object({
+      type: z.literal("travel"),
+      to: z.string().regex(/^(market|inn|gate|ruins|[a-zA-Z][a-zA-Z0-9_.-]{0,119})$/),
+    })
+    .strict(),
   z
     .object({
       type: z.literal("train"),
@@ -54,11 +82,15 @@ const commandSchemas = [
     .strict(),
   ...(
     [
+      "sectTask",
+      "learnSectArt",
+      "leaveSect",
       "step",
       "stop",
       "work",
       "rest",
       "learn",
+      "renewAgreement",
       "expedition",
       "return",
       "disband",
@@ -94,6 +126,10 @@ export const draftSchema = z
     roll: integer,
     profile: profileSchema,
     contentLocks: z.array(z.string().max(240)).max(10).optional(),
+    previousLook: z
+      .object({ profile: profileSchema, seed: integer.max(4294967295), roll: integer })
+      .strict()
+      .optional(),
   })
   .strict();
 const expectedSchema = z.object({ saveId: id.nullable(), revision: integer.nullable() }).strict();

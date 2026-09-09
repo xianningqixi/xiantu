@@ -1,0 +1,106 @@
+{
+  "characters": [
+    {
+      "id": "shichai.qiudeng.wenrenshuang",
+      "name": "闻人霜",
+      "sex": "female",
+      "age": 34,
+      "aptitude": 86,
+      "realm": 4,
+      "personality": "冷静 · 克制 · 心魔缠身",
+      "sect": "青岚宗坊市执事",
+      "goal": "在寿元被丈夫采尽之前，找到自己的金丹之路",
+      "location": "shichai.qiudeng.market",
+      "portraitId": "shichai.qiudeng.wenrenshuang.portrait",
+      "homeVisitIntervalDays": 7
+    },
+    {
+      "id": "shichai.qiudeng.cuijiuzhang",
+      "name": "崔九章",
+      "sex": "male",
+      "age": 58,
+      "aptitude": 70,
+      "realm": 4,
+      "personality": "威严 · 慈眉善目 · 视妻为丹炉",
+      "sect": "青岚宗长老",
+      "goal": "以妻子的阴元续命，撑到金丹机缘",
+      "location": "shichai.qiudeng.market",
+      "homeVisitIntervalDays": 7
+    },
+    {
+      "id": "shichai.qiudeng.jiangzhaoxue",
+      "name": "江照雪",
+      "sex": "female",
+      "age": 28,
+      "aptitude": 77,
+      "realm": 3,
+      "personality": "英气 · 直来直去 · 血里有妖",
+      "sect": "猎妖散修",
+      "goal": "杀尽云岚境的妖，包括自己血里的那一半",
+      "location": "shichai.qiudeng.gate",
+      "portraitId": "shichai.qiudeng.jiangzhaoxue.portrait",
+      "homeVisitIntervalDays": 7
+    },
+    {
+      "id": "shichai.qiudeng.baiwujiu",
+      "name": "白无咎",
+      "sex": "male",
+      "age": 35,
+      "aptitude": 90,
+      "realm": 4,
+      "personality": "温润 · 眼尾泛红 · 人皮下是白狐",
+      "sect": "隐姓妖修",
+      "goal": "把亲手养大的江照雪带回妖域，完成血契",
+      "location": "shichai.qiudeng.gate",
+      "homeVisitIntervalDays": 7
+    },
+    {
+      "id": "shichai.qiudeng.xuanxuzi",
+      "name": "玄虚子",
+      "sex": "male",
+      "age": 66,
+      "aptitude": 60,
+      "realm": 3,
+      "personality": "和蔼 · 絮叨 · 目光偶尔空洞",
+      "sect": "无门无派的游方老道",
+      "goal": "借一具阳鼎之身，收齐十位炉女的阴元，逆天续命",
+      "location": "shichai.qiudeng.inn",
+      "homeVisitIntervalDays": 7
+    }
+  ],
+  "locations": {
+    "shichai.qiudeng.market": {
+      "name": "青岚山城坊市",
+      "subtitle": "青岚山城 · 人来人往",
+      "body": "山城依青岚宗而建，猎妖人带回的消息指向残卷的源头。",
+      "kind": "market",
+      "destinations": [
+        "shichai.qiudeng.inn",
+        "shichai.qiudeng.gate"
+      ],
+      "visualId": "shichai.qiudeng.intro"
+    },
+    "shichai.qiudeng.inn": {
+      "name": "青岚问道客舍",
+      "subtitle": "青岚山城 · 歇脚问讯",
+      "body": "山城依青岚宗而建，猎妖人带回的消息指向残卷的源头。",
+      "kind": "inn",
+      "destinations": [
+        "shichai.qiudeng.market",
+        "shichai.qiudeng.gate"
+      ],
+      "visualId": "shichai.qiudeng.intro"
+    },
+    "shichai.qiudeng.gate": {
+      "name": "青岚山门",
+      "subtitle": "青岚山城 · 远行之路",
+      "body": "山城依青岚宗而建，猎妖人带回的消息指向残卷的源头。",
+      "kind": "gate",
+      "destinations": [
+        "shichai.qiudeng.market",
+        "shichai.qiudeng.inn"
+      ],
+      "visualId": "shichai.qiudeng.intro"
+    }
+  }
+}

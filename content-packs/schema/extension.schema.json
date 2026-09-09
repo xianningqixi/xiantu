@@ -86,6 +86,14 @@
                 "acceptance": {
                   "type": "string",
                   "const": "acceptance.md"
+                },
+                "art": {
+                  "type": "string",
+                  "const": "art/manifest.json"
+                },
+                "journey": {
+                  "type": "string",
+                  "const": "journey.json"
                 }
               },
               "required": [
@@ -181,12 +189,15 @@
                     "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/title"
                   },
                   "location": {
-                    "type": "string",
-                    "enum": [
-                      "market",
-                      "inn",
-                      "gate"
-                    ]
+                    "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+                  },
+                  "portraitId": {
+                    "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+                  },
+                  "homeVisitIntervalDays": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 30
                   }
                 },
                 "required": [
@@ -204,10 +215,139 @@
                 "additionalProperties": false
               },
               "maxItems": 10
+            },
+            "locations": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/title"
+                  },
+                  "subtitle": {
+                    "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/title"
+                  },
+                  "body": {
+                    "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/title"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "market",
+                      "inn",
+                      "gate"
+                    ]
+                  },
+                  "destinations": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+                    },
+                    "minItems": 1,
+                    "maxItems": 6
+                  },
+                  "visualId": {
+                    "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+                  }
+                },
+                "required": [
+                  "name",
+                  "subtitle",
+                  "body",
+                  "kind",
+                  "destinations",
+                  "visualId"
+                ],
+                "additionalProperties": false
+              },
+              "propertyNames": {
+                "pattern": "^[a-zA-Z][a-zA-Z0-9_.-]{0,119}$"
+              }
             }
           },
           "required": [
             "characters"
+          ],
+          "additionalProperties": false
+        },
+        "journey": {
+          "type": "object",
+          "properties": {
+            "order": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20
+            },
+            "regionName": {
+              "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/title"
+            },
+            "minRealm": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4
+            },
+            "minExpeditions": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10
+            },
+            "travelDays": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30
+            },
+            "sceneIntervalDays": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30
+            },
+            "clueCount": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20
+            },
+            "introId": {
+              "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+            },
+            "lead": {
+              "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/title"
+            },
+            "routeLead": {
+              "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/title"
+            },
+            "locations": {
+              "type": "object",
+              "properties": {
+                "market": {
+                  "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+                },
+                "inn": {
+                  "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+                },
+                "gate": {
+                  "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+                }
+              },
+              "required": [
+                "market",
+                "inn",
+                "gate"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "order",
+            "regionName",
+            "minRealm",
+            "minExpeditions",
+            "travelDays",
+            "sceneIntervalDays",
+            "clueCount",
+            "introId",
+            "lead",
+            "routeLead",
+            "locations"
           ],
           "additionalProperties": false
         },
@@ -226,7 +366,8 @@
                 "type": "string",
                 "enum": [
                   "reused",
-                  "planned"
+                  "planned",
+                  "owned"
                 ]
               }
             },
@@ -240,6 +381,61 @@
           "propertyNames": {
             "pattern": "^[a-zA-Z][a-zA-Z0-9_.-]{0,119}$"
           }
+        },
+        "art": {
+          "type": "object",
+          "properties": {
+            "assets": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "pattern": "^art\\/images\\/[a-z0-9-]+\\.png$"
+                  },
+                  "url": {
+                    "type": "string",
+                    "pattern": "^\\/art\\/[a-zA-Z0-9_.-]+\\/[a-z0-9-]+\\.png$"
+                  },
+                  "alt": {
+                    "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/title"
+                  },
+                  "width": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0
+                  },
+                  "height": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0
+                  },
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "scene",
+                      "portrait"
+                    ]
+                  }
+                },
+                "required": [
+                  "file",
+                  "url",
+                  "alt",
+                  "width",
+                  "height",
+                  "kind"
+                ],
+                "additionalProperties": false
+              },
+              "propertyNames": {
+                "pattern": "^[a-zA-Z][a-zA-Z0-9_.-]{0,119}$"
+              }
+            }
+          },
+          "required": [
+            "assets"
+          ],
+          "additionalProperties": false
         },
         "storylets": {
           "type": "array",
@@ -275,6 +471,11 @@
                 "type": "integer",
                 "minimum": 0,
                 "maximum": 100
+              },
+              "minRealm": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4
               },
               "conditions": {
                 "type": "array",

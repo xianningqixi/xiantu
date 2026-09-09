@@ -1,0 +1,846 @@
+{
+  "version": "qingshi-women-v1",
+  "description": "规则 0.1.3 新局的第41至100位 NPC 固定身份；前40人生成不变，旧档不补人、不改身份。",
+  "entries": [
+    {
+      "id": "NPC_0041",
+      "name": "阮惊弦",
+      "sex": "female",
+      "title": "断雨剑客",
+      "background": "曾随渡口剑师替舟客护送账册，师门散去后独自踏访水路。她习惯在出发前记下河汛，把护人平安看得比剑名更重。",
+      "hook": "寻找失落的渡江剑谱，也想确认旧渡口的近况。",
+      "physique": {
+        "apparentAge": 27,
+        "heightCm": 178,
+        "build": "slender",
+        "bustCup": "C"
+      }
+    },
+    {
+      "id": "NPC_0042",
+      "name": "虞照棠",
+      "sex": "female",
+      "title": "赤棠刀修",
+      "background": "出身替商队修刀的匠家，学会辨刃后才开始练刀。她靠短途护行筹措修炼资粮，仍随身带着父亲留下的磨刀石。",
+      "hook": "想重铸家传旧刀，先寻一块合适的赤纹铁。",
+      "physique": {
+        "apparentAge": 29,
+        "heightCm": 176,
+        "build": "curvy",
+        "bustCup": "E"
+      }
+    },
+    {
+      "id": "NPC_0043",
+      "name": "花临岫",
+      "sex": "female",
+      "title": "青岫巡猎",
+      "background": "原是山间采集者，因熟悉兽径而受托引导猎妖小队。她在图上分别标记巢穴与幼兽领地，不愿把追猎变成无谓杀伤。",
+      "hook": "要绘成一册妖兽迁徙图，换来更安稳的山路。",
+      "physique": {
+        "apparentAge": 25,
+        "heightCm": 171,
+        "build": "athletic",
+        "bustCup": "B"
+      }
+    },
+    {
+      "id": "NPC_0044",
+      "name": "凌疏影",
+      "sex": "female",
+      "title": "夜行镖客",
+      "background": "曾替夜间商旅守过许多驿站，擅长从脚步与灯影分辨来客。她只接写明货物和路线的护送单，鲜少谈论自己的归处。",
+      "hook": "想查清一枚废弃镖牌的出处，寻回失散同门。",
+      "physique": {
+        "apparentAge": 28,
+        "heightCm": 180,
+        "build": "slender",
+        "bustCup": "D"
+      }
+    },
+    {
+      "id": "NPC_0045",
+      "name": "白映澈",
+      "sex": "female",
+      "title": "照霜剑修",
+      "background": "在山门照料剑器多年，离山后专为散修校正剑锋。她认为剑势来自细小处的扎实积累，不急着向任何人证明天分。",
+      "hook": "想访遍不同剑法，找到适合自己的守心一式。",
+      "physique": {
+        "apparentAge": 26,
+        "heightCm": 174,
+        "build": "balanced",
+        "bustCup": "C"
+      }
+    },
+    {
+      "id": "NPC_0046",
+      "name": "洛栖沙",
+      "sex": "female",
+      "title": "沙路游侠",
+      "background": "随驼队走过荒原边缘，凭记星与辨沙纹指路。她来青石坊市换购修行物资，也会为陌生旅人留下简洁可靠的路标。",
+      "hook": "想补全断裂的星路图，找到多年封闭的古驿。",
+      "physique": {
+        "apparentAge": 24,
+        "heightCm": 179,
+        "build": "athletic",
+        "bustCup": "C"
+      }
+    },
+    {
+      "id": "NPC_0047",
+      "name": "燕回锋",
+      "sex": "female",
+      "title": "回锋护卫",
+      "background": "从替小铺夜巡做起，逐渐成为商旅愿意雇用的护卫。她对报酬计算清楚，却总会认真检查同行者的绑腿和备用药。",
+      "hook": "想攒出一间练武小院，让初入行者少受些伤。",
+      "physique": {
+        "apparentAge": 29,
+        "heightCm": 182,
+        "build": "athletic",
+        "bustCup": "D"
+      }
+    },
+    {
+      "id": "NPC_0048",
+      "name": "南宫听刃",
+      "sex": "female",
+      "title": "听刃刀客",
+      "background": "曾在刀坊试刃，能从轻敲声辨出细裂。离开家族供养后，她以护送与修刀维生，希望自己的本事可以不靠姓氏被记住。",
+      "hook": "想让亲手修好的刀赢得口碑，攒下独立的名声。",
+      "physique": {
+        "apparentAge": 28,
+        "heightCm": 177,
+        "build": "curvy",
+        "bustCup": "E"
+      }
+    },
+    {
+      "id": "NPC_0049",
+      "name": "司空逐羽",
+      "sex": "female",
+      "title": "逐羽猎妖师",
+      "background": "因能分辨高空妖禽的落羽被商队请作向导，后来学会设标与追踪。她把每次误判记在随身小册里，宁肯折返也不逞强。",
+      "hook": "想证明山岭异鸣的来处，画出可靠的避险图。",
+      "physique": {
+        "apparentAge": 23,
+        "heightCm": 173,
+        "build": "slender",
+        "bustCup": "B"
+      }
+    },
+    {
+      "id": "NPC_0050",
+      "name": "公孙定澜",
+      "sex": "female",
+      "title": "渡澜护行",
+      "background": "熟悉水路货栈的出入规矩，常替小商队处理临时变更。她不爱空口承诺，习惯把集合时辰与退路都写进护行单。",
+      "hook": "想让一条久停的货路重新通行，接回沿途生计。",
+      "physique": {
+        "apparentAge": 27,
+        "heightCm": 175,
+        "build": "balanced",
+        "bustCup": "D"
+      }
+    },
+    {
+      "id": "NPC_0051",
+      "name": "阮抱月",
+      "sex": "female",
+      "title": "抱月双剑",
+      "background": "在小城替人抄写契书，攒足盘缠后带双剑出游。她把剑招拆成简短心得与同道交换，比起名门传承更在意是否好用。",
+      "hook": "想找到愿意交流剑理的同道，补齐双剑的缺招。",
+      "physique": {
+        "apparentAge": 24,
+        "heightCm": 168,
+        "build": "balanced",
+        "bustCup": "C"
+      }
+    },
+    {
+      "id": "NPC_0052",
+      "name": "虞沉璧",
+      "sex": "female",
+      "title": "墨璧重剑",
+      "background": "从矿场护工转作持剑护卫，能辨矿石也会修补工具。她为一柄无主重剑寻找旧主人，沿途接单只求足够盘缠与修炼。",
+      "hook": "要弄清旧剑上的残缺落款，再决定它的归宿。",
+      "physique": {
+        "apparentAge": 29,
+        "heightCm": 181,
+        "build": "athletic",
+        "bustCup": "E"
+      }
+    },
+    {
+      "id": "NPC_0053",
+      "name": "花折烟",
+      "sex": "female",
+      "title": "烟岭游侠",
+      "background": "靠替旅人寻找遗落行囊过活，熟悉客栈后院和山路岔口。她说话带笑，谈到承诺却格外认真，不肯替人隐去失物去向。",
+      "hook": "想寻回一封未送达的家书，替旧事找个交代。",
+      "physique": {
+        "apparentAge": 26,
+        "heightCm": 170,
+        "build": "curvy",
+        "bustCup": "D"
+      }
+    },
+    {
+      "id": "NPC_0054",
+      "name": "凌见微",
+      "sex": "female",
+      "title": "照迹猎妖师",
+      "background": "在猎户家学过辨迹，入道后改以符粉记录妖兽踪影。她喜欢复核线索，常把人们口中的妖怪传闻分成几种可能逐一查看。",
+      "hook": "想拆解古道怪声的误传，找出真正的危险源头。",
+      "physique": {
+        "apparentAge": 22,
+        "heightCm": 166,
+        "build": "slender",
+        "bustCup": "B"
+      }
+    },
+    {
+      "id": "NPC_0055",
+      "name": "白砚秋",
+      "sex": "female",
+      "title": "秋砚剑客",
+      "background": "曾为游历修士整理剑谱旁注，渐渐从字句里悟出持剑的路。她一边护行一边寻找不同版本的旧谱，不轻信唯一的正解。",
+      "hook": "想校清一页矛盾剑注，找到能亲自验证的线索。",
+      "physique": {
+        "apparentAge": 28,
+        "heightCm": 172,
+        "build": "balanced",
+        "bustCup": "C"
+      }
+    },
+    {
+      "id": "NPC_0056",
+      "name": "洛鸣珂",
+      "sex": "female",
+      "title": "鸣珂快刀",
+      "background": "在驿道马场长大，能听出骑队将至的铃声。她改练快刀后独自行走各地，接单前先问退路，也一直寻找更稳的刀法。",
+      "hook": "想向各地刀客请教收势，让每一次出手有余地。",
+      "physique": {
+        "apparentAge": 25,
+        "heightCm": 178,
+        "build": "athletic",
+        "bustCup": "D"
+      }
+    },
+    {
+      "id": "NPC_0057",
+      "name": "燕泊雪",
+      "sex": "female",
+      "title": "雪渡游侠",
+      "background": "常年往返寒山与集镇，靠带路和换货维持修炼。她给每座可避雪的空屋补过门闩，离开时总会留一点干柴给后来人。",
+      "hook": "想查遍旧雪道的避风屋，为下次远行留好退路。",
+      "physique": {
+        "apparentAge": 27,
+        "heightCm": 180,
+        "build": "slender",
+        "bustCup": "C"
+      }
+    },
+    {
+      "id": "NPC_0058",
+      "name": "南宫烈绡",
+      "sex": "female",
+      "title": "绯绡枪卫",
+      "background": "离家后在杂货行担任护卫，从搬运清点一直做到独立护行。她把所赚灵石分作路费与修炼两份，不再依赖家中的安排。",
+      "hook": "想独自完成一次长途护送，证明能选择自己的路。",
+      "physique": {
+        "apparentAge": 26,
+        "heightCm": 179,
+        "build": "curvy",
+        "bustCup": "E"
+      }
+    },
+    {
+      "id": "NPC_0059",
+      "name": "司空望汀",
+      "sex": "female",
+      "title": "汀岸伏妖客",
+      "background": "在湿地渡口替人看守渔具，后来专门记录水妖活动的时节。她不轻易下水，喜欢先观察潮线，再决定是否请同道同行。",
+      "hook": "想找出汀岸失鱼的缘故，替渔户留住一季收成。",
+      "physique": {
+        "apparentAge": 28,
+        "heightCm": 174,
+        "build": "balanced",
+        "bustCup": "D"
+      }
+    },
+    {
+      "id": "NPC_0060",
+      "name": "公孙缨禾",
+      "sex": "female",
+      "title": "金缨游剑",
+      "background": "曾跟随巡游戏班练身法与短剑，离班后以护行换取资粮。她擅长热络地招呼陌生人，却会仔细守住每个人愿意谈及的界限。",
+      "hook": "想找回散失的身法手册，再沿旧戏路看望故人。",
+      "physique": {
+        "apparentAge": 23,
+        "heightCm": 169,
+        "build": "balanced",
+        "bustCup": "C"
+      }
+    },
+    {
+      "id": "NPC_0061",
+      "name": "曲知微",
+      "sex": "female",
+      "title": "玉针医修",
+      "background": "出身水乡医馆，曾随商队行医数年。她以细针疏理灵脉，将沿途疑难病案逐一收录，现暂居坊市整理药方。",
+      "hook": "想寻一株无名冷香草，补全失传的温脉方。",
+      "physique": {
+        "apparentAge": 27,
+        "heightCm": 172,
+        "build": "slender",
+        "bustCup": "C"
+      }
+    },
+    {
+      "id": "NPC_0062",
+      "name": "唐照棠",
+      "sex": "female",
+      "title": "丹砂毒修",
+      "background": "唐家旧药铺的独立传人，擅辨毒物与解药。她不轻易试药于人，宁肯反复培育毒花，也要查清每一味药性。",
+      "hook": "追查一批被误作灵药贩卖的丹砂毒籽。",
+      "physique": {
+        "apparentAge": 28,
+        "heightCm": 177,
+        "build": "curvy",
+        "bustCup": "E"
+      }
+    },
+    {
+      "id": "NPC_0063",
+      "name": "萧闻笙",
+      "sex": "female",
+      "title": "水沉香师",
+      "background": "出身制香小坊，离乡后收集各地木脂与花露。她惯以气味辨识旧物，借替旅人修复香囊维持日常修行。",
+      "hook": "想调出能保存雨后山林气息的一炉新香。",
+      "physique": {
+        "apparentAge": 24,
+        "heightCm": 168,
+        "build": "balanced",
+        "bustCup": "C"
+      }
+    },
+    {
+      "id": "NPC_0064",
+      "name": "孟砚秋",
+      "sex": "female",
+      "title": "青锋符修",
+      "background": "曾替山门抄录经卷，因发现古符笔路另藏门径而专修符法。如今在坊市卖符，收入多用于购置旧拓本。",
+      "hook": "要从散落的石刻中寻回一套残缺护行符。",
+      "physique": {
+        "apparentAge": 26,
+        "heightCm": 181,
+        "build": "athletic",
+        "bustCup": "B"
+      }
+    },
+    {
+      "id": "NPC_0065",
+      "name": "卫星萝",
+      "sex": "female",
+      "title": "璇玑阵师",
+      "background": "师从一位山野阵匠，自幼熟悉地形丈量，成年后独自行走四方。她用简朴阵盘为小镇修护防雾与引水阵。",
+      "hook": "想验证古道星位是否对应一座失落的旧阵。",
+      "physique": {
+        "apparentAge": 25,
+        "heightCm": 175,
+        "build": "slender",
+        "bustCup": "B"
+      }
+    },
+    {
+      "id": "NPC_0066",
+      "name": "方燧宁",
+      "sex": "female",
+      "title": "赤铜器修",
+      "background": "曾在矿镇学修炉具，善将废铜残铁重新锻成小法器。她离开师门后开设流动修补摊，珍惜每件旧物的来历。",
+      "hook": "正寻找一块能承受地火的耐热玄铜。",
+      "physique": {
+        "apparentAge": 29,
+        "heightCm": 179,
+        "build": "athletic",
+        "bustCup": "D"
+      }
+    },
+    {
+      "id": "NPC_0067",
+      "name": "夏蘅枝",
+      "sex": "female",
+      "title": "苔月灵植师",
+      "background": "长年照料山中废弃药圃，靠嫁接与移栽救活不少稀有灵植。她定期进坊市换取种子，也记录草木随月色的变化。",
+      "hook": "想让一株只生枝叶的月藤重新开花。",
+      "physique": {
+        "apparentAge": 23,
+        "heightCm": 169,
+        "build": "curvy",
+        "bustCup": "D"
+      }
+    },
+    {
+      "id": "NPC_0068",
+      "name": "池驭岚",
+      "sex": "female",
+      "title": "苍羽灵兽师",
+      "background": "成年后在驿道驯养灵鸟，擅长修复受损飞羽并引导幼鸟归巢。她不将灵兽当作工具，常为迁徙兽群绕行远路。",
+      "hook": "寻找迁徙失散的苍羽鸟群与新的栖息地。",
+      "physique": {
+        "apparentAge": 26,
+        "heightCm": 182,
+        "build": "athletic",
+        "bustCup": "C"
+      }
+    },
+    {
+      "id": "NPC_0069",
+      "name": "百里素问",
+      "sex": "female",
+      "title": "雪脉医修",
+      "background": "曾赴寒地救治受冻的护行人，逐渐专修寒毒与灵脉损伤。她将诊金的一部分留作药资，常为下一次远行备药。",
+      "hook": "正在研制适合普通旅人携带的御寒药散。",
+      "physique": {
+        "apparentAge": 29,
+        "heightCm": 174,
+        "build": "balanced",
+        "bustCup": "D"
+      }
+    },
+    {
+      "id": "NPC_0070",
+      "name": "上官绛蘅",
+      "sex": "female",
+      "title": "紫藤毒修",
+      "background": "原为世家药园的管事，离家后专门研究植物间的毒性相克。她在小院培育藤本，不愿让家学沦为争斗的手段。",
+      "hook": "想找出一场药圃枯萎背后被掩盖的病因。",
+      "physique": {
+        "apparentAge": 27,
+        "heightCm": 176,
+        "build": "curvy",
+        "bustCup": "E"
+      }
+    },
+    {
+      "id": "NPC_0071",
+      "name": "曲雾庭",
+      "sex": "female",
+      "title": "松烟香师",
+      "background": "以修复旧香器为业，常能从炉壁残香判断香料产地。她偏爱松脂与草木香，收藏着许多无人辨识的小块香木。",
+      "hook": "准备循一缕古松香的来历寻找旧时香坊。",
+      "physique": {
+        "apparentAge": 28,
+        "heightCm": 171,
+        "build": "slender",
+        "bustCup": "B"
+      }
+    },
+    {
+      "id": "NPC_0072",
+      "name": "唐丹曦",
+      "sex": "female",
+      "title": "金箔符修",
+      "background": "从画匠转修符法，善于在细薄金箔上绘制稳定的灵纹。她靠绘护身符积攒灵石，希望改良易损的寻常符纸。",
+      "hook": "正为雨季护行队试制不惧水湿的新符材。",
+      "physique": {
+        "apparentAge": 22,
+        "heightCm": 166,
+        "build": "balanced",
+        "bustCup": "C"
+      }
+    },
+    {
+      "id": "NPC_0073",
+      "name": "萧衡月",
+      "sex": "female",
+      "title": "潮汐阵师",
+      "background": "生于渡口，熟悉水道涨落，修阵后专攻引流与镇潮。她常在河岸留宿观测月相，希望为旧渡修成更稳的护堤阵。",
+      "hook": "要补齐一整年的水纹记录以校准潮汐阵。",
+      "physique": {
+        "apparentAge": 29,
+        "heightCm": 180,
+        "build": "slender",
+        "bustCup": "C"
+      }
+    },
+    {
+      "id": "NPC_0074",
+      "name": "孟铃铸",
+      "sex": "female",
+      "title": "银铃器修",
+      "background": "擅造传讯小铃与锁扣，早年跟随游商修补随身法器。她对细小机关极有耐心，至今仍逐件保留失败的试作。",
+      "hook": "想制成能穿过山雾传声而不惊动灵兽的铃。",
+      "physique": {
+        "apparentAge": 25,
+        "heightCm": 170,
+        "build": "balanced",
+        "bustCup": "D"
+      }
+    },
+    {
+      "id": "NPC_0075",
+      "name": "卫葭音",
+      "sex": "female",
+      "title": "露荷灵植师",
+      "background": "守着一片浅水灵田，以采露培荷维生。她善辨水土变化，常替邻近药农查看根病，也尝试栽种远地来的水生灵草。",
+      "hook": "想把一枚沉睡多年的古莲子培育成活。",
+      "physique": {
+        "apparentAge": 24,
+        "heightCm": 173,
+        "build": "curvy",
+        "bustCup": "E"
+      }
+    },
+    {
+      "id": "NPC_0076",
+      "name": "方鹿遥",
+      "sex": "female",
+      "title": "青麓灵兽师",
+      "background": "自山间牧场学会照料灵鹿，成年后沿古道寻找适宜放养的草场。她辨识兽迹十分熟练，也为迷路旅人标记归途。",
+      "hook": "希望找到一条让鹿群安全越冬的山间路线。",
+      "physique": {
+        "apparentAge": 23,
+        "heightCm": 178,
+        "build": "athletic",
+        "bustCup": "B"
+      }
+    },
+    {
+      "id": "NPC_0077",
+      "name": "夏云疏",
+      "sex": "female",
+      "title": "白鹭医修",
+      "background": "沿河往来行医，习惯将药材分成便于携行的小包。她曾学过水行护身术，遇到洪水便留下照看渡口附近的伤者。",
+      "hook": "想找到能在潮湿天气长久保存药草的方法。",
+      "physique": {
+        "apparentAge": 26,
+        "heightCm": 167,
+        "build": "slender",
+        "bustCup": "C"
+      }
+    },
+    {
+      "id": "NPC_0078",
+      "name": "池瑶烬",
+      "sex": "female",
+      "title": "琉火器修",
+      "background": "师承琉璃匠，后来将控火术用于修补灵灯。她认为器物的光色也能传递讯息，因此反复试作不同的灯芯与罩片。",
+      "hook": "要做一盏能在山风里整夜不灭的护行灯。",
+      "physique": {
+        "apparentAge": 28,
+        "heightCm": 175,
+        "build": "balanced",
+        "bustCup": "D"
+      }
+    },
+    {
+      "id": "NPC_0079",
+      "name": "百里筠岑",
+      "sex": "female",
+      "title": "竹影阵师",
+      "background": "原在竹海测绘山路，偶然掌握借竹节布阵的方法。她以修路与防迷阵换取口粮，随身竹册记录着各地的风向。",
+      "hook": "想解开一片竹林每逢月末便改换路径的缘由。",
+      "physique": {
+        "apparentAge": 27,
+        "heightCm": 179,
+        "build": "slender",
+        "bustCup": "B"
+      }
+    },
+    {
+      "id": "NPC_0080",
+      "name": "上官缃露",
+      "sex": "female",
+      "title": "金桂香师",
+      "background": "曾替大户管理香料库，后来独立经营小香摊。她善以廉价草木调出清雅香气，坚持留下每炉香的完整配方。",
+      "hook": "正筹备一炉让普通人也负担得起的安神香。",
+      "physique": {
+        "apparentAge": 29,
+        "heightCm": 172,
+        "build": "curvy",
+        "bustCup": "E"
+      }
+    },
+    {
+      "id": "NPC_0081",
+      "name": "容锦殊",
+      "sex": "female",
+      "title": "锦路行商",
+      "background": "出身织锦商家，成年后独自走南北商路，以辨认古纹与修复旧缎为业。她将各地染样编成小册，盼能复原失传的云锦织法。",
+      "hook": "想寻回散落各地的九种古老云锦染样。",
+      "physique": {
+        "apparentAge": 28,
+        "heightCm": 174,
+        "build": "curvy",
+        "bustCup": "D"
+      }
+    },
+    {
+      "id": "NPC_0082",
+      "name": "蓝映砂",
+      "sex": "female",
+      "title": "海珠货主",
+      "background": "曾随海船往返群岛，能凭色泽分辨灵贝与仿珠。如今沿内陆水路售卖珠饰，也在寻找一条不受季风阻断的商船航线。",
+      "hook": "希望为群岛小商船绘出安稳的四季航线。",
+      "physique": {
+        "apparentAge": 26,
+        "heightCm": 179,
+        "build": "athletic",
+        "bustCup": "C"
+      }
+    },
+    {
+      "id": "NPC_0083",
+      "name": "乔弦微",
+      "sex": "female",
+      "title": "玲珑箜篌师",
+      "background": "在山城乐坊学成箜篌，后来为寻找古调四处游历。她习惯把沿途泉声记作谱句，尝试以乐音安定纷乱的修行心绪。",
+      "hook": "想在山泉枯竭前记全一支失传的水调。",
+      "physique": {
+        "apparentAge": 24,
+        "heightCm": 168,
+        "build": "slender",
+        "bustCup": "B"
+      }
+    },
+    {
+      "id": "NPC_0084",
+      "name": "秦照音",
+      "sex": "female",
+      "title": "赤檀笙修",
+      "background": "成年后离开城中宴乐班，携一架赤檀笙走访古驿。她擅长辨认钟石余音，正据残谱追寻一组被拆散的旧日律管。",
+      "hook": "要替残缺古笙找齐三枚失散的律管。",
+      "physique": {
+        "apparentAge": 29,
+        "heightCm": 176,
+        "build": "balanced",
+        "bustCup": "E"
+      }
+    },
+    {
+      "id": "NPC_0085",
+      "name": "段绮旋",
+      "sex": "female",
+      "title": "回风舞修",
+      "background": "曾在谷地祭礼中领舞，成年后把舞步化作调息法。她游历各处学习地方舞姿，希望整理一套人人都能练习的轻身身法。",
+      "hook": "正收集不同乡里的踏步节律完善轻身法。",
+      "physique": {
+        "apparentAge": 25,
+        "heightCm": 181,
+        "build": "athletic",
+        "bustCup": "C"
+      }
+    },
+    {
+      "id": "NPC_0086",
+      "name": "姬流霓",
+      "sex": "female",
+      "title": "月绡扇舞师",
+      "background": "以扇舞巡演供养自己的修行，曾在多座小城整理民间祝舞。她相信旧舞记着迁徙的道路，正沿相似扇式查访失落的故乡曲。",
+      "hook": "盼从散落扇式中辨出故乡曲的最后一段。",
+      "physique": {
+        "apparentAge": 27,
+        "heightCm": 172,
+        "build": "curvy",
+        "bustCup": "D"
+      }
+    },
+    {
+      "id": "NPC_0087",
+      "name": "梅知茗",
+      "sex": "female",
+      "title": "煮雪茶师",
+      "background": "在山间茶园长大，成年后背着小茶箱行走坊市。她搜集不同泉水煮茶的变化，也替偏远茶户记录茶树受灵气影响的年岁。",
+      "hook": "想找到适合救活老茶树的一眼温泉。",
+      "physique": {
+        "apparentAge": 26,
+        "heightCm": 166,
+        "build": "balanced",
+        "bustCup": "C"
+      }
+    },
+    {
+      "id": "NPC_0088",
+      "name": "应醉蘅",
+      "sex": "female",
+      "title": "百花酿师",
+      "background": "在河城酒坊掌过酿房，后来携祖传酿谱寻找各季花材。她将酿酒视作等待与火候的修行，想酿成一种不伤神识的花露酒。",
+      "hook": "需要寻齐能在同一时节入酿的四地花材。",
+      "physique": {
+        "apparentAge": 29,
+        "heightCm": 175,
+        "build": "curvy",
+        "bustCup": "E"
+      }
+    },
+    {
+      "id": "NPC_0089",
+      "name": "东方砚秋",
+      "sex": "female",
+      "title": "墨契文书",
+      "background": "曾在大城文馆誊写契约，成年后离馆游历各地旧档。她熟悉纸墨与契纹的差别，想编出一本让普通商户也能读懂的契书范本。",
+      "hook": "正核对几种流传甚广却互相矛盾的契式。",
+      "physique": {
+        "apparentAge": 28,
+        "heightCm": 178,
+        "build": "slender",
+        "bustCup": "B"
+      }
+    },
+    {
+      "id": "NPC_0090",
+      "name": "独孤素札",
+      "sex": "female",
+      "title": "行驿抄录人",
+      "background": "成年后在驿路间代写书信，也替偏远村落保存往来名录。她随身收着许多废弃纸笺，想查明一批无人认领的旧信来自何处。",
+      "hook": "想替驿站里一箱旧信找回真正的收信人。",
+      "physique": {
+        "apparentAge": 23,
+        "heightCm": 170,
+        "build": "athletic",
+        "bustCup": "C"
+      }
+    },
+    {
+      "id": "NPC_0091",
+      "name": "容星阙",
+      "sex": "female",
+      "title": "衡星术者",
+      "background": "在偏远观星台学习历数，成年后携简仪踏访不同纬地。她对传说持审慎态度，总把天象与地面记录相互核对，再写入自己的星历。",
+      "hook": "要查清几处星台记录相差一夜的缘由。",
+      "physique": {
+        "apparentAge": 27,
+        "heightCm": 180,
+        "build": "balanced",
+        "bustCup": "D"
+      }
+    },
+    {
+      "id": "NPC_0092",
+      "name": "蓝月规",
+      "sex": "female",
+      "title": "望潮占星师",
+      "background": "生于海边历官之家，离乡后靠绘制潮汐历换取旅费。她擅长观察月色与灵潮，正整理沿海老人留下的口述历法以纠正旧误。",
+      "hook": "希望把渔村口述月历整理成可靠的潮表。",
+      "physique": {
+        "apparentAge": 25,
+        "heightCm": 169,
+        "build": "slender",
+        "bustCup": "B"
+      }
+    },
+    {
+      "id": "NPC_0093",
+      "name": "乔丹岫",
+      "sex": "female",
+      "title": "丹青采色师",
+      "background": "从矿镇画匠处学会研制颜料，成年后走山川记录天然色谱。她随身带着一册未完成的地景，希望找到能长久保存灵光的青色矿石。",
+      "hook": "想让一幅故乡山色摆脱褪色的困扰。",
+      "physique": {
+        "apparentAge": 28,
+        "heightCm": 177,
+        "build": "athletic",
+        "bustCup": "C"
+      }
+    },
+    {
+      "id": "NPC_0094",
+      "name": "秦照屏",
+      "sex": "female",
+      "title": "绢屏画师",
+      "background": "曾替城中旧宅修复绢屏，因喜爱民间花鸟画而外出采风。她习惯先记鸟声再落笔，盼能完成一套兼具四时神韵的小幅屏画。",
+      "hook": "为四时屏画寻找尚未见过的秋候灵鸟。",
+      "physique": {
+        "apparentAge": 26,
+        "heightCm": 171,
+        "build": "curvy",
+        "bustCup": "D"
+      }
+    },
+    {
+      "id": "NPC_0095",
+      "name": "段沙棠",
+      "sex": "female",
+      "title": "西漠游学客",
+      "background": "来自西漠绿洲，成年后带着本乡石刻抄本远行。她学习中土的阵纹与水脉记法，希望有朝一日为故乡修复废弃多年的引水阵。",
+      "hook": "正寻找能解释故乡石刻中断裂阵纹的线索。",
+      "physique": {
+        "apparentAge": 24,
+        "heightCm": 182,
+        "build": "athletic",
+        "bustCup": "C"
+      }
+    },
+    {
+      "id": "NPC_0096",
+      "name": "姬海珞",
+      "sex": "female",
+      "title": "南岛符纹学者",
+      "background": "出自南方群岛的符纹世家，成年后乘船访学各地书院。她善用贝片记录图形，正在比较海岛纹样与中土符篆是否拥有共同源头。",
+      "hook": "想证实一枚古贝纹与中土符篆的联系。",
+      "physique": {
+        "apparentAge": 27,
+        "heightCm": 173,
+        "build": "balanced",
+        "bustCup": "D"
+      }
+    },
+    {
+      "id": "NPC_0097",
+      "name": "梅珀琳",
+      "sex": "female",
+      "title": "香材行旅",
+      "background": "以甄别树脂与香木为业，成年后沿旧香路拜访采香人。她不愿只凭传闻定价，常留在产地观察一个季节，记录香材真正的生长条件。",
+      "hook": "希望找出某种名香连年减产的实际缘故。",
+      "physique": {
+        "apparentAge": 29,
+        "heightCm": 167,
+        "build": "curvy",
+        "bustCup": "E"
+      }
+    },
+    {
+      "id": "NPC_0098",
+      "name": "应清商",
+      "sex": "female",
+      "title": "玉磬听律人",
+      "background": "成年后拜访寺观与旧乐坊，专门整理钟磬的残缺律谱。她能分辨相近石料发出的细微差别，想为一套散失的古磬重建原有音阶。",
+      "hook": "在各地石坊寻找能补上古磬缺音的石材。",
+      "physique": {
+        "apparentAge": 25,
+        "heightCm": 176,
+        "build": "slender",
+        "bustCup": "B"
+      }
+    },
+    {
+      "id": "NPC_0099",
+      "name": "东方绫书",
+      "sex": "female",
+      "title": "彩笺修复师",
+      "background": "从书坊学徒做起，成年后专修虫蛀水损的旧卷。她边游历边收集各地造纸法，打算建立一套无需昂贵灵材也能保存书卷的工序。",
+      "hook": "想找到能稳定补好受潮古纸的寻常材料。",
+      "physique": {
+        "apparentAge": 26,
+        "heightCm": 174,
+        "build": "balanced",
+        "bustCup": "C"
+      }
+    },
+    {
+      "id": "NPC_0100",
+      "name": "独孤晞辰",
+      "sex": "female",
+      "title": "远行历算师",
+      "background": "成年后离开北地观测所，沿驿路比对日影与地形。她随身携着能拆装的小日晷，希望以长期实测修订一部常使行旅误期的旧历书。",
+      "hook": "要以沿途日影实测改正旧历书的误差。",
+      "physique": {
+        "apparentAge": 28,
+        "heightCm": 181,
+        "build": "athletic",
+        "bustCup": "D"
+      }
+    }
+  ]
+}

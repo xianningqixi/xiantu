@@ -1,0 +1,17 @@
+{
+  "order": 1,
+  "regionName": "青石坊市",
+  "minRealm": 1,
+  "minExpeditions": 0,
+  "travelDays": 1,
+  "sceneIntervalDays": 2,
+  "clueCount": 3,
+  "introId": "shichai.chunshui.intro",
+  "lead": "青石的药摊、古道与说书人，藏着半页残卷的来历。",
+  "routeLead": "炼气入门后，到听雨客栈问问残卷的消息。",
+  "locations": {
+    "market": "market",
+    "inn": "inn",
+    "gate": "gate"
+  }
+}

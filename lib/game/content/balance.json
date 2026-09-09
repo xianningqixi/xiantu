@@ -3,7 +3,7 @@
   "status": "prototype_defaults_not_final_product_decisions",
   "probabilityScaleBp": 10000,
   "world": {
-    "initialNpcCount": 40,
+    "initialNpcCount": 100,
     "simulationNpcCountForStressTest": 100,
     "simulationDaysForStressTest": 3650,
     "exampleSeed": 12345,
@@ -30,6 +30,17 @@
       "move": 10,
       "socialize": 10,
       "rest": 5
+    },
+    "npcLife": {
+      "socialFavorGain": 5,
+      "socialTrustGain": 4,
+      "familiarContactChance": 80,
+      "newContactLimit": 6,
+      "sectInterestPercent": 65,
+      "sectConsiderIntervalDays": 14,
+      "sectMinimumRealm": 1,
+      "newsDays": 30,
+      "newsLimit": 6
     },
     "npcLifespanDays": {
       "MORTAL": 25200,
@@ -78,7 +89,8 @@
       }
     },
     "stressTestSeeds": [1, 42, 12345, 20260906, 987654321],
-    "npcIdleRestoreHp": 5
+    "npcIdleRestoreHp": 5,
+    "maximumNpcCount": 200
   },
   "creation": {
     "nameLengthMin": 1,
@@ -427,7 +439,7 @@
     "enemyRequiresExplicitGrievance": true,
     "intimateRelationshipMinimumAgeYears": 18,
     "romanceRequiresExplicitMutualConsent": true,
-    "romanceAcquisitionEnabled": false,
+    "romanceAcquisitionEnabled": true,
     "attractionGainFromGenericFriendliness": 0,
     "repeatDialogueRelationshipGain": 0,
     "eventDeltas": {
@@ -470,7 +482,17 @@
     "generalMemoryRetentionDays": 180,
     "promiseDeathMajorRealmMemoryNeverExpires": true,
     "strictInvitationMinimumTrustAfterCompensation": -30,
-    "strictInvitationUsesEnforcedGrassAllocation": true
+    "strictInvitationUsesEnforcedGrassAllocation": true,
+    "companionship": {
+      "days": 1,
+      "favorGain": 10,
+      "trustGain": 10,
+      "bondFavorMin": 40,
+      "bondTrustMin": 40,
+      "bondAttraction": 30,
+      "nightDays": 1,
+      "dualDays": 1
+    }
   },
   "promises": {
     "states": [
@@ -575,5 +597,27 @@
     "maxPlayerInputCharacters": 1000,
     "maxAiOutputTokens": 1200,
     "recentCommandReceipts": 128
+  },
+  "sects": {
+    "taskDays": 1,
+    "taskContribution": 10,
+    "taskStones": 6,
+    "artContributionCost": 30,
+    "npcTaskIntervalDays": 7,
+    "npcDualIntervalDays": 9,
+    "growth": {
+      "yunv": {
+        "dailyGain": 4,
+        "dualGain": 0
+      },
+      "hehuan": {
+        "dailyGain": 2,
+        "dualGain": 6
+      },
+      "quanzhen": {
+        "dailyGain": 3,
+        "dualGain": 0
+      }
+    }
   }
 }

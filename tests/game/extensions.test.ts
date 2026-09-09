@@ -2,10 +2,12 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { createWorld, applyCommand, validateWorld } from "../../lib/game/engine";
 import { extensionScenes } from "../../lib/game/content-story";
-import { EXTENSIONS, extensionVisual } from "../../lib/game/content/extensions";
+import { EXTENSIONS, extensionVisual, extensionPortrait } from "../../lib/game/content/extensions";
 import { PACK, VISUAL_IDS } from "../../lib/game/content/official";
 import { validateExtension, validateRegistry } from "../../lib/game/content/extension-contract.mjs";
+import images from "../../lib/game/content/images.json";
 import { migrateSave } from "../../lib/game/migrations";
+import { CAMPAIGN_LOCKS } from "../../lib/game/campaign-content";
 import type { Command, World } from "../../lib/game/types";
 const entry = EXTENSIONS[0];
 const official = {
@@ -119,7 +121,7 @@ test("death after acceptance reaches an explanatory close and never speaks for t
   validateWorld(r.w);
   assert.equal(r.w.npcs[1].alive, false);
 });
-test("a failed purchase rolls back all story state; old official-only saves are not relocked", () => {
+test("a failed purchase rolls back all story state; old official saves retain the base lock when joining the campaign", () => {
   const r = run();
   r.prepare();
   r.choose();
@@ -134,11 +136,83 @@ test("a failed purchase rolls back all story state; old official-only saves are 
   legacy.rulesVersion = "0.1.1";
   legacy.contentLocks = [];
   legacy.contentState = {};
+  for (const event of legacy.events) delete event.storyNodeId;
   legacy.negotiations = [];
   const migrated = migrateSave(legacy).world;
-  assert.deepEqual(migrated.contentLocks, []);
+  assert.deepEqual(migrated.contentLocks, CAMPAIGN_LOCKS);
   assert.equal(migrated.packLock, PACK.lock);
   const bad = structuredClone(r.w);
   bad.contentLocks = [entry.lock + "x"];
   assert.throws(() => validateWorld(bad), /版本/);
+});
+
+const shichai = EXTENSIONS.filter((e) => e.data.manifest.packId.startsWith("shichai."));
+test("all 120 owned visuals resolve to lazy derivatives and 11 heroine portraits have runtime lookups", () => {
+  let count = 0,
+    portraits = 0;
+  for (const { data, images: hashes } of shichai) {
+    for (const [id, slot] of Object.entries(data.visuals)) {
+      count++;
+      assert.equal(slot.status, "owned");
+      const art = extensionVisual(id);
+      assert.ok(art.url);
+      const asset = (images as Record<string, { src: string; lazy: boolean }>)[art.url];
+      assert.match(asset.src, /^\/art\/optimized\/.+\.webp$/);
+      assert.equal(asset.lazy, true);
+      assert.match(hashes[slot.assetId], /^[a-f0-9]{64}$/);
+    }
+    for (const actor of data.definitions.characters) {
+      const portrait = extensionPortrait(actor.id);
+      if (actor.sex === "female") {
+        portraits++;
+        assert.ok(portrait?.url);
+        assert.equal(portrait.kind, "portrait");
+        assert.deepEqual(portrait, extensionVisual(actor.id + ".portrait"));
+      } else {
+        assert.equal(actor.portraitId, undefined);
+        if (portrait) {
+          // The separately supplied NPC portrait library can now cover male participants.
+          assert.equal(portrait.kind, "portrait");
+          assert.ok((images as Record<string, unknown>)[portrait.url]);
+        }
+      }
+    }
+  }
+  for (const actor of entry.data.definitions.characters)
+    assert.equal(extensionPortrait(actor.id), null);
+  assert.equal(extensionPortrait("PLAYER"), null);
+  assert.equal(extensionPortrait("unknown"), null);
+  assert.equal(count, 120);
+  assert.equal(portraits, 11);
+});
+test("owned contract rejects missing art, foreign URLs, invalid paths and scene portraits", () => {
+  for (const mutate of [
+    (p: any) => {
+      p.visuals[Object.keys(p.visuals)[0]].assetId = "constructor";
+    },
+    (p: any) => {
+      p.visuals[Object.keys(p.visuals)[0]].assetId = p.manifest.packId + ".missing";
+    },
+    (p: any) => {
+      Object.values<any>(p.art.assets)[0].url = "/art/other/test.png";
+    },
+    (p: any) => {
+      Object.values<any>(p.art.assets)[0].file = "art/images/../test.png";
+    },
+    (p: any) => {
+      p.definitions.characters.find((a: any) => a.sex === "female").portraitId = Object.keys(
+        p.visuals,
+      ).find((id) => id.endsWith(".intro"));
+    },
+    (p: any) => {
+      delete p.art;
+    },
+    (p: any) => {
+      p.visuals[Object.keys(p.visuals)[0]].status = "reused";
+    },
+  ]) {
+    const data = structuredClone(shichai[0].data);
+    mutate(data);
+    assert.throws(() => validateExtension(data, official));
+  }
 });

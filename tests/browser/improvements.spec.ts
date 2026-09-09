@@ -1,3 +1,4 @@
+import { openCurrentLocation } from "./journey-controls";
 import { test, expect, type Page } from "@playwright/test";
 import { readFileSync } from "node:fs";
 async function create(page: Page) {
@@ -5,6 +6,7 @@ async function create(page: Page) {
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("改进验收");
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
   await expect(page.getByRole("heading", { name: "改进验收", exact: true })).toBeVisible();
+  await openCurrentLocation(page);
 }
 async function saved(page: Page) {
   return page.evaluate(async () => {
@@ -116,7 +118,12 @@ test("optimized images reserve dimensions and atlas downloads are excluded from 
   );
   expect(imageData.length).toBeGreaterThan(0);
   for (const image of imageData) {
-    expect(image.src).toMatch(/\.webp$/);
+    const pathname = new URL(image.src).pathname;
+    if (pathname.startsWith("/artifacts/")) {
+      expect(pathname).toMatch(/^\/artifacts\/(bond|focus|ward)\.svg$/);
+    } else {
+      expect(pathname).toMatch(/\.webp$/);
+    }
     expect(Number(image.width)).toBeGreaterThan(0);
     expect(Number(image.height)).toBeGreaterThan(0);
   }
@@ -126,7 +133,7 @@ test("optimized images reserve dimensions and atlas downloads are excluded from 
   const source = JSON.parse(readFileSync("lib/game/content/images.json", "utf8"));
   expect(
     Object.entries(source)
-      .filter(([url]) => !url.startsWith("/art/portraits/"))
+      .filter(([url]) => /^\/art\/[^/]+\.png$/.test(url))
       .reduce((total: number, [, image]: any) => total + image.bytes, 0),
   ).toBeLessThan(2 * 1024 * 1024);
   for (const [url, asset] of Object.entries(source) as [string, any][]) {

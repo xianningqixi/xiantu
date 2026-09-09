@@ -1,3 +1,9 @@
+import { deduplicateNpcNames } from "./npc-names";
+import { MAIN_STORY_LOCK, mainChapters } from "./main-story";
+import legacyCampaignLocks from "./content/main-story-migrations.json";
+import { withCampaignContent } from "./campaign-content";
+import { createContentActors } from "./worldgen";
+import { migrateJourneys } from "./journey-migration";
 import { defaultPhysique, profilePhysique } from "./physique";
 import { pruneReceipts } from "./receipts";
 import { validateWorld } from "./engine";
@@ -68,8 +74,45 @@ export function migrateSave(value: unknown): { world: World; migrated: boolean }
     copy.player.physique = { ...copy.profile.physique };
     if (copy.profile.portraitId) copy.player.portraitId = copy.profile.portraitId;
     for (const actor of copy.npcs)
-      actor.physique = defaultPhysique(actor.sex, actor.appearanceSeed);
+      actor.physique ??= defaultPhysique(actor.sex, actor.appearanceSeed);
   }
+  const journeyMigrated = migrateJourneys(copy);
+  const campaignMigrated =
+    copy.campaignLock === undefined || legacyCampaignLocks.includes(copy.campaignLock);
+  if (campaignMigrated) copy.campaignLock = MAIN_STORY_LOCK;
+  // Validate the old graph before adding anything: unknown versions, orphan identities
+  // and malformed histories must not be repaired into apparently legitimate saves.
   validateWorld(copy);
-  return { world: copy, migrated };
+  const atlasMigrated = ["0.1.2", "0.1.3"].includes(copy.rulesVersion);
+  if (atlasMigrated) copy.rulesVersion = "0.1.4";
+  const locks = withCampaignContent(copy.contentLocks);
+  const missing = locks.filter((lock) => !copy.contentLocks.includes(lock));
+  if (missing.length) {
+    if (!copy.campaignHistory && copy.events.some((event) => event.mainStory))
+      copy.campaignHistory = {
+        eventCount: copy.events.length,
+        chapters: mainChapters(copy).map((c) => c.id),
+      };
+    const added = createContentActors(copy.seed, missing, copy.day);
+    if (copy.npcs.length + added.length > 200)
+      throw new GameError(
+        "SAVE_VERSION_UNSUPPORTED",
+        "本局人物已接近容量上限，暂无法接续四卷。原档已保留。",
+      );
+    copy.npcs.push(...added);
+    copy.contentLocks = locks;
+    validateWorld(copy);
+  }
+  const namesMigrated = deduplicateNpcNames(copy).length > 0;
+  if (namesMigrated) validateWorld(copy);
+  return {
+    world: copy,
+    migrated:
+      migrated ||
+      atlasMigrated ||
+      journeyMigrated ||
+      campaignMigrated ||
+      missing.length > 0 ||
+      namesMigrated,
+  };
 }

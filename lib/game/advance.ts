@@ -9,6 +9,9 @@ export const IMPORTANT_EVENT_KINDS = new Set([
   "death",
   "conflict",
   "agreement-ended",
+  "npc-friendship",
+  "sect-join",
+  "sect-art",
 ]);
 export function validateStopCondition(world: World, condition?: StopCondition) {
   if (condition?.kind === "npcArrives")
@@ -34,7 +37,8 @@ export function advanceStopReason(
   if (condition?.kind === "npcArrives") {
     const person = actorById(world, condition.target);
     if (!person?.alive) return "等候的人已经离世，停止等候。";
-    if (person.location === world.player.location) return `${person.name}已到达此处。`;
+    if (!person.npcJourney && person.location === world.player.location)
+      return `${person.name}已到达此处。`;
   }
   if (
     condition?.kind === "importantEvent" &&

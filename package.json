@@ -19,7 +19,7 @@
     "test": "npm run build && node --test tests/*.test.mjs",
     "lint": "bash scripts/sites-env.sh -- eslint . --ignore-pattern dist --ignore-pattern .next",
     "typecheck:game": "tsc --project tsconfig.game.json --noEmit",
-    "test:game": "esbuild tests/game/engine.test.ts --bundle --platform=node --format=esm --outfile=.game-test-build/engine.test.mjs && node --test .game-test-build/engine.test.mjs",
+    "test:game": "esbuild tests/game/engine.test.ts tests/game/ui-review.test.ts tests/game/npc-names.test.ts tests/game/npc-life.test.ts tests/game/sects.test.ts tests/game/journey-actions.test.ts --bundle --platform=node --format=esm --outdir=.game-test-build/rules && node --test .game-test-build/rules/*.js",
     "content:prepare": "node scripts/prepare-content.mjs",
     "prebuild": "npm run content:prepare",
     "test:content": "esbuild tests/game/content.test.ts --bundle --platform=node --format=esm --outfile=.game-test-build/content.test.mjs && node --test .game-test-build/content.test.mjs",
@@ -31,7 +31,7 @@
     "check:boundaries": "node scripts/check-boundaries.mjs",
     "test:stress": "esbuild tests/game/stress.test.ts --bundle --platform=node --format=esm --outfile=.game-test-build/stress.test.mjs && node --test .game-test-build/stress.test.mjs",
     "content:fixtures": "npm run content:prepare && esbuild scripts/content/fixtures.ts --bundle --platform=node --format=esm --outfile=.game-test-build/content-fixtures.mjs && node .game-test-build/content-fixtures.mjs",
-    "test:extensions": "npm run content:prepare && esbuild tests/game/extensions.test.ts --bundle --platform=node --format=esm --outfile=.game-test-build/extensions.test.mjs && node --test .game-test-build/extensions.test.mjs",
+    "test:extensions": "npm run content:prepare && esbuild tests/game/extensions.test.ts tests/game/journey.test.ts tests/game/main-story.test.ts --bundle --platform=node --format=esm --outdir=.game-test-build/extensions && node --test .game-test-build/extensions/*.js tests/extension-images.test.mjs",
     "test:ai": "esbuild tests/game/negotiation.test.ts --bundle --platform=node --format=esm --outfile=.game-test-build/negotiation.test.mjs && node --test .game-test-build/negotiation.test.mjs",
     "postbuild:local": "node scripts/prepare-offline.mjs",
     "postbuild": "node scripts/prepare-offline.mjs",
@@ -43,7 +43,7 @@
     "test:economy": "esbuild tests/game/economy.test.tsx --bundle --platform=node --format=esm --packages=external --outfile=.game-test-build/economy.test.mjs && node --test .game-test-build/economy.test.mjs",
     "test:ui": "node --test tests/ui-components.test.mjs",
     "test:models": "esbuild tests/game/model-settings.test.ts --bundle --platform=node --format=esm --outfile=.game-test-build/model-settings.test.mjs && node --test .game-test-build/model-settings.test.mjs",
-    "test:portraits": "esbuild tests/game/portraits.test.ts --bundle --platform=node --format=esm --outfile=.game-test-build/portraits.test.mjs && node --test .game-test-build/portraits.test.mjs"
+    "test:portraits": "esbuild tests/game/portraits.test.ts tests/game/portrait-edit.test.ts --bundle --platform=node --format=esm --outdir=.game-test-build/portraits && node --test .game-test-build/portraits/*.js"
   },
   "dependencies": {
     "@noble/hashes": "2.0.1",

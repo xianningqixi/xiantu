@@ -1,6 +1,8 @@
-import { PACK, LOCATIONS } from "./content/official";
+import { sectNpcAction } from "./sect-simulation";
+import { continueNpcJourney, npcSeekSect, npcSocialize } from "./npc-life";
+import { PACK } from "./content/official";
+import { LOCATIONS, localSite, safeLocations, scheduledHome } from "./world-map";
 import type { Actor, World } from "./types";
-import { recordSocialContact } from "./knowledge";
 import { B, REALM_KEYS, SAFE, threshold, stats, combatDamage } from "./rules";
 import { random } from "./rng";
 import { updateAgreementAvailability } from "./agreement";
@@ -53,6 +55,7 @@ export function npcConflict(w: World, attacker: Actor, defender: Actor) {
 
 export function advanceDay(w: World, occupied: Set<string> = new Set(["PLAYER"])) {
   if (w.ended) return;
+  w.rulesVersion = "0.1.6";
   w.day++;
   w.player.ageDays++;
   w.player.lastActionDay = w.day;
@@ -72,6 +75,7 @@ export function advanceDay(w: World, occupied: Set<string> = new Set(["PLAYER"])
   for (const a of ordered) {
     if (!a.alive || a.lastActionDay === w.day) continue;
     a.lastActionDay = w.day;
+    if (continueNpcJourney(w, a)) continue;
     if (a.attempt) {
       a.attempt.remaining--;
       a.activity = "凝神突破，暂不外出";
@@ -103,6 +107,7 @@ export function advanceDay(w: World, occupied: Set<string> = new Set(["PLAYER"])
           b.alive &&
           b.hp > 0 &&
           !b.attempt &&
+          !b.npcJourney &&
           !occupied.has(b.id) &&
           !w.party.includes(b.id) &&
           b.lastActionDay < w.day &&
@@ -114,9 +119,15 @@ export function advanceDay(w: World, occupied: Set<string> = new Set(["PLAYER"])
         continue;
       }
     }
+    const home = scheduledHome(a, w.day);
+    if (home && !w.party.includes(a.id)) {
+      a.location = home;
+      a.activity = `回${LOCATIONS[home].name}处理日常事务`;
+      continue;
+    }
     if (!a.manual) {
-      if (a.location !== "inn") {
-        a.location = "inn";
+      if (a.location !== localSite(a.location, "inn")) {
+        a.location = localSite(a.location, "inn");
         a.activity = "前往客栈寻书";
       } else {
         a.manual = true;
@@ -136,9 +147,9 @@ export function advanceDay(w: World, occupied: Set<string> = new Set(["PLAYER"])
       fixed &&
       !isParty &&
       w.day % B.story.fixedNpcHomeVisitIntervalDays === 0 &&
-      a.location !== "market"
+      a.location !== localSite(a.location, "market")
     ) {
-      a.location = "market";
+      a.location = localSite(a.location, "market");
       a.activity = "回坊市访友";
       continue;
     }
@@ -170,6 +181,8 @@ export function advanceDay(w: World, occupied: Set<string> = new Set(["PLAYER"])
       a.activity = "凝神突破，暂不外出";
       continue;
     }
+    if (npcSeekSect(w, a, occupied)) continue;
+    if (sectNpcAction(w, a, occupied)) continue;
     const draw = random(w, "simulation", 100);
     const weights = B.world.npcActionWeights;
     if (draw < weights.cultivate) cultivate(w, a);
@@ -177,28 +190,11 @@ export function advanceDay(w: World, occupied: Set<string> = new Set(["PLAYER"])
       a.stones += B.actions.workSpiritStoneReward;
       a.activity = "接些杂务，赚取灵石";
     } else if (draw < weights.cultivate + weights.work + weights.move && !isParty) {
-      a.location = SAFE[random(w, "simulation", SAFE.length)];
+      const nearby = safeLocations(a);
+      a.location = nearby[random(w, "simulation", nearby.length)];
       a.activity = "在附近走动";
     } else if (draw < weights.cultivate + weights.work + weights.move + weights.socialize) {
-      a.activity = "与当地修士交谈";
-      const others = w.npcs.filter((b) => b.id !== a.id && b.alive && b.location === a.location);
-      if (others.length) {
-        const b = others[random(w, "simulation", others.length)];
-        let r = w.relations.find((r) => r.from === a.id && r.to === b.id);
-        if (!r) {
-          r = {
-            from: a.id,
-            to: b.id,
-            favor: 0,
-            trust: 0,
-            attraction: 0,
-            known: true,
-            memories: [],
-          };
-          w.relations.push(r);
-        }
-        recordSocialContact(w, r, a, b);
-      }
+      if (!npcSocialize(w, a, occupied)) a.activity = "访友未遇，独自整理见闻";
     } else {
       a.hp = Math.min(stats(a).maxHp, a.hp + B.world.npcIdleRestoreHp);
       a.activity = "闲坐休息";

@@ -1,3 +1,4 @@
+import { openCurrentLocation } from "./journey-controls";
 import { expect, test, type Page } from "@playwright/test";
 
 async function create(page: Page, name = "浏览器验收") {
@@ -38,6 +39,7 @@ test("draft fields and aptitude survive reloading before the world is created", 
 
 test("double click makes one reward and refresh recovers the committed day", async ({ page }) => {
   await create(page);
+  await openCurrentLocation(page);
   await page.getByRole("button", { name: /接些坊市杂务/ }).dblclick();
   await expect(page.locator("header").getByText("第 2 日", { exact: true })).toBeVisible();
   await page.reload();
@@ -82,6 +84,7 @@ test("another page cannot write to a replaced character even at the same revisio
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
   await page.getByRole("button", { name: "确认继续", exact: true }).click();
   await expect(page.getByRole("heading", { name: "新角色", exact: true })).toBeVisible();
+  await openCurrentLocation(other);
   await other.getByRole("button", { name: /接些坊市杂务/ }).click();
   await expect(other.getByRole("alert")).toContainText("另一页面");
   await other.getByRole("button", { name: "重新读取", exact: true }).click();
@@ -130,7 +133,7 @@ test("exported save can be imported through the actual file control", async ({ p
 });
 
 // Fault fixture preparation uses only this test's isolated browser storage.
-async function mutateStoredSave(page: Page, change: "legacy" | "corrupt") {
+async function mutateStoredSave(page: Page, change: "legacy" | "campaign" | "corrupt") {
   return page.evaluate(async (change) => {
     const db = await new Promise<IDBDatabase>((resolve, reject) => {
       const q = indexedDB.open("xiantu-qingshi");
@@ -151,12 +154,17 @@ async function mutateStoredSave(page: Page, change: "legacy" | "corrupt") {
           delete q.result.negotiations;
           delete q.result.contentLocks;
           delete q.result.contentState;
+          q.result.npcs = q.result.npcs.filter((a: { id: string }) => !a.id.startsWith("shichai."));
           delete q.result.knowledge;
           delete q.result.simulationOptions;
           for (const a of [q.result.player, ...q.result.npcs]) delete a.lastActionDay;
           if (q.result.battle) delete q.result.battle.lethal;
           if (q.result.longAction)
             for (const key of ["id", "checkpoint", "paidStones"]) delete q.result.longAction[key];
+        } else if (change === "campaign") {
+          delete q.result.campaignLock;
+          q.result.contentLocks = [];
+          q.result.npcs = q.result.npcs.filter((a: { id: string }) => !a.id.startsWith("shichai."));
         } else q.result.profile = null;
         store.put(q.result, "current");
       };
@@ -167,6 +175,62 @@ async function mutateStoredSave(page: Page, change: "legacy" | "corrupt") {
     return before;
   }, change);
 }
+
+async function savedRecords(page: Page) {
+  return page.evaluate(async () => {
+    const db = await new Promise<IDBDatabase>((resolve, reject) => {
+      const q = indexedDB.open("xiantu-qingshi");
+      q.onsuccess = () => resolve(q.result);
+      q.onerror = () => reject(q.error);
+    });
+    try {
+      return await new Promise<{ world: any; backups: any[] }>((resolve, reject) => {
+        const tx = db.transaction(["saves", "backups"]);
+        const world = tx.objectStore("saves").get("current");
+        const backups = tx.objectStore("backups").getAll();
+        tx.oncomplete = () => resolve({ world: world.result, backups: backups.result });
+        tx.onabort = () => reject(tx.error);
+      });
+    } finally {
+      db.close();
+    }
+  });
+}
+
+test("an existing game gains the four fixed volumes atomically, keeps its original backup and never resets on reload", async ({
+  page,
+}) => {
+  await create(page, "四卷接续");
+  await mutateStoredSave(page, "campaign");
+  const old = (await savedRecords(page)).world;
+  expect(old.npcs).toHaveLength(100);
+  await page.reload();
+  await expect(page.locator("#world-map")).toBeVisible();
+  const joined = await savedRecords(page);
+  expect(joined.world.contentLocks).toHaveLength(4);
+  expect(joined.world.npcs).toHaveLength(123);
+  expect(joined.world.npcs.slice(0, 100)).toEqual(old.npcs);
+  for (const key of [
+    "saveId",
+    "player",
+    "profile",
+    "day",
+    "rng",
+    "events",
+    "knowledge",
+    "relations",
+    "contentState",
+    "appliedCommands",
+    "commandReceipts",
+  ])
+    expect(joined.world[key]).toEqual(old[key]);
+  expect(joined.world.revision).toBe(old.revision + 1);
+  expect(joined.backups).toEqual([old]);
+  await expect(page.locator(".world-region-route li")).toHaveCount(4);
+  await page.reload();
+  await expect(page.locator("#world-map")).toBeVisible();
+  expect(await savedRecords(page)).toEqual(joined);
+});
 
 test("legacy browser storage upgrades on a copy and exposes the original backup", async ({
   page,
@@ -207,16 +271,18 @@ test("a creation draft exports and imports without creating or replacing a world
   await page.goto("/");
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("可携草稿");
   await page.getByRole("radio", { name: "男", exact: true }).check();
+  await page.locator(".portrait-features input").first().fill("深蓝长袍");
   await expect(page.locator(".creation-form").getByRole("status")).toHaveText("创角草稿已保存");
   const download = page.waitForEvent("download");
-  await page.getByText("创角草稿文件", { exact: true }).click();
   await page.getByRole("button", { name: "导出创角草稿", exact: true }).click();
   const file = await (await download).path();
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("临时草稿");
+  await page.locator(".portrait-features input").first().fill("白袍");
   await expect(page.locator(".creation-form").getByRole("status")).toHaveText("创角草稿已保存");
   await page.getByLabel("选择创角草稿", { exact: true }).setInputFiles(file!);
   await expect(page.getByRole("textbox", { name: "姓名", exact: true })).toHaveValue("可携草稿");
   await expect(page.getByRole("radio", { name: "男", exact: true })).toBeChecked();
+  await expect(page.locator(".portrait-features input").first()).toHaveValue("深蓝长袍");
   await page.reload();
   await expect(page.getByRole("textbox", { name: "姓名", exact: true })).toHaveValue("可携草稿");
   await expect(page.getByRole("button", { name: "踏入仙途", exact: true })).toBeVisible();

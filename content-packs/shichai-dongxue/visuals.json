@@ -1,0 +1,157 @@
+{
+  "shichai.dongxue.intro": {
+    "assetId": "shichai.dongxue.art.intro",
+    "alt": "冬雪覆盖的青石坊市，屋檐挂冰凌，远山一片白，古道上一行脚印；无人物特写",
+    "status": "owned"
+  },
+  "shichai.dongxue.yeshutong.cg.meet": {
+    "assetId": "shichai.dongxue.art.yeshutong-cg-meet",
+    "alt": "客栈角落，叶疏桐把一摞书摊满桌子，就着一盏灯抄录，雪从窗缝飘进来",
+    "status": "owned"
+  },
+  "shichai.dongxue.yeshutong.cg.bond": {
+    "assetId": "shichai.dongxue.art.yeshutong-cg-bond",
+    "alt": "叶氏藏书楼三层，叶疏桐站在梯子上取书，梯下是三千卷功法，最高一格锁着铁链",
+    "status": "owned"
+  },
+  "shichai.dongxue.yeshutong.cg.spark": {
+    "assetId": "shichai.dongxue.art.yeshutong-cg-spark",
+    "alt": "藏书楼窗前，雪夜，叶疏桐把一卷《既济真解》推到男主面前，自己的脸红到耳根",
+    "status": "owned"
+  },
+  "shichai.dongxue.yeshutong.cg.rival": {
+    "assetId": "shichai.dongxue.art.yeshutong-cg-rival",
+    "alt": "叶承穿着华服站在藏书楼门口，手里拿着族老的婚书，身后是两个搬书的伙计",
+    "status": "owned"
+  },
+  "shichai.dongxue.yeshutong.cg.lost": {
+    "assetId": "shichai.dongxue.art.yeshutong-cg-lost",
+    "alt": "藏书楼三层，叶承把叶疏桐按在书架上，书卷散落一地；男主站在楼下雪地里，楼上灯亮着",
+    "status": "owned"
+  },
+  "shichai.dongxue.yeshutong.cg.night": {
+    "assetId": "shichai.dongxue.art.yeshutong-cg-night",
+    "alt": "藏书楼三层的炉火旁，叶疏桐把书一本本合上，最后把狐裘解开",
+    "status": "owned"
+  },
+  "shichai.dongxue.yeshutong.cg.dual": {
+    "assetId": "shichai.dongxue.art.yeshutong-cg-dual",
+    "alt": "藏书楼顶层铁链锁着的格子打开，两人坐在雪光里，叶疏桐第一次引气入体，身周书页无风自动",
+    "status": "owned"
+  },
+  "shichai.dongxue.yeshutong.cg.vow": {
+    "assetId": "shichai.dongxue.art.yeshutong-cg-vow",
+    "alt": "藏书楼门口，叶疏桐把铁链钥匙挂在男主颈上，楼上新挂了一块“不外借”的木牌",
+    "status": "owned"
+  },
+  "shichai.dongxue.yeshutong.cg.mourn": {
+    "assetId": "shichai.dongxue.art.yeshutong-cg-mourn",
+    "alt": "藏书楼的灯灭了，桌上摊着一卷没抄完的功法，墨已结冰",
+    "status": "owned"
+  },
+  "shichai.dongxue.yeshutong.portrait": {
+    "assetId": "shichai.dongxue.art.yeshutong-portrait",
+    "alt": "叶疏桐立绘：19岁藏书楼之女，清瘦，眼下常有墨痕，素色夹袄外罩旧狐裘，怀里抱着一摞书，手指冻得发红",
+    "status": "owned"
+  },
+  "shichai.dongxue.songxiaoman.cg.meet": {
+    "assetId": "shichai.dongxue.art.songxiaoman-cg-meet",
+    "alt": "山门古道雪地里，宋小满拖着一头雪狼从林子里出来，冲男主大喊",
+    "status": "owned"
+  },
+  "shichai.dongxue.songxiaoman.cg.bond": {
+    "assetId": "shichai.dongxue.art.songxiaoman-cg-bond",
+    "alt": "猎屋里，火塘边，宋小满给男主看她爹留下的一枚山神铜牌",
+    "status": "owned"
+  },
+  "shichai.dongxue.songxiaoman.cg.spark": {
+    "assetId": "shichai.dongxue.art.songxiaoman-cg-spark",
+    "alt": "雪夜猎屋外，宋小满把猎叉插在雪里，踮脚亲了男主的下巴一口，然后跑掉",
+    "status": "owned"
+  },
+  "shichai.dongxue.songxiaoman.cg.rival": {
+    "assetId": "shichai.dongxue.art.songxiaoman-cg-rival",
+    "alt": "王虎憨厚地站在猎屋门口，手里抱着新猎的野猪，身后是村里的媒婆",
+    "status": "owned"
+  },
+  "shichai.dongxue.songxiaoman.cg.lost": {
+    "assetId": "shichai.dongxue.art.songxiaoman-cg-lost",
+    "alt": "村里婚房，红纸窗，王虎笨拙地吹灭蜡烛；男主站在村口雪地里，猎叉靠在树上",
+    "status": "owned"
+  },
+  "shichai.dongxue.songxiaoman.cg.night": {
+    "assetId": "shichai.dongxue.art.songxiaoman-cg-night",
+    "alt": "猎屋火塘旁，宋小满解开粗辫子，皮腰带扔在地上，虎牙咬着嘴唇",
+    "status": "owned"
+  },
+  "shichai.dongxue.songxiaoman.cg.dual": {
+    "assetId": "shichai.dongxue.art.songxiaoman-cg-dual",
+    "alt": "山神庙前的雪地，两人对坐，宋小满身周雪花悬停，她背后浮现一头山神虚影，青色灵气把它染成暖色",
+    "status": "owned"
+  },
+  "shichai.dongxue.songxiaoman.cg.vow": {
+    "assetId": "shichai.dongxue.art.songxiaoman-cg-vow",
+    "alt": "猎屋门口，宋小满把山神铜牌挂在男主颈上，王虎在远处的雪地里抱着野猪笑",
+    "status": "owned"
+  },
+  "shichai.dongxue.songxiaoman.cg.mourn": {
+    "assetId": "shichai.dongxue.art.songxiaoman-cg-mourn",
+    "alt": "猎屋门口插着的猎叉，雪埋到一半，山神铜牌挂在叉上",
+    "status": "owned"
+  },
+  "shichai.dongxue.songxiaoman.portrait": {
+    "assetId": "shichai.dongxue.art.songxiaoman-portrait",
+    "alt": "宋小满立绘：21岁猎户女，圆脸浓眉，麦色皮肤，粗辫子甩在肩后，粗布短袄扎着皮腰带，背着一把比她还高的猎叉，笑起来露出虎牙",
+    "status": "owned"
+  },
+  "shichai.dongxue.chulian.cg.meet": {
+    "assetId": "shichai.dongxue.art.chulian-cg-meet",
+    "alt": "雪天坊市街角，楚莲裹着斗篷站在药摊旁，看见男主时手里的药包掉在雪里",
+    "status": "owned"
+  },
+  "shichai.dongxue.chulian.cg.bond": {
+    "assetId": "shichai.dongxue.art.chulian-cg-bond",
+    "alt": "客栈廊下，楚莲卷起袖子露出手腕的采痕，雪落在两人之间",
+    "status": "owned"
+  },
+  "shichai.dongxue.chulian.cg.spark": {
+    "assetId": "shichai.dongxue.art.chulian-cg-spark",
+    "alt": "坊市屋檐下避雪，楚莲把当年退回的一枚旧玉扣重新放进男主手里",
+    "status": "owned"
+  },
+  "shichai.dongxue.chulian.cg.rival": {
+    "assetId": "shichai.dongxue.art.chulian-cg-rival",
+    "alt": "严孤鹤一身白衣立于雪中，御剑而来，剑悬在楚莲头顶三寸，神情清高",
+    "status": "owned"
+  },
+  "shichai.dongxue.chulian.cg.lost": {
+    "assetId": "shichai.dongxue.art.chulian-cg-lost",
+    "alt": "客栈上房，严孤鹤按着楚莲的后颈，她的阴元化作白雾；男主被剑气钉在门外的雪地里",
+    "status": "owned"
+  },
+  "shichai.dongxue.chulian.cg.night": {
+    "assetId": "shichai.dongxue.art.chulian-cg-night",
+    "alt": "客栈上房，炉火，楚莲解下斗篷，采痕在火光下清晰，她背对男主不敢转身",
+    "status": "owned"
+  },
+  "shichai.dongxue.chulian.cg.dual": {
+    "assetId": "shichai.dongxue.art.chulian-cg-dual",
+    "alt": "坊市外雪地，两人对坐，楚莲身上的采痕在青色灵气里一道道褪去，雪花在她周身融成水",
+    "status": "owned"
+  },
+  "shichai.dongxue.chulian.cg.vow": {
+    "assetId": "shichai.dongxue.art.chulian-cg-vow",
+    "alt": "坊市口，楚莲把旧玉扣系回男主腰上，严孤鹤的剑插在远处雪地里无人拾",
+    "status": "owned"
+  },
+  "shichai.dongxue.chulian.cg.mourn": {
+    "assetId": "shichai.dongxue.art.chulian-cg-mourn",
+    "alt": "街角雪地上一件雪白斗篷，一枚旧玉扣落在旁边",
+    "status": "owned"
+  },
+  "shichai.dongxue.chulian.portrait": {
+    "assetId": "shichai.dongxue.art.chulian-portrait",
+    "alt": "楚莲立绘：26岁，男主的前未婚妻，柔美但憔悴，长发松挽，杏色长裙外罩雪白斗篷，颈侧与手腕有淡淡采痕，眼神躲闪",
+    "status": "owned"
+  }
+}

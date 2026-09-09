@@ -1,4 +1,5 @@
 "use client";
+import { persistenceErrors } from "../ui/save-status";
 import { uniqueId } from "./ids";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type {
@@ -29,16 +30,24 @@ export function useGame(preview = false) {
   const draftQueue = useRef<Promise<unknown>>(Promise.resolve());
   const [ready, setReady] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [isAdvancing, setIsAdvancing] = useState(false);
+  const [lastResult, setLastResult] = useState<{
+    id: string;
+    kind: string;
+    notice: string;
+    day: number;
+    revision: number;
+  } | null>(null);
   const [error, setError] = useState("");
   const [errorCode, setErrorCode] = useState("");
+  const [saveIssue, setSaveIssue] = useState("");
   const [progress, setProgress] = useState<AdvanceProgress | null>(null);
   const [advanceResult, setAdvanceResult] = useState<WorkerResponse["advanceResult"]>();
   const advancing = useRef<string | null>(null);
   const [recovery, setRecovery] = useState<SaveExpectation | null>(null);
   const [generation, setGeneration] = useState(0);
   const locked = useRef(false);
-  const lastCommand = useRef({ key: "", at: 0 });
-  const failedRequest = useRef<{ key: string; id: string } | null>(null);
+  const failedRequest = useRef<{ key: string; id: string; input: Input } | null>(null);
 
   const ask = useCallback(
     (input: Input, id = uniqueId()) =>
@@ -64,6 +73,8 @@ export function useGame(preview = false) {
     const fail = (message: string) => {
       if (!active) return;
       setError(message);
+      setErrorCode("WORKER_UNAVAILABLE");
+      setSaveIssue("WORKER_UNAVAILABLE");
       setReady(true);
       locked.current = false;
       setBusy(false);
@@ -121,11 +132,17 @@ export function useGame(preview = false) {
         setDraft(creation.draft ?? null);
         draftRevision.current = creation.draft?.revision ?? 0;
         setError("");
+        setErrorCode("");
+        setSaveIssue("");
+        failedRequest.current = null;
         setRecovery(null);
       })
       .catch((e) => {
         if (active) {
           setError(e.message);
+          setErrorCode(e.code || "WORKER_UNAVAILABLE");
+          if (persistenceErrors.has(e.code || "WORKER_UNAVAILABLE"))
+            setSaveIssue(e.code || "WORKER_UNAVAILABLE");
           if (e.recovery) setRecovery(e.recovery);
         }
       })
@@ -158,6 +175,8 @@ export function useGame(preview = false) {
           : (checkpointId ?? uniqueId());
       if (input.kind === "advance") {
         advancing.current = id;
+        setIsAdvancing(true);
+        setAdvanceResult(undefined);
         setProgress(null);
       }
       try {
@@ -172,19 +191,39 @@ export function useGame(preview = false) {
           draftRevision.current = 0;
         }
         failedRequest.current = null;
+        setSaveIssue("");
+        if (result.state && input.kind !== "load")
+          setLastResult({
+            id,
+            kind: input.kind,
+            notice: ["restore", "import", "create"].includes(input.kind)
+              ? `${input.kind === "restore" ? "已恢复" : input.kind === "import" ? "已导入" : "已创建"}${result.state.player.name}的这一世 · 第 ${result.state.day + 1} 日。`
+              : result.state.notice,
+            day: result.state.day,
+            revision: result.state.revision,
+          });
         return true;
       } catch (e) {
-        if (e && typeof e === "object" && "code" in e) setErrorCode(String(e.code));
+        const code =
+          e && typeof e === "object" && "code" in e ? String(e.code) : "SAVE_UNCONFIRMED";
+        setErrorCode(code);
+        if (
+          persistenceErrors.has(code) &&
+          (code !== "SAVE_VERSION_UNSUPPORTED" || input.kind === "load")
+        )
+          setSaveIssue(code);
         if (e && typeof e === "object" && "state" in e && e.state) setWorld(e.state as World);
-        if (e && typeof e === "object" && "recovery" in e && e.recovery)
+        if (e && typeof e === "object" && "recovery" in e && e.recovery) {
           setRecovery(e.recovery as SaveExpectation);
-        failedRequest.current = { key, id };
-        lastCommand.current = { key: "", at: 0 };
+          if (input.kind === "load") setWorld(null);
+        }
+        failedRequest.current = { key, id, input };
         setError(e instanceof Error ? e.message : "操作没有完成。");
         return false;
       } finally {
         if (input.kind === "advance") {
           advancing.current = null;
+          setIsAdvancing(false);
           setProgress(null);
         }
         locked.current = false;
@@ -212,15 +251,6 @@ export function useGame(preview = false) {
     : (recovery ?? { saveId: null, revision: null });
   const command = useCallback(
     (command: Command) => {
-      const key = JSON.stringify(command);
-      const now = Date.now();
-      if (
-        command.type !== "step" &&
-        lastCommand.current.key === key &&
-        now - lastCommand.current.at < 400
-      )
-        return Promise.resolve(false);
-      lastCommand.current = { key, at: now };
       return mutate(
         {
           kind: "command",
@@ -258,11 +288,26 @@ export function useGame(preview = false) {
     busy,
     error,
     errorCode,
+    saveIssue,
     progress,
+    isAdvancing,
+    lastResult,
     advanceResult,
+    retry: () => {
+      const failed = failedRequest.current;
+      return failed && ["SAVE_WRITE_FAILED", "SAVE_QUOTA_EXCEEDED"].includes(errorCode)
+        ? mutate(failed.input, failed.id)
+        : Promise.resolve(false);
+    },
+    canRetry:
+      !!failedRequest.current && ["SAVE_WRITE_FAILED", "SAVE_QUOTA_EXCEEDED"].includes(errorCode),
     advance,
     pauseAdvance,
-    setError,
+    setError: (message: string) => {
+      if (saveIssue) return;
+      setError(message);
+      setErrorCode(message ? "FILE_ERROR" : "");
+    },
     command,
     expected,
     saveCreationDraft,
@@ -304,10 +349,15 @@ export function useGame(preview = false) {
     exportSave: async () => {
       try {
         const result = await ask({ kind: "export", expected });
-        if (result.error) setError(result.error);
+        if (result.error && !saveIssue) {
+          setError(result.error);
+          setErrorCode(result.code || "EXPORT_FAILED");
+        }
         return result.text;
       } catch (e) {
+        if (saveIssue) return undefined;
         setError(e instanceof Error ? e.message : "导出未完成。");
+        setErrorCode(e && typeof e === "object" && "code" in e ? String(e.code) : "EXPORT_FAILED");
         return undefined;
       }
     },

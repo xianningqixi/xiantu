@@ -1,6 +1,7 @@
 import { B } from "./rules";
 import { DEPARTURE_FEE } from "./economy";
-import { PACK, LOCATIONS, PRESENTATION, contentText } from "./content/official";
+import { PACK, PRESENTATION, contentText } from "./content/official";
+import { LOCATIONS } from "./world-map";
 import type { World } from "./types";
 import { requireRule, actorById } from "./rules";
 import { relation } from "./relationships";
@@ -13,6 +14,26 @@ export function canInvite(w: World) {
     ((r.trust >= -10 && r.favor >= -10 && w.story.outcome !== "breached") ||
       (w.story.compensated && r.trust >= -30))
   );
+}
+
+export function renewalReason(w: World): string {
+  if (!w.agreement) return "请先完成初次同行邀约。";
+  if (w.ended || !w.player.alive) return "这一段人生已经结束。";
+  if (w.battle || w.longAction) return "请先结束当前行动。";
+  if (w.loot || ["accepted", "active", "impossible"].includes(w.agreement.status))
+    return "请先处理现有约定和战利品。";
+  if (w.player.location !== "market") return "请回到青石坊市商议再次同行。";
+  if (!canInvite(w)) return "对方不愿接受目前的条件。";
+  const unavailable = [PACK.roles.primary, PACK.roles.companion]
+    .map((id) => actorById(w, id))
+    .find((a) => !a?.alive || a.location !== w.player.location || a.attempt);
+  if (unavailable)
+    return !unavailable.alive
+      ? `${unavailable.name}已经离世。`
+      : unavailable.attempt
+        ? `${unavailable.name}正在突破，请等候结束。`
+        : `${unavailable.name}在${LOCATIONS[unavailable.location].name}，请等同伴到齐。`;
+  return "";
 }
 
 export function partyReadiness(w: World) {
@@ -43,17 +64,19 @@ export function departureStatus(w: World) {
   const reason =
     w.player.location !== "gate"
       ? "请先前往山门古道。"
-      : w.agreement?.status !== "accepted" || w.party.length !== 3
-        ? "先约定同行，并集齐三人。"
-        : w.loot
-          ? "请先结清上次战利品。"
-          : w.player.stones < DEPARTURE_FEE
-            ? `还需备好 ${DEPARTURE_FEE} 枚灵石路费。`
-            : unavailable
-              ? `${unavailable.name}尚未准备好${unavailable.attempt ? `，突破还需 ${unavailable.attempt.remaining} 日` : ""}。`
-              : remaining
-                ? `秘境尚未平静，还需等候 ${remaining} 日。`
-                : "";
+      : w.agreement?.status !== "accepted"
+        ? "本次尚无有效约定，请回青石坊市重新商议同行。"
+        : w.party.length !== 3
+          ? `已有约定，当前队伍 ${w.party.length}/3 人，请先邀齐两位同伴。`
+          : w.loot
+            ? "请先结清上次战利品。"
+            : w.player.stones < DEPARTURE_FEE
+              ? `路费需要 ${DEPARTURE_FEE} 灵石，当前 ${w.player.stones}，还缺 ${DEPARTURE_FEE - w.player.stones}。`
+              : unavailable
+                ? `${unavailable.name}尚未准备好${unavailable.attempt ? `，突破还需 ${unavailable.attempt.remaining} 日` : ""}。`
+                : remaining
+                  ? `秘境尚未平静，还需等候 ${remaining} 日。`
+                  : "";
   return { ready: !reason, reason, remaining };
 }
 
@@ -91,4 +114,24 @@ export function acceptAgreement(w: World) {
     strict: w.story.compensated,
   };
   record(w, "agreement", contentText(PRESENTATION.notices.agreement, w), w.agreement.members);
+}
+
+/** UI preflight for the exact standard terms accepted by adoptNegotiation. */
+export function negotiationAvailability(w: World): string {
+  if (w.ended || !w.player.alive) return "这一世已结束。";
+  if (w.battle || w.longAction || w.loot) return "请先结束当前行动与结算。";
+  if (!relation(w, PACK.roles.primary)?.known) return "请先上前见礼，再商议同行。";
+  if (w.agreement && ["accepted", "active", "impossible"].includes(w.agreement.status))
+    return "已有同行约定，请先完成或处理这份约定。";
+  if (!canInvite(w)) return "目前的信任不足以接受同行条件。";
+  if (w.party.length !== 1) return "请先结束当前队伍，再商议新约定。";
+  for (const id of [PACK.roles.primary, PACK.roles.companion]) {
+    const actor = actorById(w, id);
+    if (!actor?.alive) return `${actor?.name ?? "同伴"}已离世，无法同行。`;
+    if (actor.location !== w.player.location || actor.attempt || actor.npcJourney)
+      return `${actor.name}须在同一地点且空闲。`;
+  }
+  if (w.player.stones < DEPARTURE_FEE)
+    return `交涉需备足 ${DEPARTURE_FEE} 灵石路费，当前还缺 ${DEPARTURE_FEE - w.player.stones}。`;
+  return "";
 }

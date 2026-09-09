@@ -6,6 +6,7 @@ export function die(w: World, person: Actor, cause: string) {
   person.alive = false;
   person.hp = 0;
   person.attempt = null;
+  delete person.npcJourney;
   person.activity = "已逝";
   if (person.id === "PLAYER") {
     w.ended = true;

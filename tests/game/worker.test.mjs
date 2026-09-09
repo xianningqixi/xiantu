@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import vm from "node:vm";
+import { readFileSync } from "node:fs";
 import { webcrypto } from "node:crypto";
 import { buildSync } from "esbuild";
 import { IDBFactory } from "fake-indexeddb";
@@ -33,6 +34,10 @@ const profile = {
   appearance: { face: 0, hair: 1, color: 0 },
 };
 const expected = (w) => ({ saveId: w?.saveId ?? null, revision: w?.revision ?? null });
+const builtins = JSON.parse(readFileSync("lib/game/content/extensions.json", "utf8")).filter(
+  (e) => e.data.journey,
+);
+const campaignNpcCount = builtins.reduce((n, e) => n + e.data.definitions.characters.length, 0);
 let clientSerial = 0;
 
 function environment() {
@@ -177,6 +182,10 @@ test("create, export and a fresh Worker preserve the complete saved world", asyn
   const a = env.client();
   assert.equal(await a.load(), null);
   const world = await a.create();
+  assert.equal(world.npcs.length, 100 + campaignNpcCount);
+  assert.equal(world.contentLocks.length, 4);
+  assert.equal(world.npcs.slice(40, 100).filter((npc) => npc.sex === "female").length, 60);
+  assert.equal(world.npcs.slice(40, 100).filter((npc) => npc.npcTemplateId === npc.id).length, 60);
   const exported = await a.send({ kind: "export", expected: expected(world) });
   assert.equal(exported.ok, true);
   assert.deepEqual(JSON.parse(exported.text), world);
@@ -198,7 +207,15 @@ test("generated day-9 and day-40 worlds import intact and keep the replaced save
     assert.equal(r.ok, true, r.error);
     assert.notEqual(r.state.saveId, imported.saveId);
     assert.equal(r.state.revision, imported.revision + 1);
-    const normalized = { ...r.state, saveId: imported.saveId, revision: imported.revision };
+    assert.equal(r.state.npcs.length, imported.npcs.length + campaignNpcCount);
+    assert.equal(r.state.contentLocks.length, 4);
+    const normalized = {
+      ...r.state,
+      saveId: imported.saveId,
+      revision: imported.revision,
+      npcs: r.state.npcs.slice(0, imported.npcs.length),
+      contentLocks: imported.contentLocks,
+    };
     assert.deepEqual(normalized, imported);
     assert.deepEqual(await env.client().load(), r.state);
     assert.ok(
@@ -377,7 +394,14 @@ test("creation drafts survive Worker restart, reject stale editing, and clear on
   const env = environment();
   const a = env.client();
   assert.equal((await a.send({ kind: "loadDraft" })).draft, null);
-  const draft = { version: 1, revision: 0, seed: 42, roll: 103, profile: { ...profile, name: "" } };
+  const draft = {
+    version: 1,
+    revision: 0,
+    seed: 42,
+    roll: 103,
+    profile: { ...profile, name: "" },
+    previousLook: { profile: { ...profile, portraitId: "a".repeat(64) }, seed: 42, roll: 102 },
+  };
   const saved = await a.send({ kind: "saveDraft", draft });
   assert.equal(saved.ok, true, saved.error);
   assert.deepEqual((await env.client().send({ kind: "loadDraft" })).draft, saved.draft);
@@ -393,6 +417,13 @@ test("creation drafts survive Worker restart, reject stale editing, and clear on
 
 function releasedShape(world, version = 1) {
   const copy = structuredClone(world);
+  copy.npcs = copy.npcs.filter((a) => !a.id.startsWith("shichai."));
+  copy.events = copy.events.filter((e) => !e.actors.some((id) => id.startsWith("shichai.")));
+  const events = new Set(copy.events.map((e) => e.id));
+  copy.relations = copy.relations.filter(
+    (r) => ![r.from, r.to].some((id) => id.startsWith("shichai.")),
+  );
+  for (const r of copy.relations) r.memories = r.memories.filter((id) => events.has(id));
   if (version === 1) {
     delete copy.schemaVersion;
     delete copy.commandReceipts;
@@ -412,7 +443,7 @@ function releasedShape(world, version = 1) {
 
 test("released version-one snapshots migrate additively with an exact old backup and no RNG/time changes", async () => {
   const env = environment();
-  const legacy = releasedShape(fixture("early"));
+  const legacy = releasedShape(fixture("early", true));
   await env.seedLegacy(legacy);
   const response = await env.client().send({ kind: "load" });
   assert.equal(response.ok, true, response.error);
@@ -430,7 +461,7 @@ test("released version-one snapshots migrate additively with an exact old backup
 
 test("failed migration preserves the original legacy snapshot; restoring a backup retains the replaced world", async () => {
   const env = environment();
-  const legacy = releasedShape(fixture("early"));
+  const legacy = releasedShape(fixture("early", true));
   await env.seedLegacy(legacy);
   env.fault.abortWrite = true;
   assert.equal((await env.client().send({ kind: "load" })).ok, false);
@@ -613,4 +644,339 @@ test("conditional training stops at eligibility and important news pauses a resu
   assert.equal(paused.advanceResult.reason, "condition");
   assert.equal(paused.state.longAction.checkpoint, 1);
   assert.equal(paused.state.npcs[0].alive, false);
+});
+
+test("exact old journey locks migrate durably with an intact backup, including an aborted migration retry", async () => {
+  const registry = JSON.parse(readFileSync("lib/game/content/extensions.json", "utf8"));
+  const migrations = JSON.parse(readFileSync("lib/game/content/journey-migrations.json", "utf8"));
+  const entries = registry.filter((e) => e.data.journey);
+  const setup = environment();
+  const created = await setup.client().send({
+    kind: "create",
+    profile,
+    seed: 12345,
+    contentLocks: entries.map((e) => e.lock),
+    expected: expected(null),
+  });
+  assert.equal(created.ok, true, created.error);
+  const legacy = structuredClone(created.state);
+  legacy.contentLocks = entries.map(
+    (e) => migrations.find((m) => m.packId === e.data.manifest.packId).from,
+  );
+  for (const actor of legacy.npcs) if (actor.id.startsWith("shichai.")) actor.location = "market";
+  legacy.contentState["shichai.chunshui.suqingyan.flag.met"] = true;
+  const env = environment();
+  await env.seedLegacy(legacy);
+  env.fault.abortWrite = true;
+  const failed = await env.client().send({ kind: "load" });
+  assert.equal(failed.ok, false);
+  assert.deepEqual(await env.records("saves"), [legacy]);
+  assert.deepEqual(await env.records("backups"), []);
+  env.fault.abortWrite = false;
+  const loaded = await env.client().send({ kind: "load" });
+  assert.equal(loaded.ok, true, loaded.error);
+  assert.equal(loaded.migrated, true);
+  assert.deepEqual(loaded.state.player, legacy.player);
+  assert.deepEqual(loaded.state.rng, legacy.rng);
+  assert.deepEqual(loaded.state.contentState, legacy.contentState);
+  assert.deepEqual(loaded.state.events, legacy.events);
+  assert.equal(loaded.state.day, legacy.day);
+  assert.equal(loaded.state.revision, legacy.revision + 1);
+  assert.equal(
+    loaded.state.npcs.find((a) => a.id === "shichai.xiaye.peisi").location,
+    "shichai.xiaye.market",
+  );
+  assert.deepEqual(await env.records("backups"), [legacy]);
+  assert.deepEqual(await env.client().load(), loaded.state);
+});
+
+test("adding the main campaign lock backs up the intact old save and rolls back on failed storage", async () => {
+  const setup = environment();
+  const legacy = await setup.client().create();
+  delete legacy.campaignLock;
+  const env = environment();
+  await env.seedLegacy(legacy);
+  env.fault.abortWrite = true;
+  assert.equal((await env.client().send({ kind: "load" })).ok, false);
+  assert.deepEqual(await env.records("saves"), [legacy]);
+  assert.deepEqual(await env.records("backups"), []);
+  env.fault.abortWrite = false;
+  const loaded = await env.client().send({ kind: "load" });
+  assert.equal(loaded.ok, true, loaded.error);
+  assert.equal(loaded.migrated, true);
+  assert.match(loaded.state.campaignLock, /^main.quest@/);
+  assert.deepEqual(loaded.state.player, legacy.player);
+  assert.deepEqual(loaded.state.npcs, legacy.npcs);
+  assert.deepEqual(loaded.state.rng, legacy.rng);
+  assert.deepEqual(loaded.state.events, legacy.events);
+  assert.deepEqual(loaded.state.knowledge, legacy.knowledge);
+  assert.equal(loaded.state.day, legacy.day);
+  assert.equal(loaded.state.revision, legacy.revision + 1);
+  assert.deepEqual(await env.records("backups"), [legacy]);
+  assert.deepEqual(await env.client().load(), loaded.state);
+});
+
+test("duplicate NPC names migrate atomically with exact backup, rollback and idempotent reload", async () => {
+  const env = environment();
+  const raw = await env.client().create();
+  raw.npcs.find((a) => a.id === "NPC_0020").name = "沈栖月";
+  raw.npcs.find((a) => a.id === "NPC_0028").name = "许清禾";
+  raw.npcs.find((a) => a.id === "NPC_0030").name = "叶长宁";
+  await env.seedLegacy(raw);
+  env.fault.abortWrite = true;
+  const failed = await env.client().send({ kind: "load" });
+  assert.equal(failed.ok, false);
+  assert.deepEqual(await env.records("saves"), [raw]);
+  assert.deepEqual(await env.records("backups"), []);
+  env.fault.abortWrite = false;
+  const loaded = await env.client().send({ kind: "load" });
+  assert.equal(loaded.ok, true, loaded.error);
+  assert.equal(loaded.migrated, true);
+  const current = loaded.state;
+  assert.equal(new Set(current.npcs.map((a) => a.name)).size, current.npcs.length);
+  assert.equal(current.revision, raw.revision + 1);
+  assert.equal(current.npcs.find((a) => a.id === "shichai.xiaye.shenqiyue").name, "沈栖月");
+  const withoutRename = structuredClone(current);
+  withoutRename.revision = raw.revision;
+  withoutRename.npcs.forEach((a, i) => {
+    a.name = raw.npcs[i].name;
+  });
+  assert.deepEqual(withoutRename, raw);
+  assert.deepEqual(await env.records("backups"), [raw]);
+  assert.deepEqual(await env.records("saves"), [current]);
+  const again = await env.client().send({ kind: "load" });
+  assert.equal(again.migrated, false);
+  assert.deepEqual(again.state, current);
+  assert.deepEqual(await env.records("backups"), [raw]);
+});
+
+test("open-map rule migration saves atomically with the exact old backup before allowing distant travel", async () => {
+  const env = environment();
+  const old = await env.client().create();
+  old.rulesVersion = "0.1.3";
+  await env.seedLegacy(old);
+  env.fault.abortWrite = true;
+  const denied = await env.client().send({ kind: "load" });
+  assert.equal(denied.ok, false);
+  assert.deepEqual((await env.records("saves"))[0], old);
+  env.fault.abortWrite = false;
+  const response = await env.client().send({ kind: "load" });
+  assert.equal(response.ok, true, response.error);
+  assert.equal(response.migrated, true);
+  assert.equal(response.state.rulesVersion, "0.1.4");
+  assert.deepEqual(
+    { ...response.state, rulesVersion: old.rulesVersion, revision: old.revision },
+    old,
+  );
+  assert.deepEqual(await env.records("backups"), [old]);
+  assert.deepEqual(await env.client().load(), response.state);
+});
+
+test("redraw adoption commits portrait and visual traits together, and failed storage retains both originals", async () => {
+  const env = environment();
+  const client = env.client();
+  const world = await client.create();
+  const npc = world.npcs.find((a) => a.id === "NPC_LIN_WAN");
+  const look = {
+    appearance: { face: 1, hair: 2, color: 3 },
+    physique: { ...npc.physique, heightCm: 180, bustCup: "D" },
+    portraitFeatures: "月白长裤与平底靴",
+  };
+  const message = {
+    kind: "command",
+    command: { type: "attachPortrait", target: npc.id, portraitId: "b".repeat(64), look },
+    revision: world.revision,
+    expected: expected(world),
+  };
+  env.fault.abortWrite = true;
+  const failed = await client.send(message);
+  assert.equal(failed.ok, false);
+  assert.deepEqual(await env.records("saves"), [world]);
+  assert.deepEqual(await env.client().load(), world);
+  env.fault.abortWrite = false;
+  const success = await client.send(message);
+  assert.equal(success.ok, true, success.error);
+  const saved = success.state;
+  const next = saved.npcs.find((a) => a.id === npc.id);
+  assert.equal(next.portraitId, message.command.portraitId);
+  assert.deepEqual(next.physique, look.physique);
+  assert.deepEqual(next.portraitAppearance, look.appearance);
+  assert.equal(next.portraitFeatures, look.portraitFeatures);
+  assert.equal(saved.day, world.day);
+  assert.deepEqual(saved.rng, world.rng);
+  assert.deepEqual(saved.events, world.events);
+  assert.deepEqual(saved.relations, world.relations);
+  assert.deepEqual(await env.records("saves"), [saved]);
+  assert.deepEqual(await env.client().load(), saved);
+  const restore = {
+    kind: "command",
+    command: { type: "restorePortrait", target: npc.id },
+    revision: saved.revision,
+    expected: expected(saved),
+  };
+  env.fault.abortWrite = true;
+  const aborted = await client.send(restore);
+  assert.equal(aborted.ok, false);
+  assert.deepEqual(await env.client().load(), saved);
+  env.fault.abortWrite = false;
+  const restored = await client.send(restore);
+  assert.equal(restored.ok, true, restored.error);
+  const { portraitOriginal, ...restoredNpc } = restored.state.npcs.find((a) => a.id === npc.id);
+  assert.deepEqual(restoredNpc, npc);
+  assert.equal(restored.state.day, saved.day);
+  assert.deepEqual(restored.state.rng, saved.rng);
+  assert.deepEqual(restored.state.events, saved.events);
+  assert.deepEqual(restored.state.relations, saved.relations);
+  assert.deepEqual(await env.client().load(), restored.state);
+});
+test("renewed invitations commit once, survive reload and roll back on save failure", async () => {
+  const env = environment();
+  const client = env.client();
+  let world = await client.create();
+  for (const command of [
+    { type: "choose", nodeId: "first-meeting", choiceId: "greet" },
+    { type: "choose", nodeId: "manual", choiceId: "learn" },
+    { type: "choose", nodeId: "shared-goal", choiceId: "listen" },
+    { type: "choose", nodeId: "agreement", choiceId: "accept" },
+    { type: "disband" },
+  ]) {
+    const response = await client.send({
+      kind: "command",
+      command,
+      revision: world.revision,
+      expected: expected(world),
+    });
+    assert.equal(response.ok, true, response.error);
+    world = response.state;
+  }
+  const message = {
+    id: "renewal-transaction",
+    kind: "command",
+    command: { type: "renewAgreement" },
+    revision: world.revision,
+    expected: expected(world),
+  };
+  env.fault.abortWrite = true;
+  const failed = await client.send(message);
+  assert.equal(failed.ok, false);
+  assert.equal(failed.state, undefined);
+  env.fault.abortWrite = false;
+  assert.deepEqual(await env.client().load(), world);
+  const response = await client.send(message);
+  assert.equal(response.ok, true, response.error);
+  const renewed = response.state;
+  assert.equal(renewed.agreement.status, "accepted");
+  assert.deepEqual(renewed.player, world.player);
+  assert.deepEqual(renewed.npcs, world.npcs);
+  assert.deepEqual(renewed.relations, world.relations);
+  assert.deepEqual(renewed.story, world.story);
+  assert.equal(renewed.day, world.day);
+  assert.deepEqual(renewed.rng, world.rng);
+  assert.deepEqual(renewed.events.slice(0, world.events.length), world.events);
+  assert.deepEqual(await env.client().load(), renewed);
+  const replay = await client.send(message);
+  assert.equal(replay.ok, true, replay.error);
+  assert.deepEqual(replay.state, renewed);
+  const stale = await client.send({
+    kind: "command",
+    command: { type: "choose", nodeId: "agreement", choiceId: "accept" },
+    revision: renewed.revision,
+    expected: expected(renewed),
+  });
+  assert.equal(stale.ok, false);
+  assert.deepEqual(await env.client().load(), renewed);
+});
+test("sect discovery, task rewards and private intimacy commit atomically and survive a fresh Worker", async () => {
+  const env = environment();
+  const client = env.client();
+  let world = await client.create();
+  const run = async (command, abortFirst = false) => {
+    const message = {
+      kind: "command",
+      command,
+      revision: world.revision,
+      expected: expected(world),
+    };
+    if (abortFirst) {
+      env.fault.abortWrite = true;
+      const rejected = await client.send(message);
+      assert.equal(rejected.ok, false);
+      env.fault.abortWrite = false;
+      assert.deepEqual(await env.client().load(), world);
+    }
+    const result = await client.send(message);
+    assert.equal(result.ok, true, result.error);
+    world = result.state;
+    assert.deepEqual(await env.client().load(), world);
+  };
+  await run({ type: "travel", to: "atlas.wendao" });
+  const originalNames = world.npcs.map((a) => [a.id, a.name]);
+  await run({ type: "visitSect", sectId: "quanzhen" }, true);
+  assert.deepEqual(
+    world.npcs.slice(0, originalNames.length).map((a) => [a.id, a.name]),
+    originalNames,
+  );
+  await run({ type: "joinSect", sectId: "quanzhen", confirmed: true }, true);
+  const initial = structuredClone(world);
+  for (let i = 0; i < 3; i++) await run({ type: "sectTask" }, true);
+  const balance = JSON.parse(readFileSync("lib/game/content/balance.json", "utf8"));
+  assert.equal(world.player.stones, initial.player.stones + 3 * balance.sects.taskStones);
+  assert.equal(world.day, initial.day + 3 * balance.sects.taskDays);
+  await run({ type: "learnSectArt" }, true);
+  for (let i = 0; i < 4; i++) await run({ type: "spendTime", target: "SECT_QUAN_NING" });
+  await run({ type: "intimacy", target: "SECT_QUAN_NING", kind: "bond", confirmed: true }, true);
+  await run({ type: "intimacy", target: "SECT_QUAN_NING", kind: "night", confirmed: true }, true);
+  await run({ type: "intimacy", target: "SECT_QUAN_NING", kind: "dual", confirmed: true }, true);
+  const events = world.events.filter((e) => e.intimacy);
+  assert.equal(events.length, 3);
+  assert.ok(events.every((e) => world.knowledge[e.id].length === 2));
+  const exported = await client.send({ kind: "export", expected: expected(world) });
+  assert.equal(exported.ok, true);
+  assert.deepEqual(JSON.parse(exported.text), world);
+});
+
+test("autonomous NPC relationships, journeys and admission are atomic, replay-safe and durable", async () => {
+  const env = environment();
+  const client = env.client();
+  let world = await client.create();
+  const originalIds = world.npcs.map((a) => [a.id, a.name, a.appearanceSeed]);
+  let sawJourney = false;
+  for (let day = 0; day < 45; day++) {
+    const message = {
+      id: `npc-life-day:${day}`,
+      kind: "command",
+      command: { type: "work" },
+      revision: world.revision,
+      expected: expected(world),
+    };
+    if (day < 15 || world.npcs.some((a) => a.npcJourney?.remaining === 1)) {
+      env.fault.abortWrite = true;
+      const failed = await client.send(message);
+      assert.equal(failed.ok, false);
+      env.fault.abortWrite = false;
+      assert.deepEqual(await env.client().load(), world);
+    }
+    const result = await client.send(message);
+    assert.equal(result.ok, true, result.error);
+    world = result.state;
+    assert.deepEqual(
+      (await client.send({ ...message, revision: world.revision, expected: expected(world) }))
+        .state,
+      world,
+    );
+    sawJourney ||= world.npcs.some((a) => a.npcJourney);
+    assert.deepEqual(await env.client().load(), world);
+  }
+  assert.equal(world.rulesVersion, "0.1.6");
+  assert.equal(sawJourney, true);
+  assert.ok(world.events.some((e) => e.kind === "npc-friendship"));
+  assert.ok(world.events.some((e) => e.kind === "sect-join" && !e.actors.includes("PLAYER")));
+  assert.equal(world.visitedSects, undefined);
+  assert.deepEqual(
+    world.npcs.map((a) => [a.id, a.name, a.appearanceSeed]),
+    originalIds,
+  );
+  const exported = await client.send({ kind: "export", expected: expected(world) });
+  assert.equal(exported.ok, true);
+  assert.deepEqual(JSON.parse(exported.text), world);
 });

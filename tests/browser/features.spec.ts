@@ -1,3 +1,4 @@
+import { openCurrentLocation, travelTo } from "./journey-controls";
 import { test, expect, type Page } from "@playwright/test";
 import { readFileSync, existsSync } from "node:fs";
 async function world(page: Page, dbName = "xiantu-qingshi") {
@@ -24,6 +25,7 @@ async function create(page: Page, name = "功能验收") {
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill(name);
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
   await expect(page.getByRole("heading", { name, exact: true })).toBeVisible();
+  await openCurrentLocation(page);
 }
 async function agreeReady(page: Page) {
   await create(page);
@@ -58,16 +60,16 @@ test("author creation and actual preview file imports cannot overwrite the norma
   await preview.getByRole("checkbox", { name: /周安的归途口信/ }).check();
   await preview.getByRole("button", { name: "踏入仙途", exact: true }).click();
   await expect(preview.getByRole("heading", { name: "作者测试", exact: true })).toBeVisible();
-  expect((await world(preview, "xiantu-author-preview")).contentLocks).toHaveLength(1);
+  expect((await world(preview, "xiantu-author-preview")).contentLocks).toHaveLength(5);
   expect(await world(page)).toEqual(before);
   await preview.getByRole("button", { name: "存档与设置" }).click();
   await preview
     .getByLabel("选择存档文件")
     .setInputFiles("/tmp/xiantu-author-fixtures/guest.roadside-arrival.json");
   await preview.getByRole("button", { name: "确认继续", exact: true }).click();
-  const side = preview.getByRole("region", { name: "坊间故事" });
+  const side = preview.getByRole("region", { name: "此地故事" });
   await expect(side).toContainText("周安");
-  const first = side.getByRole("button").first();
+  const first = side.locator(".story-choice").first();
   await first.click();
   await expect(preview.getByText("本机已存", { exact: true })).toBeVisible();
   expect(
@@ -196,10 +198,7 @@ test("100 NPC decade save imports at full size and keeps UI responsive during ch
   await page.getByRole("button", { name: "确认继续", exact: true }).click();
   await expect(page.getByRole("heading", { name: "十年回归", exact: true })).toBeVisible();
   const importMs = Date.now() - started;
-  await page
-    .locator(".travel-options")
-    .getByRole("button", { name: /听雨客栈/ })
-    .click();
+  await travelTo(page, "听雨客栈");
   await expect(page.locator(".place-heading h1")).toHaveText("听雨客栈");
   await page.getByRole("button", { name: /向店家领取/ }).click();
   await page.getByRole("tab", { name: "修行", exact: true }).click();

@@ -1,0 +1,120 @@
+{
+  "characters": [
+    {
+      "id": "shichai.xiaye.peisi",
+      "name": "裴姒",
+      "sex": "female",
+      "age": 31,
+      "aptitude": 61,
+      "realm": 2,
+      "personality": "精明 · 从容 · 眼里藏着倦意",
+      "sect": "裴氏商队",
+      "goal": "把商队真正攥在自己手里，不再替丈夫做门面",
+      "location": "shichai.xiaye.market",
+      "portraitId": "shichai.xiaye.peisi.portrait",
+      "homeVisitIntervalDays": 7
+    },
+    {
+      "id": "shichai.xiaye.shenwanshan",
+      "name": "沈万山",
+      "sex": "male",
+      "age": 42,
+      "aptitude": 55,
+      "realm": 3,
+      "personality": "豪爽 · 慷慨 · 把人当货",
+      "sect": "沈氏商行",
+      "goal": "借妻子之手采得阳气，补自己走火之后的亏空",
+      "location": "shichai.xiaye.market",
+      "homeVisitIntervalDays": 7
+    },
+    {
+      "id": "shichai.xiaye.shenqiyue",
+      "name": "沈栖月",
+      "sex": "female",
+      "age": 24,
+      "aptitude": 69,
+      "realm": 2,
+      "personality": "认真 · 笨拙 · 动不动就道歉",
+      "sect": "青岚宗外门",
+      "goal": "不再拖累任何人，哪怕只是不再道歉",
+      "location": "shichai.xiaye.gate",
+      "portraitId": "shichai.xiaye.shenqiyue.portrait",
+      "homeVisitIntervalDays": 7
+    },
+    {
+      "id": "shichai.xiaye.luqingyao",
+      "name": "陆青遥",
+      "sex": "male",
+      "age": 27,
+      "aptitude": 88,
+      "realm": 3,
+      "personality": "温和 · 有耐心 · 从不逼人",
+      "sect": "青岚宗内门",
+      "goal": "等沈栖月自己开口，哪怕等的结果不是自己",
+      "location": "shichai.xiaye.gate",
+      "homeVisitIntervalDays": 7
+    },
+    {
+      "id": "shichai.xiaye.liuhanyan",
+      "name": "柳含烟",
+      "sex": "female",
+      "age": 33,
+      "aptitude": 47,
+      "realm": 1,
+      "personality": "妩媚 · 通透 · 说话带笑",
+      "sect": "青石酒肆",
+      "goal": "把酒肆开到不用靠任何男人也能开下去",
+      "location": "shichai.xiaye.market",
+      "portraitId": "shichai.xiaye.liuhanyan.portrait",
+      "homeVisitIntervalDays": 7
+    },
+    {
+      "id": "shichai.xiaye.hantieyi",
+      "name": "韩铁衣",
+      "sex": "male",
+      "age": 38,
+      "aptitude": 52,
+      "realm": 2,
+      "personality": "沉默 · 执拗 · 身上带着妖气",
+      "sect": "散修",
+      "goal": "把五年前的妻子和五年前的自己一并要回来",
+      "location": "shichai.xiaye.gate",
+      "homeVisitIntervalDays": 7
+    }
+  ],
+  "locations": {
+    "shichai.xiaye.market": {
+      "name": "临江城坊市",
+      "subtitle": "临江城 · 人来人往",
+      "body": "商路通向临江，酒肆与商队各有未说完的往事。",
+      "kind": "market",
+      "destinations": [
+        "shichai.xiaye.inn",
+        "shichai.xiaye.gate"
+      ],
+      "visualId": "shichai.xiaye.intro"
+    },
+    "shichai.xiaye.inn": {
+      "name": "临江听潮客栈",
+      "subtitle": "临江城 · 歇脚问讯",
+      "body": "商路通向临江，酒肆与商队各有未说完的往事。",
+      "kind": "inn",
+      "destinations": [
+        "shichai.xiaye.market",
+        "shichai.xiaye.gate"
+      ],
+      "visualId": "shichai.xiaye.intro"
+    },
+    "shichai.xiaye.gate": {
+      "name": "临江商道",
+      "subtitle": "临江城 · 远行之路",
+      "body": "商路通向临江，酒肆与商队各有未说完的往事。",
+      "kind": "gate",
+      "destinations": [
+        "shichai.xiaye.market",
+        "shichai.xiaye.inn"
+      ],
+      "visualId": "shichai.xiaye.intro"
+    }
+  }
+}

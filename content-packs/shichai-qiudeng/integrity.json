@@ -1,0 +1,33 @@
+{
+  "contentHash": "8d6766874c599307bb0d201b907d2cec578f5f64fc1727f405bec762eb3072f8",
+  "lock": "shichai.qiudeng@0.2.0:8d6766874c599307bb0d201b907d2cec578f5f64fc1727f405bec762eb3072f8",
+  "images": {
+    "shichai.qiudeng.art.intro": "60e22edd9d253982a56027379bfe9602a7f4d1317cf2ff9ee5b92dd2ac70e2bb",
+    "shichai.qiudeng.art.main-cg-scroll": "a3c800e6224a7fdd205e398360b5890dd38899e8ecd3340c54644b9d5ceaf185",
+    "shichai.qiudeng.art.main-cg-sign": "5ef408511364457985dfc9247220a39570c9c4020a34e318d630845f16da0b36",
+    "shichai.qiudeng.art.main-cg-reveal": "076e7a7424539133b3504c0dc5131196b5814ca3c31be9f9debc3618b06758a9",
+    "shichai.qiudeng.art.main-cg-choice": "91e36b8dcacd6cd4ec1d131fdf7ff8ddb4679bfaab7a1bc00f014e47c721d895",
+    "shichai.qiudeng.art.main-cg-duel": "2918b599d4a4c9ad83acb85bcb305752b1d9254e7f21a681fe5ceef9c735b149",
+    "shichai.qiudeng.art.main-cg-gone": "77ab98745c3f94379bd6b6339a8a44690787fc941576f53bec05d91d67966445",
+    "shichai.qiudeng.art.wenrenshuang-cg-meet": "88a330e3b01819530e7d8cb8f1f5f00d01100399e86047ef7d0127cb6153e016",
+    "shichai.qiudeng.art.wenrenshuang-cg-bond": "dbda6f1f01fed603d47ca04a8ac047fac50d91d470dc4fb9599b33d51edab988",
+    "shichai.qiudeng.art.wenrenshuang-cg-spark": "16eaac8e5250d32a8bad997f956228764e7a300782979713ecb922e071195cd9",
+    "shichai.qiudeng.art.wenrenshuang-cg-rival": "4210994b5b66b54b6d0ead3b266b9cc34e9b1a968acde649fdcbb6f95626c06f",
+    "shichai.qiudeng.art.wenrenshuang-cg-lost": "13d25aa2112f5d26fa868c4e3609a2ce28c53494398ccca2b1282389876ec96a",
+    "shichai.qiudeng.art.wenrenshuang-cg-night": "d59d791a8f1e528632f86044f1f5109addec12a807388a2b60c70c638e3d517a",
+    "shichai.qiudeng.art.wenrenshuang-cg-dual": "b7d023ee311148f56a4807345f2c67563d11483932aa0a7bdf060e6288d7cbc5",
+    "shichai.qiudeng.art.wenrenshuang-cg-vow": "b6b914300b4eaf513a49ba88b7d6a059aad99cb3239c05125990083b17bdd0ee",
+    "shichai.qiudeng.art.wenrenshuang-cg-mourn": "8657afce39df15c44615268dcc901aedd6ed25a2b5da30ad75d6742849fcfe67",
+    "shichai.qiudeng.art.wenrenshuang-portrait": "11b646715fda78d4cdbdc5f693ef64d9b0cec9ce7db9ee73a7c62f0d73624cb0",
+    "shichai.qiudeng.art.jiangzhaoxue-cg-meet": "741eef659024efbbebb1834b65f6a37fe4bef5d97e61058479d50f917237ed65",
+    "shichai.qiudeng.art.jiangzhaoxue-cg-bond": "22ec2b04490955ff15fdb55149d2bb76d61bf88da16ced667b1f1c274edd0cae",
+    "shichai.qiudeng.art.jiangzhaoxue-cg-spark": "8caa80d53425b2d36355c7bf4aa9f7554e4cfcfdcd1353c4b3147004d40daf2c",
+    "shichai.qiudeng.art.jiangzhaoxue-cg-rival": "ee8be12abf3daf0d9d05a4329e33174c10acf7d4e8c8fdffb05a180b36d47065",
+    "shichai.qiudeng.art.jiangzhaoxue-cg-lost": "f200a8fe7fc0ad448e08d21737c55f3ab0f7c7527ab5ccbad3cd89894629828e",
+    "shichai.qiudeng.art.jiangzhaoxue-cg-night": "308b9edd2221682a0e187a24f10f345007e222f562f6548947e2b2631fe4ad30",
+    "shichai.qiudeng.art.jiangzhaoxue-cg-dual": "95fbf3a8a9922c0646fa484d9ec67dd2dc72e2e8fd09c97ec4ea0512b2932179",
+    "shichai.qiudeng.art.jiangzhaoxue-cg-vow": "df7f66e85d55bceb72064d2a82caf2942ccbef5a27b271fc0eaf04208b4bbf48",
+    "shichai.qiudeng.art.jiangzhaoxue-cg-mourn": "004c1a42b7c7252deb501220b7867221ee95c933db17d4299b8362e4a0d1b629",
+    "shichai.qiudeng.art.jiangzhaoxue-portrait": "350b62a6a789b6c763c7c986e5a129d7e85d56d47028062e3ec68424cdbaa8a5"
+  }
+}

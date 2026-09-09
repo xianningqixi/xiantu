@@ -8,6 +8,7 @@ export function AISettingsEntry({ onPause }: { onPause: () => void }) {
   return (
     <>
       <Button
+        type="button"
         variant="outline"
         onClick={() => {
           onPause();

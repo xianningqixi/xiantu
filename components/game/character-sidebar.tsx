@@ -1,7 +1,10 @@
 "use client";
+import { companionStatus } from "@/lib/game/journey-presentation";
+import { profileTabForClick, type OpenProfile } from "@/lib/ui/profile-navigation";
 import { memo } from "react";
 import { TimeBadge } from "./time-badge";
-import { usePortrait } from "./portrait-studio";
+import { PlayerPortrait } from "./player-portrait";
+import { NpcPortrait } from "./npc-portrait";
 
 import { Button } from "@/components/ui/button";
 import { ARTIFACTS, REALMS } from "@/lib/game/content/official";
@@ -15,7 +18,7 @@ import { Meter } from "./panels";
 type SidebarProps = {
   world: World;
   goal: ReturnType<typeof objective>;
-  setProfileId: (id: string) => void;
+  setProfileId: OpenProfile;
   useTab: (tab: string) => void;
   send: Send;
   act: Send;
@@ -32,21 +35,19 @@ export const CharacterSidebar = memo(function CharacterSidebar({
   blocked,
 }: SidebarProps) {
   const p = w.player;
-  const portrait = usePortrait(p.portraitId);
+  const companion = companionStatus(w);
   const artifact = ARTIFACTS.find((a) => a.id === w.profile.artifact)!;
-  const busyCompanion = w.party
-    .map((id) => w.npcs.find((a) => a.id === id))
-    .find((a) => a?.attempt);
+  const companions = w.party
+    .filter((id) => id !== p.id)
+    .map((id) => w.npcs.find((a) => a.id === id)!);
+  const busyCompanion = companions.find((a) => a.attempt);
   return (
     <aside className="character-sidebar">
-      <button className="player-identity" onClick={() => setProfileId("PLAYER")}>
-        <span className={`player-seal color-${w.profile.appearance.color} serif`}>
-          {portrait ? (
-            <img src={portrait} width={640} height={960} alt={`${p.name}的全身立绘`} />
-          ) : (
-            p.name[0]
-          )}
-        </span>
+      <button
+        className="player-identity"
+        onClick={(event) => setProfileId("PLAYER", profileTabForClick(event))}
+      >
+        <PlayerPortrait world={w} className={`player-seal color-${w.profile.appearance.color}`} />
         <div>
           <small>你的角色</small>
           <h2 className="serif">{p.name}</h2>
@@ -72,7 +73,13 @@ export const CharacterSidebar = memo(function CharacterSidebar({
           <section>
             <h3>眼下之事 · {goal.title}</h3>
             <p>{goal.text}</p>
-            <Button variant="outline" onClick={() => useTab(goal.tab)}>
+            <Button
+              variant="outline"
+              onClick={(event) => {
+                event.currentTarget.closest("details")?.removeAttribute("open");
+                useTab(goal.tab);
+              }}
+            >
               去看看
             </Button>
           </section>
@@ -81,16 +88,17 @@ export const CharacterSidebar = memo(function CharacterSidebar({
             <p>{artifact.description}</p>
           </section>
           <section>
-            <h3>同行之人 · {w.party.length} / 3</h3>
-            {w.party.map((id) => {
-              const a = id === "PLAYER" ? p : w.npcs.find((a) => a.id === id)!;
-              return (
-                <Button key={id} variant="ghost" onClick={() => setProfileId(id)}>
-                  {a.name} · {REALMS[a.realm]}
-                </Button>
-              );
-            })}
-            {w.party.length === 1 && <p>暂时独行，可以在游历中寻找同伴。</p>}
+            <h3>同行之人 · {companions.length} / 3</h3>
+            {companions.map((a) => (
+              <Button
+                key={a.id}
+                variant="ghost"
+                onClick={(event) => setProfileId(a.id, profileTabForClick(event))}
+              >
+                {a.name} · {REALMS[a.realm]}
+              </Button>
+            ))}
+            {companions.length === 0 && <p>暂时独行，可以在游历中寻找同伴。</p>}
           </section>
         </div>
       </details>
@@ -100,7 +108,13 @@ export const CharacterSidebar = memo(function CharacterSidebar({
         <strong>{p.stones}</strong>
       </div>
       <div className="sidebar-artifact">
-        <span className="small-seal serif">{artifact.glyph}</span>
+        <img
+          className="small-seal artifact-art"
+          src={`/artifacts/${artifact.id}.svg`}
+          alt=""
+          width={36}
+          height={36}
+        />
         <div>
           <small>伴生法宝</small>
           <strong>{artifact.name}</strong>
@@ -119,19 +133,28 @@ export const CharacterSidebar = memo(function CharacterSidebar({
       <div className="party-panel">
         <div className="spread">
           <h3>同行之人</h3>
-          <small>{w.party.length} / 3</small>
+          <small>{companions.length} / 3</small>
         </div>
-        {w.party.map((id) => {
-          const a = id === "PLAYER" ? p : w.npcs.find((n) => n.id === id)!;
-          return (
-            <button className="party-member" key={id} onClick={() => setProfileId(id)}>
-              <span className="mini-initial serif">{a.name[0]}</span>
-              <span>{a.name}</span>
-              <small>{id === "PLAYER" ? "你" : REALMS[a.realm]}</small>
-            </button>
-          );
-        })}
-        {w.party.length === 1 && <p>山路尚长，寻一两位同道吧。</p>}
+        {companions.map((a) => (
+          <button
+            className="party-member"
+            key={a.id}
+            onClick={(event) => setProfileId(a.id, profileTabForClick(event))}
+          >
+            <NpcPortrait world={w} actor={a} className="mini-portrait" />
+            <span>{a.name}</span>
+            <small>{REALMS[a.realm]}</small>
+          </button>
+        ))}
+        {companion ? (
+          <p>
+            <strong>{companion.title}</strong>
+            <br />
+            {companion.text}
+          </p>
+        ) : (
+          companions.length === 0 && <p>山路尚长，寻一两位同道吧。</p>
+        )}
         {busyCompanion && (
           <p>
             {busyCompanion.name}正在突破，还需 {busyCompanion.attempt!.remaining} 日。
@@ -146,23 +169,18 @@ export const CharacterSidebar = memo(function CharacterSidebar({
             </Button>
           </p>
         )}
-        {w.party.length > 1 && (
+        {companions.length > 0 && (
           <Button
             variant="ghost"
             size="sm"
             disabled={blocked || !!w.loot}
             onClick={() => send({ type: "disband" })}
           >
-            暂别同伴
+            暂别同伴（取消本次约定）
             <TimeBadge world={w} command={{ type: "disband" }} />
           </Button>
         )}
       </div>
-      <p className="sidebar-note">
-        翻阅与交谈不消耗时间。
-        <br />
-        每一次行动，才让世界向前。
-      </p>
     </aside>
   );
 });

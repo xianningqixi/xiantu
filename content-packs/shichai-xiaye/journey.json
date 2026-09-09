@@ -1,0 +1,17 @@
+{
+  "order": 2,
+  "regionName": "临江城",
+  "minRealm": 2,
+  "minExpeditions": 1,
+  "travelDays": 3,
+  "sceneIntervalDays": 2,
+  "clueCount": 3,
+  "introId": "shichai.xiaye.intro",
+  "lead": "商路通向临江，酒肆与商队各有未说完的往事。",
+  "routeLead": "循着青石残卷上的水纹，随商道去临江城访书。",
+  "locations": {
+    "market": "shichai.xiaye.market",
+    "inn": "shichai.xiaye.inn",
+    "gate": "shichai.xiaye.gate"
+  }
+}

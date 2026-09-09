@@ -1,0 +1,85 @@
+{
+  "characters": [
+    {
+      "id": "shichai.chunshui.suqingyan",
+      "name": "苏清晏",
+      "sex": "female",
+      "age": 22,
+      "aptitude": 58,
+      "realm": 1,
+      "personality": "温婉 · 细致 · 心里有一杆秤",
+      "sect": "坊市药铺",
+      "goal": "守住父亲的药铺，不让它落入宗门之手",
+      "location": "market",
+      "portraitId": "shichai.chunshui.suqingyan.portrait",
+      "homeVisitIntervalDays": 7
+    },
+    {
+      "id": "shichai.chunshui.qiheng",
+      "name": "齐珩",
+      "sex": "male",
+      "age": 27,
+      "aptitude": 74,
+      "realm": 3,
+      "personality": "谦和 · 精于算计",
+      "sect": "青岚宗",
+      "goal": "拿到苏家《百草炼元方》，以此换取内门丹房之位",
+      "location": "market",
+      "homeVisitIntervalDays": 7
+    },
+    {
+      "id": "shichai.chunshui.gutinglan",
+      "name": "顾听澜",
+      "sex": "female",
+      "age": 26,
+      "aptitude": 82,
+      "realm": 3,
+      "personality": "冷峻 · 剑心通明 · 不轻易开口",
+      "sect": "归云门",
+      "goal": "解开剑心深处那道说不清的滞涩，问鼎筑基",
+      "location": "gate",
+      "portraitId": "shichai.chunshui.gutinglan.portrait",
+      "homeVisitIntervalDays": 7
+    },
+    {
+      "id": "shichai.chunshui.weicen",
+      "name": "卫岑",
+      "sex": "male",
+      "age": 30,
+      "aptitude": 79,
+      "realm": 4,
+      "personality": "温文 · 占有欲极强",
+      "sect": "归云门",
+      "goal": "让顾听澜成为自己名正言顺的道侣",
+      "location": "gate",
+      "homeVisitIntervalDays": 7
+    },
+    {
+      "id": "shichai.chunshui.wenzhiwei",
+      "name": "温知微",
+      "sex": "female",
+      "age": 20,
+      "aptitude": 40,
+      "realm": 0,
+      "personality": "伶俐 · 嘴快心软 · 故事里藏着自己",
+      "sect": "听雨客栈说书人",
+      "goal": "攒够赎身的灵石，让郑家再也找不到她",
+      "location": "inn",
+      "portraitId": "shichai.chunshui.wenzhiwei.portrait",
+      "homeVisitIntervalDays": 7
+    },
+    {
+      "id": "shichai.chunshui.zhengbaichuan",
+      "name": "郑百川",
+      "sex": "male",
+      "age": 45,
+      "aptitude": 22,
+      "realm": 0,
+      "personality": "富态 · 和气生财 · 记仇",
+      "sect": "郑氏商行",
+      "goal": "把逃走的婢女温知微带回郑府做妾",
+      "location": "market",
+      "homeVisitIntervalDays": 7
+    }
+  ]
+}

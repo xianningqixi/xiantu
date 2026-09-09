@@ -1,0 +1,220 @@
+{
+  "assets": {
+    "shichai.qiudeng.art.intro": {
+      "file": "art/images/intro.png",
+      "url": "/art/shichai.qiudeng/intro.png",
+      "alt": "秋夜听雨客栈，檐下一盏灯笼，桌上摊开泛黄的残卷，窗外落叶；无人物特写",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.main-cg-scroll": {
+      "file": "art/images/main-cg-scroll.png",
+      "url": "/art/shichai.qiudeng/main-cg-scroll.png",
+      "alt": "客栈角落，白须老道玄虚子把一卷完整的《既济诀》推过桌面，灯笼光照在卷轴的金线上",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.main-cg-sign": {
+      "file": "art/images/main-cg-sign.png",
+      "url": "/art/shichai.qiudeng/main-cg-sign.png",
+      "alt": "男主夜里盘坐，丹田处有一根几不可见的金线牵向窗外，眼中有心魔幻象",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.main-cg-reveal": {
+      "file": "art/images/main-cg-reveal.png",
+      "url": "/art/shichai.qiudeng/main-cg-reveal.png",
+      "alt": "客栈后院月下，玄虚子背对男主，衣袖里垂出十根金线，每一根尽头都是一个女子的虚影",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.main-cg-choice": {
+      "file": "art/images/main-cg-choice.png",
+      "url": "/art/shichai.qiudeng/main-cg-choice.png",
+      "alt": "男主独坐溪边，面前摊着《既济诀》，一手持火折，一手按在自己丹田",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.main-cg-duel": {
+      "file": "art/images/main-cg-duel.png",
+      "url": "/art/shichai.qiudeng/main-cg-duel.png",
+      "alt": "古道石阶，玄虚子与男主对峙，金线在两人之间绷直，秋叶悬停在半空",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.main-cg-gone": {
+      "file": "art/images/main-cg-gone.png",
+      "url": "/art/shichai.qiudeng/main-cg-gone.png",
+      "alt": "客栈角落空着的桌子，一盏熄灭的灯笼，桌上留着半卷烧焦的纸",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.wenrenshuang-cg-meet": {
+      "file": "art/images/wenrenshuang-cg-meet.png",
+      "url": "/art/shichai.qiudeng/wenrenshuang-cg-meet.png",
+      "alt": "坊市青岚宗执事所前，闻人霜核验商户的灵石税牌，身后弟子肃立",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.wenrenshuang-cg-bond": {
+      "file": "art/images/wenrenshuang-cg-bond.png",
+      "url": "/art/shichai.qiudeng/wenrenshuang-cg-bond.png",
+      "alt": "执事所后堂，闻人霜卸下玉冠，按着眉心，桌上摆着一枚裂开的丹药",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.wenrenshuang-cg-spark": {
+      "file": "art/images/wenrenshuang-cg-spark.png",
+      "url": "/art/shichai.qiudeng/wenrenshuang-cg-spark.png",
+      "alt": "坊市屋顶月下，闻人霜把一枚冰凉的玉佩按进男主掌心，灵气顺着玉佩流动",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.wenrenshuang-cg-rival": {
+      "file": "art/images/wenrenshuang-cg-rival.png",
+      "url": "/art/shichai.qiudeng/wenrenshuang-cg-rival.png",
+      "alt": "崔九章白须长老立于执事所门口，慈眉善目，手中拂尘，身后是宗门刑堂弟子",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.wenrenshuang-cg-lost": {
+      "file": "art/images/wenrenshuang-cg-lost.png",
+      "url": "/art/shichai.qiudeng/wenrenshuang-cg-lost.png",
+      "alt": "青岚宗刑堂，闻人霜跪于蒲团，崔九章手按其顶，阴元化作白雾被吸走；男主被弟子押在堂外",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.wenrenshuang-cg-night": {
+      "file": "art/images/wenrenshuang-cg-night.png",
+      "url": "/art/shichai.qiudeng/wenrenshuang-cg-night.png",
+      "alt": "客栈上房，闻人霜解下执事袍，只着素白中衣，玉冠放在案上，眼神清冷而决绝",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.wenrenshuang-cg-dual": {
+      "file": "art/images/wenrenshuang-cg-dual.png",
+      "url": "/art/shichai.qiudeng/wenrenshuang-cg-dual.png",
+      "alt": "青岚宗禁地寒潭，两人对坐潭中，她体内的阴元如银雾回流，眉间心魔化作黑烟散去",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.wenrenshuang-cg-vow": {
+      "file": "art/images/wenrenshuang-cg-vow.png",
+      "url": "/art/shichai.qiudeng/wenrenshuang-cg-vow.png",
+      "alt": "青岚宗山门前，闻人霜把执事令牌交还弟子，与男主并肩下山，秋叶满阶",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.wenrenshuang-cg-mourn": {
+      "file": "art/images/wenrenshuang-cg-mourn.png",
+      "url": "/art/shichai.qiudeng/wenrenshuang-cg-mourn.png",
+      "alt": "执事所门口挂着白幡，她的玉冠放在案上，一枚丹药已成灰",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.wenrenshuang-portrait": {
+      "file": "art/images/wenrenshuang-portrait.png",
+      "url": "/art/shichai.qiudeng/wenrenshuang-portrait.png",
+      "alt": "闻人霜立绘：34岁青岚宗坊市执事，筑基修士，眉目冷艳，长发以玉冠束起，玄青执事袍绣银云纹，腰悬令牌，眼下有淡淡青影",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait"
+    },
+    "shichai.qiudeng.art.jiangzhaoxue-cg-meet": {
+      "file": "art/images/jiangzhaoxue-cg-meet.png",
+      "url": "/art/shichai.qiudeng/jiangzhaoxue-cg-meet.png",
+      "alt": "山门古道，江照雪一刀劈开一头山魈，妖血溅在石阶上，她回头看男主",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.jiangzhaoxue-cg-bond": {
+      "file": "art/images/jiangzhaoxue-cg-bond.png",
+      "url": "/art/shichai.qiudeng/jiangzhaoxue-cg-bond.png",
+      "alt": "猎妖营地篝火，江照雪拆开左臂绷带，露出一道妖纹",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.jiangzhaoxue-cg-spark": {
+      "file": "art/images/jiangzhaoxue-cg-spark.png",
+      "url": "/art/shichai.qiudeng/jiangzhaoxue-cg-spark.png",
+      "alt": "古道悬崖，星空，江照雪把斩妖刀横放在两人之间，自己靠在男主肩上",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.jiangzhaoxue-cg-rival": {
+      "file": "art/images/jiangzhaoxue-cg-rival.png",
+      "url": "/art/shichai.qiudeng/jiangzhaoxue-cg-rival.png",
+      "alt": "白无咎立于雾中，白衣温润，眼尾泛红，身后隐约有九条狐尾的虚影",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.jiangzhaoxue-cg-lost": {
+      "file": "art/images/jiangzhaoxue-cg-lost.png",
+      "url": "/art/shichai.qiudeng/jiangzhaoxue-cg-lost.png",
+      "alt": "妖域入口的白骨门，白无咎牵着江照雪的手走入，她的短发在雾中变白，妖纹爬满脖颈；男主跪在门外",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.jiangzhaoxue-cg-night": {
+      "file": "art/images/jiangzhaoxue-cg-night.png",
+      "url": "/art/shichai.qiudeng/jiangzhaoxue-cg-night.png",
+      "alt": "猎妖营地帐中，江照雪解下狼皮与劲装，左眼在篝火下泛金",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.jiangzhaoxue-cg-dual": {
+      "file": "art/images/jiangzhaoxue-cg-dual.png",
+      "url": "/art/shichai.qiudeng/jiangzhaoxue-cg-dual.png",
+      "alt": "古道溪涧月下，两人对坐，江照雪周身妖气化作淡金光，与青色灵气交融，惑术的红线一根根断裂",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.jiangzhaoxue-cg-vow": {
+      "file": "art/images/jiangzhaoxue-cg-vow.png",
+      "url": "/art/shichai.qiudeng/jiangzhaoxue-cg-vow.png",
+      "alt": "山门古道尽头，江照雪把斩妖刀插在石阶上，狼皮披在男主肩上",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.jiangzhaoxue-cg-mourn": {
+      "file": "art/images/jiangzhaoxue-cg-mourn.png",
+      "url": "/art/shichai.qiudeng/jiangzhaoxue-cg-mourn.png",
+      "alt": "古道石阶上一把斩妖刀与一具猎妖弩，弩弦断了",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.jiangzhaoxue-portrait": {
+      "file": "art/images/jiangzhaoxue-portrait.png",
+      "url": "/art/shichai.qiudeng/jiangzhaoxue-portrait.png",
+      "alt": "江照雪立绘：28岁猎妖女修，剑眉星目，短发齐耳，玄色劲装外披狼皮半肩，背负猎妖弩与斩妖刀，左眼瞳孔在光下泛淡金",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait"
+    }
+  }
+}

@@ -1,0 +1,913 @@
+[
+  {
+    "id": "U-01",
+    "title": "地点选择页只回答「我在哪」，不回答「现在做什么」",
+    "status": "partial",
+    "resolution": "地点选择首屏显示当前故事、人物和下一步，可直达地点详情；极端内容长度的空间利用率仍待专门量化。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P1"
+  },
+  {
+    "id": "U-02",
+    "title": "右栏大卡硬编码为林晚，当前剧情对象与在场列表被挤出视口",
+    "status": "implemented",
+    "resolution": "右栏按当前故事切换人物；集合操作前移，完整立绘约束在容器内，全部在场入口前移到列表标题。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P1"
+  },
+  {
+    "id": "U-03",
+    "title": "右栏在结识前就报出林晚姓名，且「同行交涉」入口对陌生人可用",
+    "status": "implemented",
+    "resolution": "结识前使用人物称谓；陌生人交涉有明确前置，保留实际角色身份。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P1"
+  },
+  {
+    "id": "U-04",
+    "title": "目标系统单一覆盖：「眼下之事」与正文剧情、同行阶段互相拉扯",
+    "status": "implemented",
+    "resolution": "目标优先当前对话、战斗、战利品、长行动和约定阶段；主线就绪不再引导离场。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P1"
+  },
+  {
+    "id": "U-05",
+    "title": "「查看其余 N 人」在 180px 小窗内滚动，且撑开整页",
+    "status": "implemented",
+    "resolution": "全部在场人物使用正常弹窗；移除180px的小滚动框。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-06",
+    "title": "地点卡标题即旅行按钮；「进入地点 / 前往·即刻 / 前往·1 日」三种含义同一样式",
+    "status": "implemented",
+    "resolution": "地点名称只展示位置；旅行由独立按钮执行并标成本。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-07",
+    "title": "底部行动条与正文「条件等候」混排三种等待、两种「即刻」；「即刻」同时用于不写世界与写世界的动作",
+    "status": "implemented",
+    "resolution": "统一等候条件与时间控件；查看面板不再标耗时，写世界的零日命令保留即刻。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-08",
+    "title": "toast 与结果条重复、遮住顶栏页签 5 秒、弹窗打开时被遮罩盖住、弹窗内命令无可见结果",
+    "status": "implemented",
+    "resolution": "普通结果统一显示在操作区上方，人物弹窗内也显示保存结果；生图状态与动作同屏。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-09",
+    "title": "地图弹窗：行程/条件在折叠区，符号不表达状态，低视口下启程按钮出视口",
+    "status": "implemented",
+    "resolution": "地图头尾固定；行程、条件与启程同屏，添加当前、主线、宗门、已查明图例。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-10",
+    "title": "场景图 / CG / 立绘容器裁切与留白，无查看全图入口",
+    "status": "partial",
+    "resolution": "场景图可放大全图；修正网格最小尺寸和图片比例导致的裁切；全部历史模板仍需逐张构图复核。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-11",
+    "title": "百人列表只能整页滚动，没有查找手段；伪按钮样式",
+    "status": "implemented",
+    "resolution": "人物列表新增搜索、范围、排序和分页；明确资料入口。",
+    "source": [
+      "components/game/person-detail.tsx",
+      "lib/ui/character-presentation.ts",
+      "components/game/portrait-studio.tsx"
+    ],
+    "severity": "P1"
+  },
+  {
+    "id": "U-12",
+    "title": "「关系」页先放四个发起行动，查看关系需下滚一屏；禁用理由重复四次",
+    "status": "implemented",
+    "resolution": "先呈现人物关系，交往操作按需展开，合并重复拒绝原因。",
+    "source": [
+      "components/game/person-detail.tsx",
+      "lib/ui/character-presentation.ts",
+      "components/game/portrait-studio.tsx"
+    ],
+    "severity": "P1"
+  },
+  {
+    "id": "U-13",
+    "title": "头部关系标签与列表标签矛盾（挚友 vs 道侣）",
+    "status": "implemented",
+    "resolution": "头部与列表共用有向关系和双向道侣投影；旧单向已知关系继续兼容。",
+    "source": [
+      "components/game/person-detail.tsx",
+      "lib/ui/character-presentation.ts",
+      "components/game/portrait-studio.tsx"
+    ],
+    "severity": "P1"
+  },
+  {
+    "id": "U-14",
+    "title": "好感 / 信任 / 吸引只有裸数字，阈值与变化不可感知",
+    "status": "implemented",
+    "resolution": "显示下一关系阶段缺口、吸引含义；仅对有真实记录的事件显示数值变化。",
+    "source": [
+      "components/game/person-detail.tsx",
+      "lib/ui/character-presentation.ts",
+      "components/game/portrait-studio.tsx"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-15",
+    "title": "陌生人可直接「相伴交流 1 日」，而底部主按钮是「上前见礼 即刻」",
+    "status": "implemented",
+    "resolution": "陌生人只保留底栏见礼入口，不用相伴资格错误限制见礼。",
+    "source": [
+      "components/game/person-detail.tsx",
+      "lib/ui/character-presentation.ts",
+      "components/game/portrait-studio.tsx"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-16",
+    "title": "资料弹窗固定 828px 高而内容区只有 411px，关键按钮全部在折叠线下；低视口下内容区缩到 246–290px",
+    "status": "implemented",
+    "resolution": "人物弹窗压缩头部，内容独立滚动，主要动作固定；低高度四页签已实测。",
+    "source": [
+      "components/game/person-detail.tsx",
+      "lib/ui/character-presentation.ts",
+      "components/game/portrait-studio.tsx"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-17",
+    "title": "主角与 NPC 资料结构小不一致",
+    "status": "implemented",
+    "resolution": "统一人物属性/关系/经历/立绘结构；男性隐藏胸围，散修用可读文案。",
+    "source": [
+      "components/game/person-detail.tsx",
+      "lib/ui/character-presentation.ts",
+      "components/game/portrait-studio.tsx"
+    ],
+    "severity": "P3"
+  },
+  {
+    "id": "U-18",
+    "title": "头像→立绘、姓名→属性的双入口没有可见提示",
+    "status": "implemented",
+    "resolution": "头像提供放大提示，姓名和资料按钮明确查看用途。",
+    "source": [
+      "components/game/person-detail.tsx",
+      "lib/ui/character-presentation.ts",
+      "components/game/portrait-studio.tsx"
+    ],
+    "severity": "P3"
+  },
+  {
+    "id": "U-19",
+    "title": "「打听 / 其他修士」分组命名与内容不符；亲密筛选放在提示卡内，空态两段文案",
+    "status": "implemented",
+    "resolution": "人物范围文案更明确；经历筛选移到标题区域，保留未知经历不推断说明。",
+    "source": [
+      "components/game/person-detail.tsx",
+      "lib/ui/character-presentation.ts",
+      "components/game/portrait-studio.tsx"
+    ],
+    "severity": "P3"
+  },
+  {
+    "id": "U-20",
+    "title": "重绘流程四个动作命名相近，失败/等待反馈位置不对",
+    "status": "implemented",
+    "resolution": "明确编辑/生成/待采用状态，恢复与保留动作分场景显示，失败与取消结果同屏。",
+    "source": [
+      "components/game/person-detail.tsx",
+      "lib/ui/character-presentation.ts",
+      "components/game/portrait-studio.tsx"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-21",
+    "title": "主角立绘页显示未选择过的体貌默认值，与创角设定冲突",
+    "status": "implemented",
+    "resolution": "新角色外貌默认与18岁初始年龄一致，创建/draft/立绘校验统一；旧存档已有体貌不改写。",
+    "source": [
+      "components/game/person-detail.tsx",
+      "lib/ui/character-presentation.ts",
+      "components/game/portrait-studio.tsx"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-22",
+    "title": "结侣 / 共修确认框缺耗时、收益与后果，且把玩家发起说成对方提议",
+    "status": "implemented",
+    "resolution": "亲密确认明确双方、耗时、收益、排他约束；结侣0日、共修1日均来自命令规则。",
+    "source": [
+      "components/game/person-detail.tsx",
+      "lib/ui/character-presentation.ts",
+      "components/game/portrait-studio.tsx"
+    ],
+    "severity": "P3"
+  },
+  {
+    "id": "U-23",
+    "title": "「修炼至圆满」的日数、灵石、徽标来自三份不同数据",
+    "status": "implemented",
+    "resolution": "修炼日数、预算、按钮与提交使用同一预览；提前圆满只扣实际天数。",
+    "source": [
+      "components/game/panels.tsx",
+      "lib/game/training-preview.ts",
+      "lib/ui/action-summary.ts"
+    ],
+    "severity": "P1"
+  },
+  {
+    "id": "U-24",
+    "title": "修为已满仍可发起/继续按日闭关，且无任何提示",
+    "status": "implemented",
+    "resolution": "圆满状态拒绝条件修炼且不耗日、不扣资源；旧暂停圆满档不能继续空转。",
+    "source": [
+      "components/game/panels.tsx",
+      "lib/game/training-preview.ts",
+      "lib/ui/action-summary.ts"
+    ],
+    "severity": "P1"
+  },
+  {
+    "id": "U-25",
+    "title": "长行动生命周期：开始即强制切到游历、任何长行动结束都弹「闭关期间」摘要、关闭后无下一步、页签状态丢失",
+    "status": "implemented",
+    "resolution": "长行动保持当前页签；短等候不弹长摘要；摘要关闭后可定位突破准备。",
+    "source": [
+      "components/game/panels.tsx",
+      "lib/game/training-preview.ts",
+      "lib/ui/action-summary.ts"
+    ],
+    "severity": "P1"
+  },
+  {
+    "id": "U-26",
+    "title": "闭关摘要平铺所有已知事件，没有总览与主角结果，两人事件重复",
+    "status": "implemented",
+    "resolution": "摘要固定主角收益、类型、终止原因及已知事件，首屏前5项，其余折叠；旧档恢复清理未来摘要。",
+    "source": [
+      "components/game/panels.tsx",
+      "lib/game/training-preview.ts",
+      "lib/ui/action-summary.ts"
+    ],
+    "severity": "P1"
+  },
+  {
+    "id": "U-27",
+    "title": "突破准备区的成本、风险、禁用原因不足以决策；同一按钮出现两个日数",
+    "status": "implemented",
+    "resolution": "突破普通/严重失败风险量化；护法条件逐项列出，丹药购买与兑换同源并提供入口。",
+    "source": [
+      "components/game/panels.tsx",
+      "lib/game/training-preview.ts",
+      "lib/ui/action-summary.ts"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-28",
+    "title": "筑基后的阶段终点只有一句话，修炼卡仍可空转耗日",
+    "status": "implemented",
+    "resolution": "筑基阶段卡说明本版上限，提供地图和故人入口；继续闭关被阻止。",
+    "source": [
+      "components/game/panels.tsx",
+      "lib/game/training-preview.ts",
+      "lib/ui/action-summary.ts"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-29",
+    "title": "条件等候按钮禁用无原因；下拉可选「已在场」或「异城不会赶来」的人物",
+    "status": "implemented",
+    "resolution": "条件等候有原因和人物位置说明；NPC自主跨城能力保留，不修改模拟规则。",
+    "source": [
+      "components/game/panels.tsx",
+      "lib/game/training-preview.ts",
+      "lib/ui/action-summary.ts"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-30",
+    "title": "行囊把「已拥有」「×0 占位」「药铺」平铺，禁用购买不说缺钱还是异地",
+    "status": "implemented",
+    "resolution": "行囊区分已拥有物品与商店，零库存不占卡；显示价格、持有量、缺款/地点和兑换条件。",
+    "source": [
+      "components/game/panels.tsx",
+      "lib/game/training-preview.ts",
+      "lib/ui/action-summary.ts"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-31",
+    "title": "历程：类型下拉泄露内部键名、「新增」标记无信息量、空结果无一键恢复、分页只在底部",
+    "status": "implemented",
+    "resolution": "历程补全可读类型、仅看新增、重置筛选和顶部分页；主线记录可回看。",
+    "source": [
+      "components/game/panels.tsx",
+      "lib/game/training-preview.ts",
+      "lib/ui/action-summary.ts"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-32",
+    "title": "同行「约定→集合→出发」三阶段没有稳定入口，组队后正文自相矛盾",
+    "status": "implemented",
+    "resolution": "约定/会合/组队/出发状态与入口连续；集合按钮固定在右栏靠前位置。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P1"
+  },
+  {
+    "id": "U-33",
+    "title": "替换类确认（新角色/导入/恢复）不核对对象，建议导出却没有导出入口，「创建新角色」把确认放在流程末尾",
+    "status": "implemented",
+    "resolution": "新建/导入/恢复确认列出替换双方、天数和模式，确认层可导出当前进度。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P1"
+  },
+  {
+    "id": "U-34",
+    "title": "交涉入口在不可能成功的状态下仍可打开；「固定选项」指代不明；失败提示重复",
+    "status": "partial",
+    "resolution": "交涉预检与标准续约分离；三人退回坊市可再次邀约，文字服务仍只支持标准条款。真实供应方本轮未验。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-35",
+    "title": "撤退后约定静默作废，古道上的提示把玩家引向无效等待；出征禁用原因把三个条件混成一句",
+    "status": "implemented",
+    "resolution": "撤退后解释约定状态，提供有效返城/续约路线；出发缺项具体显示。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P1"
+  },
+  {
+    "id": "U-36",
+    "title": "一回合后，玩家自己的行动结果不在视口内；顶部提示只显示最后一名行动者",
+    "status": "implemented",
+    "resolution": "缩小战斗场景与空白，最新战报倒序、主角行动突出，动作与战报同屏。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P1"
+  },
+  {
+    "id": "U-37",
+    "title": "技能槽行重复显示「青芒剑诀」，三格「本版未开放」只占空间",
+    "status": "implemented",
+    "resolution": "移除三个永不开放的技能槽，保留真实剑诀冷却与丹药状态。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-38",
+    "title": "战斗中打开队友资料：「聊聊近况」禁用无说明；自动战斗是否在弹窗打开时继续待验证",
+    "status": "implemented",
+    "resolution": "自动战斗打开人物弹窗即暂停，关闭后仍需手动继续；不可交谈原因可见。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P3"
+  },
+  {
+    "id": "U-39",
+    "title": "履约 / 独占的后果不对称、不具体",
+    "status": "implemented",
+    "resolution": "履约/独占都列实际资源与关系方向，履约实扣和所得已实测；违约仍需确认。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-40",
+    "title": "AI 设置说明与「生成立绘」的真实依赖矛盾；创角立绘区无前置提示",
+    "status": "implemented",
+    "resolution": "立绘区域和AI设置说明文字模型与生图模型的完整依赖，提供稳定设置入口。",
+    "source": [
+      "components/game/person-detail.tsx",
+      "lib/ui/character-presentation.ts",
+      "components/game/portrait-studio.tsx"
+    ],
+    "severity": "P1"
+  },
+  {
+    "id": "U-41",
+    "title": "创角必填项与禁用原因不可见；文本框 Enter 直接开局",
+    "status": "implemented",
+    "resolution": "姓名必填和禁用原因可见，输入框Enter不误开局，嵌套设置提交不创建世界。",
+    "source": [
+      "components/game/person-detail.tsx",
+      "lib/ui/character-presentation.ts",
+      "components/game/portrait-studio.tsx"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-42",
+    "title": "立绘等待层叠影；生成中可提交并静默中止；改形貌静默丢立绘",
+    "status": "implemented",
+    "resolution": "生成/待采用不能误开局；形貌变更保留原图供决策，草稿刷新后仍可恢复原形貌。",
+    "source": [
+      "components/game/person-detail.tsx",
+      "lib/ui/character-presentation.ts",
+      "components/game/portrait-studio.tsx"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-43",
+    "title": "机缘种子无可见说明，默认全员相同",
+    "status": "implemented",
+    "resolution": "保留与现有原画配套的默认种子12345，明确重现含义及修改影响。",
+    "source": [
+      "components/game/person-detail.tsx",
+      "lib/ui/character-presentation.ts",
+      "components/game/portrait-studio.tsx"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-44",
+    "title": "创角三列无可见标题、必选/可选标注不统一；女性默认立绘特征与衣着选项冲突；「复杂」模式命名",
+    "status": "implemented",
+    "resolution": "PC三列可见标题，必选/可选说明统一；服饰主色与造型补充说明明确，保留用户要求的默认造型及现有模式语义。",
+    "source": [
+      "components/game/person-detail.tsx",
+      "lib/ui/character-presentation.ts",
+      "components/game/portrait-studio.tsx"
+    ],
+    "severity": "P3"
+  },
+  {
+    "id": "U-45",
+    "title": "提前到城但条件不足时，地点页无任何缺条件说明",
+    "status": "implemented",
+    "resolution": "提前到城可查看境界、前章、时间、人物与证据缺项；自由旅行不等于跳过剧情。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P1"
+  },
+  {
+    "id": "U-46",
+    "title": "「主线」眉题混用于残碑节点与十钗人物故事；主线完结无完结卡；足迹折叠且只有标题",
+    "status": "implemented",
+    "resolution": "残碑主线和人物故事眉题区分；完整主线日期、查证与最终选择进入回顾。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-47",
+    "title": "结局二选一无后果说明",
+    "status": "implemented",
+    "resolution": "结局选择明确只有叙事记述差异，无资源差异；实际选择与回顾已核对。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P3"
+  },
+  {
+    "id": "U-48",
+    "title": "入门前看不到心法、每日加成、委托与报酬，三宗无法比较",
+    "status": "implemented",
+    "resolution": "入门前展示三宗特点、每日修炼加成、委托、报酬及心法成本。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-49",
+    "title": "宗门面板细节：贡献与心法价格分离、「已习得」带时间徽章、离宗后果不全、门规不符不分永久/可变、誓约展开无焦点转移",
+    "status": "implemented",
+    "resolution": "贡献缺口和委托次数同屏，已习得为状态；离宗明确贡献清零和心法失效，誓约展开有焦点。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P3"
+  },
+  {
+    "id": "U-50",
+    "title": "拜访反馈三处重复、底部栏与卡内按钮重复；郊野 / 宗门复用青石文案与通用图片",
+    "status": "partial",
+    "resolution": "宗门行动与拜访反馈去重，郊野替代图标注为景致示意；尚未制作各地独立新原画。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P3"
+  },
+  {
+    "id": "U-51",
+    "title": "宗门门人在「此地相逢」不优先且无头像；异城同伴约定块占据右栏",
+    "status": "partial",
+    "resolution": "宗门门人优先，异城约定可折叠；六名新增门人仍为姓名占位，没有冒用其他人物画像。",
+    "source": [
+      "components/game/journey-tab.tsx",
+      "lib/game/journey-presentation.ts",
+      "lib/game/presentation.ts"
+    ],
+    "severity": "P3"
+  },
+  {
+    "id": "U-52",
+    "title": "禁用按钮多数无原因；禁用态文字对比 2.3–3.5:1；闭关期间整页变灰无说明",
+    "status": "implemented",
+    "resolution": "禁用行为配原因，修复浅金按钮浅字；实际纯色背景样本达4.5:1以上，不宣称全站WCAG认证。",
+    "source": [
+      "lib/game/use-game.ts",
+      "lib/game/simulation.worker.ts",
+      "components/game/model-settings-dialog.tsx",
+      "components/game/settings-dialog.tsx"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-53",
+    "title": "金色主按钮上的时间徽标对比约 1.2:1",
+    "status": "implemented",
+    "resolution": "金色按钮徽标继承高对比文字，正常与禁用状态均测量。",
+    "source": [
+      "lib/game/use-game.ts",
+      "lib/game/simulation.worker.ts",
+      "components/game/model-settings-dialog.tsx",
+      "components/game/settings-dialog.tsx"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-54",
+    "title": "日数徽标重复、禁用按钮仍带徽标；文案与配置不同源",
+    "status": "implemented",
+    "resolution": "删重复日数；耗时命令从规则取值，导航不再使用时间徽标。",
+    "source": [
+      "lib/game/use-game.ts",
+      "lib/game/simulation.worker.ts",
+      "components/game/model-settings-dialog.tsx",
+      "components/game/settings-dialog.tsx"
+    ],
+    "severity": "P3"
+  },
+  {
+    "id": "U-55",
+    "title": "「清除个人配置并关闭」语义错误、无确认、位置危险",
+    "status": "implemented",
+    "resolution": "清除配置使用明确对象的二次确认，取消保留密钥，关闭可保留个人配置。",
+    "source": [
+      "lib/game/use-game.ts",
+      "lib/game/simulation.worker.ts",
+      "components/game/model-settings-dialog.tsx",
+      "components/game/settings-dialog.tsx"
+    ],
+    "severity": "P1"
+  },
+  {
+    "id": "U-56",
+    "title": "AI 设置弹窗内容高于视口，底部动作被裁切且无滚动暗示",
+    "status": "implemented",
+    "resolution": "AI设置单滚动主体与固定操作栏，低高度预览和按钮可见。",
+    "source": [
+      "lib/game/use-game.ts",
+      "lib/game/simulation.worker.ts",
+      "components/game/model-settings-dialog.tsx",
+      "components/game/settings-dialog.tsx"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-57",
+    "title": "测试按钮禁用无原因；页签不显示启用状态；作者预览共用会话配置未说明",
+    "status": "implemented",
+    "resolution": "测试前置和模型启用状态可见，作者预览共享浏览器会话配置明确说明。",
+    "source": [
+      "lib/game/use-game.ts",
+      "lib/game/simulation.worker.ts",
+      "components/game/model-settings-dialog.tsx",
+      "components/game/settings-dialog.tsx"
+    ],
+    "severity": "P3"
+  },
+  {
+    "id": "U-58",
+    "title": "真实部署把站点默认服务的内网地址与模型 ID 填进可编辑字段",
+    "status": "implemented",
+    "resolution": "站点默认配置只读，与个人服务编辑分开；保留HTTP支持，不把公网地址误称内网。",
+    "source": [
+      "lib/game/use-game.ts",
+      "lib/game/simulation.worker.ts",
+      "components/game/model-settings-dialog.tsx",
+      "components/game/settings-dialog.tsx"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-59",
+    "title": "AI 设置错误提示远离字段、无字段关联；超时提示指向折叠区",
+    "status": "implemented",
+    "resolution": "字段错误关联输入并聚焦，超时错误可展开高级项定位。",
+    "source": [
+      "lib/game/use-game.ts",
+      "lib/game/simulation.worker.ts",
+      "components/game/model-settings-dialog.tsx",
+      "components/game/settings-dialog.tsx"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-60",
+    "title": "设置弹窗把 AI、存档、新角色、备份、创作模板串成一列，1440×900 已需内滚；标题与入口名不一致",
+    "status": "implemented",
+    "resolution": "设置按这一世/新的一世/工具分组，备份和AI子页有明确返回。",
+    "source": [
+      "lib/game/use-game.ts",
+      "lib/game/simulation.worker.ts",
+      "components/game/model-settings-dialog.tsx",
+      "components/game/settings-dialog.tsx"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-61",
+    "title": "导出文件名无日期时间，同日重复导出同名；作者预览导出无标识",
+    "status": "implemented",
+    "resolution": "存档与草稿导出名称加入时间及用途，预览存档带标识。",
+    "source": [
+      "lib/game/use-game.ts",
+      "lib/game/simulation.worker.ts",
+      "components/game/model-settings-dialog.tsx",
+      "components/game/settings-dialog.tsx"
+    ],
+    "severity": "P3"
+  },
+  {
+    "id": "U-62",
+    "title": "三层同尺寸弹窗叠放，底层内容从边缘露出，关闭后返回已滚动的父弹窗",
+    "status": "implemented",
+    "resolution": "设置子页替换同一层内容，危险替换只保留必要确认层，不堆三个同尺寸面板。",
+    "source": [
+      "lib/game/use-game.ts",
+      "lib/game/simulation.worker.ts",
+      "components/game/model-settings-dialog.tsx",
+      "components/game/settings-dialog.tsx"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-63",
+    "title": "备份列表无时间与来源，同名同日不可辨；恢复后无反馈",
+    "status": "implemented",
+    "resolution": "备份增加时间与来源元数据并同事务保存；旧备份无日期不伪造；恢复明确反馈角色。",
+    "source": [
+      "lib/game/use-game.ts",
+      "lib/game/simulation.worker.ts",
+      "components/game/model-settings-dialog.tsx",
+      "components/game/settings-dialog.tsx"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-64",
+    "title": "终局页仍显示开场目标与可点入口，终局卡缺回顾",
+    "status": "implemented",
+    "resolution": "终局使用回顾/导出/新一世入口，目标不回开场，无效世界行动被禁用。",
+    "source": [
+      "lib/game/use-game.ts",
+      "lib/game/simulation.worker.ts",
+      "components/game/model-settings-dialog.tsx",
+      "components/game/settings-dialog.tsx"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-65",
+    "title": "保存失败/冲突后顶栏仍显示「本机已存」，全部行动按钮照常可点",
+    "status": "implemented",
+    "resolution": "保存故障或冲突后顶栏显示真实状态，禁止后续世界写入，保留已提交检查点。",
+    "source": [
+      "lib/game/use-game.ts",
+      "lib/game/simulation.worker.ts",
+      "components/game/model-settings-dialog.tsx",
+      "components/game/settings-dialog.tsx"
+    ],
+    "severity": "P1"
+  },
+  {
+    "id": "U-66",
+    "title": "三种保存失败共用同一横幅同一按钮，提示要玩家「重试」但界面只有「重新读取」",
+    "status": "implemented",
+    "resolution": "区分写入失败、配额不足、跨页冲突与未知回执；只有明确失败可原命令重试。",
+    "source": [
+      "lib/game/use-game.ts",
+      "lib/game/simulation.worker.ts",
+      "components/game/model-settings-dialog.tsx",
+      "components/game/settings-dialog.tsx"
+    ],
+    "severity": "P1"
+  },
+  {
+    "id": "U-67",
+    "title": "存档损坏时「导出原始进度」藏在名为「本机备份」的弹窗里，主体是空白创角表单",
+    "status": "implemented",
+    "resolution": "损坏存档显示独立恢复入口，可导出原始数据；不伪装成空白新局。",
+    "source": [
+      "lib/game/use-game.ts",
+      "lib/game/simulation.worker.ts",
+      "components/game/model-settings-dialog.tsx",
+      "components/game/settings-dialog.tsx"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-68",
+    "title": "离线状态条措辞与实际相反；「本机已存」含义不明",
+    "status": "implemented",
+    "resolution": "网络在线与离线缓存状态分开；离线加载、行动、再次重载保存已通过。",
+    "source": [
+      "lib/game/use-game.ts",
+      "lib/game/simulation.worker.ts",
+      "components/game/model-settings-dialog.tsx",
+      "components/game/settings-dialog.tsx"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-69",
+    "title": "PWA 更新提示未说明后果，阻止原因笼统",
+    "status": "implemented",
+    "resolution": "更新明确保留已存进度并重载，其他页面阻止时给出数量；关闭其他页后更新成功。",
+    "source": [
+      "lib/game/use-game.ts",
+      "lib/game/simulation.worker.ts",
+      "components/game/model-settings-dialog.tsx",
+      "components/game/settings-dialog.tsx"
+    ],
+    "severity": "P3"
+  },
+  {
+    "id": "U-70",
+    "title": "除地图外所有弹窗关闭后焦点丢到 body；嵌套备份弹窗关闭后焦点落在父弹窗之外；人物资料无「返回上一人」",
+    "status": "implemented",
+    "resolution": "统一关闭焦点恢复；设置与AI往返定位原入口；人物可返回上一人及原页签/滚动位置。",
+    "source": [
+      "lib/game/use-game.ts",
+      "lib/game/simulation.worker.ts",
+      "components/game/model-settings-dialog.tsx",
+      "components/game/settings-dialog.tsx"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-71",
+    "title": "命令反馈通道不一致：替换类操作成功无提示，行囊/宗门卡片内无结果条，只有暂停面板明确说「已保存」",
+    "status": "implemented",
+    "resolution": "统一已保存行动反馈；替换成功明确角色与日数；保留世界原始notice不伪造历史。",
+    "source": [
+      "lib/game/use-game.ts",
+      "lib/game/simulation.worker.ts",
+      "components/game/model-settings-dialog.tsx",
+      "components/game/settings-dialog.tsx"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-72",
+    "title": "400 ms 同内容去重把玩家有意的第二次操作静默吞掉",
+    "status": "implemented",
+    "resolution": "移除400ms吞操作机制，保留同步互斥；小于400ms的有意第二次操作实际提交，双击不重复。",
+    "source": [
+      "lib/game/use-game.ts",
+      "lib/game/simulation.worker.ts",
+      "components/game/model-settings-dialog.tsx",
+      "components/game/settings-dialog.tsx"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-73",
+    "title": "Tab 序列含不可见停靠点，焦点样式两套，隐藏的文件输入可 Tab 到",
+    "status": "implemented",
+    "resolution": "隐藏文件输入退出Tab序列，统一可见焦点；键盘遍历与弹窗返回已实测。",
+    "source": [
+      "lib/game/use-game.ts",
+      "lib/game/simulation.worker.ts",
+      "components/game/model-settings-dialog.tsx",
+      "components/game/settings-dialog.tsx"
+    ],
+    "severity": "P2"
+  },
+  {
+    "id": "U-74",
+    "title": "两组文字对比低于 4.5:1；次要说明字号 10–11px",
+    "status": "partial",
+    "resolution": "提高小字默认字号与说明对比；纯色背景样本通过，图片背景精确对比仍需逐图审查。",
+    "source": [
+      "lib/game/use-game.ts",
+      "lib/game/simulation.worker.ts",
+      "components/game/model-settings-dialog.tsx",
+      "components/game/settings-dialog.tsx"
+    ],
+    "severity": "P3"
+  }
+]

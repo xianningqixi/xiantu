@@ -1,73 +1,56 @@
 "use client";
-import { imageAsset } from "@/lib/game/images";
-import { npcPortrait } from "@/lib/game/npc-profile";
 import type { Actor, World } from "@/lib/game/types";
 import { usePortrait } from "./portrait-studio";
 import { bundledPortrait } from "@/lib/game/portrait-library";
 import { npcSubject } from "@/lib/game/portrait-subject";
+import { extensionPortrait } from "@/lib/game/content/extensions";
+import { avatarForPortrait } from "@/lib/ui/avatar-library";
+import { imageAsset } from "@/lib/game/images";
 import { useState } from "react";
+import { UserRound } from "lucide-react";
 
 export function NpcPortrait({
-  world,
   actor,
   className = "",
+  full = false,
+  displayName,
 }: {
   world: World;
   actor: Actor;
   className?: string;
+  full?: boolean;
+  displayName?: string;
 }) {
-  const generated = usePortrait(actor.portraitId);
-  const fullbody = generated || (!actor.portraitId ? bundledPortrait(npcSubject(actor))?.src : "");
-  const portrait = npcPortrait(world, actor);
-  const asset = imageAsset(portrait.src);
+  const generated = usePortrait(actor.portraitId, full ? "fullbody" : "avatar");
+  const owned = extensionPortrait(actor.id);
+  const original = owned?.url || (!actor.portraitId ? bundledPortrait(npcSubject(actor))?.src : "");
+  const src =
+    generated ||
+    (full ? (original ? imageAsset(original).src : "") : avatarForPortrait(original)?.src);
   const [failed, setFailed] = useState<string | null>(null);
-  if (fullbody && failed !== fullbody)
-    return (
-      <div
-        className={`npc-portrait generated-portrait ${className}`}
-        role="img"
-        aria-label={`${actor.name}的全身立绘`}
-      >
-        <img
-          src={fullbody}
-          width={640}
-          height={960}
-          alt=""
-          loading="lazy"
-          onError={() => setFailed(fullbody)}
-        />
-      </div>
-    );
   return (
-    <div
-      className={`npc-portrait ${portrait.slot === null ? "single-portrait" : ""} ${className}`}
+    <span
+      className={`npc-portrait generated-portrait character-avatar${full ? " is-fullbody" : ""} ${className}`}
+      data-person-avatar={actor.id}
       role="img"
-      aria-label={`${actor.name}的立绘`}
+      aria-label={`${displayName ?? actor.name}的头像`}
+      title={`查看${displayName ?? actor.name}的全身立绘`}
     >
-      {failed === portrait.src ? (
-        <span className="serif">{actor.name[0]}</span>
-      ) : (
+      {src && failed !== src ? (
         <img
-          src={asset.src}
-          width={asset.width}
-          height={asset.height}
-          decoding="async"
+          src={src}
+          width={full ? 1024 : 512}
+          height={full ? 1536 : 512}
           alt=""
           loading="lazy"
-          onError={() => setFailed(portrait.src)}
-          style={
-            portrait.slot === null
-              ? undefined
-              : {
-                  width: "300%",
-                  height: "300%",
-                  maxWidth: "none",
-                  left: `-${(portrait.slot % 3) * 100}%`,
-                  top: `-${Math.floor(portrait.slot / 3) * 100}%`,
-                }
-          }
+          decoding="async"
+          onError={() => setFailed(src)}
         />
+      ) : (
+        <span className="portrait-initial" aria-hidden="true">
+          {(displayName ?? actor.name).slice(0, 1)}
+        </span>
       )}
-    </div>
+    </span>
   );
 }

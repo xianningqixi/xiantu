@@ -1,10 +1,36 @@
+import { sectResident } from "./sect-content";
+import { EXTENSIONS } from "./content/extensions";
 import { PACK } from "./content/official";
 import presentation from "../../content-packs/official-qingshi/npc-presentation.json";
 import type { Actor, World } from "./types";
+import { actorNpcTemplate } from "./npc-roster";
 
 export function npcProfile(a: Actor) {
+  const resident = sectResident(a.id);
+  if (resident)
+    return {
+      origin: a.sect,
+      background: resident.background,
+      interest: resident.interest,
+      wish: resident.wish,
+    };
   if (a.id === PACK.roles.primary) return presentation.fixed.primary;
   if (a.id === PACK.roles.companion) return presentation.fixed.companion;
+  const template = actorNpcTemplate(a);
+  if (template)
+    return {
+      origin: template.title,
+      background: template.background,
+      interest: template.title,
+      wish: template.hook,
+    };
+  if (EXTENSIONS.some(({ data }) => data.definitions.characters.some((c) => c.id === a.id)))
+    return {
+      origin: a.sect,
+      background: `${a.name}，${a.personality}。${a.goal}。`,
+      interest: a.goal,
+      wish: a.goal,
+    };
   return presentation.backgrounds[(a.appearanceSeed >>> 0) % presentation.backgrounds.length];
 }
 

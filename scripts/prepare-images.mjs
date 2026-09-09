@@ -40,7 +40,21 @@ export async function prepareImages(entries) {
     if (/^[a-z0-9-]+-[a-f0-9]{12}\.webp$/.test(name) && !keep.has(name))
       fs.unlinkSync(path.join(targetDirectory, name));
   fs.writeFileSync(metadataFile, JSON.stringify(images, null, 2) + "\n");
+  // Runtime only needs rendering fields. Keep audit byte counts in the full manifest.
+  fs.writeFileSync(
+    path.resolve("lib/game/content/image-display.json"),
+    JSON.stringify(
+      Object.fromEntries(
+        Object.entries(images).map(([url, image]) => [
+          url,
+          [image.src, image.width, image.height, image.lazy],
+        ]),
+      ),
+      null,
+      2,
+    ) + "\n",
+  );
   console.log(
-    `展示图片 ${Object.keys(images).length} 张，共 ${Object.values(images).reduce((n, image) => n + image.bytes, 0)} 字节；原始画稿与游戏内容锁保持原值。`,
+    `展示图片 ${Object.keys(images).length} 张，共 ${Object.values(images).reduce((n, image) => n + image.bytes, 0)} 字节；原始画稿与官方游戏内容锁保持原值。`,
   );
 }

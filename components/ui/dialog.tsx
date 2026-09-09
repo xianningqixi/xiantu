@@ -1,5 +1,6 @@
 "use client";
 
+import { useDialogFocus } from "@/lib/ui/dialog-focus";
 import * as React from "react";
 import { XIcon } from "lucide-react";
 import { Dialog as DialogPrimitive } from "radix-ui";
@@ -47,6 +48,7 @@ function DialogContent({
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   showCloseButton?: boolean;
 }) {
+  const focus = useDialogFocus();
   return (
     <DialogPortal data-slot="dialog-portal">
       <DialogOverlay />
@@ -57,6 +59,24 @@ function DialogContent({
           className,
         )}
         {...props}
+        onOpenAutoFocus={(event) => {
+          focus.opened();
+          props.onOpenAutoFocus?.(event);
+          if (!event.defaultPrevented && className?.includes("profile-modal")) {
+            const title = (event.target as HTMLElement).querySelector<HTMLElement>(
+              '[data-slot="dialog-title"]',
+            );
+            if (title) {
+              event.preventDefault();
+              title.tabIndex = -1;
+              title.focus({ preventScroll: true });
+            }
+          }
+        }}
+        onCloseAutoFocus={(event) => {
+          props.onCloseAutoFocus?.(event);
+          focus.closed(event);
+        }}
       >
         {children}
         {showCloseButton && (
@@ -65,7 +85,7 @@ function DialogContent({
             className="absolute top-4 right-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
           >
             <XIcon />
-            <span className="sr-only">Close</span>
+            <span className="sr-only">关闭</span>
           </DialogPrimitive.Close>
         )}
       </DialogPrimitive.Content>

@@ -1,5 +1,17 @@
 "use client";
-import { memo } from "react";
+import {
+  journeyContext,
+  companionStatus,
+  localChapterStatus,
+} from "@/lib/game/journey-presentation";
+import { profileTabForClick, type OpenProfile } from "@/lib/ui/profile-navigation";
+import { memo, useLayoutEffect, useRef } from "react";
+import { sectAt } from "@/lib/game/sect-content";
+import { SectPanel } from "./sect-panel";
+import { WorldMap } from "./world-map";
+import { AtlasDialog } from "./atlas-dialog";
+import { MainStoryScene } from "./main-story";
+import { mainScene, hasRubbing } from "@/lib/game/main-story";
 import { TimeBadge } from "./time-badge";
 import { WaitControls } from "./wait-controls";
 
@@ -8,12 +20,14 @@ import {
   ARTIFACTS,
   CHARACTERS,
   contentText,
-  LOCATIONS,
   PACK,
   PRESENTATION,
   REALMS,
   visual,
 } from "@/lib/game/content/official";
+import { LOCATIONS, locationKind, regionOf, regionName } from "@/lib/game/world-map";
+import { extensionScenes } from "@/lib/game/content-story";
+import { extensionVisual } from "@/lib/game/content/extensions";
 import {
   departureStatus,
   knownNpcUpdates,
@@ -24,12 +38,14 @@ import {
 } from "@/lib/game/engine";
 import type { LocationId, World } from "@/lib/game/types";
 import {
+  ArrowLeft,
   ArrowRight,
   BookOpen,
   ChevronRight,
   Clock3,
   Coins,
   Compass,
+  Diamond,
   Feather,
   Leaf,
   MapPin,
@@ -39,28 +55,46 @@ import {
   Wind,
 } from "lucide-react";
 import { Negotiation } from "./negotiation";
+import { NpcPortrait } from "./npc-portrait";
 import { GameImage } from "./panels";
 import { SideStories } from "./side-stories";
 
-import B from "@/lib/game/content/balance.json";
 import { DEPARTURE_FEE } from "@/lib/game/economy";
 import { objective } from "@/lib/game/presentation";
+import { journeyActions } from "@/lib/game/journey-actions";
 import { LootSettlement } from "./loot-settlement";
 import type { Send } from "./panels";
 type JourneyProps = {
   world: World;
+  detailOpen: boolean;
+  peopleOpen: boolean;
+  onPeopleChange: (open: boolean) => void;
+  onDetailChange: (open: boolean) => void;
   send: Send;
   act: Send;
   setTab: (tab: string) => void;
-  setProfileId: (id: string) => void;
+  setProfileId: OpenProfile;
   requestConfirm: (value: "breach") => void;
   pause: () => void;
   blocked: boolean;
   goal: ReturnType<typeof objective>;
 };
 
+const actionIcons = {
+  practice: Wind,
+  coins: Coins,
+  rest: Moon,
+  wait: Clock3,
+  road: ArrowRight,
+  sect: BookOpen,
+};
+
 export const JourneyTab = memo(function JourneyTab({
   world: w,
+  detailOpen,
+  peopleOpen,
+  onPeopleChange,
+  onDetailChange,
   send,
   act,
   setTab,
@@ -71,7 +105,28 @@ export const JourneyTab = memo(function JourneyTab({
   goal,
 }: JourneyProps) {
   const p = w.player;
-  const current = scene(w);
+  const detailHeading = useRef<HTMLHeadingElement>(null);
+  const wasDetailOpen = useRef(false);
+  useLayoutEffect(() => {
+    onPeopleChange(false);
+    if (detailOpen) {
+      detailHeading.current?.focus({ preventScroll: true });
+      document.querySelector(".location-reading")?.scrollTo({ top: 0 });
+    } else if (wasDetailOpen.current) {
+      document
+        .querySelector<HTMLButtonElement>(".map-place.is-current .map-travel")
+        ?.focus({ preventScroll: true });
+    }
+    wasDetailOpen.current = detailOpen;
+  }, [detailOpen, p.location, onPeopleChange]);
+  const enterLocation = async (to: LocationId) => {
+    if (to === p.location || (await send({ type: "travel", to }))) onDetailChange(true);
+  };
+  const context = journeyContext(w);
+  const { main, side: sideScene, official: current } = context;
+  const focus = context.actor;
+  const companion = companionStatus(w);
+  const chapterStatus = localChapterStatus(w);
   const place = LOCATIONS[p.location];
   const primary = w.npcs.find((a) => a.id === PACK.roles.primary)!;
   const primaryHere = primary.alive && primary.location === p.location;
@@ -80,188 +135,435 @@ export const JourneyTab = memo(function JourneyTab({
       ? PRESENTATION.lootReturn
       : PRESENTATION.lootSettle
     : null;
-  const sceneArt = visual(transition?.visualId || current?.visualId || place.visualId);
+  const sceneArt = extensionVisual(transition?.visualId || current?.visualId || place.visualId);
   const portraitArt = visual(current?.portraitId || CHARACTERS.primary.portraitId || "");
   const readiness = partyReadiness(w);
   const departure = departureStatus(w);
+  const remoteCompanions = readiness.members.some(
+    (a) => regionOf(a.location) !== regionOf(p.location),
+  );
   const busyCompanion = w.party
     .map((id) => w.npcs.find((a) => a.id === id))
     .find((a) => a?.attempt);
 
   const artifact = ARTIFACTS.find((a) => a.id === w.profile.artifact)!;
-  const nearby = w.npcs.filter((a) => a.alive && a.location === p.location);
+  const localSect = sectAt(p.location);
+  const nearby = w.npcs
+    .filter((a) => a.alive && !a.npcJourney && a.location === p.location)
+    .sort(
+      (a, b) =>
+        Number(b.sectMembership?.id === localSect?.id && !!localSect) -
+          Number(a.sectMembership?.id === localSect?.id && !!localSect) ||
+        Number(!!relation(w, b.id)?.known) - Number(!!relation(w, a.id)?.known),
+    );
 
+  if (!detailOpen)
+    return (
+      <WorldMap
+        world={w}
+        send={send}
+        onEnter={enterLocation}
+        onProfile={setProfileId}
+        blocked={blocked}
+        goal={goal}
+        storyTitle={main?.title || sideScene?.title || current?.title}
+      />
+    );
+
+  const actions = journeyActions(w)
+    .filter((action) => action.icon !== "sect")
+    .map((action) =>
+      action.command?.type === "wait"
+        ? {
+            ...action,
+            title: "等候",
+            hint: "选择日数与停止条件",
+            command: undefined,
+            anchor: "wait-controls",
+          }
+        : action,
+    );
   return (
-    <>
-      <div className="place-heading">
-        <div>
-          <span className="eyebrow">云岚境 · 人间烟火</span>
-          <h1 className="serif">{place.name}</h1>
+    <section id="location-detail" aria-label={`${place.name}详情`}>
+      <header className="location-navigation">
+        <Button
+          variant="ghost"
+          className="location-back"
+          aria-label="返回地点选择"
+          onClick={() => onDetailChange(false)}
+        >
+          <ArrowLeft size={16} />
+          <span>地点</span>
+        </Button>
+        <div className="place-heading">
+          <h1 className="serif" ref={detailHeading} tabIndex={-1}>
+            {place.name}
+          </h1>
+          <span className="weather">
+            {regionName(p.location) !== place.name && `${regionName(p.location)} · `}
+            {p.location === "ruins" || p.location === "gate" ? "山风微凉" : "暮色晴和"}
+          </span>
         </div>
-        <span className="weather">
-          <Wind size={15} />{" "}
-          {p.location === "ruins" || p.location === "gate" ? "山风微凉" : "暮色晴和"}
-        </span>
-      </div>
-      <div className="travel-grid">
-        <div className="scene-column">
-          <figure className="scene-figure">
-            <GameImage src={sceneArt.url} alt={sceneArt.alt} />
-            <figcaption>
-              <span>{place.subtitle}</span>
-              <small>
-                第 {w.day + 1} 日 · {p.location === "ruins" ? "月下" : "此刻"}
-              </small>
-            </figcaption>
-          </figure>
-          <section className="story-copy">
-            <div className="story-eyebrow">
-              <span>{transition?.eyebrow || current?.eyebrow || "游历 · 此间见闻"}</span>
-              <span className="ornament">◆</span>
-            </div>
-            <h2 className="serif">{transition?.title || current?.title || place.subtitle}</h2>
-            <p>{contentText(transition?.body || current?.body || place.body, w)}</p>
-            {current?.quote && !w.loot && (
-              <blockquote>
-                <span className="quote-mark">“</span>
-                {current.quote.replace(/^“|”$/g, "")}
-                <cite>— {primary.name}</cite>
-              </blockquote>
-            )}
-            <div className="story-choices">
-              {!w.loot &&
-                current?.choices.map((choice, i) => (
-                  <button
-                    key={choice.id}
-                    id={`story-choice-${choice.id}`}
-                    className={`story-choice ${goal.anchor === `story-choice-${choice.id}` ? "guide-target" : ""}`}
-                    disabled={blocked}
-                    onClick={() =>
-                      send({ type: "choose", nodeId: current.id, choiceId: choice.id })
-                    }
-                  >
-                    <span className="choice-number">{String(i + 1).padStart(2, "0")}</span>
-                    <span>
-                      <strong>{choice.label}</strong>
-                      <small>{choice.hint}</small>
-                    </span>
-                    <ArrowRight size={17} />
-                    <TimeBadge
-                      world={w}
-                      command={{ type: "choose", nodeId: current.id, choiceId: choice.id }}
-                    />
-                  </button>
-                ))}
-              <LootSettlement
+        <Button
+          variant="ghost"
+          className="location-people-toggle"
+          aria-pressed={peopleOpen}
+          onClick={() => onPeopleChange(!peopleOpen)}
+        >
+          {peopleOpen ? "回到剧情" : `此处人物 · ${nearby.length}`}
+        </Button>
+        <AtlasDialog world={w} send={send} blocked={blocked} />
+      </header>
+      <div className={`location-workspace${peopleOpen ? " is-people-open" : ""}`}>
+        <div className="location-reading" tabIndex={0} aria-label="地点见闻">
+          <SectPanel
+            key={p.location}
+            world={w}
+            send={send}
+            blocked={blocked}
+            onProfile={setProfileId}
+          />
+          {!context.actionable && chapterStatus && (
+            <section className="chapter-status">
+              <span className="eyebrow">主线 · 残碑寻源 · {chapterStatus.chapter.volumeTitle}</span>
+              <h3>{chapterStatus.done ? "此地线索已查明" : "此地旧事尚待查访"}</h3>
+              {chapterStatus.missing.length > 0 ? (
+                <ul>
+                  {chapterStatus.missing.map((reason) => (
+                    <li key={reason}>{reason}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p>
+                  {chapterStatus.done
+                    ? `第 ${chapterStatus.done.day + 1} 日 · ${chapterStatus.done.text}`
+                    : "条件已齐备，可以继续查访。"}
+                </p>
+              )}
+            </section>
+          )}
+          <div className="scene-column" id="current-scene" tabIndex={-1}>
+            {main ? (
+              <MainStoryScene
                 world={w}
+                scene={main}
                 send={send}
-                requestConfirm={requestConfirm}
                 blocked={blocked}
+                onProfile={setProfileId}
               />
-              {p.location === "gate" &&
-                !departure.ready &&
-                (departure.remaining > 0 || busyCompanion) && (
-                  <button
-                    className="story-choice"
-                    disabled={blocked}
-                    onClick={() => act({ type: "wait", days: 1 })}
-                  >
-                    <span className="choice-number">
-                      <Clock3 size={17} />
-                    </span>
-                    <span>
-                      <strong>在古道等候一日</strong>
-                      <small>{departure.reason}</small>
-                    </span>
-                    <TimeBadge world={w} command={{ type: "wait", days: 1 }} />
-                  </button>
-                )}
-              {p.location === "inn" && !p.manual && (
-                <button
-                  className="story-choice"
-                  disabled={blocked}
-                  id="learn-manual"
-                  onClick={() => send({ type: "learn" })}
-                >
-                  <span className="choice-number">
-                    <BookOpen size={17} />
-                  </span>
-                  <span>
-                    <strong>向店家领取《基础吐纳诀》</strong>
-                    <small>免费学习 · 不需要认识任何人</small>
-                  </span>
-                  <ArrowRight size={17} />
-                  <TimeBadge world={w} command={{ type: "learn" }} />
-                </button>
-              )}
-              {p.location === "gate" && !w.loot && (
-                <button
-                  className="story-choice"
-                  disabled={blocked || !departure.ready}
-                  id="party-departure"
-                  onClick={() => send({ type: "expedition" })}
-                >
-                  <span className="choice-number">
-                    <Swords size={17} />
-                  </span>
-                  <span>
-                    <strong>三人同行，进入残碑秘境</strong>
+            ) : sideScene ? (
+              <SideStories world={w} busy={blocked} send={send} onProfile={setProfileId} />
+            ) : (
+              <>
+                <figure className="scene-figure">
+                  <GameImage
+                    src={sceneArt.url}
+                    alt={
+                      locationKind(p.location) === "wild"
+                        ? `${place.name} · 山野景致示意`
+                        : sceneArt.alt
+                    }
+                    zoom
+                  />
+                  <figcaption>
+                    <span>{place.subtitle}</span>
                     <small>
-                      {departure.reason || `山行 1 日 · 路费 ${DEPARTURE_FEE} 灵石 · 将遭遇战斗`}
+                      第 {w.day + 1} 日 · {p.location === "ruins" ? "月下" : "此刻"}
                     </small>
-                  </span>
-                  <ArrowRight size={17} />
-                  <TimeBadge world={w} command={{ type: "expedition" }} />
-                </button>
+                  </figcaption>
+                </figure>
+                <section className="story-copy">
+                  <div className="story-eyebrow">
+                    <span>{transition?.eyebrow || current?.eyebrow || "游历 · 此间见闻"}</span>
+                    <Diamond className="ornament" aria-hidden="true" />
+                  </div>
+                  <h2 className="serif">{transition?.title || current?.title || place.subtitle}</h2>
+                  <p>
+                    {current?.id === "accepted" && w.party.length === 3
+                      ? "同伴已齐，可以前往山门古道；出发前查看路费与队伍状态。"
+                      : contentText(transition?.body || current?.body || place.body, w)}
+                  </p>
+                  {current?.quote && !w.loot && (
+                    <blockquote>
+                      <span className="quote-mark">“</span>
+                      {current.quote.replace(/^“|”$/g, "")}
+                      <cite>— {w.story.flags.met ? primary.name : "青白衣衫的女修"}</cite>
+                    </blockquote>
+                  )}
+                  {!w.loot && !!current?.choices.length && (
+                    <div className="story-choices">
+                      {current.choices.map((choice, i) => (
+                        <button
+                          key={choice.id}
+                          id={`story-choice-${choice.id}`}
+                          className={`story-choice ${goal.anchor === `story-choice-${choice.id}` ? "guide-target" : ""}`}
+                          disabled={blocked}
+                          onClick={() =>
+                            send({ type: "choose", nodeId: current.id, choiceId: choice.id })
+                          }
+                        >
+                          <span className="choice-number">{String(i + 1).padStart(2, "0")}</span>
+                          <span>
+                            <strong>{choice.label}</strong>
+                            <small>{choice.hint}</small>
+                          </span>
+                          <ArrowRight size={17} />
+                          <TimeBadge
+                            world={w}
+                            command={{ type: "choose", nodeId: current.id, choiceId: choice.id }}
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </section>
+              </>
+            )}
+            {!w.ended &&
+              (w.loot ||
+                p.location === "gate" ||
+                (locationKind(p.location) === "inn" && !p.manual)) && (
+                <div className="story-choices location-actions">
+                  {p.location === "gate" && !hasRubbing(w) && !w.loot && (
+                    <button
+                      className="story-choice"
+                      id="main-survey"
+                      disabled={blocked || p.realm < 1 || w.party.length !== 1}
+                      onClick={() => send({ type: "surveyRuins" })}
+                    >
+                      <span className="choice-number">
+                        <Compass size={17} />
+                      </span>
+                      <span>
+                        <strong>勘察古道残碑</strong>
+                        <small>
+                          {p.realm < 1
+                            ? "炼气入门后可独自勘察"
+                            : w.party.length !== 1
+                              ? "先暂别同伴，再独自调查"
+                              : "寻找水纹拓片 · 主线线索"}
+                        </small>
+                      </span>
+                      <TimeBadge world={w} command={{ type: "surveyRuins" }} />
+                    </button>
+                  )}
+                  <LootSettlement
+                    world={w}
+                    send={send}
+                    requestConfirm={requestConfirm}
+                    blocked={blocked}
+                  />
+                  {p.location === "gate" &&
+                    !departure.ready &&
+                    w.agreement?.status === "accepted" &&
+                    (departure.remaining > 0 || busyCompanion) && (
+                      <button
+                        className="story-choice"
+                        disabled={blocked}
+                        onClick={() => act({ type: "wait", days: 1 })}
+                      >
+                        <span className="choice-number">
+                          <Clock3 size={17} />
+                        </span>
+                        <span>
+                          <strong>在古道等候一日</strong>
+                          <small>{departure.reason}</small>
+                        </span>
+                        <TimeBadge world={w} command={{ type: "wait", days: 1 }} />
+                      </button>
+                    )}
+                  {locationKind(p.location) === "inn" && !p.manual && (
+                    <button
+                      className="story-choice"
+                      disabled={blocked}
+                      id="learn-manual"
+                      onClick={() => send({ type: "learn" })}
+                    >
+                      <span className="choice-number">
+                        <BookOpen size={17} />
+                      </span>
+                      <span>
+                        <strong>向店家领取《基础吐纳诀》</strong>
+                        <small>免费学习 · 不需要认识任何人</small>
+                      </span>
+                      <ArrowRight size={17} />
+                      <TimeBadge world={w} command={{ type: "learn" }} />
+                    </button>
+                  )}
+                  {p.location === "gate" && !w.loot && (
+                    <button
+                      className="story-choice"
+                      disabled={blocked || !departure.ready}
+                      id="party-departure"
+                      onClick={() => send({ type: "expedition" })}
+                    >
+                      <span className="choice-number">
+                        <Swords size={17} />
+                      </span>
+                      <span>
+                        <strong>三人同行，进入残碑秘境</strong>
+                        <small>
+                          {departure.reason ||
+                            `山行 1 日 · 路费 ${DEPARTURE_FEE} 灵石 · 将遭遇战斗`}
+                        </small>
+                      </span>
+                      <ArrowRight size={17} />
+                      <TimeBadge world={w} command={{ type: "expedition" }} />
+                    </button>
+                  )}
+                </div>
               )}
+          </div>
+
+          {!w.ended && <WaitControls world={w} act={act} blocked={blocked} />}
+          {knownNpcUpdates(w).length > 0 && (
+            <div className="world-whispers">
+              <h3>
+                <Leaf size={15} /> 故人近况
+              </h3>
+              {knownNpcUpdates(w).map((e) => (
+                <p key={e.id}>{e.text}</p>
+              ))}
             </div>
-          </section>
+          )}
         </div>
-        <aside className="encounter-column">
-          {primaryHere && p.location === "market" ? (
+        <aside
+          className={`encounter-column${companion ? " has-companion-status" : ""}`}
+          aria-label="此处人物"
+        >
+          {companion && (
+            <section className="companion-status" id="companion-status" tabIndex={-1}>
+              <h3>{companion.title}</h3>
+              <p>{companion.text}</p>
+              {w.agreement?.status === "accepted" && w.party.length === 1 && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  disabled={
+                    blocked ||
+                    p.realm < 1 ||
+                    remoteCompanions ||
+                    readiness.members.some((a) => !a.alive)
+                  }
+                  onClick={() => send({ type: readiness.ready ? "formParty" : "rally" })}
+                >
+                  {remoteCompanions
+                    ? "回到同伴所在城镇会合"
+                    : p.realm < 1
+                      ? "成为炼气修士后组队"
+                      : readiness.ready
+                        ? "邀二人同行"
+                        : w.agreement?.meeting?.location === p.location
+                          ? "等候同伴会合"
+                          : "约在此处会合"}
+                  <TimeBadge
+                    world={w}
+                    command={{ type: readiness.ready ? "formParty" : "rally" }}
+                  />
+                </Button>
+              )}
+              {w.agreement?.status === "not_triggered" &&
+                p.location !== "market" &&
+                !actions.some((a) => a.command?.type === "travel" && a.command.to === "market") && (
+                  <Button
+                    variant="outline"
+                    disabled={blocked}
+                    onClick={() => send({ type: "travel", to: "market" })}
+                  >
+                    返回青石坊市
+                    <TimeBadge world={w} command={{ type: "travel", to: "market" }} />
+                  </Button>
+                )}
+            </section>
+          )}
+          {focus ? (
             <article className="encounter-person">
-              <div className="portrait-frame">
-                <GameImage src={portraitArt.url} alt={portraitArt.alt} />
-                <span className="portrait-label">此处人物</span>
-              </div>
+              <button
+                className="portrait-frame character-link"
+                onClick={() => setProfileId(focus.id, "portrait")}
+                aria-label={`查看${context.displayName}的全身立绘`}
+              >
+                <NpcPortrait world={w} actor={focus} full displayName={context.displayName} />
+                <span className="portrait-label">当前故事人物 · 查看全身立绘</span>
+              </button>
               <div className="encounter-person-info">
                 <div className="spread">
-                  <h2 className="serif">{primary.name}</h2>
-                  <span>{relationshipLabel(relation(w, primary.id))}</span>
+                  <h2 className="serif">
+                    <button className="character-link" onClick={() => setProfileId(focus.id)}>
+                      {context.displayName}
+                    </button>
+                  </h2>
+                  <span>{relationshipLabel(relation(w, focus.id))}</span>
                 </div>
                 <p>
-                  {REALMS[primary.realm]} · {primary.sect}
+                  {REALMS[focus.realm]} · {focus.sect === "无" ? "散修" : focus.sect}
                 </p>
                 <Button
                   variant="outline"
-                  className="wide-button"
-                  onClick={() => setProfileId(primary.id)}
+                  className="encounter-action"
+                  onClick={() => setProfileId(focus.id)}
                 >
-                  人物与共同经历 <ChevronRight size={15} />
+                  人物资料与经历 <ChevronRight size={15} />
                 </Button>
+                {focus.id === primary.id &&
+                  w.story.flags.met &&
+                  !["accepted", "active"].includes(w.agreement?.status ?? "") && (
+                    <Negotiation world={w} busy={blocked} send={send} onPause={pause} />
+                  )}
               </div>
             </article>
           ) : (
             <article className="local-note">
-              <span className="eyebrow">
-                <MapPin size={14} /> 此处人物
-              </span>
-              <h3 className="serif">{nearby.length} 位修士</h3>
-              <p>
-                {primary.alive
-                  ? `${primary.name}${primaryHere ? "也在此处" : `此刻在${LOCATIONS[primary.location].name}`}。`
-                  : "旧人已去，坊市仍有新的相逢。"}
-              </p>
-              <Button variant="outline" onClick={() => setTab("people")}>
-                看看附近的人
-              </Button>
+              <h3 className="serif">此处人物 · {nearby.length}</h3>
+              <p>{nearby.length ? "结识在场修士，听听此地的往事。" : "此处暂无在场修士。"}</p>
             </article>
           )}
+          <div className="nearby-people">
+            <div className="nearby-heading">
+              <h3>此地相逢</h3>
+              {nearby.length > 0 && (
+                <Button variant="ghost" onClick={() => onPeopleChange(true)}>
+                  查看全部在场修士
+                </Button>
+              )}
+            </div>
+            {nearby
+              .filter((a) => a.id !== focus?.id)
+              .slice(0, 3)
+              .map((a) => (
+                <button
+                  key={a.id}
+                  onClick={(event) => setProfileId(a.id, profileTabForClick(event))}
+                >
+                  <NpcPortrait world={w} actor={a} className="mini-portrait" />
+                  <span>
+                    {a.name}
+                    <small>{REALMS[a.realm]}</small>
+                  </span>
+                  <ChevronRight size={14} />
+                </button>
+              ))}
+            {peopleOpen && (
+              <div className="local-people-list">
+                {nearby.map((a) => (
+                  <Button
+                    variant="ghost"
+                    key={a.id}
+                    onClick={(event) => setProfileId(a.id, profileTabForClick(event))}
+                  >
+                    <NpcPortrait world={w} actor={a} className="mini-portrait" />
+                    {a.name} · {REALMS[a.realm]}
+                  </Button>
+                ))}
+              </div>
+            )}
+          </div>
           {w.agreement && ["accepted", "active"].includes(w.agreement.status) && (
-            <div className="promise-note">
-              <span className="eyebrow">
+            <details className="promise-note">
+              <summary className="eyebrow">
                 <ScrollText size={14} /> 同行约定
-              </span>
+                {remoteCompanions ? " · 同伴在异城" : " · 条款与会合"}
+              </summary>
               <p>第一株凝元草归{primary.name}，其余战利品归你。</p>
               <small>
                 {w.agreement.status === "accepted"
@@ -270,7 +572,10 @@ export const JourneyTab = memo(function JourneyTab({
               </small>
               <div className="meeting-members">
                 {readiness.members.map((a) => (
-                  <button key={a.id} onClick={() => setProfileId(a.id)}>
+                  <button
+                    key={a.id}
+                    onClick={(event) => setProfileId(a.id, profileTabForClick(event))}
+                  >
                     <strong>{a.name}</strong>
                     <span>
                       {!a.alive
@@ -282,24 +587,6 @@ export const JourneyTab = memo(function JourneyTab({
               </div>
               {w.party.length === 1 && (
                 <>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    disabled={blocked || p.realm < 1 || readiness.members.some((a) => !a.alive)}
-                    onClick={() => send({ type: readiness.ready ? "formParty" : "rally" })}
-                  >
-                    {p.realm < 1
-                      ? "成为炼气修士后组队"
-                      : readiness.ready
-                        ? "邀二人同行"
-                        : w.agreement?.meeting?.location === p.location
-                          ? "等候同伴 · 1 日"
-                          : "约在此处会合 · 1 日"}
-                    <TimeBadge
-                      world={w}
-                      command={{ type: readiness.ready ? "formParty" : "rally" }}
-                    />
-                  </Button>
                   {w.agreement.meeting && (
                     <Button
                       size="sm"
@@ -307,16 +594,20 @@ export const JourneyTab = memo(function JourneyTab({
                       disabled={blocked}
                       onClick={() => send({ type: "disband" })}
                     >
-                      取消会合
+                      取消本次同行约定
                       <TimeBadge world={w} command={{ type: "disband" }} />
                     </Button>
                   )}
                   {!readiness.ready && p.realm >= 1 && (
-                    <small>在场的人会留下等候，正在突破的人会结束后赶来。</small>
+                    <small>
+                      {remoteCompanions
+                        ? "远处的同伴不会跨城赶来；回到同一城镇后再约会合。"
+                        : "在场的人会留下等候，正在突破的人会结束后赶来。"}
+                    </small>
                   )}
                 </>
               )}
-            </div>
+            </details>
           )}
           {w.story.outcome === "breached" && !w.story.compensated && (
             <div className="promise-note">
@@ -333,129 +624,42 @@ export const JourneyTab = memo(function JourneyTab({
               </Button>
             </div>
           )}
-          <Negotiation world={w} busy={blocked} send={send} onPause={pause} />
-          <div className="nearby-people">
-            <h3>此地相逢</h3>
-            {nearby
-              .filter((a) => a.id !== PACK.roles.primary)
-              .slice(0, 3)
-              .map((a) => (
-                <button key={a.id} onClick={() => setProfileId(a.id)}>
-                  <span className="mini-initial serif">{a.name[0]}</span>
-                  <span>
-                    {a.name}
-                    <small>{REALMS[a.realm]}</small>
-                  </span>
-                  <ChevronRight size={14} />
-                </button>
-              ))}
-            <button className="all-people" onClick={() => setTab("people")}>
-              查看在场修士 <ArrowRight size={14} />
-            </button>
-          </div>
         </aside>
       </div>
-      <SideStories world={w} busy={blocked} send={send} />
-      <section className="result-strip" aria-live="polite">
-        <Feather size={17} />
-        <p>{w.notice}</p>
-      </section>
-      <section className="daily-actions" id="practice-link">
-        <div className="spread">
-          <h3>此刻，你还可以</h3>
-          <small>阅读不计时 · 行动有代价</small>
-        </div>
-        <div className="daily-action-grid">
-          <button
-            disabled={blocked || p.location === "ruins"}
-            onClick={() => {
-              if (p.manual) setTab("cultivation");
-              else
-                void send({
-                  type: "travel",
-                  to: p.location === "gate" ? "market" : "inn",
-                });
-            }}
-          >
-            <Wind />
-            <span>
-              <strong>{p.manual ? "静心修炼" : "寻找入门功法"}</strong>
-              <small>{p.manual ? "选择修行方式与时长" : "前往客栈 · 免费学艺"}</small>
-            </span>
-            <TimeBadge
-              world={w}
-              command={{
-                type: "travel",
-                to: p.location === "gate" ? "market" : "inn",
-              }}
-            />
-          </button>
-          <button
-            disabled={blocked || p.location === "ruins"}
-            onClick={() => send({ type: "work" })}
-          >
-            <Coins />
-            <span>
-              <strong>接些坊市杂务</strong>
-              <small>
-                {B.actions.workDays} 日 · 获得 {B.actions.workSpiritStoneReward} 灵石
-              </small>
-            </span>
-            <TimeBadge world={w} command={{ type: "work" }} />
-          </button>
-          <button
-            disabled={blocked || p.location === "ruins"}
-            onClick={() => send({ type: "rest" })}
-          >
-            <Moon />
-            <span>
-              <strong>歇息片刻</strong>
-              <small>1 日 · 恢复气血</small>
-            </span>
-            <TimeBadge world={w} command={{ type: "rest" }} />
-          </button>
-          <button
-            disabled={blocked || p.location === "ruins"}
-            onClick={() => act({ type: "wait", days: 3 })}
-          >
-            <Clock3 />
-            <span>
-              <strong>等候故人</strong>
-              <small>3 日 · 世界继续前行</small>
-            </span>
-            <TimeBadge world={w} command={{ type: "wait", days: 3 }} />
-          </button>
-        </div>
-      </section>
-      <WaitControls world={w} act={act} blocked={blocked} />
-      <section className="travel-options">
-        <span>
-          <Compass size={15} /> 前往
-        </span>
-        {(place.destinations as readonly LocationId[]).map((to) => (
-          <button
-            key={to}
-            disabled={blocked || !!w.loot}
-            onClick={() => send({ type: "travel", to })}
-          >
-            {LOCATIONS[to].name}
-            <small>{p.location === "gate" || to === "gate" ? "1 日" : "同在坊市"}</small>
-            <ArrowRight size={14} />
-            <TimeBadge world={w} command={{ type: "travel", to }} />
-          </button>
-        ))}
-        {!place.destinations.length && <span className="subtle">结束遭遇后可返回坊市。</span>}
-      </section>
-      {knownNpcUpdates(w).length > 0 && (
-        <div className="world-whispers">
-          <h3>
-            <Leaf size={15} /> 故人近况
-          </h3>
-          {knownNpcUpdates(w).map((e) => (
-            <p key={e.id}>{e.text}</p>
-          ))}
-        </div>
+      {!w.ended && actions.length > 0 && (
+        <section className="daily-actions" id="practice-link" aria-label="当前地点行动">
+          <div className="daily-action-grid">
+            {actions.map((action) => {
+              const Icon = actionIcons[action.icon];
+              return (
+                <button
+                  key={action.id}
+                  data-journey-action={action.id}
+                  disabled={blocked}
+                  onClick={() => {
+                    if (action.command) {
+                      void (action.command.type === "wait" ? act : send)(action.command);
+                    } else if (action.tab) setTab(action.tab);
+                    else {
+                      const panel = document.getElementById(action.anchor);
+                      if (panel instanceof HTMLDetailsElement) panel.open = true;
+                      panel?.scrollIntoView({ block: "nearest" });
+                      panel?.focus({ preventScroll: true });
+                    }
+                  }}
+                >
+                  <Icon />
+                  <span>
+                    <strong>{action.title}</strong>
+                    <small>{action.hint}</small>
+                  </span>
+                  <TimeBadge world={w} command={action.command} />
+                </button>
+              );
+            })}
+          </div>
+        </section>
       )}
-    </>
+    </section>
   );
 });

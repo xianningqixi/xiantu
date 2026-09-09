@@ -1,6 +1,7 @@
 import { generateImage } from "./image-generation";
 import { z } from "zod";
 import {
+  MAX_REPLY_TOKENS,
   modelDefaults,
   type ModelKind,
   type ModelSummaries,
@@ -30,7 +31,7 @@ const draftSchema = z
       .max(2048)
       .refine((v) => !/[\r\n\0]/.test(v)),
     timeout: z.number().int().min(1000).max(120000),
-    maxTokens: z.number().int().min(100).max(1500),
+    maxTokens: z.number().int().min(100).max(MAX_REPLY_TOKENS),
     revision: z.number().int().nonnegative(),
   })
   .strict();

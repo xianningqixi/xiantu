@@ -1,0 +1,15 @@
+{
+  "version": "0.1.0",
+  "places": [
+    { "id": "qingshi", "name": "青石坊市", "to": "gate", "region": "qingshi", "kind": "town", "x": 17, "y": 76, "subtitle": "春水入巷，百家灯火", "body": "药摊、客栈与山门古道围着青石街展开。这里是旅程的起点，也随时欢迎行路人归来。" },
+    { "id": "atlas.luoxia", "name": "落霞村", "to": "atlas.luoxia", "region": "qingshi", "kind": "village", "x": 13, "y": 45, "gate": "gate", "days": 1, "subtitle": "炊烟过田，晚霞满袖", "body": "稻田沿山脚铺开，村口的水车慢悠悠转着。你可以借石凳歇脚，听风穿过晒谷场，再决定下一程往哪里去。" },
+    { "id": "atlas.cangzhu", "name": "苍竹林", "to": "atlas.cangzhu", "region": "qingshi", "kind": "forest", "x": 32, "y": 57, "gate": "gate", "days": 1, "subtitle": "竹影疏疏，清风可坐", "body": "石径没入竹海，山泉在根隙间流动。林间有一方平坦青石，适合吐纳、等候，或只是安静听一会儿雨。" },
+    { "id": "xiaye", "name": "临江城", "to": "shichai.xiaye.gate", "region": "shichai.xiaye", "kind": "town", "x": 47, "y": 77, "subtitle": "夏夜听潮，舟楫往来", "body": "临水的坊市与客栈连着旧商道。商船进进出出，熟悉旧账的人仍各自忙碌；城门向所有旅人敞开。" },
+    { "id": "atlas.yanbo", "name": "烟波渡", "to": "atlas.yanbo", "region": "shichai.xiaye", "kind": "water", "x": 46, "y": 41, "gate": "shichai.xiaye.gate", "days": 1, "subtitle": "芦花照水，一渡烟波", "body": "旧木栈桥伸进江雾，缆绳轻叩船舷。渡口远离城里的喧闹，你可以在此休整，看水位缓缓漫过石阶。" },
+    { "id": "atlas.yunmeng", "name": "云梦泽", "to": "atlas.yunmeng", "region": "shichai.xiaye", "kind": "water", "x": 68, "y": 78, "gate": "shichai.xiaye.gate", "days": 2, "subtitle": "云水相接，白鹭成行", "body": "浅洲被水道分开，白鹭从芦苇深处掠起。沿岸的高地可供落脚，行人循着石桩辨认归路，泽中的传闻尚待来日探听。" },
+    { "id": "qiudeng", "name": "青岚山城", "to": "shichai.qiudeng.gate", "region": "shichai.qiudeng", "kind": "town", "x": 67, "y": 42, "subtitle": "秋灯映山，层城入云", "body": "石阶与山城街巷层层相接，客舍檐下悬着长明灯。你可以先逛坊市、访故人，待时机成熟再查问阵图旧事。" },
+    { "id": "atlas.wendao", "name": "问道峰", "to": "atlas.wendao", "region": "shichai.qiudeng", "kind": "mountain", "x": 54, "y": 15, "gate": "shichai.qiudeng.gate", "days": 2, "subtitle": "万壑无言，独坐听松", "body": "山脊上的缓坡向云海敞开，旧石亭仍能挡风。登临只需一步步走来，亭外的松涛为每一位过客响起。" },
+    { "id": "dongxue", "name": "霜河城", "to": "shichai.dongxue.gate", "region": "shichai.dongxue", "kind": "town", "x": 86, "y": 17, "subtitle": "冬雪覆瓦，霜河未眠", "body": "雪线在城外延伸，坊市炉火与客舍茶香驱走寒意。远行至此并不意味着旧案已经查明，人物的往事仍等着合适的时机。" },
+    { "id": "atlas.xuesong", "name": "雪松原", "to": "atlas.xuesong", "region": "shichai.dongxue", "kind": "forest", "x": 86, "y": 54, "gate": "shichai.dongxue.gate", "days": 1, "subtitle": "雪落无声，松色长青", "body": "雪松在旷原上投下细长影子，背风处有旧时旅人搭起的石垒。你循着路标停留休整，回望来时绵延的山河。" }
+  ]
+}

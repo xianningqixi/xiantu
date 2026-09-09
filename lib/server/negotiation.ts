@@ -3,6 +3,7 @@ import { allowedOrigins } from "./negotiation-security";
 import { z } from "zod";
 import { canonicalTerms, proposalSchema, termsSchema } from "../game/negotiation";
 import { PACK } from "../game/content/official";
+import { MAX_REPLY_TOKENS } from "../ai/model-settings";
 const contextSchema = z
   .object({
     target: z.object({ id: z.string().max(160), name: z.string().max(16) }).strict(),
@@ -43,7 +44,7 @@ export function providerConfig(env: Record<string, string | undefined>): Provide
     timeout > 30000 ||
     !Number.isInteger(maxTokens) ||
     maxTokens < 100 ||
-    maxTokens > 1500 ||
+    maxTokens > MAX_REPLY_TOKENS ||
     !env.XIANTU_AI_MODEL ||
     env.XIANTU_AI_MODEL.length > 100
   )

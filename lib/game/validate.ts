@@ -1,17 +1,25 @@
+import { validateSectState } from "./sect-validation";
+import { validateMainHistory } from "./main-story";
 import { physiqueSchema, portraitIdSchema } from "./physique";
+import { portraitFeaturesSchema } from "./portrait-features";
+import { appearanceSchema, portraitOriginalSchema } from "./portrait-look";
 import { stopConditionSchema } from "./protocol";
 import { knowledgeEntries } from "./knowledge";
 import { B } from "./rules";
 import { requireSave as requireRule } from "./errors";
 import { validTerms, proposalSchema } from "./negotiation";
 import { selectedExtensions } from "./content/extensions";
-import { PACK, LOCATIONS } from "./content/official";
+import { PACK } from "./content/official";
+import { LOCATIONS, locationEnabled } from "./world-map";
 import type { Fighter, World } from "./types";
 import { threshold, stats, actorById } from "./rules";
+import { actorNpcTemplate, expandedAppearanceSeed } from "./npc-roster";
 
 export function validateWorld(w: World) {
   requireRule(
-    w?.format === "xiantu-web-1" && w.rulesVersion === "0.1.2" && w.packLock === PACK.lock,
+    w?.format === "xiantu-web-1" &&
+      ["0.1.2", "0.1.3", "0.1.4", "0.1.5", "0.1.6"].includes(w.rulesVersion) &&
+      w.packLock === PACK.lock,
     "存档格式或内容版本不匹配。",
   );
   const object = (value: unknown) => !!value && typeof value === "object" && !Array.isArray(value);
@@ -77,6 +85,11 @@ export function validateWorld(w: World) {
   );
   requireRule(object(w.profile) && object(w.profile.appearance), "角色创建资料不完整。");
   const profile = w.profile;
+  if (profile.portraitFeatures !== undefined)
+    requireRule(
+      portraitFeaturesSchema.safeParse(profile.portraitFeatures).success,
+      "立绘特征格式不合法或超出长度限制。",
+    );
   requireRule(physiqueSchema.safeParse(profile.physique).success, "角色身形资料不合法。");
   if (profile.portraitId !== undefined)
     requireRule(portraitIdSchema.safeParse(profile.portraitId).success, "角色立绘引用不合法。");
@@ -133,7 +146,7 @@ export function validateWorld(w: World) {
     "日期或存档版本不合法。",
   );
   requireRule(
-    Array.isArray(w.npcs) && w.npcs.length >= 2 && w.npcs.length <= 200,
+    Array.isArray(w.npcs) && w.npcs.length >= 2 && w.npcs.length <= B.world.maximumNpcCount,
     "人物数量不合法。",
   );
   const extensionSet = selectedExtensions(w.contentLocks);
@@ -153,7 +166,36 @@ export function validateWorld(w: World) {
   requireRule(ids.size === actors.length && w.player.id === "PLAYER", "人物身份重复或缺失。");
   requireRule(ids.has(PACK.roles.primary) && ids.has(PACK.roles.companion), "必要的故事人物缺失。");
   for (const a of actors) {
+    if (a.npcTemplateId !== undefined) {
+      const template = actorNpcTemplate(a);
+      requireRule(
+        !!template &&
+          a.id !== "PLAYER" &&
+          a.name === template.name &&
+          a.sex === template.sex &&
+          a.appearanceSeed === expandedAppearanceSeed(template.id),
+        "新增人物模板与存档身份不一致。",
+      );
+    }
     requireRule(physiqueSchema.safeParse(a.physique).success, "人物身形资料不合法。");
+    if (a.portraitOriginal !== undefined) {
+      requireRule(
+        portraitOriginalSchema.safeParse(a.portraitOriginal).success,
+        "原立绘记录不合法。",
+      );
+      requireRule(
+        a.portraitOriginal.physique.apparentAge === a.physique!.apparentAge &&
+          (a.id !== "PLAYER" || !!a.portraitOriginal.appearance),
+        "原立绘与人物身份不一致。",
+      );
+    }
+    if (a.portraitAppearance !== undefined)
+      requireRule(appearanceSchema.safeParse(a.portraitAppearance).success, "人物立绘形貌不合法。");
+    if (a.portraitFeatures !== undefined)
+      requireRule(
+        portraitFeaturesSchema.safeParse(a.portraitFeatures).success,
+        "人物立绘特征不合法。",
+      );
     requireRule(a.sex !== "female" || a.physique!.apparentAge <= 29, "女性外貌年龄须为年轻成年。");
     if (a.portraitId !== undefined)
       requireRule(portraitIdSchema.safeParse(a.portraitId).success, "人物立绘引用不合法。");
@@ -162,7 +204,7 @@ export function validateWorld(w: World) {
       "人物姓名不合法。",
     );
     requireRule(Number.isInteger(a.realm) && a.realm >= 0 && a.realm <= 4, "境界不合法。");
-    requireRule(a.location in LOCATIONS, "人物地点不合法。");
+    requireRule(locationEnabled(w, a.location), "人物地点不合法或不属于本局内容。");
     for (const k of [
       "ageDays",
       "xp",
@@ -191,7 +233,7 @@ export function validateWorld(w: World) {
   for (const id of w.party) {
     const a = actorById(w, id);
     requireRule(
-      a && (id === "PLAYER" || a.alive) && a.location === w.player.location,
+      a && !a.npcJourney && (id === "PLAYER" || a.alive) && a.location === w.player.location,
       "同伴身份或位置不一致。",
     );
   }
@@ -199,8 +241,15 @@ export function validateWorld(w: World) {
     Array.isArray(w.events) && new Set(w.events.map((e) => e.id)).size === w.events.length,
     "事件 ID 重复。",
   );
+  validateMainHistory(w, requireRule);
+  const storyNodeIds = new Set(extensionSet.flatMap(({ data }) => data.storylets.map((n) => n.id)));
   const eventIds = new Set(w.events.map((e) => e.id));
   for (const e of w.events) {
+    if (e.storyNodeId !== undefined)
+      requireRule(
+        e.kind === "story-choice" && storyNodeIds.has(e.storyNodeId),
+        "故事事件的节点引用无效。",
+      );
     requireRule(
       typeof e.text === "string" &&
         Number.isInteger(e.day) &&
@@ -216,6 +265,7 @@ export function validateWorld(w: World) {
         "关系变化记录不合法。",
       );
   }
+  validateSectState(w, requireRule);
   requireRule(
     object(w.simulationOptions) && typeof w.simulationOptions.backgroundConflicts === "boolean",
     "世界演化设置不合法。",
@@ -226,6 +276,11 @@ export function validateWorld(w: World) {
   for (const m of knowledgeEntries(w)) {
     const e = evidence.get(m.eventId);
     const key = JSON.stringify([m.eventId, m.knower]);
+    if (e?.intimacy)
+      requireRule(
+        e.actors.includes(m.knower) && m.source === "participant",
+        "亲密记录只属于双方当事人。",
+      );
     requireRule(
       e &&
         ids.has(m.knower) &&

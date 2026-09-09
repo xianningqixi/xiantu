@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "assets": {
+    "shichai.chunshui.qiheng": {
+      "file": "art/images/qiheng-portrait.png",
+      "url": "/art/portraits/shichai/qiheng-portrait.png",
+      "alt": "齐珩的独立全身立绘",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "sha256": "3443002d2b0d66adf9e5d53267ff21feaf9207fd94ec9deb306980733d6ea8e2"
+    },
+    "shichai.chunshui.weicen": {
+      "file": "art/images/weicen-portrait.png",
+      "url": "/art/portraits/shichai/weicen-portrait.png",
+      "alt": "卫岑的独立全身立绘",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "sha256": "299053c4f49ca7146e68c6742dbf4cde67de3264ee069c0549d06710c2bdba94"
+    },
+    "shichai.chunshui.zhengbaichuan": {
+      "file": "art/images/zhengbaichuan-portrait.png",
+      "url": "/art/portraits/shichai/zhengbaichuan-portrait.png",
+      "alt": "郑百川的独立全身立绘",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "sha256": "8b2f7480e2fdab6779948db17e488d39bdb43b8bd53c513b06e5f30e44e67fae"
+    },
+    "shichai.xiaye.shenwanshan": {
+      "file": "art/images/shenwanshan-portrait.png",
+      "url": "/art/portraits/shichai/shenwanshan-portrait.png",
+      "alt": "沈万山的独立全身立绘",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "sha256": "25848780bfdd858606cad049f975e62b9791b836a7d9278a9c3de8657fcc1744"
+    },
+    "shichai.xiaye.luqingyao": {
+      "file": "art/images/luqingyao-portrait.png",
+      "url": "/art/portraits/shichai/luqingyao-portrait.png",
+      "alt": "陆青遥的独立全身立绘",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "sha256": "e6b772ca174be9773b65b5909b0205c0184554f857147810687e8e03f400cb6f"
+    },
+    "shichai.xiaye.hantieyi": {
+      "file": "art/images/hantieyi-portrait.png",
+      "url": "/art/portraits/shichai/hantieyi-portrait.png",
+      "alt": "韩铁衣的独立全身立绘",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "sha256": "3c21078de4ff6078035d7d7077dec2c296a06f68c26faaf0db28888f426a5494"
+    },
+    "shichai.qiudeng.cuijiuzhang": {
+      "file": "art/images/cuijiuzhang-portrait.png",
+      "url": "/art/portraits/shichai/cuijiuzhang-portrait.png",
+      "alt": "崔九章的独立全身立绘",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "sha256": "a2a96c91a84437bd65a6a2d05ac103a20c8614601ca3079866529fe4245aa15e"
+    },
+    "shichai.qiudeng.baiwujiu": {
+      "file": "art/images/baiwujiu-portrait.png",
+      "url": "/art/portraits/shichai/baiwujiu-portrait.png",
+      "alt": "白无咎的独立全身立绘",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "sha256": "18e6d11486c76003e60a97221d3c791968377a3a818572397a761b62dba2b5c3"
+    },
+    "shichai.qiudeng.xuanxuzi": {
+      "file": "art/images/xuanxuzi-portrait.png",
+      "url": "/art/portraits/shichai/xuanxuzi-portrait.png",
+      "alt": "玄虚子的独立全身立绘",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "sha256": "7816e408ebc0128d02948dd337bad822631bd1b70a5f0456e2f85329e1edf7fe"
+    },
+    "shichai.dongxue.yecheng": {
+      "file": "art/images/yecheng-portrait.png",
+      "url": "/art/portraits/shichai/yecheng-portrait.png",
+      "alt": "叶承的独立全身立绘",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "sha256": "aca121f3f930ae385127a0a8a4cbaff838964274c3667483eb04107e77471051"
+    },
+    "shichai.dongxue.wanghu": {
+      "file": "art/images/wanghu-portrait.png",
+      "url": "/art/portraits/shichai/wanghu-portrait.png",
+      "alt": "王虎的独立全身立绘",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "sha256": "db736cc2397a36f7b250b9fe1771ca0ab3d08c94f5a1befe7e6efd84984e2872"
+    },
+    "shichai.dongxue.yanguhe": {
+      "file": "art/images/yanguhe-portrait.png",
+      "url": "/art/portraits/shichai/yanguhe-portrait.png",
+      "alt": "严孤鹤的独立全身立绘",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "sha256": "202c1b66d705e673108e17b44edc829aefe392f13d6aa9eb2b3f9eff5742b049"
+    }
+  }
+}

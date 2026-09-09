@@ -5,24 +5,30 @@ import { uniqueId } from "./ids";
 import { assertSaveExpectation } from "./save-guard";
 import { applyCommand, createWorld } from "./engine";
 import { migrateSave } from "./migrations";
+import { withCampaignContent } from "./campaign-content";
 import { GameError, parseRequest } from "./protocol";
 import type { BackupSummary, CreationDraft, WorkerRequest, WorkerResponse, World } from "./types";
 
 const scope = self as unknown as DedicatedWorkerGlobalScope;
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 const preview = scope.name === "xiantu-author-preview";
 const newSaveId = () => `${preview ? "preview:" : ""}${uniqueId()}`;
 const MAX_BYTES = balanceLimits.limits.maxImportBytes;
 const openDb = () =>
   new Promise<IDBDatabase>((resolve, reject) => {
-    const request = indexedDB.open(
-      preview ? "xiantu-author-preview" : "xiantu-qingshi",
-      DB_VERSION,
-    );
+    let request: IDBOpenDBRequest;
+    try {
+      request = indexedDB.open(preview ? "xiantu-author-preview" : "xiantu-qingshi", DB_VERSION);
+    } catch {
+      reject(
+        new GameError("SAVE_WRITE_FAILED", "无法打开本机存档，请检查浏览器是否允许网站存储。"),
+      );
+      return;
+    }
     let blocked = false;
     request.onupgradeneeded = () => {
       const db = request.result;
-      for (const name of ["saves", "backups", "drafts"]) {
+      for (const name of ["saves", "backups", "drafts", "backupMeta"]) {
         if (!db.objectStoreNames.contains(name)) db.createObjectStore(name);
       }
     };
@@ -67,9 +73,10 @@ function commit(
   expected: World | null,
   backup = false,
   clearDraft = false,
+  reason: NonNullable<BackupSummary["reason"]> = "migration",
 ) {
   return new Promise<void>((resolve, reject) => {
-    const tx = db.transaction(["saves", "backups", "drafts"], "readwrite");
+    const tx = db.transaction(["saves", "backups", "drafts", "backupMeta"], "readwrite");
     const saves = tx.objectStore("saves");
     const query = saves.get("current");
     let problem: GameError | undefined;
@@ -87,13 +94,21 @@ function commit(
           tx.abort();
           return;
         }
-        if (backup && current)
-          tx.objectStore("backups").put(current, `${current.saveId}:${current.revision}`);
+        if (backup && current) {
+          const key = `${current.saveId}:${current.revision}`;
+          tx.objectStore("backups").put(current, key);
+          tx.objectStore("backupMeta").put({ createdAt: Date.now(), reason }, key);
+        }
         saves.put(next, "current");
         if (clearDraft) tx.objectStore("drafts").delete("current");
       } catch (error) {
         problem = new GameError(
-          "SAVE_WRITE_FAILED",
+          error &&
+          typeof error === "object" &&
+          "name" in error &&
+          error.name === "QuotaExceededError"
+            ? "SAVE_QUOTA_EXCEEDED"
+            : "SAVE_WRITE_FAILED",
           error &&
           typeof error === "object" &&
           "name" in error &&
@@ -109,7 +124,7 @@ function commit(
       reject(
         problem ??
           new GameError(
-            "SAVE_WRITE_FAILED",
+            tx.error?.name === "QuotaExceededError" ? "SAVE_QUOTA_EXCEEDED" : "SAVE_WRITE_FAILED",
             tx.error?.name === "QuotaExceededError"
               ? "本机存储空间不足，行动未保存。请先导出进度、释放空间，再重试。"
               : "保存未完成。本次行动没有写入，请保留页面并重试。",
@@ -154,20 +169,25 @@ function saveDraft(db: IDBDatabase, draft: CreationDraft) {
 
 function listBackups(db: IDBDatabase) {
   return new Promise<BackupSummary[]>((resolve, reject) => {
-    const tx = db.transaction("backups", "readonly");
+    const tx = db.transaction(["backups", "backupMeta"], "readonly");
     const store = tx.objectStore("backups");
     const keys = store.getAllKeys();
     const values = store.getAll();
+    const metaKeys = tx.objectStore("backupMeta").getAllKeys();
+    const metaValues = tx.objectStore("backupMeta").getAll();
     tx.oncomplete = () =>
       resolve(
         values.result
           .map((w, i) => ({
+            ...(metaValues.result[metaKeys.result.indexOf(keys.result[i])] ?? {}),
+            mode: w?.profile?.mode,
+            realm: w?.player?.realm,
             key: String(keys.result[i]),
             name: w?.profile?.name ?? "旧存档",
             day: w?.day ?? 0,
             revision: w?.revision ?? 0,
           }))
-          .reverse(),
+          .sort((a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0) || b.revision - a.revision),
       );
     tx.onabort = () => reject(new GameError("SAVE_WRITE_FAILED", "备份列表读取失败，请重试。"));
     tx.onerror = () => {};
@@ -342,8 +362,8 @@ async function process(request: WorkerRequest): Promise<WorkerResponse> {
     if (request.kind === "create") {
       if (raw && !request.replace)
         throw new GameError("PRECONDITION_FAILED", "已有一段人生，请先确认开始新局。");
-      next = createWorld(request.seed!, request.profile!, newSaveId(), 40, {
-        contentLocks: request.contentLocks,
+      next = createWorld(request.seed!, request.profile!, newSaveId(), undefined, {
+        contentLocks: withCampaignContent(request.contentLocks),
       });
     } else if (request.kind === "import" || request.kind === "restore") {
       if (raw && !request.replace)
@@ -370,7 +390,16 @@ async function process(request: WorkerRequest): Promise<WorkerResponse> {
       migrated = result.migrated;
       next = applyCommand(result.world, request.command!, request.id, request.revision!);
     }
-    await commit(db, next, raw, request.kind !== "command" || migrated, request.kind === "create");
+    await commit(
+      db,
+      next,
+      raw,
+      request.kind !== "command" || migrated,
+      request.kind === "create",
+      request.kind === "create" || request.kind === "import" || request.kind === "restore"
+        ? request.kind
+        : "migration",
+    );
     return { id: request.id, ok: true, state: next, migrated };
   } finally {
     db.close();

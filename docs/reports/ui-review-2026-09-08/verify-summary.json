@@ -1,0 +1,101 @@
+{
+  "checkedOn": "2026-09-09",
+  "command": "npm run verify",
+  "exitCode": 0,
+  "node": "v26.3.0",
+  "npm": "11.16.0",
+  "build": "4220bdf35b9d1c16c50c",
+  "testGroups": [
+    {
+      "command": "test:boundaries",
+      "tests": 3,
+      "pass": 3,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "command": "test:content",
+      "tests": 7,
+      "pass": 7,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "command": "test:extensions",
+      "tests": 31,
+      "pass": 31,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "command": "test:ai",
+      "tests": 7,
+      "pass": 7,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "command": "test:models",
+      "tests": 12,
+      "pass": 12,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "command": "test:portraits",
+      "tests": 22,
+      "pass": 22,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "command": "test:storage",
+      "tests": 27,
+      "pass": 27,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "command": "test:client",
+      "tests": 5,
+      "pass": 5,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "command": "test:game",
+      "tests": 71,
+      "pass": 71,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "command": "test:economy",
+      "tests": 2,
+      "pass": 2,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "command": "test:ui",
+      "tests": 2,
+      "pass": 2,
+      "fail": 0,
+      "skipped": 0
+    }
+  ],
+  "browserEvidence": "UI-REVIEW-IMPROVEMENTS.md",
+  "browserSuiteRerun": false,
+  "cleanCheckout": {
+    "source": "staged Git tree exported with git archive",
+    "privateConfigPresent": false,
+    "installCommand": "npm ci --no-audit --no-fund",
+    "installExitCode": 0,
+    "verifyCommand": "npm run verify",
+    "verifyExitCode": 0,
+    "tests": 189,
+    "failed": 0,
+    "trackedFilesChangedByPreparation": [],
+    "build": "4220bdf35b9d1c16c50c"
+  }
+}

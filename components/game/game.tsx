@@ -1,4 +1,7 @@
 "use client";
+import { downloadSaveText, saveDownloadName } from "@/lib/ui/save-download";
+import type { ProfileTab } from "@/lib/ui/profile-navigation";
+import { PersonDetail } from "./person-detail";
 import balanceLimits from "@/lib/game/content/balance.json";
 import type { World } from "@/lib/game/types";
 import { useCallback, useMemo } from "react";
@@ -23,7 +26,7 @@ import {
 } from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CHARACTERS, LOCATIONS, PACK, PRESENTATION, visual } from "@/lib/game/content/official";
+import { CHARACTERS, PACK, PRESENTATION, visual } from "@/lib/game/content/official";
 import { createContinuationGuard } from "@/lib/game/continuation";
 import type { Command, Profile, SaveExpectation } from "@/lib/game/types";
 import { useGame } from "@/lib/game/use-game";
@@ -34,13 +37,13 @@ import {
   Feather,
   Leaf,
   LoaderCircle,
-  MapPin,
   Package,
   Pause,
   Play,
   RotateCcw,
   ScrollText,
   Settings2,
+  Sun,
   Upload,
   Users,
   Wind,
@@ -56,7 +59,6 @@ import {
   InventoryPanel,
   JournalPanel,
   PeoplePanel,
-  PersonDetail,
 } from "./panels";
 
 import { objective } from "@/lib/game/presentation";
@@ -65,6 +67,12 @@ import { JourneyTab } from "./journey-tab";
 import { AISettingsEntry } from "./ai-settings-entry";
 import { SettingsDialog } from "./settings-dialog";
 
+import { threshold } from "@/lib/game/rules";
+import {
+  beginActionSummary,
+  finishActionSummary,
+  type ActionSummary,
+} from "@/lib/ui/action-summary";
 import { isRuleRefusal } from "@/lib/game/errors";
 import { Toaster, toast } from "sonner";
 import { RetreatSummary } from "./retreat-summary";
@@ -79,28 +87,99 @@ const NAV = [
 export default function Game({ preview = false }: { preview?: boolean }) {
   const game = useGame(preview);
   const previousWorld = useRef<World | null>(null);
-  const [summary, setSummary] = useState<{ startDay: number; endDay: number } | null>(null);
+  const [summary, setSummary] = useState<ActionSummary | null>(null);
+  const [lastSummary, setLastSummary] = useState<ActionSummary | null>(null);
+  const actionStart = useRef<ActionSummary | null>(null);
   const { world: w, ready, busy, error, command: send } = game;
   const [tab, setTab] = useState("journey");
+  const [journeyPeopleOpen, setJourneyPeopleOpen] = useState(false);
+  const [journeyDetailSaveId, setJourneyDetailSaveId] = useState<string | null>(null);
   useEffect(() => {
     const previous = previousWorld.current;
-    if (w && previous?.saveId === w.saveId && previous.revision !== w.revision) {
-      if (w.notice !== previous.notice) toast(w.notice, { id: "action-result", duration: 5000 });
-      if (
-        previous.longAction &&
-        !w.longAction &&
-        w.day > previous.day - previous.longAction.checkpoint
-      )
-        setSummary({ startDay: previous.day - previous.longAction.checkpoint, endDay: w.day });
+    if (w && previous?.saveId === w.saveId && previous.revision < w.revision) {
+      if (w.longAction && !previous.longAction)
+        actionStart.current = beginActionSummary(previous, w.longAction.kind);
+      if (previous.longAction && !w.longAction) {
+        const start =
+          actionStart.current ??
+          beginActionSummary(previous, previous.longAction.kind, previous.longAction.checkpoint);
+        const interval = finishActionSummary(
+          start,
+          w,
+          w.day === previous.day ? "stopped" : "completed",
+        );
+        setLastSummary(interval);
+        if (interval.endDay - interval.startDay >= 7 || interval.kind === "breakthrough")
+          setSummary(interval);
+        actionStart.current = null;
+      }
+    } else if (
+      previous?.saveId !== w?.saveId ||
+      (w && previous && w.revision < previous.revision)
+    ) {
+      actionStart.current = w?.longAction
+        ? beginActionSummary(w, w.longAction.kind, w.longAction.checkpoint)
+        : null;
+      setSummary(null);
+      setLastSummary(null);
     }
     previousWorld.current = w;
   }, [w]);
   useEffect(() => {
-    if (game.advanceResult?.reason === "condition") setSummary(game.advanceResult);
+    if (game.advanceResult?.reason === "condition" && w?.longAction && actionStart.current) {
+      const interval = finishActionSummary(actionStart.current, w, "condition-paused");
+      setSummary(interval);
+      setLastSummary(interval);
+    }
   }, [game.advanceResult]);
+  useEffect(() => {
+    if (game.lastResult && !w?.longAction) toast.dismiss("action-result");
+  }, [game.lastResult]);
   const [profileId, setProfileId] = useState<string | null>(null);
+  const [profileTab, setProfileTab] = useState<ProfileTab>("attributes");
+  const [profileStack, setProfileStack] = useState<
+    { id: string; tab: ProfileTab; scroll: number }[]
+  >([]);
+  const activeProfileTab = useRef<ProfileTab>("attributes");
+  const profileRestoreScroll = useRef<number | null>(null);
+  const openProfile = useCallback(
+    (id: string, tab: ProfileTab = "attributes") => {
+      if (profileId && profileId !== id)
+        setProfileStack((stack) => [
+          ...stack,
+          {
+            id: profileId,
+            tab: activeProfileTab.current,
+            scroll:
+              document.querySelector<HTMLElement>(
+                '.profile-modal [role="tabpanel"][data-state="active"]',
+              )?.scrollTop ?? 0,
+          },
+        ]);
+      activeProfileTab.current = tab;
+      setAutoRunning(false);
+      setProfileTab(tab);
+      setProfileId(id);
+    },
+    [profileId],
+  );
+  useEffect(() => {
+    if (profileRestoreScroll.current !== null) {
+      const top = profileRestoreScroll.current;
+      requestAnimationFrame(() => {
+        document
+          .querySelector<HTMLElement>('.profile-modal [role="tabpanel"][data-state="active"]')
+          ?.scrollTo({ top });
+      });
+      profileRestoreScroll.current = null;
+    }
+  }, [profileId, profileTab]);
+  useEffect(() => {
+    setProfileStack([]);
+  }, [w?.saveId]);
   const [settings, setSettings] = useState(false);
   const [autoRunning, setAutoRunning] = useState(false);
+  const [stopConfirm, setStopConfirm] = useState(false);
   const confirmSnapshot = useRef<SaveExpectation | null>(null);
   const [continuations] = useState(createContinuationGuard);
   const [showCreate, setShowCreate] = useState(false);
@@ -113,7 +192,32 @@ export default function Game({ preview = false }: { preview?: boolean }) {
     contentLocks: string[];
   } | null>(null);
   const [importText, setImportText] = useState("");
+  const [importSummary, setImportSummary] = useState("");
   const importRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (w && game.lastResult && ["create", "import", "restore"].includes(game.lastResult.kind)) {
+      setShowCreate(false);
+      setSettings(false);
+      setConfirm(null);
+      setProfileId(null);
+      setTab("journey");
+      setSummary(null);
+      setLastSummary(null);
+      actionStart.current = w.longAction
+        ? beginActionSummary(w, w.longAction.kind, w.longAction.checkpoint)
+        : null;
+      previousWorld.current = w;
+    }
+  }, [game.lastResult]);
+  useEffect(() => {
+    // A reload can reveal a replacement whose acknowledgement was lost.
+    setShowCreate(false);
+    setSettings(false);
+    setConfirm(null);
+    setProfileId(null);
+    setProfileStack([]);
+  }, [w?.saveId]);
+
   const pause = useCallback(() => {
     game.pauseAdvance();
     continuations.cancel();
@@ -149,7 +253,7 @@ export default function Game({ preview = false }: { preview?: boolean }) {
     return () => document.removeEventListener("visibilitychange", change);
   }, [continuations, game.pauseAdvance]);
   useEffect(() => {
-    if (!w || busy || !visible || settings || showCreate || confirm) return;
+    if (!w || busy || !visible || settings || showCreate || confirm || profileId || error) return;
     if (w.longAction && running) {
       const timer = setTimeout(() => {
         void game.advance().then(() => setRunning(false));
@@ -171,7 +275,20 @@ export default function Game({ preview = false }: { preview?: boolean }) {
       }, 700);
       return () => clearTimeout(timer);
     }
-  }, [w, busy, visible, running, autoRunning, settings, showCreate, confirm, send, game.advance]);
+  }, [
+    w,
+    busy,
+    visible,
+    running,
+    autoRunning,
+    settings,
+    showCreate,
+    confirm,
+    profileId,
+    error,
+    send,
+    game.advance,
+  ]);
   useEffect(() => {
     if (!w?.longAction) setRunning(false);
   }, [w?.longAction]);
@@ -188,7 +305,6 @@ export default function Game({ preview = false }: { preview?: boolean }) {
             (c.type === "train" || c.type === "wait" || c.type === "breakthrough")
           ) {
             setRunning(true);
-            setTab("journey");
           }
         },
       ),
@@ -202,7 +318,12 @@ export default function Game({ preview = false }: { preview?: boolean }) {
     a.href = url;
     a.hidden = true;
     document.body.appendChild(a);
-    a.download = `仙途_${w?.profile.name || "存档"}_第${(w?.day || 0) + 1}日.json`;
+    a.download = saveDownloadName({
+      name: w?.profile.name,
+      day: w?.day,
+      preview,
+      kind: game.recovery ? "原始进度" : "存档",
+    });
     a.click();
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 60000);
@@ -256,6 +377,7 @@ export default function Game({ preview = false }: { preview?: boolean }) {
     <input
       ref={importRef}
       className="sr-only"
+      tabIndex={-1}
       type="file"
       accept=".json,application/json"
       aria-label="选择存档文件"
@@ -269,10 +391,21 @@ export default function Game({ preview = false }: { preview?: boolean }) {
         }
         try {
           const text = await f.text();
+          const value = JSON.parse(text);
+          if (
+            !value ||
+            typeof value !== "object" ||
+            typeof value.profile?.name !== "string" ||
+            !Number.isSafeInteger(value.day)
+          )
+            throw new Error();
+          setImportSummary(
+            `${f.name.slice(0, 80)}：${value.profile.name.slice(0, 32)} · 第 ${value.day + 1} 日 · ${value.profile.mode === "complex" ? "复杂" : "简单"}模式`,
+          );
           setImportText(text);
           requestConfirm("import");
         } catch {
-          game.setError("未能读取这个文件，请重试。");
+          game.setError("文件无法识别为人生存档，请检查 JSON 与角色信息。原进度保留。");
         }
       }}
     />
@@ -292,11 +425,16 @@ export default function Game({ preview = false }: { preview?: boolean }) {
             {confirm === "breach"
               ? `你已答应将第一株凝元草交给${primaryName}。独占它会失去对方的信任，这次失约会被记住。`
               : confirm === "new"
-                ? "当前角色将被新角色替换。建议先导出存档，以便日后继续这段人生。"
-                : "这会替换当前浏览器里的游戏进度，已发生的故事以导入文件为准。"}
+                ? `用「${draft?.profile.name} · 第 1 日 · ${draft?.profile.mode === "complex" ? "复杂" : "简单"}模式」替换「${w?.player.name ?? "待读取角色"} · 第 ${(w?.day ?? 0) + 1} 日」。当前完整进度会自动保留备份。`
+                : `导入「${importSummary}」，替换「${w?.player.name ?? "待读取角色"} · 第 ${(w?.day ?? 0) + 1} 日」。最终由游戏进程验证，当前进度会先保留备份。`}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
+          {confirm !== "breach" && game.hasSavedRun && (
+            <Button variant="outline" disabled={busy} onClick={() => void download()}>
+              先导出当前存档
+            </Button>
+          )}
           <AlertDialogCancel>再想一想</AlertDialogCancel>
           <AlertDialogAction onClick={() => void confirmAction()}>
             {confirm === "breach" ? "确认独占，承担后果" : "确认继续"}
@@ -312,6 +450,27 @@ export default function Game({ preview = false }: { preview?: boolean }) {
         <Leaf size={30} />
         <h1 className="serif">仙途</h1>
         <p>正在展开这一卷人生…</p>
+      </main>
+    );
+  if (!w && game.recovery && !showCreate)
+    return (
+      <main className="recovery-screen">
+        <h1 className="serif">这段人生暂时无法读取</h1>
+        <p>原始数据仍保留。先导出原始进度，或从本机备份找回。</p>
+        <p className="error-banner" role="alert">
+          {error}
+        </p>
+        <div className="settings-actions">
+          <Button onClick={() => void download()}>导出原始进度</Button>
+          <BackupManager game={game} onPause={pause} />
+          <Button variant="outline" onClick={() => setShowCreate(true)}>
+            准备新角色
+          </Button>
+          <Button variant="ghost" onClick={() => void reload()}>
+            重新读取
+          </Button>
+        </div>
+        {confirmations}
       </main>
     );
   if (!w || showCreate)
@@ -337,7 +496,7 @@ export default function Game({ preview = false }: { preview?: boolean }) {
         </header>
         <div className="prologue-layout">
           <div className="creation-wrap">
-            {error && (
+            {error && !settings && (
               <div
                 className={isRuleRefusal(game.errorCode) ? "rule-banner" : "error-banner"}
                 role={isRuleRefusal(game.errorCode) ? "status" : "alert"}
@@ -354,7 +513,7 @@ export default function Game({ preview = false }: { preview?: boolean }) {
               onSaveDraft={game.saveCreationDraft}
               onCreate={create}
               busy={busy}
-              onCancel={w ? () => setShowCreate(false) : undefined}
+              onCancel={w || game.recovery ? () => setShowCreate(false) : undefined}
             />
           </div>
         </div>
@@ -364,12 +523,17 @@ export default function Game({ preview = false }: { preview?: boolean }) {
       </main>
     );
   const p = w.player;
-  const place = LOCATIONS[p.location];
-  const blocked = busy || !!w.longAction || !!w.battle || w.ended;
-  const useTab = (value: string) => {
+  const saveBlocked = !!game.saveIssue;
+  const saveUnconfirmed = ["SAVE_UNCONFIRMED", "WORKER_UNAVAILABLE"].includes(game.saveIssue);
+  const advancing = running || game.isAdvancing;
+  const blocked = busy || saveBlocked || !!w.longAction || !!w.battle || w.ended;
+  const useTab = (value: string, followGoal = false) => {
     if (w.battle && value !== "journey") return;
     setTab(value);
-    if (value === goal?.tab && goal.anchor)
+    if (value === "journey") setJourneyPeopleOpen(false);
+    if (followGoal && value === "journey" && goal?.tab === "journey" && goal.anchor)
+      setJourneyDetailSaveId(goal.anchor === "world-map" ? null : w.saveId);
+    if (followGoal && value === goal?.tab && goal.anchor)
       setTimeout(() => {
         const control = document.getElementById(goal.anchor!);
         control?.scrollIntoView({ block: "center", behavior: "smooth" });
@@ -378,86 +542,188 @@ export default function Game({ preview = false }: { preview?: boolean }) {
   };
   return (
     <div className="game-shell">
-      <Toaster position="top-center" theme="dark" closeButton richColors />
-      <RetreatSummary world={w} interval={summary} onClose={() => setSummary(null)} />
-      <header className="game-header">
-        <button className="wordmark serif" onClick={() => setTab("journey")}>
-          仙途<span>青石人间</span>
-        </button>
-        <div className="game-date">
-          <SunIcon />
-          <span>
-            仙历 {Math.floor(w.day / 360) + 1} 年 <b>第 {w.day + 1} 日</b>
-          </span>
-          <small>
-            {
-              ["初春", "暮春", "初夏", "盛夏", "初秋", "深秋", "初冬", "岁末"][
-                Math.floor((w.day % 360) / 45)
-              ]
-            }
-          </small>
-        </div>
-        <div className="header-tools">
-          <span className="saved-state">
-            {busy ? <LoaderCircle size={14} className="spin" /> : <Check size={14} />}
-            <span>{busy ? "落笔中" : "本机已存"}</span>
-          </span>
-          <Button
-            size="icon"
-            variant="ghost"
-            aria-label="存档与设置"
-            onClick={() => {
-              pause();
-              setSettings(true);
-            }}
-          >
-            <Settings2 size={19} />
-          </Button>
-        </div>
-      </header>
+      <Toaster
+        position="bottom-right"
+        theme="dark"
+        closeButton
+        richColors
+        toastOptions={{ className: "game-toast" }}
+      />
+      <RetreatSummary
+        world={w}
+        interval={summary}
+        onClose={() => setSummary(null)}
+        onNavigate={(next, anchor) => {
+          setTab(next);
+          if (anchor)
+            requestAnimationFrame(() => {
+              const el = document.getElementById(anchor);
+              el?.focus({ preventScroll: true });
+              el?.scrollIntoView({ block: "start" });
+            });
+        }}
+        onProfile={openProfile}
+      />
+      <AlertDialog open={stopConfirm} onOpenChange={setStopConfirm}>
+        <AlertDialogContent className="game-modal">
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              结束当前{w.longAction?.kind === "wait" ? "等候" : "修炼"}？
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              已完成的日数、修为与消耗保留；剩余日数不再推进。结束后可重新选择行动。
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>继续保留</AlertDialogCancel>
+            <AlertDialogAction onClick={() => void send({ type: "stop" })}>
+              确认结束
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       <Tabs value={tab} onValueChange={useTab} className="game-tabs">
-        <div className="nav-bar">
-          <TabsList className="game-nav" variant="line" aria-label="游戏页面">
-            {NAV.map((n) => (
-              <TabsTrigger key={n.id} value={n.id} disabled={!!w.battle && n.id !== "journey"}>
-                <n.icon size={17} />
-                {n.name}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-          <span className="nav-location">
-            <MapPin size={14} />
-            {place.name}
-          </span>
-        </div>
+        <header className="game-header">
+          <button className="wordmark serif" onClick={() => useTab("journey")}>
+            仙途<span>青石人间</span>
+          </button>
+          <div className="nav-bar">
+            <TabsList className="game-nav" variant="line" aria-label="游戏页面">
+              {NAV.map((n) => (
+                <TabsTrigger key={n.id} value={n.id} disabled={!!w.battle && n.id !== "journey"}>
+                  <n.icon size={17} />
+                  {n.name}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </div>
+          <div className="game-date">
+            <SunIcon />
+            <span>
+              仙历 {Math.floor(w.day / 360) + 1} 年 <b>第 {w.day + 1} 日</b>
+            </span>
+            <small>
+              {
+                ["初春", "暮春", "初夏", "盛夏", "初秋", "深秋", "初冬", "岁末"][
+                  Math.floor((w.day % 360) / 45)
+                ]
+              }
+            </small>
+          </div>
+          <div className="header-tools">
+            <OfflineStatus safe={!busy && !saveBlocked && !w.longAction && !w.battle && !confirm} />
+            <span
+              className={`saved-state${saveBlocked ? " is-unsaved" : ""}`}
+              role="status"
+              title="进度只保存在此浏览器、此地址；换浏览器前请导出存档。"
+            >
+              {busy ? <LoaderCircle size={14} className="spin" /> : <Check size={14} />}
+              <span>
+                {busy
+                  ? "正在保存"
+                  : saveBlocked
+                    ? saveUnconfirmed
+                      ? "保存待确认"
+                      : game.saveIssue === "STALE_REVISION"
+                        ? "进度已变化"
+                        : "本次未保存"
+                    : `已存 · 第 ${w.day + 1} 日`}
+              </span>
+            </span>
+            <Button
+              size="icon"
+              variant="ghost"
+              aria-label="存档与设置"
+              onClick={() => {
+                pause();
+                setSettings(true);
+              }}
+            >
+              <Settings2 size={19} />
+            </Button>
+          </div>
+        </header>
         <div className="game-layout">
           <CharacterSidebar
             world={w}
             goal={goal!}
-            setProfileId={setProfileId}
-            useTab={useTab}
+            setProfileId={openProfile}
+            useTab={(value) => useTab(value, true)}
             send={send}
             act={act}
             blocked={blocked}
           />
           <main className="play-area">
-            {error && (
+            {game.lastResult && !w.longAction && (
+              <div className="global-result" role="status">
+                <p>{game.lastResult.notice}</p>
+                <small>第 {game.lastResult.day + 1} 日 · 已保存</small>
+              </div>
+            )}
+            {error && !settings && (
               <div
                 className={isRuleRefusal(game.errorCode) ? "rule-banner" : "error-banner"}
                 role={isRuleRefusal(game.errorCode) ? "status" : "alert"}
               >
                 <span>{error}</span>
-                {!isRuleRefusal(game.errorCode) && (
-                  <Button size="sm" variant="ghost" onClick={() => reload()}>
-                    <RotateCcw size={14} /> 重新读取
+                {!saveBlocked && (
+                  <Button variant="ghost" size="sm" onClick={() => game.setError("")}>
+                    关闭提示
                   </Button>
                 )}
+                {!isRuleRefusal(game.errorCode) && (
+                  <div className="error-actions">
+                    {game.canRetry && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        disabled={busy}
+                        onClick={() => void game.retry()}
+                      >
+                        重试此行动
+                      </Button>
+                    )}
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      disabled={busy}
+                      onClick={() => void download()}
+                    >
+                      导出已存进度
+                    </Button>
+                    <Button size="sm" variant="ghost" disabled={busy} onClick={() => reload()}>
+                      <RotateCcw size={14} /> 重新读取
+                    </Button>
+                  </div>
+                )}
+              </div>
+            )}
+            {lastSummary && !w.longAction && (
+              <div className="recent-action" role="status">
+                <span>
+                  {lastSummary.kind === "wait"
+                    ? "等候"
+                    : lastSummary.kind === "breakthrough"
+                      ? "突破"
+                      : "修炼"}
+                  已结束 · 共 {lastSummary.endDay - lastSummary.startDay} 日
+                </span>
+                <Button variant="ghost" size="sm" onClick={() => setSummary(lastSummary)}>
+                  查看本次结果与见闻
+                </Button>
               </div>
             )}
             {w.ended && (
               <div className="end-of-life">
                 <h2 className="serif">此生已落笔</h2>
-                <p>你的经历仍被保存。可以导出这一世，再开启下一段人生。</p>
+                <p>
+                  {p.name}这一世已记录 {w.day + 1} 日，结识{" "}
+                  {w.relations.filter((r) => r.to === "PLAYER" && r.known).length}{" "}
+                  位人物。经历仍然保留。
+                </p>
+                <Button variant="outline" onClick={() => setTab("journal")}>
+                  回顾这一世
+                </Button>
                 <Button onClick={() => void download()}>导出存档</Button>
                 <Button variant="outline" onClick={() => setShowCreate(true)}>
                   再入人间
@@ -465,7 +731,12 @@ export default function Game({ preview = false }: { preview?: boolean }) {
               </div>
             )}
             {w.longAction && (
-              <section className="long-action-panel" aria-live="polite">
+              <section
+                className="long-action-panel"
+                id="long-action-state"
+                tabIndex={-1}
+                aria-live="polite"
+              >
                 <div className="spread">
                   <div>
                     <span className="eyebrow">
@@ -480,7 +751,7 @@ export default function Game({ preview = false }: { preview?: boolean }) {
                       日
                     </h3>
                   </div>
-                  <Wind size={28} className={running ? "gentle-spin" : ""} />
+                  <Wind size={28} className={advancing ? "gentle-spin" : ""} />
                 </div>
                 <Progress
                   aria-label="时间推进进度"
@@ -491,33 +762,52 @@ export default function Game({ preview = false }: { preview?: boolean }) {
                 />
                 <div className="spread">
                   <p>
-                    {running
-                      ? "你在修行，世界也在继续。"
+                    {advancing
+                      ? `${w.longAction.kind === "wait" ? "正在等候" : w.longAction.kind === "breakthrough" ? "正在突破" : "正在修炼"}，世界也在继续；可随时暂停。`
                       : busy
                         ? "正在暂停，当前一日保存后停止。"
-                        : "计算已暂停，已完成的日数和进度均已保存。"}
+                        : saveUnconfirmed
+                          ? "保存结果待确认，请重新读取；暂停继续推进。"
+                          : saveBlocked
+                            ? "显示的是上次完整保存的检查点，请先恢复保存。"
+                            : game.advanceResult?.reason === "condition"
+                              ? "因重要变化暂停，可查看本次见闻后继续。"
+                              : "行动已暂停，显示的检查点已完整保存。"}
                   </p>
                   <div>
                     <Button
                       variant="outline"
                       size="sm"
-                      disabled={busy && !running}
-                      onClick={() => (running ? pause() : setRunning(true))}
+                      disabled={
+                        (busy && !advancing) ||
+                        (!advancing && saveBlocked) ||
+                        (!advancing &&
+                          w.longAction.kind === "train" &&
+                          [0, 3, 4].includes(p.realm) &&
+                          p.xp >= threshold(p))
+                      }
+                      onClick={() => (advancing ? pause() : setRunning(true))}
                     >
-                      {running ? <Pause size={14} /> : <Play size={14} />}{" "}
-                      {running ? "暂停" : "继续"}
+                      {advancing ? <Pause size={14} /> : <Play size={14} />}{" "}
+                      {advancing ? "暂停" : "继续"}
                     </Button>
+                    {!advancing &&
+                      w.longAction.kind === "train" &&
+                      [0, 3, 4].includes(p.realm) &&
+                      p.xp >= threshold(p) && (
+                        <p className="action-reason">修为已满，结束当前修炼后尝试突破。</p>
+                      )}
                     {w.longAction.kind !== "breakthrough" && (
                       <Button
-                        variant="ghost"
+                        variant="outline"
                         size="sm"
-                        disabled={busy}
+                        disabled={busy || saveBlocked}
                         onClick={() => {
                           pause();
-                          void send({ type: "stop" });
+                          setStopConfirm(true);
                         }}
                       >
-                        结束修行
+                        结束当前行动
                       </Button>
                     )}
                   </div>
@@ -529,8 +819,9 @@ export default function Game({ preview = false }: { preview?: boolean }) {
                 <BattlePanel
                   world={w}
                   send={send}
-                  busy={busy}
+                  busy={busy || saveBlocked}
                   autoRunning={autoRunning}
+                  onProfile={openProfile}
                   onAuto={async (enabled) => {
                     pause();
                     await continuations.run(
@@ -543,11 +834,16 @@ export default function Game({ preview = false }: { preview?: boolean }) {
                 />
               ) : (
                 <JourneyTab
+                  key={w.saveId}
                   world={w}
+                  detailOpen={journeyDetailSaveId === w.saveId}
+                  peopleOpen={journeyPeopleOpen}
+                  onPeopleChange={setJourneyPeopleOpen}
+                  onDetailChange={(open) => setJourneyDetailSaveId(open ? w.saveId : null)}
                   send={send}
                   act={act}
                   setTab={setTab}
-                  setProfileId={setProfileId}
+                  setProfileId={openProfile}
                   requestConfirm={requestConfirm}
                   pause={pause}
                   blocked={blocked}
@@ -555,11 +851,20 @@ export default function Game({ preview = false }: { preview?: boolean }) {
                 />
               )}
             </TabsContent>
-            <TabsContent value="cultivation">
-              <CultivationPanel world={w} send={act} busy={blocked} onStart={() => {}} />
+            <TabsContent value="cultivation" forceMount hidden={tab !== "cultivation"}>
+              <CultivationPanel
+                world={w}
+                send={act}
+                busy={blocked}
+                onStart={() => {}}
+                onNavigate={(next) => {
+                  if (next === "journey") setJourneyDetailSaveId(null);
+                  setTab(next);
+                }}
+              />
             </TabsContent>
             <TabsContent value="people">
-              <PeoplePanel world={w} onProfile={setProfileId} />
+              <PeoplePanel world={w} onProfile={openProfile} />
             </TabsContent>
             <TabsContent value="inventory">
               <InventoryPanel world={w} send={send} busy={blocked} />
@@ -570,24 +875,63 @@ export default function Game({ preview = false }: { preview?: boolean }) {
           </main>
         </div>
       </Tabs>
-      <OfflineStatus safe={!busy && !w.longAction && !w.battle && !confirm} />
-      <footer className="game-footer">
-        <span>仙途 · 青石人间</span>
-        <span>此间人事，皆有回响。</span>
-      </footer>
-      <Dialog open={!!profileId} onOpenChange={(open) => !open && setProfileId(null)}>
+      <Dialog
+        open={!!profileId}
+        onOpenChange={(open) => {
+          if (!open) {
+            setProfileId(null);
+            setProfileStack([]);
+          }
+        }}
+      >
         <DialogContent className="game-modal profile-modal">
+          {!!profileStack.length && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="profile-back"
+              onClick={() => {
+                const prior = profileStack.at(-1)!;
+                setProfileStack((stack) => stack.slice(0, -1));
+                profileRestoreScroll.current = prior.scroll;
+                activeProfileTab.current = prior.tab;
+                setProfileTab(prior.tab);
+                setProfileId(prior.id);
+              }}
+            >
+              返回
+              {profileStack.at(-1)!.id === "PLAYER"
+                ? p.name
+                : w.npcs.find((a) => a.id === profileStack.at(-1)!.id)?.name}
+              的资料
+            </Button>
+          )}
           <DialogHeader>
             <DialogTitle className="serif">
               {profileId === "PLAYER"
                 ? `${p.name} · 你的角色`
                 : w.npcs.find((a) => a.id === profileId)?.name}
             </DialogTitle>
-            <DialogDescription>
+            <DialogDescription className="sr-only">
               {profileId === "PLAYER" ? "这一世，由你来写。" : "一面之缘，或许也是一生之缘。"}
             </DialogDescription>
           </DialogHeader>
-          {profileId && <PersonDetail world={w} id={profileId} send={send} busy={blocked} />}
+          {profileId && (
+            <PersonDetail
+              key={`${w.saveId}:${profileId}:${profileTab}`}
+              world={w}
+              id={profileId}
+              initialTab={profileTab}
+              onTabChange={(value) => {
+                activeProfileTab.current = value;
+              }}
+              send={send}
+              busy={blocked}
+              onProfile={openProfile}
+              result={game.lastResult}
+              error={error}
+            />
+          )}
         </DialogContent>
       </Dialog>
       <SettingsDialog
@@ -609,9 +953,5 @@ export default function Game({ preview = false }: { preview?: boolean }) {
   );
 }
 function SunIcon() {
-  return (
-    <span className="sun-glyph" aria-hidden="true">
-      ☼
-    </span>
-  );
+  return <Sun className="sun-glyph" aria-hidden="true" />;
 }

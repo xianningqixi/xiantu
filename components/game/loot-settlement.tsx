@@ -28,7 +28,7 @@ export function LootSettlement({ world: w, send, requestConfirm, blocked }: Loot
           </span>
           <span>
             <strong>收好战利品，返回坊市</strong>
-            <small>同行返回 · 2 日</small>
+            <small>同行返回 · 回城后分配</small>
           </span>
           <ArrowRight size={17} />
           <TimeBadge world={w} command={{ type: "return" }} />
@@ -59,7 +59,10 @@ export function LootSettlement({ world: w, send, requestConfirm, blocked }: Loot
             <span className="choice-number">01</span>
             <span>
               <strong>按约将凝元草交给{primary.name}</strong>
-              <small>履行约定 · 你获得 {w.loot?.stones} 灵石</small>
+              <small>
+                履行约定 · 获得 {w.loot.stones} 灵石、{Math.max(0, w.loot.grass - 1)}{" "}
+                株草；好感与信任上升
+              </small>
             </span>
             <ArrowRight size={17} />
             <TimeBadge world={w} command={{ type: "settle", honor: true, confirm: true }} />
@@ -73,10 +76,13 @@ export function LootSettlement({ world: w, send, requestConfirm, blocked }: Loot
             <span>
               <strong>把凝元草也收入自己囊中</strong>
               <small>
-                {w.agreement?.strict ? "严格条款不允许违约分配" : "违背约定 · 她会记住你的选择"}
+                {w.agreement?.strict
+                  ? "严格条款不允许违约分配"
+                  : `获得 ${w.loot.stones} 灵石、${w.loot.grass} 株草；信任下降，后续邀约受限`}
               </small>
             </span>
             <ArrowRight size={17} />
+            <TimeBadge world={w} command={{ type: "settle", honor: false, confirm: true }} />
           </button>
         </>
       )}

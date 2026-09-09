@@ -1,0 +1,252 @@
+{
+  "assets": {
+    "shichai.xiaye.art.intro": {
+      "file": "art/images/intro.png",
+      "url": "/art/shichai.xiaye/intro.png",
+      "alt": "夏夜青石坊市，酒肆灯笼与商队的骆驼铃，街上人影稀疏，远山黑影；无人物特写",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.peisi-cg-meet": {
+      "file": "art/images/peisi-cg-meet.png",
+      "url": "/art/shichai.xiaye/peisi-cg-meet.png",
+      "alt": "坊市货栈门口，裴姒手持算盘核对货单，商队伙计围着她",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.peisi-cg-bond": {
+      "file": "art/images/peisi-cg-bond.png",
+      "url": "/art/shichai.xiaye/peisi-cg-bond.png",
+      "alt": "夏夜酒肆二楼雅间，裴姒独自饮酒，脱了一只绣鞋踩在凳上",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.peisi-cg-spark": {
+      "file": "art/images/peisi-cg-spark.png",
+      "url": "/art/shichai.xiaye/peisi-cg-spark.png",
+      "alt": "货栈后院的荷花缸旁，裴姒把腰间的银链解下放进男主手里",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.peisi-cg-rival": {
+      "file": "art/images/peisi-cg-rival.png",
+      "url": "/art/shichai.xiaye/peisi-cg-rival.png",
+      "alt": "沈万山设宴，坐在主位，把裴姒的手按在桌上推向男主",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.peisi-cg-lost": {
+      "file": "art/images/peisi-cg-lost.png",
+      "url": "/art/shichai.xiaye/peisi-cg-lost.png",
+      "alt": "沈府偏院，沈万山在门内，裴姒跪坐在他身前，门缝透出光；男主在院墙外",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.peisi-cg-night": {
+      "file": "art/images/peisi-cg-night.png",
+      "url": "/art/shichai.xiaye/peisi-cg-night.png",
+      "alt": "客栈上房，裴姒褪去外衫只剩中衣，坐在床沿卸下发簪",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.peisi-cg-dual": {
+      "file": "art/images/peisi-cg-dual.png",
+      "url": "/art/shichai.xiaye/peisi-cg-dual.png",
+      "alt": "沈府密室，裴姒揭开墙上暗格，里面是沈万山的采补图谱；两人对坐，灵气逆流",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.peisi-cg-vow": {
+      "file": "art/images/peisi-cg-vow.png",
+      "url": "/art/shichai.xiaye/peisi-cg-vow.png",
+      "alt": "商队出发的清晨，裴姒骑在骆驼上回头，沈府的匾在她身后",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.peisi-cg-mourn": {
+      "file": "art/images/peisi-cg-mourn.png",
+      "url": "/art/shichai.xiaye/peisi-cg-mourn.png",
+      "alt": "货栈门口挂着的算盘，珠子停在一半",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.peisi-portrait": {
+      "file": "art/images/peisi-portrait.png",
+      "url": "/art/shichai.xiaye/peisi-portrait.png",
+      "alt": "裴姒立绘：31岁行商妇人，丹凤眼，妆容精致，绛紫窄袖商装配银腰链，手持算盘，眼里有倦意",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait"
+    },
+    "shichai.xiaye.art.shenqiyue-cg-meet": {
+      "file": "art/images/shenqiyue-cg-meet.png",
+      "url": "/art/shichai.xiaye/shenqiyue-cg-meet.png",
+      "alt": "山门古道，沈栖月摔倒在石阶上，木牌撒了一地",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.shenqiyue-cg-bond": {
+      "file": "art/images/shenqiyue-cg-bond.png",
+      "url": "/art/shichai.xiaye/shenqiyue-cg-bond.png",
+      "alt": "古道守夜小屋，沈栖月在灯下抄写功法，抄错一行又划掉",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.shenqiyue-cg-spark": {
+      "file": "art/images/shenqiyue-cg-spark.png",
+      "url": "/art/shichai.xiaye/shenqiyue-cg-spark.png",
+      "alt": "古道溪边，沈栖月把手伸进冰凉的溪水，男主握住她的手腕教她运气",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.shenqiyue-cg-rival": {
+      "file": "art/images/shenqiyue-cg-rival.png",
+      "url": "/art/shichai.xiaye/shenqiyue-cg-rival.png",
+      "alt": "陆青遥站在山门前，一身内门白衣，手里拿着一枚玉牌，神情温和",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.shenqiyue-cg-lost": {
+      "file": "art/images/shenqiyue-cg-lost.png",
+      "url": "/art/shichai.xiaye/shenqiyue-cg-lost.png",
+      "alt": "青岚宗内门婚礼，沈栖月穿着红衣站在陆青遥身边，真心在笑；男主站在人群最后",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.shenqiyue-cg-night": {
+      "file": "art/images/shenqiyue-cg-night.png",
+      "url": "/art/shichai.xiaye/shenqiyue-cg-night.png",
+      "alt": "古道守夜小屋，篝火，沈栖月把宗门弟子服的领口解开，脸埋在男主胸口",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.shenqiyue-cg-dual": {
+      "file": "art/images/shenqiyue-cg-dual.png",
+      "url": "/art/shichai.xiaye/shenqiyue-cg-dual.png",
+      "alt": "山门古道尽头的月下平台，两人盘坐，沈栖月的灵气是冷银色，男主的是青色，交汇处变成暖白",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.shenqiyue-cg-vow": {
+      "file": "art/images/shenqiyue-cg-vow.png",
+      "url": "/art/shichai.xiaye/shenqiyue-cg-vow.png",
+      "alt": "青岚宗外门院墙外，沈栖月把腰间木牌摘下来扔进溪里",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.shenqiyue-cg-mourn": {
+      "file": "art/images/shenqiyue-cg-mourn.png",
+      "url": "/art/shichai.xiaye/shenqiyue-cg-mourn.png",
+      "alt": "古道石阶上散落的木牌，字迹被雨水晕开",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.shenqiyue-portrait": {
+      "file": "art/images/shenqiyue-portrait.png",
+      "url": "/art/shichai.xiaye/shenqiyue-portrait.png",
+      "alt": "沈栖月立绘：24岁青岚宗外门弟子，圆眼，鼻尖微翘，浅青宗门弟子服，腰间挂着写满字的木牌，总是低着头",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait"
+    },
+    "shichai.xiaye.art.liuhanyan-cg-meet": {
+      "file": "art/images/liuhanyan-cg-meet.png",
+      "url": "/art/shichai.xiaye/liuhanyan-cg-meet.png",
+      "alt": "青石酒肆柜台后，柳含烟倚着柜台笑看来客，酒旗在夏风里飘",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.liuhanyan-cg-bond": {
+      "file": "art/images/liuhanyan-cg-bond.png",
+      "url": "/art/shichai.xiaye/liuhanyan-cg-bond.png",
+      "alt": "酒肆打烊后，柳含烟坐在楼梯上，手里拿着一封旧信，酒壶放在脚边",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.liuhanyan-cg-spark": {
+      "file": "art/images/liuhanyan-cg-spark.png",
+      "url": "/art/shichai.xiaye/liuhanyan-cg-spark.png",
+      "alt": "酒肆后巷，夏夜闷雷，柳含烟把伞塞给男主，自己站在雨里笑",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.liuhanyan-cg-rival": {
+      "file": "art/images/liuhanyan-cg-rival.png",
+      "url": "/art/shichai.xiaye/liuhanyan-cg-rival.png",
+      "alt": "韩铁衣站在酒肆门口，半边脸有妖气留下的黑纹，身后是古道的雾",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.liuhanyan-cg-lost": {
+      "file": "art/images/liuhanyan-cg-lost.png",
+      "url": "/art/shichai.xiaye/liuhanyan-cg-lost.png",
+      "alt": "酒肆楼上，窗帘半掩，韩铁衣的黑纹手按在柳含烟肩上；男主在楼下柜台前",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.liuhanyan-cg-night": {
+      "file": "art/images/liuhanyan-cg-night.png",
+      "url": "/art/shichai.xiaye/liuhanyan-cg-night.png",
+      "alt": "酒肆楼上，柳含烟拔下银钗，乌发散下，窗外雷声",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.liuhanyan-cg-dual": {
+      "file": "art/images/liuhanyan-cg-dual.png",
+      "url": "/art/shichai.xiaye/liuhanyan-cg-dual.png",
+      "alt": "酒肆地窖酒缸之间，两人对坐，柳含烟身上的旧伤痕在青色灵气里慢慢淡去",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.liuhanyan-cg-vow": {
+      "file": "art/images/liuhanyan-cg-vow.png",
+      "url": "/art/shichai.xiaye/liuhanyan-cg-vow.png",
+      "alt": "酒肆新酿开封，柳含烟把第一杯递给男主，门口挂着新写的酒旗",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.liuhanyan-cg-mourn": {
+      "file": "art/images/liuhanyan-cg-mourn.png",
+      "url": "/art/shichai.xiaye/liuhanyan-cg-mourn.png",
+      "alt": "酒旗被风吹落在地，酒肆门锁着",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.liuhanyan-portrait": {
+      "file": "art/images/liuhanyan-portrait.png",
+      "url": "/art/shichai.xiaye/liuhanyan-portrait.png",
+      "alt": "柳含烟立绘：33岁酒肆老板娘，桃花眼含笑，乌发松挽斜插银钗，胭脂红对襟配墨绿长裙，手持酒壶，风情而通透",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait"
+    }
+  }
+}

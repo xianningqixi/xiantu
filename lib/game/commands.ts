@@ -1,9 +1,33 @@
+import { storyIntimacyKind } from "./intimacy-history";
+import {
+  currentPortrait,
+  originalPortrait,
+  canRestorePortrait,
+  restorePortrait,
+} from "./portrait-restore";
+import {
+  visitSect,
+  joinSect,
+  requireSectHome,
+  settleSectTask,
+  learnSectArt,
+  leaveSect,
+} from "./sects";
+import {
+  intimacyBoundaryReason,
+  companyReason,
+  intimacyReason,
+  recordCompany,
+  settleIntimacy,
+} from "./intimacy";
+import { mainScene, hasRubbing } from "./main-story";
 import { commandDays, travelDays } from "./action-cost";
 import { advanceStopReason, validateStopCondition } from "./advance";
 import { DEPARTURE_FEE, SHOP_ITEMS, STONE_METHOD } from "./economy";
 import { validTerms } from "./negotiation";
 import { extensionScenes } from "./content-story";
-import { PACK, REALMS, LOCATIONS, PRESENTATION, contentText } from "./content/official";
+import { PACK, REALMS, PRESENTATION, contentText } from "./content/official";
+import { LOCATIONS, travelRoute, locationKind, locationEnabled, regionOf } from "./world-map";
 import type { Command, World } from "./types";
 import { B, advanceRule, threshold, stats, requireRule, actorById } from "./rules";
 import { relation, ensureRelation, memory, meet } from "./relationships";
@@ -12,6 +36,7 @@ import {
   departureStatus,
   updateAgreementAvailability,
   acceptAgreement,
+  renewalReason,
 } from "./agreement";
 import { scene } from "./story";
 import { learn, cultivate, breakthroughChance, breakthroughResult } from "./cultivation";
@@ -24,12 +49,99 @@ type CommandHandlers = {
 };
 
 const commandHandlers: CommandHandlers = {
+  visitSect: (w, c) => visitSect(w, c.sectId),
+  joinSect: (w, c) => joinSect(w, c.sectId),
+  learnSectArt: (w) => learnSectArt(w),
+  leaveSect: (w) => leaveSect(w),
+  sectTask: (w, c) => {
+    requireSectHome(w);
+    for (let d = 0; d < commandDays(w, c) && !w.ended; d++) advanceDay(w, new Set(w.party));
+    if (!w.ended) settleSectTask(w, w.player);
+  },
+  spendTime: (w, c) => {
+    const a = actorById(w, c.target);
+    const reason = companyReason(w, w.player, a);
+    requireRule(!reason, reason);
+    for (let d = 0; d < commandDays(w, c) && !w.ended; d++)
+      advanceDay(w, new Set([...w.party, c.target]));
+    if (w.ended || !a!.alive) return;
+    w.notice = `你与${a!.name}相伴交流 ${commandDays(w, c)} 日，分享行路见闻与修行心得，彼此多了一分了解。`;
+    recordCompany(w, w.player, a!, w.notice);
+  },
+  intimacy: (w, c) => {
+    const a = actorById(w, c.target);
+    const reason = intimacyReason(w, w.player, a, c.kind);
+    requireRule(!reason, reason);
+    for (let d = 0; d < commandDays(w, c) && !w.ended; d++)
+      advanceDay(w, new Set([...w.party, c.target]));
+    if (w.ended || !a!.alive) return;
+    w.notice = settleIntimacy(w, w.player, a!, c.kind);
+  },
+  chooseMain: (w, c) => {
+    const node = mainScene(w);
+    requireRule(node?.id === c.nodeId, "主线条件已变化，请核对地点、人物与时间。");
+    const choice = node!.choices.find((x) => x.id === c.choiceId);
+    requireRule(choice, "主线选项不存在。");
+    for (const id of node!.participants) if (!relation(w, id)?.known) meet(w, id);
+    record(
+      w,
+      "main-story",
+      `${node!.title}：${node!.body} 你选择：${choice!.label}。${choice!.reply}`,
+      ["PLAYER", ...node!.participants],
+    );
+    w.events[w.events.length - 1].mainStory = { nodeId: node!.id, choiceId: choice!.id };
+    w.notice = choice!.reply;
+  },
+  surveyRuins: (w, c) => {
+    requireRule(
+      w.player.location === "gate" && w.player.realm >= 1 && w.party.length === 1 && !w.loot,
+      "成为炼气修士后，可独自到山门古道勘察残碑。",
+    );
+    requireRule(!hasRubbing(w), "残碑拓片已取得，沿主线继续查证即可。");
+    const days = commandDays(w, c);
+    for (let day = 0; day < days && !w.ended; day++) advanceDay(w);
+    if (w.ended) return;
+    w.notice = `你在古道残碑外沿勘察 ${days} 日，拓下可疑水纹。明日回坊市查证水纹的来历。`;
+    record(w, "survey", w.notice);
+  },
   attachPortrait: (w, c) => {
     const actor = actorById(w, c.target);
     requireRule(actor, "人物不存在。");
+    actor!.portraitOriginal ??= structuredClone(
+      originalPortrait(w, actor!) ?? currentPortrait(w, actor!),
+    );
+    if (c.look) {
+      requireRule(
+        c.look.physique.apparentAge === actor!.physique!.apparentAge,
+        "重绘不会改变人物年龄。",
+      );
+      actor!.physique = structuredClone(c.look.physique);
+      if (c.target === "PLAYER") {
+        w.profile.appearance = { ...c.look.appearance };
+        w.profile.physique = structuredClone(c.look.physique);
+        w.profile.portraitFeatures = structuredClone(c.look.portraitFeatures);
+      } else {
+        actor!.portraitAppearance = { ...c.look.appearance };
+        actor!.portraitFeatures = structuredClone(c.look.portraitFeatures);
+      }
+    }
     actor!.portraitId = c.portraitId;
     if (c.target === "PLAYER") w.profile.portraitId = c.portraitId;
     w.notice = `${actor!.name}的全身立绘已保存。`;
+  },
+  restorePortrait: (w, c) => {
+    const actor = actorById(w, c.target);
+    requireRule(actor, "人物不存在。");
+    requireRule(canRestorePortrait(w, actor!), "当前没有可恢复的原立绘。", "ACTION_UNAVAILABLE");
+    const original = originalPortrait(w, actor!)!;
+    restorePortrait(w, actor!, original);
+    w.notice = `${actor!.name}已恢复原立绘与对应形貌。`;
+  },
+  renewAgreement: (w) => {
+    const reason = renewalReason(w);
+    requireRule(!reason, reason);
+    acceptAgreement(w);
+    w.notice = "新的同行约定已记下。旧日经历仍然保留，路费在本次出发时支付。";
   },
   adoptNegotiation: (w, c) => {
     const p = w.player;
@@ -74,6 +186,13 @@ const commandHandlers: CommandHandlers = {
     requireRule(node, "支线已变化，或参与者不在场。");
     const choice = node!.choices.find((x) => x.id === c.choiceId);
     requireRule(choice, "支线选项已失效。");
+    if (storyIntimacyKind(node!.id, choice!.id)) {
+      for (const e of choice!.effects)
+        if (e.kind === "experience") {
+          const reason = intimacyBoundaryReason(w, p, actorById(w, e.target));
+          requireRule(!reason, reason);
+        }
+    }
     for (const e of choice!.effects) {
       if (e.kind === "progress") w.contentState[e.key] = true;
       if (e.kind === "meet") meet(w, e.target);
@@ -93,6 +212,7 @@ const commandHandlers: CommandHandlers = {
       `${node!.title}：${node!.body} ${node!.quote ?? ""} 你选择：${choice!.label}。${choice!.reply}`,
       ["PLAYER", ...node!.participants],
     );
+    w.events[w.events.length - 1].storyNodeId = node!.id;
     w.notice = choice!.reply;
     return;
   },
@@ -126,7 +246,7 @@ const commandHandlers: CommandHandlers = {
   },
   learn: (w, c) => {
     const p = w.player;
-    requireRule(p.location === "inn", "请到客栈领取入门经书。");
+    requireRule(locationKind(p.location) === "inn", "请到客栈领取入门经书。");
     learn(w, p);
     return;
   },
@@ -138,21 +258,25 @@ const commandHandlers: CommandHandlers = {
       w.party.every((id) => !actorById(w, id)?.attempt),
       "同伴正在突破，请等候完成后再动身。",
     );
-    requireRule(
-      (LOCATIONS[p.location].destinations as readonly string[]).includes(c.to),
-      "这里不能直接到达那个地点。",
-    );
-    const time = travelDays(p.location, c.to);
+    requireRule(locationEnabled(w, c.to), "目的地尚未载入此世。");
+    const route = travelRoute(p.location, c.to, w);
+    requireRule(route && p.location !== c.to, "这里不能直接到达那个地点。");
+    const time = route!.days;
     for (let d = 0; d < time; d++) advanceDay(w, new Set(w.party));
     if (w.ended) return;
     p.location = c.to;
     for (const id of w.party) actorById(w, id)!.location = c.to;
-    w.notice = `你来到${LOCATIONS[c.to].name}${time ? "，一天已过" : ""}。`;
+    w.notice = `你来到${LOCATIONS[c.to].name}${time ? `，路上经过 ${time} 日` : ""}。`;
     record(w, "travel", w.notice, w.party);
     return;
   },
   train: (w, c) => {
     validateStopCondition(w, c.stopWhen);
+    requireRule(
+      !c.stopWhen || !advanceStopReason(w, { kind: "cultivationReady" }),
+      "修为已圆满，无需继续修行。",
+      "ACTION_UNAVAILABLE",
+    );
     requireRule(
       !advanceStopReason(w, c.stopWhen),
       "停止条件已经满足，无需继续修行。",
@@ -217,8 +341,15 @@ const commandHandlers: CommandHandlers = {
     a!.remaining--;
     a!.checkpoint++;
     if (a!.kind === "train" && a!.stoneMethod) a!.paidStones += STONE_METHOD.costSpiritStonesPerDay;
+    const cultivationStop =
+      a!.kind === "train" && a!.stopWhen
+        ? advanceStopReason(w, { kind: "cultivationReady" }, w.day - 1)
+        : null;
     const stopReason =
-      a!.stopWhen?.kind === "importantEvent" ? null : advanceStopReason(w, a!.stopWhen, w.day - 1);
+      cultivationStop ||
+      (a!.stopWhen?.kind === "importantEvent"
+        ? null
+        : advanceStopReason(w, a!.stopWhen, w.day - 1));
     if (a!.remaining === 0 || stopReason) {
       if (a!.kind === "breakthrough") {
         const success = breakthroughResult(w, p, a!.chance);
@@ -286,7 +417,7 @@ const commandHandlers: CommandHandlers = {
   buy: (w, c) => {
     const p = w.player;
 
-    requireRule(p.location === "market", "请到坊市药铺购买。");
+    requireRule(locationKind(p.location) === "market", "请到坊市药铺购买。");
     const price = SHOP_ITEMS[c.item].price;
     requireRule(price && p.stones >= price, "灵石不足。", "INSUFFICIENT_RESOURCES");
     p.stones -= price;
@@ -298,7 +429,7 @@ const commandHandlers: CommandHandlers = {
   exchange: (w, c) => {
     const p = w.player;
     requireRule(
-      p.location === "market" &&
+      locationKind(p.location) === "market" &&
         p.grass >= B.economy.pillExchange.inputQuantity &&
         p.stones >= B.economy.pillExchange.spiritStoneCost,
       `兑换需要在坊市交付 ${B.economy.pillExchange.inputQuantity} 株凝元草和 ${B.economy.pillExchange.spiritStoneCost} 枚灵石。`,
@@ -380,6 +511,12 @@ const commandHandlers: CommandHandlers = {
     requireRule(
       w.agreement!.members.every((id) => actorById(w, id)?.alive),
       "同伴已经离世，这份约定无法继续。",
+    );
+    requireRule(
+      w.agreement!.members.every(
+        (id) => regionOf(actorById(w, id)!.location) === regionOf(p.location),
+      ),
+      "同伴尚在别处，请回到他们所在的城镇再约会合。",
     );
     w.agreement!.meeting = { location: p.location };
     for (let d = 0; d < commandDays(w, c); d++) advanceDay(w);

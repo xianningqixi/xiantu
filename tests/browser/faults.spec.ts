@@ -1,3 +1,4 @@
+import { openCurrentLocation, travelTo } from "./journey-controls";
 import { test, expect, type Page } from "@playwright/test";
 test.use({ serviceWorkers: "block" });
 const injection = `
@@ -34,6 +35,7 @@ async function setup(page: Page) {
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("故障回归");
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
   await expect(page.getByRole("heading", { name: "故障回归", exact: true })).toBeVisible();
+  await openCurrentLocation(page);
 }
 async function saved(page: Page) {
   return page.evaluate(async () => {
@@ -85,6 +87,7 @@ for (const type of ["beforePut", "lostAck"])
     else await expect.poll(async () => (await saved(page)).day).toBe(1);
     await page.reload();
     await expect(page.getByRole("heading", { name: "故障回归", exact: true })).toBeVisible();
+    await openCurrentLocation(page);
     const after = await saved(page);
     expect(after.day).toBe(type === "lostAck" ? 1 : 0);
     expect(after.player.stones).toBe(before.player.stones + (type === "lostAck" ? 6 : 0));
@@ -97,7 +100,7 @@ test("another IndexedDB schema upgrade closes the worker connection and permits 
   await page.evaluate(
     () =>
       new Promise<void>((resolve, reject) => {
-        const q = indexedDB.open("xiantu-qingshi", 3);
+        const q = indexedDB.open("xiantu-qingshi", 4);
         q.onsuccess = () => {
           q.result.close();
           resolve();
@@ -119,10 +122,7 @@ for (const type of ["beforePut", "lostAck"])
     await setup(page);
     await page.getByRole("button", { name: /接些坊市杂务/ }).click();
     await expect(page.locator("header").getByText("第 2 日", { exact: true })).toBeVisible();
-    await page
-      .locator(".travel-options")
-      .getByRole("button", { name: /听雨客栈/ })
-      .click();
+    await travelTo(page, "听雨客栈");
     await expect(page.locator(".place-heading h1")).toHaveText("听雨客栈");
     await page.getByRole("button", { name: /向店家领取/ }).click();
     await page.getByRole("tab", { name: "修行", exact: true }).click();

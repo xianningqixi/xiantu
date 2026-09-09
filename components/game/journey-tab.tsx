@@ -5,6 +5,7 @@ import {
   localChapterStatus,
 } from "@/lib/game/journey-presentation";
 import { profileTabForClick, type OpenProfile } from "@/lib/ui/profile-navigation";
+import { locationArt } from "@/lib/ui/cosmetic-art";
 import { memo, useLayoutEffect, useRef } from "react";
 import { sectAt } from "@/lib/game/sect-content";
 import { SectPanel } from "./sect-panel";
@@ -135,7 +136,9 @@ export const JourneyTab = memo(function JourneyTab({
       ? PRESENTATION.lootReturn
       : PRESENTATION.lootSettle
     : null;
-  const sceneArt = extensionVisual(transition?.visualId || current?.visualId || place.visualId);
+  const sceneArt = transition
+    ? extensionVisual(transition.visualId)
+    : (locationArt(p.location) ?? extensionVisual(current?.visualId || place.visualId));
   const portraitArt = visual(current?.portraitId || CHARACTERS.primary.portraitId || "");
   const readiness = partyReadiness(w);
   const departure = departureStatus(w);
@@ -256,15 +259,7 @@ export const JourneyTab = memo(function JourneyTab({
             ) : (
               <>
                 <figure className="scene-figure">
-                  <GameImage
-                    src={sceneArt.url}
-                    alt={
-                      locationKind(p.location) === "wild"
-                        ? `${place.name} · 山野景致示意`
-                        : sceneArt.alt
-                    }
-                    zoom
-                  />
+                  <GameImage src={sceneArt.url} alt={sceneArt.alt} zoom />
                   <figcaption>
                     <span>{place.subtitle}</span>
                     <small>

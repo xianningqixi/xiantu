@@ -30,7 +30,7 @@ async function world(page: Page) {
   });
 }
 async function saved(page: Page) {
-  await expect(page.getByText("本机已存", { exact: true })).toBeAttached();
+  await expect(page.locator(".saved-state")).toHaveText(/已存 · 第 \d+ 日/);
 }
 async function create(page: Page, shichai: boolean) {
   await page.goto("/author");
@@ -56,8 +56,14 @@ async function act(page: Page, button: import("@playwright/test").Locator) {
 }
 async function finishAction(page: Page) {
   await expect.poll(async () => !!(await world(page)).longAction, { timeout: 60000 }).toBe(false);
-  const summary = page.getByRole("dialog", { name: "闭关期间", exact: true });
-  if (await summary.count()) await page.keyboard.press("Escape");
+  await saved(page);
+  const summary = page.getByRole("dialog").filter({
+    has: page.getByRole("heading", { name: /^(闭关期间|等候见闻|突破结果)$/ }),
+  });
+  if (await summary.count()) {
+    await page.keyboard.press("Escape");
+    await expect(summary).toHaveCount(0);
+  }
 }
 async function practice(page: Page, days: number) {
   await page.getByRole("tab", { name: "修行", exact: true }).click();
@@ -85,9 +91,13 @@ test("four-volume growth and main clues unlock local stories and real travel wit
 }) => {
   const issues = errors(page);
   test.setTimeout(180000);
+  page.setDefaultTimeout(15000);
   await create(page, true);
   await expect(page.locator(".side-story")).toHaveCount(0);
-  await page.screenshot({ path: path.join(output, "journey-new-game.png") });
+  await page.screenshot({
+    animations: "disabled",
+    path: path.join(output, "journey-new-game.png"),
+  });
   // The same assets are now reached through cultivation and the local introduction.
   for (let i = 0; i < 4; i++) await act(page, page.locator(".story-choices .story-choice").first());
   await practice(page, 7);
@@ -138,9 +148,16 @@ test("four-volume growth and main clues unlock local stories and real travel wit
     before.npcs.find((a: any) => a.id === "shichai.chunshui.suqingyan").goal,
   );
   await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog")).toHaveCount(0);
   expect(await world(page)).toEqual(before);
-  await page.screenshot({ path: path.join(output, "shichai-owned-desktop.png") });
-  await card.screenshot({ path: path.join(output, "shichai-owned-card.png") });
+  await page.screenshot({
+    animations: "disabled",
+    path: path.join(output, "shichai-owned-desktop.png"),
+  });
+  await card.screenshot({
+    animations: "disabled",
+    path: path.join(output, "shichai-owned-card.png"),
+  });
   for (const width of [390, 320]) {
     await page.setViewportSize({ width, height: 844 });
     await card.scrollIntoViewIfNeeded();
@@ -153,7 +170,10 @@ test("four-volume growth and main clues unlock local stories and real travel wit
     const box = await card.boundingBox();
     expect(box!.x).toBeGreaterThanOrEqual(0);
     expect(box!.x + box!.width).toBeLessThanOrEqual(width);
-    await page.screenshot({ path: path.join(output, `shichai-owned-mobile-${width}.png`) });
+    await page.screenshot({
+      animations: "disabled",
+      path: path.join(output, `shichai-owned-mobile-${width}.png`),
+    });
   }
   await page.reload();
   await openCurrentLocation(page);
@@ -168,6 +188,7 @@ test("four-volume growth and main clues unlock local stories and real travel wit
   expect(after.revision).toBe(before.revision + 1);
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.getByRole("tab", { name: /故人/ }).click();
+  await page.getByRole("searchbox", { name: "搜索姓名", exact: true }).fill("苏清晏");
   const row = page
     .locator(".person-row")
     .filter({ has: page.getByRole("heading", { name: /苏清晏/ }) });
@@ -183,7 +204,10 @@ test("four-volume growth and main clues unlock local stories and real travel wit
   await expect
     .poll(() => portrait.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0))
     .toBe(true);
-  await dialog.screenshot({ path: path.join(output, "shichai-owned-npc.png") });
+  await dialog.screenshot({
+    animations: "disabled",
+    path: path.join(output, "shichai-owned-npc.png"),
+  });
   for (const width of [390, 320]) {
     await page.setViewportSize({ width, height: 844 });
     await expect
@@ -203,7 +227,10 @@ test("four-volume growth and main clues unlock local stories and real travel wit
         }),
       )
       .toBe(true);
-    await dialog.screenshot({ path: path.join(output, `shichai-owned-npc-${width}.png`) });
+    await dialog.screenshot({
+      animations: "disabled",
+      path: path.join(output, `shichai-owned-npc-${width}.png`),
+    });
   }
   await page.setViewportSize({ width: 1440, height: 1000 });
   expect(await world(page)).toEqual(after);
@@ -219,10 +246,7 @@ test("four-volume growth and main clues unlock local stories and real travel wit
   await act(page, page.locator(".side-story").locator(".story-choice").first());
   for (let i = 0; i < 8 && (await world(page)).party.length === 1; i++) {
     await page.waitForTimeout(450);
-    await act(
-      page,
-      page.getByRole("button", { name: /^(邀二人同行|约在此处会合 · 1 日|等候同伴 · 1 日)/ }),
-    );
+    await act(page, page.getByRole("button", { name: /^(邀二人同行|约在此处会合|等候同伴)/ }));
   }
   expect((await world(page)).party).toHaveLength(3);
   await travel(page, "山门古道");
@@ -233,7 +257,10 @@ test("four-volume growth and main clues unlock local stories and real travel wit
   await atlas.locator('[data-atlas-place="xiaye"]').click();
   await expect(atlas.locator(".atlas-go")).toBeEnabled();
   await expect(atlas.locator(".atlas-go")).toHaveText("启程前往 · 3 日");
-  await atlas.screenshot({ path: path.join(output, "journey-route-preview.png") });
+  await atlas.screenshot({
+    animations: "disabled",
+    path: path.join(output, "journey-route-preview.png"),
+  });
   await atlas.getByRole("button", { name: "关闭地图", exact: true }).click();
   expect(await world(page)).toEqual(routePreview);
   for (
@@ -293,7 +320,10 @@ test("four-volume growth and main clues unlock local stories and real travel wit
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
       true,
     );
-    await page.screenshot({ path: path.join(output, `journey-linjiang-${width}.png`) });
+    await page.screenshot({
+      animations: "disabled",
+      path: path.join(output, `journey-linjiang-${width}.png`),
+    });
   }
   const arrivalSave = await world(page);
   await page.reload();
@@ -320,7 +350,7 @@ test("roadside-only new game reaches its planned image and keeps original card l
   await page.getByRole("tab", { name: "游历", exact: true }).click();
   await travel(page, "山门古道");
   if (!(await page.locator('[data-story-id="guest.roadside.introduction"]').count())) {
-    await act(page, page.getByRole("button", { name: /^(约在此处会合 · 1 日|等候同伴 · 1 日)/ }));
+    await act(page, page.getByRole("button", { name: /^(约在此处会合|等候同伴)/ }));
   }
   const intro = page.locator('[data-story-id="guest.roadside.introduction"]');
   for (let day = 0; day < 30 && !(await intro.count()); day++) {
@@ -355,11 +385,17 @@ test("roadside-only new game reaches its planned image and keeps original card l
   expect(await card.locator("img").count()).toBe(0);
   const before = await world(page);
   await card.scrollIntoViewIfNeeded();
-  await card.screenshot({ path: path.join(output, "roadside-planned-desktop.png") });
+  await card.screenshot({
+    animations: "disabled",
+    path: path.join(output, "roadside-planned-desktop.png"),
+  });
   await page.setViewportSize({ width: 390, height: 844 });
   await card.scrollIntoViewIfNeeded();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-  await page.screenshot({ path: path.join(output, "roadside-planned-mobile.png") });
+  await page.screenshot({
+    animations: "disabled",
+    path: path.join(output, "roadside-planned-mobile.png"),
+  });
   expect(await world(page)).toEqual(before);
   await card.locator(".story-choice").first().click();
   await saved(page);

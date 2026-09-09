@@ -2,6 +2,7 @@ import { validateMainStory } from "../lib/game/content/main-story-contract.mjs";
 import { extensionImages } from "./extension-images.mjs";
 import { prepareImages } from "./prepare-images.mjs";
 import { prepareAvatars } from "./prepare-avatars.mjs";
+import { prepareCosmeticArt } from "./prepare-cosmetic-art.mjs";
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
@@ -332,6 +333,26 @@ for (const { data } of extensionEntries)
     if (sourceUrl) avatarPortraits.push({ actorId: actor.id, sourceUrl });
   }
 const avatarUrls = await prepareAvatars(presentationImages, avatarPortraits);
+const sectArtIdentities = JSON.parse(
+  fs.readFileSync(path.join(project, "content-packs/cultivation-sects/sects.json"), "utf8"),
+).sects.flatMap((sect) => sect.residents.map((actor) => actor.id));
+const atlasArtLocations = JSON.parse(
+  fs.readFileSync(path.join(project, "content-packs/world-atlas/map.json"), "utf8"),
+)
+  .places.filter((place) => place.kind !== "town")
+  .map((place) => place.to);
+await prepareCosmeticArt({
+  project,
+  presentationImages,
+  avatarUrls,
+  portraitSources: avatarPortraits,
+  additionalActorIds: sectArtIdentities,
+  locationIds: [
+    ...Object.keys(p.locations),
+    ...extensionEntries.flatMap((entry) => Object.keys(entry.data.definitions.locations ?? {})),
+    ...atlasArtLocations,
+  ],
+});
 await prepareImages(presentationImages);
 const imageMetadata = JSON.parse(
   fs.readFileSync(path.join(project, "lib/game/content/images.json"), "utf8"),

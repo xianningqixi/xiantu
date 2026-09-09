@@ -12,6 +12,7 @@ import { bundledPortrait } from "@/lib/game/portrait-library";
 import { extensionPortrait } from "@/lib/game/content/extensions";
 import { imageAsset } from "@/lib/game/images";
 import { cropAvatar } from "@/lib/ui/avatar-image";
+import { cosmeticPortrait } from "@/lib/ui/cosmetic-art";
 export function usePortrait(id?: string, variant: "fullbody" | "avatar" = "fullbody") {
   const [loaded, setLoaded] = useState({ id, variant, src: "" });
   const [version, setVersion] = useState(0);
@@ -84,7 +85,7 @@ export function PortraitStudio({
   const readiness = useModelReadiness();
   const cached = usePortrait(portraitId);
   const bundled = !portraitId ? bundledPortrait(subject) : null;
-  const owned = actorId ? extensionPortrait(actorId) : null;
+  const owned = actorId ? (extensionPortrait(actorId) ?? cosmeticPortrait(actorId)) : null;
   const [failed, setFailed] = useState("");
   const candidate = cached || (owned?.url ? imageAsset(owned.url).src : "") || bundled?.src || "";
   const src = candidate === failed ? "" : candidate;

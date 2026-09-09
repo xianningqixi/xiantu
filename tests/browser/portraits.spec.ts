@@ -52,7 +52,7 @@ test("creation fits desktop and mobile viewports, with all panels accessible and
     await expect(page.getByRole("combobox", { name: "胸围", exact: true })).toBeVisible();
     await page.getByRole("radio", { name: "男", exact: true }).check();
     await expect(page.getByRole("combobox", { name: "胸围", exact: true })).toHaveCount(0);
-    await expect(page.locator(".creation-form").getByRole("status")).toHaveText("创角草稿已保存");
+    await expect(page.locator(".creation-form .save-footnote")).toHaveText("创角草稿已保存");
     await page.reload();
     await expect(page.getByRole("radio", { name: "男", exact: true })).toBeChecked();
     await expect(page.getByRole("combobox", { name: "胸围", exact: true })).toHaveCount(0);
@@ -107,7 +107,7 @@ test("player body and generated asset persist; NPC adoption saves through Worker
   const features = "月白长裤，棉袜和平底靴，袖口绣着银色云纹";
   await expect(page.locator(".portrait-features input")).toHaveCount(1);
   await page.getByRole("textbox", { name: "立绘特征", exact: true }).fill(features);
-  await expect(page.locator(".creation-form").getByRole("status")).toHaveText("创角草稿已保存");
+  await expect(page.locator(".creation-form .save-footnote")).toHaveText("创角草稿已保存");
   await page.reload();
   await expect(bust).toHaveValue("E");
   await expect(page.getByRole("textbox", { name: "立绘特征", exact: true })).toHaveValue(features);
@@ -129,6 +129,7 @@ test("player body and generated asset persist; NPC adoption saves through Worker
   await expect(page.getByRole("heading", { name: "立绘修士", exact: true })).toBeVisible();
   expect(await saved(page)).toEqual(first);
   await page.getByRole("tab", { name: "故人", exact: true }).click();
+  await page.getByRole("searchbox", { name: "搜索姓名", exact: true }).fill("林晚");
   await page.locator(".person-row").filter({ hasText: "林晚" }).click();
   const dialog = page.getByRole("dialog", { name: "林晚", exact: true });
   await dialog.getByRole("tab", { name: "立绘", exact: true }).click();
@@ -188,7 +189,7 @@ test("legacy portrait features import into one editable field and preserve empty
   await page.reload();
   await expect(input).toHaveValue("月白长裤 · 棉袜 · 平底靴");
   await input.fill("");
-  await expect(page.locator(".creation-form").getByRole("status")).toHaveText("创角草稿已保存");
+  await expect(page.locator(".creation-form .save-footnote")).toHaveText("创角草稿已保存");
   await page.reload();
   await expect(input).toHaveValue("");
   expect(await saved(page)).toBeUndefined();
@@ -264,10 +265,13 @@ test("matching NPC full-body artwork loads without generation, remains offline, 
   await page.goto("/");
   await expect(page.locator(".fullbody-frame img")).toHaveCount(0);
   await create(page);
-  await expect(page.getByText("离线可用", { exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("complementary", { name: "离线与安装" }).getByRole("status"),
+  ).toHaveText("固定剧情离线内容已缓存");
   await page.waitForFunction(() => !!navigator.serviceWorker.controller);
   const before = await saved(page);
   await page.getByRole("tab", { name: "故人", exact: true }).click();
+  await page.getByRole("searchbox", { name: "搜索姓名", exact: true }).fill("林晚");
   await page.locator(".person-row").filter({ hasText: "林晚" }).click();
   let dialog = page.getByRole("dialog", { name: "林晚", exact: true });
   await dialog.getByRole("tab", { name: "立绘", exact: true }).click();
@@ -291,6 +295,7 @@ test("matching NPC full-body artwork loads without generation, remains offline, 
   await page.reload();
   await expect(page.getByRole("heading", { name: "立绘修士", exact: true })).toBeVisible();
   await page.getByRole("tab", { name: "故人", exact: true }).click();
+  await page.getByRole("searchbox", { name: "搜索姓名", exact: true }).fill("林晚");
   await page.locator(".person-row").filter({ hasText: "林晚" }).click();
   dialog = page.getByRole("dialog", { name: "林晚", exact: true });
   await dialog.getByRole("tab", { name: "立绘", exact: true }).click();
@@ -327,7 +332,7 @@ test("redraw shares creation fields, previews before saving, and keeps either bu
   await expect(page.getByRole("textbox", { name: "姓名", exact: true })).toBeVisible();
   // Capture the actual creation controls; redraw must present the same options.
   const options: Record<string, string[]> = {};
-  for (const name of ["容貌", "发式", "衣着", "身材"])
+  for (const name of ["容貌", "发式", "服饰主色", "身材"])
     options[name] = await page
       .getByRole("radiogroup", { name, exact: true })
       .getByRole("radio")
@@ -534,7 +539,10 @@ test("closing or cancelling an NPC redraw cannot adopt a late result, and male r
   await expect(page.locator(".player-identity")).toBeVisible();
   expect(await saved(page)).toEqual(before);
   await page.getByRole("tab", { name: "故人", exact: true }).click();
-  await page.getByRole("button", { name: /^打听本地人物/ }).click();
+  await page
+    .getByRole("combobox", { name: "人物范围", exact: true })
+    .selectOption({ label: "同城" });
+  await page.getByRole("searchbox", { name: "搜索姓名", exact: true }).fill("周安");
   await page
     .locator(".person-row")
     .filter({ has: page.getByRole("heading", { name: /^周安/ }) })

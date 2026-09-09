@@ -5,6 +5,7 @@ import { bundledPortrait } from "@/lib/game/portrait-library";
 import { npcSubject } from "@/lib/game/portrait-subject";
 import { extensionPortrait } from "@/lib/game/content/extensions";
 import { avatarForPortrait } from "@/lib/ui/avatar-library";
+import { cosmeticPortrait } from "@/lib/ui/cosmetic-art";
 import { imageAsset } from "@/lib/game/images";
 import { useState } from "react";
 import { UserRound } from "lucide-react";
@@ -22,7 +23,7 @@ export function NpcPortrait({
   displayName?: string;
 }) {
   const generated = usePortrait(actor.portraitId, full ? "fullbody" : "avatar");
-  const owned = extensionPortrait(actor.id);
+  const owned = extensionPortrait(actor.id) ?? cosmeticPortrait(actor.id);
   const original = owned?.url || (!actor.portraitId ? bundledPortrait(npcSubject(actor))?.src : "");
   const src =
     generated ||

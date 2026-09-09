@@ -26,8 +26,8 @@ export const MODEL_PRESETS = {
   },
   image: {
     baseUrl: "http://172.86.116.166:3000/v1",
-    model: "gpt-image-2",
-    timeout: 90000,
+    model: "gpt-image-2.5-flare",
+    timeout: 420000,
     maxTokens: 800,
   },
 } as const;

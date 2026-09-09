@@ -16,7 +16,11 @@ export async function selectLocations(page: Page) {
 
 export async function travelTo(page: Page, name: string) {
   await selectLocations(page);
-  await page.locator(".local-map").getByRole("button", { name, exact: true }).click();
+  await page
+    .locator(".local-map article")
+    .filter({ has: page.getByRole("heading", { name, exact: true }) })
+    .locator(".map-travel")
+    .click();
   await expect(page.locator(".place-heading h1")).toHaveText(name);
 }
 

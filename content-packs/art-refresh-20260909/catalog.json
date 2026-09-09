@@ -1,0 +1,3345 @@
+{
+  "version": 1,
+  "assets": [
+    {
+      "id": "npc_0003",
+      "file": "art/images/npc-0003-portrait.webp",
+      "sha256": "4b8f85fa6095e836ae678ec23e5c241b518f70548b3c43b9417cb8547d079c73",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "顾照雪的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0003-6f7e9d80074a.webp",
+      "actorId": "NPC_0003",
+      "avatarCrop": {
+        "left": 300,
+        "top": 10,
+        "size": 430
+      }
+    },
+    {
+      "id": "npc_0004",
+      "file": "art/images/npc-0004-portrait.webp",
+      "sha256": "dd8f168cc54dd70f48e0e8a9e2b1b4ceaf42b61d5bb31cd242c3850e6bb97a4f",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "闻晚棠的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0004-407792ef0ec1.webp",
+      "actorId": "NPC_0004",
+      "avatarCrop": {
+        "left": 300,
+        "top": 15,
+        "size": 430
+      }
+    },
+    {
+      "id": "npc_0005",
+      "file": "art/images/npc-0005-portrait.webp",
+      "sha256": "8951757f834cf22f2cf02d8664ea0dcaf1fa1e89ee1ee85cc365fea81e8a0363",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "裴言溪的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0005-4760b4e41198.webp",
+      "actorId": "NPC_0005",
+      "avatarCrop": {
+        "left": 290,
+        "top": 5,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0006",
+      "file": "art/images/npc-0006-portrait.webp",
+      "sha256": "5ba182213ea8ee561613188e884c5aba0b2ca0db8380c9863d348b1d594d5bac",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "柳栖月的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0006-191bc80404e2.webp",
+      "actorId": "NPC_0006",
+      "avatarCrop": {
+        "left": 305,
+        "top": 5,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0007",
+      "file": "art/images/npc-0007-portrait.webp",
+      "sha256": "20a6a489d66b161dd4ed4b84a1319f62baaeeb35b9eaa9927a01cfded0181f32",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "杜怀霜的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0007-f98378b8d1da.webp",
+      "actorId": "NPC_0007",
+      "avatarCrop": {
+        "left": 330,
+        "top": 30,
+        "size": 420
+      }
+    },
+    {
+      "id": "npc_0008",
+      "file": "art/images/npc-0008-portrait.webp",
+      "sha256": "1c213504ce7f52427ba07de10f97a6e504491e777ca182b04a968e63d29899a9",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "宋疏桐的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0008-2db934404d2a.webp",
+      "actorId": "NPC_0008",
+      "avatarCrop": {
+        "left": 300,
+        "top": 0,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0009",
+      "file": "art/images/npc-0009-portrait.webp",
+      "sha256": "912e43eab42e01743a88bc82635a5f8dd7c7084c6e1e05a8f1c5f7c511625140",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "顾砚舟的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0009-8ff306b6ac0c.webp",
+      "actorId": "NPC_0009",
+      "avatarCrop": {
+        "left": 285,
+        "top": 5,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0010",
+      "file": "art/images/npc-0010-portrait.webp",
+      "sha256": "33becea62d5f3eab6717b6c169bb3df116bd1895266b98d838ec818d88f8994f",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "许清禾的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0010-36d37a2efad8.webp",
+      "actorId": "NPC_0010",
+      "avatarCrop": {
+        "left": 290,
+        "top": 5,
+        "size": 435
+      }
+    },
+    {
+      "id": "npc_0011",
+      "file": "art/images/npc-0011-portrait.webp",
+      "sha256": "03eb78812a6ad23ee1b8a39c49ead53e9ea33b84dc0e992c9e66778aa303f38d",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "江云生的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0011-a95d2f065208.webp",
+      "actorId": "NPC_0011",
+      "avatarCrop": {
+        "left": 310,
+        "top": 15,
+        "size": 430
+      }
+    },
+    {
+      "id": "npc_0012",
+      "file": "art/images/npc-0012-portrait.webp",
+      "sha256": "24dd7b802740b912f945c5ab5e9571264846c761beb30417e124c7db635d83d9",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "温孤鸿的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0012-b8ceae574920.webp",
+      "actorId": "NPC_0012",
+      "avatarCrop": {
+        "left": 405,
+        "top": 0,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0013",
+      "file": "art/images/npc-0013-portrait.webp",
+      "sha256": "023f95e1f029fad00773ef26b4672efba3574ab1e9f0540676f48c91ee3b77ab",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "陆砚舟的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0013-370269b06fda.webp",
+      "actorId": "NPC_0013",
+      "avatarCrop": {
+        "left": 285,
+        "top": 10,
+        "size": 435
+      }
+    },
+    {
+      "id": "npc_0014",
+      "file": "art/images/npc-0014-portrait.webp",
+      "sha256": "56e4b98de7a45e2e6fc32266846be21a6b7953c4fa2d0d3fd72d158525c998e0",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "闻孤鸿的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0014-ef86a8c1005d.webp",
+      "actorId": "NPC_0014",
+      "avatarCrop": {
+        "left": 320,
+        "top": 0,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0015",
+      "file": "art/images/npc-0015-portrait.webp",
+      "sha256": "740ef45134354b588cc8f9c31c8ab3eab397a5640107291f5e0b9a622c50a636",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "宋砚舟的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0015-be89d25e2bd2.webp",
+      "actorId": "NPC_0015",
+      "avatarCrop": {
+        "left": 270,
+        "top": 15,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0016",
+      "file": "art/images/npc-0016-portrait.webp",
+      "sha256": "1801950887de6187683bb1d6ec77d97bfcba4f9d13fb663c917a309e705880d1",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "杜砚舟的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0016-a4ebb601e9b8.webp",
+      "actorId": "NPC_0016",
+      "avatarCrop": {
+        "left": 290,
+        "top": 5,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0017",
+      "file": "art/images/npc-0017-portrait.webp",
+      "sha256": "4d349fd8cd38e888fa47314d53afe1be583091357f7320891da8b9259d422581",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "温砚舟的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0017-fbbd07efe0bd.webp",
+      "actorId": "NPC_0017",
+      "avatarCrop": {
+        "left": 330,
+        "top": 10,
+        "size": 435
+      }
+    },
+    {
+      "id": "npc_0018",
+      "file": "art/images/npc-0018-portrait.webp",
+      "sha256": "466d1bbb792b1a53c75104330274ff01cea06dfc89b6a6c4e8d062b69a4e0ca4",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "苏晚棠的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0018-29e2362b23d6.webp",
+      "actorId": "NPC_0018",
+      "avatarCrop": {
+        "left": 295,
+        "top": 10,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0019",
+      "file": "art/images/npc-0019-portrait.webp",
+      "sha256": "df30c2a9a902c0f5f3ed496f23d81bc9390e797a0e12b1132855728069ba82fa",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "贺晚棠的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0019-476ecc67bd40.webp",
+      "actorId": "NPC_0019",
+      "avatarCrop": {
+        "left": 285,
+        "top": 20,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0020",
+      "file": "art/images/npc-0020-portrait.webp",
+      "sha256": "a1534edf550f580673525edda21e3b9716f60441338a3dabba8f7d0ce9c52e65",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "沈栖月的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0020-24b7309b3432.webp",
+      "actorId": "NPC_0020",
+      "avatarCrop": {
+        "left": 310,
+        "top": 10,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0021",
+      "file": "art/images/npc-0021-portrait.webp",
+      "sha256": "8ecb6e37dcffae44da1529f3a07ea555becaf5010dec89d0585895a11649ff48",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "谢云生的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0021-3bac6cbb34bb.webp",
+      "actorId": "NPC_0021",
+      "avatarCrop": {
+        "left": 300,
+        "top": 5,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0022",
+      "file": "art/images/npc-0022-portrait.webp",
+      "sha256": "90043ca1b56252765e7dc11e3b660cbb7438462deb071011c528905dca79cfa5",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "裴望舒的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0022-705f4897fb45.webp",
+      "actorId": "NPC_0022",
+      "avatarCrop": {
+        "left": 310,
+        "top": 10,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0023",
+      "file": "art/images/npc-0023-portrait.webp",
+      "sha256": "d557074ddb5ad9b9871cba18a81060b979f51f88c7f6ae51c20476fada11c2d2",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "沈青岚的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0023-3f23d47261d8.webp",
+      "actorId": "NPC_0023",
+      "avatarCrop": {
+        "left": 300,
+        "top": 5,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0024",
+      "file": "art/images/npc-0024-portrait.webp",
+      "sha256": "7a37ae58fdc40479be11c670521d5ce4949e2b67e6533eaff61407dc095e9ec8",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "叶长宁的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0024-19c153956f4a.webp",
+      "actorId": "NPC_0024",
+      "avatarCrop": {
+        "left": 275,
+        "top": 5,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0025",
+      "file": "art/images/npc-0025-portrait.webp",
+      "sha256": "3ecf15f27f2ea0f4d8b6207b5b46e4c04aaffc3ee0c5484f298dd94384b7f6ac",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "贺望舒的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0025-a70bbc677a37.webp",
+      "actorId": "NPC_0025",
+      "avatarCrop": {
+        "left": 290,
+        "top": 0,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0026",
+      "file": "art/images/npc-0026-portrait.webp",
+      "sha256": "c5c6e538365fe82e073521de04cdd31c4d9c2ebc7180578a4207f44dd3ba8e10",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "许青岚的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0026-e139d006dd31.webp",
+      "actorId": "NPC_0026",
+      "avatarCrop": {
+        "left": 295,
+        "top": 5,
+        "size": 435
+      }
+    },
+    {
+      "id": "npc_0027",
+      "file": "art/images/npc-0027-portrait.webp",
+      "sha256": "cd17f227de21e0e8f7294582a7bbf23d4e56665a1972f88b4ddcd5f7a650f7b3",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "裴知远的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0027-7a1f8d8c9b85.webp",
+      "actorId": "NPC_0027",
+      "avatarCrop": {
+        "left": 340,
+        "top": 5,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0028",
+      "file": "art/images/npc-0028-portrait.webp",
+      "sha256": "13fae8c627cf20a8cf9b7fbc8b8bbea46e1beeb6355c19a797d7a315242eaa37",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "许望岳的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0028-19a5b9681b7c.webp",
+      "actorId": "NPC_0028",
+      "avatarCrop": {
+        "left": 310,
+        "top": 5,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0029",
+      "file": "art/images/npc-0029-portrait.webp",
+      "sha256": "be365292b258709fad79dba95601872f3791a364e1556d4ec89d0ba6b477f7d6",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "江栖月的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0029-c50341a1ebf3.webp",
+      "actorId": "NPC_0029",
+      "avatarCrop": {
+        "left": 295,
+        "top": 5,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0030",
+      "file": "art/images/npc-0030-portrait.webp",
+      "sha256": "311cf008714524c2a1378e11c3daba25115e03cd5b68ec4fc38d92727ab7a0bc",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "叶兰霜的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0030-e72a22453167.webp",
+      "actorId": "NPC_0030",
+      "avatarCrop": {
+        "left": 300,
+        "top": 5,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0031",
+      "file": "art/images/npc-0031-portrait.webp",
+      "sha256": "1ffec6ddd2adb130f9d8485ade322f3a323f0b04bbf7361d3042ef26c8f33efc",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "叶怀霜的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0031-51834387f83d.webp",
+      "actorId": "NPC_0031",
+      "avatarCrop": {
+        "left": 310,
+        "top": 25,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0032",
+      "file": "art/images/npc-0032-portrait.webp",
+      "sha256": "33325b36679a52c1cd9de910cb228209c1c10f6157290affd38a8b88249d323d",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "沈言溪的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0032-5754d8c82911.webp",
+      "actorId": "NPC_0032",
+      "avatarCrop": {
+        "left": 300,
+        "top": 0,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0033",
+      "file": "art/images/npc-0033-portrait.webp",
+      "sha256": "5d54ad747440ae492f3e2569b38a61895fa8a7d55c886131f69ad7011e61aeae",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "闻听澜的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0033-d7931a488bc7.webp",
+      "actorId": "NPC_0033",
+      "avatarCrop": {
+        "left": 275,
+        "top": 0,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0034",
+      "file": "art/images/npc-0034-portrait.webp",
+      "sha256": "97259b673cdcd402cdb5f53b18e71d1375b57c4fef76bce65f78747144d646b7",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "顾言溪的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0034-341fd9355eb5.webp",
+      "actorId": "NPC_0034",
+      "avatarCrop": {
+        "left": 315,
+        "top": 0,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0035",
+      "file": "art/images/npc-0035-portrait.webp",
+      "sha256": "226736adb3870d44bba1aed81e6f39a24b5ea5612c2c35b616587763e1dee0b1",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "许栖月的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0035-44a153d6d49e.webp",
+      "actorId": "NPC_0035",
+      "avatarCrop": {
+        "left": 265,
+        "top": 15,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0036",
+      "file": "art/images/npc-0036-portrait.webp",
+      "sha256": "ce8f0cd25f4638b0059a303fd486bdba02d0ebd7a9625d4f595b2f7c602e5b1c",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "柳清禾的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0036-d9a41e87247e.webp",
+      "actorId": "NPC_0036",
+      "avatarCrop": {
+        "left": 280,
+        "top": 5,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0037",
+      "file": "art/images/npc-0037-portrait.webp",
+      "sha256": "8cccc1ddadabc4f4556d5411421ef9c49c9167dc6e6e2e3887ce82ba8e5d998b",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "谢长宁的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0037-aa43f901263e.webp",
+      "actorId": "NPC_0037",
+      "avatarCrop": {
+        "left": 225,
+        "top": 0,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0038",
+      "file": "art/images/npc-0038-portrait.webp",
+      "sha256": "ef43058a2dc0867f27991ee85bb020b3ebdde2f1350c791838d7c82dbee3b70a",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "杜晚棠的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0038-9192970d8d05.webp",
+      "actorId": "NPC_0038",
+      "avatarCrop": {
+        "left": 310,
+        "top": 0,
+        "size": 435
+      }
+    },
+    {
+      "id": "npc_0039",
+      "file": "art/images/npc-0039-portrait.webp",
+      "sha256": "51e612a73e7c2295e916d7bfa3f1f9054049e5a84095ac08a611c4308a8688ac",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "陆晚棠的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0039-b49cc87b80a3.webp",
+      "actorId": "NPC_0039",
+      "avatarCrop": {
+        "left": 280,
+        "top": 0,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0040",
+      "file": "art/images/npc-0040-portrait.webp",
+      "sha256": "bfcc43047190f9c63a8bc8923530a9c87fa798ec793254fc66948e55289c4bf1",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "程长宁的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0040-ae4c332d9755.webp",
+      "actorId": "NPC_0040",
+      "avatarCrop": {
+        "left": 300,
+        "top": 5,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0041",
+      "file": "art/images/npc-0041-portrait.webp",
+      "sha256": "4894b1f235ea9d9cb93ee4857eaa89c62b940153cf937357e32335e8720c479c",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "阮惊弦的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0041-794cc1243adb.webp",
+      "actorId": "NPC_0041",
+      "avatarCrop": {
+        "left": 300,
+        "top": 5,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0042",
+      "file": "art/images/npc-0042-portrait.webp",
+      "sha256": "7b0818d31b270ce0ab6054e3acdc62759aa7603823186687a3a30e5818a56760",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "虞照棠的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0042-8a8bb54ec2c2.webp",
+      "actorId": "NPC_0042",
+      "avatarCrop": {
+        "left": 300,
+        "top": 5,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0043",
+      "file": "art/images/npc-0043-portrait.webp",
+      "sha256": "e4ec0de019b69b558c51a0ef6e9dbe80ac0f091fcfea3b74d216bfaa13b705a7",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "花临岫的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0043-d1c0840b9163.webp",
+      "actorId": "NPC_0043",
+      "avatarCrop": {
+        "left": 325,
+        "top": 5,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0044",
+      "file": "art/images/npc-0044-portrait.webp",
+      "sha256": "40aac8010b9a80e96abfac653b6472ecb60de9df3d52274fa16f542f3e43d6ca",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "凌疏影的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0044-f4f97497ffff.webp",
+      "actorId": "NPC_0044",
+      "avatarCrop": {
+        "left": 300,
+        "top": 0,
+        "size": 435
+      }
+    },
+    {
+      "id": "npc_0045",
+      "file": "art/images/npc-0045-portrait.webp",
+      "sha256": "882aea32205020226f3154c5912f99cc06af441cef8a4179a7508e07115f22b6",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "白映澈的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0045-c9d0f592b4a1.webp",
+      "actorId": "NPC_0045",
+      "avatarCrop": {
+        "left": 290,
+        "top": 5,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0046",
+      "file": "art/images/npc-0046-portrait.webp",
+      "sha256": "d9ede1d8364a8f7a94ffe588997da0270c3adae5a3ada3be093cec2f44330312",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "洛栖沙的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0046-0e5c919c7513.webp",
+      "actorId": "NPC_0046",
+      "avatarCrop": {
+        "left": 320,
+        "top": 5,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0047",
+      "file": "art/images/npc-0047-portrait.webp",
+      "sha256": "adfac79fab169ff5cc98d0373c707d428537e509649e299907845a625eb14c21",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "燕回锋的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0047-5e00b8b111f8.webp",
+      "actorId": "NPC_0047",
+      "avatarCrop": {
+        "left": 275,
+        "top": 10,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0048",
+      "file": "art/images/npc-0048-portrait.webp",
+      "sha256": "793769d66e6121db321f69ca7e9bab6d293a81fbc692ba11fb6c90705ae2397d",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "南宫听刃的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0048-0efb93906a7d.webp",
+      "actorId": "NPC_0048",
+      "avatarCrop": {
+        "left": 275,
+        "top": 5,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0049",
+      "file": "art/images/npc-0049-portrait.webp",
+      "sha256": "a4fba623d5c44aa0c388efae0c81dc8b902c771bbb824d4d8dacf0061107c19f",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "司空逐羽的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0049-4edeb34d7b9c.webp",
+      "actorId": "NPC_0049",
+      "avatarCrop": {
+        "left": 295,
+        "top": 5,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0050",
+      "file": "art/images/npc-0050-portrait.webp",
+      "sha256": "7013d4cd0064161f2ef109914ab69d4cd0a86eeb4dab6974874cadb636699a2f",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "公孙定澜的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0050-807e78a88c9e.webp",
+      "actorId": "NPC_0050",
+      "avatarCrop": {
+        "left": 285,
+        "top": 5,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0051",
+      "file": "art/images/npc-0051-portrait.webp",
+      "sha256": "11c2ebae4298b5598f67692007e6030df85c9a72f298b4e7ac079bd000ae9221",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "阮抱月的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0051-5915ab9a151e.webp",
+      "actorId": "NPC_0051",
+      "avatarCrop": {
+        "left": 300,
+        "top": 10,
+        "size": 435
+      }
+    },
+    {
+      "id": "npc_0052",
+      "file": "art/images/npc-0052-portrait.webp",
+      "sha256": "b4dff89e232248be0e8d5901a23ad3e58faa8db056970a9cefc5e9aa492eaf39",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "虞沉璧的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0052-66fc983c5943.webp",
+      "actorId": "NPC_0052",
+      "avatarCrop": {
+        "left": 305,
+        "top": 5,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0053",
+      "file": "art/images/npc-0053-portrait.webp",
+      "sha256": "06676a9455f3bd3c461743ff16c44d0001ca89c335908cbd88e06344898678dc",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "花折烟的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0053-22177ff12d7e.webp",
+      "actorId": "NPC_0053",
+      "avatarCrop": {
+        "left": 295,
+        "top": 0,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0054",
+      "file": "art/images/npc-0054-portrait.webp",
+      "sha256": "521cb18f21e44deb514a6c27338f0f592843df5daca77fe8e3e571d9c7b0ede6",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "凌见微的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0054-1d1ab7c35828.webp",
+      "actorId": "NPC_0054",
+      "avatarCrop": {
+        "left": 285,
+        "top": 0,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0055",
+      "file": "art/images/npc-0055-portrait.webp",
+      "sha256": "dfd63b95f0ca073a8bf598b79e8ea8322da1756dc9060702ad56292b5770c0f9",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "白砚秋的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0055-23f4a5aee0e3.webp",
+      "actorId": "NPC_0055",
+      "avatarCrop": {
+        "left": 300,
+        "top": 5,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0056",
+      "file": "art/images/npc-0056-portrait.webp",
+      "sha256": "46970572c9c21b1fe63e553be80233189afe9d072f606adf14357beef9cb22f0",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "洛鸣珂的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0056-e3a5d4ad17b9.webp",
+      "actorId": "NPC_0056",
+      "avatarCrop": {
+        "left": 300,
+        "top": 0,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0057",
+      "file": "art/images/npc-0057-portrait.webp",
+      "sha256": "026581379161043b773b393a0f32553237c700c120c1f9f70e8119c04913bed9",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "燕泊雪的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0057-294f0a47acbc.webp",
+      "actorId": "NPC_0057",
+      "avatarCrop": {
+        "left": 290,
+        "top": 5,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0058",
+      "file": "art/images/npc-0058-portrait.webp",
+      "sha256": "8e8487d963c85dd38e3f1adc6e82329df7b0adc781318d5fd3fe5aeedbc80607",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "南宫烈绡的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0058-71516ef0ee13.webp",
+      "actorId": "NPC_0058",
+      "avatarCrop": {
+        "left": 290,
+        "top": 5,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0059",
+      "file": "art/images/npc-0059-portrait.webp",
+      "sha256": "528b17088513ebea597b690284b635efc717b762917448cabd7316e9157d4ad2",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "司空望汀的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0059-c801983861a9.webp",
+      "actorId": "NPC_0059",
+      "avatarCrop": {
+        "left": 315,
+        "top": 0,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0060",
+      "file": "art/images/npc-0060-portrait.webp",
+      "sha256": "4bba5fa3b04fe12d6c1fce445a16ad5815218e8e9f7e3e5b84326b94533d4bba",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "公孙缨禾的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0060-901e7eb9b14d.webp",
+      "actorId": "NPC_0060",
+      "avatarCrop": {
+        "left": 300,
+        "top": 5,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0061",
+      "file": "art/images/npc-0061-portrait.webp",
+      "sha256": "09a58131b875a19e69b6ad8ec928f68f0e4292aca8522706bc4a875bc074e572",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "曲知微的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0061-e3a5137eb062.webp",
+      "actorId": "NPC_0061",
+      "avatarCrop": {
+        "left": 280,
+        "top": 5,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0062",
+      "file": "art/images/npc-0062-portrait.webp",
+      "sha256": "c14623b486c4c5c4a4619097b52f409cfc3c00d9ff0dbf6562df42f9efd56bf5",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "唐照棠的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0062-eb1c546c02b7.webp",
+      "actorId": "NPC_0062",
+      "avatarCrop": {
+        "left": 290,
+        "top": 5,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0063",
+      "file": "art/images/npc-0063-portrait.webp",
+      "sha256": "aae386cd751e689e050c6235849b6754a0b6779db191b2b7c155af6848367370",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "萧闻笙的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0063-c67e92a539bd.webp",
+      "actorId": "NPC_0063",
+      "avatarCrop": {
+        "left": 315,
+        "top": 0,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0064",
+      "file": "art/images/npc-0064-portrait.webp",
+      "sha256": "70000b5b87db033e47ad3e75b306ba6d95cbb26c66156d1462a387e8cffba13f",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "孟砚秋的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0064-59985e0f8d88.webp",
+      "actorId": "NPC_0064",
+      "avatarCrop": {
+        "left": 290,
+        "top": 0,
+        "size": 435
+      }
+    },
+    {
+      "id": "npc_0065",
+      "file": "art/images/npc-0065-portrait.webp",
+      "sha256": "58be4e768564a6cf5065556dea49ffc6de41d33777222fc7eea53860c27c10c4",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "卫星萝的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0065-0b5f09a2fe29.webp",
+      "actorId": "NPC_0065",
+      "avatarCrop": {
+        "left": 305,
+        "top": 0,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0066",
+      "file": "art/images/npc-0066-portrait.webp",
+      "sha256": "de2794012aecf5e613fed8a925116335fe87891e9f799198e6a8359dc38bf39c",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "方燧宁的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0066-17f8be5bef50.webp",
+      "actorId": "NPC_0066",
+      "avatarCrop": {
+        "left": 295,
+        "top": 10,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0067",
+      "file": "art/images/npc-0067-portrait.webp",
+      "sha256": "c3218d7ec325a57d0f5134d2a6f643f3a9a6287a9195b310fcaea18269979d69",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "夏蘅枝的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0067-0e5117ad0562.webp",
+      "actorId": "NPC_0067",
+      "avatarCrop": {
+        "left": 290,
+        "top": 5,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0068",
+      "file": "art/images/npc-0068-portrait.webp",
+      "sha256": "bb9608012f2cb1acd3a4d3216692ca51891e0ae4ba78e58706052fdc9e0d678d",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "池驭岚的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0068-f8451dc4505f.webp",
+      "actorId": "NPC_0068",
+      "avatarCrop": {
+        "left": 225,
+        "top": 0,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0069",
+      "file": "art/images/npc-0069-portrait.webp",
+      "sha256": "aeed8b9694ed08ddc0da2f661b116140fb2827550e195c207d2e135ed45148c1",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "百里素问的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0069-d17c46555f89.webp",
+      "actorId": "NPC_0069",
+      "avatarCrop": {
+        "left": 300,
+        "top": 0,
+        "size": 440
+      }
+    },
+    {
+      "id": "npc_0070",
+      "file": "art/images/npc-0070-portrait.webp",
+      "sha256": "d68ce16c1978ccb85d02b212e0659ddc1bfc2c7a37b063d065f202c886d1e822",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "上官绛蘅的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0070-6c2f89c0dcee.webp",
+      "actorId": "NPC_0070",
+      "avatarCrop": {
+        "left": 280,
+        "top": 5,
+        "size": 435
+      }
+    },
+    {
+      "id": "npc_0071",
+      "file": "art/images/npc-0071-portrait.webp",
+      "sha256": "0e78a81fbceb90de6d769014f2fa80938cfcf4765d44e577efa6d6c579acb84a",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "曲雾庭的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0071-4317ec068436.webp",
+      "actorId": "NPC_0071",
+      "avatarCrop": {
+        "left": 280,
+        "top": 5,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0072",
+      "file": "art/images/npc-0072-portrait.webp",
+      "sha256": "93222d5acf70f53d8a0f94d401498b694433e39c7f5a721be38ccec31b18603c",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "唐丹曦的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0072-d3406a10a8ca.webp",
+      "actorId": "NPC_0072",
+      "avatarCrop": {
+        "left": 310,
+        "top": 0,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0073",
+      "file": "art/images/npc-0073-portrait.webp",
+      "sha256": "134606f755523db80c50c1dab961653719254dcbf0160e7926e3e88113c8db28",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "萧衡月的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0073-8a1e54ca3e29.webp",
+      "actorId": "NPC_0073",
+      "avatarCrop": {
+        "left": 275,
+        "top": 0,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0074",
+      "file": "art/images/npc-0074-portrait.webp",
+      "sha256": "5b7bdea6c7aa3b3dcfc2657deb01793ba401e1cdf5b5cf89e2ccff8f9ca23c87",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "孟铃铸的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0074-377e1f64ce31.webp",
+      "actorId": "NPC_0074",
+      "avatarCrop": {
+        "left": 345,
+        "top": 0,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0075",
+      "file": "art/images/npc-0075-portrait.webp",
+      "sha256": "6e8997eb8663f1c879419c0075b2178810722065685f89e6b51a430bf2c98128",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "卫葭音的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0075-f6855947b85a.webp",
+      "actorId": "NPC_0075",
+      "avatarCrop": {
+        "left": 265,
+        "top": 0,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0076",
+      "file": "art/images/npc-0076-portrait.webp",
+      "sha256": "7d1de9faca6ba2984cb3b53951b1f2a98c98b961b0946739e272d79716aa7f1d",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "方鹿遥的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0076-f23582d7c823.webp",
+      "actorId": "NPC_0076",
+      "avatarCrop": {
+        "left": 265,
+        "top": 0,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0077",
+      "file": "art/images/npc-0077-portrait.webp",
+      "sha256": "043663305341bfc0005d10a2fc9d8f9d4d1554539fd7ffa02a89480183f28501",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "夏云疏的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0077-a8912cb46865.webp",
+      "actorId": "NPC_0077",
+      "avatarCrop": {
+        "left": 320,
+        "top": 0,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0078",
+      "file": "art/images/npc-0078-portrait.webp",
+      "sha256": "a9c5863eaf04c954909c8a215e02be6f55139a1d747283a29d13e6cb91cbd282",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "池瑶烬的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0078-e04f06dcf8dd.webp",
+      "actorId": "NPC_0078",
+      "avatarCrop": {
+        "left": 330,
+        "top": 0,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0079",
+      "file": "art/images/npc-0079-portrait.webp",
+      "sha256": "a7eb7ed4c5d68604b070685dd963c43946e9de06c235144fafd854f197e06cbf",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "百里筠岑的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0079-8d715526fecf.webp",
+      "actorId": "NPC_0079",
+      "avatarCrop": {
+        "left": 275,
+        "top": 0,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0080",
+      "file": "art/images/npc-0080-portrait.webp",
+      "sha256": "bb78f82ac3e6d3a15352059d00fd6ce1270c0b1f5dc8210915dea8054dbf49da",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "上官缃露的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0080-9e650b9210ba.webp",
+      "actorId": "NPC_0080",
+      "avatarCrop": {
+        "left": 305,
+        "top": 0,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0081",
+      "file": "art/images/npc-0081-portrait.webp",
+      "sha256": "bd2b13979b681305939f1d85fe2b5cd9a810270e875173db7df77bf8a7eb8f49",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "容锦殊的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0081-14f4b8b7feac.webp",
+      "actorId": "NPC_0081",
+      "avatarCrop": {
+        "left": 290,
+        "top": 0,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0082",
+      "file": "art/images/npc-0082-portrait.webp",
+      "sha256": "9249fedc02fd9e3a883706d43b6bc82382c13e5e5f75230eefcb0a98ce0f006d",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "蓝映砂的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0082-41088853cd55.webp",
+      "actorId": "NPC_0082",
+      "avatarCrop": {
+        "left": 285,
+        "top": 0,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0083",
+      "file": "art/images/npc-0083-portrait.webp",
+      "sha256": "0508394514be90d4ae8786862223251d02ccbf6d94e6d5d344530dff39f146cb",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "乔弦微的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0083-b1b4b7334f6b.webp",
+      "actorId": "NPC_0083",
+      "avatarCrop": {
+        "left": 300,
+        "top": 0,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0084",
+      "file": "art/images/npc-0084-portrait.webp",
+      "sha256": "7a7b70ab91b215e942cb08f60f803c65adf7e741b892c71b4a0c94dc019a3802",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "秦照音的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0084-8260ad4a8157.webp",
+      "actorId": "NPC_0084",
+      "avatarCrop": {
+        "left": 275,
+        "top": 0,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0085",
+      "file": "art/images/npc-0085-portrait.webp",
+      "sha256": "378486ddbb1b857ddd927d2e6f6602edd53df957d37ecb873cb191b98422dc88",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "段绮旋的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0085-f09271876122.webp",
+      "actorId": "NPC_0085",
+      "avatarCrop": {
+        "left": 270,
+        "top": 0,
+        "size": 480
+      }
+    },
+    {
+      "id": "npc_0086",
+      "file": "art/images/npc-0086-portrait.webp",
+      "sha256": "7c1cc0beb1a420693b09632287744ee8bf5d9848b4fd1b4f9d52d6b3aa3d3091",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "姬流霓的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0086-c1a914a2309d.webp",
+      "actorId": "NPC_0086",
+      "avatarCrop": {
+        "left": 325,
+        "top": 0,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0087",
+      "file": "art/images/npc-0087-portrait.webp",
+      "sha256": "6d02ca81f92225ca494ac68333129924785b23d0103b1abd90adefcf17596149",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "梅知茗的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0087-ba502a80efbd.webp",
+      "actorId": "NPC_0087",
+      "avatarCrop": {
+        "left": 280,
+        "top": 0,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0088",
+      "file": "art/images/npc-0088-portrait.webp",
+      "sha256": "8eadd5739dc2370fde5306c21b82d34a5a8b5655879c9cd325dbf88f75a60c86",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "应醉蘅的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0088-f40579b2b0c7.webp",
+      "actorId": "NPC_0088",
+      "avatarCrop": {
+        "left": 290,
+        "top": 0,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0089",
+      "file": "art/images/npc-0089-portrait.webp",
+      "sha256": "66bc48eb88df7520f56ffed476818f98f8ec1a723c467148993fece280b547e5",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "东方砚秋的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0089-467f5a246db0.webp",
+      "actorId": "NPC_0089",
+      "avatarCrop": {
+        "left": 280,
+        "top": 0,
+        "size": 480
+      }
+    },
+    {
+      "id": "npc_0090",
+      "file": "art/images/npc-0090-portrait.webp",
+      "sha256": "e36ddbefa6f2d50432b31afee7b933c1ae13cc2f873be751c5939f83723da032",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "独孤素札的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0090-b81c8786f95b.webp",
+      "actorId": "NPC_0090",
+      "avatarCrop": {
+        "left": 310,
+        "top": 0,
+        "size": 445
+      }
+    },
+    {
+      "id": "npc_0091",
+      "file": "art/images/npc-0091-portrait.webp",
+      "sha256": "6819d4c5210f70e8a659c396474c7e6035134579d1ac734114ad3183dc9aeb60",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "容星阙的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0091-9822bf238fec.webp",
+      "actorId": "NPC_0091",
+      "avatarCrop": {
+        "left": 265,
+        "top": 0,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0092",
+      "file": "art/images/npc-0092-portrait.webp",
+      "sha256": "35e69b20e82b1237bc5ca6d890b241839ea27c96ba1e278a4bf567528b8cdd30",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "蓝月规的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0092-7cd4ec69f1cf.webp",
+      "actorId": "NPC_0092",
+      "avatarCrop": {
+        "left": 290,
+        "top": 0,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0093",
+      "file": "art/images/npc-0093-portrait.webp",
+      "sha256": "0c02ecce997a5574337db981b6d26982422c6eee214f4ba0caf98a9ccef24222",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "乔丹岫的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0093-28db1b34f8e3.webp",
+      "actorId": "NPC_0093",
+      "avatarCrop": {
+        "left": 305,
+        "top": 0,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0094",
+      "file": "art/images/npc-0094-portrait.webp",
+      "sha256": "61433df6b3d238e9b6be67bc89cc1e6aeb404876762c92ed8b76d2eabacce581",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "秦照屏的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0094-f1ae04932899.webp",
+      "actorId": "NPC_0094",
+      "avatarCrop": {
+        "left": 300,
+        "top": 0,
+        "size": 480
+      }
+    },
+    {
+      "id": "npc_0095",
+      "file": "art/images/npc-0095-portrait.webp",
+      "sha256": "2ffc88d68d7a897d513b687545c8aad8c431fa497557595744833a1f6ced2ed1",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "段沙棠的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0095-013ba8c40b1f.webp",
+      "actorId": "NPC_0095",
+      "avatarCrop": {
+        "left": 275,
+        "top": 0,
+        "size": 470
+      }
+    },
+    {
+      "id": "npc_0096",
+      "file": "art/images/npc-0096-portrait.webp",
+      "sha256": "f7d601ad7fa14e60c5bd8dd909d4b25d6a2ca731ccdb0488a7d9d2660e73d102",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "姬海珞的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0096-480e371bb455.webp",
+      "actorId": "NPC_0096",
+      "avatarCrop": {
+        "left": 290,
+        "top": 0,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0097",
+      "file": "art/images/npc-0097-portrait.webp",
+      "sha256": "6f7267308ef2fd0416d944585bb445ece191a29d38b6b448da6ab5ebed4c5c3d",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "梅珀琳的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0097-b4c2c0904e0d.webp",
+      "actorId": "NPC_0097",
+      "avatarCrop": {
+        "left": 310,
+        "top": 0,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0098",
+      "file": "art/images/npc-0098-portrait.webp",
+      "sha256": "c8d9a79a91eef934cc7e11314c4215670e5fb7bbb95dc2c1aa967493e40f84f5",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "应清商的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0098-94a26984a706.webp",
+      "actorId": "NPC_0098",
+      "avatarCrop": {
+        "left": 295,
+        "top": 0,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0099",
+      "file": "art/images/npc-0099-portrait.webp",
+      "sha256": "b29c7757902f205a90b52272af77b04562f122f64568d063e148ac88ef5497bc",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "东方绫书的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0099-10d58b6fac2a.webp",
+      "actorId": "NPC_0099",
+      "avatarCrop": {
+        "left": 280,
+        "top": 0,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_0100",
+      "file": "art/images/npc-0100-portrait.webp",
+      "sha256": "4151ddb4e3e6bfd1b999776ab81cb0498a1e51df10e7e6391f723614cdcf9a3f",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "独孤晞辰的全身立绘",
+      "sourceUrl": "/art/portraits/npc_0100-7ef00b4f8e3a.webp",
+      "actorId": "NPC_0100",
+      "avatarCrop": {
+        "left": 270,
+        "top": 0,
+        "size": 450
+      }
+    },
+    {
+      "id": "npc_lin_wan",
+      "file": "art/images/npc-lin-wan-portrait.webp",
+      "sha256": "b32d87dd38137c6f9f98759b8ebb462f1c546f54f3c8d4590d802079be4c4fb2",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "林晚的全身立绘",
+      "sourceUrl": "/art/portraits/npc_lin_wan-e4e642f4ad9f.webp",
+      "actorId": "NPC_LIN_WAN",
+      "avatarCrop": {
+        "left": 300,
+        "top": 0,
+        "size": 480
+      }
+    },
+    {
+      "id": "npc_zhou_an",
+      "file": "art/images/npc-zhou-an-portrait.webp",
+      "sha256": "89a470b4ef5978a4ca24b3bbd4fbb00a586b130530b2089d44262001b0e0a59e",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "周安的全身立绘",
+      "sourceUrl": "/art/portraits/npc_zhou_an-b414245a2a70.webp",
+      "actorId": "NPC_ZHOU_AN",
+      "avatarCrop": {
+        "left": 300,
+        "top": 0,
+        "size": 460
+      }
+    },
+    {
+      "id": "shichai.chunshui.suqingyan",
+      "file": "art/images/shichai-chunshui-suqingyan-portrait.webp",
+      "sha256": "a2aa1b031fa37f06fd36998ef4c05376b0a90e02b4d5b9c666007f8fd340d635",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "苏清晏的全身立绘",
+      "sourceUrl": "/art/shichai.chunshui/suqingyan-portrait.png",
+      "actorId": "shichai.chunshui.suqingyan",
+      "avatarCrop": {
+        "left": 275,
+        "top": 0,
+        "size": 480
+      }
+    },
+    {
+      "id": "shichai.chunshui.qiheng",
+      "file": "art/images/shichai-chunshui-qiheng-portrait.webp",
+      "sha256": "d3dbcdebaef8364aa28c4ba2d40c6807be12716ae3d702af81a5822f7f6cc629",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "齐珩的全身立绘",
+      "sourceUrl": "/art/portraits/shichai/qiheng-portrait.png",
+      "actorId": "shichai.chunshui.qiheng",
+      "avatarCrop": {
+        "left": 260,
+        "top": 0,
+        "size": 460
+      }
+    },
+    {
+      "id": "shichai.chunshui.gutinglan",
+      "file": "art/images/shichai-chunshui-gutinglan-portrait.webp",
+      "sha256": "c333c993afd342b9309866e625fc4f96e3a66f1f3cd8180a7a085121522b46a6",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "顾听澜的全身立绘",
+      "sourceUrl": "/art/shichai.chunshui/gutinglan-portrait.png",
+      "actorId": "shichai.chunshui.gutinglan",
+      "avatarCrop": {
+        "left": 350,
+        "top": 0,
+        "size": 450
+      }
+    },
+    {
+      "id": "shichai.chunshui.weicen",
+      "file": "art/images/shichai-chunshui-weicen-portrait.webp",
+      "sha256": "a786c54b2654c38d0abbe3839f360aead01c71a45a4cc65197f817b2257f0e7d",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "卫岑的全身立绘",
+      "sourceUrl": "/art/portraits/shichai/weicen-portrait.png",
+      "actorId": "shichai.chunshui.weicen",
+      "avatarCrop": {
+        "left": 320,
+        "top": 130,
+        "size": 460
+      }
+    },
+    {
+      "id": "shichai.chunshui.wenzhiwei",
+      "file": "art/images/shichai-chunshui-wenzhiwei-portrait.webp",
+      "sha256": "0afbbbba1f0cc372914157b1d4f995750c8b4a8f65572c743010a4b2b94e400a",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "温知微的全身立绘",
+      "sourceUrl": "/art/shichai.chunshui/wenzhiwei-portrait.png",
+      "actorId": "shichai.chunshui.wenzhiwei",
+      "avatarCrop": {
+        "left": 285,
+        "top": 55,
+        "size": 450
+      }
+    },
+    {
+      "id": "shichai.chunshui.zhengbaichuan",
+      "file": "art/images/shichai-chunshui-zhengbaichuan-portrait.webp",
+      "sha256": "27e4813749bba77e0da4dfca65d306c8b945a7f9d30a617459950f36dd835759",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "郑百川的全身立绘",
+      "sourceUrl": "/art/portraits/shichai/zhengbaichuan-portrait.png",
+      "actorId": "shichai.chunshui.zhengbaichuan",
+      "avatarCrop": {
+        "left": 290,
+        "top": 10,
+        "size": 520
+      }
+    },
+    {
+      "id": "shichai.xiaye.peisi",
+      "file": "art/images/shichai-xiaye-peisi-portrait.webp",
+      "sha256": "2da35910cea5b09681b00fa23a2258e11d230be33c4d47645a8e6f5abef0647c",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "裴姒的全身立绘",
+      "sourceUrl": "/art/shichai.xiaye/peisi-portrait.png",
+      "actorId": "shichai.xiaye.peisi",
+      "avatarCrop": {
+        "left": 300,
+        "top": 0,
+        "size": 480
+      }
+    },
+    {
+      "id": "shichai.xiaye.shenwanshan",
+      "file": "art/images/shichai-xiaye-shenwanshan-portrait.webp",
+      "sha256": "ccf69b6a1bc255f6f4e41435c771227e4a51f90ec9a791c15e754da9b2c0f51f",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "沈万山的全身立绘",
+      "sourceUrl": "/art/portraits/shichai/shenwanshan-portrait.png",
+      "actorId": "shichai.xiaye.shenwanshan",
+      "avatarCrop": {
+        "left": 300,
+        "top": 0,
+        "size": 500
+      }
+    },
+    {
+      "id": "shichai.xiaye.shenqiyue",
+      "file": "art/images/shichai-xiaye-shenqiyue-portrait.webp",
+      "sha256": "bc8afc02765b279025ae3672c2fc754fe4cfc79b1a027fcecd2282b5e65fbf76",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "沈栖月的全身立绘",
+      "sourceUrl": "/art/shichai.xiaye/shenqiyue-portrait.png",
+      "actorId": "shichai.xiaye.shenqiyue",
+      "avatarCrop": {
+        "left": 270,
+        "top": 0,
+        "size": 480
+      }
+    },
+    {
+      "id": "shichai.xiaye.luqingyao",
+      "file": "art/images/shichai-xiaye-luqingyao-portrait.webp",
+      "sha256": "177c12a0fb1d0c218a463c0a1c63aca171fed941455bcae2f173b6a8c95abb43",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "陆青遥的全身立绘",
+      "sourceUrl": "/art/portraits/shichai/luqingyao-portrait.png",
+      "actorId": "shichai.xiaye.luqingyao",
+      "avatarCrop": {
+        "left": 290,
+        "top": 30,
+        "size": 460
+      }
+    },
+    {
+      "id": "shichai.xiaye.liuhanyan",
+      "file": "art/images/shichai-xiaye-liuhanyan-portrait.webp",
+      "sha256": "ebd7d376029bb9315eca139f278a689e855cacd044800d17d0c2ad9010cbd733",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "柳含烟的全身立绘",
+      "sourceUrl": "/art/shichai.xiaye/liuhanyan-portrait.png",
+      "actorId": "shichai.xiaye.liuhanyan",
+      "avatarCrop": {
+        "left": 300,
+        "top": 0,
+        "size": 460
+      }
+    },
+    {
+      "id": "shichai.xiaye.hantieyi",
+      "file": "art/images/shichai-xiaye-hantieyi-portrait.webp",
+      "sha256": "857adf345da2ccb7b22f0048c61c2b8dacc93986ce2215eb7aad4624b32dcf5a",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "韩铁衣的全身立绘",
+      "sourceUrl": "/art/portraits/shichai/hantieyi-portrait.png",
+      "actorId": "shichai.xiaye.hantieyi",
+      "avatarCrop": {
+        "left": 260,
+        "top": 0,
+        "size": 480
+      }
+    },
+    {
+      "id": "shichai.qiudeng.wenrenshuang",
+      "file": "art/images/shichai-qiudeng-wenrenshuang-portrait.webp",
+      "sha256": "f0a69ab656a963e54f18d67b3f1945c3232bd80bf999f233151d6a9307911da7",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "闻人霜的全身立绘",
+      "sourceUrl": "/art/shichai.qiudeng/wenrenshuang-portrait.png",
+      "actorId": "shichai.qiudeng.wenrenshuang",
+      "avatarCrop": {
+        "left": 260,
+        "top": 0,
+        "size": 500
+      }
+    },
+    {
+      "id": "shichai.qiudeng.cuijiuzhang",
+      "file": "art/images/shichai-qiudeng-cuijiuzhang-portrait.webp",
+      "sha256": "29872d384580406960e3f7a2a8d774eb3684231cd0196ecef9672bbf853231d1",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "崔九章的全身立绘",
+      "sourceUrl": "/art/portraits/shichai/cuijiuzhang-portrait.png",
+      "actorId": "shichai.qiudeng.cuijiuzhang",
+      "avatarCrop": {
+        "left": 270,
+        "top": 0,
+        "size": 530
+      }
+    },
+    {
+      "id": "shichai.qiudeng.jiangzhaoxue",
+      "file": "art/images/shichai-qiudeng-jiangzhaoxue-portrait.webp",
+      "sha256": "6ff34db3b8a19c50d972c556336a6d574cabacb38b99613bd200e67a4c3c04ad",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "江照雪的全身立绘",
+      "sourceUrl": "/art/shichai.qiudeng/jiangzhaoxue-portrait.png",
+      "actorId": "shichai.qiudeng.jiangzhaoxue",
+      "avatarCrop": {
+        "left": 300,
+        "top": 0,
+        "size": 480
+      }
+    },
+    {
+      "id": "shichai.qiudeng.baiwujiu",
+      "file": "art/images/shichai-qiudeng-baiwujiu-portrait.webp",
+      "sha256": "6223184f63131737ffdee0e33486bfec2cf4ff3c79d991c7e961dd62def5c190",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "白无咎的全身立绘",
+      "sourceUrl": "/art/portraits/shichai/baiwujiu-portrait.png",
+      "actorId": "shichai.qiudeng.baiwujiu",
+      "avatarCrop": {
+        "left": 320,
+        "top": 70,
+        "size": 500
+      }
+    },
+    {
+      "id": "shichai.qiudeng.xuanxuzi",
+      "file": "art/images/shichai-qiudeng-xuanxuzi-portrait.webp",
+      "sha256": "922f1cebcd6e7240ce5b96cd92bd5cee5807e0628dfb7d44bd73aa2f1487abb1",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "玄虚子的全身立绘",
+      "sourceUrl": "/art/portraits/shichai/xuanxuzi-portrait.png",
+      "actorId": "shichai.qiudeng.xuanxuzi",
+      "avatarCrop": {
+        "left": 280,
+        "top": 0,
+        "size": 500
+      }
+    },
+    {
+      "id": "shichai.dongxue.yeshutong",
+      "file": "art/images/shichai-dongxue-yeshutong-portrait.webp",
+      "sha256": "bd9b3b40814486ab07bbcd1dff53d8004a012457eab44ba693f3a09968e53580",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "叶疏桐的全身立绘",
+      "sourceUrl": "/art/shichai.dongxue/yeshutong-portrait.png",
+      "actorId": "shichai.dongxue.yeshutong",
+      "avatarCrop": {
+        "left": 300,
+        "top": 0,
+        "size": 460
+      }
+    },
+    {
+      "id": "shichai.dongxue.yecheng",
+      "file": "art/images/shichai-dongxue-yecheng-portrait.webp",
+      "sha256": "b3f0b9e585907feae1e99b1ea558b41fe41e325c9ec177ff0b9d500f2eae4cf5",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "叶承的全身立绘",
+      "sourceUrl": "/art/portraits/shichai/yecheng-portrait.png",
+      "actorId": "shichai.dongxue.yecheng",
+      "avatarCrop": {
+        "left": 300,
+        "top": 0,
+        "size": 480
+      }
+    },
+    {
+      "id": "shichai.dongxue.songxiaoman",
+      "file": "art/images/shichai-dongxue-songxiaoman-portrait.webp",
+      "sha256": "f3958442250e35f28f3b849bd5ac8130b12bc2eeaa3053ecf806b5989557f0dd",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "宋小满的全身立绘",
+      "sourceUrl": "/art/shichai.dongxue/songxiaoman-portrait.png",
+      "actorId": "shichai.dongxue.songxiaoman",
+      "avatarCrop": {
+        "left": 280,
+        "top": 0,
+        "size": 470
+      }
+    },
+    {
+      "id": "shichai.dongxue.wanghu",
+      "file": "art/images/shichai-dongxue-wanghu-portrait.webp",
+      "sha256": "1189b70072843ff74adcc80262564a6abd760320282d9f163a074e06d2b7e686",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "王虎的全身立绘",
+      "sourceUrl": "/art/portraits/shichai/wanghu-portrait.png",
+      "actorId": "shichai.dongxue.wanghu",
+      "avatarCrop": {
+        "left": 260,
+        "top": 0,
+        "size": 500
+      }
+    },
+    {
+      "id": "shichai.dongxue.chulian",
+      "file": "art/images/shichai-dongxue-chulian-portrait.webp",
+      "sha256": "f0edadf08156df0909e5e213816510daa0c9d2b159c51d2fccabf777ad897600",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "楚莲的全身立绘",
+      "sourceUrl": "/art/shichai.dongxue/chulian-portrait.png",
+      "actorId": "shichai.dongxue.chulian",
+      "avatarCrop": {
+        "left": 340,
+        "top": 0,
+        "size": 460
+      }
+    },
+    {
+      "id": "shichai.dongxue.yanguhe",
+      "file": "art/images/shichai-dongxue-yanguhe-portrait.webp",
+      "sha256": "4b3d62a234ec5b618069dbdb84a84e19cad70eb8904f3e13d6495a1e86b30f06",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "严孤鹤的全身立绘",
+      "sourceUrl": "/art/portraits/shichai/yanguhe-portrait.png",
+      "actorId": "shichai.dongxue.yanguhe",
+      "avatarCrop": {
+        "left": 280,
+        "top": 20,
+        "size": 480
+      }
+    },
+    {
+      "id": "sect_yunv_gu",
+      "file": "art/images/sect-yunv-gu-portrait.webp",
+      "sha256": "c76e1a90e102d29ce04d5a92c387f5f123111bca78ce116839910f3e226c4400",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "顾清蘅的全身立绘",
+      "actorId": "SECT_YUNV_GU",
+      "avatarCrop": {
+        "left": 300,
+        "top": 0,
+        "size": 460
+      }
+    },
+    {
+      "id": "sect_yunv_bai",
+      "file": "art/images/sect-yunv-bai-portrait.webp",
+      "sha256": "f3f5c5c01be8dd577f78b87ca564ab352bea824713c089755fb30993d1b68303",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "白疏月的全身立绘",
+      "actorId": "SECT_YUNV_BAI",
+      "avatarCrop": {
+        "left": 300,
+        "top": 0,
+        "size": 460
+      }
+    },
+    {
+      "id": "sect_hehuan_yan",
+      "file": "art/images/sect-hehuan-yan-portrait.webp",
+      "sha256": "f38d3c468bd525d10c71481bb2a94e2be93d1fa0075e8c00dee8ed949ebe6f14",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "晏栖霞的全身立绘",
+      "actorId": "SECT_HEHUAN_YAN",
+      "avatarCrop": {
+        "left": 280,
+        "top": 0,
+        "size": 500
+      }
+    },
+    {
+      "id": "sect_hehuan_rong",
+      "file": "art/images/sect-hehuan-rong-portrait.webp",
+      "sha256": "3954a7ef4c5fa6feb28c248581782f3209392a2bb78051114de178de097938e5",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "容照夜的全身立绘",
+      "actorId": "SECT_HEHUAN_RONG",
+      "avatarCrop": {
+        "left": 300,
+        "top": 0,
+        "size": 480
+      }
+    },
+    {
+      "id": "sect_quan_chang",
+      "file": "art/images/sect-quan-chang-portrait.webp",
+      "sha256": "2ec6e20589e7332a38b93411612c07a214aa9842319b0f8f6a1a0e59aa147c13",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "常玄一的全身立绘",
+      "actorId": "SECT_QUAN_CHANG",
+      "avatarCrop": {
+        "left": 300,
+        "top": 0,
+        "size": 480
+      }
+    },
+    {
+      "id": "sect_quan_ning",
+      "file": "art/images/sect-quan-ning-portrait.webp",
+      "sha256": "0c599bb592f3ee2f239a049a90cecc5f9e086114eca22b0afdfa8f8558c114b7",
+      "width": 1024,
+      "height": 1536,
+      "kind": "portrait",
+      "alt": "宁含章的全身立绘",
+      "actorId": "SECT_QUAN_NING",
+      "avatarCrop": {
+        "left": 280,
+        "top": 0,
+        "size": 480
+      }
+    },
+    {
+      "id": "shichai.chunshui.intro",
+      "file": "art/images/shichai-chunshui-intro.webp",
+      "sha256": "f7d9e896ae8a108018e8272018dff537756968a004c338fc01d4853d31bfbcc1",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "春日药摊前；春日坊市清晨全景",
+      "sourceUrl": "/art/shichai.chunshui/intro.png"
+    },
+    {
+      "id": "shichai.chunshui.suqingyan.cg.meet",
+      "file": "art/images/shichai-chunshui-suqingyan-cg-meet.webp",
+      "sha256": "37f80df493d0cbc5044cda092572e36bef5882ea55c3a1f768fef87ad7eb4f3f",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "春日药摊，她分拣当归抬头看来客",
+      "sourceUrl": "/art/shichai.chunshui/suqingyan-cg-meet.png"
+    },
+    {
+      "id": "shichai.chunshui.suqingyan.cg.bond",
+      "file": "art/images/shichai-chunshui-suqingyan-cg-bond.webp",
+      "sha256": "4aaa0bbc9ba4d982e39bf90ee0ed3b1d02693f12fa65215020eee1c60a2a2efa",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "夜里药铺后堂，灯下翻账本",
+      "sourceUrl": "/art/shichai.chunshui/suqingyan-cg-bond.png"
+    },
+    {
+      "id": "shichai.chunshui.suqingyan.cg.spark",
+      "file": "art/images/shichai-chunshui-suqingyan-cg-spark.webp",
+      "sha256": "be20f7dd512c62217dd25d25186251d0501673ae5d95bee22faafa5b90ce49e8",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "雨后药圃，递出凝元草苗，指尖相触",
+      "sourceUrl": "/art/shichai.chunshui/suqingyan-cg-spark.png"
+    },
+    {
+      "id": "shichai.chunshui.suqingyan.cg.rival",
+      "file": "art/images/shichai-chunshui-suqingyan-cg-rival.webp",
+      "sha256": "0d18d71d0733ef36c845e5e06592af5ef11a61f880331091e4c4e491e57d7b79",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "齐珩带聘礼立于药铺门口",
+      "sourceUrl": "/art/shichai.chunshui/suqingyan-cg-rival.png"
+    },
+    {
+      "id": "shichai.chunshui.suqingyan.cg.lost",
+      "file": "art/images/shichai-chunshui-suqingyan-cg-lost.webp",
+      "sha256": "e8aa00a2190d39a1c626ba8a32dd5fc53b05c64cb82a6cfdd505eab271572d44",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "巷口雨中，红烛窗影",
+      "sourceUrl": "/art/shichai.chunshui/suqingyan-cg-lost.png"
+    },
+    {
+      "id": "shichai.chunshui.suqingyan.cg.night",
+      "file": "art/images/shichai-chunshui-suqingyan-cg-night.webp",
+      "sha256": "bee920119cc549640906a5d7407500058c93432c2d92b1fd242d49e98025560f",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "药庐后院，解下围裙回望",
+      "sourceUrl": "/art/shichai.chunshui/suqingyan-cg-night.png"
+    },
+    {
+      "id": "shichai.chunshui.suqingyan.cg.dual",
+      "file": "art/images/shichai-chunshui-suqingyan-cg-dual.webp",
+      "sha256": "a559b946292658b24ac319cd2be14fa5052ddb1e21583d00c067f363636cb053",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "地窖温泉，掌心相抵，青色灵气交缠",
+      "sourceUrl": "/art/shichai.chunshui/suqingyan-cg-dual.png"
+    },
+    {
+      "id": "shichai.chunshui.suqingyan.cg.vow",
+      "file": "art/images/shichai-chunshui-suqingyan-cg-vow.webp",
+      "sha256": "60844cb5b275f127eb65509f42c5682ef2f700615643d00336edb45b77c8d63b",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "换新匾，聘礼被抬走",
+      "sourceUrl": "/art/shichai.chunshui/suqingyan-cg-vow.png"
+    },
+    {
+      "id": "shichai.chunshui.suqingyan.cg.mourn",
+      "file": "art/images/shichai-chunshui-suqingyan-cg-mourn.webp",
+      "sha256": "d2d03455290f5bb816e7d1965296f05bd28b3ec4b4b37348aa7cfbb2f07020e3",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "药铺关门挂白布，当归未分拣完",
+      "sourceUrl": "/art/shichai.chunshui/suqingyan-cg-mourn.png"
+    },
+    {
+      "id": "shichai.chunshui.gutinglan.cg.meet",
+      "file": "art/images/shichai-chunshui-gutinglan-cg-meet.webp",
+      "sha256": "a10517eb60813310f63051817aa3fefe2106a47355a1476f2bccb1f58ed6c141",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "古道试剑，剑气劈开山雾",
+      "sourceUrl": "/art/shichai.chunshui/gutinglan-cg-meet.png"
+    },
+    {
+      "id": "shichai.chunshui.gutinglan.cg.bond",
+      "file": "art/images/shichai-chunshui-gutinglan-cg-bond.webp",
+      "sha256": "3a91aa5d8a5bbc754e16dc223099067d072dffb20f90becfdbc92157e29ec763",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "破亭夜雨，篝火擦剑",
+      "sourceUrl": "/art/shichai.chunshui/gutinglan-cg-bond.png"
+    },
+    {
+      "id": "shichai.chunshui.gutinglan.cg.spark",
+      "file": "art/images/shichai-chunshui-gutinglan-cg-spark.webp",
+      "sha256": "841e69c7937f3273673959cda1d068465133203bb08c902d8e3e74ffe58fa89e",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "雨夜客栈窗边，手按心口",
+      "sourceUrl": "/art/shichai.chunshui/gutinglan-cg-spark.png"
+    },
+    {
+      "id": "shichai.chunshui.gutinglan.cg.rival",
+      "file": "art/images/shichai-chunshui-gutinglan-cg-rival.webp",
+      "sha256": "23681a36608ded9430a48b8343477ea8d9e4f17cfce4490e7686f44ae2c79369",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "卫岑撑伞立于古道",
+      "sourceUrl": "/art/shichai.chunshui/gutinglan-cg-rival.png"
+    },
+    {
+      "id": "shichai.chunshui.gutinglan.cg.lost",
+      "file": "art/images/shichai-chunshui-gutinglan-cg-lost.webp",
+      "sha256": "70e05fb8f3b999a89ad27925400292d21abbf5301ce56ba0d14cbb33ec96bbbf",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "归云门山院，剑留门外",
+      "sourceUrl": "/art/shichai.chunshui/gutinglan-cg-lost.png"
+    },
+    {
+      "id": "shichai.chunshui.gutinglan.cg.night",
+      "file": "art/images/shichai-chunshui-gutinglan-cg-night.webp",
+      "sha256": "95470850331c40db9565e03bb04d4252d120e70cc2b07cde38471db354c3c21b",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "雨夜客栈，解开束发",
+      "sourceUrl": "/art/shichai.chunshui/gutinglan-cg-night.png"
+    },
+    {
+      "id": "shichai.chunshui.gutinglan.cg.dual",
+      "file": "art/images/shichai-chunshui-gutinglan-cg-dual.webp",
+      "sha256": "a8a2b88567a01d2782508aa1edc86c919e3c2e72c2d8aa5e3012a999af18e90a",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "溪涧月下，剑横膝上，青色剑气交缠",
+      "sourceUrl": "/art/shichai.chunshui/gutinglan-cg-dual.png"
+    },
+    {
+      "id": "shichai.chunshui.gutinglan.cg.vow",
+      "file": "art/images/shichai-chunshui-gutinglan-cg-vow.webp",
+      "sha256": "2dcf5557e62046f2a489e0f0482118d234e30679fadfcd8a8471349b5a70a6cf",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "山巅日出，系剑穗",
+      "sourceUrl": "/art/shichai.chunshui/gutinglan-cg-vow.png"
+    },
+    {
+      "id": "shichai.chunshui.gutinglan.cg.mourn",
+      "file": "art/images/shichai-chunshui-gutinglan-cg-mourn.webp",
+      "sha256": "e326f18da3287a630b63e6a357ce7d85bcb21580fcf64a4548e5c68509d913ca",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "石阶上插着的剑，剑穗被雨打湿",
+      "sourceUrl": "/art/shichai.chunshui/gutinglan-cg-mourn.png"
+    },
+    {
+      "id": "shichai.chunshui.wenzhiwei.cg.meet",
+      "file": "art/images/shichai-chunshui-wenzhiwei-cg-meet.webp",
+      "sha256": "fabecb2c67d295f8feb30b761daf9a36de5c4abb32228ab653caa56fa18404ef",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "客栈大堂，站条凳说书",
+      "sourceUrl": "/art/shichai.chunshui/wenzhiwei-cg-meet.png"
+    },
+    {
+      "id": "shichai.chunshui.wenzhiwei.cg.bond",
+      "file": "art/images/shichai-chunshui-wenzhiwei-cg-bond.webp",
+      "sha256": "e91015b2f3b02ba9da5ceffd45523a2e1655a62d6371b4c3a578a2b63d95437f",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "后院晾衣绳，手腕旧烙印",
+      "sourceUrl": "/art/shichai.chunshui/wenzhiwei-cg-bond.png"
+    },
+    {
+      "id": "shichai.chunshui.wenzhiwei.cg.spark",
+      "file": "art/images/shichai-chunshui-wenzhiwei-cg-spark.webp",
+      "sha256": "ecc4554913bcdc5795e6cc5034d27d65f3355bbebf6b6c722c7ce02e53e13f8a",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "客栈屋顶星空，递折扇",
+      "sourceUrl": "/art/shichai.chunshui/wenzhiwei-cg-spark.png"
+    },
+    {
+      "id": "shichai.chunshui.wenzhiwei.cg.rival",
+      "file": "art/images/shichai-chunshui-wenzhiwei-cg-rival.webp",
+      "sha256": "8da0379a6941b43bed684c5b146d064e09d6b272183022486eb2ed3c31221b53",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "郑百川坐大堂正中，桌上卖身契",
+      "sourceUrl": "/art/shichai.chunshui/wenzhiwei-cg-rival.png"
+    },
+    {
+      "id": "shichai.chunshui.wenzhiwei.cg.lost",
+      "file": "art/images/shichai-chunshui-wenzhiwei-cg-lost.webp",
+      "sha256": "92c5caee5250e72aff131fa1f5a2e7fb7bb9e519bb248ded83606f28342e4fe7",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "花轿出坊市，手抓轿杆",
+      "sourceUrl": "/art/shichai.chunshui/wenzhiwei-cg-lost.png"
+    },
+    {
+      "id": "shichai.chunshui.wenzhiwei.cg.night",
+      "file": "art/images/shichai-chunshui-wenzhiwei-cg-night.webp",
+      "sha256": "19949e898b38b0b736f19eb688ba253b5d86c9d9b2153acf998897b916f05bb0",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "客栈阁楼，红绳落枕边",
+      "sourceUrl": "/art/shichai.chunshui/wenzhiwei-cg-night.png"
+    },
+    {
+      "id": "shichai.chunshui.wenzhiwei.cg.dual",
+      "file": "art/images/shichai-chunshui-wenzhiwei-cg-dual.webp",
+      "sha256": "fb5680ec17fe87cb262ada861d587b28b1919195f93e06e22682701e96f06693",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "阁楼清晨，背后抵掌引灵",
+      "sourceUrl": "/art/shichai.chunshui/wenzhiwei-cg-dual.png"
+    },
+    {
+      "id": "shichai.chunshui.wenzhiwei.cg.vow",
+      "file": "art/images/shichai-chunshui-wenzhiwei-cg-vow.webp",
+      "sha256": "2e936fc1cc4e5b1b077f527c2100a5ee0783d006898cffed1dcc6312677a9bc1",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "新说书幌子，指着台下的男主",
+      "sourceUrl": "/art/shichai.chunshui/wenzhiwei-cg-vow.png"
+    },
+    {
+      "id": "shichai.chunshui.wenzhiwei.cg.mourn",
+      "file": "art/images/shichai-chunshui-wenzhiwei-cg-mourn.webp",
+      "sha256": "c2a5c9fc10ecae1ab147bd434ccf161a369a05de0023b204d7ac2d276a81e27d",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "空条凳，醒木与合着的折扇",
+      "sourceUrl": "/art/shichai.chunshui/wenzhiwei-cg-mourn.png"
+    },
+    {
+      "id": "shichai.xiaye.intro",
+      "file": "art/images/shichai-xiaye-intro.webp",
+      "sha256": "dd48426bb06fe6c194ac526df7b34e06f0a1c0dfa1bd7989dee62eae0a9c5e7f",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "夏夜坊市，酒肆灯笼与驼铃",
+      "sourceUrl": "/art/shichai.xiaye/intro.png"
+    },
+    {
+      "id": "shichai.xiaye.peisi.cg.meet",
+      "file": "art/images/shichai-xiaye-peisi-cg-meet.webp",
+      "sha256": "2ce5e3cf23cee2460b598f3c1057fc485d92d3f81fbc8931ca622f1e079b41fc",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "货栈门口核货",
+      "sourceUrl": "/art/shichai.xiaye/peisi-cg-meet.png"
+    },
+    {
+      "id": "shichai.xiaye.peisi.cg.bond",
+      "file": "art/images/shichai-xiaye-peisi-cg-bond.webp",
+      "sha256": "948065f1576fa4993ce9ab4b87fb7181be915e87df5d2545113c29ab583fd600",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "酒肆二楼独饮，脱一只绣鞋",
+      "sourceUrl": "/art/shichai.xiaye/peisi-cg-bond.png"
+    },
+    {
+      "id": "shichai.xiaye.peisi.cg.spark",
+      "file": "art/images/shichai-xiaye-peisi-cg-spark.webp",
+      "sha256": "67439ee49d46078a7477ce6949c996b78bda1a83c9ccd3510fc8a1227845e9ca",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "荷花缸旁解下银链",
+      "sourceUrl": "/art/shichai.xiaye/peisi-cg-spark.png"
+    },
+    {
+      "id": "shichai.xiaye.peisi.cg.rival",
+      "file": "art/images/shichai-xiaye-peisi-cg-rival.webp",
+      "sha256": "d069ba4c3c99f2c23f7f933cc8a7d46ee7b8c18d2480785ab25d8b80d14f8d4c",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "沈万山设宴，把妻子的手推向男主",
+      "sourceUrl": "/art/shichai.xiaye/peisi-cg-rival.png"
+    },
+    {
+      "id": "shichai.xiaye.peisi.cg.lost",
+      "file": "art/images/shichai-xiaye-peisi-cg-lost.webp",
+      "sha256": "7b249f007492f87767addde5c199ae63d41192aafa89b6eb98b68442e3593826",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "沈府偏院墙外，门缝透光",
+      "sourceUrl": "/art/shichai.xiaye/peisi-cg-lost.png"
+    },
+    {
+      "id": "shichai.xiaye.peisi.cg.night",
+      "file": "art/images/shichai-xiaye-peisi-cg-night.webp",
+      "sha256": "d0b89e400e0b6f827f42e8244d09c7e81433f2af23acd2138436f1455790ee2f",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "客栈上房，卸下发簪",
+      "sourceUrl": "/art/shichai.xiaye/peisi-cg-night.png"
+    },
+    {
+      "id": "shichai.xiaye.peisi.cg.dual",
+      "file": "art/images/shichai-xiaye-peisi-cg-dual.webp",
+      "sha256": "404bc78d3be6ed00d73e98e9e426a854a2c089ec3ad69c58651762552902c345",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "沈府密室，采补图谱，灵气逆流",
+      "sourceUrl": "/art/shichai.xiaye/peisi-cg-dual.png"
+    },
+    {
+      "id": "shichai.xiaye.peisi.cg.vow",
+      "file": "art/images/shichai-xiaye-peisi-cg-vow.webp",
+      "sha256": "d8d434b175676d3a8ad9486bd767247e5f481ca13eed4d775c5b9b3f187b3123",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "商队清晨出发，骆驼上回头",
+      "sourceUrl": "/art/shichai.xiaye/peisi-cg-vow.png"
+    },
+    {
+      "id": "shichai.xiaye.peisi.cg.mourn",
+      "file": "art/images/shichai-xiaye-peisi-cg-mourn.webp",
+      "sha256": "ba25a5d1f6cae120bc1efe81928ac9415babb7e484af454bed95a9cd0d8c3e31",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "挂着的算盘，珠子停在一半",
+      "sourceUrl": "/art/shichai.xiaye/peisi-cg-mourn.png"
+    },
+    {
+      "id": "shichai.xiaye.shenqiyue.cg.meet",
+      "file": "art/images/shichai-xiaye-shenqiyue-cg-meet.webp",
+      "sha256": "c5379165a4be4cc14c2ea8326ab5d815923fccb402eadc57b2cf23930070a174",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "古道摔倒，木牌撒地",
+      "sourceUrl": "/art/shichai.xiaye/shenqiyue-cg-meet.png"
+    },
+    {
+      "id": "shichai.xiaye.shenqiyue.cg.bond",
+      "file": "art/images/shichai-xiaye-shenqiyue-cg-bond.webp",
+      "sha256": "35f448d8e255b24b1e61fa73439c0050475546979de15ca9a7de32973c128f47",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "守夜小屋灯下抄功法",
+      "sourceUrl": "/art/shichai.xiaye/shenqiyue-cg-bond.png"
+    },
+    {
+      "id": "shichai.xiaye.shenqiyue.cg.spark",
+      "file": "art/images/shichai-xiaye-shenqiyue-cg-spark.webp",
+      "sha256": "83742f66fcccb47192dce7bce982254555a437ae923d94b606cedc2e7822e27d",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "溪边握腕教引气",
+      "sourceUrl": "/art/shichai.xiaye/shenqiyue-cg-spark.png"
+    },
+    {
+      "id": "shichai.xiaye.shenqiyue.cg.rival",
+      "file": "art/images/shichai-xiaye-shenqiyue-cg-rival.webp",
+      "sha256": "4c551e3512cd89a90ccff7b5e5ab1da20ae5f3f9067bd59cfea92aaff757ba36",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "陆青遥持玉牌立于山门",
+      "sourceUrl": "/art/shichai.xiaye/shenqiyue-cg-rival.png"
+    },
+    {
+      "id": "shichai.xiaye.shenqiyue.cg.lost",
+      "file": "art/images/shichai-xiaye-shenqiyue-cg-lost.webp",
+      "sha256": "5cd62a727fd61961075676922ac06a98378c7452a93d2657e6454e9505e1d3de",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "内门婚礼，她真心在笑",
+      "sourceUrl": "/art/shichai.xiaye/shenqiyue-cg-lost.png"
+    },
+    {
+      "id": "shichai.xiaye.shenqiyue.cg.night",
+      "file": "art/images/shichai-xiaye-shenqiyue-cg-night.webp",
+      "sha256": "49d1c4e837e9eb0d663fbb7d98a9c97ea361d43d18923fbbe6383b1fbf3e6cf5",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "守夜小屋篝火，解开领口",
+      "sourceUrl": "/art/shichai.xiaye/shenqiyue-cg-night.png"
+    },
+    {
+      "id": "shichai.xiaye.shenqiyue.cg.dual",
+      "file": "art/images/shichai-xiaye-shenqiyue-cg-dual.webp",
+      "sha256": "ed6b26a38a83a12d4029e11dc2d1c6724d8a3d85b44176e7863516ef184c6840",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "月下平台，冷银与青交汇成暖白",
+      "sourceUrl": "/art/shichai.xiaye/shenqiyue-cg-dual.png"
+    },
+    {
+      "id": "shichai.xiaye.shenqiyue.cg.vow",
+      "file": "art/images/shichai-xiaye-shenqiyue-cg-vow.webp",
+      "sha256": "2cdfcc0eef4b3b1777c74bba67fbddfd1f6386797ad30f0c57af2362293c3657",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "院墙外把木牌扔进溪里",
+      "sourceUrl": "/art/shichai.xiaye/shenqiyue-cg-vow.png"
+    },
+    {
+      "id": "shichai.xiaye.shenqiyue.cg.mourn",
+      "file": "art/images/shichai-xiaye-shenqiyue-cg-mourn.webp",
+      "sha256": "66fcbad965ac565085613ed4b6ba8c6c87a0f03d00ffa38faa3ff8700104ca86",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "石阶上散落的木牌，字迹晕开",
+      "sourceUrl": "/art/shichai.xiaye/shenqiyue-cg-mourn.png"
+    },
+    {
+      "id": "shichai.xiaye.liuhanyan.cg.meet",
+      "file": "art/images/shichai-xiaye-liuhanyan-cg-meet.webp",
+      "sha256": "55c31144f0b878331f05b002ef2081fb504c92cab90fdce33984c1d264114287",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "柜台后倚着笑看来客",
+      "sourceUrl": "/art/shichai.xiaye/liuhanyan-cg-meet.png"
+    },
+    {
+      "id": "shichai.xiaye.liuhanyan.cg.bond",
+      "file": "art/images/shichai-xiaye-liuhanyan-cg-bond.webp",
+      "sha256": "6089a2c015e1341452a54b5c4ba7c6d4ab415a3e4b7fd3317002a965ff8374bf",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "打烊后楼梯上拿旧信",
+      "sourceUrl": "/art/shichai.xiaye/liuhanyan-cg-bond.png"
+    },
+    {
+      "id": "shichai.xiaye.liuhanyan.cg.spark",
+      "file": "art/images/shichai-xiaye-liuhanyan-cg-spark.webp",
+      "sha256": "c2e36feba6048d9d0b4846874c89ff4c92d326d32d5aea1cb1200e474807fcc4",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "后巷雨里，把伞塞给男主",
+      "sourceUrl": "/art/shichai.xiaye/liuhanyan-cg-spark.png"
+    },
+    {
+      "id": "shichai.xiaye.liuhanyan.cg.rival",
+      "file": "art/images/shichai-xiaye-liuhanyan-cg-rival.webp",
+      "sha256": "061591ff928b074a94ce0301d9a40be208899d2dcb54ee6b5141eaee54fc58cc",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "韩铁衣半边脸黑纹立于门口",
+      "sourceUrl": "/art/shichai.xiaye/liuhanyan-cg-rival.png"
+    },
+    {
+      "id": "shichai.xiaye.liuhanyan.cg.lost",
+      "file": "art/images/shichai-xiaye-liuhanyan-cg-lost.webp",
+      "sha256": "5e7f74ad6adad798cfddc36c0ef42cd1e0284812afa398284560971516e35d97",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "楼上窗帘半掩，黑纹手按肩",
+      "sourceUrl": "/art/shichai.xiaye/liuhanyan-cg-lost.png"
+    },
+    {
+      "id": "shichai.xiaye.liuhanyan.cg.night",
+      "file": "art/images/shichai-xiaye-liuhanyan-cg-night.webp",
+      "sha256": "a0e460134821b1a21fd66171052efb8f146e9bc2e5c482da4669170cafeb072f",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "拔下银钗，乌发散下，窗外雷声",
+      "sourceUrl": "/art/shichai.xiaye/liuhanyan-cg-night.png"
+    },
+    {
+      "id": "shichai.xiaye.liuhanyan.cg.dual",
+      "file": "art/images/shichai-xiaye-liuhanyan-cg-dual.webp",
+      "sha256": "00528b994c8b44ce794ee6539e692fc402062ba850689667dd7e46ddc3220a19",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "地窖酒缸间，旧伤痕淡去",
+      "sourceUrl": "/art/shichai.xiaye/liuhanyan-cg-dual.png"
+    },
+    {
+      "id": "shichai.xiaye.liuhanyan.cg.vow",
+      "file": "art/images/shichai-xiaye-liuhanyan-cg-vow.webp",
+      "sha256": "a7238e64b8dd830bffba76ab7777ec3b64040014887abc782b3d63d6da6a47d9",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "新酿开封，新酒旗",
+      "sourceUrl": "/art/shichai.xiaye/liuhanyan-cg-vow.png"
+    },
+    {
+      "id": "shichai.xiaye.liuhanyan.cg.mourn",
+      "file": "art/images/shichai-xiaye-liuhanyan-cg-mourn.webp",
+      "sha256": "1cc833cef14609b10ffb5a1eb3f31bd5090b0cdc42e084f253f97c92f56af9e7",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "酒旗落地，门锁着",
+      "sourceUrl": "/art/shichai.xiaye/liuhanyan-cg-mourn.png"
+    },
+    {
+      "id": "shichai.qiudeng.intro",
+      "file": "art/images/shichai-qiudeng-intro.webp",
+      "sha256": "7515afd1b6359b232eb3c8624258846a8f9d886c417c8fe9ff0d10766acd639f",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "秋夜客栈檐下灯笼，桌上残卷",
+      "sourceUrl": "/art/shichai.qiudeng/intro.png"
+    },
+    {
+      "id": "shichai.qiudeng.main.cg.scroll",
+      "file": "art/images/shichai-qiudeng-main-cg-scroll.webp",
+      "sha256": "7431816869e057ebfce8803437f3e1c96677aaa1b9df6897ddc38a0e652af0ae",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "老道推出金线卷轴",
+      "sourceUrl": "/art/shichai.qiudeng/main-cg-scroll.png"
+    },
+    {
+      "id": "shichai.qiudeng.main.cg.sign",
+      "file": "art/images/shichai-qiudeng-main-cg-sign.webp",
+      "sha256": "cdb2457ce8b613b69106ddc032c1b23e5e27435b32af42911577e3f5f34ea484",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "夜里入定，丹田金线牵向窗外",
+      "sourceUrl": "/art/shichai.qiudeng/main-cg-sign.png"
+    },
+    {
+      "id": "shichai.qiudeng.main.cg.reveal",
+      "file": "art/images/shichai-qiudeng-main-cg-reveal.webp",
+      "sha256": "16a4c326346ecbf94353c96698488d235a9dca5e7fd556286e81c50f1dd28544",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "后院月下，袖中垂出十根金线",
+      "sourceUrl": "/art/shichai.qiudeng/main-cg-reveal.png"
+    },
+    {
+      "id": "shichai.qiudeng.main.cg.choice",
+      "file": "art/images/shichai-qiudeng-main-cg-choice.webp",
+      "sha256": "a16d658d5a2a9d2211a163402c5078999d83d8bcaf2b3b28fb15c3d201331a6e",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "溪边，火折与丹田",
+      "sourceUrl": "/art/shichai.qiudeng/main-cg-choice.png"
+    },
+    {
+      "id": "shichai.qiudeng.main.cg.duel",
+      "file": "art/images/shichai-qiudeng-main-cg-duel.webp",
+      "sha256": "db1e969944d873da315f536be8fd526fc3a904d96b0144e711133f512d21e71b",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "古道对峙，金线绷直，秋叶悬停",
+      "sourceUrl": "/art/shichai.qiudeng/main-cg-duel.png"
+    },
+    {
+      "id": "shichai.qiudeng.main.cg.gone",
+      "file": "art/images/shichai-qiudeng-main-cg-gone.webp",
+      "sha256": "7cbfad33ba6d3690c72406c56d173c99f91f93916ef6f1b6cea43d60e4a53ab0",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "空桌，熄灭的灯笼，烧焦的纸",
+      "sourceUrl": "/art/shichai.qiudeng/main-cg-gone.png"
+    },
+    {
+      "id": "shichai.qiudeng.wenrenshuang.cg.meet",
+      "file": "art/images/shichai-qiudeng-wenrenshuang-cg-meet.webp",
+      "sha256": "1c959ce164d07466ef9d4b75d91882fa20d2f205279e4b38e520b7fede7db89e",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "执事所前核验灵石税牌",
+      "sourceUrl": "/art/shichai.qiudeng/wenrenshuang-cg-meet.png"
+    },
+    {
+      "id": "shichai.qiudeng.wenrenshuang.cg.bond",
+      "file": "art/images/shichai-qiudeng-wenrenshuang-cg-bond.webp",
+      "sha256": "a1a2db62fc3d7d0d0a5f63c30f92eac87e190cb1278c2a04021fb16aba3232df",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "后堂卸下玉冠，桌上裂开的丹药",
+      "sourceUrl": "/art/shichai.qiudeng/wenrenshuang-cg-bond.png"
+    },
+    {
+      "id": "shichai.qiudeng.wenrenshuang.cg.spark",
+      "file": "art/images/shichai-qiudeng-wenrenshuang-cg-spark.webp",
+      "sha256": "0153df83bbb2801d47ba4bcfdbf137b51a8580d64917a8363068adccbc2dd251",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "屋顶月下，玉佩按进掌心",
+      "sourceUrl": "/art/shichai.qiudeng/wenrenshuang-cg-spark.png"
+    },
+    {
+      "id": "shichai.qiudeng.wenrenshuang.cg.rival",
+      "file": "art/images/shichai-qiudeng-wenrenshuang-cg-rival.webp",
+      "sha256": "07aba62a0a0d9ad8da65f0e73c466512357f5ead36ac49427f131512f717bf96",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "崔九章持拂尘立于门口",
+      "sourceUrl": "/art/shichai.qiudeng/wenrenshuang-cg-rival.png"
+    },
+    {
+      "id": "shichai.qiudeng.wenrenshuang.cg.lost",
+      "file": "art/images/shichai-qiudeng-wenrenshuang-cg-lost.webp",
+      "sha256": "0af851755da3a6177860b1d420b259475a08c47ee9ab672662a82abd0db16d90",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "刑堂，按顶吸走阴元，男主被押堂外",
+      "sourceUrl": "/art/shichai.qiudeng/wenrenshuang-cg-lost.png"
+    },
+    {
+      "id": "shichai.qiudeng.wenrenshuang.cg.night",
+      "file": "art/images/shichai-qiudeng-wenrenshuang-cg-night.webp",
+      "sha256": "7632651cbeea4a162da437a25afc83375ecd3e48c2a4fab8e3c9b8cc2a3e3798",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "客栈上房，素白中衣，玉冠在案",
+      "sourceUrl": "/art/shichai.qiudeng/wenrenshuang-cg-night.png"
+    },
+    {
+      "id": "shichai.qiudeng.wenrenshuang.cg.dual",
+      "file": "art/images/shichai-qiudeng-wenrenshuang-cg-dual.webp",
+      "sha256": "fab3af3a340eed10e1b883d7d65d9657aed2c6992c4b380068ed40de8def6754",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "禁地寒潭，银雾回流，心魔化黑烟散去",
+      "sourceUrl": "/art/shichai.qiudeng/wenrenshuang-cg-dual.png"
+    },
+    {
+      "id": "shichai.qiudeng.wenrenshuang.cg.vow",
+      "file": "art/images/shichai-qiudeng-wenrenshuang-cg-vow.webp",
+      "sha256": "cc43b1aac42bc2199e806c6c82489ec91cf4ce36a7ac7b6048d25d73da0e0641",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "山门前交还令牌，并肩下山",
+      "sourceUrl": "/art/shichai.qiudeng/wenrenshuang-cg-vow.png"
+    },
+    {
+      "id": "shichai.qiudeng.wenrenshuang.cg.mourn",
+      "file": "art/images/shichai-qiudeng-wenrenshuang-cg-mourn.webp",
+      "sha256": "3ad2c2d23300a1955ab3c65800e3275f66561b85f60d4b9b9018f9e3b0e262de",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "白幡，玉冠，成灰的丹药",
+      "sourceUrl": "/art/shichai.qiudeng/wenrenshuang-cg-mourn.png"
+    },
+    {
+      "id": "shichai.qiudeng.jiangzhaoxue.cg.meet",
+      "file": "art/images/shichai-qiudeng-jiangzhaoxue-cg-meet.webp",
+      "sha256": "df4917e4686b2d0c26d19f33cd02bdf9611d883e7b29bcb43f367a68f433ee17",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "一刀劈开山魈，妖血溅石阶",
+      "sourceUrl": "/art/shichai.qiudeng/jiangzhaoxue-cg-meet.png"
+    },
+    {
+      "id": "shichai.qiudeng.jiangzhaoxue.cg.bond",
+      "file": "art/images/shichai-qiudeng-jiangzhaoxue-cg-bond.webp",
+      "sha256": "91e36efd8965b6d3161847bcaf056ee986070add77dedfb51293c773dc898821",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "营地篝火，拆绷带露出妖纹",
+      "sourceUrl": "/art/shichai.qiudeng/jiangzhaoxue-cg-bond.png"
+    },
+    {
+      "id": "shichai.qiudeng.jiangzhaoxue.cg.spark",
+      "file": "art/images/shichai-qiudeng-jiangzhaoxue-cg-spark.webp",
+      "sha256": "40c60906894fe919bd45de9c763871a8394c954d12a7936db37a2dc8d8483059",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "悬崖星空，刀横中间，靠肩",
+      "sourceUrl": "/art/shichai.qiudeng/jiangzhaoxue-cg-spark.png"
+    },
+    {
+      "id": "shichai.qiudeng.jiangzhaoxue.cg.rival",
+      "file": "art/images/shichai-qiudeng-jiangzhaoxue-cg-rival.webp",
+      "sha256": "a436e75a346679617975a6039c0c2b55214fefde6e9147a83a3a7af0e3f71ee9",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "白无咎白衣立于雾中，九尾虚影",
+      "sourceUrl": "/art/shichai.qiudeng/jiangzhaoxue-cg-rival.png"
+    },
+    {
+      "id": "shichai.qiudeng.jiangzhaoxue.cg.lost",
+      "file": "art/images/shichai-qiudeng-jiangzhaoxue-cg-lost.webp",
+      "sha256": "26ccad9db07a057a3f1d59642b1bc5daa442768e02e406fd8b3da210fb3bff0b",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "白骨门，她被牵入妖域，发白纹满",
+      "sourceUrl": "/art/shichai.qiudeng/jiangzhaoxue-cg-lost.png"
+    },
+    {
+      "id": "shichai.qiudeng.jiangzhaoxue.cg.night",
+      "file": "art/images/shichai-qiudeng-jiangzhaoxue-cg-night.webp",
+      "sha256": "c53ce835b063351fea6e1807c7ae2039afeec70b4db760ee22686a33167768ad",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "营地帐中，解下狼皮，左眼泛金",
+      "sourceUrl": "/art/shichai.qiudeng/jiangzhaoxue-cg-night.png"
+    },
+    {
+      "id": "shichai.qiudeng.jiangzhaoxue.cg.dual",
+      "file": "art/images/shichai-qiudeng-jiangzhaoxue-cg-dual.webp",
+      "sha256": "fc731d6a9baf00cf6069b98901ba5af46ae12f41d72c763db6be5326ce2999a7",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "溪涧月下，妖气化金光，红线断裂",
+      "sourceUrl": "/art/shichai.qiudeng/jiangzhaoxue-cg-dual.png"
+    },
+    {
+      "id": "shichai.qiudeng.jiangzhaoxue.cg.vow",
+      "file": "art/images/shichai-qiudeng-jiangzhaoxue-cg-vow.webp",
+      "sha256": "b5e4bc3d5d2a4201e4af357dd33f02924cd575a462e4bfdab545a4c64c799ccd",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "刀插石阶，狼皮披男主肩",
+      "sourceUrl": "/art/shichai.qiudeng/jiangzhaoxue-cg-vow.png"
+    },
+    {
+      "id": "shichai.qiudeng.jiangzhaoxue.cg.mourn",
+      "file": "art/images/shichai-qiudeng-jiangzhaoxue-cg-mourn.webp",
+      "sha256": "842c11ec57e21d91567d21e4ca23d1002db9cba35dfb1062b7209c7e6efb3f0f",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "石阶上的刀与断弦的弩",
+      "sourceUrl": "/art/shichai.qiudeng/jiangzhaoxue-cg-mourn.png"
+    },
+    {
+      "id": "shichai.dongxue.intro",
+      "file": "art/images/shichai-dongxue-intro.webp",
+      "sha256": "cc12ad7f85ccd462910deddfcbdc2b81c202fa70c96c81bc76bcbf94347770d7",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "雪覆坊市，冰凌，古道脚印",
+      "sourceUrl": "/art/shichai.dongxue/intro.png"
+    },
+    {
+      "id": "shichai.dongxue.yeshutong.cg.meet",
+      "file": "art/images/shichai-dongxue-yeshutong-cg-meet.webp",
+      "sha256": "18dd075602c7dc48c5d8b888f1612aea38d4cb6520b72f447680da35b4756078",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "客栈角落抄书，雪从窗缝飘入",
+      "sourceUrl": "/art/shichai.dongxue/yeshutong-cg-meet.png"
+    },
+    {
+      "id": "shichai.dongxue.yeshutong.cg.bond",
+      "file": "art/images/shichai-dongxue-yeshutong-cg-bond.webp",
+      "sha256": "5530fe7225f9e3f2119e14ad819c2262bf408359f6ce33db490acfafdc556a69",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "藏书楼三层梯上取书，顶格铁链",
+      "sourceUrl": "/art/shichai.dongxue/yeshutong-cg-bond.png"
+    },
+    {
+      "id": "shichai.dongxue.yeshutong.cg.spark",
+      "file": "art/images/shichai-dongxue-yeshutong-cg-spark.webp",
+      "sha256": "28657f8f09da8ff7498e0bee5b06a049289bd08abdbccd70a1c72fc93501d720",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "雪夜窗前推书，脸红",
+      "sourceUrl": "/art/shichai.dongxue/yeshutong-cg-spark.png"
+    },
+    {
+      "id": "shichai.dongxue.yeshutong.cg.rival",
+      "file": "art/images/shichai-dongxue-yeshutong-cg-rival.webp",
+      "sha256": "73ec83c319cf9f7eb5430751b11345bac9488b6e0507d8ff64e317001b8e8e1b",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "叶承持婚书立于门口，伙计搬书",
+      "sourceUrl": "/art/shichai.dongxue/yeshutong-cg-rival.png"
+    },
+    {
+      "id": "shichai.dongxue.yeshutong.cg.lost",
+      "file": "art/images/shichai-dongxue-yeshutong-cg-lost.webp",
+      "sha256": "ad50ed4602cc18632a983c165b9f1929c1ec45be9cc5f4845e8daf88eca4821c",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "楼下雪地，楼上灯亮，书卷散落",
+      "sourceUrl": "/art/shichai.dongxue/yeshutong-cg-lost.png"
+    },
+    {
+      "id": "shichai.dongxue.yeshutong.cg.night",
+      "file": "art/images/shichai-dongxue-yeshutong-cg-night.webp",
+      "sha256": "a93f1ce408f6d053a056d528997d98250f7a229844fbb53ed0adfd12447e1d63",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "炉火旁合上书，解开狐裘",
+      "sourceUrl": "/art/shichai.dongxue/yeshutong-cg-night.png"
+    },
+    {
+      "id": "shichai.dongxue.yeshutong.cg.dual",
+      "file": "art/images/shichai-dongxue-yeshutong-cg-dual.webp",
+      "sha256": "037f0c077df960697b7ec4bba77b636f68ae65ea36910b4ec5950edca1132755",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "顶层雪光，玉简，书页无风自动",
+      "sourceUrl": "/art/shichai.dongxue/yeshutong-cg-dual.png"
+    },
+    {
+      "id": "shichai.dongxue.yeshutong.cg.vow",
+      "file": "art/images/shichai-dongxue-yeshutong-cg-vow.webp",
+      "sha256": "bb78c4f08e7ed7e19fc1576e4cd4d048bb81f5cdc87348e916fd647593aae65f",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "门口挂钥匙，木牌不外借",
+      "sourceUrl": "/art/shichai.dongxue/yeshutong-cg-vow.png"
+    },
+    {
+      "id": "shichai.dongxue.yeshutong.cg.mourn",
+      "file": "art/images/shichai-dongxue-yeshutong-cg-mourn.webp",
+      "sha256": "db49f528bb0c52995b6eb4de8119486370bbfa022873b9396ec94b8fd42f82a2",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "灯灭，未抄完的功法，墨结冰",
+      "sourceUrl": "/art/shichai.dongxue/yeshutong-cg-mourn.png"
+    },
+    {
+      "id": "shichai.dongxue.songxiaoman.cg.meet",
+      "file": "art/images/shichai-dongxue-songxiaoman-cg-meet.webp",
+      "sha256": "9fd2b5985c0f69e25ed0163a466e9a35516703402e7da0f757d7c8639f7cd12d",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "雪地拖狼，冲人喊",
+      "sourceUrl": "/art/shichai.dongxue/songxiaoman-cg-meet.png"
+    },
+    {
+      "id": "shichai.dongxue.songxiaoman.cg.bond",
+      "file": "art/images/shichai-dongxue-songxiaoman-cg-bond.webp",
+      "sha256": "bc74825f2268fd9783d6763f4ba6611f47abcb776023ba5310c441ca256fd1dd",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "猎屋火塘，山神铜牌",
+      "sourceUrl": "/art/shichai.dongxue/songxiaoman-cg-bond.png"
+    },
+    {
+      "id": "shichai.dongxue.songxiaoman.cg.spark",
+      "file": "art/images/shichai-dongxue-songxiaoman-cg-spark.webp",
+      "sha256": "59e6cf49123f4824ba4a2b4fab6e764f00ebe0078a2af55889a731bdb25c6b2a",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "雪夜猎屋外，猎叉插雪，踮脚亲下巴",
+      "sourceUrl": "/art/shichai.dongxue/songxiaoman-cg-spark.png"
+    },
+    {
+      "id": "shichai.dongxue.songxiaoman.cg.rival",
+      "file": "art/images/shichai-dongxue-songxiaoman-cg-rival.webp",
+      "sha256": "6a045b7db9ba9cdfd1bc1cefe41e2cdd4acacb6f45328bbcde2d97f07fdc57e6",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "王虎抱野猪立于门口，媒婆在后",
+      "sourceUrl": "/art/shichai.dongxue/songxiaoman-cg-rival.png"
+    },
+    {
+      "id": "shichai.dongxue.songxiaoman.cg.lost",
+      "file": "art/images/shichai-dongxue-songxiaoman-cg-lost.webp",
+      "sha256": "b87706f697da5b88a6bfae49de4945d3e3942a5f7a035bc5e222c3c1bc5734c0",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "村口雪地，红纸窗吹灭蜡烛",
+      "sourceUrl": "/art/shichai.dongxue/songxiaoman-cg-lost.png"
+    },
+    {
+      "id": "shichai.dongxue.songxiaoman.cg.night",
+      "file": "art/images/shichai-dongxue-songxiaoman-cg-night.webp",
+      "sha256": "64fea3f4a71a510845c77e0b4b247dab4d42eb973a6ea14badb7d9811bd58e63",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "火塘旁解辫子，皮腰带落地",
+      "sourceUrl": "/art/shichai.dongxue/songxiaoman-cg-night.png"
+    },
+    {
+      "id": "shichai.dongxue.songxiaoman.cg.dual",
+      "file": "art/images/shichai-dongxue-songxiaoman-cg-dual.webp",
+      "sha256": "697afa3ff7b2c2f31002d81763b8cbd69b8a17b8ce86ad8ee05cb7b0593da869",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "山神庙前雪花悬停，山神虚影",
+      "sourceUrl": "/art/shichai.dongxue/songxiaoman-cg-dual.png"
+    },
+    {
+      "id": "shichai.dongxue.songxiaoman.cg.vow",
+      "file": "art/images/shichai-dongxue-songxiaoman-cg-vow.webp",
+      "sha256": "980561538ee0a337b89a64d0677402126c953a3f5901e5b314695aa19213e292",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "挂铜牌，远处王虎抱野猪笑",
+      "sourceUrl": "/art/shichai.dongxue/songxiaoman-cg-vow.png"
+    },
+    {
+      "id": "shichai.dongxue.songxiaoman.cg.mourn",
+      "file": "art/images/shichai-dongxue-songxiaoman-cg-mourn.webp",
+      "sha256": "635e5118557125b63366341dfa3651f6c4d4439d061d9022f126c93b37528799",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "猎叉埋雪，铜牌挂叉",
+      "sourceUrl": "/art/shichai.dongxue/songxiaoman-cg-mourn.png"
+    },
+    {
+      "id": "shichai.dongxue.chulian.cg.meet",
+      "file": "art/images/shichai-dongxue-chulian-cg-meet.webp",
+      "sha256": "46c6ff7b6977420ad7f3f020a58e5992debf6e41ca30902bbedcf80b45b5ad21",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "雪天街角，药包掉在雪里",
+      "sourceUrl": "/art/shichai.dongxue/chulian-cg-meet.png"
+    },
+    {
+      "id": "shichai.dongxue.chulian.cg.bond",
+      "file": "art/images/shichai-dongxue-chulian-cg-bond.webp",
+      "sha256": "08df4e4689764019bc807b01df05a0b8c7b915c91f56d849761990adadddc15d",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "客栈廊下卷袖露采痕",
+      "sourceUrl": "/art/shichai.dongxue/chulian-cg-bond.png"
+    },
+    {
+      "id": "shichai.dongxue.chulian.cg.spark",
+      "file": "art/images/shichai-dongxue-chulian-cg-spark.webp",
+      "sha256": "7202027499b7023bcee553c91dcfeaf02dcdb5e3be1f147ce7aa6f259d0cb723",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "屋檐下避雪，旧玉扣放进掌心",
+      "sourceUrl": "/art/shichai.dongxue/chulian-cg-spark.png"
+    },
+    {
+      "id": "shichai.dongxue.chulian.cg.rival",
+      "file": "art/images/shichai-dongxue-chulian-cg-rival.webp",
+      "sha256": "a53019c6fb37582b98ee46592f28a00329dca13c182baecca1a5d3002c85af23",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "严孤鹤御剑落雪，剑悬头顶三寸",
+      "sourceUrl": "/art/shichai.dongxue/chulian-cg-rival.png"
+    },
+    {
+      "id": "shichai.dongxue.chulian.cg.lost",
+      "file": "art/images/shichai-dongxue-chulian-cg-lost.webp",
+      "sha256": "6ba5842924bd4b49dcb0514f82c376518966b405337536700fa871e9152f909a",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "门外被剑气钉住，房内采阴元",
+      "sourceUrl": "/art/shichai.dongxue/chulian-cg-lost.png"
+    },
+    {
+      "id": "shichai.dongxue.chulian.cg.night",
+      "file": "art/images/shichai-dongxue-chulian-cg-night.webp",
+      "sha256": "cbbe8e21d3aeb7a4355ac9515664c7ca1db7038a3b77f728d06773a47f22bd3a",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "炉火，解斗篷，背对不敢转身",
+      "sourceUrl": "/art/shichai.dongxue/chulian-cg-night.png"
+    },
+    {
+      "id": "shichai.dongxue.chulian.cg.dual",
+      "file": "art/images/shichai-dongxue-chulian-cg-dual.webp",
+      "sha256": "63d3accf6b1af8e1775b812a0f4eaf1af228f0a77a1cf6b3857d830b2e0c8295",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "坊市外雪地，采痕褪去，雪融成水",
+      "sourceUrl": "/art/shichai.dongxue/chulian-cg-dual.png"
+    },
+    {
+      "id": "shichai.dongxue.chulian.cg.vow",
+      "file": "art/images/shichai-dongxue-chulian-cg-vow.webp",
+      "sha256": "b37ecf02a1992373d5b1f59c40392e0809cbe7cbab46ecc95d72801c1aa9cf3e",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "坊市口系回玉扣，远处剑插雪地",
+      "sourceUrl": "/art/shichai.dongxue/chulian-cg-vow.png"
+    },
+    {
+      "id": "shichai.dongxue.chulian.cg.mourn",
+      "file": "art/images/shichai-dongxue-chulian-cg-mourn.webp",
+      "sha256": "0ffae95be550f414675b9e51dac02b0bf858c6503da1d460ddaff261f1d4bf52",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "雪地上的白斗篷与玉扣",
+      "sourceUrl": "/art/shichai.dongxue/chulian-cg-mourn.png"
+    },
+    {
+      "id": "location.market",
+      "file": "art/images/location-market.webp",
+      "sha256": "1b374cf56225cf22d9c9662dd6596b20b18932e2e330ccfc9a9be1c460bda36b",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "青石坊市的当地景致",
+      "sourceUrl": "/art/market.png",
+      "locationId": "market"
+    },
+    {
+      "id": "location.inn",
+      "file": "art/images/location-inn.webp",
+      "sha256": "50b585ccc932af3bdc5d086cad64211563c064e35793f42761fa9e1fa1c81b21",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "听雨客栈的当地景致",
+      "locationId": "inn"
+    },
+    {
+      "id": "location.gate",
+      "file": "art/images/location-gate.webp",
+      "sha256": "c0e20cc62e61fe92fc4d0920fef46a34469f2574bea93e8747e6b349696f53b5",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "山门古道的当地景致",
+      "locationId": "gate"
+    },
+    {
+      "id": "location.ruins",
+      "file": "art/images/location-ruins.webp",
+      "sha256": "ea1d64c4be02b7e0587fa3702b4cd7a478d4ed85a19bb6efd4fa4a16d008fa95",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "残碑秘境的当地景致",
+      "sourceUrl": "/art/ruins.png",
+      "locationId": "ruins"
+    },
+    {
+      "id": "location.atlas.luoxia",
+      "file": "art/images/location-atlas-luoxia.webp",
+      "sha256": "610f8b71711e3a4673def50702cd2e415d109b06dfed116a8c9e7f1b8414a435",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "落霞村的当地景致",
+      "locationId": "atlas.luoxia"
+    },
+    {
+      "id": "location.atlas.cangzhu",
+      "file": "art/images/location-atlas-cangzhu.webp",
+      "sha256": "5f4fffcd39285a337717c2504fd345c2deae5fec359a3090dfa712a43db97078",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "苍竹林的当地景致",
+      "locationId": "atlas.cangzhu"
+    },
+    {
+      "id": "location.shichai.xiaye.market",
+      "file": "art/images/location-shichai-xiaye-market.webp",
+      "sha256": "b4a6bfbb8d9ea989b546aa295cc4a3530129b2aba0c24127e32e27c99d92b1c1",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "临江城坊市的当地景致",
+      "locationId": "shichai.xiaye.market"
+    },
+    {
+      "id": "location.shichai.xiaye.inn",
+      "file": "art/images/location-shichai-xiaye-inn.webp",
+      "sha256": "f7915fa9fbd909a5955d75716b74b3527d0101e65c6086877fa4e397b25094af",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "临江听潮客栈的当地景致",
+      "locationId": "shichai.xiaye.inn"
+    },
+    {
+      "id": "location.shichai.xiaye.gate",
+      "file": "art/images/location-shichai-xiaye-gate.webp",
+      "sha256": "43c5e26b6e50b9601fab97b54da48bcb0ce0d08cc57c59febf5f9047bba16c3b",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "临江商道的当地景致",
+      "locationId": "shichai.xiaye.gate"
+    },
+    {
+      "id": "location.atlas.yanbo",
+      "file": "art/images/location-atlas-yanbo.webp",
+      "sha256": "5ae05b2ba0df47cfedb3d3039687e13dd857a9ed5d8c49197809e05fd32af757",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "烟波渡的当地景致",
+      "locationId": "atlas.yanbo"
+    },
+    {
+      "id": "location.atlas.yunmeng",
+      "file": "art/images/location-atlas-yunmeng.webp",
+      "sha256": "dcc2a0a1e2768e8806b9363e72ad02b5d2a1434d84146e08d7fd44a725799e24",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "云梦泽的当地景致",
+      "locationId": "atlas.yunmeng"
+    },
+    {
+      "id": "location.shichai.qiudeng.market",
+      "file": "art/images/location-shichai-qiudeng-market.webp",
+      "sha256": "1907b5e0289ef215545c1f2e44ad12deecac01f423df19e8a5e998d69b3e2e89",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "青岚山城坊市的当地景致",
+      "locationId": "shichai.qiudeng.market"
+    },
+    {
+      "id": "location.shichai.qiudeng.inn",
+      "file": "art/images/location-shichai-qiudeng-inn.webp",
+      "sha256": "6b2e3e52d45a612e0548f293e5128c7cf952913ac709ed821c72ed9556d32875",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "青岚问道客舍的当地景致",
+      "locationId": "shichai.qiudeng.inn"
+    },
+    {
+      "id": "location.shichai.qiudeng.gate",
+      "file": "art/images/location-shichai-qiudeng-gate.webp",
+      "sha256": "f5c598cbd2f849ed0f13f7bba73d8fa0ed03cdd81719caf80e1c70efdd673ab9",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "青岚山门的当地景致",
+      "locationId": "shichai.qiudeng.gate"
+    },
+    {
+      "id": "location.atlas.wendao",
+      "file": "art/images/location-atlas-wendao.webp",
+      "sha256": "4ebed815e569faadde63a2216e9da68530226aad53322575792eeb0b1671a977",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "问道峰的当地景致",
+      "locationId": "atlas.wendao"
+    },
+    {
+      "id": "location.shichai.dongxue.market",
+      "file": "art/images/location-shichai-dongxue-market.webp",
+      "sha256": "b367236b70f8a875b5101cab100120d79190c180069c5821e08075cff9941ba4",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "霜河城坊市的当地景致",
+      "locationId": "shichai.dongxue.market"
+    },
+    {
+      "id": "location.shichai.dongxue.inn",
+      "file": "art/images/location-shichai-dongxue-inn.webp",
+      "sha256": "327cfeeafe4e76d3bce8a595584a6ac69fccba18d1807e425ab0134b31af0b3e",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "霜河藏书客舍的当地景致",
+      "locationId": "shichai.dongxue.inn"
+    },
+    {
+      "id": "location.shichai.dongxue.gate",
+      "file": "art/images/location-shichai-dongxue-gate.webp",
+      "sha256": "97e130d179931ca18a16e4ef7d49b42cdbcf656fc72e7159d2b66898d8a0c262",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "霜河雪村的当地景致",
+      "locationId": "shichai.dongxue.gate"
+    },
+    {
+      "id": "location.atlas.xuesong",
+      "file": "art/images/location-atlas-xuesong.webp",
+      "sha256": "164bcf2847ca081cfda6cf934dc14a5514aa343a6513364235e0e30d36d8d47f",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "雪松原的当地景致",
+      "locationId": "atlas.xuesong"
+    }
+  ]
+}

@@ -1,15 +1,15 @@
 {
   "/art/market.png": [
-    "/art/optimized/market-c7b2869c4ebb.webp",
-    1280,
-    720,
-    false
+    "/art/optimized/location-market-dc1f49f0ef1e.webp",
+    1672,
+    941,
+    true
   ],
   "/art/ruins.png": [
-    "/art/optimized/ruins-738d103cf714.webp",
-    1280,
-    720,
-    false
+    "/art/optimized/location-ruins-d15296e45734.webp",
+    1672,
+    941,
+    true
   ],
   "/art/lin-wan.png": [
     "/art/optimized/lin-wan-135ea867f0c7.webp",
@@ -54,2133 +54,2307 @@
     true
   ],
   "/art/portraits/npc_lin_wan-e4e642f4ad9f.webp": [
-    "/art/optimized/npc-lin-wan-e4e642f4ad9f-0f5995fce6bd.webp",
-    483,
-    960,
+    "/art/optimized/npc-lin-wan-portrait-9ee493a170e2.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_zhou_an-b414245a2a70.webp": [
-    "/art/optimized/npc-zhou-an-b414245a2a70-87a7ff7f161f.webp",
-    524,
-    960,
+    "/art/optimized/npc-zhou-an-portrait-411004956da1.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0003-6f7e9d80074a.webp": [
-    "/art/optimized/npc-0003-6f7e9d80074a-d86041eef3ae.webp",
-    502,
-    960,
+    "/art/optimized/npc-0003-portrait-9f22c22d4aff.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0004-407792ef0ec1.webp": [
-    "/art/optimized/npc-0004-407792ef0ec1-b0c1f402a604.webp",
-    455,
-    960,
+    "/art/optimized/npc-0004-portrait-2923be3b2560.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0005-4760b4e41198.webp": [
-    "/art/optimized/npc-0005-4760b4e41198-0e140fc9b4ca.webp",
-    480,
-    960,
+    "/art/optimized/npc-0005-portrait-36630549fe98.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0006-191bc80404e2.webp": [
-    "/art/optimized/npc-0006-191bc80404e2-8ae0221d2837.webp",
-    427,
-    960,
+    "/art/optimized/npc-0006-portrait-f25c49bdadd2.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0007-f98378b8d1da.webp": [
-    "/art/optimized/npc-0007-f98378b8d1da-3d421a35d4b7.webp",
-    521,
-    960,
+    "/art/optimized/npc-0007-portrait-6cdd2b71fbcf.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0008-2db934404d2a.webp": [
-    "/art/optimized/npc-0008-2db934404d2a-32cb0fd63b09.webp",
-    444,
-    960,
+    "/art/optimized/npc-0008-portrait-6546d4c70193.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0009-8ff306b6ac0c.webp": [
-    "/art/optimized/npc-0009-8ff306b6ac0c-a75d1677f8c0.webp",
-    444,
-    960,
+    "/art/optimized/npc-0009-portrait-d768a094a1fb.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0010-36d37a2efad8.webp": [
-    "/art/optimized/npc-0010-36d37a2efad8-617d3b520e39.webp",
-    470,
-    960,
+    "/art/optimized/npc-0010-portrait-4dd149cfecd2.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0011-a95d2f065208.webp": [
-    "/art/optimized/npc-0011-a95d2f065208-f44b4a82b9ba.webp",
-    540,
-    960,
+    "/art/optimized/npc-0011-portrait-b322a55e95c2.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0012-b8ceae574920.webp": [
-    "/art/optimized/npc-0012-b8ceae574920-f8dfc0b0060c.webp",
-    455,
-    960,
+    "/art/optimized/npc-0012-portrait-23be90af58ef.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0013-370269b06fda.webp": [
-    "/art/optimized/npc-0013-370269b06fda-f974c3fddef1.webp",
-    480,
-    960,
+    "/art/optimized/npc-0013-portrait-92c6765a446b.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0014-ef86a8c1005d.webp": [
-    "/art/optimized/npc-0014-ef86a8c1005d-e76ebd729f5f.webp",
-    453,
-    960,
+    "/art/optimized/npc-0014-portrait-dcaadf33a281.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0015-be89d25e2bd2.webp": [
-    "/art/optimized/npc-0015-be89d25e2bd2-1f85d14ee2a7.webp",
-    454,
-    960,
+    "/art/optimized/npc-0015-portrait-6fc90990b19e.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0016-a4ebb601e9b8.webp": [
-    "/art/optimized/npc-0016-a4ebb601e9b8-75d91fbe072b.webp",
-    540,
-    960,
+    "/art/optimized/npc-0016-portrait-61de625cc3cb.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0017-fbbd07efe0bd.webp": [
-    "/art/optimized/npc-0017-fbbd07efe0bd-567ee1cd285a.webp",
-    454,
-    960,
+    "/art/optimized/npc-0017-portrait-0a7067b99d5f.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0018-29e2362b23d6.webp": [
-    "/art/optimized/npc-0018-29e2362b23d6-b5ce3d6b5bea.webp",
-    455,
-    960,
+    "/art/optimized/npc-0018-portrait-864e0f8ae6cb.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0019-476ecc67bd40.webp": [
-    "/art/optimized/npc-0019-476ecc67bd40-0b6ceff657e0.webp",
-    463,
-    960,
+    "/art/optimized/npc-0019-portrait-f678fddc576b.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0020-24b7309b3432.webp": [
-    "/art/optimized/npc-0020-24b7309b3432-6654948bc80f.webp",
-    501,
-    960,
+    "/art/optimized/npc-0020-portrait-8472c94d79bc.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0021-3bac6cbb34bb.webp": [
-    "/art/optimized/npc-0021-3bac6cbb34bb-0341140f940f.webp",
-    434,
-    960,
+    "/art/optimized/npc-0021-portrait-1ffb4fcc5b43.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0022-705f4897fb45.webp": [
-    "/art/optimized/npc-0022-705f4897fb45-9449fbd556b6.webp",
-    455,
-    960,
+    "/art/optimized/npc-0022-portrait-55f1a38e7ab7.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0023-3f23d47261d8.webp": [
-    "/art/optimized/npc-0023-3f23d47261d8-482ee8b6dc2d.webp",
-    480,
-    960,
+    "/art/optimized/npc-0023-portrait-ba60b3c63080.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0024-19c153956f4a.webp": [
-    "/art/optimized/npc-0024-19c153956f4a-2a6c52a90d1c.webp",
-    480,
-    960,
+    "/art/optimized/npc-0024-portrait-c9cdf1e917ae.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0025-a70bbc677a37.webp": [
-    "/art/optimized/npc-0025-a70bbc677a37-36c9efd47880.webp",
-    458,
-    960,
+    "/art/optimized/npc-0025-portrait-b4b75d9459e9.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0026-e139d006dd31.webp": [
-    "/art/optimized/npc-0026-e139d006dd31-3d61ba7c43e8.webp",
-    470,
-    960,
+    "/art/optimized/npc-0026-portrait-efbcd54fe1f7.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0027-7a1f8d8c9b85.webp": [
-    "/art/optimized/npc-0027-7a1f8d8c9b85-ac932cb973f6.webp",
-    427,
-    960,
+    "/art/optimized/npc-0027-portrait-23c61405423c.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0028-19a5b9681b7c.webp": [
-    "/art/optimized/npc-0028-19a5b9681b7c-49e538cb2bc6.webp",
-    540,
-    960,
+    "/art/optimized/npc-0028-portrait-daf626c3298d.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0029-c50341a1ebf3.webp": [
-    "/art/optimized/npc-0029-c50341a1ebf3-cf3b8acf8c71.webp",
-    452,
-    960,
+    "/art/optimized/npc-0029-portrait-f212da6fe138.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0030-e72a22453167.webp": [
-    "/art/optimized/npc-0030-e72a22453167-b682f37914fa.webp",
-    455,
-    960,
+    "/art/optimized/npc-0030-portrait-079828a8c356.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0031-51834387f83d.webp": [
-    "/art/optimized/npc-0031-51834387f83d-601b5d6fe60a.webp",
-    437,
-    960,
+    "/art/optimized/npc-0031-portrait-f2ea37d15fba.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0032-5754d8c82911.webp": [
-    "/art/optimized/npc-0032-5754d8c82911-f36dd29149c7.webp",
-    480,
-    960,
+    "/art/optimized/npc-0032-portrait-173f9e89cf5b.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0033-d7931a488bc7.webp": [
-    "/art/optimized/npc-0033-d7931a488bc7-d61d82bbf627.webp",
-    480,
-    960,
+    "/art/optimized/npc-0033-portrait-c0d504ce6116.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0034-341fd9355eb5.webp": [
-    "/art/optimized/npc-0034-341fd9355eb5-8ce96967469a.webp",
-    476,
-    960,
+    "/art/optimized/npc-0034-portrait-420c85247e7d.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0035-44a153d6d49e.webp": [
-    "/art/optimized/npc-0035-44a153d6d49e-9c3cb5d251d5.webp",
-    504,
-    960,
+    "/art/optimized/npc-0035-portrait-d97c64c7cc6d.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0036-d9a41e87247e.webp": [
-    "/art/optimized/npc-0036-d9a41e87247e-028539533cd2.webp",
-    480,
-    960,
+    "/art/optimized/npc-0036-portrait-a5aa9d055974.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0037-aa43f901263e.webp": [
-    "/art/optimized/npc-0037-aa43f901263e-cbf9d5f27bd3.webp",
-    455,
-    960,
+    "/art/optimized/npc-0037-portrait-2138e556a945.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0038-9192970d8d05.webp": [
-    "/art/optimized/npc-0038-9192970d8d05-567a92d12a78.webp",
-    462,
-    960,
+    "/art/optimized/npc-0038-portrait-91646633b4ca.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0039-b49cc87b80a3.webp": [
-    "/art/optimized/npc-0039-b49cc87b80a3-f264e0850265.webp",
-    540,
-    960,
+    "/art/optimized/npc-0039-portrait-a332dec06e12.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0040-ae4c332d9755.webp": [
-    "/art/optimized/npc-0040-ae4c332d9755-acf0480460f6.webp",
-    453,
-    960,
+    "/art/optimized/npc-0040-portrait-793416d5bf6c.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0041-794cc1243adb.webp": [
-    "/art/optimized/npc-0041-794cc1243adb-c8f55ea9d845.webp",
-    455,
-    960,
+    "/art/optimized/npc-0041-portrait-9421d5c450c5.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0042-8a8bb54ec2c2.webp": [
-    "/art/optimized/npc-0042-8a8bb54ec2c2-0bf8b6fed0bb.webp",
-    427,
-    960,
+    "/art/optimized/npc-0042-portrait-62684e245822.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0043-d1c0840b9163.webp": [
-    "/art/optimized/npc-0043-d1c0840b9163-281c46b71bca.webp",
-    503,
-    960,
+    "/art/optimized/npc-0043-portrait-30d11d94ee33.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0044-f4f97497ffff.webp": [
-    "/art/optimized/npc-0044-f4f97497ffff-d4c5d3f967c7.webp",
-    455,
-    960,
+    "/art/optimized/npc-0044-portrait-921ca93c2d5f.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0045-c9d0f592b4a1.webp": [
-    "/art/optimized/npc-0045-c9d0f592b4a1-935c9bb0e4be.webp",
-    455,
-    960,
+    "/art/optimized/npc-0045-portrait-7e2b32cc8cd2.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0046-0e5c919c7513.webp": [
-    "/art/optimized/npc-0046-0e5c919c7513-75dc31182d78.webp",
-    484,
-    960,
+    "/art/optimized/npc-0046-portrait-4d1cfa3094d6.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0047-5e00b8b111f8.webp": [
-    "/art/optimized/npc-0047-5e00b8b111f8-e129823fdb46.webp",
-    480,
-    960,
+    "/art/optimized/npc-0047-portrait-2d856ba37257.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0048-0efb93906a7d.webp": [
-    "/art/optimized/npc-0048-0efb93906a7d-98bae2c9648d.webp",
-    455,
-    960,
+    "/art/optimized/npc-0048-portrait-6b8322f0c31a.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0049-4edeb34d7b9c.webp": [
-    "/art/optimized/npc-0049-4edeb34d7b9c-f4711f0fe3f5.webp",
-    494,
-    960,
+    "/art/optimized/npc-0049-portrait-23632ebaac78.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0050-807e78a88c9e.webp": [
-    "/art/optimized/npc-0050-807e78a88c9e-aeda420ac36b.webp",
-    455,
-    960,
+    "/art/optimized/npc-0050-portrait-a607b383a2d2.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0051-5915ab9a151e.webp": [
-    "/art/optimized/npc-0051-5915ab9a151e-ea31b9c2a44f.webp",
-    465,
-    960,
+    "/art/optimized/npc-0051-portrait-81d060c87d2b.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0052-66fc983c5943.webp": [
-    "/art/optimized/npc-0052-66fc983c5943-d95d0573ab6c.webp",
-    533,
-    960,
+    "/art/optimized/npc-0052-portrait-e45b9f0dcfcf.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0053-22177ff12d7e.webp": [
-    "/art/optimized/npc-0053-22177ff12d7e-90d5a946648f.webp",
-    455,
-    960,
+    "/art/optimized/npc-0053-portrait-6024d0c492b8.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0054-1d1ab7c35828.webp": [
-    "/art/optimized/npc-0054-1d1ab7c35828-8665850950c2.webp",
-    640,
-    960,
+    "/art/optimized/npc-0054-portrait-6eecd980c90f.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0055-23f4a5aee0e3.webp": [
-    "/art/optimized/npc-0055-23f4a5aee0e3-2bf557d28435.webp",
-    455,
-    960,
+    "/art/optimized/npc-0055-portrait-5a1169a23aa0.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0056-e3a5d4ad17b9.webp": [
-    "/art/optimized/npc-0056-e3a5d4ad17b9-0d7a792934ce.webp",
-    445,
-    960,
+    "/art/optimized/npc-0056-portrait-4cb250bae369.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0057-294f0a47acbc.webp": [
-    "/art/optimized/npc-0057-294f0a47acbc-9c19cc7d7df3.webp",
-    480,
-    960,
+    "/art/optimized/npc-0057-portrait-b42407746aa7.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0058-71516ef0ee13.webp": [
-    "/art/optimized/npc-0058-71516ef0ee13-49e167e1b778.webp",
-    529,
-    960,
+    "/art/optimized/npc-0058-portrait-8429079304b8.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0059-c801983861a9.webp": [
-    "/art/optimized/npc-0059-c801983861a9-3b6ca8c25ab1.webp",
-    453,
-    960,
+    "/art/optimized/npc-0059-portrait-26f69d63243e.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0060-901e7eb9b14d.webp": [
-    "/art/optimized/npc-0060-901e7eb9b14d-b884771056f8.webp",
-    404,
-    960,
+    "/art/optimized/npc-0060-portrait-89d61ecece63.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0061-e3a5137eb062.webp": [
-    "/art/optimized/npc-0061-e3a5137eb062-22019d0161fe.webp",
-    455,
-    960,
+    "/art/optimized/npc-0061-portrait-8e80e33f258b.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0062-eb1c546c02b7.webp": [
-    "/art/optimized/npc-0062-eb1c546c02b7-61d2f9d5ede1.webp",
-    480,
-    960,
+    "/art/optimized/npc-0062-portrait-05afbe4f1151.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0063-c67e92a539bd.webp": [
-    "/art/optimized/npc-0063-c67e92a539bd-4edab95811d6.webp",
-    455,
-    960,
+    "/art/optimized/npc-0063-portrait-d2395c1a9e75.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0064-59985e0f8d88.webp": [
-    "/art/optimized/npc-0064-59985e0f8d88-a68461f77c28.webp",
-    455,
-    960,
+    "/art/optimized/npc-0064-portrait-084b5718c8f4.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0065-0b5f09a2fe29.webp": [
-    "/art/optimized/npc-0065-0b5f09a2fe29-b230010348b2.webp",
-    457,
-    960,
+    "/art/optimized/npc-0065-portrait-8942e7a5c31b.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0066-17f8be5bef50.webp": [
-    "/art/optimized/npc-0066-17f8be5bef50-6b16771141b6.webp",
-    445,
-    960,
+    "/art/optimized/npc-0066-portrait-f19e60934999.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0067-0e5117ad0562.webp": [
-    "/art/optimized/npc-0067-0e5117ad0562-861ff991cf9f.webp",
-    478,
-    960,
+    "/art/optimized/npc-0067-portrait-5f5bf4608732.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0068-f8451dc4505f.webp": [
-    "/art/optimized/npc-0068-f8451dc4505f-1ac076ac6b78.webp",
-    455,
-    960,
+    "/art/optimized/npc-0068-portrait-96912126d557.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0069-d17c46555f89.webp": [
-    "/art/optimized/npc-0069-d17c46555f89-01d9b337b3dc.webp",
-    455,
-    960,
+    "/art/optimized/npc-0069-portrait-e2dabe2a2c96.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0070-6c2f89c0dcee.webp": [
-    "/art/optimized/npc-0070-6c2f89c0dcee-945e66008057.webp",
-    455,
-    960,
+    "/art/optimized/npc-0070-portrait-e13eb548b38a.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0071-4317ec068436.webp": [
-    "/art/optimized/npc-0071-4317ec068436-6d0d71ec730b.webp",
-    504,
-    960,
+    "/art/optimized/npc-0071-portrait-6696c37bce15.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0072-d3406a10a8ca.webp": [
-    "/art/optimized/npc-0072-d3406a10a8ca-3aa55d0a5179.webp",
-    480,
-    960,
+    "/art/optimized/npc-0072-portrait-a04147f91706.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0073-8a1e54ca3e29.webp": [
-    "/art/optimized/npc-0073-8a1e54ca3e29-d2c0908f1ff6.webp",
-    461,
-    960,
+    "/art/optimized/npc-0073-portrait-f1791161d5e2.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0074-377e1f64ce31.webp": [
-    "/art/optimized/npc-0074-377e1f64ce31-8bc7f139f95c.webp",
-    455,
-    960,
+    "/art/optimized/npc-0074-portrait-2ef007a85b63.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0075-f6855947b85a.webp": [
-    "/art/optimized/npc-0075-f6855947b85a-ea964cfe8299.webp",
-    499,
-    960,
+    "/art/optimized/npc-0075-portrait-cce8f55d28f1.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0076-f23582d7c823.webp": [
-    "/art/optimized/npc-0076-f23582d7c823-6925246883c6.webp",
-    457,
-    960,
+    "/art/optimized/npc-0076-portrait-8ffc12acf8fd.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0077-a8912cb46865.webp": [
-    "/art/optimized/npc-0077-a8912cb46865-00bcaddb969f.webp",
-    455,
-    960,
+    "/art/optimized/npc-0077-portrait-073d5019166f.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0078-e04f06dcf8dd.webp": [
-    "/art/optimized/npc-0078-e04f06dcf8dd-877fa19d3d72.webp",
-    455,
-    960,
+    "/art/optimized/npc-0078-portrait-4b0066f36cb1.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0079-8d715526fecf.webp": [
-    "/art/optimized/npc-0079-8d715526fecf-f8dd5a6a2e10.webp",
-    455,
-    960,
+    "/art/optimized/npc-0079-portrait-51d6a85adb50.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0080-9e650b9210ba.webp": [
-    "/art/optimized/npc-0080-9e650b9210ba-1e8d9441213e.webp",
-    480,
-    960,
+    "/art/optimized/npc-0080-portrait-f5b0a7ea00b5.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0081-14f4b8b7feac.webp": [
-    "/art/optimized/npc-0081-14f4b8b7feac-42b3cd7dc715.webp",
-    492,
-    960,
+    "/art/optimized/npc-0081-portrait-fbe0ef6ed1d6.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0082-41088853cd55.webp": [
-    "/art/optimized/npc-0082-41088853cd55-325562c17625.webp",
-    456,
-    960,
+    "/art/optimized/npc-0082-portrait-6230fe731a5b.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0083-b1b4b7334f6b.webp": [
-    "/art/optimized/npc-0083-b1b4b7334f6b-88241dc7d345.webp",
-    451,
-    960,
+    "/art/optimized/npc-0083-portrait-0604d13c5b11.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0084-8260ad4a8157.webp": [
-    "/art/optimized/npc-0084-8260ad4a8157-f2a167f3981d.webp",
-    455,
-    960,
+    "/art/optimized/npc-0084-portrait-a53e1078028c.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0085-f09271876122.webp": [
-    "/art/optimized/npc-0085-f09271876122-45b9d327ae3e.webp",
-    455,
-    960,
+    "/art/optimized/npc-0085-portrait-ebe8afbfeba6.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0086-c1a914a2309d.webp": [
-    "/art/optimized/npc-0086-c1a914a2309d-400e436de334.webp",
-    480,
-    960,
+    "/art/optimized/npc-0086-portrait-917507b21c58.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0087-ba502a80efbd.webp": [
-    "/art/optimized/npc-0087-ba502a80efbd-5d8dd2164f7e.webp",
-    454,
-    960,
+    "/art/optimized/npc-0087-portrait-be9e02a119fa.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0088-f40579b2b0c7.webp": [
-    "/art/optimized/npc-0088-f40579b2b0c7-e2f56750ac49.webp",
-    540,
-    960,
+    "/art/optimized/npc-0088-portrait-a16d98a3236a.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0089-467f5a246db0.webp": [
-    "/art/optimized/npc-0089-467f5a246db0-02c34bd41157.webp",
-    491,
-    960,
+    "/art/optimized/npc-0089-portrait-a11d45fc0fb9.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0090-b81c8786f95b.webp": [
-    "/art/optimized/npc-0090-b81c8786f95b-fb696672d584.webp",
-    572,
-    960,
+    "/art/optimized/npc-0090-portrait-1557432f88f5.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0091-9822bf238fec.webp": [
-    "/art/optimized/npc-0091-9822bf238fec-c17cc8747328.webp",
-    455,
-    960,
+    "/art/optimized/npc-0091-portrait-976affa71de1.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0092-7cd4ec69f1cf.webp": [
-    "/art/optimized/npc-0092-7cd4ec69f1cf-fc1dae894e9f.webp",
-    427,
-    960,
+    "/art/optimized/npc-0092-portrait-165deeb0ad5b.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0093-28db1b34f8e3.webp": [
-    "/art/optimized/npc-0093-28db1b34f8e3-dc4b9b9ac1f1.webp",
-    558,
-    960,
+    "/art/optimized/npc-0093-portrait-c9b514f20f77.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0094-f1ae04932899.webp": [
-    "/art/optimized/npc-0094-f1ae04932899-676d8b98991a.webp",
-    455,
-    960,
+    "/art/optimized/npc-0094-portrait-ad03b16b201a.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0095-013ba8c40b1f.webp": [
-    "/art/optimized/npc-0095-013ba8c40b1f-89cefe4790ea.webp",
-    540,
-    960,
+    "/art/optimized/npc-0095-portrait-f7f0152f4e56.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0096-480e371bb455.webp": [
-    "/art/optimized/npc-0096-480e371bb455-28014a26524b.webp",
-    455,
-    960,
+    "/art/optimized/npc-0096-portrait-c3a8a0343fa7.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0097-b4c2c0904e0d.webp": [
-    "/art/optimized/npc-0097-b4c2c0904e0d-98928a65a6b5.webp",
-    430,
-    960,
+    "/art/optimized/npc-0097-portrait-60b633a1c9e7.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0098-94a26984a706.webp": [
-    "/art/optimized/npc-0098-94a26984a706-2806c40799b9.webp",
-    546,
-    960,
+    "/art/optimized/npc-0098-portrait-37046c501c0a.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0099-10d58b6fac2a.webp": [
-    "/art/optimized/npc-0099-10d58b6fac2a-f92cd4f19c07.webp",
-    491,
-    960,
+    "/art/optimized/npc-0099-portrait-789e525d1dac.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/npc_0100-7ef00b4f8e3a.webp": [
-    "/art/optimized/npc-0100-7ef00b4f8e3a-4c1863ef2bcd.webp",
-    455,
-    960,
+    "/art/optimized/npc-0100-portrait-d3971d3a6473.webp",
+    1024,
+    1536,
     true
   ],
   "/art/shichai.chunshui/intro.png": [
-    "/art/optimized/intro-31d19365df00.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-intro-1483a3df8408.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/suqingyan-cg-meet.png": [
-    "/art/optimized/suqingyan-cg-meet-e8125d7242dd.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-suqingyan-cg-meet-cabf6b483ba3.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/suqingyan-cg-bond.png": [
-    "/art/optimized/suqingyan-cg-bond-4ea9f54f303b.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-suqingyan-cg-bond-68d325293ae7.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/suqingyan-cg-spark.png": [
-    "/art/optimized/suqingyan-cg-spark-3ede7f37d8e7.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-suqingyan-cg-spark-5597c09d5c6b.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/suqingyan-cg-rival.png": [
-    "/art/optimized/suqingyan-cg-rival-dc2711c66bdf.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-suqingyan-cg-rival-293910396c2d.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/suqingyan-cg-lost.png": [
-    "/art/optimized/suqingyan-cg-lost-c6a58e2fad0c.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-suqingyan-cg-lost-0cfdd4532540.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/suqingyan-cg-night.png": [
-    "/art/optimized/suqingyan-cg-night-934eb9ed1396.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-suqingyan-cg-night-8ffe3fd14e6f.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/suqingyan-cg-dual.png": [
-    "/art/optimized/suqingyan-cg-dual-3d31de925ced.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-suqingyan-cg-dual-d17fe8eaa94a.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/suqingyan-cg-vow.png": [
-    "/art/optimized/suqingyan-cg-vow-9df2e072c53f.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-suqingyan-cg-vow-f38d30d72713.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/suqingyan-cg-mourn.png": [
-    "/art/optimized/suqingyan-cg-mourn-ed7fb66cc2d0.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-suqingyan-cg-mourn-87283298dc66.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/suqingyan-portrait.png": [
-    "/art/optimized/suqingyan-portrait-cda3d253e351.webp",
-    768,
-    1152,
+    "/art/optimized/shichai-chunshui-suqingyan-portrait-615228f5a807.webp",
+    1024,
+    1536,
     true
   ],
   "/art/shichai.chunshui/gutinglan-cg-meet.png": [
-    "/art/optimized/gutinglan-cg-meet-33c12c7ae347.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-gutinglan-cg-meet-d54f7fa6502d.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/gutinglan-cg-bond.png": [
-    "/art/optimized/gutinglan-cg-bond-d9f9d715fc9b.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-gutinglan-cg-bond-63681935c718.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/gutinglan-cg-spark.png": [
-    "/art/optimized/gutinglan-cg-spark-f8a3cf99ecb6.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-gutinglan-cg-spark-72399b9f2a74.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/gutinglan-cg-rival.png": [
-    "/art/optimized/gutinglan-cg-rival-4b13bd052a69.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-gutinglan-cg-rival-7d7d8888c1b3.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/gutinglan-cg-lost.png": [
-    "/art/optimized/gutinglan-cg-lost-76a68beb84a1.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-gutinglan-cg-lost-8219e54ff546.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/gutinglan-cg-night.png": [
-    "/art/optimized/gutinglan-cg-night-f9a24a83396e.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-gutinglan-cg-night-50d0eea6b766.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/gutinglan-cg-dual.png": [
-    "/art/optimized/gutinglan-cg-dual-f43660a57713.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-gutinglan-cg-dual-4406dd4ae46d.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/gutinglan-cg-vow.png": [
-    "/art/optimized/gutinglan-cg-vow-b716a71c85ff.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-gutinglan-cg-vow-9be97561a045.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/gutinglan-cg-mourn.png": [
-    "/art/optimized/gutinglan-cg-mourn-0f9112382e9a.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-gutinglan-cg-mourn-99499d6ced17.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/gutinglan-portrait.png": [
-    "/art/optimized/gutinglan-portrait-547b681441af.webp",
-    768,
-    1152,
+    "/art/optimized/shichai-chunshui-gutinglan-portrait-a58bf3c833aa.webp",
+    1024,
+    1536,
     true
   ],
   "/art/shichai.chunshui/wenzhiwei-cg-meet.png": [
-    "/art/optimized/wenzhiwei-cg-meet-0ca7aef9ae52.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-wenzhiwei-cg-meet-eadba2de0e2f.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/wenzhiwei-cg-bond.png": [
-    "/art/optimized/wenzhiwei-cg-bond-901b7f06a5c1.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-wenzhiwei-cg-bond-9497e0b5561c.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/wenzhiwei-cg-spark.png": [
-    "/art/optimized/wenzhiwei-cg-spark-d12d99771bab.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-wenzhiwei-cg-spark-73dec24ee8ac.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/wenzhiwei-cg-rival.png": [
-    "/art/optimized/wenzhiwei-cg-rival-781c66f73517.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-wenzhiwei-cg-rival-aa61fbd37962.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/wenzhiwei-cg-lost.png": [
-    "/art/optimized/wenzhiwei-cg-lost-8975d0ce388a.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-wenzhiwei-cg-lost-5e7315881921.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/wenzhiwei-cg-night.png": [
-    "/art/optimized/wenzhiwei-cg-night-566bc8be87b7.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-wenzhiwei-cg-night-e6622084a928.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/wenzhiwei-cg-dual.png": [
-    "/art/optimized/wenzhiwei-cg-dual-9ae8836b1ce2.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-wenzhiwei-cg-dual-f37ed6c859d6.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/wenzhiwei-cg-vow.png": [
-    "/art/optimized/wenzhiwei-cg-vow-4d3f4f9194e5.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-wenzhiwei-cg-vow-3dabe469054d.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/wenzhiwei-cg-mourn.png": [
-    "/art/optimized/wenzhiwei-cg-mourn-93d9a8341fed.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-chunshui-wenzhiwei-cg-mourn-9496df872bf6.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.chunshui/wenzhiwei-portrait.png": [
-    "/art/optimized/wenzhiwei-portrait-896f81b292b4.webp",
-    768,
-    1152,
+    "/art/optimized/shichai-chunshui-wenzhiwei-portrait-88699bd29f30.webp",
+    1024,
+    1536,
     true
   ],
   "/art/shichai.dongxue/intro.png": [
-    "/art/optimized/intro-192fe468b2f1.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-intro-ae7fdf64870a.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/yeshutong-cg-meet.png": [
-    "/art/optimized/yeshutong-cg-meet-d9f20fc3a11c.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-yeshutong-cg-meet-3856a760a865.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/yeshutong-cg-bond.png": [
-    "/art/optimized/yeshutong-cg-bond-5463c639a6c3.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-yeshutong-cg-bond-864abb553122.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/yeshutong-cg-spark.png": [
-    "/art/optimized/yeshutong-cg-spark-559ed871f52c.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-yeshutong-cg-spark-d3cb893ce3e6.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/yeshutong-cg-rival.png": [
-    "/art/optimized/yeshutong-cg-rival-078c6bfe16f8.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-yeshutong-cg-rival-c5db14572f59.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/yeshutong-cg-lost.png": [
-    "/art/optimized/yeshutong-cg-lost-9e68a3d0ad95.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-yeshutong-cg-lost-01283443a428.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/yeshutong-cg-night.png": [
-    "/art/optimized/yeshutong-cg-night-aae7ff04187b.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-yeshutong-cg-night-5cf1f695472b.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/yeshutong-cg-dual.png": [
-    "/art/optimized/yeshutong-cg-dual-88ff36b5c040.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-yeshutong-cg-dual-f13cc616539d.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/yeshutong-cg-vow.png": [
-    "/art/optimized/yeshutong-cg-vow-5a3e8366ba25.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-yeshutong-cg-vow-204cd9b571ca.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/yeshutong-cg-mourn.png": [
-    "/art/optimized/yeshutong-cg-mourn-f427d13f7467.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-yeshutong-cg-mourn-28c9fd9d72a3.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/yeshutong-portrait.png": [
-    "/art/optimized/yeshutong-portrait-ff4ed572b612.webp",
-    768,
-    1152,
+    "/art/optimized/shichai-dongxue-yeshutong-portrait-f71ee06c26a9.webp",
+    1024,
+    1536,
     true
   ],
   "/art/shichai.dongxue/songxiaoman-cg-meet.png": [
-    "/art/optimized/songxiaoman-cg-meet-e8440941c5d7.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-songxiaoman-cg-meet-8cafa8843489.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/songxiaoman-cg-bond.png": [
-    "/art/optimized/songxiaoman-cg-bond-b8ee5d9c0452.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-songxiaoman-cg-bond-828f8183958b.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/songxiaoman-cg-spark.png": [
-    "/art/optimized/songxiaoman-cg-spark-6e3e0da9d9db.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-songxiaoman-cg-spark-1b3c72ffc2b0.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/songxiaoman-cg-rival.png": [
-    "/art/optimized/songxiaoman-cg-rival-fae58874e9ff.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-songxiaoman-cg-rival-b53718e2aa67.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/songxiaoman-cg-lost.png": [
-    "/art/optimized/songxiaoman-cg-lost-e6c59d2d2bde.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-songxiaoman-cg-lost-93b22f0e9e7e.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/songxiaoman-cg-night.png": [
-    "/art/optimized/songxiaoman-cg-night-28f013c8dcdb.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-songxiaoman-cg-night-e70d9bf28247.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/songxiaoman-cg-dual.png": [
-    "/art/optimized/songxiaoman-cg-dual-f626856ce9a8.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-songxiaoman-cg-dual-c08a13a96e54.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/songxiaoman-cg-vow.png": [
-    "/art/optimized/songxiaoman-cg-vow-0c3e20ae78e4.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-songxiaoman-cg-vow-6a9e56661b38.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/songxiaoman-cg-mourn.png": [
-    "/art/optimized/songxiaoman-cg-mourn-2232cfa4e443.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-songxiaoman-cg-mourn-8f3d72072701.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/songxiaoman-portrait.png": [
-    "/art/optimized/songxiaoman-portrait-2f83a364d2f0.webp",
-    768,
-    1152,
+    "/art/optimized/shichai-dongxue-songxiaoman-portrait-bffab335425f.webp",
+    1024,
+    1536,
     true
   ],
   "/art/shichai.dongxue/chulian-cg-meet.png": [
-    "/art/optimized/chulian-cg-meet-5f9b3d5f23f2.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-chulian-cg-meet-e3bc3d620360.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/chulian-cg-bond.png": [
-    "/art/optimized/chulian-cg-bond-e67468bc21dd.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-chulian-cg-bond-e941848a646e.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/chulian-cg-spark.png": [
-    "/art/optimized/chulian-cg-spark-333101a84ea2.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-chulian-cg-spark-7be1d17da23e.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/chulian-cg-rival.png": [
-    "/art/optimized/chulian-cg-rival-d22da4323796.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-chulian-cg-rival-1b388d589c7b.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/chulian-cg-lost.png": [
-    "/art/optimized/chulian-cg-lost-a1f8d4d1c8ca.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-chulian-cg-lost-5d7dc703e2c2.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/chulian-cg-night.png": [
-    "/art/optimized/chulian-cg-night-dda4344d5620.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-chulian-cg-night-dfd77860f1a8.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/chulian-cg-dual.png": [
-    "/art/optimized/chulian-cg-dual-995709598ac4.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-chulian-cg-dual-f172484e9f39.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/chulian-cg-vow.png": [
-    "/art/optimized/chulian-cg-vow-e3b69af72fda.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-chulian-cg-vow-002d078223db.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/chulian-cg-mourn.png": [
-    "/art/optimized/chulian-cg-mourn-35103b3d10b0.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-dongxue-chulian-cg-mourn-04b315cc4063.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.dongxue/chulian-portrait.png": [
-    "/art/optimized/chulian-portrait-03bba0bd46c7.webp",
-    768,
-    1152,
+    "/art/optimized/shichai-dongxue-chulian-portrait-72e2d7c93995.webp",
+    1024,
+    1536,
     true
   ],
   "/art/shichai.qiudeng/intro.png": [
-    "/art/optimized/intro-9c2a1147d2cf.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-intro-8dad0672b944.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/main-cg-scroll.png": [
-    "/art/optimized/main-cg-scroll-8df919ba7e01.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-main-cg-scroll-8c6fc1a210cf.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/main-cg-sign.png": [
-    "/art/optimized/main-cg-sign-ec92ef2e62d7.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-main-cg-sign-df2ddeb0a3a0.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/main-cg-reveal.png": [
-    "/art/optimized/main-cg-reveal-3788c5dcbee2.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-main-cg-reveal-c51c3684b2de.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/main-cg-choice.png": [
-    "/art/optimized/main-cg-choice-dfb71dfe83af.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-main-cg-choice-9445162b3a50.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/main-cg-duel.png": [
-    "/art/optimized/main-cg-duel-8d320dec1cef.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-main-cg-duel-9e734af8eb17.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/main-cg-gone.png": [
-    "/art/optimized/main-cg-gone-c91d1d21497b.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-main-cg-gone-7c671d3e9d7b.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/wenrenshuang-cg-meet.png": [
-    "/art/optimized/wenrenshuang-cg-meet-bb30935aaae9.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-wenrenshuang-cg-meet-5ca5abca4bec.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/wenrenshuang-cg-bond.png": [
-    "/art/optimized/wenrenshuang-cg-bond-e9fb7445adb4.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-wenrenshuang-cg-bond-53d4996679a4.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/wenrenshuang-cg-spark.png": [
-    "/art/optimized/wenrenshuang-cg-spark-e9a50db1c81d.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-wenrenshuang-cg-spark-2709ef04bb0c.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/wenrenshuang-cg-rival.png": [
-    "/art/optimized/wenrenshuang-cg-rival-1aaebc9ecb09.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-wenrenshuang-cg-rival-80fff602c793.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/wenrenshuang-cg-lost.png": [
-    "/art/optimized/wenrenshuang-cg-lost-3ec984377b3b.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-wenrenshuang-cg-lost-06fc7516f71f.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/wenrenshuang-cg-night.png": [
-    "/art/optimized/wenrenshuang-cg-night-7a3cb7b3061b.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-wenrenshuang-cg-night-3299e8b0ceb3.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/wenrenshuang-cg-dual.png": [
-    "/art/optimized/wenrenshuang-cg-dual-f4b7d6fbc65e.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-wenrenshuang-cg-dual-dfe1236ca799.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/wenrenshuang-cg-vow.png": [
-    "/art/optimized/wenrenshuang-cg-vow-948c834f56da.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-wenrenshuang-cg-vow-f719ad091474.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/wenrenshuang-cg-mourn.png": [
-    "/art/optimized/wenrenshuang-cg-mourn-3a4505bea81d.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-wenrenshuang-cg-mourn-1bca302d15a4.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/wenrenshuang-portrait.png": [
-    "/art/optimized/wenrenshuang-portrait-bb1e117c0759.webp",
-    768,
-    1152,
+    "/art/optimized/shichai-qiudeng-wenrenshuang-portrait-cf8f3abc213f.webp",
+    1024,
+    1536,
     true
   ],
   "/art/shichai.qiudeng/jiangzhaoxue-cg-meet.png": [
-    "/art/optimized/jiangzhaoxue-cg-meet-08cc22a4211c.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-jiangzhaoxue-cg-meet-a20e9b5c6d01.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/jiangzhaoxue-cg-bond.png": [
-    "/art/optimized/jiangzhaoxue-cg-bond-c402fcb7142c.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-jiangzhaoxue-cg-bond-67332d650c69.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/jiangzhaoxue-cg-spark.png": [
-    "/art/optimized/jiangzhaoxue-cg-spark-3eda96152d12.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-jiangzhaoxue-cg-spark-fdb7c7320009.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/jiangzhaoxue-cg-rival.png": [
-    "/art/optimized/jiangzhaoxue-cg-rival-33fd0bc395d6.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-jiangzhaoxue-cg-rival-ac79288c77e8.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/jiangzhaoxue-cg-lost.png": [
-    "/art/optimized/jiangzhaoxue-cg-lost-9569fe90530e.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-jiangzhaoxue-cg-lost-c8d890334d82.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/jiangzhaoxue-cg-night.png": [
-    "/art/optimized/jiangzhaoxue-cg-night-a877d5400ed2.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-jiangzhaoxue-cg-night-9d9e474aa251.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/jiangzhaoxue-cg-dual.png": [
-    "/art/optimized/jiangzhaoxue-cg-dual-34c9075fe3e5.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-jiangzhaoxue-cg-dual-87a07db102f5.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/jiangzhaoxue-cg-vow.png": [
-    "/art/optimized/jiangzhaoxue-cg-vow-7b5d7fe97805.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-jiangzhaoxue-cg-vow-646ef3216cf0.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/jiangzhaoxue-cg-mourn.png": [
-    "/art/optimized/jiangzhaoxue-cg-mourn-fb4f8c618112.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-qiudeng-jiangzhaoxue-cg-mourn-1e9e00b64f78.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.qiudeng/jiangzhaoxue-portrait.png": [
-    "/art/optimized/jiangzhaoxue-portrait-84616030d930.webp",
-    768,
-    1152,
+    "/art/optimized/shichai-qiudeng-jiangzhaoxue-portrait-037bf425909b.webp",
+    1024,
+    1536,
     true
   ],
   "/art/shichai.xiaye/intro.png": [
-    "/art/optimized/intro-5b99bbb084ee.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-intro-bdd4e97a6b1a.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/peisi-cg-meet.png": [
-    "/art/optimized/peisi-cg-meet-e07dc53628a1.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-peisi-cg-meet-c958a0a0b3a0.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/peisi-cg-bond.png": [
-    "/art/optimized/peisi-cg-bond-2d99a26fa883.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-peisi-cg-bond-8a998287b3c6.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/peisi-cg-spark.png": [
-    "/art/optimized/peisi-cg-spark-0a3e0ce8d9ec.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-peisi-cg-spark-8aed5d53ed63.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/peisi-cg-rival.png": [
-    "/art/optimized/peisi-cg-rival-eaaddd1e1aaa.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-peisi-cg-rival-bb080d1c0278.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/peisi-cg-lost.png": [
-    "/art/optimized/peisi-cg-lost-0e9a176dd210.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-peisi-cg-lost-b0f4626c6b67.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/peisi-cg-night.png": [
-    "/art/optimized/peisi-cg-night-31309a0c7b87.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-peisi-cg-night-cb4987730621.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/peisi-cg-dual.png": [
-    "/art/optimized/peisi-cg-dual-abd6fc81ad22.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-peisi-cg-dual-4715b8adf94c.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/peisi-cg-vow.png": [
-    "/art/optimized/peisi-cg-vow-ff23cdf091f4.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-peisi-cg-vow-e5202fd1e1cd.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/peisi-cg-mourn.png": [
-    "/art/optimized/peisi-cg-mourn-60177398cc8e.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-peisi-cg-mourn-8a4684306afb.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/peisi-portrait.png": [
-    "/art/optimized/peisi-portrait-0775d2f7946a.webp",
-    768,
-    1152,
+    "/art/optimized/shichai-xiaye-peisi-portrait-a551265a642f.webp",
+    1024,
+    1536,
     true
   ],
   "/art/shichai.xiaye/shenqiyue-cg-meet.png": [
-    "/art/optimized/shenqiyue-cg-meet-40a74f2084c1.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-shenqiyue-cg-meet-b3d450fd75d9.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/shenqiyue-cg-bond.png": [
-    "/art/optimized/shenqiyue-cg-bond-62a0d060342f.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-shenqiyue-cg-bond-e1ae058162a9.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/shenqiyue-cg-spark.png": [
-    "/art/optimized/shenqiyue-cg-spark-80c3d6a3db07.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-shenqiyue-cg-spark-b4db7aa3bec2.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/shenqiyue-cg-rival.png": [
-    "/art/optimized/shenqiyue-cg-rival-24c1a48f64d0.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-shenqiyue-cg-rival-33f70c300b64.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/shenqiyue-cg-lost.png": [
-    "/art/optimized/shenqiyue-cg-lost-3169c4a479ba.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-shenqiyue-cg-lost-e7c758ac7a14.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/shenqiyue-cg-night.png": [
-    "/art/optimized/shenqiyue-cg-night-2d1ca9d83f3c.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-shenqiyue-cg-night-8c681f7e8828.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/shenqiyue-cg-dual.png": [
-    "/art/optimized/shenqiyue-cg-dual-abbdc794d290.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-shenqiyue-cg-dual-68ea5d11613b.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/shenqiyue-cg-vow.png": [
-    "/art/optimized/shenqiyue-cg-vow-09e80e75c94e.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-shenqiyue-cg-vow-aba870efc548.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/shenqiyue-cg-mourn.png": [
-    "/art/optimized/shenqiyue-cg-mourn-cb63388db180.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-shenqiyue-cg-mourn-6db92fc8606f.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/shenqiyue-portrait.png": [
-    "/art/optimized/shenqiyue-portrait-4e667457ae3a.webp",
-    768,
-    1152,
+    "/art/optimized/shichai-xiaye-shenqiyue-portrait-da94d090927f.webp",
+    1024,
+    1536,
     true
   ],
   "/art/shichai.xiaye/liuhanyan-cg-meet.png": [
-    "/art/optimized/liuhanyan-cg-meet-1e96c6496a42.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-liuhanyan-cg-meet-64bf5cea952d.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/liuhanyan-cg-bond.png": [
-    "/art/optimized/liuhanyan-cg-bond-0668ef1367a1.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-liuhanyan-cg-bond-acd5cad037c2.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/liuhanyan-cg-spark.png": [
-    "/art/optimized/liuhanyan-cg-spark-aac8b13f7907.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-liuhanyan-cg-spark-3749a0f65f37.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/liuhanyan-cg-rival.png": [
-    "/art/optimized/liuhanyan-cg-rival-4cd597e83e04.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-liuhanyan-cg-rival-df6c6dcf9208.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/liuhanyan-cg-lost.png": [
-    "/art/optimized/liuhanyan-cg-lost-da7b2d9aaf3e.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-liuhanyan-cg-lost-2f4282ea209d.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/liuhanyan-cg-night.png": [
-    "/art/optimized/liuhanyan-cg-night-54a322948290.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-liuhanyan-cg-night-999d96f93a59.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/liuhanyan-cg-dual.png": [
-    "/art/optimized/liuhanyan-cg-dual-a58e281ff86b.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-liuhanyan-cg-dual-29eebdf72ddc.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/liuhanyan-cg-vow.png": [
-    "/art/optimized/liuhanyan-cg-vow-26e0e0a311cf.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-liuhanyan-cg-vow-616db439ddf1.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/liuhanyan-cg-mourn.png": [
-    "/art/optimized/liuhanyan-cg-mourn-39570ba49db2.webp",
-    1152,
-    648,
+    "/art/optimized/shichai-xiaye-liuhanyan-cg-mourn-25356ce40d60.webp",
+    1672,
+    941,
     true
   ],
   "/art/shichai.xiaye/liuhanyan-portrait.png": [
-    "/art/optimized/liuhanyan-portrait-75967faebb21.webp",
-    768,
-    1152,
+    "/art/optimized/shichai-xiaye-liuhanyan-portrait-98bc249fbe9d.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/shichai/qiheng-portrait.png": [
-    "/art/optimized/qiheng-portrait-6c833bcf4693.webp",
-    768,
-    1152,
+    "/art/optimized/shichai-chunshui-qiheng-portrait-c24940e2e605.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/shichai/weicen-portrait.png": [
-    "/art/optimized/weicen-portrait-83e2cd7b2a0c.webp",
-    768,
-    1152,
+    "/art/optimized/shichai-chunshui-weicen-portrait-0035fd995faa.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/shichai/zhengbaichuan-portrait.png": [
-    "/art/optimized/zhengbaichuan-portrait-a93f953cb705.webp",
-    768,
-    1152,
+    "/art/optimized/shichai-chunshui-zhengbaichuan-portrait-0c1c56a8e145.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/shichai/shenwanshan-portrait.png": [
-    "/art/optimized/shenwanshan-portrait-7cacd87a7b60.webp",
-    768,
-    1152,
+    "/art/optimized/shichai-xiaye-shenwanshan-portrait-1a9b5b885387.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/shichai/luqingyao-portrait.png": [
-    "/art/optimized/luqingyao-portrait-236d1b3df045.webp",
-    768,
-    1152,
+    "/art/optimized/shichai-xiaye-luqingyao-portrait-0bcd7a6299a8.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/shichai/hantieyi-portrait.png": [
-    "/art/optimized/hantieyi-portrait-c0dee0f82ebd.webp",
-    768,
-    1152,
+    "/art/optimized/shichai-xiaye-hantieyi-portrait-7f61b5a402fb.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/shichai/cuijiuzhang-portrait.png": [
-    "/art/optimized/cuijiuzhang-portrait-1b491fcb595b.webp",
-    768,
-    1152,
+    "/art/optimized/shichai-qiudeng-cuijiuzhang-portrait-901b416476a1.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/shichai/baiwujiu-portrait.png": [
-    "/art/optimized/baiwujiu-portrait-763d6fcb65c9.webp",
-    768,
-    1152,
+    "/art/optimized/shichai-qiudeng-baiwujiu-portrait-e50a96208afe.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/shichai/xuanxuzi-portrait.png": [
-    "/art/optimized/xuanxuzi-portrait-446b8026c1b5.webp",
-    768,
-    1152,
+    "/art/optimized/shichai-qiudeng-xuanxuzi-portrait-44f508b90826.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/shichai/yecheng-portrait.png": [
-    "/art/optimized/yecheng-portrait-82e94616fa13.webp",
-    768,
-    1152,
+    "/art/optimized/shichai-dongxue-yecheng-portrait-646642a9525f.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/shichai/wanghu-portrait.png": [
-    "/art/optimized/wanghu-portrait-d64bbe8dc5dc.webp",
-    768,
-    1152,
+    "/art/optimized/shichai-dongxue-wanghu-portrait-11f0e5b97db4.webp",
+    1024,
+    1536,
     true
   ],
   "/art/portraits/shichai/yanguhe-portrait.png": [
-    "/art/optimized/yanguhe-portrait-1a536325c2ca.webp",
-    768,
-    1152,
+    "/art/optimized/shichai-dongxue-yanguhe-portrait-1efb1fc988e2.webp",
+    1024,
+    1536,
     true
   ],
-  "/art/avatars/base/npc_lin_wan-20a124eebce8.webp": [
-    "/art/optimized/npc-lin-wan-20a124eebce8-0b6c5c55df74.webp",
+  "/art/refresh-20260909/avatars/npc_0003.webp": [
+    "/art/optimized/npc-0003-8c1014ed3300-67dcdc60f4e0.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_zhou_an-25fab923a235.webp": [
-    "/art/optimized/npc-zhou-an-25fab923a235-259f3d0dd294.webp",
+  "/art/refresh-20260909/avatars/npc_0004.webp": [
+    "/art/optimized/npc-0004-756a79392046-e4e5d2f9e6f6.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0003-b4045812122f.webp": [
-    "/art/optimized/npc-0003-b4045812122f-dc0b83f51388.webp",
+  "/art/refresh-20260909/avatars/npc_0005.webp": [
+    "/art/optimized/npc-0005-815b5763c3ae-19fd30eb3c27.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0004-5e7c2e6da86c.webp": [
-    "/art/optimized/npc-0004-5e7c2e6da86c-92b4e09338c0.webp",
+  "/art/refresh-20260909/avatars/npc_0006.webp": [
+    "/art/optimized/npc-0006-c106ef95330d-a5cd76df3200.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0005-87aab93a6172.webp": [
-    "/art/optimized/npc-0005-87aab93a6172-c052d7a0aeeb.webp",
+  "/art/refresh-20260909/avatars/npc_0007.webp": [
+    "/art/optimized/npc-0007-ce4573c1254b-a3a990babc1c.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0006-c0a09c4c9c6f.webp": [
-    "/art/optimized/npc-0006-c0a09c4c9c6f-65d52a85e874.webp",
+  "/art/refresh-20260909/avatars/npc_0008.webp": [
+    "/art/optimized/npc-0008-d95a1634f4c4-1876438ced05.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0007-8246b52ccb47.webp": [
-    "/art/optimized/npc-0007-8246b52ccb47-32c3c94b09b9.webp",
+  "/art/refresh-20260909/avatars/npc_0009.webp": [
+    "/art/optimized/npc-0009-d80d480b4578-e5af17266ef8.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0008-41d945cd1608.webp": [
-    "/art/optimized/npc-0008-41d945cd1608-3fcd00f4db84.webp",
+  "/art/refresh-20260909/avatars/npc_0010.webp": [
+    "/art/optimized/npc-0010-f23c26ac0486-e5072de6b1c0.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0009-7d25353905b7.webp": [
-    "/art/optimized/npc-0009-7d25353905b7-73590e98995f.webp",
+  "/art/refresh-20260909/avatars/npc_0011.webp": [
+    "/art/optimized/npc-0011-418797d39172-ed9fe199c26e.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0010-6436e8d640ce.webp": [
-    "/art/optimized/npc-0010-6436e8d640ce-96ae0d566759.webp",
+  "/art/refresh-20260909/avatars/npc_0012.webp": [
+    "/art/optimized/npc-0012-30ba5da0b544-6a616876e2a6.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0011-82c61ed8be5b.webp": [
-    "/art/optimized/npc-0011-82c61ed8be5b-0c74b7f8650b.webp",
+  "/art/refresh-20260909/avatars/npc_0013.webp": [
+    "/art/optimized/npc-0013-a362151e11c8-618db8024f42.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0012-0f91c0e0295b.webp": [
-    "/art/optimized/npc-0012-0f91c0e0295b-54a70426d1f1.webp",
+  "/art/refresh-20260909/avatars/npc_0014.webp": [
+    "/art/optimized/npc-0014-43ab80777486-2fc65d643361.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0013-fe7e0798fa3f.webp": [
-    "/art/optimized/npc-0013-fe7e0798fa3f-265ff1863453.webp",
+  "/art/refresh-20260909/avatars/npc_0015.webp": [
+    "/art/optimized/npc-0015-03a0f698c0c7-b4ee19183740.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0014-5bb9b836f8d8.webp": [
-    "/art/optimized/npc-0014-5bb9b836f8d8-8a1983ca33f5.webp",
+  "/art/refresh-20260909/avatars/npc_0016.webp": [
+    "/art/optimized/npc-0016-e9fc1a8d5c34-5ff3ab1057c4.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0015-f2436c6b726d.webp": [
-    "/art/optimized/npc-0015-f2436c6b726d-1ac120be3d02.webp",
+  "/art/refresh-20260909/avatars/npc_0017.webp": [
+    "/art/optimized/npc-0017-1e3c8110ddc6-92eafa587277.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0016-dc34316519e5.webp": [
-    "/art/optimized/npc-0016-dc34316519e5-499c4d4dc9de.webp",
+  "/art/refresh-20260909/avatars/npc_0018.webp": [
+    "/art/optimized/npc-0018-d0fa9bb22794-5536e8369347.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0017-ce2719a6e6aa.webp": [
-    "/art/optimized/npc-0017-ce2719a6e6aa-5794f7c6a76e.webp",
+  "/art/refresh-20260909/avatars/npc_0019.webp": [
+    "/art/optimized/npc-0019-c21cc7524e9a-fc5e769b35c6.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0018-66a4e96e67f0.webp": [
-    "/art/optimized/npc-0018-66a4e96e67f0-e1472650ecdc.webp",
+  "/art/refresh-20260909/avatars/npc_0020.webp": [
+    "/art/optimized/npc-0020-d4deabc4a47d-3d627f0cd77b.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0019-df902386e1c7.webp": [
-    "/art/optimized/npc-0019-df902386e1c7-744cfdbd596d.webp",
+  "/art/refresh-20260909/avatars/npc_0021.webp": [
+    "/art/optimized/npc-0021-4bfac42bb457-d373e1fbc99c.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0020-915c8eb1e73d.webp": [
-    "/art/optimized/npc-0020-915c8eb1e73d-a61748000567.webp",
+  "/art/refresh-20260909/avatars/npc_0022.webp": [
+    "/art/optimized/npc-0022-1d4f3f89562f-cb9d359081ce.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0021-8f7dc4b484e3.webp": [
-    "/art/optimized/npc-0021-8f7dc4b484e3-2e53c12c208c.webp",
+  "/art/refresh-20260909/avatars/npc_0023.webp": [
+    "/art/optimized/npc-0023-0808b608aefc-08c3497e76e9.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0022-60b5bbf66b4b.webp": [
-    "/art/optimized/npc-0022-60b5bbf66b4b-954c4fe5fa28.webp",
+  "/art/refresh-20260909/avatars/npc_0024.webp": [
+    "/art/optimized/npc-0024-57ef1e30b0a7-8c3fd63561b0.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0023-d23d77c6ff5e.webp": [
-    "/art/optimized/npc-0023-d23d77c6ff5e-00aabfcad0ad.webp",
+  "/art/refresh-20260909/avatars/npc_0025.webp": [
+    "/art/optimized/npc-0025-c060edcde83b-117435c5af3c.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0024-25cc28243478.webp": [
-    "/art/optimized/npc-0024-25cc28243478-63ab93265a8b.webp",
+  "/art/refresh-20260909/avatars/npc_0026.webp": [
+    "/art/optimized/npc-0026-31f3637688d1-98f432264c5e.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0025-09ee6ddd6ebe.webp": [
-    "/art/optimized/npc-0025-09ee6ddd6ebe-0cb703e8aaaa.webp",
+  "/art/refresh-20260909/avatars/npc_0027.webp": [
+    "/art/optimized/npc-0027-ba9c8d81f093-616056e52add.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0026-1cd55821656d.webp": [
-    "/art/optimized/npc-0026-1cd55821656d-3316113b350a.webp",
+  "/art/refresh-20260909/avatars/npc_0028.webp": [
+    "/art/optimized/npc-0028-28822ce9b92f-dfca34f77dd1.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0027-b0bdab416040.webp": [
-    "/art/optimized/npc-0027-b0bdab416040-cf25038742d2.webp",
+  "/art/refresh-20260909/avatars/npc_0029.webp": [
+    "/art/optimized/npc-0029-f3ab55daedba-051901df5e54.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0028-6f9bb3a36c7c.webp": [
-    "/art/optimized/npc-0028-6f9bb3a36c7c-345c4cb34e9f.webp",
+  "/art/refresh-20260909/avatars/npc_0030.webp": [
+    "/art/optimized/npc-0030-12488b395233-e5a97f746d15.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0029-1160fe28074b.webp": [
-    "/art/optimized/npc-0029-1160fe28074b-42f747f5d6ac.webp",
+  "/art/refresh-20260909/avatars/npc_0031.webp": [
+    "/art/optimized/npc-0031-bc907f51cbb8-fcd58d8e657b.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0030-97556d5cf6ef.webp": [
-    "/art/optimized/npc-0030-97556d5cf6ef-3b10314dcdfc.webp",
+  "/art/refresh-20260909/avatars/npc_0032.webp": [
+    "/art/optimized/npc-0032-09c83c007fbb-7d04afea1e10.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0031-300ee6ca2309.webp": [
-    "/art/optimized/npc-0031-300ee6ca2309-4f8b6d2316d3.webp",
+  "/art/refresh-20260909/avatars/npc_0033.webp": [
+    "/art/optimized/npc-0033-943d4ac40c27-4a6a52d0e916.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0032-70d1da519d0a.webp": [
-    "/art/optimized/npc-0032-70d1da519d0a-42e27477e51a.webp",
+  "/art/refresh-20260909/avatars/npc_0034.webp": [
+    "/art/optimized/npc-0034-afd322b267b9-97c3c3de8e5d.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0033-c77ed689f326.webp": [
-    "/art/optimized/npc-0033-c77ed689f326-82563b44515a.webp",
+  "/art/refresh-20260909/avatars/npc_0035.webp": [
+    "/art/optimized/npc-0035-2e183a88d816-b2bbc115ddd6.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0034-669613949cdf.webp": [
-    "/art/optimized/npc-0034-669613949cdf-6c668d79abf7.webp",
+  "/art/refresh-20260909/avatars/npc_0036.webp": [
+    "/art/optimized/npc-0036-53693401c332-3f35fe7374d9.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0035-5261657f2110.webp": [
-    "/art/optimized/npc-0035-5261657f2110-5373fe45e150.webp",
+  "/art/refresh-20260909/avatars/npc_0037.webp": [
+    "/art/optimized/npc-0037-1367b0c58f5a-ef32ee7c946c.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0036-96e79f02de70.webp": [
-    "/art/optimized/npc-0036-96e79f02de70-0a2fb72e06c7.webp",
+  "/art/refresh-20260909/avatars/npc_0038.webp": [
+    "/art/optimized/npc-0038-333dcfe26509-590986af6930.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0037-9178c12fdba5.webp": [
-    "/art/optimized/npc-0037-9178c12fdba5-0c434a0d9c28.webp",
+  "/art/refresh-20260909/avatars/npc_0039.webp": [
+    "/art/optimized/npc-0039-0b8e315977fd-0032b29760ad.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0038-253af9e25d2f.webp": [
-    "/art/optimized/npc-0038-253af9e25d2f-d950863391b4.webp",
+  "/art/refresh-20260909/avatars/npc_0040.webp": [
+    "/art/optimized/npc-0040-85d1968fe179-bdc8a1dd249a.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0039-d38715ddeb0a.webp": [
-    "/art/optimized/npc-0039-d38715ddeb0a-c5e6ad96740e.webp",
+  "/art/refresh-20260909/avatars/npc_0041.webp": [
+    "/art/optimized/npc-0041-eb6ab4e880f4-73ba85feee58.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/base/npc_0040-4670a7feccad.webp": [
-    "/art/optimized/npc-0040-4670a7feccad-5b16456771c3.webp",
+  "/art/refresh-20260909/avatars/npc_0042.webp": [
+    "/art/optimized/npc-0042-e49696650ac7-15c2d4391b46.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0041-a9d196aa9985.webp": [
-    "/art/optimized/npc-0041-a9d196aa9985-6c2813bb3782.webp",
+  "/art/refresh-20260909/avatars/npc_0043.webp": [
+    "/art/optimized/npc-0043-8a775974cd85-cf10bdaad6a7.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0042-00bcb51499e6.webp": [
-    "/art/optimized/npc-0042-00bcb51499e6-1effd0458d58.webp",
+  "/art/refresh-20260909/avatars/npc_0044.webp": [
+    "/art/optimized/npc-0044-8c2f9fe2b8a6-be3a69e48b11.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0043-d3b9827a2500.webp": [
-    "/art/optimized/npc-0043-d3b9827a2500-b90f3770ed1e.webp",
+  "/art/refresh-20260909/avatars/npc_0045.webp": [
+    "/art/optimized/npc-0045-ae90e1f3a2ee-ad40fd71b47f.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0044-5488913d44fd.webp": [
-    "/art/optimized/npc-0044-5488913d44fd-ada65017bfda.webp",
+  "/art/refresh-20260909/avatars/npc_0046.webp": [
+    "/art/optimized/npc-0046-cfcdeadf634a-04d28095dd75.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0045-f8dce95e7f01.webp": [
-    "/art/optimized/npc-0045-f8dce95e7f01-0065530efa42.webp",
+  "/art/refresh-20260909/avatars/npc_0047.webp": [
+    "/art/optimized/npc-0047-45ac679ca9df-c88cc4d7cc27.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0046-5c64ce30a73e.webp": [
-    "/art/optimized/npc-0046-5c64ce30a73e-5b6975822317.webp",
+  "/art/refresh-20260909/avatars/npc_0048.webp": [
+    "/art/optimized/npc-0048-b963ef518d4d-7473bb5580a1.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0047-e6cefe08de76.webp": [
-    "/art/optimized/npc-0047-e6cefe08de76-7c04ed8f5977.webp",
+  "/art/refresh-20260909/avatars/npc_0049.webp": [
+    "/art/optimized/npc-0049-1f69e303196d-48a39645bf29.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0048-b0a6890a87f5.webp": [
-    "/art/optimized/npc-0048-b0a6890a87f5-808cba38a875.webp",
+  "/art/refresh-20260909/avatars/npc_0050.webp": [
+    "/art/optimized/npc-0050-6655d4dac2c4-1c30c6c90fac.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0049-1883ef901f5f.webp": [
-    "/art/optimized/npc-0049-1883ef901f5f-e99bc6c7f441.webp",
+  "/art/refresh-20260909/avatars/npc_0051.webp": [
+    "/art/optimized/npc-0051-8cc0771c165d-e61f3a23bd50.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0050-9fb2d363f9e5.webp": [
-    "/art/optimized/npc-0050-9fb2d363f9e5-b4380649fac5.webp",
+  "/art/refresh-20260909/avatars/npc_0052.webp": [
+    "/art/optimized/npc-0052-361b00b4a7ff-e4a1ff6bbf77.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0051-9509b154f022.webp": [
-    "/art/optimized/npc-0051-9509b154f022-33d6ff6373c8.webp",
+  "/art/refresh-20260909/avatars/npc_0053.webp": [
+    "/art/optimized/npc-0053-a686858f0b5c-d144032a3cdc.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0052-287b06c3d408.webp": [
-    "/art/optimized/npc-0052-287b06c3d408-837cec4a1738.webp",
+  "/art/refresh-20260909/avatars/npc_0054.webp": [
+    "/art/optimized/npc-0054-1fb24da5ceba-f8eda7ad60bf.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0053-c62776c48762.webp": [
-    "/art/optimized/npc-0053-c62776c48762-9f7374839dd1.webp",
+  "/art/refresh-20260909/avatars/npc_0055.webp": [
+    "/art/optimized/npc-0055-fe3d3b312b36-433d433de6c1.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0054-59237c0386a2.webp": [
-    "/art/optimized/npc-0054-59237c0386a2-8d5a810e23e2.webp",
+  "/art/refresh-20260909/avatars/npc_0056.webp": [
+    "/art/optimized/npc-0056-d711f412b26f-445015ae4820.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0055-3690c4a66720.webp": [
-    "/art/optimized/npc-0055-3690c4a66720-11bcde7061f9.webp",
+  "/art/refresh-20260909/avatars/npc_0057.webp": [
+    "/art/optimized/npc-0057-95aae4b0808a-bc563ca5ec30.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0056-12420246325a.webp": [
-    "/art/optimized/npc-0056-12420246325a-e39d0543c35e.webp",
+  "/art/refresh-20260909/avatars/npc_0058.webp": [
+    "/art/optimized/npc-0058-f3599f473844-752515d4df90.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0057-15c3ad38fe72.webp": [
-    "/art/optimized/npc-0057-15c3ad38fe72-00bbe44330a5.webp",
+  "/art/refresh-20260909/avatars/npc_0059.webp": [
+    "/art/optimized/npc-0059-6d7c332caa51-04f57ae2361e.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0058-08f4d1a130b7.webp": [
-    "/art/optimized/npc-0058-08f4d1a130b7-105f1dab63bf.webp",
+  "/art/refresh-20260909/avatars/npc_0060.webp": [
+    "/art/optimized/npc-0060-484e44fcbc3a-166ba5bf1276.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0059-b4bd2147a71e.webp": [
-    "/art/optimized/npc-0059-b4bd2147a71e-1abfeccf7e31.webp",
+  "/art/refresh-20260909/avatars/npc_0061.webp": [
+    "/art/optimized/npc-0061-d2324ac82e40-6dc7fd2b0735.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0060-22a70aaa4e84.webp": [
-    "/art/optimized/npc-0060-22a70aaa4e84-f62f5f4a41c7.webp",
+  "/art/refresh-20260909/avatars/npc_0062.webp": [
+    "/art/optimized/npc-0062-fac3e1423a7c-1cb1c4724c6c.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0061-b1dd0579e669.webp": [
-    "/art/optimized/npc-0061-b1dd0579e669-78d676ebf33a.webp",
+  "/art/refresh-20260909/avatars/npc_0063.webp": [
+    "/art/optimized/npc-0063-0bd0c5fa8d5f-32686503741d.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0062-5092ecd496a0.webp": [
-    "/art/optimized/npc-0062-5092ecd496a0-c416dcdfc114.webp",
+  "/art/refresh-20260909/avatars/npc_0064.webp": [
+    "/art/optimized/npc-0064-cf434beb8bbb-a81c6f3e88e6.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0063-af10d2ac1ccd.webp": [
-    "/art/optimized/npc-0063-af10d2ac1ccd-8a38bbaba452.webp",
+  "/art/refresh-20260909/avatars/npc_0065.webp": [
+    "/art/optimized/npc-0065-0245cc21a473-96901c427435.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0064-899af8d3fb0f.webp": [
-    "/art/optimized/npc-0064-899af8d3fb0f-2674a933697f.webp",
+  "/art/refresh-20260909/avatars/npc_0066.webp": [
+    "/art/optimized/npc-0066-ec6cce6d8acb-0b328091e6b3.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0065-a10ada00f6e1.webp": [
-    "/art/optimized/npc-0065-a10ada00f6e1-d47efb318edb.webp",
+  "/art/refresh-20260909/avatars/npc_0067.webp": [
+    "/art/optimized/npc-0067-3443bdb29c0a-ec6343c28ff9.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0066-a0cba1042b51.webp": [
-    "/art/optimized/npc-0066-a0cba1042b51-80a2e3bd7202.webp",
+  "/art/refresh-20260909/avatars/npc_0068.webp": [
+    "/art/optimized/npc-0068-0da7614d9f6f-4813249b06ca.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0067-3ee5414a1e78.webp": [
-    "/art/optimized/npc-0067-3ee5414a1e78-0ae10bd03ae3.webp",
+  "/art/refresh-20260909/avatars/npc_0069.webp": [
+    "/art/optimized/npc-0069-330470fffcc1-3c409669e45d.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0068-fa28c39fa6d4.webp": [
-    "/art/optimized/npc-0068-fa28c39fa6d4-dbd442430bfe.webp",
+  "/art/refresh-20260909/avatars/npc_0070.webp": [
+    "/art/optimized/npc-0070-595957eff647-ece79d4160b9.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0069-c9009cf5c6ba.webp": [
-    "/art/optimized/npc-0069-c9009cf5c6ba-fda05cc80810.webp",
+  "/art/refresh-20260909/avatars/npc_0071.webp": [
+    "/art/optimized/npc-0071-87a1e8bd1120-abc3ac3b8338.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0070-382cd2bb7093.webp": [
-    "/art/optimized/npc-0070-382cd2bb7093-c8a486b2b776.webp",
+  "/art/refresh-20260909/avatars/npc_0072.webp": [
+    "/art/optimized/npc-0072-665997269775-81abed9b9276.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0071-c9998188bdd5.webp": [
-    "/art/optimized/npc-0071-c9998188bdd5-3065f72f6c27.webp",
+  "/art/refresh-20260909/avatars/npc_0073.webp": [
+    "/art/optimized/npc-0073-b484cdf85ecb-d0f8c4852efd.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0072-e6f49f86033a.webp": [
-    "/art/optimized/npc-0072-e6f49f86033a-2527271b0c8e.webp",
+  "/art/refresh-20260909/avatars/npc_0074.webp": [
+    "/art/optimized/npc-0074-9be93d0d16d7-98ae933e6d95.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0073-f554a306f079.webp": [
-    "/art/optimized/npc-0073-f554a306f079-2fbf437fc742.webp",
+  "/art/refresh-20260909/avatars/npc_0075.webp": [
+    "/art/optimized/npc-0075-3079cd567048-0efca7b76c51.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0074-51b0cdc22ac1.webp": [
-    "/art/optimized/npc-0074-51b0cdc22ac1-69b1ca362a5e.webp",
+  "/art/refresh-20260909/avatars/npc_0076.webp": [
+    "/art/optimized/npc-0076-9ac3e13fe3dd-d4ef36354fff.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0075-751d181e551c.webp": [
-    "/art/optimized/npc-0075-751d181e551c-b42e3dc1fef4.webp",
+  "/art/refresh-20260909/avatars/npc_0077.webp": [
+    "/art/optimized/npc-0077-3416cba9b1bd-882c669cef46.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0076-8038271ed04e.webp": [
-    "/art/optimized/npc-0076-8038271ed04e-a6380d741db1.webp",
+  "/art/refresh-20260909/avatars/npc_0078.webp": [
+    "/art/optimized/npc-0078-240ecaba6144-cafbf7b645a1.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0077-b11812f986a3.webp": [
-    "/art/optimized/npc-0077-b11812f986a3-a28fa8847218.webp",
+  "/art/refresh-20260909/avatars/npc_0079.webp": [
+    "/art/optimized/npc-0079-00fbea064414-203f16e9ec6f.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0078-ed12f2da18ea.webp": [
-    "/art/optimized/npc-0078-ed12f2da18ea-9f29de101746.webp",
+  "/art/refresh-20260909/avatars/npc_0080.webp": [
+    "/art/optimized/npc-0080-299ad068742a-eace52c10aa0.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0079-3c3c6681cd20.webp": [
-    "/art/optimized/npc-0079-3c3c6681cd20-3af0f20abf2d.webp",
+  "/art/refresh-20260909/avatars/npc_0081.webp": [
+    "/art/optimized/npc-0081-1bf3a1881bf0-aadd91fe800c.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/expanded/npc_0080-4d3c7f3c68e1.webp": [
-    "/art/optimized/npc-0080-4d3c7f3c68e1-48c7ff5db59d.webp",
+  "/art/refresh-20260909/avatars/npc_0082.webp": [
+    "/art/optimized/npc-0082-a486c9893852-b0b7c152c917.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/npc_0081-7a0d5c76975f.webp": [
-    "/art/optimized/npc-0081-7a0d5c76975f-d0c2c0c960dc.webp",
+  "/art/refresh-20260909/avatars/npc_0083.webp": [
+    "/art/optimized/npc-0083-19b988ca294c-f18d31733418.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/npc_0082-0d8731070c3b.webp": [
-    "/art/optimized/npc-0082-0d8731070c3b-638c864184cc.webp",
+  "/art/refresh-20260909/avatars/npc_0084.webp": [
+    "/art/optimized/npc-0084-2c52fad70a81-daedf4a7ccc2.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/npc_0083-a63dd133f0f1.webp": [
-    "/art/optimized/npc-0083-a63dd133f0f1-27347887f39e.webp",
+  "/art/refresh-20260909/avatars/npc_0085.webp": [
+    "/art/optimized/npc-0085-03d5a4681661-470c3fb2a046.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/npc_0084-264c358ec6c6.webp": [
-    "/art/optimized/npc-0084-264c358ec6c6-5d5e3477b4af.webp",
+  "/art/refresh-20260909/avatars/npc_0086.webp": [
+    "/art/optimized/npc-0086-db58ce3c5bcf-72eec21b5d9c.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/npc_0085-4878d2fd3ad1.webp": [
-    "/art/optimized/npc-0085-4878d2fd3ad1-09ce4f98bb51.webp",
+  "/art/refresh-20260909/avatars/npc_0087.webp": [
+    "/art/optimized/npc-0087-bca5587cc863-df022fcd3e57.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/npc_0086-f997fba26177.webp": [
-    "/art/optimized/npc-0086-f997fba26177-dc1d39a357c8.webp",
+  "/art/refresh-20260909/avatars/npc_0088.webp": [
+    "/art/optimized/npc-0088-612decfeac22-443cca5eed6b.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/npc_0087-bc0b09b22adb.webp": [
-    "/art/optimized/npc-0087-bc0b09b22adb-8bc9fc9c3a48.webp",
+  "/art/refresh-20260909/avatars/npc_0089.webp": [
+    "/art/optimized/npc-0089-4d6430a49b12-0a9281ecb1fd.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/npc_0088-8042f364d251.webp": [
-    "/art/optimized/npc-0088-8042f364d251-3d2866d82532.webp",
+  "/art/refresh-20260909/avatars/npc_0090.webp": [
+    "/art/optimized/npc-0090-54fb9bc3fdc6-580fc5135221.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/npc_0089-8d3466bd95ce.webp": [
-    "/art/optimized/npc-0089-8d3466bd95ce-fcfd784ec92c.webp",
+  "/art/refresh-20260909/avatars/npc_0091.webp": [
+    "/art/optimized/npc-0091-254ef6c02fe5-96019f6a8ae9.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/npc_0090-0f1a952759f3.webp": [
-    "/art/optimized/npc-0090-0f1a952759f3-bdc1e8c57711.webp",
+  "/art/refresh-20260909/avatars/npc_0092.webp": [
+    "/art/optimized/npc-0092-2373420e0c81-fa3bab07962b.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/npc_0091-7f810af72bb2.webp": [
-    "/art/optimized/npc-0091-7f810af72bb2-95c9462576cf.webp",
+  "/art/refresh-20260909/avatars/npc_0093.webp": [
+    "/art/optimized/npc-0093-3ea356d6ccd5-945606d5d5c4.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/npc_0092-ebc1f2ffee50.webp": [
-    "/art/optimized/npc-0092-ebc1f2ffee50-c67372cc3525.webp",
+  "/art/refresh-20260909/avatars/npc_0094.webp": [
+    "/art/optimized/npc-0094-4a84d558fe9a-04380c750fdc.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/npc_0093-77c56785bbf8.webp": [
-    "/art/optimized/npc-0093-77c56785bbf8-4e5dfc2e8cb6.webp",
+  "/art/refresh-20260909/avatars/npc_0095.webp": [
+    "/art/optimized/npc-0095-b8bbd82f6480-662816d16045.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/npc_0094-967fe3059bf5.webp": [
-    "/art/optimized/npc-0094-967fe3059bf5-eac939320de4.webp",
+  "/art/refresh-20260909/avatars/npc_0096.webp": [
+    "/art/optimized/npc-0096-38c108986480-73b78543f5d7.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/npc_0095-3f30f1aa5196.webp": [
-    "/art/optimized/npc-0095-3f30f1aa5196-36171716549e.webp",
+  "/art/refresh-20260909/avatars/npc_0097.webp": [
+    "/art/optimized/npc-0097-336da689e748-ba1380ab8986.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/npc_0096-d681e4c5e8ae.webp": [
-    "/art/optimized/npc-0096-d681e4c5e8ae-10501ea366c1.webp",
+  "/art/refresh-20260909/avatars/npc_0098.webp": [
+    "/art/optimized/npc-0098-d644d716f2c9-0b74079962f7.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/npc_0097-9a23ec5d4ed1.webp": [
-    "/art/optimized/npc-0097-9a23ec5d4ed1-a47e209f5ac2.webp",
+  "/art/refresh-20260909/avatars/npc_0099.webp": [
+    "/art/optimized/npc-0099-8a6208029c7f-08c1be42e4fc.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/npc_0098-4a16e355cfa4.webp": [
-    "/art/optimized/npc-0098-4a16e355cfa4-c042f035fe08.webp",
+  "/art/refresh-20260909/avatars/npc_0100.webp": [
+    "/art/optimized/npc-0100-913172a0ffc7-931c0f69d348.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/npc_0099-4b6a330a86a1.webp": [
-    "/art/optimized/npc-0099-4b6a330a86a1-8cb2a5a76d93.webp",
+  "/art/refresh-20260909/avatars/npc_lin_wan.webp": [
+    "/art/optimized/npc-lin-wan-7c64ac7f087f-7cf38e467df4.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/npc_0100-f778697577c8.webp": [
-    "/art/optimized/npc-0100-f778697577c8-40583ce4b99d.webp",
+  "/art/refresh-20260909/avatars/npc_zhou_an.webp": [
+    "/art/optimized/npc-zhou-an-0fb152ad8590-2962bc424236.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/shichai-chunshui-suqingyan-9800bffdbda3.webp": [
-    "/art/optimized/shichai-chunshui-suqingyan-9800bffdbda3-aa9a1fd7bc5f.webp",
+  "/art/refresh-20260909/avatars/shichai.chunshui.suqingyan.webp": [
+    "/art/optimized/shichai-chunshui-suqingyan-0f5cd0e75a32-ef46a839688f.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/shichai-chunshui-qiheng-563725cb0beb.webp": [
-    "/art/optimized/shichai-chunshui-qiheng-563725cb0beb-ecae949f2e8f.webp",
+  "/art/refresh-20260909/avatars/shichai.chunshui.qiheng.webp": [
+    "/art/optimized/shichai-chunshui-qiheng-3f30b470ca9f-1fb0bfeb06c4.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/shichai-chunshui-gutinglan-ea59dda12a66.webp": [
-    "/art/optimized/shichai-chunshui-gutinglan-ea59dda12a66-0a5e5ee4eff5.webp",
+  "/art/refresh-20260909/avatars/shichai.chunshui.gutinglan.webp": [
+    "/art/optimized/shichai-chunshui-gutinglan-b0e1fe30e652-a6c2611d80ec.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/shichai-chunshui-weicen-a7295bdfb4fa.webp": [
-    "/art/optimized/shichai-chunshui-weicen-a7295bdfb4fa-05e89d0bea82.webp",
+  "/art/refresh-20260909/avatars/shichai.chunshui.weicen.webp": [
+    "/art/optimized/shichai-chunshui-weicen-1fb60c0c14c8-dcf4f246df0e.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/shichai-chunshui-wenzhiwei-41c599eb8234.webp": [
-    "/art/optimized/shichai-chunshui-wenzhiwei-41c599eb8234-e410a952904b.webp",
+  "/art/refresh-20260909/avatars/shichai.chunshui.wenzhiwei.webp": [
+    "/art/optimized/shichai-chunshui-wenzhiwei-b834f15d3188-a0b41c41850f.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/shichai-chunshui-zhengbaichuan-7bca4aeee11b.webp": [
-    "/art/optimized/shichai-chunshui-zhengbaichuan-7bca4aeee11b-45bf8473f71a.webp",
+  "/art/refresh-20260909/avatars/shichai.chunshui.zhengbaichuan.webp": [
+    "/art/optimized/shichai-chunshui-zhengbaichuan-57e4a7a9ac16-7283c2ed8e68.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/shichai-xiaye-peisi-354003e41833.webp": [
-    "/art/optimized/shichai-xiaye-peisi-354003e41833-eac37f66a82a.webp",
+  "/art/refresh-20260909/avatars/shichai.xiaye.peisi.webp": [
+    "/art/optimized/shichai-xiaye-peisi-96a4aa298721-4604e96baddd.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/shichai-xiaye-shenwanshan-d31ca89e6b37.webp": [
-    "/art/optimized/shichai-xiaye-shenwanshan-d31ca89e6b37-b55bd2390edd.webp",
+  "/art/refresh-20260909/avatars/shichai.xiaye.shenwanshan.webp": [
+    "/art/optimized/shichai-xiaye-shenwanshan-cf3c371b95d7-76e465b93354.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/shichai-xiaye-shenqiyue-89954e8227ef.webp": [
-    "/art/optimized/shichai-xiaye-shenqiyue-89954e8227ef-ff04279b3f8a.webp",
+  "/art/refresh-20260909/avatars/shichai.xiaye.shenqiyue.webp": [
+    "/art/optimized/shichai-xiaye-shenqiyue-621ab516fd50-4471533e7734.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/shichai-xiaye-luqingyao-5669e7982cbb.webp": [
-    "/art/optimized/shichai-xiaye-luqingyao-5669e7982cbb-46c44b018a0a.webp",
+  "/art/refresh-20260909/avatars/shichai.xiaye.luqingyao.webp": [
+    "/art/optimized/shichai-xiaye-luqingyao-ad2d0dbf4240-b83715a06d74.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/shichai-xiaye-liuhanyan-5ba7ffe47a56.webp": [
-    "/art/optimized/shichai-xiaye-liuhanyan-5ba7ffe47a56-de4ec3d2119c.webp",
+  "/art/refresh-20260909/avatars/shichai.xiaye.liuhanyan.webp": [
+    "/art/optimized/shichai-xiaye-liuhanyan-cf2874a83483-df7f59935868.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/shichai-xiaye-hantieyi-69ccde8ab05b.webp": [
-    "/art/optimized/shichai-xiaye-hantieyi-69ccde8ab05b-fe8017d66e06.webp",
+  "/art/refresh-20260909/avatars/shichai.xiaye.hantieyi.webp": [
+    "/art/optimized/shichai-xiaye-hantieyi-8488ae83159f-348c5aea6af1.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/shichai-qiudeng-wenrenshuang-2e88daa1ecc6.webp": [
-    "/art/optimized/shichai-qiudeng-wenrenshuang-2e88daa1ecc6-843b3aef20c7.webp",
+  "/art/refresh-20260909/avatars/shichai.qiudeng.wenrenshuang.webp": [
+    "/art/optimized/shichai-qiudeng-wenrenshuang-1b2e14cd675c-f217806d5eb3.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/shichai-qiudeng-cuijiuzhang-c041239d74bd.webp": [
-    "/art/optimized/shichai-qiudeng-cuijiuzhang-c041239d74bd-6b07bac11443.webp",
+  "/art/refresh-20260909/avatars/shichai.qiudeng.cuijiuzhang.webp": [
+    "/art/optimized/shichai-qiudeng-cuijiuzhang-398ac7934301-1a4113f33a09.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/shichai-qiudeng-jiangzhaoxue-f42b4d25428f.webp": [
-    "/art/optimized/shichai-qiudeng-jiangzhaoxue-f42b4d25428f-1d992ffaf77e.webp",
+  "/art/refresh-20260909/avatars/shichai.qiudeng.jiangzhaoxue.webp": [
+    "/art/optimized/shichai-qiudeng-jiangzhaoxue-85881c77e0ca-7a12122392ea.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/shichai-qiudeng-baiwujiu-6c68c2f249f5.webp": [
-    "/art/optimized/shichai-qiudeng-baiwujiu-6c68c2f249f5-08306efd0ab5.webp",
+  "/art/refresh-20260909/avatars/shichai.qiudeng.baiwujiu.webp": [
+    "/art/optimized/shichai-qiudeng-baiwujiu-eb0162dedea4-c7b86079c378.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/shichai-qiudeng-xuanxuzi-9f89361e4e82.webp": [
-    "/art/optimized/shichai-qiudeng-xuanxuzi-9f89361e4e82-77ad2c1d2f6d.webp",
+  "/art/refresh-20260909/avatars/shichai.qiudeng.xuanxuzi.webp": [
+    "/art/optimized/shichai-qiudeng-xuanxuzi-93191bc72ef7-190f204b6ae0.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/shichai-dongxue-yeshutong-ec8d5a528f22.webp": [
-    "/art/optimized/shichai-dongxue-yeshutong-ec8d5a528f22-7e79fe1c942c.webp",
+  "/art/refresh-20260909/avatars/shichai.dongxue.yeshutong.webp": [
+    "/art/optimized/shichai-dongxue-yeshutong-d8e1a75165be-9f1570c5269a.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/shichai-dongxue-yecheng-b5daa12dc140.webp": [
-    "/art/optimized/shichai-dongxue-yecheng-b5daa12dc140-8e9e67725517.webp",
+  "/art/refresh-20260909/avatars/shichai.dongxue.yecheng.webp": [
+    "/art/optimized/shichai-dongxue-yecheng-d17e2e6ca44c-33ad0807cbdb.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/shichai-dongxue-songxiaoman-a4fbdd3d57f6.webp": [
-    "/art/optimized/shichai-dongxue-songxiaoman-a4fbdd3d57f6-93abe9c10354.webp",
+  "/art/refresh-20260909/avatars/shichai.dongxue.songxiaoman.webp": [
+    "/art/optimized/shichai-dongxue-songxiaoman-f753e76c2921-25324240927f.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/shichai-dongxue-wanghu-aae2f3f56554.webp": [
-    "/art/optimized/shichai-dongxue-wanghu-aae2f3f56554-e21715bfa381.webp",
+  "/art/refresh-20260909/avatars/shichai.dongxue.wanghu.webp": [
+    "/art/optimized/shichai-dongxue-wanghu-d3e31ac3bedd-1ab37a9d33b5.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/shichai-dongxue-chulian-9cc40051289d.webp": [
-    "/art/optimized/shichai-dongxue-chulian-9cc40051289d-27fafe095dde.webp",
+  "/art/refresh-20260909/avatars/shichai.dongxue.chulian.webp": [
+    "/art/optimized/shichai-dongxue-chulian-c64c41c94967-b3f5f537f6c3.webp",
     512,
     512,
     true
   ],
-  "/art/avatars/remaining/shichai-dongxue-yanguhe-61b87399e882.webp": [
-    "/art/optimized/shichai-dongxue-yanguhe-61b87399e882-076068aaaebe.webp",
+  "/art/refresh-20260909/avatars/shichai.dongxue.yanguhe.webp": [
+    "/art/optimized/shichai-dongxue-yanguhe-99056a0e56d8-ad53a36ea430.webp",
     512,
     512,
+    true
+  ],
+  "/art/refresh-20260909/sect_yunv_gu.webp": [
+    "/art/optimized/sect-yunv-gu-portrait-ce48a2ffac6f.webp",
+    1024,
+    1536,
+    true
+  ],
+  "/art/refresh-20260909/avatars/sect_yunv_gu.webp": [
+    "/art/optimized/sect-yunv-gu-e116d0ff2ab3-99d4fcf3f8e3.webp",
+    512,
+    512,
+    true
+  ],
+  "/art/refresh-20260909/sect_yunv_bai.webp": [
+    "/art/optimized/sect-yunv-bai-portrait-448cdc768f96.webp",
+    1024,
+    1536,
+    true
+  ],
+  "/art/refresh-20260909/avatars/sect_yunv_bai.webp": [
+    "/art/optimized/sect-yunv-bai-c6506019600b-4d9a502f2b60.webp",
+    512,
+    512,
+    true
+  ],
+  "/art/refresh-20260909/sect_hehuan_yan.webp": [
+    "/art/optimized/sect-hehuan-yan-portrait-2004b781f352.webp",
+    1024,
+    1536,
+    true
+  ],
+  "/art/refresh-20260909/avatars/sect_hehuan_yan.webp": [
+    "/art/optimized/sect-hehuan-yan-51e2b50bd577-aeb223f0c516.webp",
+    512,
+    512,
+    true
+  ],
+  "/art/refresh-20260909/sect_hehuan_rong.webp": [
+    "/art/optimized/sect-hehuan-rong-portrait-fd945d541cb7.webp",
+    1024,
+    1536,
+    true
+  ],
+  "/art/refresh-20260909/avatars/sect_hehuan_rong.webp": [
+    "/art/optimized/sect-hehuan-rong-93b11fd83cbe-349d2e5833ac.webp",
+    512,
+    512,
+    true
+  ],
+  "/art/refresh-20260909/sect_quan_chang.webp": [
+    "/art/optimized/sect-quan-chang-portrait-1ac41f1a91e6.webp",
+    1024,
+    1536,
+    true
+  ],
+  "/art/refresh-20260909/avatars/sect_quan_chang.webp": [
+    "/art/optimized/sect-quan-chang-c60e479fefd0-4dc40ba52095.webp",
+    512,
+    512,
+    true
+  ],
+  "/art/refresh-20260909/sect_quan_ning.webp": [
+    "/art/optimized/sect-quan-ning-portrait-d75744ec2f7d.webp",
+    1024,
+    1536,
+    true
+  ],
+  "/art/refresh-20260909/avatars/sect_quan_ning.webp": [
+    "/art/optimized/sect-quan-ning-aeae7a7a58bd-68f575ab8511.webp",
+    512,
+    512,
+    true
+  ],
+  "/art/refresh-20260909/location.inn.webp": [
+    "/art/optimized/location-inn-efc824fb0ea4.webp",
+    1672,
+    941,
+    true
+  ],
+  "/art/refresh-20260909/location.gate.webp": [
+    "/art/optimized/location-gate-7575c3a8d269.webp",
+    1672,
+    941,
+    true
+  ],
+  "/art/refresh-20260909/location.atlas.luoxia.webp": [
+    "/art/optimized/location-atlas-luoxia-674b37be3da3.webp",
+    1672,
+    941,
+    true
+  ],
+  "/art/refresh-20260909/location.atlas.cangzhu.webp": [
+    "/art/optimized/location-atlas-cangzhu-ddfa1427877e.webp",
+    1672,
+    941,
+    true
+  ],
+  "/art/refresh-20260909/location.shichai.xiaye.market.webp": [
+    "/art/optimized/location-shichai-xiaye-market-43ba77aca2b9.webp",
+    1672,
+    941,
+    true
+  ],
+  "/art/refresh-20260909/location.shichai.xiaye.inn.webp": [
+    "/art/optimized/location-shichai-xiaye-inn-60b9f4dc025f.webp",
+    1672,
+    941,
+    true
+  ],
+  "/art/refresh-20260909/location.shichai.xiaye.gate.webp": [
+    "/art/optimized/location-shichai-xiaye-gate-423de16e7bce.webp",
+    1672,
+    941,
+    true
+  ],
+  "/art/refresh-20260909/location.atlas.yanbo.webp": [
+    "/art/optimized/location-atlas-yanbo-06208f46e10c.webp",
+    1672,
+    941,
+    true
+  ],
+  "/art/refresh-20260909/location.atlas.yunmeng.webp": [
+    "/art/optimized/location-atlas-yunmeng-c4db36d01d7e.webp",
+    1672,
+    941,
+    true
+  ],
+  "/art/refresh-20260909/location.shichai.qiudeng.market.webp": [
+    "/art/optimized/location-shichai-qiudeng-market-c4c6828df21e.webp",
+    1672,
+    941,
+    true
+  ],
+  "/art/refresh-20260909/location.shichai.qiudeng.inn.webp": [
+    "/art/optimized/location-shichai-qiudeng-inn-ef32d7ee69a1.webp",
+    1672,
+    941,
+    true
+  ],
+  "/art/refresh-20260909/location.shichai.qiudeng.gate.webp": [
+    "/art/optimized/location-shichai-qiudeng-gate-1b2a76efd430.webp",
+    1672,
+    941,
+    true
+  ],
+  "/art/refresh-20260909/location.atlas.wendao.webp": [
+    "/art/optimized/location-atlas-wendao-5e0912b05f72.webp",
+    1672,
+    941,
+    true
+  ],
+  "/art/refresh-20260909/location.shichai.dongxue.market.webp": [
+    "/art/optimized/location-shichai-dongxue-market-41d66a4c2a47.webp",
+    1672,
+    941,
+    true
+  ],
+  "/art/refresh-20260909/location.shichai.dongxue.inn.webp": [
+    "/art/optimized/location-shichai-dongxue-inn-51bb711a4863.webp",
+    1672,
+    941,
+    true
+  ],
+  "/art/refresh-20260909/location.shichai.dongxue.gate.webp": [
+    "/art/optimized/location-shichai-dongxue-gate-f2ac429ff969.webp",
+    1672,
+    941,
+    true
+  ],
+  "/art/refresh-20260909/location.atlas.xuesong.webp": [
+    "/art/optimized/location-atlas-xuesong-646eb1dfe1cd.webp",
+    1672,
+    941,
     true
   ]
 }

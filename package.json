@@ -31,7 +31,7 @@
     "check:boundaries": "node scripts/check-boundaries.mjs",
     "test:stress": "esbuild tests/game/stress.test.ts --bundle --platform=node --format=esm --outfile=.game-test-build/stress.test.mjs && node --test .game-test-build/stress.test.mjs",
     "content:fixtures": "npm run content:prepare && esbuild scripts/content/fixtures.ts --bundle --platform=node --format=esm --outfile=.game-test-build/content-fixtures.mjs && node .game-test-build/content-fixtures.mjs",
-    "test:extensions": "npm run content:prepare && esbuild tests/game/extensions.test.ts tests/game/journey.test.ts tests/game/main-story.test.ts --bundle --platform=node --format=esm --outdir=.game-test-build/extensions && node --test .game-test-build/extensions/*.js tests/extension-images.test.mjs",
+    "test:extensions": "npm run content:prepare && esbuild tests/game/extensions.test.ts tests/game/journey.test.ts tests/game/main-story.test.ts --bundle --platform=node --format=esm --outdir=.game-test-build/extensions && node --test .game-test-build/extensions/*.js tests/extension-images.test.mjs tests/cosmetic-art.test.mjs",
     "test:ai": "esbuild tests/game/negotiation.test.ts --bundle --platform=node --format=esm --outfile=.game-test-build/negotiation.test.mjs && node --test .game-test-build/negotiation.test.mjs",
     "postbuild:local": "node scripts/prepare-offline.mjs",
     "postbuild": "node scripts/prepare-offline.mjs",

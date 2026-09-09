@@ -49,6 +49,7 @@ export function portraitPrompt(subject: PortraitSubject, variation: string) {
       : "成年男性，简洁利落的服饰和站姿，干净清晰的五官。",
     `本图唯一人物：${subject.sex === "female" ? "成年女性" : "成年男性"}；外貌年龄约 ${b.apparentAge} 岁。真实修仙年龄与面容独立，不添加衰老特征。`,
     `以这组已保存身形为准：${BODY_BUILDS[b.build]}身材，身高 ${b.heightCm} cm${subject.sex === "female" && b.bustCup ? `，胸型 ${b.bustCup} 杯` : ""}。比例自然。`,
+    ...(subject.sex === "female" ? [directions.styleGuide.bustTailoring] : []),
     `五官：${d.face.replace(/外貌约\s*\d+\s*岁[；，]?/g, "")}${custom ? `脸型气质以当前选择的「${FACES[subject.appearance.face]}」为准。` : ""}`,
     `发型：${custom ? `${HAIRS[subject.appearance.hair]}，保留古风发饰` : d.hair}`,
     custom

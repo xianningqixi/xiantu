@@ -121,6 +121,14 @@ test("appearance is deterministic and adult, never aging with cultivation or cha
     const aged = { ...a, ageDays: 300 * 360 };
     assert.equal(portraitPrompt(npcSubject(aged), "fixed"), portraitPrompt(npcSubject(a), "fixed"));
     assert.match(portraitPrompt(npcSubject(a), "fixed"), /双脚完整可见/);
+    const prompt = portraitPrompt(npcSubject(a), "fixed");
+    if (a.sex === "female") {
+      assert.match(prompt, /按角色原有胸围或杯型保持自然胸型/);
+      assert.match(prompt, /不改变保存的身形/);
+      assert.match(prompt, /不透明衣料覆盖/);
+    } else {
+      assert.doesNotMatch(prompt, /胸前剪裁|胸围或杯型/);
+    }
   }
   assert.deepEqual(w, before);
   const changed = createWorld(

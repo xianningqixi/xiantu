@@ -57,3 +57,7 @@ next-env.d.ts
 
 # Private per-browser AI configuration, never bundled, exported, or committed.
 /.xiantu-private/
+
+# Local generation originals, discarded iterations and provider logs.
+/output/imagegen/
+/tmp/imagegen/

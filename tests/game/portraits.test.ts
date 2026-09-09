@@ -17,7 +17,7 @@ import { portraitPrompt, portraitDirection } from "../../lib/server/portrait-pro
 import { handlePortrait } from "../../lib/server/portraits";
 import { ModelSettingsStore } from "../../lib/server/model-settings-store";
 import { handleModelSettings } from "../../lib/server/model-settings";
-import { modelDefaults } from "../../lib/ai/model-settings";
+import { MODEL_PRESETS, modelDefaults } from "../../lib/ai/model-settings";
 import type { Profile } from "../../lib/game/types";
 import { EXTENSIONS, extensionPortrait } from "../../lib/game/content/extensions";
 import { imageAsset } from "../../lib/game/images";
@@ -199,10 +199,6 @@ async function setup(t: { after: (fn: () => Promise<void>) => void }, withLlm = 
         action: "save",
         kind: "image",
         config: {
-          ...modelDefaults("image"),
-          enabled: true,
-          baseUrl: "https://images.provider.example/v1",
-          model: "portrait-model",
           key: "fake-portrait-private-key",
           revision: 0,
         },
@@ -218,10 +214,6 @@ async function setup(t: { after: (fn: () => Promise<void>) => void }, withLlm = 
           action: "save",
           kind: "llm",
           config: {
-            ...modelDefaults("llm"),
-            enabled: true,
-            baseUrl: "https://text.provider.example/v1",
-            model: "portrait-writer",
             key: "fake-text-private-key",
             revision: 0,
           },
@@ -249,8 +241,8 @@ test("portrait route composes all current form fields with the LLM, then sends i
       calls.push(String(url));
       const data = JSON.parse(init?.body as string);
       if (calls.length === 1) {
-        assert.equal(url, "https://text.provider.example/v1/chat/completions");
-        assert.equal(data.model, "portrait-writer");
+        assert.equal(url, `${MODEL_PRESETS.llm.baseUrl}/chat/completions`);
+        assert.equal(data.model, MODEL_PRESETS.llm.model);
         assert.equal(data.max_completion_tokens, modelDefaults("llm").maxTokens);
         assert.equal(
           new Headers(init?.headers).get("authorization"),
@@ -273,8 +265,8 @@ test("portrait route composes all current form fields with the LLM, then sends i
         assert.match(brief.artReference, /胸型 E 杯/);
         return compositionReply();
       }
-      assert.equal(url, "https://images.provider.example/v1/images/generations");
-      assert.equal(data.model, "portrait-model");
+      assert.equal(url, `${MODEL_PRESETS.image.baseUrl}/images/generations`);
+      assert.equal(data.model, MODEL_PRESETS.image.model);
       assert.equal(data.size, "1024x1536");
       assert.equal(data.prompt, composedPrompt);
       assert.equal(

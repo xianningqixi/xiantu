@@ -1,7 +1,8 @@
 import { generateImage } from "./image-generation";
 import { z } from "zod";
 import {
-  MAX_REPLY_TOKENS,
+  MODEL_PRESETS,
+  matchesModelEndpoint,
   modelDefaults,
   type ModelKind,
   type ModelSummaries,
@@ -17,21 +18,16 @@ import {
   SettingsConflict,
   type StoredModel,
 } from "./model-settings-store";
-import { boundedText, providerFetch, providerUrl } from "./provider-http";
+import { boundedText, providerFetch } from "./provider-http";
 
 const kindSchema = z.enum(["llm", "image"]);
 const draftSchema = z
   .object({
-    enabled: z.boolean(),
-    baseUrl: z.string().trim().max(512),
-    model: z.string().trim().max(100),
     key: z
       .string()
       .trim()
       .max(2048)
       .refine((v) => !/[\r\n\0]/.test(v)),
-    timeout: z.number().int().min(1000).max(120000),
-    maxTokens: z.number().int().min(100).max(MAX_REPLY_TOKENS),
     revision: z.number().int().nonnegative(),
   })
   .strict();
@@ -62,30 +58,25 @@ function fromEnvironment(
     return config ? { ...modelDefaults(kind), ...config, enabled: true, revision: 0 } : undefined;
   }
   if (!env.XIANTU_IMAGE_KEY) return undefined;
+  if (env.XIANTU_IMAGE_BASE_URL && !matchesModelEndpoint(kind, env.XIANTU_IMAGE_BASE_URL))
+    throw new Error("原站点密钥不属于当前固定服务，请重新配置密钥。");
   return {
     ...modelDefaults(kind),
     enabled: true,
     revision: 0,
-    baseUrl: providerUrl(env.XIANTU_IMAGE_BASE_URL || "https://api.openai.com/v1").href.replace(
-      /\/$/,
-      "",
-    ),
-    model: z.string().trim().min(1).max(100).parse(env.XIANTU_IMAGE_MODEL),
     key: env.XIANTU_IMAGE_KEY,
   };
 }
 function summary(kind: ModelKind, personal?: StoredModel, inherited?: StoredModel): ModelSummary {
   const config = personal ?? inherited;
-  const { enabled, baseUrl, model, timeout, maxTokens } = config ?? modelDefaults(kind);
+  const needsKey = !!personal?.key && !matchesModelEndpoint(kind, personal.baseUrl);
   return {
-    enabled,
-    baseUrl,
-    model,
-    timeout,
-    maxTokens,
+    ...MODEL_PRESETS[kind],
+    enabled: !!config?.enabled && !needsKey,
     hasKey: !!config?.key,
     source: personal ? "personal" : inherited ? "server" : "none",
     revision: personal?.revision ?? 0,
+    needsKey,
   };
 }
 export async function configuredModel(
@@ -94,7 +85,10 @@ export async function configuredModel(
   options: Options = {},
 ): Promise<ProviderConfig | null> {
   const personal = await (options.store ?? defaultStore).read(modelIdentity(request).id, kind);
-  if (personal) return personal.enabled && personal.key ? { ...personal, mock: false } : null;
+  if (personal)
+    return personal.enabled && personal.key && matchesModelEndpoint(kind, personal.baseUrl)
+      ? { ...personal, ...MODEL_PRESETS[kind], mock: false }
+      : null;
   const env = options.env ?? process.env;
   if (kind === "llm") return providerConfig(env);
   const image = fromEnvironment(kind, env);
@@ -105,15 +99,11 @@ function candidate(
   draft: z.infer<typeof draftSchema>,
   current?: StoredModel,
 ): StoredModel {
-  if (kind === "llm" && draft.timeout > 30000) throw new Error("LLM 等待时间最多 30 秒。");
-  const baseUrl = draft.baseUrl ? providerUrl(draft.baseUrl).href.replace(/\/$/, "") : "";
-  // Never reuse a platform key, or send a retained personal key to a changed address.
-  if (!draft.key && current?.key && baseUrl !== current.baseUrl)
-    throw new Error("服务地址已更改，请重新填写密钥。");
-  const key = draft.key || current?.key || "";
-  if (draft.enabled && (!baseUrl || !draft.model || !key))
-    throw new Error("启用模型前，请填写服务地址、模型 ID 和自己的 API Key。");
-  return { ...draft, baseUrl, key };
+  // Never copy a platform key or move an old provider's key to the fixed service.
+  const key =
+    draft.key || (current && matchesModelEndpoint(kind, current.baseUrl) ? current.key : "");
+  if (!key) throw new Error("请填写当前服务的 API Key。");
+  return { ...modelDefaults(kind), enabled: true, key, revision: draft.revision };
 }
 const windows = new Map<string, { time: number; count: number }>();
 function testAllowed(id: string) {
@@ -149,7 +139,7 @@ export async function handleModelSettings(request: Request, options: Options = {
   try {
     input = inputSchema.parse(JSON.parse(await boundedText(request, 16384)));
   } catch {
-    return reply(400, { error: "请检查配置字段及长度。" });
+    return reply(400, { error: "只需提交 API Key；请检查密钥格式，或刷新游戏后重试。" });
   }
   const identity = modelIdentity(request, true);
   if (identity.cookie) headers.set("Set-Cookie", identity.cookie);
@@ -187,12 +177,12 @@ export async function handleModelSettings(request: Request, options: Options = {
       const saved = await store.save(
         identity.id!,
         input.kind,
-        { ...modelDefaults(input.kind), baseUrl: "", key: "" },
+        { ...modelDefaults(input.kind), key: "" },
         input.revision,
       );
       return reply(200, {
         model: summary(input.kind, saved),
-        message: "已清除个人配置并关闭此模型。",
+        message: "已清除个人 Key 并停用此模型。",
       });
     }
     let config: StoredModel;
@@ -203,7 +193,7 @@ export async function handleModelSettings(request: Request, options: Options = {
     }
     if (input.action === "save") {
       const saved = await store.save(identity.id!, input.kind, config, input.config.revision);
-      return reply(200, { model: summary(input.kind, saved), message: "配置已保存，立即生效。" });
+      return reply(200, { model: summary(input.kind, saved), message: "Key 已保存，模型已启用。" });
     }
     if (!testAllowed(identity.id!)) return reply(429, { error: "测试过于频繁，请一分钟后再试。" });
     if (!config.enabled) return reply(400, { error: "请先启用此模型，再进行测试。" });
@@ -221,7 +211,7 @@ export async function handleModelSettings(request: Request, options: Options = {
         });
       } catch {
         return reply(request.signal.aborted ? 499 : 502, {
-          error: "生图未完成，请检查模型权限、余额、地址和密钥，或增加等待时间。",
+          error: "生图未完成，请检查 Key 的权限和余额，或稍后重试。",
         });
       }
     }
@@ -252,7 +242,7 @@ export async function handleModelSettings(request: Request, options: Options = {
       result.status,
       result.ok
         ? { message: "连接成功，模型已返回符合交涉格式的回应。" }
-        : { error: "LLM 测试未通过，请检查地址、密钥、模型权限，以及严格 JSON Schema 支持。" },
+        : { error: "LLM 测试未通过，请检查 Key 的权限和余额，或稍后重试。" },
     );
   } catch (error) {
     return reply(error instanceof SettingsConflict ? 409 : 503, {

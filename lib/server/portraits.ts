@@ -82,7 +82,7 @@ export async function handlePortrait(request: Request, options: Options = {}) {
       error: request.signal.aborted
         ? "生成已取消。"
         : stage === "prompt"
-          ? "文字模型未能生成完整立绘提示词，请检查 LLM 配置、等待时间与回复上限后重试。"
+          ? "文字模型未能生成完整立绘提示词，请检查文字模型 Key 的权限和余额后重试。"
           : "提示词已生成，但立绘绘制未完成。请检查生图模型权限、余额、等待时间及 1024×1536 竖图支持。",
     });
   } finally {

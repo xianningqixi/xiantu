@@ -1,101 +1,179 @@
 import { test, expect, type Page, type Locator } from "@playwright/test";
-const llm = {
-  baseUrl: "https://llm.provider.example/v1",
-  model: "llm-config-test",
-  key: "fake-key-only-for-browser-test",
+import { MODEL_PRESETS } from "../../lib/ai/model-settings";
+import { mkdir } from "node:fs/promises";
+import { join } from "node:path";
+import { tmpdir } from "node:os";
+const keys = {
+  llm: "fake-key-only-for-browser-test",
+  image: "fake-image-key-only-for-browser-test",
 };
-const image = {
-  baseUrl: "http://image.provider.example/v1",
-  model: "image-config-test",
-  key: "fake-image-key-only-for-browser-test",
-};
-async function fill(form: Locator, config: typeof llm) {
-  await form.getByRole("switch").check();
-  await form.getByLabel("服务地址（Base URL）", { exact: true }).fill(config.baseUrl);
-  await form.getByLabel("模型 ID", { exact: true }).fill(config.model);
-  await form.getByLabel("API Key", { exact: true }).fill(config.key);
-}
+const output = process.env.XIANTU_KEY_QA_OUTPUT || join(tmpdir(), "xiantu-key-only-qa");
+const preview =
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aSr8AAAAASUVORK5CYII=";
+
+test.use({ serviceWorkers: "block" });
+test.beforeEach(async ({ context }) => {
+  // Private storage and configuration routes stay real; paid provider calls never leave the browser.
+  await context.route("**/api/portraits", (route) =>
+    route.fulfill({ status: 503, json: { error: "本用例不调用生图服务" } }),
+  );
+  await context.route("**/api/negotiation", (route) =>
+    route.fulfill({ status: 503, json: { error: "本用例不调用交涉服务" } }),
+  );
+  await context.route("**/api/model-settings", async (route) => {
+    const body = route.request().postDataJSON();
+    if (body.action !== "test") return route.continue();
+    expect(Object.keys(body.config).sort()).toEqual(["key", "revision"]);
+    await route.fulfill({
+      json:
+        body.kind === "image"
+          ? { message: "模拟生图成功", image: preview }
+          : { message: "模拟连接成功" },
+    });
+  });
+  await mkdir(output, { recursive: true });
+});
 async function open(page: Page, inGame = false) {
   if (inGame) await page.getByRole("button", { name: "存档与设置", exact: true }).click();
-  await page.getByRole("button", { name: "AI 模型设置", exact: true }).click();
+  const entry = inGame ? page : page.locator("header");
+  await entry.getByRole("button", { name: "AI 模型设置", exact: true }).click();
   const dialog = page.getByRole("dialog", { name: "AI 模型设置", exact: true });
   await expect(dialog.getByRole("tab", { name: "LLM 文字模型", exact: true })).toBeVisible();
   return dialog;
 }
 async function world(page: Page) {
   return page.evaluate(async () => {
-    const db = await new Promise<IDBDatabase>((resolve) => {
+    const db = await new Promise<IDBDatabase>((resolve, reject) => {
       const q = indexedDB.open("xiantu-qingshi");
       q.onsuccess = () => resolve(q.result);
+      q.onerror = () => reject(q.error);
     });
     try {
-      return await new Promise<any>((resolve) => {
-        const tx = db.transaction("saves");
-        const q = tx.objectStore("saves").get("current");
+      return await new Promise<any>((resolve, reject) => {
+        const tx = db.transaction("saves"),
+          q = tx.objectStore("saves").get("current");
         tx.oncomplete = () => resolve(q.result);
+        tx.onabort = () => reject(tx.error);
       });
     } finally {
       db.close();
     }
   });
 }
-
-test("creation and game settings expose independent persistent LLM and image configuration without putting keys in saves", async ({
-  page,
-  context,
-}) => {
-  const errors: string[] = [];
-  page.on("pageerror", (error) => errors.push(error.message));
-  await page.goto("/");
-  await expect(page).toHaveTitle(/仙途/);
-  let dialog = await open(page);
-  const textForm = dialog.getByRole("form", { name: "LLM 文字模型配置", exact: true });
-  await fill(textForm, llm);
-  await textForm.getByRole("button", { name: "保存配置", exact: true }).click();
-  await expect(textForm.getByRole("status")).toContainText("配置已保存");
-  await expect(textForm.getByLabel("API Key", { exact: true })).toHaveValue("");
-  await dialog.getByRole("tab", { name: "生图模型", exact: true }).click();
-  const imageForm = dialog.getByRole("form", { name: "生图模型配置", exact: true });
-  await fill(imageForm, image);
-  await imageForm.getByRole("button", { name: "保存配置", exact: true }).click();
-  await expect(imageForm.getByRole("status")).toContainText("配置已保存");
-  const cookie = (await context.cookies()).find((cookie) => cookie.name === "xiantu_models")!;
-  expect(cookie.httpOnly).toBe(true);
-  expect(cookie.sameSite).toBe("Strict");
+async function read(page: Page) {
   const response = await page.request.post("/api/model-settings", {
     headers: { Origin: new URL(page.url()).origin },
     data: { action: "read" },
   });
-  const metadata = await response.text();
-  expect(metadata).not.toContain(llm.key);
-  expect(metadata).not.toContain(image.key);
-  expect(metadata).toContain(image.model);
+  expect(response.ok()).toBe(true);
+  const data = await response.json();
+  expect(JSON.stringify(data)).not.toContain(keys.llm);
+  expect(JSON.stringify(data)).not.toContain(keys.image);
+  return data.models;
+}
+async function keyOnly(form: Locator, kind: "llm" | "image") {
+  await expect(form.locator("input")).toHaveCount(1);
+  await expect(
+    form.locator("select, [role=switch], input[type=number], input[type=url]"),
+  ).toHaveCount(0);
+  await expect(form.getByLabel("API Key", { exact: true })).toHaveAttribute("type", "password");
+  await expect(form).toContainText(MODEL_PRESETS[kind].model);
+  await expect(form).toContainText(MODEL_PRESETS[kind].baseUrl);
+  await expect(form).not.toContainText("高级选项");
+}
+async function saveKey(form: Locator, key: string) {
+  await form.getByLabel("API Key", { exact: true }).fill(key);
+  await form.getByRole("button", { name: "保存 Key", exact: true }).click();
+  await expect(form.getByRole("status")).toContainText("Key 已保存");
+  await expect(form.getByLabel("API Key", { exact: true })).toHaveValue("");
+}
+async function fullyVisible(locator: Locator, page: Page) {
+  const box = await locator.boundingBox();
+  expect(box).not.toBeNull();
+  const viewport = page.viewportSize()!;
+  expect(box!.y).toBeGreaterThanOrEqual(0);
+  expect(box!.y + box!.height).toBeLessThanOrEqual(viewport.height);
+  expect(box!.x).toBeGreaterThanOrEqual(0);
+  expect(box!.x + box!.width).toBeLessThanOrEqual(viewport.width);
+}
+async function uncutForm(form: Locator) {
+  const body = form.locator(".model-form-body");
+  const size = await body.evaluate((element) => ({
+    content: element.scrollHeight,
+    visible: element.clientHeight,
+  }));
+  expect(size.content).toBeLessThanOrEqual(size.visible + 1);
+}
+
+test("key-only settings persist both models and clear only the confirmed key without touching the world", async ({
+  page,
+  context,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  const submitted: object[] = [];
+  page.on("request", (request) => {
+    if (request.url().endsWith("/api/model-settings") && request.postDataJSON()?.action === "save")
+      submitted.push(request.postDataJSON().config);
+  });
+  await page.goto("/");
+  await expect(page).toHaveTitle(/仙途/);
+  let dialog = await open(page);
+  for (const kind of ["llm", "image"] as const) {
+    await dialog
+      .getByRole("tab", { name: kind === "llm" ? "LLM 文字模型" : "生图模型", exact: true })
+      .click();
+    const form = dialog.getByRole("form", {
+      name: kind === "llm" ? "LLM 文字模型配置" : "生图模型配置",
+      exact: true,
+    });
+    await keyOnly(form, kind);
+    await saveKey(form, keys[kind]);
+    await expect(dialog).toBeVisible();
+    await fullyVisible(form.getByRole("button", { name: "保存 Key", exact: true }), page);
+  }
+  expect(submitted).toHaveLength(2);
+  for (const config of submitted) expect(Object.keys(config).sort()).toEqual(["key", "revision"]);
+  const cookie = (await context.cookies()).find((cookie) => cookie.name === "xiantu_models")!;
+  expect(cookie.httpOnly).toBe(true);
+  expect(cookie.sameSite).toBe("Strict");
+  const models = await read(page);
+  for (const kind of ["llm", "image"] as const)
+    expect(models[kind]).toMatchObject({
+      ...MODEL_PRESETS[kind],
+      enabled: true,
+      hasKey: true,
+      source: "personal",
+      revision: 1,
+    });
+  expect(await world(page)).toBeUndefined();
   await page.reload();
   dialog = await open(page);
-  await expect(dialog.getByRole("tabpanel").getByLabel("模型 ID", { exact: true })).toHaveValue(
-    llm.model,
-  );
-  await expect(dialog.getByRole("tabpanel").getByLabel("API Key", { exact: true })).toHaveValue("");
-  await expect(dialog.getByRole("tabpanel").getByLabel("API Key", { exact: true })).toHaveAttribute(
+  const llmForm = dialog.getByRole("form", { name: "LLM 文字模型配置", exact: true });
+  await expect(llmForm.getByLabel("API Key", { exact: true })).toHaveAttribute(
     "placeholder",
     /已保存/,
   );
+  await saveKey(llmForm, "");
+  await uncutForm(llmForm);
+  await page.screenshot({ path: join(output, "desktop-key-only.png") });
   await page.keyboard.press("Escape");
-  await page.getByRole("textbox", { name: "姓名", exact: true }).fill("模型配置验收");
+  await page.getByRole("textbox", { name: "姓名", exact: true }).fill("密钥配置验收");
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
-  await expect(page.getByRole("heading", { name: "模型配置验收", exact: true })).toBeVisible();
+  await expect(page.getByRole("tab", { name: "游历", exact: true })).toBeVisible();
   const before = await world(page);
   dialog = await open(page, true);
   await dialog.getByRole("tab", { name: "生图模型", exact: true }).click();
-  await expect(dialog.getByRole("tabpanel").getByLabel("模型 ID", { exact: true })).toHaveValue(
-    image.model,
-  );
-  await dialog.getByRole("button", { name: "清除个人配置并关闭", exact: true }).click();
-  await expect(dialog.getByRole("status")).toContainText("已清除");
-  await dialog.getByRole("tab", { name: "LLM 文字模型", exact: true }).click();
-  await expect(dialog.getByRole("tabpanel").getByLabel("模型 ID", { exact: true })).toHaveValue(
-    llm.model,
-  );
+  await dialog.getByRole("button", { name: "清除生图模型 Key", exact: true }).click();
+  await expect(page.getByRole("alertdialog")).toContainText("另一类模型和游戏存档不受影响");
+  await page.getByRole("button", { name: "保留 Key", exact: true }).click();
+  expect((await read(page)).image.hasKey).toBe(true);
+  await dialog.getByRole("button", { name: "清除生图模型 Key", exact: true }).click();
+  await page.getByRole("button", { name: "确认清除生图模型", exact: true }).click();
+  await expect(dialog.getByRole("status")).toContainText("已清除个人 Key");
+  expect((await read(page)).image).toMatchObject({ enabled: false, hasKey: false });
+  expect((await read(page)).llm.hasKey).toBe(true);
   expect(await world(page)).toEqual(before);
   const browserState = await page.evaluate(() =>
     JSON.stringify({
@@ -104,94 +182,88 @@ test("creation and game settings expose independent persistent LLM and image con
       cookie: document.cookie,
     }),
   );
-  expect(browserState).not.toContain(llm.key);
-  expect(browserState).not.toContain(image.key);
-  expect(JSON.stringify(await world(page))).not.toContain(llm.key);
+  for (const key of Object.values(keys)) {
+    expect(browserState).not.toContain(key);
+    expect(JSON.stringify(await world(page))).not.toContain(key);
+  }
   expect(errors).toEqual([]);
 });
 
-test("different browsers and stale configuration revisions remain isolated", async ({
-  page,
-  browser,
-}) => {
+test("separate browsers and stale key edits stay isolated", async ({ page, browser }) => {
   await page.goto("/");
-  await open(page);
-  const form = page.getByRole("form", { name: "LLM 文字模型配置", exact: true });
-  await fill(form, llm);
-  await form.getByRole("button", { name: "保存配置", exact: true }).click();
-  await expect(form.getByRole("status")).toContainText("已保存");
-  const other = await browser.newContext();
+  let dialog = await open(page);
+  const form = dialog.getByRole("form", { name: "LLM 文字模型配置", exact: true });
+  await saveKey(form, keys.llm);
+  const other = await browser.newContext({ serviceWorkers: "block" });
   try {
     const tab = await other.newPage();
     await tab.goto(page.url());
     await open(tab);
-    await expect(
-      tab
-        .getByRole("form", { name: "LLM 文字模型配置", exact: true })
-        .getByLabel("模型 ID", { exact: true }),
-    ).not.toHaveValue(llm.model);
+    expect((await read(tab)).llm.source).not.toBe("personal");
     const same = await page.context().newPage();
     await same.goto(page.url());
     await open(same);
-    await form.getByLabel("模型 ID", { exact: true }).fill("updated-model");
-    await form.getByRole("button", { name: "保存配置", exact: true }).click();
-    await expect(form.getByRole("status")).toContainText("已保存");
-    await same.getByRole("button", { name: "保存配置", exact: true }).click();
+    await saveKey(form, "fake-replacement-key");
+    await same.getByRole("button", { name: "保存 Key", exact: true }).click();
     await expect(same.getByRole("alert")).toContainText("另一页面");
     await same.getByRole("button", { name: "重新读取", exact: true }).click();
-    await expect(
-      same
-        .getByRole("form", { name: "LLM 文字模型配置", exact: true })
-        .getByLabel("模型 ID", { exact: true }),
-    ).toHaveValue("updated-model");
+    dialog = same.getByRole("dialog", { name: "AI 模型设置", exact: true });
+    const current = dialog.getByRole("form", { name: "LLM 文字模型配置", exact: true });
+    await expect(current.getByLabel("API Key", { exact: true })).toHaveAttribute(
+      "placeholder",
+      /已保存/,
+    );
+    await saveKey(current, "");
+    expect((await read(same)).llm.revision).toBe(3);
     await same.close();
   } finally {
     await other.close();
   }
 });
 
-test("mobile model settings validate inputs, show test previews, and discard cancelled responses", async ({
+test("mobile key-only settings validate empty input and discard cancelled mock test results", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
-  // Only the paid provider test response is mocked. Reading, saving and validation use the real route.
-  let delay = false;
+  let delayed = false;
   await page.route("**/api/model-settings", async (route) => {
     const body = route.request().postDataJSON();
-    if (body.action !== "test") return route.continue();
-    if (delay) await new Promise((resolve) => setTimeout(resolve, 700));
-    await route.fulfill({
-      json:
-        body.kind === "image"
-          ? {
-              message: "测试图像已返回",
-              image:
-                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aSr8AAAAASUVORK5CYII=",
-            }
-          : { message: "模型测试通过" },
-    });
+    if (body.action !== "test") return route.fallback();
+    expect(Object.keys(body.config).sort()).toEqual(["key", "revision"]);
+    if (delayed) await new Promise((resolve) => setTimeout(resolve, 700));
+    await route
+      .fulfill({
+        json:
+          body.kind === "image"
+            ? { message: "模拟生图成功", image: preview }
+            : { message: "模拟连接成功" },
+      })
+      .catch(() => {});
   });
   await page.goto("/");
   const dialog = await open(page);
   const form = dialog.getByRole("form", { name: "LLM 文字模型配置", exact: true });
-  await fill(form, { ...llm, key: "" });
-  await form.getByRole("button", { name: "保存配置", exact: true }).click();
-  await expect(form.getByRole("alert")).toContainText("API Key");
-  await form.getByLabel("API Key", { exact: true }).fill(llm.key);
+  await keyOnly(form, "llm");
+  await form.getByRole("button", { name: "保存 Key", exact: true }).click();
+  await expect(form.getByRole("alert")).toContainText("请填写自己的 API Key");
+  await expect(form.getByLabel("API Key", { exact: true })).toBeFocused();
+  await form.getByLabel("API Key", { exact: true }).fill(keys.llm);
   await form.getByRole("button", { name: "测试连接", exact: true }).click();
-  await expect(form.getByRole("status")).toContainText("测试通过");
-  await dialog.evaluate((element) => {
-    element.scrollTop = 0;
-  });
-  await page.screenshot({ path: "/tmp/xiantu-ai-settings-mobile.png" });
+  await expect(form.getByRole("status")).toContainText("模拟连接成功");
+  expect((await read(page)).llm.source).not.toBe("personal");
+  await saveKey(form, keys.llm);
+  await fullyVisible(form.getByRole("button", { name: "保存 Key", exact: true }), page);
+  await uncutForm(form);
+  await page.screenshot({ path: join(output, "mobile-key-only.png") });
   await dialog.getByRole("tab", { name: "生图模型", exact: true }).click();
   const imageForm = dialog.getByRole("form", { name: "生图模型配置", exact: true });
-  await fill(imageForm, image);
+  await keyOnly(imageForm, "image");
+  await imageForm.getByLabel("API Key", { exact: true }).fill(keys.image);
   await imageForm.getByRole("button", { name: "测试生图（1 张）", exact: true }).click();
   await expect(dialog.getByRole("img", { name: "生图模型测试预览", exact: true })).toBeVisible();
-  delay = true;
+  delayed = true;
   await imageForm.getByRole("button", { name: "测试生图（1 张）", exact: true }).click();
   await imageForm.getByRole("button", { name: "取消测试", exact: true }).click();
   await expect(imageForm.getByRole("status")).toContainText("已取消");

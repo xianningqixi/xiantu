@@ -149,16 +149,20 @@ test("server rejects missing configuration, client proxy overrides, cross-origin
       XIANTU_AI_MODEL: "x",
     }),
   );
-  assert.throws(() =>
-    providerConfig({ XIANTU_AI_KEY: "x", XIANTU_AI_MODEL: "x", XIANTU_AI_MAX_TOKENS: "99999" }),
+  assert.equal(
+    providerConfig({ XIANTU_AI_KEY: "x", XIANTU_AI_MODEL: "x", XIANTU_AI_MAX_TOKENS: "99999" })
+      ?.maxTokens,
+    8192,
   );
   assert.equal(
     providerConfig({ XIANTU_AI_KEY: "x", XIANTU_AI_MODEL: "x", XIANTU_AI_MAX_TOKENS: "8192" })
       ?.maxTokens,
     8192,
   );
-  assert.throws(() =>
-    providerConfig({ XIANTU_AI_KEY: "x", XIANTU_AI_MODEL: "x", XIANTU_AI_MAX_TOKENS: "8193" }),
+  assert.equal(
+    providerConfig({ XIANTU_AI_KEY: "x", XIANTU_AI_MODEL: "x", XIANTU_AI_MAX_TOKENS: "8193" })
+      ?.model,
+    "gpt-5.6-sol",
   );
 });
 test("structured upstream uses configured model and bounded tokens; credentials never enter output", async () => {

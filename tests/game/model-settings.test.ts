@@ -4,8 +4,8 @@ import { mkdtemp, readdir, stat, rm } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { handleModelSettings, configuredModel } from "../../lib/server/model-settings";
-import { ModelSettingsStore } from "../../lib/server/model-settings-store";
-import { modelDefaults, type ModelKind } from "../../lib/ai/model-settings";
+import { ModelSettingsStore, modelIdentity } from "../../lib/server/model-settings-store";
+import { MODEL_PRESETS, modelDefaults, type ModelKind } from "../../lib/ai/model-settings";
 import {
   providerFetch,
   providerUrl,
@@ -13,19 +13,15 @@ import {
   resolveProviderAddresses,
 } from "../../lib/server/provider-http";
 
-const request = (body: object, cookie = "", origin = "http://localhost") =>
+const request = (body: object, cookie = "", origin = "http://localhost", signal?: AbortSignal) =>
   new Request("http://localhost/api/model-settings", {
     method: "POST",
     headers: { Origin: origin, Cookie: cookie, "Content-Type": "application/json" },
     body: JSON.stringify(body),
+    signal,
   });
 const draft = (kind: ModelKind, revision = 0) => ({
-  ...modelDefaults(kind),
-  enabled: true,
-  baseUrl: `https://${kind}.provider.example/v1`,
-  model: `${kind}-model`,
   key: `fake-private-${kind}-key`,
-  maxTokens: kind === "llm" ? 8192 : 800,
   revision,
 });
 async function fixture(t: { after: (fn: () => Promise<void>) => void }) {
@@ -33,8 +29,8 @@ async function fixture(t: { after: (fn: () => Promise<void>) => void }) {
   t.after(() => rm(directory, { recursive: true, force: true }));
   const store = new ModelSettingsStore(directory);
   const env = {};
-  const call = (body: object, cookie = "", fetcher?: typeof fetch) =>
-    handleModelSettings(request(body, cookie), { store, env, fetcher });
+  const call = (body: object, cookie = "", fetcher?: typeof fetch, signal?: AbortSignal) =>
+    handleModelSettings(request(body, cookie, "http://localhost", signal), { store, env, fetcher });
   const first = await call({ action: "read" });
   return { store, directory, call, cookie: first.headers.get("set-cookie")!.split(";")[0] };
 }
@@ -48,12 +44,12 @@ test("separate browser credentials persist both models privately, never returnin
     assert.ok(!(await response.text()).includes(draft(kind).key));
   }
   const read = await (await call({ action: "read" }, cookie)).json();
-  assert.equal(read.models.llm.model, "llm-model");
+  assert.equal(read.models.llm.model, MODEL_PRESETS.llm.model);
   assert.equal(read.models.llm.maxTokens, 8192);
-  assert.equal(read.models.image.model, "image-model");
+  assert.equal(read.models.image.model, MODEL_PRESETS.image.model);
   const other = await (await call({ action: "read" })).json();
   assert.equal(other.models.llm.hasKey, false);
-  assert.equal(other.models.image.model, "");
+  assert.equal(other.models.image.model, MODEL_PRESETS.image.model);
   assert.equal(
     (
       await configuredModel(request({}, cookie), "llm", {
@@ -71,48 +67,123 @@ test("separate browser credentials persist both models privately, never returnin
   assert.equal(await configuredModel(request({}, cookie), "image", { store, env: {} }), null);
   assert.equal(
     (await configuredModel(request({}, cookie), "llm", { store, env: {} }))?.model,
-    "llm-model",
+    MODEL_PRESETS.llm.model,
   );
 });
 
-test("retained personal keys cannot change destination and platform keys cannot become custom credentials", async (t) => {
+test("only key and revision are accepted; fixed parameters govern saves and actual provider requests", async (t) => {
   const { store, call, cookie } = await fixture(t);
+  for (const field of [
+    { baseUrl: "https://other.example/v1" },
+    { model: "another-model" },
+    { timeout: 1000 },
+    { maxTokens: 100 },
+    { enabled: false },
+  ]) {
+    const response = await call(
+      { action: "save", kind: "llm", config: { ...draft("llm"), ...field } },
+      cookie,
+    );
+    assert.equal(response.status, 400);
+  }
   await call({ action: "save", kind: "llm", config: draft("llm") }, cookie);
-  assert.equal(
-    (
-      await call(
-        {
-          action: "save",
-          kind: "llm",
-          config: { ...draft("llm", 1), key: "", model: "new-model" },
-        },
-        cookie,
-      )
-    ).status,
-    200,
-  );
-  const changed = await call(
-    {
-      action: "save",
-      kind: "llm",
-      config: { ...draft("llm", 2), key: "", baseUrl: "https://other.example/v1" },
-    },
+  const kept = await call(
+    { action: "save", kind: "llm", config: { key: "", revision: 1 } },
     cookie,
   );
-  assert.equal(changed.status, 400);
-  assert.equal(
-    (await configuredModel(request({}, cookie), "llm", { store, env: {} }))?.model,
-    "new-model",
-  );
-  const env = { XIANTU_AI_KEY: "platform-secret", XIANTU_AI_MODEL: "platform-model" };
+  assert.equal(kept.status, 200);
+  const config = await configuredModel(request({}, cookie), "llm", { store, env: {} });
+  assert.deepEqual(config, {
+    ...modelDefaults("llm"),
+    enabled: true,
+    key: draft("llm").key,
+    revision: 2,
+    mock: false,
+  });
+  const env = {
+    XIANTU_AI_KEY: "platform-secret",
+    XIANTU_AI_MODEL: "ignored-model",
+    XIANTU_AI_MAX_TOKENS: "100",
+    XIANTU_AI_TIMEOUT_MS: "1",
+  };
   const read = await handleModelSettings(request({ action: "read" }), { store, env });
   assert.ok(!(await read.clone().text()).includes(env.XIANTU_AI_KEY));
-  assert.equal((await read.json()).models.llm.source, "server");
+  const summary = (await read.json()).models.llm;
+  assert.equal(summary.source, "server");
+  assert.equal(summary.model, MODEL_PRESETS.llm.model);
+  assert.equal(summary.timeout, 30000);
+  assert.equal(summary.maxTokens, 8192);
   const attempt = await handleModelSettings(
-    request({ action: "save", kind: "llm", config: { ...draft("llm"), key: "" } }),
+    request({ action: "save", kind: "llm", config: { key: "", revision: 0 } }),
     { store, env },
   );
-  assert.equal(attempt.status, 400);
+  assert.equal(attempt.status, 400, "a platform key must not become a personal key");
+});
+
+test("legacy same-provider keys survive without rewriting files; different-provider keys are never moved", async (t) => {
+  const { store, call, cookie } = await fixture(t);
+  const id = modelIdentity(request({}, cookie)).id!;
+  const original = await store.save(
+    id,
+    "llm",
+    {
+      ...modelDefaults("llm"),
+      enabled: true,
+      baseUrl: MODEL_PRESETS.llm.baseUrl + "/",
+      model: "old-model",
+      timeout: 1000,
+      maxTokens: 100,
+      key: "legacy-key",
+    },
+    0,
+  );
+  const config = await configuredModel(request({}, cookie), "llm", { store, env: {} });
+  assert.equal(config?.key, "legacy-key");
+  assert.equal(config?.model, MODEL_PRESETS.llm.model);
+  assert.equal(config?.timeout, 30000);
+  assert.deepEqual(
+    await store.read(id, "llm"),
+    original,
+    "reading must preserve the old private file",
+  );
+  const different = await store.save(
+    id,
+    "image",
+    {
+      ...modelDefaults("image"),
+      enabled: true,
+      baseUrl: "https://previous.example/v1",
+      key: "previous-provider-key",
+    },
+    0,
+  );
+  const state = (await (await call({ action: "read" }, cookie)).json()).models.image;
+  assert.equal(state.needsKey, true);
+  assert.equal(state.enabled, false);
+  assert.equal(state.hasKey, true);
+  assert.equal(await configuredModel(request({}, cookie), "image", { store, env: {} }), null);
+  assert.equal(
+    (await call({ action: "save", kind: "image", config: { key: "", revision: 1 } }, cookie))
+      .status,
+    400,
+  );
+  assert.deepEqual(await store.read(id, "image"), different);
+  assert.equal(
+    (await call({ action: "save", kind: "image", config: draft("image", 1) }, cookie)).status,
+    200,
+  );
+  assert.equal(
+    (await configuredModel(request({}, cookie), "image", { store, env: {} }))?.key,
+    draft("image").key,
+  );
+  await call({ action: "clear", kind: "image", revision: 2 }, cookie);
+  assert.equal(
+    await configuredModel(request({}, cookie), "image", {
+      store,
+      env: { XIANTU_IMAGE_KEY: "platform-key" },
+    }),
+    null,
+  );
 });
 
 test("stale and concurrent writes reject rather than overwrite the latest configuration", async (t) => {
@@ -120,7 +191,7 @@ test("stale and concurrent writes reject rather than overwrite the latest config
   const responses = await Promise.all(
     [1, 2].map((n) =>
       call(
-        { action: "save", kind: "llm", config: { ...draft("llm"), model: `model-${n}` } },
+        { action: "save", kind: "llm", config: { ...draft("llm"), key: `different-key-${n}` } },
         cookie,
       ),
     ),
@@ -184,15 +255,15 @@ test("cross-origin, private upstream, malformed and oversized requests cannot wr
   assert.deepEqual(await readdir(directory), []);
 });
 
-test("LLM test uses the chosen model and strict schema without saving credentials or exposing responses", async (t) => {
+test("LLM test uses the fixed model and strict schema without saving credentials or exposing responses", async (t) => {
   const { call, cookie } = await fixture(t);
   let calls = 0;
   const fetcher: typeof fetch = async (url, init) => {
     calls++;
-    assert.equal(url, "https://llm.provider.example/v1/chat/completions");
+    assert.equal(url, `${MODEL_PRESETS.llm.baseUrl}/chat/completions`);
     assert.equal(new Headers(init?.headers).get("authorization"), `Bearer ${draft("llm").key}`);
     const body = JSON.parse(init?.body as string);
-    assert.equal(body.model, "llm-model");
+    assert.equal(body.model, MODEL_PRESETS.llm.model);
     assert.equal(body.max_completion_tokens, 8192);
     assert.equal(body.response_format.json_schema.strict, true);
     return Response.json({
@@ -232,12 +303,12 @@ test("image test uses independent credentials and handles base64 or public URL w
       async (url, init) => {
         urls.push(String(url));
         if (urls.length === 1) {
-          assert.equal(url, "https://image.provider.example/v1/images/generations");
+          assert.equal(url, `${MODEL_PRESETS.image.baseUrl}/images/generations`);
           assert.equal(
             new Headers(init?.headers).get("authorization"),
             `Bearer ${draft("image").key}`,
           );
-          assert.equal(JSON.parse(init?.body as string).model, "image-model");
+          assert.equal(JSON.parse(init?.body as string).model, MODEL_PRESETS.image.model);
           assert.equal(JSON.parse(init?.body as string).n, 1);
           return Response.json({
             data: [
@@ -323,7 +394,10 @@ test("failed disk writes never acknowledge success and invalid server defaults s
   assert.ok(!(await response.text()).includes("private-storage"));
   const defaults = await handleModelSettings(request({ action: "read" }, cookie), {
     store,
-    env: { XIANTU_AI_KEY: "invalid-default-key-without-model" },
+    env: {
+      XIANTU_AI_KEY: "invalid-default-key",
+      XIANTU_AI_BASE_URL: "https://previous.example/v1",
+    },
   });
   assert.equal(defaults.status, 200);
   const text = await defaults.text();
@@ -333,8 +407,10 @@ test("failed disk writes never acknowledge success and invalid server defaults s
 
 test("cancelled or timed-out image requests finish without saving or late success", async (t) => {
   const { call, cookie } = await fixture(t);
+  const abort = new AbortController();
+  const timer = setTimeout(() => abort.abort(), 30);
   const result = await call(
-    { action: "test", kind: "image", config: { ...draft("image"), timeout: 1000 } },
+    { action: "test", kind: "image", config: draft("image") },
     cookie,
     async (_url, init) =>
       new Promise((_resolve, reject) =>
@@ -342,8 +418,10 @@ test("cancelled or timed-out image requests finish without saving or late succes
           once: true,
         }),
       ),
+    abort.signal,
   );
-  assert.equal(result.status, 502);
+  clearTimeout(timer);
+  assert.equal(result.status, 499);
   assert.equal((await (await call({ action: "read" }, cookie)).json()).models.image.hasKey, false);
 });
 
@@ -383,15 +461,12 @@ test("opt-in public DNS uses no credentials and still rejects private or mixed a
   );
 });
 
-test("both models accept public HTTP services while local and metadata HTTP stay blocked", async (t) => {
+test("both models use the fixed public HTTP service while local and metadata HTTP stay blocked", async (t) => {
   const { call, cookie } = await fixture(t);
-  const baseUrl = "http://93.184.216.34:3000/v1";
+  const baseUrl = MODEL_PRESETS.llm.baseUrl;
   assert.equal(providerUrl(baseUrl).href, baseUrl);
   for (const kind of ["llm", "image"] as const) {
-    assert.equal(
-      (await call({ action: "save", kind, config: { ...draft(kind), baseUrl } }, cookie)).status,
-      200,
-    );
+    assert.equal((await call({ action: "save", kind, config: draft(kind) }, cookie)).status, 200);
     const metadata = (await (await call({ action: "read" }, cookie)).json()).models[kind];
     assert.equal(metadata.baseUrl, baseUrl);
   }

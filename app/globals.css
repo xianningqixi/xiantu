@@ -5729,7 +5729,7 @@ textarea::placeholder {
   font-size: 13px;
 }
 [data-slot="dialog-content"].model-settings-modal {
-  height: min(790px, calc(100dvh - 24px));
+  height: min(640px, calc(100dvh - 24px));
   max-height: calc(100dvh - 24px);
   display: flex;
   flex-direction: column;
@@ -5763,6 +5763,13 @@ textarea::placeholder {
 }
 .model-form-body > .form-field {
   margin-top: 12px;
+}
+.model-settings-form .form-field > label {
+  color: var(--muted-foreground);
+  font-size: 13px;
+}
+.model-fixed-service {
+  overflow-wrap: anywhere;
 }
 .model-form-footer {
   flex-shrink: 0;

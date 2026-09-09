@@ -158,23 +158,21 @@ test("bond display requires mutually latest recorded bonds and retains adverse a
   assert.equal(relationshipDisplay(w, "PLAYER", a.id).bonded, false);
   assert.equal(relationshipDisplay(w, "PLAYER", b.id).bonded, true);
 });
-test("model draft validation accepts HTTP and shared saved keys only on the same endpoint", () => {
+test("key-only drafts reuse personal credentials only for the fixed endpoint", () => {
   const initial = {
     ...modelDefaults("llm"),
     enabled: true,
-    baseUrl: "http://api.example.com/v1",
-    model: "test-model",
     hasKey: true,
     source: "personal" as const,
     revision: 1,
   };
-  const draft = { ...initial, key: "", baseUrl: initial.baseUrl + "/" };
+  const draft = { key: "", revision: 1 };
   assert.deepEqual(validateModelDraft(draft, initial, "llm"), {});
   assert.ok(
-    validateModelDraft({ ...draft, baseUrl: "https://different.example/v1" }, initial, "llm").key,
+    validateModelDraft(draft, { ...initial, baseUrl: "https://different.example/v1" }, "llm").key,
   );
-  assert.ok(
-    validateModelDraft({ ...draft, baseUrl: "javascript:alert(1)" }, initial, "llm").baseUrl,
-  );
-  assert.ok(validateModelDraft({ ...draft, maxTokens: 1 }, initial, "llm").maxTokens);
+  assert.ok(validateModelDraft(draft, { ...initial, needsKey: true }, "llm").key);
+  assert.ok(validateModelDraft(draft, { ...initial, source: "server" }, "llm").key);
+  assert.ok(validateModelDraft({ ...draft, key: "first\nsecond" }, initial, "llm").key);
+  assert.ok(validateModelDraft({ ...draft, key: "x".repeat(2049) }, initial, "llm").key);
 });

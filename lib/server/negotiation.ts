@@ -3,7 +3,7 @@ import { allowedOrigins } from "./negotiation-security";
 import { z } from "zod";
 import { canonicalTerms, proposalSchema, termsSchema } from "../game/negotiation";
 import { PACK } from "../game/content/official";
-import { MAX_REPLY_TOKENS } from "../ai/model-settings";
+import { MODEL_PRESETS, matchesModelEndpoint } from "../ai/model-settings";
 const contextSchema = z
   .object({
     target: z.object({ id: z.string().max(160), name: z.string().max(16) }).strict(),
@@ -35,26 +35,11 @@ export function providerConfig(env: Record<string, string | undefined>): Provide
   if (env.XIANTU_AI_MOCK === "1")
     return { baseUrl: "", key: "", model: "local-test", timeout: 1000, maxTokens: 600, mock: true };
   if (!env.XIANTU_AI_KEY) return null;
-  const url = providerUrl(env.XIANTU_AI_BASE_URL ?? "https://api.openai.com/v1");
-  const timeout = Number(env.XIANTU_AI_TIMEOUT_MS ?? 10000),
-    maxTokens = Number(env.XIANTU_AI_MAX_TOKENS ?? 800);
-  if (
-    !Number.isInteger(timeout) ||
-    timeout < 1000 ||
-    timeout > 30000 ||
-    !Number.isInteger(maxTokens) ||
-    maxTokens < 100 ||
-    maxTokens > MAX_REPLY_TOKENS ||
-    !env.XIANTU_AI_MODEL ||
-    env.XIANTU_AI_MODEL.length > 100
-  )
-    throw new Error("AI 服务端模型或限额配置无效。");
+  if (env.XIANTU_AI_BASE_URL && !matchesModelEndpoint("llm", env.XIANTU_AI_BASE_URL))
+    throw new Error("原站点密钥不属于当前固定服务，请重新配置密钥。");
   return {
-    baseUrl: url.href.replace(/\/$/, ""),
+    ...MODEL_PRESETS.llm,
     key: env.XIANTU_AI_KEY,
-    model: env.XIANTU_AI_MODEL,
-    timeout,
-    maxTokens,
     mock: false,
   };
 }

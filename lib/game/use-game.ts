@@ -129,6 +129,14 @@ export function useGame(preview = false) {
       .then(([saved, creation]) => {
         if (!active) return;
         setWorld(saved.state ?? null);
+        if (saved.migrated && saved.state)
+          setLastResult({
+            id: saved.id,
+            kind: "migration",
+            notice: `旧档已迁移至规则 ${saved.state.rulesVersion}，原始存档已保留备份。`,
+            day: saved.state.day,
+            revision: saved.state.revision,
+          });
         setDraft(creation.draft ?? null);
         draftRevision.current = creation.draft?.revision ?? 0;
         setError("");
@@ -173,11 +181,11 @@ export function useGame(preview = false) {
         failedRequest.current?.key === key
           ? failedRequest.current.id
           : (checkpointId ?? uniqueId());
+      setProgress(null);
       if (input.kind === "advance") {
         advancing.current = id;
         setIsAdvancing(true);
         setAdvanceResult(undefined);
-        setProgress(null);
       }
       try {
         const result = await ask(input, id);
@@ -197,7 +205,7 @@ export function useGame(preview = false) {
             id,
             kind: input.kind,
             notice: ["restore", "import", "create"].includes(input.kind)
-              ? `${result.migrated ? "旧档已迁移至规则 0.2.0，原档已备份。" : ""}${input.kind === "restore" ? "已恢复" : input.kind === "import" ? "已导入" : "已创建"}${result.state.player.name}的这一世 · 第 ${result.state.day + 1} 日。`
+              ? `${input.kind === "restore" ? "已恢复" : input.kind === "import" ? "已导入" : "已创建"}${result.state.player.name}的这一世 · 第 ${result.state.day + 1} 日。${result.migrated ? `旧档已迁移至规则 ${result.state.rulesVersion}，原始存档已保留备份。` : input.kind === "import" ? `已读取 ${result.state.rulesVersion} 规则存档。` : ""}`
               : result.state.notice,
             day: result.state.day,
             revision: result.state.revision,
@@ -224,7 +232,6 @@ export function useGame(preview = false) {
         if (input.kind === "advance") {
           advancing.current = null;
           setIsAdvancing(false);
-          setProgress(null);
         }
         locked.current = false;
         setBusy(false);
@@ -236,16 +243,19 @@ export function useGame(preview = false) {
     if (advancing.current)
       void ask({ kind: "pauseAdvance", advanceId: advancing.current }).catch(() => {});
   }, [ask]);
-  const advance = useCallback(() => {
-    if (!world?.longAction) return Promise.resolve(false);
-    return mutate({
-      kind: "advance",
-      actionId: world.longAction.id,
-      checkpoint: world.longAction.checkpoint,
-      days: world.longAction.remaining,
-      expected: { saveId: world.saveId, revision: world.revision },
-    });
-  }, [world, mutate]);
+  const advance = useCallback(
+    (days?: number) => {
+      if (!world?.longAction) return Promise.resolve(false);
+      return mutate({
+        kind: "advance",
+        actionId: world.longAction.id,
+        checkpoint: world.longAction.checkpoint,
+        days: Math.min(days ?? world.longAction.remaining, world.longAction.remaining),
+        expected: { saveId: world.saveId, revision: world.revision },
+      });
+    },
+    [world, mutate],
+  );
   const expected: SaveExpectation = world
     ? { saveId: world.saveId, revision: world.revision }
     : (recovery ?? { saveId: null, revision: null });

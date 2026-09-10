@@ -52,18 +52,14 @@ import { useEffect, useRef, useState } from "react";
 import { BackupManager } from "./backups";
 import { Creation } from "./creation";
 import { OfflineStatus } from "./offline-status";
-import {
-  BattlePanel,
-  CultivationPanel,
-  GameImage,
-  InventoryPanel,
-  JournalPanel,
-  PeoplePanel,
-} from "./panels";
+import { BattlePanel, GameImage, InventoryPanel, JournalPanel, PeoplePanel } from "./panels";
 
-import { objective } from "@/lib/game/presentation";
-import { CharacterSidebar } from "./character-sidebar";
-import { JourneyTab } from "./journey-tab";
+import { objective, presentationShows } from "@/lib/game/presentation";
+import { CharacterStatus } from "./character-sidebar";
+import { Dojo } from "./dojo";
+import { AtlasPage } from "./atlas-dialog";
+import { RealmCeremony } from "./realm-ceremony";
+
 import { AISettingsEntry } from "./ai-settings-entry";
 import { SettingsDialog } from "./settings-dialog";
 
@@ -78,22 +74,20 @@ import { Toaster, toast } from "sonner";
 import { RetreatSummary } from "./retreat-summary";
 
 const NAV = [
-  { id: "journey", name: "游历", icon: Compass },
-  { id: "cultivation", name: "修行", icon: Wind },
-  { id: "people", name: "故人", icon: Users },
+  { id: "journey", name: "道场", icon: Leaf },
+  { id: "travel", name: "游历", icon: Compass },
+  { id: "people", name: "人物", icon: Users },
   { id: "inventory", name: "行囊", icon: Package },
-  { id: "journal", name: "历程", icon: ScrollText },
 ];
 export default function Game({ preview = false }: { preview?: boolean }) {
   const game = useGame(preview);
   const previousWorld = useRef<World | null>(null);
-  const [summary, setSummary] = useState<ActionSummary | null>(null);
+
   const [lastSummary, setLastSummary] = useState<ActionSummary | null>(null);
   const actionStart = useRef<ActionSummary | null>(null);
   const { world: w, ready, busy, error, command: send } = game;
+  const [offlineContainer, setOfflineContainer] = useState<HTMLElement | null>(null);
   const [tab, setTab] = useState("journey");
-  const [journeyPeopleOpen, setJourneyPeopleOpen] = useState(false);
-  const [journeyDetailSaveId, setJourneyDetailSaveId] = useState<string | null>(null);
   useEffect(() => {
     const previous = previousWorld.current;
     if (w && previous?.saveId === w.saveId && previous.revision < w.revision) {
@@ -109,8 +103,6 @@ export default function Game({ preview = false }: { preview?: boolean }) {
           w.day === previous.day ? "stopped" : "completed",
         );
         setLastSummary(interval);
-        if (interval.endDay - interval.startDay >= 7 || interval.kind === "breakthrough")
-          setSummary(interval);
         actionStart.current = null;
       }
     } else if (
@@ -120,7 +112,6 @@ export default function Game({ preview = false }: { preview?: boolean }) {
       actionStart.current = w?.longAction
         ? beginActionSummary(w, w.longAction.kind, w.longAction.checkpoint)
         : null;
-      setSummary(null);
       setLastSummary(null);
     }
     previousWorld.current = w;
@@ -128,13 +119,13 @@ export default function Game({ preview = false }: { preview?: boolean }) {
   useEffect(() => {
     if (game.advanceResult?.reason === "condition" && w?.longAction && actionStart.current) {
       const interval = finishActionSummary(actionStart.current, w, "condition-paused");
-      setSummary(interval);
       setLastSummary(interval);
+      setRunning(false);
     }
   }, [game.advanceResult]);
   useEffect(() => {
-    if (game.lastResult && !w?.longAction) toast.dismiss("action-result");
-  }, [game.lastResult]);
+    if (error && !isRuleRefusal(game.errorCode)) toast.error(error);
+  }, [error]);
   const [profileId, setProfileId] = useState<string | null>(null);
   const [profileTab, setProfileTab] = useState<ProfileTab>("attributes");
   const [profileStack, setProfileStack] = useState<
@@ -157,6 +148,9 @@ export default function Game({ preview = false }: { preview?: boolean }) {
           },
         ]);
       activeProfileTab.current = tab;
+      game.pauseAdvance();
+      continuations.cancel();
+      setRunning(false);
       setAutoRunning(false);
       setProfileTab(tab);
       setProfileId(id);
@@ -201,7 +195,6 @@ export default function Game({ preview = false }: { preview?: boolean }) {
       setConfirm(null);
       setProfileId(null);
       setTab("journey");
-      setSummary(null);
       setLastSummary(null);
       actionStart.current = w.longAction
         ? beginActionSummary(w, w.longAction.kind, w.longAction.checkpoint)
@@ -254,9 +247,11 @@ export default function Game({ preview = false }: { preview?: boolean }) {
   }, [continuations, game.pauseAdvance]);
   useEffect(() => {
     if (!w || busy || !visible || settings || showCreate || confirm || profileId || error) return;
-    if (w.longAction && running) {
+    if (w.longAction && running && !w.pendingDailyEventId) {
       const timer = setTimeout(() => {
-        void game.advance().then(() => setRunning(false));
+        void game.advance(1).then((ok) => {
+          if (!ok) setRunning(false);
+        });
       }, 0);
       return () => clearTimeout(timer);
     }
@@ -288,6 +283,7 @@ export default function Game({ preview = false }: { preview?: boolean }) {
     error,
     send,
     game.advance,
+    game.advanceResult,
   ]);
   useEffect(() => {
     if (!w?.longAction) setRunning(false);
@@ -302,13 +298,16 @@ export default function Game({ preview = false }: { preview?: boolean }) {
         () => {
           if (
             !document.hidden &&
-            (c.type === "train" || c.type === "wait" || c.type === "breakthrough")
+            (c.type === "train" ||
+              c.type === "wait" ||
+              c.type === "breakthrough" ||
+              (c.type === "choose" && c.nodeId === w?.pendingDailyEventId && !!w.longAction))
           ) {
             setRunning(true);
           }
         },
       ),
-    [continuations, send],
+    [continuations, send, w?.pendingDailyEventId, w?.longAction],
   );
   const download = async () => {
     const text = await game.exportSave();
@@ -486,13 +485,6 @@ export default function Game({ preview = false }: { preview?: boolean }) {
           <a className="wordmark serif" href="#">
             仙途<span>青石人间</span>
           </a>
-          <div className="flex gap-2">
-            <AISettingsEntry onPause={pause} />
-            <BackupManager game={game} onPause={pause} />
-            <Button variant="ghost" onClick={() => importRef.current?.click()}>
-              <Upload size={16} /> 导入存档
-            </Button>
-          </div>
         </header>
         <div className="prologue-layout">
           <div className="creation-wrap">
@@ -508,6 +500,19 @@ export default function Game({ preview = false }: { preview?: boolean }) {
               </div>
             )}
             <Creation
+              utilities={
+                <>
+                  <AISettingsEntry onPause={pause} />
+                  <BackupManager game={game} onPause={pause} />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => importRef.current?.click()}
+                  >
+                    <Upload size={16} /> 导入存档
+                  </Button>
+                </>
+              }
               key={game.draft?.revision ?? "new"}
               initialDraft={game.draft}
               onSaveDraft={game.saveCreationDraft}
@@ -526,22 +531,14 @@ export default function Game({ preview = false }: { preview?: boolean }) {
   const saveBlocked = !!game.saveIssue;
   const saveUnconfirmed = ["SAVE_UNCONFIRMED", "WORKER_UNAVAILABLE"].includes(game.saveIssue);
   const advancing = running || game.isAdvancing;
-  const blocked = busy || saveBlocked || !!w.longAction || !!w.battle || w.ended;
-  const useTab = (value: string, followGoal = false) => {
-    if (w.battle && value !== "journey") return;
-    setTab(value);
-    if (value === "journey") setJourneyPeopleOpen(false);
-    if (followGoal && value === "journey" && goal?.tab === "journey" && goal.anchor)
-      setJourneyDetailSaveId(goal.anchor === "world-map" ? null : w.saveId);
-    if (followGoal && value === goal?.tab && goal.anchor)
-      setTimeout(() => {
-        const control = document.getElementById(goal.anchor!);
-        control?.scrollIntoView({ block: "center", behavior: "smooth" });
-        control?.focus({ preventScroll: true });
-      }, 50);
+  const blocked =
+    busy || saveBlocked || !!w.longAction || !!w.pendingDailyEventId || !!w.battle || w.ended;
+  const useTab = (value: string) => {
+    pause();
+    setTab(value === "cultivation" || value === "journal" ? "journey" : value);
   };
   return (
-    <div className="game-shell">
+    <div className="game-shell dojo-shell">
       <Toaster
         position="bottom-right"
         theme="dark"
@@ -549,21 +546,7 @@ export default function Game({ preview = false }: { preview?: boolean }) {
         richColors
         toastOptions={{ className: "game-toast" }}
       />
-      <RetreatSummary
-        world={w}
-        interval={summary}
-        onClose={() => setSummary(null)}
-        onNavigate={(next, anchor) => {
-          setTab(next);
-          if (anchor)
-            requestAnimationFrame(() => {
-              const el = document.getElementById(anchor);
-              el?.focus({ preventScroll: true });
-              el?.scrollIntoView({ block: "start" });
-            });
-        }}
-        onProfile={openProfile}
-      />
+      <RealmCeremony key={w.saveId} world={w} />
       <AlertDialog open={stopConfirm} onOpenChange={setStopConfirm}>
         <AlertDialogContent className="game-modal">
           <AlertDialogHeader>
@@ -584,35 +567,36 @@ export default function Game({ preview = false }: { preview?: boolean }) {
       </AlertDialog>
       <Tabs value={tab} onValueChange={useTab} className="game-tabs">
         <header className="game-header">
-          <button className="wordmark serif" onClick={() => useTab("journey")}>
-            仙途<span>青石人间</span>
-          </button>
+          <CharacterStatus world={w} onProfile={openProfile} />
           <div className="nav-bar">
             <TabsList className="game-nav" variant="line" aria-label="游戏页面">
               {NAV.map((n) => (
-                <TabsTrigger key={n.id} value={n.id} disabled={!!w.battle && n.id !== "journey"}>
+                <TabsTrigger
+                  key={n.id}
+                  value={n.id}
+                  disabled={
+                    (n.id === "people" && !presentationShows(w, "tab.people")) ||
+                    (n.id === "travel" && !presentationShows(w, "travel.local"))
+                  }
+                  title={
+                    (n.id === "people" || n.id === "travel") && !presentationShows(w, "tab.people")
+                      ? "引气入体后开放"
+                      : undefined
+                  }
+                >
                   <n.icon size={17} />
                   {n.name}
                 </TabsTrigger>
               ))}
             </TabsList>
           </div>
-          <div className="game-date">
-            <SunIcon />
-            <span>
-              仙历 {Math.floor(w.day / 360) + 1} 年 <b>第 {w.day + 1} 日</b>
-            </span>
-            <small>
-              {
-                ["初春", "暮春", "初夏", "盛夏", "初秋", "深秋", "初冬", "岁末"][
-                  Math.floor((w.day % 360) / 45)
-                ]
-              }
-            </small>
-          </div>
           <div className="header-tools">
-            <OfflineStatus safe={!busy && !saveBlocked && !w.longAction && !w.battle && !confirm} />
+            <OfflineStatus
+              container={offlineContainer}
+              safe={!busy && !saveBlocked && !w.longAction && !w.battle && !confirm}
+            />
             <span
+              aria-label={busy ? "正在保存" : saveBlocked ? "保存待确认" : "本机已存"}
               className={`saved-state${saveBlocked ? " is-unsaved" : ""}`}
               role="status"
               title="进度只保存在此浏览器、此地址；换浏览器前请导出存档。"
@@ -644,22 +628,7 @@ export default function Game({ preview = false }: { preview?: boolean }) {
           </div>
         </header>
         <div className="game-layout">
-          <CharacterSidebar
-            world={w}
-            goal={goal!}
-            setProfileId={openProfile}
-            useTab={(value) => useTab(value, true)}
-            send={send}
-            act={act}
-            blocked={blocked}
-          />
           <main className="play-area">
-            {game.lastResult && !w.longAction && (
-              <div className="global-result" role="status">
-                <p>{game.lastResult.notice}</p>
-                <small>第 {game.lastResult.day + 1} 日 · 已保存</small>
-              </div>
-            )}
             {error && !settings && (
               <div
                 className={isRuleRefusal(game.errorCode) ? "rule-banner" : "error-banner"}
@@ -698,169 +667,64 @@ export default function Game({ preview = false }: { preview?: boolean }) {
                 )}
               </div>
             )}
-            {lastSummary && !w.longAction && (
-              <div className="recent-action" role="status">
-                <span>
-                  {lastSummary.kind === "wait"
-                    ? "等候"
-                    : lastSummary.kind === "breakthrough"
-                      ? "突破"
-                      : "修炼"}
-                  已结束 · 共 {lastSummary.endDay - lastSummary.startDay} 日
-                </span>
-                <Button variant="ghost" size="sm" onClick={() => setSummary(lastSummary)}>
-                  查看本次结果与见闻
-                </Button>
-              </div>
-            )}
-            {w.ended && (
-              <div className="end-of-life">
-                <h2 className="serif">此生已落笔</h2>
-                <p>
-                  {p.name}这一世已记录 {w.day + 1} 日，结识{" "}
-                  {w.relations.filter((r) => r.to === "PLAYER" && r.known).length}{" "}
-                  位人物。经历仍然保留。
-                </p>
-                <Button variant="outline" onClick={() => setTab("journal")}>
-                  回顾这一世
-                </Button>
-                <Button onClick={() => void download()}>导出存档</Button>
-                <Button variant="outline" onClick={() => setShowCreate(true)}>
-                  再入人间
-                </Button>
-              </div>
-            )}
-            {w.longAction && (
-              <section
-                className="long-action-panel"
-                id="long-action-state"
-                tabIndex={-1}
-                aria-live="polite"
-              >
-                <div className="spread">
-                  <div>
-                    <span className="eyebrow">
-                      {w.longAction.kind === "breakthrough"
-                        ? "气机汇聚"
-                        : w.longAction.kind === "wait"
-                          ? "日月流转"
-                          : "闭关修行"}
-                    </span>
-                    <h3 className="serif">
-                      {game.progress?.completed ?? w.longAction.checkpoint} / {w.longAction.total}{" "}
-                      日
-                    </h3>
-                  </div>
-                  <Wind size={28} className={advancing ? "gentle-spin" : ""} />
-                </div>
-                <Progress
-                  aria-label="时间推进进度"
-                  value={
-                    ((game.progress?.completed ?? w.longAction.checkpoint) / w.longAction.total) *
-                    100
-                  }
-                />
-                <div className="spread">
-                  <p>
-                    {advancing
-                      ? `${w.longAction.kind === "wait" ? "正在等候" : w.longAction.kind === "breakthrough" ? "正在突破" : "正在修炼"}，世界也在继续；可随时暂停。`
-                      : busy
-                        ? "正在暂停，当前一日保存后停止。"
-                        : saveUnconfirmed
-                          ? "保存结果待确认，请重新读取；暂停继续推进。"
-                          : saveBlocked
-                            ? "显示的是上次完整保存的检查点，请先恢复保存。"
-                            : game.advanceResult?.reason === "condition"
-                              ? "因重要变化暂停，可查看本次见闻后继续。"
-                              : "行动已暂停，显示的检查点已完整保存。"}
-                  </p>
-                  <div>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      disabled={
-                        (busy && !advancing) ||
-                        (!advancing && saveBlocked) ||
-                        (!advancing &&
-                          w.longAction.kind === "train" &&
-                          [0, 3, 4].includes(p.realm) &&
-                          p.xp >= threshold(p))
-                      }
-                      onClick={() => (advancing ? pause() : setRunning(true))}
-                    >
-                      {advancing ? <Pause size={14} /> : <Play size={14} />}{" "}
-                      {advancing ? "暂停" : "继续"}
-                    </Button>
-                    {!advancing &&
-                      w.longAction.kind === "train" &&
-                      [0, 3, 4].includes(p.realm) &&
-                      p.xp >= threshold(p) && (
-                        <p className="action-reason">修为已满，结束当前修炼后尝试突破。</p>
-                      )}
-                    {w.longAction.kind !== "breakthrough" && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        disabled={busy || saveBlocked}
-                        onClick={() => {
-                          pause();
-                          setStopConfirm(true);
-                        }}
-                      >
-                        结束当前行动
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              </section>
-            )}
-            <TabsContent value="journey" className="journey-content">
-              {w.battle ? (
-                <BattlePanel
-                  world={w}
-                  send={send}
-                  busy={busy || saveBlocked}
-                  autoRunning={autoRunning}
-                  onProfile={openProfile}
-                  onAuto={async (enabled) => {
-                    pause();
-                    await continuations.run(
-                      () => send({ type: "auto", enabled }),
-                      () => {
-                        if (!document.hidden) setAutoRunning(enabled);
-                      },
-                    );
-                  }}
-                />
-              ) : (
-                <JourneyTab
-                  key={w.saveId}
-                  world={w}
-                  detailOpen={journeyDetailSaveId === w.saveId}
-                  peopleOpen={journeyPeopleOpen}
-                  onPeopleChange={setJourneyPeopleOpen}
-                  onDetailChange={(open) => setJourneyDetailSaveId(open ? w.saveId : null)}
-                  send={send}
-                  act={act}
-                  setTab={setTab}
-                  setProfileId={openProfile}
-                  requestConfirm={requestConfirm}
-                  pause={pause}
-                  blocked={blocked}
-                  goal={goal!}
-                />
-              )}
-            </TabsContent>
-            <TabsContent value="cultivation" forceMount hidden={tab !== "cultivation"}>
-              <CultivationPanel
+            <TabsContent
+              value="journey"
+              forceMount
+              hidden={tab !== "journey"}
+              className="journey-content"
+            >
+              <Dojo
+                profileOpen={!!profileId}
+                key={w.saveId}
                 world={w}
-                send={act}
-                busy={blocked}
-                onStart={() => {}}
-                onNavigate={(next) => {
-                  if (next === "journey") setJourneyDetailSaveId(null);
-                  setTab(next);
+                act={act}
+                send={send}
+                blocked={blocked}
+                busy={busy || saveBlocked}
+                advancing={advancing}
+                onPause={pause}
+                onResume={() => setRunning(true)}
+                onStop={() => {
+                  pause();
+                  setStopConfirm(true);
                 }}
+                onProfile={openProfile}
+                onNavigate={useTab}
+                requestConfirm={requestConfirm}
+                result={game.lastResult}
+                progress={game.progress}
+                choiceBlocked={busy || saveBlocked || w.ended || !!w.battle}
+                summary={lastSummary}
+                battle={
+                  w.battle ? (
+                    <BattlePanel
+                      world={w}
+                      send={send}
+                      busy={busy || saveBlocked}
+                      autoRunning={autoRunning}
+                      onProfile={openProfile}
+                      onAuto={async (enabled) => {
+                        pause();
+                        await continuations.run(
+                          () => send({ type: "auto", enabled }),
+                          () => {
+                            if (!document.hidden) setAutoRunning(enabled);
+                          },
+                        );
+                      }}
+                    />
+                  ) : null
+                }
+                onNew={() => setShowCreate(true)}
+                onExport={() => void download()}
+              />
+            </TabsContent>
+            <TabsContent value="travel">
+              <AtlasPage
+                world={w}
+                send={send}
+                blocked={blocked}
+                onArrive={() => setTab("journey")}
               />
             </TabsContent>
             <TabsContent value="people">
@@ -868,9 +732,6 @@ export default function Game({ preview = false }: { preview?: boolean }) {
             </TabsContent>
             <TabsContent value="inventory">
               <InventoryPanel world={w} send={send} busy={blocked} />
-            </TabsContent>
-            <TabsContent value="journal">
-              <JournalPanel world={w} />
             </TabsContent>
           </main>
         </div>
@@ -935,6 +796,7 @@ export default function Game({ preview = false }: { preview?: boolean }) {
         </DialogContent>
       </Dialog>
       <SettingsDialog
+        offlineRef={setOfflineContainer}
         world={w}
         game={game}
         busy={busy}

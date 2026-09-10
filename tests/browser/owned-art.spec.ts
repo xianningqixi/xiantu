@@ -1,3 +1,6 @@
+import { growTo, finish as finishCurrent, answerDaily } from "./journey-controls";
+import { creationSettings, openMore, selectLocations, dismissPanels } from "./journey-controls";
+import { openPractice } from "./journey-controls";
 import { openCurrentLocation, travelTo } from "./journey-controls";
 import { test, expect, type Page } from "@playwright/test";
 import { mkdirSync, readFileSync } from "node:fs";
@@ -36,6 +39,7 @@ async function create(page: Page, shichai: boolean) {
   await page.goto("/author");
   await expect(page.getByText(/作者预览 · 独立测试存档/)).toBeVisible();
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("图片验收");
+  await creationSettings(page);
   const boxes = page.getByRole("checkbox", { name: shichai ? /青石十钗/ : /周安的归途口信/ });
   expect(await boxes.count()).toBe(shichai ? 0 : 1);
   for (const box of await boxes.all()) await box.check();
@@ -43,9 +47,7 @@ async function create(page: Page, shichai: boolean) {
   await expect(page.getByRole("heading", { name: "图片验收", exact: true })).toBeVisible();
   await saved(page);
   await openCurrentLocation(page);
-  expect(await page.evaluate(() => document.documentElement.scrollHeight <= innerHeight)).toBe(
-    true,
-  );
+  await expect(page.locator(".dojo-primary")).toBeInViewport();
   expect((await world(page)).contentLocks).toHaveLength(shichai ? 4 : 5);
 }
 
@@ -55,20 +57,13 @@ async function act(page: Page, button: import("@playwright/test").Locator) {
   await expect.poll(async () => (await world(page)).revision).toBeGreaterThan(revision);
 }
 async function finishAction(page: Page) {
-  await expect.poll(async () => !!(await world(page)).longAction, { timeout: 60000 }).toBe(false);
-  await saved(page);
-  const summary = page.getByRole("dialog").filter({
-    has: page.getByRole("heading", { name: /^(闭关期间|等候见闻|突破结果)$/ }),
-  });
-  if (await summary.count()) {
-    await page.keyboard.press("Escape");
-    await expect(summary).toHaveCount(0);
-  }
+  await finishCurrent(page);
 }
 async function practice(page: Page, days: number) {
-  await page.getByRole("tab", { name: "修行", exact: true }).click();
-  await page.getByRole("radio", { name: `${days} 日`, exact: true }).check();
-  await act(page, page.getByRole("button", { name: days >= 7 ? /开始闭关/ : /开始修炼/ }));
+  await openPractice(page);
+  await page.getByLabel("停止条件", { exact: true }).selectOption("days");
+  await page.getByLabel("修炼日数", { exact: true }).selectOption(String(days));
+  await act(page, page.getByRole("button", { name: /^开始修炼/ }));
   await finishAction(page);
 }
 
@@ -81,8 +76,10 @@ function errors(page: Page) {
   return found;
 }
 async function travel(page: Page, location: string) {
+  await answerDaily(page);
   await travelTo(page, location);
-  await expect(page.getByRole("heading", { name: location, exact: true, level: 1 })).toBeVisible();
+  await answerDaily(page);
+  await expect(page.locator(".dojo-landscape figcaption")).toContainText(location);
   await saved(page);
 }
 
@@ -93,16 +90,16 @@ test("four-volume growth and main clues unlock local stories and real travel wit
   test.setTimeout(180000);
   page.setDefaultTimeout(15000);
   await create(page, true);
-  await expect(page.locator(".side-story")).toHaveCount(0);
+  await expect(page.locator("[data-story-id]")).toHaveCount(0);
   await page.screenshot({
     animations: "disabled",
     path: path.join(output, "journey-new-game.png"),
   });
   // The same assets are now reached through cultivation and the local introduction.
-  for (let i = 0; i < 4; i++) await act(page, page.locator(".story-choices .story-choice").first());
+  for (let i = 0; i < 4; i++) await act(page, page.locator(".dojo-primary"));
   await practice(page, 7);
   for (let attempt = 0; attempt < 8 && (await world(page)).player.realm === 0; attempt++) {
-    await page.getByRole("tab", { name: "修行", exact: true }).click();
+    await openPractice(page);
     await act(page, page.getByRole("button", { name: /凝神，尝试突破/ }));
     await finishAction(page);
     if ((await world(page)).player.realm === 0) await practice(page, 1);
@@ -110,11 +107,8 @@ test("four-volume growth and main clues unlock local stories and real travel wit
   expect((await world(page)).player.realm).toBeGreaterThanOrEqual(1);
   await page.getByRole("tab", { name: "游历", exact: true }).click();
   await travel(page, "听雨客栈");
-  await act(
-    page,
-    page.locator('[data-story-id="shichai.chunshui.intro"]').locator(".story-choice").first(),
-  );
-  await expect(page.locator(".side-story")).toHaveCount(0);
+  await act(page, page.locator(".dojo-primary"));
+  await expect(page.locator("[data-story-id]")).toHaveCount(0);
   await travel(page, "青石坊市");
   for (
     let day = 0;
@@ -122,7 +116,11 @@ test("four-volume growth and main clues unlock local stories and real travel wit
     day++
   ) {
     await page.waitForTimeout(450);
-    await act(page, page.locator('[data-journey-action="rest"]'));
+    await openMore(page);
+    await act(
+      page,
+      page.getByRole("dialog", { name: "选择更多行动" }).locator('[data-journey-action="rest"]'),
+    );
   }
   const card = page.locator('[data-story-id="shichai.chunshui.suqingyan.meet"]');
   await expect(card).toBeVisible();
@@ -133,16 +131,16 @@ test("four-volume growth and main clues unlock local stories and real travel wit
       .toBe(true);
   expect(await card.locator("img").count()).toBe(2);
   await expect(card).not.toContainText("{{");
-  await expect(card.locator(".side-story-cg img")).toHaveAttribute(
+  await expect(card.locator(".dojo-landscape img")).toHaveAttribute(
     "src",
     /suqingyan-cg-meet-.+\.webp$/,
   );
-  await expect(card.locator(".side-story-portrait img")).toHaveAttribute(
+  await expect(card.locator(".dojo-speaker img")).toHaveAttribute(
     "src",
     /suqingyan-portrait-.+\.webp$/,
   );
   const before = await world(page);
-  await card.locator(".side-story-portrait button").click();
+  await card.locator(".dojo-speaker").click();
   await expect(page.locator('[data-character-id="shichai.chunshui.suqingyan"]')).toBeVisible();
   await expect(page.getByRole("dialog")).toContainText(
     before.npcs.find((a: any) => a.id === "shichai.chunshui.suqingyan").goal,
@@ -164,9 +162,7 @@ test("four-volume growth and main clues unlock local stories and real travel wit
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
       true,
     );
-    expect(await page.evaluate(() => document.documentElement.scrollHeight <= innerHeight)).toBe(
-      true,
-    );
+    await expect(page.locator(".dojo-primary")).toBeInViewport();
     const box = await card.boundingBox();
     expect(box!.x).toBeGreaterThanOrEqual(0);
     expect(box!.x + box!.width).toBeLessThanOrEqual(width);
@@ -180,14 +176,15 @@ test("four-volume growth and main clues unlock local stories and real travel wit
   await expect(card).toBeVisible();
   await saved(page);
   expect(await world(page)).toEqual(before);
-  await card.locator(".story-choice").first().click();
+  await page.locator(".dojo-primary").click();
   await expect.poll(async () => (await world(page)).revision).toBe(before.revision + 1);
   await saved(page);
   const after = await world(page);
   expect(after.contentState["shichai.chunshui.suqingyan.flag.met"]).toBe(true);
   expect(after.revision).toBe(before.revision + 1);
   await page.setViewportSize({ width: 1440, height: 1000 });
-  await page.getByRole("tab", { name: /故人/ }).click();
+  await page.getByRole("tab", { name: "人物", exact: true }).click();
+  await page.getByRole("button", { name: "查看全部人物", exact: true }).click();
   await page.getByRole("searchbox", { name: "搜索姓名", exact: true }).fill("苏清晏");
   const row = page
     .locator(".person-row")
@@ -236,24 +233,34 @@ test("four-volume growth and main clues unlock local stories and real travel wit
   expect(await world(page)).toEqual(after);
   await page.keyboard.press("Escape");
   // All subsequent progression uses visible controls and the real Worker/IndexedDB save.
-  for (let i = 0; i < 5 && (await world(page)).player.realm < 2; i++) await practice(page, 7);
+  await growTo(page, "QI_3");
   expect((await world(page)).player.realm).toBeGreaterThanOrEqual(2);
-  await page.getByRole("tab", { name: "游历", exact: true }).click();
-  for (let i = 0; i < 14 && !(await page.locator(".side-story").count()); i++) {
+  await openCurrentLocation(page);
+  for (let i = 0; i < 14 && !(await page.locator("[data-story-id]").count()); i++) {
     await page.waitForTimeout(450);
-    await act(page, page.locator('[data-journey-action="rest"]'));
+    await openMore(page);
+    await act(
+      page,
+      page.getByRole("dialog", { name: "选择更多行动" }).locator('[data-journey-action="rest"]'),
+    );
   }
-  await act(page, page.locator(".side-story").locator(".story-choice").first());
+  await act(page, page.locator(".dojo-primary"));
   for (let i = 0; i < 8 && (await world(page)).party.length === 1; i++) {
     await page.waitForTimeout(450);
-    await act(page, page.getByRole("button", { name: /^(邀二人同行|约在此处会合|等候同伴)/ }));
+    await openMore(page);
+    await act(
+      page,
+      page
+        .getByRole("dialog", { name: "选择更多行动" })
+        .getByRole("button", { name: /^(邀二人同行|约在此处会合|等候同伴)/ }),
+    );
   }
   expect((await world(page)).party).toHaveLength(3);
   await travel(page, "山门古道");
   // Travel is now available from the on-demand atlas; story evidence gates scenes.
   const routePreview = await world(page);
-  await page.getByRole("button", { name: "地图", exact: true }).click();
-  const atlas = page.getByRole("dialog", { name: "云岚境大地图", exact: true });
+  await selectLocations(page);
+  const atlas = page.locator("#atlas-page");
   await atlas.locator('[data-atlas-place="xiaye"]').click();
   await expect(atlas.locator(".atlas-go")).toBeEnabled();
   await expect(atlas.locator(".atlas-go")).toHaveText("启程前往 · 3 日");
@@ -261,21 +268,21 @@ test("four-volume growth and main clues unlock local stories and real travel wit
     animations: "disabled",
     path: path.join(output, "journey-route-preview.png"),
   });
-  await atlas.getByRole("button", { name: "关闭地图", exact: true }).click();
+  await openCurrentLocation(page);
   expect(await world(page)).toEqual(routePreview);
-  for (
-    let i = 0;
-    i < 8 && (await page.getByRole("button", { name: /三人同行，进入残碑秘境/ }).isDisabled());
-    i++
-  ) {
-    await act(page, page.getByRole("button", { name: /在古道等候一日/ }));
+  for (let i = 0; i < 16 && !(await world(page)).battle; i++) {
+    if ((await world(page)).player.location !== "gate") await travel(page, "山门古道");
+    await act(page, page.locator(".dojo-primary"));
     await finishAction(page);
   }
-  await act(page, page.getByRole("button", { name: /三人同行，进入残碑秘境/ }));
+  expect((await world(page)).battle).toBeTruthy();
+  await openMore(page);
   await page.getByRole("switch", { name: "自动战斗", exact: true }).click();
   await expect.poll(async () => !!(await world(page)).battle, { timeout: 30000 }).toBe(false);
+  await dismissPanels(page);
   expect((await world(page)).loot.grass).toBe(1);
   await act(page, page.getByRole("button", { name: /收好战利品，返回坊市/ }));
+  await page.locator(".dojo-primary").click();
   await act(page, page.getByRole("button", { name: /按约将凝元草交给林晚/ }));
   for (
     let i = 0;
@@ -283,24 +290,26 @@ test("four-volume growth and main clues unlock local stories and real travel wit
     i++
   ) {
     await page.waitForTimeout(450);
-    await act(page, page.locator('[data-journey-action="rest"]'));
+    await openMore(page);
+    await act(
+      page,
+      page.getByRole("dialog", { name: "选择更多行动" }).locator('[data-journey-action="rest"]'),
+    );
   }
-  await act(
-    page,
-    page.locator('[data-main-story-id="main.qingshi.rubbing"]').locator(".story-choice").first(),
-  );
+  await act(page, page.locator(".dojo-primary"));
   await travel(page, "听雨客栈");
   for (let i = 0; i < 2; i++) {
     await page.waitForTimeout(450);
-    await act(page, page.locator('[data-journey-action="rest"]'));
+    await openMore(page);
+    await act(
+      page,
+      page.getByRole("dialog", { name: "选择更多行动" }).locator('[data-journey-action="rest"]'),
+    );
   }
-  await act(
-    page,
-    page.locator('[data-main-story-id="main.qingshi.route"]').locator(".story-choice").first(),
-  );
+  await act(page, page.locator(".dojo-primary"));
   await travel(page, "青石坊市");
   await travel(page, "山门古道");
-  await page.getByRole("button", { name: "地图", exact: true }).click();
+  await selectLocations(page);
   await atlas.locator('[data-atlas-place="xiaye"]').click();
   await expect(atlas.locator(".atlas-go")).toBeEnabled();
   const departureDay = (await world(page)).day;
@@ -312,7 +321,7 @@ test("four-volume growth and main clues unlock local stories and real travel wit
   await travel(page, "临江听潮客栈");
   const summer = page.locator('[data-story-id="shichai.xiaye.intro"]');
   await expect(summer).toBeVisible();
-  await expect(page.locator(".side-story")).toHaveCount(1);
+  await expect(page.locator("[data-story-id]")).toHaveCount(1);
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 900 });
     await expect(page.locator("[data-sonner-toast]")).toHaveCount(0);
@@ -339,14 +348,15 @@ test("roadside-only new game reaches its planned image and keeps original card l
 }) => {
   const issues = errors(page);
   await create(page, false);
-  for (let i = 0; i < 4; i++) await act(page, page.locator(".story-choices .story-choice").first());
+  for (let i = 0; i < 4; i++) await act(page, page.locator(".dojo-primary"));
   await practice(page, 7);
   for (let i = 0; i < 8 && (await world(page)).player.realm === 0; i++) {
-    await page.getByRole("tab", { name: "修行", exact: true }).click();
+    await openPractice(page);
     await act(page, page.getByRole("button", { name: /凝神，尝试突破/ }));
     await finishAction(page);
     if ((await world(page)).player.realm === 0) await practice(page, 1);
   }
+  await growTo(page, "QI_3");
   await page.getByRole("tab", { name: "游历", exact: true }).click();
   await travel(page, "山门古道");
   if (!(await page.locator('[data-story-id="guest.roadside.introduction"]').count())) {
@@ -362,12 +372,13 @@ test("roadside-only new game reaches its planned image and keeps original card l
     await saved(page);
   }
   await expect(intro).toBeVisible();
-  await intro.locator(".story-choice").first().click();
+  await page.locator(".dojo-primary").click();
   await saved(page);
   await travel(page, "青石坊市");
+  await answerDaily(page);
   const market = page.locator('[data-story-id^="guest.roadside.market-"]');
   await expect(market).toBeVisible();
-  await market.locator(".story-choice").first().click();
+  await page.locator(".dojo-primary").click();
   await saved(page);
   await travel(page, "山门古道");
   const card = page.locator('[data-story-id^="guest.roadside.return-with-"]');
@@ -382,7 +393,7 @@ test("roadside-only new game reaches its planned image and keeps original card l
   await expect(card).toBeVisible();
   await expect(card.locator(".image-fallback")).toContainText("待绘插图");
   await expect(card.locator(".side-story-portrait")).toHaveCount(0);
-  expect(await card.locator("img").count()).toBe(0);
+  expect(await card.locator(".dojo-landscape img").count()).toBe(0);
   const before = await world(page);
   await card.scrollIntoViewIfNeeded();
   await card.screenshot({
@@ -397,7 +408,7 @@ test("roadside-only new game reaches its planned image and keeps original card l
     path: path.join(output, "roadside-planned-mobile.png"),
   });
   expect(await world(page)).toEqual(before);
-  await card.locator(".story-choice").first().click();
+  await page.locator(".dojo-primary").click();
   await saved(page);
   expect((await world(page)).contentState["guest.roadside.closed"]).toBe(true);
   expect(issues).toEqual([]);

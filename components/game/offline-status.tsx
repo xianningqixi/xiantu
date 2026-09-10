@@ -1,11 +1,18 @@
 "use client";
+import { createPortal } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
 type InstallEvent = Event & {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: string }>;
 };
-export function OfflineStatus({ safe }: { safe: boolean }) {
+export function OfflineStatus({
+  safe,
+  container,
+}: {
+  safe: boolean;
+  container?: HTMLElement | null;
+}) {
   const [online, setOnline] = useState(true);
   const [blockedMessage, setBlockedMessage] = useState("");
   useEffect(() => {
@@ -116,7 +123,7 @@ export function OfflineStatus({ safe }: { safe: boolean }) {
     registration.current.waiting.postMessage({ type: "REQUEST_ACTIVATE" });
   };
   if (online && !status && !install && !update) return null;
-  return (
+  const content = (
     <aside className="offline-status" aria-label="离线与安装">
       <span role="status">{online ? status : "当前离线 · 固定剧情可玩，AI 与生图需联网"}</span>
       {install && (
@@ -152,4 +159,5 @@ export function OfflineStatus({ safe }: { safe: boolean }) {
       )}
     </aside>
   );
+  return container === undefined ? content : container ? createPortal(content, container) : null;
 }

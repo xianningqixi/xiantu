@@ -36,12 +36,13 @@ assert.deepEqual(Object.keys(callbacks).sort(), ["act", "onAuto", "pause"]);
 
 // Test the actual application callbacks with controlled message completion.
 // This verifies async ordering, not React rendering, DOM clicks, or browser visibility events.
-function environment() {
+function environment(w = null) {
   const state = { auto: false, running: false, tab: "cultivation" };
   const document = { hidden: false };
   const requests = [];
   const context = vm.createContext({
     document,
+    w,
     useCallback: (fn) => fn,
     game: { pauseAdvance: () => {} },
     continuations: createContinuationGuard(),
@@ -137,4 +138,21 @@ test("a fresh explicit long-action request can resume after an earlier pause", a
   await pending;
   assert.equal(e.state.running, true);
   assert.equal(e.state.tab, "cultivation");
+});
+
+test("only the saved pending choice resumes its long action after a successful current acknowledgement", async () => {
+  for (const paused of [false, true]) {
+    const e = environment({ pendingDailyEventId: "daily.test", longAction: { id: "same-action" } });
+    const pending = e.act({ type: "choose", nodeId: "daily.test", choiceId: "decline" });
+    assert.equal(e.state.running, false);
+    if (paused) e.pause();
+    e.requests.shift().resolve(true);
+    await pending;
+    assert.equal(e.state.running, !paused);
+  }
+  const e = environment({ pendingDailyEventId: "daily.test", longAction: { id: "same-action" } });
+  const other = e.act({ type: "choose", nodeId: "story.other", choiceId: "reply" });
+  e.requests.shift().resolve(true);
+  await other;
+  assert.equal(e.state.running, false);
 });

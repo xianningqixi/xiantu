@@ -1,80 +1,66 @@
 "use client";
 import { useState } from "react";
-import { Map, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { LOCATIONS } from "@/lib/game/world-map";
+import { LOCATIONS, localSite, travelRoute } from "@/lib/game/world-map";
+import { relation } from "@/lib/game/relationships";
+import { B } from "@/lib/game/rules";
 import type { World } from "@/lib/game/types";
 import { AtlasMap } from "./atlas-map";
 import type { Send } from "./panels";
-
-export function AtlasDialog({
+/** The former atlas dialog is now the travel page, including local town destinations. */
+export function AtlasPage({
   world,
   send,
   blocked,
+  onArrive,
 }: {
   world: World;
   send: Send;
   blocked: boolean;
+  onArrive: () => void;
 }) {
-  const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
+  const travel: Send = async (command) => {
+    setError("");
+    const saved = await send(command);
+    if (saved) onArrive();
+    else setError("启程未完成，请检查当前行动状态后重试。");
+    return saved;
+  };
   return (
-    <Dialog
-      open={open}
-      onOpenChange={(value) => {
-        setOpen(value);
-        setError("");
-      }}
-    >
-      <DialogTrigger asChild>
-        <Button variant="outline" className="map-open-button">
-          <Map data-icon="inline-start" />
-          地图
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="atlas-dialog" showCloseButton={false}>
-        <div className="atlas-dialog-heading">
-          <DialogHeader>
-            <DialogTitle className="serif">云岚境大地图</DialogTitle>
-            <DialogDescription>
-              第 {world.day + 1} 日 · 当前在{LOCATIONS[world.player.location].name}
-            </DialogDescription>
-          </DialogHeader>
-          <DialogClose asChild>
-            <Button size="icon" variant="ghost" aria-label="关闭地图">
-              <X />
-            </Button>
-          </DialogClose>
-        </div>
-        <div className="atlas-dialog-body">
-          <AtlasMap
-            key={world.player.location}
-            world={world}
-            blocked={blocked}
-            send={async (command) => {
-              setError("");
-              const saved = await send(command);
-              if (saved) setOpen(false);
-              else setError("启程未完成，请检查当前行动状态后重试。");
-              return saved;
-            }}
-          />
-          {error && (
-            <p className="portrait-error" role="alert">
-              {error}
-            </p>
-          )}
-        </div>
-      </DialogContent>
-    </Dialog>
+    <section className="atlas-page" id="atlas-page">
+      <header className="section-heading">
+        <h1 className="serif">选择去处</h1>
+        <p>
+          当前在{LOCATIONS[world.player.location].name} · 第 {world.day + 1} 日
+        </p>
+      </header>
+      <div className="local-destinations" aria-label="同城往来">
+        {(["market", "inn", "gate"] as const).map((kind) => {
+          const to = localSite(world.player.location, kind),
+            route = travelRoute(world.player.location, to, world);
+          const count = world.npcs.filter(
+            (a) => a.alive && !a.npcJourney && a.location === to && relation(world, a.id)?.known,
+          ).length;
+          return (
+            <div key={kind}>
+              <Button
+                data-travel-to={to}
+                variant="outline"
+                disabled={blocked || world.player.location === to || !route}
+                onClick={() => void travel({ type: "travel", to })}
+              >
+                {world.player.location === to ? "驻足" : "前往"}
+                {LOCATIONS[to].name}
+                {world.player.location !== to && ` · ${route?.days ?? 0} 日`}
+              </Button>
+              <small>已结识 {count} 人在此</small>
+            </div>
+          );
+        })}
+      </div>
+      <AtlasMap key={world.player.location} world={world} send={travel} blocked={blocked} />
+      {error && <p role="alert">{error}</p>}
+    </section>
   );
 }

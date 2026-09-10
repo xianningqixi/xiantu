@@ -1,4 +1,6 @@
 "use client";
+import { relationshipStage } from "@/lib/ui/relationship-stage";
+import { RelationshipStage } from "./relationship-stage";
 import {
   Dialog,
   DialogContent,
@@ -138,451 +140,9 @@ export function Meter({
     </div>
   );
 }
-export function CultivationPanel({
-  world: w,
-  send,
-  busy,
-  onStart,
-  onNavigate,
-}: {
-  world: World;
-  send: Send;
-  busy: boolean;
-  onStart: () => void;
-  onNavigate?: (tab: string) => void;
-}) {
-  const [days, setDays] = useState("7");
-  const [stopMode, setStopMode] = useState("days");
-  const [stone, setStone] = useState(false);
-  const [pill, setPill] = useState(false);
-  const [guardian, setGuardian] = useState(false);
-  const p = w.player;
-  const preview = trainingPreview(w, { days: Number(days), mode: stopMode, stone });
-  const attempt = advanceRule(p);
-  const can = p.xp >= threshold(p) && (p.realm === 0 || p.realm === 3);
-  const lin = w.npcs.find((a) => a.id === PACK.roles.primary)!;
-  const rel = relation(w, lin.id);
-  const guardChecks = [
-    { ok: lin.alive, text: "在世" },
-    { ok: !lin.attempt, text: "未在突破" },
-    { ok: lin.location === p.location, text: `同一地点（她在${LOCATIONS[lin.location].name}）` },
-    { ok: lin.realm >= p.realm, text: `境界不低于你（${REALMS[lin.realm]}）` },
-    {
-      ok: (rel?.trust || 0) >= B.cultivation.breakthrough.guardianMinimumTrust,
-      text: `信任 ${rel?.trust ?? 0}/${B.cultivation.breakthrough.guardianMinimumTrust}`,
-    },
-    {
-      ok: (rel?.favor || 0) >= B.cultivation.breakthrough.guardianMinimumFavorability,
-      text: `好感 ${rel?.favor ?? 0}/${B.cultivation.breakthrough.guardianMinimumFavorability}`,
-    },
-  ];
-  const guardPossible = guardChecks.every((c) => c.ok);
-  const act = async (c: Command) => {
-    if (await send(c)) onStart();
-  };
-  return (
-    <section className="panel-section cultivation-panel">
-      <div className="section-heading">
-        <span className="eyebrow">道途 · 一呼一吸</span>
-        <h2 className="serif">静心修行</h2>
-        <p>你在修炼时，故人也在各自的人生里前行。</p>
-      </div>
-      <div className="cultivation-summary">
-        <div className="realm-glyph" aria-hidden="true">
-          {p.realm === 0 ? <Sprout /> : <Sparkles />}
-        </div>
-        <div>
-          <small>当前境界</small>
-          <h3 className="serif">{REALMS[p.realm]}</h3>
-          <p>
-            {p.realm === 4
-              ? "筑基已成，青石篇的道途告一段落。"
-              : p.realm === 0
-                ? "感知天地灵气，迈出入道的第一步。"
-                : "小层圆满时自动晋升，大境界需要尝试突破。"}
-          </p>
-        </div>
-      </div>
-      {p.realm === 4 && (
-        <section className="cultivation-complete" aria-label="筑基之后">
-          <h3>筑基已成 · 这一程修行已圆满</h3>
-          <p>本版修为上限已达成。主线调查、宗门往来与故人的故事仍可继续。</p>
-          <div className="modal-actions">
-            <Button onClick={() => onNavigate?.("journey")}>回到地图继续探索</Button>
-            <Button variant="outline" onClick={() => onNavigate?.("people")}>
-              回访故人
-            </Button>
-          </div>
-        </section>
-      )}
-      <Meter label="修为" value={p.xp} max={threshold(p)} />
-      {!p.manual ? (
-        <div className="quiet-callout">
-          <BookOpen />
-          <div>
-            <h3>先寻一册入门经书</h3>
-            <p>听雨客栈为初学者备有《基础吐纳诀》，免费领取即可修炼。</p>
-            <Button
-              onClick={() => act({ type: "learn" })}
-              disabled={busy || locationKind(p.location) !== "inn"}
-            >
-              领取并学习{locationKind(p.location) !== "inn" ? " · 请到客栈" : ""}
-              <TimeBadge world={w} command={{ type: "learn" }} />
-            </Button>
-          </div>
-        </div>
-      ) : (
-        <>
-          <div className="practice-card">
-            <div className="spread">
-              <h3>
-                <Wind size={18} /> 基础吐纳诀
-              </h3>
-              <span className="subtle">每日 +{gainPerDay(w, p, stone)} 修为</span>
-            </div>
-            <label className="switch-row">
-              <span>
-                以灵石辅助修炼{" "}
-                <small>
-                  额外 +{STONE_METHOD.additionalExperiencePerDay} 修为／日，每日消耗{" "}
-                  {STONE_METHOD.costSpiritStonesPerDay} 灵石
-                </small>
-              </span>
-              <Switch checked={stone} onCheckedChange={setStone} disabled={busy} />
-            </label>
-            <label className="field-label">
-              推进方式
-              <select
-                aria-label="推进方式"
-                value={stopMode}
-                onChange={(e) => setStopMode(e.target.value)}
-              >
-                <option value="days">按选定日数</option>
-                <option value="ready">修炼至圆满（最多 30 日）</option>
-                <option value="important">有重要事件时暂停</option>
-              </select>
-            </label>
-            {stopMode !== "ready" && (
-              <RadioGroup value={days} onValueChange={setDays} className="day-options">
-                {[1, 3, 7, 30].map((d) => (
-                  <label key={d} className={Number(days) === d ? "selected" : ""}>
-                    <RadioGroupItem value={String(d)} />
-                    {d} 日
-                  </label>
-                ))}
-              </RadioGroup>
-            )}
-            <p className="action-preview">
-              最多 {preview.maxDays} 日 · {preview.stopLabel}。
-              {preview.readyAfter > 0 && p.realm < 4 && (
-                <> 按当前修炼速度约第 {preview.readyAfter} 日圆满。</>
-              )}
-              {stone
-                ? ` 需备足 ${preview.stoneBudget} 灵石，按实际日数扣除，提前结束不扣剩余日数。`
-                : " 无灵石消耗。"}
-            </p>
-            {preview.reason && (
-              <p className="action-reason" id="practice-reason">
-                {preview.reason}
-              </p>
-            )}
-            <Button
-              disabled={busy || !!preview.reason}
-              id="practice-start"
-              aria-describedby="practice-reason"
-              className="wide-button guide-target"
-              onClick={() => act(preview.command)}
-            >
-              <Moon size={17} /> {preview.maxDays >= 7 ? "开始闭关" : "开始修炼"}
-              <span>
-                最多 {preview.maxDays} 日
-                {stone ? ` · 备足 ${preview.stoneBudget} 灵石` : " · 无灵石消耗"}
-              </span>
-            </Button>
-          </div>
-          <div className="breakthrough-card" id="breakthrough-preparation" tabIndex={-1}>
-            <div className="spread">
-              <h3>
-                <Sparkles size={18} /> {p.realm === 0 ? "引气入体" : "尝试筑基"}
-              </h3>
-              <span className="chance">
-                {p.realm < 4
-                  ? `${breakthroughChance(w, p, pill && p.realm === 3 && p.pills > 0, guardian && p.realm === 3 && guardPossible) / 100}%`
-                  : "已达成"}
-              </span>
-            </div>
-            <p>
-              {p.realm === 4
-                ? "筑基已成。本版没有更高境界的突破，可回到地图继续调查、拜访宗门和故人。"
-                : `突破耗时 ${attempt.days} 日；失败不致命。普通失败损失 ${attempt.failureExperienceLossBp / 100}% 修为${p.realm === 3 ? `，失败时有 ${attempt.severeFailureConditionalBp / 100}% 概率跌落一层` : ""}。`}
-            </p>
-            {!can && p.realm < 4 && (
-              <p className="action-reason">
-                {[1, 2].includes(p.realm)
-                  ? "炼气小层修满会自动晋升，修至三层圆满后再尝试筑基。"
-                  : `还需 ${Math.max(0, threshold(p) - p.xp)} 修为。`}
-              </p>
-            )}
-            {p.realm === 3 && (
-              <>
-                <label className="switch-row">
-                  <span>
-                    服用突破丹{" "}
-                    <small>
-                      成功率 +{B.cultivation.breakthrough.pillBonusBp / 100}%，当前 {p.pills} 枚
-                    </small>
-                  </span>
-                  <Switch
-                    checked={pill && p.pills > 0}
-                    onCheckedChange={setPill}
-                    disabled={busy || !p.pills}
-                  />
-                </label>
-                {!p.pills && (
-                  <div className="preparation-source">
-                    <p>
-                      突破丹可在坊市购买（{SHOP_ITEMS.pills.price} 灵石），或用{" "}
-                      {B.economy.pillExchange.inputQuantity} 株凝元草与{" "}
-                      {B.economy.pillExchange.spiritStoneCost} 灵石兑换。
-                    </p>
-                    <Button variant="ghost" size="sm" onClick={() => onNavigate?.("inventory")}>
-                      查看丹药与兑换
-                    </Button>
-                    {locationKind(p.location) !== "market" && (
-                      <Button variant="ghost" size="sm" onClick={() => onNavigate?.("journey")}>
-                        查看地图，前往坊市
-                      </Button>
-                    )}
-                  </div>
-                )}
-                <label className="switch-row">
-                  <span>
-                    邀请{lin.name}护法{" "}
-                    <small>
-                      {guardPossible
-                        ? `成功率 +${B.cultivation.breakthrough.guardianBonusBp / 100}%，她会为你守护 ${attempt.days} 日。`
-                        : "还需满足下列护法条件。"}
-                    </small>
-                  </span>
-                  <Switch
-                    checked={guardian && guardPossible}
-                    onCheckedChange={setGuardian}
-                    disabled={busy || !guardPossible}
-                  />
-                </label>
-                <div className="guardian-checks" aria-label="护法条件">
-                  {guardChecks.map((check) => (
-                    <span key={check.text}>
-                      {check.ok ? "✓" : "未满足："} {check.text}
-                    </span>
-                  ))}
-                </div>
-              </>
-            )}
-            <Button
-              variant="outline"
-              className="wide-button"
-              disabled={busy || !can || !!w.longAction || !!w.battle || p.location === "ruins"}
-              onClick={() =>
-                act({
-                  type: "breakthrough",
-                  usePill: p.realm === 3 && pill && p.pills > 0,
-                  guardian: p.realm === 3 && guardian && guardPossible,
-                })
-              }
-            >
-              {can ? "凝神，尝试突破" : p.realm === 4 ? "筑基已成" : "尚需积累修为"}
-
-              <TimeBadge
-                world={w}
-                command={{
-                  type: "breakthrough",
-                  usePill: p.realm === 3 && pill && p.pills > 0,
-                  guardian: p.realm === 3 && guardian && guardPossible,
-                }}
-              />
-            </Button>
-          </div>
-        </>
-      )}
-      <div className="routine-row">
-        <Button
-          variant="outline"
-          disabled={busy || p.location === "ruins"}
-          onClick={() => send({ type: "rest" })}
-        >
-          <Heart size={16} /> 歇息一日
-          <TimeBadge world={w} command={{ type: "rest" }} />
-        </Button>
-        <Button
-          variant="outline"
-          disabled={busy || p.location === "ruins"}
-          onClick={() => act({ type: "wait", days: 3 })}
-        >
-          <Sun size={16} /> 等候三日
-          <TimeBadge world={w} command={{ type: "wait", days: 3 }} />
-        </Button>
-      </div>
-    </section>
-  );
-}
-export function InventoryPanel({
-  world: w,
-  send,
-  busy,
-}: {
-  world: World;
-  send: Send;
-  busy: boolean;
-}) {
-  const p = w.player;
-  const artifact = ARTIFACTS.find((a) => a.id === w.profile.artifact)!;
-  const icons = { healing: Heart, pills: Sparkles, grass: Leaf };
-  const items = (Object.keys(SHOP_ITEMS) as (keyof typeof SHOP_ITEMS)[]).map((id) => ({
-    id,
-    ...SHOP_ITEMS[id],
-    qty: p[id],
-    icon: icons[id],
-  }));
-  return (
-    <section className="panel-section">
-      <div className="section-heading">
-        <span className="eyebrow">行囊 · 山长水远</span>
-        <h2 className="serif">随身之物</h2>
-        <p>些许身外物，陪你走过此间山河。</p>
-      </div>
-      <div className="wealth">
-        <Coins size={24} />
-        <span>灵石</span>
-        <strong>{p.stones}</strong>
-        <small>枚</small>
-      </div>
-      <h3 className="list-heading">已拥有的物品</h3>
-      <div className="inventory-grid">
-        <article className="inventory-item">
-          <img
-            className="item-icon artifact-art"
-            src={`/artifacts/${artifact.id}.svg`}
-            alt=""
-            width={36}
-            height={36}
-          />
-          <div>
-            <small>伴生法宝</small>
-            <h3>{artifact.name}</h3>
-            <p>{artifact.description}</p>
-          </div>
-          <span className="item-count">唯一</span>
-        </article>
-        <article className="inventory-item">
-          <BookOpen className="item-icon" />
-          <div>
-            <small>功法</small>
-            <h3>基础吐纳诀</h3>
-            <p>{p.manual ? "已学会，永远记在心中。" : "尚未习得，可前往客栈领取。"}</p>
-          </div>
-          <span className="item-count">{p.manual ? "已习得" : "未习得"}</span>
-        </article>
-        {items
-          .filter((item) => item.qty > 0)
-          .map((item) => (
-            <article className="inventory-item" key={item.id}>
-              <item.icon className="item-icon" />
-              <div>
-                <h3>{item.name}</h3>
-                <p>{item.description}</p>
-                {item.id === "healing" && p.hp >= stats(p).maxHp && (
-                  <small>气血已满，无需服用。</small>
-                )}
-                {item.id === "healing" && item.qty > 0 && (
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    disabled={busy || p.hp >= stats(p).maxHp || !!w.battle || !!w.longAction}
-                    onClick={() => send({ type: "heal" })}
-                  >
-                    服用一枚
-                    <TimeBadge world={w} command={{ type: "heal" }} />
-                  </Button>
-                )}
-              </div>
-              <span className="item-count">× {item.qty}</span>
-            </article>
-          ))}
-      </div>
-      <div className="section-heading compact">
-        <h3 className="serif">坊市药铺 · 可购买</h3>
-        <p>
-          {locationKind(p.location) === "market"
-            ? "明码标价，童叟无欺。"
-            : "来到当地坊市后，可以向药师购买。"}
-        </p>
-      </div>
-      <div className="shop-list">
-        {items.map((item) => (
-          <div className="shop-row" key={item.id}>
-            <item.icon size={19} />
-            <div>
-              <strong>
-                {item.name} · 已有 {item.qty}
-              </strong>
-              <small data-shop-item={item.id} data-price={item.price}>
-                {item.price} 灵石／份
-              </small>
-              {locationKind(p.location) !== "market" ? (
-                <small>需到坊市购买</small>
-              ) : (
-                p.stones < item.price && <small>还缺 {item.price - p.stones} 灵石</small>
-              )}
-            </div>
-            <Button
-              variant="outline"
-              size="sm"
-              disabled={
-                busy ||
-                locationKind(p.location) !== "market" ||
-                p.stones < item.price ||
-                !!w.longAction ||
-                !!w.battle
-              }
-              onClick={() => send({ type: "buy", item: item.id })}
-            >
-              购买{item.name}
-              <TimeBadge world={w} command={{ type: "buy", item: item.id }} />
-            </Button>
-          </div>
-        ))}
-      </div>
-      <p className="action-reason">
-        {locationKind(p.location) !== "market"
-          ? "来到坊市后可兑换突破丹。"
-          : !p.grass
-            ? "兑换还需一株凝元草。"
-            : p.stones < B.economy.pillExchange.spiritStoneCost
-              ? `兑换还缺 ${B.economy.pillExchange.spiritStoneCost - p.stones} 灵石。`
-              : "凝元草可用于突破丹，也可能用于履行同行约定。"}
-      </p>
-      <Button
-        className="exchange-button"
-        variant="ghost"
-        disabled={
-          busy ||
-          locationKind(p.location) !== "market" ||
-          !p.grass ||
-          p.stones < B.economy.pillExchange.spiritStoneCost ||
-          !!w.longAction ||
-          !!w.battle
-        }
-        onClick={() => send({ type: "exchange" })}
-      >
-        凝元草 ×{B.economy.pillExchange.inputQuantity} ＋ 灵石 ×
-        {B.economy.pillExchange.spiritStoneCost} → 突破丹 ×{B.economy.pillExchange.outputQuantity}
-        <TimeBadge world={w} command={{ type: "exchange" }} />
-      </Button>
-    </section>
-  );
-}
+export { InventoryPanel } from "./inventory-panel";
 export function PeoplePanel({ world: w, onProfile }: { world: World; onProfile: OpenProfile }) {
+  const [all, setAll] = useState(false);
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<PeopleFilter>("nearby");
   const [sort, setSort] = useState("present");
@@ -598,7 +158,7 @@ export function PeoplePanel({ world: w, onProfile }: { world: World; onProfile: 
       <NpcPortrait world={w} actor={a} className="person-avatar" />
       <div>
         <h3>
-          {a.name}
+          {all || relation(w, a.id)?.known || w.party.includes(a.id) ? a.name : "尚未相识"}
           <small>{REALMS[a.realm]}</small>
         </h3>
         <p>
@@ -613,95 +173,133 @@ export function PeoplePanel({ world: w, onProfile }: { world: World; onProfile: 
                   : "尚未相识"}
         </p>
       </div>
-      <span className="relationship-tag">
-        {relationshipDisplay(w, "PLAYER", a.id).label} · 资料 →
-      </span>
+      <RelationshipStage world={w} id={a.id} />
     </button>
   );
   return (
     <section className="panel-section">
       <div className="section-heading">
-        <span className="eyebrow">故人 · 一面一缘</span>
-        <h2 className="serif">相逢的人</h2>
-        <p>有人萍水相逢，有人会成为你这一世的牵挂。</p>
+        <h2 className="serif">查看人物</h2>
+        <p>已结识 {peopleRows(w, "", "known", "present").length} 人</p>
       </div>
-      <div className="people-controls">
-        <label>
-          搜索姓名
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              setPage(0);
-            }}
-            placeholder="搜索可见人物"
-          />
-        </label>
-        <label>
-          人物范围
-          <select
-            value={filter}
-            onChange={(e) => {
-              setFilter(e.target.value as PeopleFilter);
-              setPage(0);
-            }}
-          >
-            <option value="nearby">已结识与此地可结识</option>
-            <option value="known">已结识</option>
-            <option value="present">在场</option>
-            <option value="region">同城</option>
-            <option value="agreement">有约定</option>
-          </select>
-        </label>
-        <label>
-          排序
-          <select
-            value={sort}
-            onChange={(e) => {
-              setSort(e.target.value);
-              setPage(0);
-            }}
-          >
-            <option value="present">在场优先</option>
-            <option value="recent">最近共同经历</option>
-            <option value="name">姓名</option>
-          </select>
-        </label>
-      </div>
-      <div className="list-pagination">
-        <span>
-          共 {people.length} 人 · 第 {currentPage + 1} /{" "}
-          {Math.max(1, Math.ceil(people.length / 24))} 页
-        </span>
-        <Button variant="ghost" disabled={!currentPage} onClick={() => setPage(currentPage - 1)}>
-          上一页
-        </Button>
-        <Button
-          variant="ghost"
-          disabled={(currentPage + 1) * 24 >= people.length}
-          onClick={() => setPage(currentPage + 1)}
-        >
-          下一页
-        </Button>
-      </div>
-      <div className="people-grid">
-        {people.slice(currentPage * 24, (currentPage + 1) * 24).map(row)}
-      </div>
-      {!people.length && (
-        <div className="empty-copy">
-          <p>当前筛选没有匹配人物。</p>
-          <Button
-            variant="outline"
-            onClick={() => {
-              setQuery("");
-              setFilter("nearby");
-              setPage(0);
-            }}
-          >
-            清除筛选
+      {!all ? (
+        <>
+          {[
+            { title: "同行之人", rows: w.npcs.filter((a) => w.party.includes(a.id)) },
+            {
+              title: "已结识",
+              rows: peopleRows(w, "", "known", "present")
+                .filter((a) => !w.party.includes(a.id))
+                .sort((a, b) => relationshipStage(w, b.id).step - relationshipStage(w, a.id).step)
+                .slice(0, 6),
+            },
+            {
+              title: "此地在场",
+              rows: peopleRows(w, "", "present", "present")
+                .filter((a) => !relation(w, a.id)?.known && !w.party.includes(a.id))
+                .slice(0, 6),
+            },
+          ].map((group) => (
+            <section className="people-group" key={group.title}>
+              <h3 className="serif">{group.title}</h3>
+              <div className="people-grid">{group.rows.map(row)}</div>
+              {!group.rows.length && <p className="subtle">暂无记录</p>}
+            </section>
+          ))}
+          <Button variant="outline" onClick={() => setAll(true)}>
+            查看全部人物
           </Button>
-        </div>
+        </>
+      ) : (
+        <>
+          <Button variant="ghost" onClick={() => setAll(false)}>
+            返回人物概览
+          </Button>
+          <div className="people-controls">
+            <label>
+              搜索姓名
+              <input
+                type="search"
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setPage(0);
+                }}
+                placeholder="搜索可见人物"
+              />
+            </label>
+            <label>
+              人物范围
+              <select
+                aria-label="人物范围"
+                value={filter}
+                onChange={(e) => {
+                  setFilter(e.target.value as PeopleFilter);
+                  setPage(0);
+                }}
+              >
+                <option value="nearby">已结识与此地可结识</option>
+                <option value="known">已结识</option>
+                <option value="present">在场</option>
+                <option value="region">同城</option>
+                <option value="agreement">有约定</option>
+              </select>
+            </label>
+            <label>
+              排序
+              <select
+                aria-label="排序"
+                value={sort}
+                onChange={(e) => {
+                  setSort(e.target.value);
+                  setPage(0);
+                }}
+              >
+                <option value="present">在场优先</option>
+                <option value="recent">最近共同经历</option>
+                <option value="name">姓名</option>
+              </select>
+            </label>
+          </div>
+          <div className="list-pagination">
+            <span>
+              共 {people.length} 人 · 第 {currentPage + 1} /{" "}
+              {Math.max(1, Math.ceil(people.length / 24))} 页
+            </span>
+            <Button
+              variant="ghost"
+              disabled={!currentPage}
+              onClick={() => setPage(currentPage - 1)}
+            >
+              上一页
+            </Button>
+            <Button
+              variant="ghost"
+              disabled={(currentPage + 1) * 24 >= people.length}
+              onClick={() => setPage(currentPage + 1)}
+            >
+              下一页
+            </Button>
+          </div>
+          <div className="people-grid">
+            {people.slice(currentPage * 24, (currentPage + 1) * 24).map(row)}
+          </div>
+          {!people.length && (
+            <div className="empty-copy">
+              <p>当前筛选没有匹配人物。</p>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setQuery("");
+                  setFilter("nearby");
+                  setPage(0);
+                }}
+              >
+                清除筛选
+              </Button>
+            </div>
+          )}
+        </>
       )}
     </section>
   );

@@ -1,0 +1,138 @@
+{
+  "browser": "152.0.7977.83",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "setup": "Controlled valid scenario fixtures, actual UI commands through production Worker; not a new-player timing run",
+  "results": [
+    {
+      "key": "MORTAL",
+      "kind": "mortal-entry",
+      "target": "QI_1",
+      "days": 1,
+      "overflow": 5,
+      "insight": 0,
+      "alive": true
+    },
+    {
+      "key": "QI_1",
+      "kind": "minor",
+      "target": "QI_2",
+      "days": 0,
+      "overflow": 5,
+      "insight": 3,
+      "alive": true
+    },
+    {
+      "key": "QI_2",
+      "kind": "minor",
+      "target": "QI_3",
+      "days": 0,
+      "overflow": 5,
+      "insight": 3,
+      "alive": true
+    },
+    {
+      "key": "QI_3",
+      "kind": "bottleneck",
+      "target": "QI_4",
+      "days": 1,
+      "overflow": 5,
+      "insight": 0,
+      "alive": true
+    },
+    {
+      "key": "QI_4",
+      "kind": "minor",
+      "target": "QI_5",
+      "days": 0,
+      "overflow": 5,
+      "insight": 3,
+      "alive": true
+    },
+    {
+      "key": "QI_5",
+      "kind": "minor",
+      "target": "QI_6",
+      "days": 0,
+      "overflow": 5,
+      "insight": 3,
+      "alive": true
+    },
+    {
+      "key": "QI_6",
+      "kind": "bottleneck",
+      "target": "QI_7",
+      "days": 1,
+      "overflow": 5,
+      "insight": 0,
+      "alive": true
+    },
+    {
+      "key": "QI_7",
+      "kind": "minor",
+      "target": "QI_8",
+      "days": 0,
+      "overflow": 5,
+      "insight": 3,
+      "alive": true
+    },
+    {
+      "key": "QI_8",
+      "kind": "minor",
+      "target": "QI_9",
+      "days": 0,
+      "overflow": 5,
+      "insight": 3,
+      "alive": true
+    },
+    {
+      "key": "QI_9",
+      "kind": "major",
+      "target": "FOUNDATION_1",
+      "days": 3,
+      "overflow": 5,
+      "insight": 0,
+      "alive": true
+    },
+    {
+      "key": "FOUNDATION_1",
+      "kind": "bottleneck",
+      "target": "FOUNDATION_2",
+      "days": 1,
+      "overflow": 5,
+      "insight": 0,
+      "alive": true
+    },
+    {
+      "key": "FOUNDATION_2",
+      "kind": "bottleneck",
+      "target": "FOUNDATION_3",
+      "days": 1,
+      "overflow": 5,
+      "insight": 0,
+      "alive": true
+    },
+    {
+      "key": "FOUNDATION_3",
+      "kind": "cap",
+      "capBlocked": true,
+      "readOnly": true
+    },
+    {
+      "outcome": "ordinary",
+      "from": 9,
+      "to": 9,
+      "xp": 339,
+      "alive": true
+    },
+    {
+      "outcome": "setback",
+      "from": 9,
+      "to": 8,
+      "xp": 0,
+      "alive": true
+    }
+  ]
+}

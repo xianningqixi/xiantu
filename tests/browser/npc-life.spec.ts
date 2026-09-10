@@ -1,3 +1,6 @@
+import { growTo, finish, answerDaily } from "./journey-controls";
+import { openMore, selectLocations } from "./journey-controls";
+import { openPractice } from "./journey-controls";
 import { test, expect, type Page, type Locator } from "@playwright/test";
 import { mkdirSync, writeFileSync, readFileSync } from "node:fs";
 import { openCurrentLocation } from "./journey-controls";
@@ -43,18 +46,21 @@ test("elapsed time develops autonomous NPC friendships and sect lives, shown in 
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("行路观世");
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
   await openCurrentLocation(page);
-  for (let i = 0; i < 4; i++) await act(page, page.locator(".story-choices .story-choice").first());
+  for (let i = 0; i < 4; i++) await act(page, page.locator(".dojo-primary"));
+  await growTo(page, "QI_3");
   const before = await saved(page);
-  await page.getByRole("tab", { name: "修行", exact: true }).click();
-  await page.getByRole("radio", { name: "30 日", exact: true }).check();
-  await act(page, page.locator("#practice-start"));
-  await expect.poll(async () => !!(await saved(page)).longAction, { timeout: 60000 }).toBe(false);
-  const summary = page.getByRole("dialog", { name: "闭关期间", exact: true });
-  await expect(summary).toBeVisible();
+  await openMore(page);
+  await page.locator("#wait-controls summary").click();
+  await page.getByLabel("等候日数", { exact: true }).selectOption("30");
+  await act(page, page.getByRole("button", { name: /^开始停留/ }));
+  await finish(page);
+  const summary = page.locator(".retreat-summary");
+  await summary.locator("summary").click();
   await expect(summary).toContainText(/结识|结为朋友|拜入|访求师门/);
   const after = await saved(page);
   expect(after.day - before.day).toBe(30);
-  expect(after.player.stones).toBe(before.player.stones);
+  // Daily sightings may award stones; waiting itself has no debit.
+  expect(after.player.stones).toBeGreaterThanOrEqual(before.player.stones);
   expect(after.visitedSects).toBeUndefined();
   expect(after.npcs.map((a: any) => [a.id, a.name, a.appearanceSeed])).toEqual(
     before.npcs.map((a: any) => [a.id, a.name, a.appearanceSeed]),
@@ -73,13 +79,15 @@ test("elapsed time develops autonomous NPC friendships and sect lives, shown in 
   const joined = after.npcs.find((a: any) => a.sectMembership);
   expect(joined).toBeTruthy();
   const sect = sects.find((s: any) => s.id === joined.sectMembership.id);
-  await page.getByRole("button", { name: "地图", exact: true }).click();
-  const atlas = page.getByRole("dialog", { name: "云岚境大地图", exact: true });
+  await selectLocations(page);
+  const atlas = page.locator("#atlas-page");
   await atlas.locator(`[data-atlas-place="${sect.home}"]`).click();
   await act(page, atlas.locator(".atlas-go"));
   await expect(atlas).not.toBeVisible();
   await openCurrentLocation(page);
-  await page.getByRole("tab", { name: "故人", exact: true }).click();
+  await page.getByRole("tab", { name: "人物", exact: true }).click();
+  await page.getByRole("button", { name: "查看全部人物", exact: true }).click();
+  await page.getByRole("searchbox", { name: "搜索姓名", exact: true }).fill(joined.name);
   await page
     .locator(".person-row")
     .filter({ has: page.getByRole("heading", { name: new RegExp(`^${joined.name}`) }) })
@@ -98,7 +106,8 @@ test("elapsed time develops autonomous NPC friendships and sect lives, shown in 
   }
   expect(await saved(page)).toEqual(viewing);
   await page.keyboard.press("Escape");
-  await page.getByRole("tab", { name: "历程", exact: true }).click();
+  await openCurrentLocation(page);
+  await page.getByRole("button", { name: "查看全部", exact: true }).click();
   await page.getByLabel("历程类型", { exact: true }).selectOption("npc-friendship");
   await expect(page.locator(".journal")).toContainText("结为朋友");
   expect(await saved(page)).toEqual(viewing);

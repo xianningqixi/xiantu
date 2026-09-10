@@ -1,4 +1,5 @@
 "use client";
+import { RelationshipStage } from "./relationship-stage";
 import { relationshipDisplay, relationshipProgress } from "@/lib/ui/character-presentation";
 import { profileTabForClick, type OpenProfile, type ProfileTab } from "@/lib/ui/profile-navigation";
 import { IntimacyPanel } from "./intimacy-panel";
@@ -11,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ARTIFACTS, COLORS, FACES, HAIRS, REALMS } from "@/lib/game/content/official";
 import { actorById, threshold } from "@/lib/game/rules";
 import { LOCATIONS } from "@/lib/game/world-map";
+import { presentationShows } from "@/lib/game/presentation";
 import { relation, relationshipLabel } from "@/lib/game/relationships";
 import { characterVitals, characterRelations, characterHistory } from "@/lib/game/character-sheet";
 import { npcProfile } from "@/lib/game/npc-profile";
@@ -47,21 +49,24 @@ function Attitude({
       {edge ? (
         <>
           <strong>{bonded ? `道侣 · ${relationshipLabel(edge)}` : relationshipLabel(edge)}</strong>
-          <dl>
-            <div>
-              <dt title="对相处的喜爱程度">好感</dt>
-              <dd>{edge.favor}</dd>
-            </div>
-            <div>
-              <dt title="对承诺与行事的信赖">信任</dt>
-              <dd>{edge.trust}</dd>
-            </div>
-            <div>
-              <dt title="亲密吸引；普通相伴不会直接增加">吸引</dt>
-              <dd>{edge.attraction}</dd>
-            </div>
-          </dl>
-          <small>{relationshipProgress(edge)}</small>
+          <details className="relationship-numbers">
+            <summary>查看关系数值</summary>
+            <dl>
+              <div>
+                <dt title="对相处的喜爱程度">好感</dt>
+                <dd>{edge.favor}</dd>
+              </div>
+              <div>
+                <dt title="对承诺与行事的信赖">信任</dt>
+                <dd>{edge.trust}</dd>
+              </div>
+              <div>
+                <dt title="亲密吸引；普通相伴不会直接增加">吸引</dt>
+                <dd>{edge.attraction}</dd>
+              </div>
+            </dl>
+            <small>{relationshipProgress(edge)}</small>
+          </details>
           {edge.attraction === 0 && <small>吸引尚无变化；普通相伴只增进好感与信任。</small>}
         </>
       ) : (
@@ -149,7 +154,10 @@ export function PersonDetail({
     ["lifespan", "寿元上限", `${vitals.lifespan} 岁`],
     ["height", "身高", `${body.heightCm} cm`],
     ["build", "身材", BODY_BUILDS[body.build]],
-    ["manual", "功法", a.manual ? "已掌握入门功法" : "尚未学会"],
+    ["manual", "功法", a.manual ? `入门功法 · ${a.manualRank} 阶` : "尚未学会"],
+    ["insight", "感悟", a.insight],
+    ["qi", "聚气丹", a.qi],
+    ["cave", "洞府", a.cave ? LOCATIONS[a.cave].name : "尚未置办"],
     ["stones", "灵石", a.stones],
     ["healing", "回春丹", a.healing],
     ["pills", "突破丹", a.pills],
@@ -195,6 +203,7 @@ export function PersonDetail({
           </small>
         </div>
       </div>
+      {!self && <RelationshipStage world={w} id={id} />}
       <Tabs value={tab} onValueChange={setTab} className="character-tabs">
         <TabsList aria-label="人物资料分类">
           <TabsTrigger value="attributes">属性</TabsTrigger>
@@ -333,18 +342,6 @@ export function PersonDetail({
               </Button>
             )}
           </section>
-          {!self && (
-            <details className="sheet-interactions" id="sheet-interactions">
-              <summary>与{a.name}交往 · 相伴与结侣条件</summary>
-              <IntimacyPanel
-                key={a.id}
-                world={w}
-                actor={a}
-                send={send}
-                blocked={busy || !!w.longAction || !!w.battle || w.ended}
-              />
-            </details>
-          )}
         </TabsContent>
         <TabsContent value="history">
           <section aria-label="人物经历">
@@ -520,24 +517,27 @@ export function PersonDetail({
       {!self && tab !== "portrait" && (
         <div className="sheet-contact">
           <Button
-            disabled={busy || !present || !!w.battle || !!w.longAction || w.ended}
+            disabled={
+              busy ||
+              !present ||
+              !!w.battle ||
+              !!w.longAction ||
+              w.ended ||
+              !presentationShows(w, "meet")
+            }
+            title={!presentationShows(w, "meet") ? "引气入体后开放见礼" : undefined}
             onClick={() => send({ type: "meet", target: id })}
           >
             {r?.known ? "聊聊近况" : "上前见礼"}
             <TimeBadge world={w} command={{ type: "meet", target: id }} />
           </Button>
           {tab === "relations" && r?.known && (
-            <Button
-              variant="outline"
-              onClick={() => {
-                const el = document.getElementById("sheet-interactions") as HTMLDetailsElement;
-                el.open = true;
-                el.scrollIntoView({ block: "nearest" });
-                el.querySelector("summary")?.focus({ preventScroll: true });
-              }}
-            >
-              交往
-            </Button>
+            <IntimacyPanel
+              world={w}
+              actor={a}
+              send={send}
+              blocked={busy || !!w.longAction || !!w.battle || w.ended}
+            />
           )}
           {(!!w.battle || !!w.longAction || busy || !present) && (
             <small>

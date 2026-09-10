@@ -1,5 +1,5 @@
 import B from "./content/balance.json";
-import { advanceRule, stats, threshold } from "./rules";
+import { stats, threshold, advanceRule } from "./rules";
 import { sectAt } from "./sect-content";
 import { LOCATIONS, localSite, locationKind } from "./world-map";
 import type { Command, World } from "./types";
@@ -107,21 +107,11 @@ export function journeyActions(w: World): JourneyAction[] {
       actions.push({
         id: "advance-minor",
         title: "冲关",
-        hint: "修为圆满 · 晋升下一层",
+        hint: "修为圆满 · 不耗时",
         icon: "practice",
         command: { type: "advanceMinor" },
       });
-
-    const ready =
-      ["mortal-entry", "bottleneck", "major"].includes(advanceRule(p).kind) && p.xp >= threshold(p);
-    if (ready)
-      actions.push({
-        id: "breakthrough",
-        title: "尝试突破",
-        hint: "开始当前瓶颈突破",
-        icon: "practice",
-        command: { type: "breakthrough", usePill: false, guardian: false },
-      });
+    const ready = !!advanceRule(p).targetRealm && advanceRule(p).days > 0 && p.xp >= threshold(p);
     actions.push({
       id: "practice",
       title: ready ? "准备突破" : "静心修炼",
@@ -174,10 +164,10 @@ export function journeyActions(w: World): JourneyAction[] {
   });
   actions.push({
     id: "wait",
-    title: "在此等候",
+    title: "在此停留 1 日",
     hint: "停留此地 · 留意人物与剧情变化",
     icon: "wait",
-    command: { type: "wait", days: 3 },
+    command: { type: "wait", days: 1 },
   });
   return actions;
 }

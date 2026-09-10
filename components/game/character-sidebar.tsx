@@ -1,186 +1,78 @@
 "use client";
-import { companionStatus } from "@/lib/game/journey-presentation";
-import { profileTabForClick, type OpenProfile } from "@/lib/ui/profile-navigation";
-import { memo } from "react";
-import { TimeBadge } from "./time-badge";
-import { PlayerPortrait } from "./player-portrait";
-import { NpcPortrait } from "./npc-portrait";
-
-import { Button } from "@/components/ui/button";
-import { ARTIFACTS, REALMS } from "@/lib/game/content/official";
-import { stats, threshold } from "@/lib/game/engine";
-import { objective } from "@/lib/game/presentation";
+import { useEffect, useRef, useState } from "react";
+import { REALMS } from "@/lib/game/content/official";
+import { threshold } from "@/lib/game/rules";
+import { beginActionSummary, finishActionSummary, trainingGain } from "@/lib/ui/action-summary";
 import type { World } from "@/lib/game/types";
-import { ArrowRight, ChevronRight, Coins, Feather } from "lucide-react";
-import type { Send } from "./panels";
+import type { OpenProfile } from "@/lib/ui/profile-navigation";
 import { Meter } from "./panels";
-
-type SidebarProps = {
-  world: World;
-  goal: ReturnType<typeof objective>;
-  setProfileId: OpenProfile;
-  useTab: (tab: string) => void;
-  send: Send;
-  act: Send;
-  blocked: boolean;
-};
-
-export const CharacterSidebar = memo(function CharacterSidebar({
-  world: w,
-  goal,
-  setProfileId,
-  useTab,
-  send,
-  act,
-  blocked,
-}: SidebarProps) {
-  const p = w.player;
-  const companion = companionStatus(w);
-  const artifact = ARTIFACTS.find((a) => a.id === w.profile.artifact)!;
-  const companions = w.party
-    .filter((id) => id !== p.id)
-    .map((id) => w.npcs.find((a) => a.id === id)!);
-  const busyCompanion = companions.find((a) => a.attempt);
+import { PlayerPortrait } from "./player-portrait";
+export function CharacterStatus({ world: w, onProfile }: { world: World; onProfile: OpenProfile }) {
+  type Delta = { id: number; xp: number; stones: number; insight: number };
+  const queue = useRef<Delta[]>([]);
+  const [queued, setQueued] = useState(0);
+  const previous = useRef(w),
+    [delta, setDelta] = useState<Delta | null>(null);
+  useEffect(() => {
+    const p = previous.current;
+    previous.current = w;
+    if (p.saveId !== w.saveId || p.revision > w.revision) {
+      queue.current = [];
+      setQueued(0);
+      setDelta(null);
+      return;
+    }
+    if (p.revision === w.revision) return;
+    const xp =
+      p.player.realm <= w.player.realm
+        ? trainingGain(finishActionSummary(beginActionSummary(p, "train"), w, "completed"))
+        : w.player.xp - p.player.xp;
+    const stones = w.player.stones - p.player.stones;
+    const insight = w.player.insight - p.player.insight;
+    if (xp || stones || insight) {
+      queue.current.push({ id: w.revision, xp, stones, insight });
+      setQueued(queue.current.length);
+    }
+  }, [w]);
+  useEffect(() => {
+    if (!queued && !delta) return;
+    const timer = setTimeout(
+      () => {
+        setDelta(queue.current.shift() ?? null);
+        setQueued(queue.current.length);
+      },
+      queued ? 400 : 1200,
+    );
+    return () => clearTimeout(timer);
+  }, [queued, delta]);
   return (
-    <aside className="character-sidebar">
+    <div className="character-status" aria-label="角色状态">
       <button
-        className="player-identity"
-        onClick={(event) => setProfileId("PLAYER", profileTabForClick(event))}
+        className="status-profile"
+        aria-label={`查看${w.player.name}的人物资料`}
+        onClick={() => onProfile("PLAYER")}
       >
-        <PlayerPortrait world={w} className={`player-seal color-${w.profile.appearance.color}`} />
-        <div>
-          <small>你的角色</small>
-          <h2 className="serif">{p.name}</h2>
-          <span>
-            {REALMS[p.realm]} · {Math.floor(p.ageDays / 360)} 岁
-          </span>
-        </div>
-        <ChevronRight size={15} />
-      </button>
-      <div className="player-meters">
-        <Meter label="气血" value={p.hp} max={stats(p).maxHp} kind="health" />
-        <Meter label="修为" value={p.xp} max={threshold(p)} />
-      </div>
-      <details className="mobile-status">
-        <summary>
-          <span>
-            <Coins size={15} /> {p.stones} 灵石
-          </span>
-          <strong>{goal.title}</strong>
-          <span>展开状态</span>
-        </summary>
-        <div className="mobile-status-body">
-          <section>
-            <h3>眼下之事 · {goal.title}</h3>
-            <p>{goal.text}</p>
-            <Button
-              variant="outline"
-              onClick={(event) => {
-                event.currentTarget.closest("details")?.removeAttribute("open");
-                useTab(goal.tab);
-              }}
-            >
-              去看看
-            </Button>
-          </section>
-          <section>
-            <h3>伴生法宝 · {artifact.name}</h3>
-            <p>{artifact.description}</p>
-          </section>
-          <section>
-            <h3>同行之人 · {companions.length} / 3</h3>
-            {companions.map((a) => (
-              <Button
-                key={a.id}
-                variant="ghost"
-                onClick={(event) => setProfileId(a.id, profileTabForClick(event))}
-              >
-                {a.name} · {REALMS[a.realm]}
-              </Button>
-            ))}
-            {companions.length === 0 && <p>暂时独行，可以在游历中寻找同伴。</p>}
-          </section>
-        </div>
-      </details>
-      <div className="sidebar-wealth">
-        <Coins size={16} />
-        <span>灵石</span>
-        <strong>{p.stones}</strong>
-      </div>
-      <div className="sidebar-artifact">
-        <img
-          className="small-seal artifact-art"
-          src={`/artifacts/${artifact.id}.svg`}
-          alt=""
-          width={36}
-          height={36}
-        />
-        <div>
-          <small>伴生法宝</small>
-          <strong>{artifact.name}</strong>
-        </div>
-      </div>
-      <div className="objective">
-        <span className="eyebrow">
-          <Feather size={13} /> 眼下之事
+        <PlayerPortrait world={w} className="status-avatar" />
+        <span>
+          <h2>{w.player.name}</h2>
+          <small>{REALMS[w.player.realm]}</small>
         </span>
-        <h3>{goal.title}</h3>
-        <p>{goal.text}</p>
-        <button onClick={() => useTab(goal.tab)}>
-          去看看 <ArrowRight size={14} />
-        </button>
-      </div>
-      <div className="party-panel">
-        <div className="spread">
-          <h3>同行之人</h3>
-          <small>{companions.length} / 3</small>
-        </div>
-        {companions.map((a) => (
-          <button
-            className="party-member"
-            key={a.id}
-            onClick={(event) => setProfileId(a.id, profileTabForClick(event))}
-          >
-            <NpcPortrait world={w} actor={a} className="mini-portrait" />
-            <span>{a.name}</span>
-            <small>{REALMS[a.realm]}</small>
-          </button>
-        ))}
-        {companion ? (
-          <p>
-            <strong>{companion.title}</strong>
-            <br />
-            {companion.text}
-          </p>
-        ) : (
-          companions.length === 0 && <p>山路尚长，寻一两位同道吧。</p>
-        )}
-        {busyCompanion && (
-          <p>
-            {busyCompanion.name}正在突破，还需 {busyCompanion.attempt!.remaining} 日。
-            <Button
-              size="sm"
-              variant="outline"
-              disabled={blocked}
-              onClick={() => act({ type: "wait", days: 1 })}
-            >
-              等候一日
-              <TimeBadge world={w} command={{ type: "wait", days: 1 }} />
-            </Button>
-          </p>
-        )}
-        {companions.length > 0 && (
-          <Button
-            variant="ghost"
-            size="sm"
-            disabled={blocked || !!w.loot}
-            onClick={() => send({ type: "disband" })}
-          >
-            暂别同伴（取消本次约定）
-            <TimeBadge world={w} command={{ type: "disband" }} />
-          </Button>
-        )}
-      </div>
-    </aside>
+      </button>
+      <Meter label="修为" value={w.player.xp} max={threshold(w.player)} />
+      <span className="status-stones">
+        灵石 <b>{w.player.stones}</b>
+      </span>
+      <span className="status-insight">
+        感悟 <b>{w.player.insight}</b>
+      </span>
+      <time>第 {w.day + 1} 日</time>
+      {delta && (
+        <span key={delta.id} className="status-delta" aria-hidden="true">
+          {delta.xp !== 0 && `修为 ${delta.xp > 0 ? "+" : ""}${delta.xp} `}
+          {delta.stones !== 0 && `灵石 ${delta.stones > 0 ? "+" : ""}${delta.stones} `}
+          {delta.insight !== 0 && `感悟 ${delta.insight > 0 ? "+" : ""}${delta.insight}`}
+        </span>
+      )}
+    </div>
   );
-});
+}

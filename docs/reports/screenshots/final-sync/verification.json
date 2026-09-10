@@ -1,0 +1,519 @@
+{
+  "date": "2026-09-10",
+  "node": "23.9.0",
+  "npm": "10.9.2",
+  "chrome": "152.0.7977.83",
+  "verify": {
+    "testsPerSuite": [
+      3,
+      8,
+      34,
+      7,
+      23,
+      22,
+      29,
+      6,
+      87,
+      3,
+      2
+    ],
+    "total": 224,
+    "failures": 0,
+    "skipped": 0
+  },
+  "browserFull": {
+    "passed": 70,
+    "failed": 1,
+    "skipped": 0,
+    "minutes": 19.8,
+    "failure": "Old 300 KiB portrait cap; updated to 400 KiB to preserve reviewed native-size artwork. Exact asset checks remain."
+  },
+  "browserFinalTargeted": {
+    "passed": 19,
+    "failed": 0,
+    "skipped": 0,
+    "minutes": 2.5,
+    "suites": [
+      "art-refresh",
+      "improvements",
+      "model-settings",
+      "portraits",
+      "redesign-a"
+    ]
+  },
+  "finalBuild": {
+    "version": "a62baa5a1303c116efbb",
+    "coreBytes": 2214087,
+    "coreFiles": 18
+  },
+  "portraitLayout": [
+    {
+      "width": 1440,
+      "state": "generating",
+      "contentHeight": 550.78125,
+      "actionsBelowContent": true,
+      "statusWidth": 550,
+      "statusHeight": 19.5,
+      "pageOverflow": false,
+      "frames": [
+        405
+      ],
+      "utilities": [
+        {
+          "text": "AI 模型设置",
+          "height": 44,
+          "fontSize": "13px"
+        },
+        {
+          "text": "本机备份",
+          "height": 44,
+          "fontSize": "13px"
+        },
+        {
+          "text": "导入存档",
+          "height": 44,
+          "fontSize": "13px"
+        }
+      ],
+      "modelSettingButtons": 1
+    },
+    {
+      "width": 390,
+      "state": "generating",
+      "contentHeight": 552.765625,
+      "actionsBelowContent": true,
+      "statusWidth": 332,
+      "statusHeight": 19.5,
+      "pageOverflow": false,
+      "frames": [
+        379.796875
+      ],
+      "utilities": [
+        {
+          "text": "AI 模型设置",
+          "height": 44,
+          "fontSize": "13px"
+        },
+        {
+          "text": "本机备份",
+          "height": 44,
+          "fontSize": "13px"
+        },
+        {
+          "text": "导入存档",
+          "height": 44,
+          "fontSize": "13px"
+        }
+      ],
+      "modelSettingButtons": 1
+    },
+    {
+      "width": 320,
+      "state": "generating",
+      "contentHeight": 552.765625,
+      "actionsBelowContent": true,
+      "statusWidth": 262,
+      "statusHeight": 19.5,
+      "pageOverflow": false,
+      "frames": [
+        379.796875
+      ],
+      "utilities": [
+        {
+          "text": "AI 模型设置",
+          "height": 44,
+          "fontSize": "13px"
+        },
+        {
+          "text": "本机备份",
+          "height": 44,
+          "fontSize": "13px"
+        },
+        {
+          "text": "导入存档",
+          "height": 44,
+          "fontSize": "13px"
+        }
+      ],
+      "modelSettingButtons": 1
+    },
+    {
+      "width": 1440,
+      "state": "comparison",
+      "contentHeight": 579.171875,
+      "actionsBelowContent": true,
+      "statusWidth": 550,
+      "statusHeight": 19.5,
+      "pageOverflow": false,
+      "frames": [
+        405,
+        405
+      ],
+      "utilities": [
+        {
+          "text": "AI 模型设置",
+          "height": 44,
+          "fontSize": "13px"
+        },
+        {
+          "text": "本机备份",
+          "height": 44,
+          "fontSize": "13px"
+        },
+        {
+          "text": "导入存档",
+          "height": 44,
+          "fontSize": "13px"
+        }
+      ],
+      "modelSettingButtons": 1
+    },
+    {
+      "width": 390,
+      "state": "comparison",
+      "contentHeight": 579.453125,
+      "actionsBelowContent": true,
+      "statusWidth": 332,
+      "statusHeight": 19.5,
+      "pageOverflow": false,
+      "frames": [
+        379.796875,
+        379.796875
+      ],
+      "utilities": [
+        {
+          "text": "AI 模型设置",
+          "height": 44,
+          "fontSize": "13px"
+        },
+        {
+          "text": "本机备份",
+          "height": 44,
+          "fontSize": "13px"
+        },
+        {
+          "text": "导入存档",
+          "height": 44,
+          "fontSize": "13px"
+        }
+      ],
+      "modelSettingButtons": 1
+    },
+    {
+      "width": 320,
+      "state": "comparison",
+      "contentHeight": 579.453125,
+      "actionsBelowContent": true,
+      "statusWidth": 262,
+      "statusHeight": 19.5,
+      "pageOverflow": false,
+      "frames": [
+        379.796875,
+        379.796875
+      ],
+      "utilities": [
+        {
+          "text": "AI 模型设置",
+          "height": 44,
+          "fontSize": "13px"
+        },
+        {
+          "text": "本机备份",
+          "height": 44,
+          "fontSize": "13px"
+        },
+        {
+          "text": "导入存档",
+          "height": 44,
+          "fontSize": "13px"
+        }
+      ],
+      "modelSettingButtons": 1
+    }
+  ],
+  "peopleLayout": {
+    "results": [
+      {
+        "width": 1440,
+        "mode": "overview",
+        "count": 7,
+        "ids": [
+          "NPC_LIN_WAN",
+          "NPC_0004",
+          "NPC_0009",
+          "NPC_0019",
+          "NPC_0024",
+          "NPC_0028",
+          "NPC_0029"
+        ],
+        "heights": [
+          110,
+          110,
+          110,
+          110,
+          110,
+          110,
+          110
+        ],
+        "overflow": false
+      },
+      {
+        "width": 1440,
+        "mode": "all",
+        "count": 24,
+        "ids": [
+          "NPC_LIN_WAN",
+          "NPC_0004",
+          "NPC_0009",
+          "NPC_0019",
+          "NPC_0024",
+          "NPC_0028",
+          "NPC_0029",
+          "NPC_0031",
+          "NPC_0036",
+          "NPC_0037",
+          "NPC_0040",
+          "NPC_0042",
+          "NPC_0046",
+          "NPC_0049",
+          "NPC_0052",
+          "NPC_0054",
+          "NPC_0055",
+          "NPC_0059",
+          "NPC_0068",
+          "NPC_0074",
+          "NPC_0078",
+          "NPC_0082",
+          "NPC_0092",
+          "NPC_ZHOU_AN"
+        ],
+        "heights": [
+          110,
+          110,
+          110,
+          110,
+          110,
+          110,
+          110,
+          110,
+          110,
+          110,
+          110,
+          110,
+          110,
+          110,
+          110,
+          110,
+          110,
+          110,
+          110,
+          110,
+          110,
+          110,
+          110,
+          110
+        ],
+        "overflow": false
+      },
+      {
+        "width": 390,
+        "mode": "overview",
+        "count": 7,
+        "ids": [
+          "NPC_LIN_WAN",
+          "NPC_0004",
+          "NPC_0009",
+          "NPC_0019",
+          "NPC_0024",
+          "NPC_0028",
+          "NPC_0029"
+        ],
+        "heights": [
+          98,
+          98,
+          98,
+          98,
+          98,
+          98,
+          98
+        ],
+        "overflow": false
+      },
+      {
+        "width": 390,
+        "mode": "all",
+        "count": 24,
+        "ids": [
+          "NPC_LIN_WAN",
+          "NPC_0004",
+          "NPC_0009",
+          "NPC_0019",
+          "NPC_0024",
+          "NPC_0028",
+          "NPC_0029",
+          "NPC_0031",
+          "NPC_0036",
+          "NPC_0037",
+          "NPC_0040",
+          "NPC_0042",
+          "NPC_0046",
+          "NPC_0049",
+          "NPC_0052",
+          "NPC_0054",
+          "NPC_0055",
+          "NPC_0059",
+          "NPC_0068",
+          "NPC_0074",
+          "NPC_0078",
+          "NPC_0082",
+          "NPC_0092",
+          "NPC_ZHOU_AN"
+        ],
+        "heights": [
+          98,
+          98,
+          98,
+          98,
+          98,
+          98,
+          98,
+          98,
+          98,
+          98,
+          98,
+          98,
+          98,
+          98,
+          98,
+          98,
+          98,
+          98,
+          98,
+          98,
+          98,
+          98,
+          98,
+          98
+        ],
+        "overflow": false
+      }
+    ],
+    "worldUnchanged": true
+  },
+  "gallery": {
+    "summary": "257 个原图位置 · 243 张新图已检查 · 0 张待检查 · 14 张保留旧图 · 0 张新图未完成",
+    "total": 257,
+    "retained": 14,
+    "newer": {
+      "width": 1024,
+      "height": 1536
+    },
+    "older": {
+      "width": 1024,
+      "height": 1536
+    },
+    "overflow": false
+  },
+  "screenshots": [
+    {
+      "file": "final-gallery-390.png",
+      "bytes": 190922,
+      "sha256": "0213d99a45ee4d8c5a0387dcd20db5a13b306bac92939cbac7b4ec86aa953e02"
+    },
+    {
+      "file": "final-people-1440-all.png",
+      "bytes": 258674,
+      "sha256": "cc1ef5a3bff516b7959d58a07864778f032f3616771193b3f7611d22b86fcf94"
+    },
+    {
+      "file": "final-people-1440-overview.png",
+      "bytes": 238779,
+      "sha256": "3cbadff7e9c30b52367e5d7a7abd98c890a346a8b38bf82b1dd632d84ae3fb0d"
+    },
+    {
+      "file": "final-people-390-all.png",
+      "bytes": 114492,
+      "sha256": "c43e350f6411527c2debec8dc66eb67332556996f745e00b929b63ba38e5d6dc"
+    },
+    {
+      "file": "final-people-390-overview.png",
+      "bytes": 108984,
+      "sha256": "a2da43fd30f0ec4d2b526d29074617435194b93dcdafc54ab82436a69a4fd0b8"
+    },
+    {
+      "file": "final-portrait-1440-comparison.png",
+      "bytes": 299414,
+      "sha256": "33d67715b0128ac0064082f2092f81e2d81674c0e2a2ee82e0ef532621c9f02f"
+    },
+    {
+      "file": "final-portrait-1440-generating.png",
+      "bytes": 124251,
+      "sha256": "7de762333eb4194d241fc8148db4e032bc1417352aa33551aea729c58e63d719"
+    },
+    {
+      "file": "final-portrait-320-comparison.png",
+      "bytes": 121480,
+      "sha256": "4c92e47e4c72d80cf3dc9c0be4f5ca4fceed1c69bd53b223d16df249802d78fe"
+    },
+    {
+      "file": "final-portrait-320-generating.png",
+      "bytes": 88299,
+      "sha256": "a3b7569b73ff068d3767fecab6b27b15868ce5ddd7fe3707552456c96d698719"
+    },
+    {
+      "file": "final-portrait-390-comparison.png",
+      "bytes": 159472,
+      "sha256": "3e958985da7e2edbe9230f215f20d237a34e59a11d8b8d30c1f15c49ea9dabbc"
+    },
+    {
+      "file": "final-portrait-390-generating.png",
+      "bytes": 98985,
+      "sha256": "6fb24452c5ab8e9398d0a1b508a20a68fc01fa534ba841bcc7b902eb2677ebea"
+    },
+    {
+      "file": "final-utilities-1440.png",
+      "bytes": 5734,
+      "sha256": "80c107d9a0f88b3efeb82ec92e6f2d6ac8c94d58603e4f0e35b074ebaeb25149"
+    },
+    {
+      "file": "final-utilities-320.png",
+      "bytes": 6149,
+      "sha256": "f01e7f028668483346c07720d1b48a2034da4e1b07585eb6235c187233070b96"
+    },
+    {
+      "file": "final-utilities-390.png",
+      "bytes": 5330,
+      "sha256": "0c459ea7ce3982f242216b715fd198eac518e64db7e7a0355db15c701469171e"
+    },
+    {
+      "file": "step-01-creation-1440.png",
+      "bytes": 1130579,
+      "sha256": "c702ed3795b217c4b271581ea79d209567a52b080e5c931440b67f9c3771a032"
+    },
+    {
+      "file": "step-01-creation-390.png",
+      "bytes": 196578,
+      "sha256": "4ce925288432c8cc849011b0435216b62c929ac628b643d011afe8041b828b36"
+    },
+    {
+      "file": "step-01-dojo-1440.png",
+      "bytes": 600921,
+      "sha256": "cb214b48003929440d94908338ddfe174a4667a06313259a5386458d5e632f1f"
+    },
+    {
+      "file": "step-01-dojo-390.png",
+      "bytes": 212633,
+      "sha256": "444d9fd502c740046220c056de5744fb92b37f06aabec09066b32e1355a4c8f2"
+    },
+    {
+      "file": "step-02-realm-ceremony-1440.png",
+      "bytes": 159573,
+      "sha256": "5d05ee6e999c629e4a03e622764a8c52d83a619cc4bab1cc61974ccd65fdc587"
+    },
+    {
+      "file": "step-02-realm-ceremony-390.png",
+      "bytes": 112337,
+      "sha256": "45243580dface0c351c704115072cddbc3fdfbc29b88e61585ff933c908f48f1"
+    }
+  ]
+}

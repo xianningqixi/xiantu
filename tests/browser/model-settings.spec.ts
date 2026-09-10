@@ -1,3 +1,4 @@
+import { creationSettings } from "./journey-controls";
 import { test, expect, type Page, type Locator } from "@playwright/test";
 import { MODEL_PRESETS } from "../../lib/ai/model-settings";
 import { mkdir } from "node:fs/promises";
@@ -35,7 +36,8 @@ test.beforeEach(async ({ context }) => {
 });
 async function open(page: Page, inGame = false) {
   if (inGame) await page.getByRole("button", { name: "存档与设置", exact: true }).click();
-  const entry = inGame ? page : page.locator("header");
+  if (!inGame) await creationSettings(page);
+  const entry = inGame ? page : page.locator(".creation-utilities");
   await entry.getByRole("button", { name: "AI 模型设置", exact: true }).click();
   const dialog = page.getByRole("dialog", { name: "AI 模型设置", exact: true });
   await expect(dialog.getByRole("tab", { name: "LLM 文字模型", exact: true })).toBeVisible();

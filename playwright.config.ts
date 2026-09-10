@@ -10,6 +10,7 @@ export default defineConfig({
   reporter: [["list"]],
   outputDir: process.env.XIANTU_TEST_OUTPUT || "/tmp/xiantu-browser-results",
   use: {
+    actionTimeout: 15000,
     ...devices[process.env.PLAYWRIGHT_BROWSER === "firefox" ? "Desktop Firefox" : "Desktop Chrome"],
     baseURL,
     viewport: { width: 1440, height: 1000 },

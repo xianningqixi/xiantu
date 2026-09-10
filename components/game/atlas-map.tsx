@@ -1,4 +1,7 @@
 "use client";
+import { presentationShows } from "@/lib/game/presentation";
+import { B } from "@/lib/game/rules";
+import { relation } from "@/lib/game/relationships";
 import { sectAt } from "@/lib/game/sect-content";
 import { useState, type CSSProperties } from "react";
 import { Compass, MapPin, Trees, Mountain, Waves, House, Castle, Footprints } from "lucide-react";
@@ -48,8 +51,11 @@ export function AtlasMap({
     return parent ? [[parent, p]] : [];
   });
   const routeStops = route?.path.filter((id) => places.some((p) => p.to === id)) ?? [];
+  const disclosed =
+    selected.region === regionOf(w.player.location) || presentationShows(w, "travel.four-cities");
   const visitable =
     !blocked &&
+    disclosed &&
     !w.loot &&
     !here &&
     !!route &&
@@ -161,7 +167,9 @@ export function AtlasMap({
             const isNext = p.kind === "town" && nextStep?.chapter.id === placeChapter?.id;
             const complete =
               p.kind === "town" && placeChapter && mainEvent(w, placeChapter.discovery.id);
-            const sect = sectAt(p.to as LocationId);
+            const sect = presentationShows(w, "travel.sects")
+              ? sectAt(p.to as LocationId)
+              : undefined;
             const [mx, my] = mobilePoints[p.id];
             return (
               <button
@@ -222,13 +230,14 @@ export function AtlasMap({
           </span>
           <h3 className="serif">{selected.name}</h3>
           <p>{selected.body}</p>
-          {sectAt(selected.to as LocationId) && (
+          {presentationShows(w, "travel.sects") && sectAt(selected.to as LocationId) && (
             <p className="atlas-sect-note">
               <strong>{sectAt(selected.to as LocationId)!.name} · </strong>
               {sectAt(selected.to as LocationId)!.description}
             </p>
           )}
           <small>{storyNote}</small>
+          {!disclosed && <small>修至炼气三层后开放远行入口。</small>}
           {!here && route && (
             <small className="atlas-itinerary">
               行程：
@@ -242,6 +251,23 @@ export function AtlasMap({
           )}
         </div>
         <div className="atlas-departure">
+          <p>
+            已结识{" "}
+            {
+              w.npcs.filter(
+                (a) =>
+                  a.alive &&
+                  !a.npcJourney &&
+                  a.location === selected.to &&
+                  relation(w, a.id)?.known,
+              ).length
+            }{" "}
+            人在此
+          </p>
+          <p>
+            旅途 {here ? 0 : (route?.days ?? 0)} 日 · 遭遇概率{" "}
+            {B.travel.randomRoadEncounterBp / 100}%
+          </p>
           <button
             disabled={!visitable}
             className="atlas-go"

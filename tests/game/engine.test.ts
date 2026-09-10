@@ -7,7 +7,7 @@ import {
   tellOwnRecentFacts,
 } from "../../lib/game/knowledge";
 import B from "../../lib/game/content/balance.json";
-const REALM_KEYS = ["MORTAL", "QI_1", "QI_2", "QI_3", "FOUNDATION_1"] as const;
+import { REALM_KEYS, threshold } from "../../lib/game/rules";
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
@@ -199,26 +199,31 @@ test("breakthrough can fail and never kills the player", () => {
   let failures = 0;
   for (let seed = 1; seed <= 40; seed++) {
     const r = new Run(seed);
-    Object.assign(r.state.player, { realm: 3, xp: 100, hp: 90, manual: true });
+    Object.assign(r.state.player, { realm: 9, xp: 480, hp: 170, manual: true });
     r.do({ type: "breakthrough", usePill: false, guardian: false });
     r.finish();
-    if (r.state.player.realm < 4) {
+    if (r.state.player.realm < 10) {
       failures++;
       assert.ok(r.state.player.alive);
       assert.ok(r.state.player.hp > 0);
-      assert.ok(r.state.player.xp < 100);
+      assert.ok(r.state.player.xp < 480);
     }
   }
   assert.ok(failures > 0);
 });
-test("ordinary player minor realms progress automatically", () => {
+test("player minor realms wait for a manual, zero-day advancement", () => {
   const r = new Run();
   Object.assign(r.state.player, { realm: 1, xp: 39, hp: 50, manual: true });
   r.do({ type: "train", days: 1, stoneMethod: false });
   r.finish();
+  assert.equal(r.state.player.realm, 1);
+  const xp = r.state.player.xp,
+    day = r.state.day;
+  r.do({ type: "advanceMinor" });
+  assert.equal(r.state.day, day);
   assert.equal(r.state.player.realm, 2);
-  assert.equal(r.state.player.xp, 0);
-  assert.equal(r.state.player.hp, 70);
+  assert.equal(r.state.player.xp, xp - 40);
+  assert.equal(r.state.player.hp, 60);
 });
 test("full story: agreement, 3-person combat, honor, memory and reunion", () => {
   const r = prepare();
@@ -563,7 +568,7 @@ test("enabled NPC conflict shares damage rules and cancels a killed actor action
   const sorted = [...r.state.npcs].sort((a, b) => a.id.localeCompare(b.id));
   const a = sorted[0],
     b = sorted[1];
-  Object.assign(a, { realm: 4, hp: 120, manual: true, location: "inn" });
+  Object.assign(a, { realm: 10, hp: 120, manual: true, location: "inn" });
   Object.assign(b, { realm: 0, xp: 0, hp: 1, manual: false, location: "inn" });
   r.state.relations.push({
     from: a.id,
@@ -691,9 +696,9 @@ test("player and NPC resolve the same ordinary failure, severe failure and succe
       }
       const person = control === "player" ? r.state.player : r.state.npcs[0];
       Object.assign(person, {
-        realm: 3,
-        xp: 100,
-        hp: 90,
+        realm: 6,
+        xp: 240,
+        hp: 115,
         manual: true,
         alive: true,
         ageDays: 18 * 360,
@@ -717,10 +722,10 @@ test("player and NPC resolve the same ordinary failure, severe failure and succe
       r.do({ type: "step" });
       const a = control === "player" ? r.state.player : r.state.npcs[0];
       outcomes.push({ realm: a.realm, xp: a.xp, hp: a.hp, alive: a.alive, readyDay: a.readyDay });
-      assert.equal(a.realm, result === "success" ? 4 : result === "severe" ? 2 : 3);
+      assert.equal(a.realm, result === "success" ? 7 : result === "severe" ? 5 : 6);
       assert.equal(a.alive, true);
       assert.ok(a.hp > 0);
-      assert.equal(a.xp, result === "ordinary" ? 80 : 0);
+      assert.equal(a.xp, result === "ordinary" ? 192 : 0);
     }
     assert.deepEqual(outcomes[0], outcomes[1]);
   }

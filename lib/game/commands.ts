@@ -1,3 +1,4 @@
+import { realmIndex } from "./rules";
 import { storyIntimacyKind } from "./intimacy-history";
 import {
   currentPortrait,
@@ -39,7 +40,13 @@ import {
   renewalReason,
 } from "./agreement";
 import { scene } from "./story";
-import { learn, cultivate, breakthroughChance, breakthroughResult } from "./cultivation";
+import {
+  advanceMinor,
+  learn,
+  cultivate,
+  breakthroughChance,
+  breakthroughResult,
+} from "./cultivation";
 import { advanceDay } from "./daily-simulation";
 import { fighter, battleRound } from "./combat";
 import { recordFact as record } from "./knowledge";
@@ -49,6 +56,7 @@ type CommandHandlers = {
 };
 
 const commandHandlers: CommandHandlers = {
+  advanceMinor: (w) => advanceMinor(w, w.player),
   visitSect: (w, c) => visitSect(w, c.sectId),
   joinSect: (w, c) => joinSect(w, c.sectId),
   learnSectArt: (w) => learnSectArt(w),
@@ -94,7 +102,10 @@ const commandHandlers: CommandHandlers = {
   },
   surveyRuins: (w, c) => {
     requireRule(
-      w.player.location === "gate" && w.player.realm >= 1 && w.party.length === 1 && !w.loot,
+      w.player.location === "gate" &&
+        w.player.realm >= realmIndex(B.story.playerMinimumExplorationRealm) &&
+        w.party.length === 1 &&
+        !w.loot,
       "成为炼气修士后，可独自到山门古道勘察残碑。",
     );
     requireRule(!hasRubbing(w), "残碑拓片已取得，沿主线继续查证即可。");
@@ -352,7 +363,7 @@ const commandHandlers: CommandHandlers = {
         : advanceStopReason(w, a!.stopWhen, w.day - 1));
     if (a!.remaining === 0 || stopReason) {
       if (a!.kind === "breakthrough") {
-        const success = breakthroughResult(w, p, a!.chance);
+        const success = breakthroughResult(w, p, a!.chance, a!.rule);
         w.notice = success
           ? `气机贯通，你踏入了${REALMS[p.realm]}。`
           : "气息渐散，这次突破未成。损失了修为，但性命无碍；养足修为后仍可重试。";
@@ -445,16 +456,21 @@ const commandHandlers: CommandHandlers = {
     const p = w.player;
 
     requireRule(
-      p.location !== "ruins" && (p.realm === 0 || p.realm === 3) && p.xp >= threshold(p),
-      "尚未满足大境界突破条件。",
+      p.location !== "ruins" &&
+        ["mortal-entry", "bottleneck", "major"].includes(advanceRule(p).kind) &&
+        p.xp >= threshold(p),
+      "尚未满足突破条件。",
     );
-    requireRule(!c.usePill || (p.realm === 3 && p.pills > 0), "入道无需丹药，或你尚未拥有突破丹。");
+    requireRule(
+      !c.usePill || (advanceRule(p).kind === "major" && p.pills > 0),
+      "仅大突破可用丹药，且需拥有突破丹。",
+    );
     let guardian: string | null = null;
     if (c.guardian) {
       const a = actorById(w, PACK.roles.primary)!;
       const r = relation(w, a.id);
       requireRule(
-        p.realm === 3 &&
+        advanceRule(p).kind === "major" &&
           a.alive &&
           !a.attempt &&
           a.location === p.location &&
@@ -467,11 +483,13 @@ const commandHandlers: CommandHandlers = {
     }
     const chance = breakthroughChance(w, p, c.usePill, !!guardian);
     if (c.usePill) p.pills--;
+    p.insight = 0;
     w.longAction = {
       id: `action:${w.revision + 1}`,
       checkpoint: 0,
       paidStones: 0,
       kind: "breakthrough",
+      rule: { ...advanceRule(p) },
       total: advanceRule(p).days,
       remaining: advanceRule(p).days,
       stoneMethod: false,
@@ -504,7 +522,7 @@ const commandHandlers: CommandHandlers = {
     requireRule(
       w.agreement?.status === "accepted" &&
         w.party.length === 1 &&
-        p.realm >= 1 &&
+        p.realm >= realmIndex(B.story.playerMinimumExplorationRealm) &&
         p.location !== "ruins",
       "请先约定同行，在安全地点召集同伴。",
     );

@@ -19,7 +19,7 @@
     "test": "npm run build && node --test tests/*.test.mjs",
     "lint": "bash scripts/sites-env.sh -- eslint . --ignore-pattern dist --ignore-pattern .next",
     "typecheck:game": "tsc --project tsconfig.game.json --noEmit",
-    "test:game": "esbuild tests/game/engine.test.ts tests/game/ui-review.test.ts tests/game/npc-names.test.ts tests/game/npc-life.test.ts tests/game/sects.test.ts tests/game/journey-actions.test.ts --bundle --platform=node --format=esm --outdir=.game-test-build/rules && node --test .game-test-build/rules/*.js",
+    "test:game": "esbuild tests/game/redesign-b.test.ts tests/game/engine.test.ts tests/game/ui-review.test.ts tests/game/npc-names.test.ts tests/game/npc-life.test.ts tests/game/sects.test.ts tests/game/journey-actions.test.ts --bundle --platform=node --format=esm --outdir=.game-test-build/rules && node --test .game-test-build/rules/*.js",
     "content:prepare": "node scripts/prepare-content.mjs",
     "prebuild": "npm run content:prepare",
     "test:content": "esbuild tests/game/content.test.ts --bundle --platform=node --format=esm --outfile=.game-test-build/content.test.mjs && node --test .game-test-build/content.test.mjs",

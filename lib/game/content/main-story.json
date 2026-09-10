@@ -1,6 +1,6 @@
 {
   "data": {
-    "version": "0.2.0",
+    "version": "0.3.0",
     "title": "残碑寻源",
     "intervalDays": 2,
     "surveyDays": 2,
@@ -57,7 +57,7 @@
           "inn": "shichai.xiaye.inn",
           "gate": "shichai.xiaye.gate"
         },
-        "minRealm": 2,
+        "minRealm": 3,
         "guide": "shichai.xiaye.peisi",
         "guideSite": "market",
         "guidePlace": "临江城坊市",
@@ -97,7 +97,7 @@
           "inn": "shichai.qiudeng.inn",
           "gate": "shichai.qiudeng.gate"
         },
-        "minRealm": 3,
+        "minRealm": 6,
         "guide": "shichai.qiudeng.jiangzhaoxue",
         "guideSite": "gate",
         "guidePlace": "青岚山门",
@@ -137,7 +137,7 @@
           "inn": "shichai.dongxue.inn",
           "gate": "shichai.dongxue.gate"
         },
-        "minRealm": 4,
+        "minRealm": 10,
         "guide": "shichai.dongxue.chulian",
         "guideSite": "market",
         "guidePlace": "霜河城坊市",
@@ -172,5 +172,5 @@
       }
     ]
   },
-  "lock": "main.quest@0.2.0:14f3e9e43064a9853c52db83eae6cc180af2164b307a12ee09669d9b10677b19"
+  "lock": "main.quest@0.3.0:3e07ba00cef6d35e4984569a1073fd0e49cfed43dfffdbb79aee6e737bcdfc34"
 }

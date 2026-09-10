@@ -133,6 +133,12 @@ test("a failed purchase rolls back all story state; old official saves retain th
   assert.equal(JSON.stringify(r.w), before);
   const legacy: any = structuredClone(r.w);
   legacy.schemaVersion = 2;
+  for (const a of [legacy.player, ...legacy.npcs]) {
+    a.realm = a.realm >= 10 ? 4 : Math.min(3, a.realm);
+    a.xp = Math.min(a.xp, [20, 40, 60, 90, 100][a.realm]);
+    a.hp = Math.min(a.hp, [30, 50, 60, 70, 130][a.realm]);
+    a.attempt = null;
+  }
   legacy.rulesVersion = "0.1.1";
   legacy.contentLocks = [];
   legacy.contentState = {};

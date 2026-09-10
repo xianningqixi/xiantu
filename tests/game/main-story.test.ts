@@ -34,7 +34,7 @@ function fresh(selected = locks) {
     40,
     { contentLocks: selected },
   );
-  w.player.realm = 4;
+  w.player.realm = 10;
   w.player.manual = true;
   w.player.hp = stats(w.player).maxHp;
   return w;

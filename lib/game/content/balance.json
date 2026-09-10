@@ -1,6 +1,6 @@
 {
-  "configVersion": "prototype-0.1.1",
-  "status": "prototype_defaults_not_final_product_decisions",
+  "configVersion": "0.2.0",
+  "status": "redesign_0.2.0",
   "probabilityScaleBp": 10000,
   "world": {
     "initialNpcCount": 100,
@@ -18,11 +18,19 @@
     "fixedNpcIds": ["NPC_LIN_WAN", "NPC_ZHOU_AN"],
     "initialLocationId": "LOC_MARKET",
     "initialRealmWeights": {
-      "MORTAL": 40,
-      "QI_1": 30,
-      "QI_2": 15,
+      "MORTAL": 30,
+      "QI_1": 20,
+      "QI_2": 14,
       "QI_3": 10,
-      "FOUNDATION_1": 5
+      "QI_4": 8,
+      "QI_5": 6,
+      "QI_6": 4,
+      "QI_7": 3,
+      "QI_8": 2,
+      "QI_9": 1.5,
+      "FOUNDATION_1": 1,
+      "FOUNDATION_2": 0.4,
+      "FOUNDATION_3": 0.1
     },
     "npcActionWeights": {
       "cultivate": 55,
@@ -47,7 +55,15 @@
       "QI_1": 43200,
       "QI_2": 43200,
       "QI_3": 43200,
-      "FOUNDATION_1": 64800
+      "QI_4": 43200,
+      "QI_5": 43200,
+      "QI_6": 43200,
+      "QI_7": 43200,
+      "QI_8": 43200,
+      "QI_9": 43200,
+      "FOUNDATION_1": 64800,
+      "FOUNDATION_2": 64800,
+      "FOUNDATION_3": 64800
     },
     "ordinaryNpcOffscreenConflictEnabled": false,
     "offscreenCombatDeathEnabled": false,
@@ -206,18 +222,34 @@
   },
   "cultivation": {
     "manualRequired": true,
-    "aptitudeGainDivisor": 25,
+    "aptitudeGainDivisor": 8,
     "mortalDailyBaseGain": 4,
     "qiDailyBaseGain": 10,
-    "foundationDailyBaseGain": 10,
+    "foundationDailyBaseGain": 14,
     "experienceIntegerMin": 0,
-    "experienceCapAtCurrentThreshold": true,
-    "excessExperienceCarryForward": false,
-    "compressedQiLayersForPrototypeOnly": true,
-    "qiLayerCount": 3,
-    "realmOrder": ["MORTAL", "QI_1", "QI_2", "QI_3", "FOUNDATION_1"],
+    "experienceCapAtCurrentThreshold": false,
+    "excessExperienceCarryForward": true,
+    "compressedQiLayersForPrototypeOnly": false,
+    "qiLayerCount": 9,
+    "realmOrder": [
+      "MORTAL",
+      "QI_1",
+      "QI_2",
+      "QI_3",
+      "QI_4",
+      "QI_5",
+      "QI_6",
+      "QI_7",
+      "QI_8",
+      "QI_9",
+      "FOUNDATION_1",
+      "FOUNDATION_2",
+      "FOUNDATION_3"
+    ],
     "advanceRules": {
       "MORTAL": {
+        "kind": "mortal-entry",
+        "tier": "mortal",
         "targetRealm": "QI_1",
         "requiredExperience": 20,
         "days": 1,
@@ -226,6 +258,8 @@
         "severeFailureConditionalBp": 0
       },
       "QI_1": {
+        "kind": "minor",
+        "tier": "qi",
         "targetRealm": "QI_2",
         "requiredExperience": 40,
         "days": 0,
@@ -234,6 +268,8 @@
         "severeFailureConditionalBp": 0
       },
       "QI_2": {
+        "kind": "minor",
+        "tier": "qi",
         "targetRealm": "QI_3",
         "requiredExperience": 60,
         "days": 0,
@@ -242,16 +278,100 @@
         "severeFailureConditionalBp": 0
       },
       "QI_3": {
-        "targetRealm": "FOUNDATION_1",
-        "requiredExperience": 100,
-        "days": 3,
-        "baseSuccessBp": 6500,
+        "kind": "bottleneck",
+        "tier": "qi",
+        "targetRealm": "QI_4",
+        "requiredExperience": 90,
+        "days": 1,
+        "baseSuccessBp": 8500,
+        "failureExperienceLossBp": 2000,
+        "severeFailureConditionalBp": 0
+      },
+      "QI_4": {
+        "kind": "minor",
+        "tier": "qi",
+        "targetRealm": "QI_5",
+        "requiredExperience": 130,
+        "days": 0,
+        "baseSuccessBp": 10000,
+        "failureExperienceLossBp": 0,
+        "severeFailureConditionalBp": 0
+      },
+      "QI_5": {
+        "kind": "minor",
+        "tier": "qi",
+        "targetRealm": "QI_6",
+        "requiredExperience": 180,
+        "days": 0,
+        "baseSuccessBp": 10000,
+        "failureExperienceLossBp": 0,
+        "severeFailureConditionalBp": 0
+      },
+      "QI_6": {
+        "kind": "bottleneck",
+        "tier": "qi",
+        "targetRealm": "QI_7",
+        "requiredExperience": 240,
+        "days": 1,
+        "baseSuccessBp": 8000,
         "failureExperienceLossBp": 2000,
         "severeFailureConditionalBp": 1000
       },
+      "QI_7": {
+        "kind": "minor",
+        "tier": "qi",
+        "targetRealm": "QI_8",
+        "requiredExperience": 310,
+        "days": 0,
+        "baseSuccessBp": 10000,
+        "failureExperienceLossBp": 0,
+        "severeFailureConditionalBp": 0
+      },
+      "QI_8": {
+        "kind": "minor",
+        "tier": "qi",
+        "targetRealm": "QI_9",
+        "requiredExperience": 390,
+        "days": 0,
+        "baseSuccessBp": 10000,
+        "failureExperienceLossBp": 0,
+        "severeFailureConditionalBp": 0
+      },
+      "QI_9": {
+        "kind": "major",
+        "tier": "qi",
+        "targetRealm": "FOUNDATION_1",
+        "requiredExperience": 480,
+        "days": 3,
+        "baseSuccessBp": 5500,
+        "failureExperienceLossBp": 3000,
+        "severeFailureConditionalBp": 1500
+      },
       "FOUNDATION_1": {
+        "kind": "bottleneck",
+        "tier": "foundation",
+        "targetRealm": "FOUNDATION_2",
+        "requiredExperience": 600,
+        "days": 1,
+        "baseSuccessBp": 9000,
+        "failureExperienceLossBp": 2000,
+        "severeFailureConditionalBp": 0
+      },
+      "FOUNDATION_2": {
+        "kind": "bottleneck",
+        "tier": "foundation",
+        "targetRealm": "FOUNDATION_3",
+        "requiredExperience": 800,
+        "days": 1,
+        "baseSuccessBp": 8500,
+        "failureExperienceLossBp": 2000,
+        "severeFailureConditionalBp": 0
+      },
+      "FOUNDATION_3": {
+        "kind": "cap",
+        "tier": "foundation",
         "targetRealm": null,
-        "requiredExperience": 100,
+        "requiredExperience": 1000,
         "days": 0,
         "baseSuccessBp": 0,
         "failureExperienceLossBp": 0,
@@ -289,7 +409,7 @@
       "ordinaryLossRounding": "ceil",
       "alreadyEarnedOneTimeRewardsRepeatOnRecovery": false,
       "recoveryUsesSameCultivationRules": true,
-      "foundationAdvancementEnabled": false
+      "foundationAdvancementEnabled": true
     },
     "methods": {
       "METHOD_BASIC": {
@@ -301,7 +421,46 @@
         "additionalExperiencePerDay": 4
       }
     },
-    "minorAdvanceAutoForPlayerAndNpc": true
+    "minorAdvanceAutoForPlayerAndNpc": {
+      "player": false,
+      "npc": true
+    },
+    "injuredGainPenaltyBp": 5000,
+    "injuredHpThresholdBp": 3000,
+    "manualRanks": [
+      {
+        "cost": 0,
+        "gain": 0
+      },
+      {
+        "cost": 40,
+        "gain": 2,
+        "minRealm": 1
+      },
+      {
+        "cost": 120,
+        "gain": 4,
+        "minRealm": 4
+      },
+      {
+        "cost": 300,
+        "gain": 6,
+        "minRealm": 7
+      }
+    ],
+    "insight": {
+      "perPointBp": 200,
+      "maxBonusBp": 2000,
+      "discussGain": 1,
+      "exploreGain": 1,
+      "chapterGain": 2
+    },
+    "cave": {
+      "cost": 200,
+      "dailyGain": 3,
+      "minRealm": 3,
+      "blocksOrdinaryDailyEvents": true
+    }
   },
   "combat": {
     "mode": "round_based",
@@ -344,22 +503,70 @@
         "speed": 12
       },
       "QI_2": {
+        "maxHp": 60,
+        "attack": 12,
+        "defense": 3,
+        "speed": 13
+      },
+      "QI_3": {
         "maxHp": 70,
         "attack": 14,
         "defense": 4,
         "speed": 14
       },
-      "QI_3": {
-        "maxHp": 90,
-        "attack": 18,
+      "QI_4": {
+        "maxHp": 85,
+        "attack": 17,
         "defense": 5,
+        "speed": 15
+      },
+      "QI_5": {
+        "maxHp": 100,
+        "attack": 20,
+        "defense": 6,
         "speed": 16
       },
-      "FOUNDATION_1": {
+      "QI_6": {
+        "maxHp": 115,
+        "attack": 23,
+        "defense": 7,
+        "speed": 17
+      },
+      "QI_7": {
         "maxHp": 130,
-        "attack": 25,
+        "attack": 26,
         "defense": 8,
+        "speed": 18
+      },
+      "QI_8": {
+        "maxHp": 150,
+        "attack": 29,
+        "defense": 9,
+        "speed": 19
+      },
+      "QI_9": {
+        "maxHp": 170,
+        "attack": 32,
+        "defense": 10,
         "speed": 20
+      },
+      "FOUNDATION_1": {
+        "maxHp": 220,
+        "attack": 40,
+        "defense": 13,
+        "speed": 24
+      },
+      "FOUNDATION_2": {
+        "maxHp": 260,
+        "attack": 46,
+        "defense": 15,
+        "speed": 26
+      },
+      "FOUNDATION_3": {
+        "maxHp": 300,
+        "attack": 52,
+        "defense": 17,
+        "speed": 28
       }
     },
     "storyEncounter": {

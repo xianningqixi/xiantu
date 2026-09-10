@@ -23,6 +23,9 @@ export interface SectMembership {
   earned: number;
   artLearned: boolean;
   previousSect: string;
+  rank: "outer" | "inner";
+  questStep: number;
+  lastStipendDay: number;
 }
 export interface Actor {
   npcJourney?: { to: LocationId; startedDay: number; total: number; remaining: number };
@@ -42,6 +45,13 @@ export interface Actor {
   personality: string;
   sect: string;
   goal: string;
+  insight: number;
+  manualRank: 0 | 1 | 2 | 3;
+  skills: string[];
+  qi: number;
+  cave?: LocationId;
+  gear?: { charm?: string };
+  jobCooldowns?: Record<string, number>;
   realm: number;
   xp: number;
   hp: number;
@@ -55,7 +65,7 @@ export interface Actor {
   activity: string;
   readyDay: number;
   lastActionDay: number;
-  attempt: { remaining: number; chance: number } | null;
+  attempt: { remaining: number; chance: number; rule?: AttemptRule } | null;
 }
 export interface Relation {
   from: string;
@@ -104,6 +114,7 @@ export interface StoryState {
   compensated: boolean;
 }
 export interface Agreement {
+  terms: "story" | "split";
   id: string;
   status:
     | "accepted"
@@ -144,7 +155,14 @@ export type StopCondition =
   | { kind: "cultivationReady" }
   | { kind: "npcArrives"; target: string }
   | { kind: "importantEvent" };
+export interface AttemptRule {
+  targetRealm: string | null;
+  requiredExperience: number;
+  failureExperienceLossBp: number;
+  severeFailureConditionalBp: number;
+}
 export interface LongAction {
+  rule?: AttemptRule;
   stopWhen?: StopCondition;
   id: string;
   checkpoint: number;
@@ -161,7 +179,9 @@ export interface World {
   campaignLock?: string;
   /** Preserved chapter graph for events written before the fixed four-volume campaign. */
   campaignHistory?: { eventCount: number; chapters: string[] };
-  schemaVersion: 6;
+  schemaVersion: 7;
+  dailyEventCooldowns: Record<string, number>;
+  pendingDailyEventId: string | null;
   negotiations: NegotiationRecord[];
   contentLocks: string[];
   contentState: Record<string, boolean>;
@@ -170,7 +190,7 @@ export interface World {
   simulationOptions: { backgroundConflicts: boolean };
   commandReceipts: Record<string, { fingerprint: string; revision: number }>;
   format: "xiantu-web-1";
-  rulesVersion: "0.1.2" | "0.1.3" | "0.1.4" | "0.1.5" | "0.1.6";
+  rulesVersion: "0.1.2" | "0.1.3" | "0.1.4" | "0.1.5" | "0.1.6" | "0.2.0";
   packLock: string;
   saveId: string;
   revision: number;
@@ -194,6 +214,7 @@ export interface World {
   appliedCommands: string[];
 }
 export type Command =
+  | { type: "advanceMinor" }
   | { type: "visitSect"; sectId: SectId }
   | { type: "joinSect"; sectId: SectId; confirmed: true }
   | { type: "sectTask" | "learnSectArt" | "leaveSect" }

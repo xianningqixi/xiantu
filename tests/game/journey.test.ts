@@ -146,7 +146,7 @@ test("regional roads are open without main clues; travel pays its exact days and
 });
 test("solo selected later volumes remain reachable without a missing earlier pack", () => {
   let w = fresh([packs[3].lock]);
-  mature(w, 4);
+  mature(w, 10);
   recordFact(w, "expedition", "测试夹具：已探索", ["PLAYER"]);
   w.player.location = "gate";
   assert.equal(roadOptions(w)[0].name, "霜河城");
@@ -245,7 +245,7 @@ test("journey contracts reject invalid routes, undeclared files, wrong site kind
 
 test("all four chapters open only in their own town and return roads stay usable", () => {
   let w = fresh();
-  mature(w, 4);
+  mature(w, 10);
   recordFact(w, "expedition", "测试夹具：已探索并返回", ["PLAYER"]);
   for (const { data } of packs) {
     const j = data.journey!;
@@ -275,6 +275,7 @@ test("rally cannot move companions across cities in a single day", () => {
   let w = fresh();
   mature(w, 2);
   w.agreement = {
+    terms: "story",
     id: "agreement:fixture",
     status: "accepted",
     members: ["PLAYER", "NPC_LIN_WAN", "NPC_ZHOU_AN"],
@@ -376,12 +377,25 @@ test("atlas routes respect installed geography, busy companions and the existing
 
 test("previous atlas-less saves upgrade only the rules version and retain all recorded life", () => {
   const old = command(fresh(), { type: "rest" });
+  for (const a of [old.player, ...old.npcs]) {
+    a.realm = a.realm >= 10 ? 4 : Math.min(3, a.realm);
+    a.xp = Math.min(a.xp, [20, 40, 60, 90, 100][a.realm]);
+    a.hp = Math.min(a.hp, [30, 50, 60, 70, 130][a.realm]);
+    a.attempt = null;
+  }
   old.rulesVersion = "0.1.3";
   const before = structuredClone(old);
   const result = migrateSave(old);
   assert.equal(result.migrated, true);
-  assert.equal(result.world.rulesVersion, "0.1.4");
-  assert.deepEqual({ ...result.world, rulesVersion: old.rulesVersion }, before);
+  assert.equal(result.world.rulesVersion, "0.2.0");
+  assert.deepEqual(
+    {
+      ...result.world,
+      npcs: result.world.npcs.map((a) => ({ ...a, realm: a.realm === 10 ? 4 : a.realm })),
+      rulesVersion: old.rulesVersion,
+    },
+    before,
+  );
   assert.deepEqual(old, before);
   assert.equal(migrateSave(result.world).migrated, false);
   assert.equal(atlasPlaces(result.world).length, 10);

@@ -5,7 +5,7 @@ import { journeyActions } from "../../lib/game/journey-actions";
 import { commandDays } from "../../lib/game/action-cost";
 import { CAMPAIGN_LOCKS } from "../../lib/game/campaign-content";
 import { SECTS } from "../../lib/game/sect-content";
-import { B, stats, threshold } from "../../lib/game/rules";
+import { B, advanceRule, stats, threshold } from "../../lib/game/rules";
 import { LOCATIONS, localSite, locationEnabled, locationKind } from "../../lib/game/world-map";
 import type { Command, World, LocationId } from "../../lib/game/types";
 
@@ -101,7 +101,7 @@ test("sect shortcuts change after visit, voluntary admission, contribution earni
 test("breakthrough readiness and injury alter shortcuts without writing time, RNG, rewards or memory", () => {
   let w = run(world(), { type: "travel", to: "inn" });
   w = use(w, "practice");
-  for (const realm of [0, 1, 2, 3, 4]) {
+  for (const realm of Array.from({ length: 13 }, (_, i) => i)) {
     w.player.realm = realm;
     w.player.xp = threshold(w.player);
     w.player.hp = stats(w.player).maxHp - 1;
@@ -109,7 +109,7 @@ test("breakthrough readiness and injury alter shortcuts without writing time, RN
     const actions = journeyActions(w);
     assert.equal(
       actions.find((a) => a.id === "practice")!.title === "准备突破",
-      realm === 0 || realm === 3,
+      ["mortal-entry", "bottleneck", "major"].includes(advanceRule(w.player).kind),
     );
     assert.equal(actions.find((a) => a.id === "rest")!.title, "调养伤势");
     assert.deepEqual(w, before);

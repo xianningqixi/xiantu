@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { applyCommand, createWorld } from "../../lib/game/engine";
+import { applyCommand, createWorld, gainPerDay } from "../../lib/game/engine";
 import { threshold } from "../../lib/game/rules";
 import { trainingPreview } from "../../lib/game/training-preview";
 import { beginActionSummary, finishActionSummary, trainingGain } from "../../lib/ui/action-summary";
@@ -66,7 +66,11 @@ test("training preview equals execution across minor realms and never mutates th
         while (result.longAction) result = step(result, { type: "step" });
         assert.equal(result.day - w.day, preview.readyAfter);
         assert.equal(result.player.stones, 100 - (stone ? preview.readyAfter : 0));
-        assert.equal(result.player.xp, threshold(result.player));
+        assert.ok(result.player.xp >= threshold(result.player));
+        assert.equal(
+          result.player.xp,
+          w.player.xp + gainPerDay(w, w.player, stone) * preview.readyAfter,
+        );
       }
 });
 test("conditional training refuses a full bar before spending any day or stone", () => {
@@ -97,7 +101,7 @@ test("completed summaries freeze results and restored actions explicitly use par
   const frozen = JSON.stringify(full),
     gain = trainingGain(full);
   assert.equal(full.endStones - start.startStones, -full.endDay);
-  assert.equal(gain, 20);
+  assert.equal(gain, 38);
   w = step(w, { type: "work" });
   assert.equal(JSON.stringify(full), frozen);
   assert.equal(trainingGain(full), gain);

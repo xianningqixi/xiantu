@@ -1,3 +1,4 @@
+import { realmIndex, advanceRule } from "./rules";
 import { journeyContext, companionStatus } from "./journey-presentation";
 import { threshold } from "./rules";
 import { mainObjective } from "./main-story";
@@ -86,16 +87,17 @@ export function objective(world: World) {
             : companion && world.agreement?.status === "accepted"
               ? {
                   ...companion,
-                  tab: world.player.realm < 1 ? "cultivation" : "journey",
+                  tab: world.player.realm < realmIndex("QI_1") ? "cultivation" : "journey",
                   anchor:
-                    world.player.realm < 1
+                    world.player.realm < realmIndex("QI_1")
                       ? "practice-start"
                       : world.party.length === 3 && world.player.location !== "gate"
                         ? "world-map"
                         : "companion-status",
                   location: world.party.length === 3 ? "gate" : world.player.location,
                 }
-              : [0, 3].includes(world.player.realm) && world.player.xp >= threshold(world.player)
+              : advanceRule(world.player).kind !== "cap" &&
+                  world.player.xp >= threshold(world.player)
                 ? {
                     title: "修为圆满 · 尝试突破",
                     text: "先突破大境界，再继续修行；突破失败不会致命。",

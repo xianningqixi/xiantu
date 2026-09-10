@@ -4,7 +4,7 @@ import { defaultPhysique, profilePhysique } from "./physique";
 import { selectedExtensions } from "./content/extensions";
 import { PACK, CHARACTERS, PRESENTATION, contentText } from "./content/official";
 import type { Actor, Profile, World } from "./types";
-import { B, REALM_KEYS, SAFE, threshold, requireRule } from "./rules";
+import { B, REALM_KEYS, SAFE, legacyRealmIndex, threshold, requireRule } from "./rules";
 import { hashSeed, nextRandom } from "./rng";
 import { validateWorld } from "./validate";
 import { recordFact as record } from "./knowledge";
@@ -87,7 +87,14 @@ export function createWorld(
   const npcs: Actor[] = [];
   for (const role of ["primary", "companion"] as const) {
     const c = CHARACTERS[role];
-    const npc = createActor(c.id, c.name, c.realm, c.age, c.aptitude, draw(4294967295));
+    const npc = createActor(
+      c.id,
+      c.name,
+      legacyRealmIndex(c.realm),
+      c.age,
+      c.aptitude,
+      draw(4294967295),
+    );
     Object.assign(npc, {
       sex: c.sex,
       personality: c.personality,
@@ -99,10 +106,12 @@ export function createWorld(
     npcs.push(npc);
   }
   for (let i = 2; i < npcCount; i++) {
-    const roll = draw(100);
+    const roll = draw(
+      Math.round(Object.values(B.world.initialRealmWeights).reduce((a, b) => a + b, 0) * 10),
+    );
     let cumulative = 0;
     const realm = REALM_KEYS.findIndex((key) => {
-      cumulative += B.world.initialRealmWeights[key];
+      cumulative += Math.round(B.world.initialRealmWeights[key] * 10);
       return roll < cumulative;
     });
     const npc = createActor(
@@ -140,7 +149,9 @@ export function createWorld(
   player.sect = "无";
   const w: World = {
     campaignLock: MAIN_STORY_LOCK,
-    schemaVersion: 6,
+    schemaVersion: 7,
+    dailyEventCooldowns: {},
+    pendingDailyEventId: null,
     negotiations: [],
     contentLocks: options.contentLocks ?? [],
     contentState: {},
@@ -152,7 +163,7 @@ export function createWorld(
         options.backgroundConflicts ?? B.world.ordinaryNpcOffscreenConflictEnabled,
     },
     format: "xiantu-web-1",
-    rulesVersion: "0.1.4",
+    rulesVersion: "0.2.0",
     packLock: PACK.lock,
     saveId,
     revision: 0,
@@ -209,7 +220,14 @@ export function createWorld(
 export function createContentActors(seed: number, locks: string[], day = 0): Actor[] {
   return selectedExtensions(locks).flatMap(({ data }) =>
     data.definitions.characters.map((c) => {
-      const a = createActor(c.id, c.name, c.realm, c.age, c.aptitude, hashSeed(seed, c.id));
+      const a = createActor(
+        c.id,
+        c.name,
+        legacyRealmIndex(c.realm),
+        c.age,
+        c.aptitude,
+        hashSeed(seed, c.id),
+      );
       Object.assign(a, {
         sex: c.sex,
         personality: c.personality,

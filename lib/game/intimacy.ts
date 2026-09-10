@@ -80,7 +80,7 @@ export function intimacyReason(
 }
 /** Every shared event updates both directions; ordinary company never creates attraction. */
 export function recordCompany(w: World, a: Actor, b: Actor, text: string, intimate?: IntimacyKind) {
-  if (w.rulesVersion !== "0.1.6") w.rulesVersion = "0.1.5";
+  w.rulesVersion = "0.2.0";
   const id = recordFact(w, intimate ? "intimacy" : "companionship", text, [a.id, b.id]);
   if (intimate) w.events.at(-1)!.intimacy = { kind: intimate, consent: "mutual" };
   const config = B.relationships.companionship;

@@ -1,3 +1,4 @@
+import { realmIndex } from "./rules";
 import {
   mainScene,
   mainChapters,
@@ -42,7 +43,8 @@ export function companionStatus(w: World) {
   if (agreement.status === "active")
     return { title: "同行 · 探险途中", text: "战斗结束后带着战利品返回坊市。" };
   if (agreement.status === "accepted") {
-    if (w.player.realm < 1) return { title: "同行 · 约定已立", text: "先修至炼气，再与同伴会合。" };
+    if (w.player.realm < realmIndex("QI_1"))
+      return { title: "同行 · 约定已立", text: "先修至炼气，再与同伴会合。" };
     if (w.party.length < 3) {
       const r = partyReadiness(w);
       return { title: "同行 · 待会合", text: r.ready ? "二人已经在场，可以邀请同行。" : r.reason };

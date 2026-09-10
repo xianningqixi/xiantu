@@ -61,7 +61,21 @@ export const ARTIFACTS = [
     description: "一诺千金。履行约定时，同伴额外增加信任。",
   },
 ] as const;
-export const REALMS = ["凡人", "炼气一层", "炼气二层", "炼气三层", "筑基初期"];
+export const REALMS = [
+  "凡人",
+  "炼气一层",
+  "炼气二层",
+  "炼气三层",
+  "炼气四层",
+  "炼气五层",
+  "炼气六层",
+  "炼气七层",
+  "炼气八层",
+  "炼气九层",
+  "筑基初期",
+  "筑基中期",
+  "筑基后期",
+];
 export const FACES = ["清秀", "俊朗", "温润", "英气"];
 export const HAIRS = ["束发", "披发", "高髻", "短发"];
 export const COLORS = ["青衫", "月白", "墨衣", "藕荷"];

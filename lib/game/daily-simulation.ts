@@ -3,10 +3,10 @@ import { continueNpcJourney, npcSeekSect, npcSocialize } from "./npc-life";
 import { PACK } from "./content/official";
 import { LOCATIONS, localSite, safeLocations, scheduledHome } from "./world-map";
 import type { Actor, World } from "./types";
-import { B, REALM_KEYS, SAFE, threshold, stats, combatDamage } from "./rules";
+import { B, REALM_KEYS, SAFE, advanceRule, threshold, stats, combatDamage } from "./rules";
 import { random } from "./rng";
 import { updateAgreementAvailability } from "./agreement";
-import { cultivate, breakthroughChance, breakthroughResult } from "./cultivation";
+import { advanceMinor, cultivate, breakthroughChance, breakthroughResult } from "./cultivation";
 import { die } from "./lifecycle";
 import { recordFact as record } from "./knowledge";
 
@@ -55,7 +55,7 @@ export function npcConflict(w: World, attacker: Actor, defender: Actor) {
 
 export function advanceDay(w: World, occupied: Set<string> = new Set(["PLAYER"])) {
   if (w.ended) return;
-  w.rulesVersion = "0.1.6";
+  w.rulesVersion = "0.2.0";
   w.day++;
   w.player.ageDays++;
   w.player.lastActionDay = w.day;
@@ -80,7 +80,7 @@ export function advanceDay(w: World, occupied: Set<string> = new Set(["PLAYER"])
       a.attempt.remaining--;
       a.activity = "凝神突破，暂不外出";
       if (a.attempt.remaining === 0) {
-        breakthroughResult(w, a, a.attempt.chance);
+        breakthroughResult(w, a, a.attempt.chance, a.attempt.rule);
         a.attempt = null;
       }
       continue;
@@ -161,8 +161,21 @@ export function advanceDay(w: World, occupied: Set<string> = new Set(["PLAYER"])
       a.activity = "兑换丹药";
       continue;
     }
-    if ((a.realm === 0 || a.realm === 3) && a.xp >= threshold(a) && w.day >= a.readyDay) {
-      if (a.realm === 3 && !a.pills) {
+    const rule = advanceRule(a);
+    if (
+      B.cultivation.minorAdvanceAutoForPlayerAndNpc.npc &&
+      rule.kind === "minor" &&
+      a.xp >= threshold(a)
+    ) {
+      advanceMinor(w, a);
+      continue;
+    }
+    if (
+      ["mortal-entry", "bottleneck", "major"].includes(rule.kind) &&
+      a.xp >= threshold(a) &&
+      w.day >= a.readyDay
+    ) {
+      if (rule.kind === "major" && !a.pills) {
         if (a.stones >= B.economy.shopPrices.ITEM_BREAKTHROUGH_PILL) {
           a.stones -= B.economy.shopPrices.ITEM_BREAKTHROUGH_PILL;
           a.pills++;
@@ -173,11 +186,12 @@ export function advanceDay(w: World, occupied: Set<string> = new Set(["PLAYER"])
         }
         continue;
       }
-      const hasPill = a.realm > 0 && a.pills > 0;
+      const hasPill = rule.kind === "major" && a.pills > 0;
       const chance = breakthroughChance(w, a, hasPill, false);
       if (hasPill) a.pills--;
-      if (a.realm === 0) breakthroughResult(w, a, chance);
-      else a.attempt = { remaining: B.cultivation.advanceRules.QI_3.days - 1, chance };
+      a.insight = 0;
+      if (rule.days === 1) breakthroughResult(w, a, chance);
+      else a.attempt = { remaining: rule.days - 1, chance, rule: { ...rule } };
       a.activity = "凝神突破，暂不外出";
       continue;
     }

@@ -82,6 +82,7 @@ const commandSchemas = [
     .strict(),
   ...(
     [
+      "advanceMinor",
       "sectTask",
       "learnSectArt",
       "leaveSect",

@@ -149,7 +149,7 @@ test("schema five migrates on a copy preserving history, ages, resources and ran
   const original = structuredClone(legacy);
   const { world, migrated } = migrateSave(legacy);
   assert.ok(migrated);
-  assert.equal(world.schemaVersion, 6);
+  assert.equal(world.schemaVersion, 7);
   assert.deepEqual(legacy, original);
   const restored: any = structuredClone(world);
   restored.schemaVersion = 5;

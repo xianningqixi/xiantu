@@ -1,5 +1,5 @@
 import B from "./content/balance.json";
-import { stats, threshold } from "./rules";
+import { advanceRule, stats, threshold } from "./rules";
 import { sectAt } from "./sect-content";
 import { LOCATIONS, localSite, locationKind } from "./world-map";
 import type { Command, World } from "./types";
@@ -58,7 +58,17 @@ export function journeyActions(w: World): JourneyAction[] {
       });
   }
   if (p.manual) {
-    const ready = (p.realm === 0 || p.realm === 3) && p.xp >= threshold(p);
+    if (advanceRule(p).kind === "minor" && p.xp >= threshold(p))
+      actions.push({
+        id: "advance-minor",
+        title: "冲关",
+        hint: "修为圆满 · 晋升下一层",
+        icon: "practice",
+        command: { type: "advanceMinor" },
+      });
+
+    const ready =
+      ["mortal-entry", "bottleneck", "major"].includes(advanceRule(p).kind) && p.xp >= threshold(p);
     actions.push({
       id: "practice",
       title: ready ? "准备突破" : "静心修炼",

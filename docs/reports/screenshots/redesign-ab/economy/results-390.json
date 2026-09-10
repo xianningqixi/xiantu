@@ -1,0 +1,86 @@
+{
+  "transactions": [
+    {
+      "item": "healing",
+      "buy": 8
+    },
+    {
+      "item": "pills",
+      "buy": 30
+    },
+    {
+      "item": "grass",
+      "buy": 40
+    },
+    {
+      "item": "qi",
+      "buy": 20
+    },
+    {
+      "item": "healing",
+      "sell": 4
+    },
+    {
+      "item": "pills",
+      "sell": 15
+    },
+    {
+      "item": "grass",
+      "sell": 25
+    }
+  ],
+  "qiGain": 54,
+  "progress": {
+    "newEventIds": [
+      "event:52",
+      "event:72",
+      "event:76"
+    ],
+    "actionId": "action:45",
+    "completed": 1,
+    "total": 7,
+    "day": 1,
+    "paidStones": 0
+  },
+  "knownNpcIds": [
+    "event:52",
+    "event:72",
+    "event:76"
+  ],
+  "hiddenIds": [
+    "social:NPC_0010:NPC_0095",
+    "social:NPC_0095:NPC_0010",
+    "event:47",
+    "social:NPC_0012:NPC_0034",
+    "social:NPC_0034:NPC_0012",
+    "event:50",
+    "event:51",
+    "event:53",
+    "social:NPC_0043:NPC_0088",
+    "social:NPC_0088:NPC_0043",
+    "event:56",
+    "social:NPC_0051:NPC_0089",
+    "social:NPC_0089:NPC_0051",
+    "event:59",
+    "social:NPC_0052:NPC_0099",
+    "social:NPC_0099:NPC_0052",
+    "event:62",
+    "event:63",
+    "event:64",
+    "event:65",
+    "social:NPC_0070:NPC_0083",
+    "social:NPC_0083:NPC_0070",
+    "event:68",
+    "event:69",
+    "social:NPC_0087:shichai.chunshui.zhengbaichuan",
+    "social:shichai.chunshui.zhengbaichuan:NPC_0087",
+    "social:NPC_0090:NPC_0093",
+    "social:NPC_0093:NPC_0090",
+    "event:75",
+    "social:shichai.xiaye.hantieyi:shichai.xiaye.luqingyao",
+    "social:shichai.xiaye.luqingyao:shichai.xiaye.hantieyi",
+    "event:79"
+  ],
+  "speedReadOnly": true,
+  "reloadExact": true
+}

@@ -1,0 +1,565 @@
+A × B integration validation. Source 1706e2002fa2692f0facc5eb17710ae4a4892107; full browser suite dbe9930d87d29b206adbdf0051511cae11c99bd5.
+All commands ran locally; no stress rerun claimed.
+
+COMMAND: npm run typecheck:game
+
+> xiantu@0.1.0 typecheck:game
+> tsc --project tsconfig.game.json --noEmit
+
+
+COMMAND: npm run test:game
+
+> xiantu@0.1.0 test:game
+> esbuild tests/game/redesign-b.test.ts tests/game/redesign-ab-ui.test.ts tests/game/engine.test.ts tests/game/ui-review.test.ts tests/game/npc-names.test.ts tests/game/npc-life.test.ts tests/game/sects.test.ts tests/game/journey-actions.test.ts --bundle --platform=node --format=esm --outdir=.game-test-build/rules && node --test .game-test-build/rules/*.js
+
+
+  .game-test-build/rules/engine.test.js           1.4mb ⚠️
+  .game-test-build/rules/redesign-b.test.js       1.4mb ⚠️
+  .game-test-build/rules/ui-review.test.js        1.3mb ⚠️
+  .game-test-build/rules/redesign-ab-ui.test.js   1.3mb ⚠️
+  .game-test-build/rules/sects.test.js            1.3mb ⚠️
+  .game-test-build/rules/npc-life.test.js         1.3mb ⚠️
+  .game-test-build/rules/journey-actions.test.js  1.3mb ⚠️
+  .game-test-build/rules/npc-names.test.js        1.2mb ⚠️
+
+⚡ Done in 72ms
+✔ same seed reproduces 100 NPCs; player sex/appearance do not replace fixed NPC identities (21.30075ms)
+✔ the expanded roster preserves the original forty and gives sixty adult women stable identities across seeds (24.478708ms)
+✔ expanded NPC templates cannot replace the player or another saved actor (5.194916ms)
+✔ rejected command preserves RNG, resources, revision and all source data (25.387208ms)
+✔ duplicate command does not repeat time or rewards (13.910292ms)
+✔ looking at a story is inert; learning has one shared acquisition rule (16.459792ms)
+✔ manual fallback works even when the story NPC has died (1.336209ms)
+✔ chunked and daily training yield the same actors, RNG and relationship state (357.764167ms)
+✔ breakthrough can fail and never kills the player (124.48275ms)
+✔ player minor realms wait for a manual, zero-day advancement (2.046333ms)
+✔ full story: agreement, 3-person combat, honor, memory and reunion (53.067041ms)
+✔ renewal is explicit, immediate, idempotent and preserves the previous settlement (23.807791ms)
+✔ cancelled invitations stay completed and can be renewed without replaying the first scene (3.13775ms)
+✔ renewal rejects unresolved loot, breach, absent or busy companions and other locations (31.180584ms)
+✔ breach requires explicit confirmation; compensation retains the original memory (20.497292ms)
+✔ dead NPC cannot move, cultivate, or participate on subsequent days (6.088584ms)
+✔ day-15 missing companions can reliably gather without interrupting a breakthrough (32.898042ms)
+✔ rendezvous waits for an ongoing attempt and keeps the arrived companion available (4.47675ms)
+✔ a later breach overrides the latest response while preserving earlier fulfilled memories (39.34525ms)
+✔ departure availability exposes the same cooldown and attempt restrictions as the command (24.267125ms)
+✔ player and NPC skills both skip exactly two own turns before becoming available (27.245958ms)
+✔ malformed saves are rejected while the existing released profile shape remains valid (1.359459ms)
+✔ same revision on a different character cannot authorize a stale action, replacement or export (3.897875ms)
+✔ NPC portrait identities are distinct and legacy thumbnails remain deterministic without world RNG (31.480542ms)
+✔ portrait identity survives elapsed time and an NPC death; rendezvous can be cancelled (24.427375ms)
+✔ knowledge distinguishes private participants, local witnesses and sourced conversation (0.745208ms)
+✔ directed relationships need distinct evidence for close friendship; grievance is explicit (0.626791ms)
+✔ a deceased recipient produces once-only exception settlement without false betrayal (20.982125ms)
+✔ enabled NPC conflict shares damage rules and cancels a killed actor action (6.315ms)
+✔ lethal complex encounter ends life, simple mode rescues, teaching defeat is nonlethal (73.187959ms)
+✔ complex lifespan death stops work rewards and remains exportable (0.906ms)
+✔ paid training resumes exact checkpoints and never double-charges a retried day (4.219375ms)
+✔ daily lifespan deaths resolve before another NPC can start a conflict (1.696917ms)
+✔ player and NPC resolve the same ordinary failure, severe failure and success from the same inputs (3.765709ms)
+✔ xorshift golden vectors, object-key permutations and one hundred rerolls preserve the seed contract (108.167625ms)
+✔ schema four knowledge migration preserves provenance and bounded receipts retain old-ID protection (3708.945291ms)
+✔ shared-event trends record actual relationship changes and do not claim increases at the cap (1.149875ms)
+✔ character inspection uses shared combat attributes, live battle HP and preserved death state without writing the world (2.901125ms)
+✔ profiles show the subject's own history without changing world knowledge or relationship directions (3.101292ms)
+✔ every enabled inn learns locally for free; other places route to the named local inn (403.913958ms)
+✔ market work is offered only in markets and pays the projected balance reward (6.675ms)
+✔ sect shortcuts change after visit, voluntary admission, contribution earnings and art learning (103.910458ms)
+✔ breakthrough readiness and injury alter shortcuts without writing time, RNG, rewards or memory (12.686833ms)
+✔ repeated NPC contact builds both directions, records one friendship and never pairs the player (35.898417ms)
+✔ busy, absent, deceased and hostile targets cannot consume another NPC action (73.901667ms)
+✔ friendship is witnessed locally or learned from a participant, never via profile inspection (4.177334ms)
+✔ sect journeys cost real route days, suspend interaction and join only after arrival without spawning residents (25.049833ms)
+✔ existing affiliations and authored cast remain intact; admission shares adult and sect requirements (2.686292ms)
+✔ malformed journeys and incompatible older versions are rejected without repairing state (17.384833ms)
+✔ known social milestones remain visible among cultivation updates (2.6375ms)
+✔ seeded NPC lives are deterministic, diverse and bounded over one year (15804.881375ms)
+✔ NPC names are unique across seeds and every installed content roster (328.157792ms)
+✔ duplicate repair preserves authored names, untouched NPCs, identity, history and random streams (10.034875ms)
+✔ name repair also handles duplicate dead actors and current battle labels without changing battle state (7.940334ms)
+✔ the maximum 200-NPC duplicate roster resolves deterministically without numeric names (4.148833ms)
+✔ all thirteen realm projections execute the configured advancement and preserve read-only state (325.547042ms)
+✔ unlocks evaluate configured property paths, comparisons and boolean prerequisites at every boundary (18.924542ms)
+✔ a durable pending daily choice takes precedence over the saved long-action pause (12.656833ms)
+✔ ordinary failure and severe setback remain nonfatal and reproject the actual new rule (197.172833ms)
+✔ thirteen realms share gain, stats, threshold and lifespan tables; manual advancement carries overflow (35.662ms)
+✔ manual rank, cave, focus, stone and injury obey the complete daily gain formula (4.8535ms)
+✔ minor bottlenecks reject preparations and consume insight once; failed attempts never reduce health (10.776542ms)
+✔ schema six remaps all legacy realms once, preserves history and in-flight resolution, and rejects bad versions (10.13875ms)
+✔ migrated battle snapshots finish without overflowing the new actor HP cap (2.148792ms)
+✔ daily pool has ten of each category; 100 waiting days are deterministic, frequent and never repeat consecutively (10.452042ms)
+✔ daily choice pauses a paid retreat at its durable checkpoint; reload and retry never duplicate costs (44.253416ms)
+✔ cave retreats suppress ordinary events; negative daily costs are atomic and promised gifts settle once (6.743666ms)
+✔ new economic commands enforce place, realm, inventory, exact prices and duplicate protection (14.951709ms)
+✔ jobs use configured location, realm, duration, rewards, deterministic rolls and four receipts (8.566833ms)
+✔ sect stipends share the same thirty-day clock and contribution exchanges survive rejoining (4.521584ms)
+✔ nine-step growth distinguishes early bottlenecks, readiness for foundation and reserved companion trips (1.951792ms)
+✔ three sects are visited at real map homes; lazy residents preserve old actors, RNG and knowledge indexes (168.687833ms)
+✔ sect tasks cost days, pay shared prices once, unlock shared cultivation benefits and survive reload (157.317791ms)
+✔ admission, vow, availability and explicit consent reject invalid requests without partial writes (46.351583ms)
+✔ relationships grow through timed company; adults choose bonds and private intimacy, with shared dual-cultivation (101.356084ms)
+✔ NPC partners build their own relationship during long waits; private lives do not consume player resources (151.979167ms)
+✔ underage, dead, busy partners and death on the action day cannot create intimacy or rewards (26.285291ms)
+✔ new optional state is strict and malformed membership, consent or private witnesses cannot load (51.811375ms)
+✔ authored past intimacy is projected only from completed experiences; acquaintance and declined choices stay distinct (5.693625ms)
+✔ new adult characters validate across creation draft, world and portrait pathways (12.305333ms)
+✔ training preview equals execution across minor realms and never mutates the world (104.176334ms)
+✔ conditional training refuses a full bar before spending any day or stone (1.328167ms)
+✔ completed summaries freeze results and restored actions explicitly use partial baselines (33.367125ms)
+✔ scene objectives stay at the current dialogue, ended objectives lead to the journal (9.044208ms)
+✔ people discovery preserves the legacy known direction and does not expose unknown distant NPCs (1.226625ms)
+✔ bond display requires mutually latest recorded bonds and retains adverse attitude (0.472583ms)
+✔ key-only drafts reuse personal credentials only for the fixed endpoint (0.39525ms)
+ℹ tests 87
+ℹ suites 0
+ℹ pass 87
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16138.840959
+
+COMMAND: npm run test:ui
+
+> xiantu@0.1.0 test:ui
+> node --test tests/ui-components.test.mjs
+
+✔ emits modal animation and reduced-motion styles (41.235458ms)
+✔ forwards progress semantics to the primitive (625.954625ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1043.565375
+
+COMMAND: npm run test:economy
+
+> xiantu@0.1.0 test:economy
+> esbuild tests/game/economy.test.tsx --bundle --platform=node --format=esm --packages=external --outfile=.game-test-build/economy.test.mjs && node --test .game-test-build/economy.test.mjs
+
+
+  .game-test-build/economy.test.mjs  1.3mb ⚠️
+
+⚡ Done in 29ms
+✔ rendered shop prices equal the actual rule debit for every item (38.393584ms)
+✔ resource refusals carry a stable code and preserve source state (1.963625ms)
+✔ rendered sale prices equal actual credits for every sellable item (8.266417ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 275.739208
+
+COMMAND: npm run test:storage
+
+> xiantu@0.1.0 test:storage
+> node --test tests/game/worker.test.mjs
+
+✔ create, export and a fresh Worker preserve the complete saved world (75.96075ms)
+✔ generated day-9 and day-40 worlds import intact and keep the replaced save in backups (289.406042ms)
+✔ unconfirmed replacement and malformed imports leave the current save and backups untouched (144.319208ms)
+✔ two independent Workers racing to act commit exactly one day and one reward (78.104709ms)
+✔ a stale page cannot act, export, or confirm an earlier replacement after another Worker advances (178.838042ms)
+✔ two new characters at revision zero are distinguished by save identity (53.092541ms)
+✔ an aborted commit rolls back both imported progress and its backup, then retry succeeds (76.761791ms)
+✔ storage access failure returns an error and keeps the last saved world recoverable (48.968125ms)
+✔ a lost acknowledgment retry is idempotent but the same ID cannot change its payload (64.642375ms)
+✔ unknown messages and extra command fields are rejected without changing the saved world (38.225667ms)
+✔ creation drafts survive Worker restart, reject stale editing, and clear only after successful creation (45.617417ms)
+✔ released version-one snapshots migrate additively with an exact old backup and no RNG/time changes (48.547708ms)
+✔ failed migration preserves the original legacy snapshot; restoring a backup retains the replaced world (77.379083ms)
+✔ future save schemas and unrelated content locks never migrate or replace the current world (35.831083ms)
+✔ schema two migration preserves payload receipts and checkpoint resource accounting (52.640791ms)
+✔ Worker batches publish only durable progress and one final world, identical to individual checkpoints (235.22475ms)
+✔ batch pause and a failed fourth paid checkpoint preserve restartable durable progress (377.553458ms)
+✔ a retried partial batch never advances beyond its original checkpoint boundary (101.274375ms)
+✔ conditional training stops at eligibility and important news pauses a resumable action (154.808792ms)
+✔ exact old journey locks migrate durably with an intact backup, including an aborted migration retry (96.948ms)
+✔ adding the main campaign lock backs up the intact old save and rolls back on failed storage (90.050542ms)
+✔ duplicate NPC names migrate atomically with exact backup, rollback and idempotent reload (99.464959ms)
+✔ open-map rule migration saves atomically with the exact old backup before allowing distant travel (135.362083ms)
+✔ redraw adoption commits portrait and visual traits together, and failed storage retains both originals (149.978375ms)
+✔ renewed invitations commit once, survive reload and roll back on save failure (252.2045ms)
+✔ sect discovery, task rewards and private intimacy commit atomically and survive a fresh Worker (3313.209708ms)
+✔ autonomous NPC relationships, journeys and admission are atomic, replay-safe and durable (12518.207292ms)
+✔ real 0.1.6 imports preserve the input backup atomically even in an empty browser (455.728917ms)
+✔ daily choice interrupts durable Worker progress, rolls back a failed answer and resumes the same checkpoint (163.764583ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 19849.95725
+
+COMMAND: npm run test:client
+
+> xiantu@0.1.0 test:client
+> node --test tests/game/continuation.test.mjs
+
+✔ automatic battle starts only after a successful current command (2.506625ms)
+✔ pause while enabling auto invalidates its late success even after returning to the page (0.652875ms)
+✔ pause while starting a long action preserves the pause and does not navigate on late success (2.699875ms)
+✔ failed commands and hidden pages do not start automatic advancement (0.582625ms)
+✔ a fresh explicit long-action request can resume after an earlier pause (0.586625ms)
+✔ only the saved pending choice resumes its long action after a successful current acknowledgement (2.195292ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 271.958833
+
+COMMAND: npm run test:content
+
+> xiantu@0.1.0 test:content
+> esbuild tests/game/content.test.ts --bundle --platform=node --format=esm --outfile=.game-test-build/content.test.mjs && node --test .game-test-build/content.test.mjs
+
+
+  .game-test-build/content.test.mjs  1.3mb ⚠️
+
+⚡ Done in 19ms
+✔ runtime reads the packaged JSON and resolves its scene and portrait references (13.14075ms)
+✔ replacement prose, choice label, and visual reference work without engine edits (16.093958ms)
+✔ a new declared-flag storylet can appear, execute once, and leave the candidate set (4.994208ms)
+✔ duplicate IDs, unknown effects and invalid visual references are rejected (4.86025ms)
+✔ unavailable facts, unlisted flags, wrong value types and reserved shadowing are rejected (2.879709ms)
+✔ NPC binding cannot take player identity, and names come from the saved actors (3.210416ms)
+✔ path traversal, unknown text expressions and incompatible save locks fail clearly (6.062625ms)
+✔ daily storylets contain three complete pools and reject ambiguous targets or duplicate IDs (1.317875ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 159.657416
+
+COMMAND: npm run test:extensions
+
+> xiantu@0.1.0 test:extensions
+> npm run content:prepare && esbuild tests/game/extensions.test.ts tests/game/journey.test.ts tests/game/main-story.test.ts --bundle --platform=node --format=esm --outdir=.game-test-build/extensions && node --test .game-test-build/extensions/*.js tests/extension-images.test.mjs tests/cosmetic-art.test.mjs
+
+
+> xiantu@0.1.0 content:prepare
+> node scripts/prepare-content.mjs
+
+内容包校验完成：8 个故事节点，3 张故事图片、6 张 NPC 图集。下载模板已同步。
+头像 123 张已核对人物、原立绘、取景和文件摘要。
+新版美术 257 张：129 张立绘、19 个地点；存档内容锁不变。
+展示图片 393 张，共 75746762 字节；原始画稿与官方游戏内容锁保持原值。
+已登记 5 个精确锁定的支线包。
+
+  .game-test-build/extensions/extensions.test.js  1.3mb ⚠️
+  .game-test-build/extensions/main-story.test.js  1.3mb ⚠️
+  .game-test-build/extensions/journey.test.js     1.3mb ⚠️
+
+⚡ Done in 59ms
+✔ independent content pack has exact dependencies and rejects invalid capabilities, namespaces and types (3.219292ms)
+✔ funded and zero-resource side stories use real commands and have no duplicate reward (45.7155ms)
+✔ a disappeared participant invalidates a viewed choice without mutating source (1.460208ms)
+✔ death after acceptance reaches an explanatory close and never speaks for the dead (2.509459ms)
+✔ a failed purchase rolls back all story state; old official saves retain the base lock when joining the campaign (7.488458ms)
+✔ all 120 owned visuals resolve to lazy derivatives and 11 heroine portraits have runtime lookups (1.566958ms)
+✔ owned contract rejects missing art, foreign URLs, invalid paths and scene portraits (12.16125ms)
+✔ new games show no four-volume scenes and distant residents never wander into Qingshi (235.426625ms)
+✔ growth unlocks the local introduction; chapter scenes require the intro, local presence and elapsed days (12.666291ms)
+✔ regional roads are open without main clues; travel pays its exact days and survives saves (24.316833ms)
+✔ solo selected later volumes remain reachable without a missing earlier pack (9.060541ms)
+✔ old exact four-volume saves upgrade geography while preserving progress, resources and original input (4.819125ms)
+✔ unselected locations and distant event witnesses cannot be invented (1.910083ms)
+✔ scheduled local home visits preserve occupied days, breakthroughs, parties and regional boundaries (4.344334ms)
+✔ journey contracts reject invalid routes, undeclared files, wrong site kinds and unknown introductions (12.756916ms)
+✔ all four chapters open only in their own town and return roads stay usable (127.136ms)
+✔ rally cannot move companions across cities in a single day (2.1665ms)
+✔ a mortal can visit all ten atlas destinations in any order without story, reward or identity shortcuts (197.585458ms)
+✔ early NPC visits never trigger gated stories; forged choices cannot spend time or grant rewards (24.942584ms)
+✔ atlas routes respect installed geography, busy companions and the existing expedition settlement (3.193208ms)
+✔ previous atlas-less saves upgrade only the rules version and retain all recorded life (3.488875ms)
+✔ main story requires evidence, its own location, the actual NPC and elapsed days; reads are inert (62.664417ms)
+✔ open roads preserve main clue order, exact travel time and the four-chapter ending (208.454583ms)
+✔ a dead guide leads to archived evidence, never a speaking replacement or a blocked campaign (13.471792ms)
+✔ old saves gain only a versioned campaign lock; malformed or unknown main histories are rejected (7.418792ms)
+✔ a sole later volume follows the base main clue without depending on unselected side stories (20.169041ms)
+✔ main history rejects malformed metadata, forged identities and out-of-place records (13.712125ms)
+✔ main content rejects broken actor, place, pack, node, choice and text references before packaging (0.940291ms)
+✔ the fixed campaign includes all four volumes and requires each local introduction before main clues (1.539ms)
+✔ legacy partial campaigns retain past chapters, actors and choices while absent volumes join exactly once (50.448416ms)
+新版美术 1 张：1 张立绘、0 个地点；存档内容锁不变。
+✔ cosmetic replacement keeps the locked original and old URL while deriving the new face (98.75025ms)
+✔ cosmetic portraits reject a different character's source and out-of-bounds avatar crops (100.811375ms)
+新版美术 1 张：1 张立绘、0 个地点；存档内容锁不变。
+✔ only known missing sect identities can add an actor-ID portrait (141.147625ms)
+✔ extension build validates PNG sources, dimensions and global URL uniqueness (13.867792ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 34
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 783.586833
+
+COMMAND: npm run check:boundaries
+
+> xiantu@0.1.0 check:boundaries
+> node scripts/check-boundaries.mjs
+
+Core boundary check passed: 56 modules.
+
+COMMAND: npm run test:boundaries
+
+> xiantu@0.1.0 test:boundaries
+> node --test tests/boundaries.test.mjs tests/http-target.test.mjs
+
+✔ the production rules and migration modules retain their pure dependency boundary (71.226958ms)
+✔ diagnostic records discard unapproved fields including mock keys, prompts, worlds and raw errors (77.327166ms)
+✔ same-host absolute HTTP targets reload the same local route (1.08525ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 415.543834
+
+COMMAND: npm run format:check
+
+> xiantu@0.1.0 format:check
+> prettier --check .
+
+Checking formatting...
+All matched files use Prettier code style!
+
+COMMAND: npm run build:local
+
+> xiantu@0.1.0 prebuild:local
+> npm run content:prepare
+
+
+> xiantu@0.1.0 content:prepare
+> node scripts/prepare-content.mjs
+
+内容包校验完成：8 个故事节点，3 张故事图片、6 张 NPC 图集。下载模板已同步。
+头像 123 张已核对人物、原立绘、取景和文件摘要。
+新版美术 257 张：129 张立绘、19 个地点；存档内容锁不变。
+展示图片 393 张，共 75746762 字节；原始画稿与官方游戏内容锁保持原值。
+已登记 5 个精确锁定的支线包。
+
+> xiantu@0.1.0 build:local
+> vinext build
+
+
+  vinext build  (Vite 8.0.13)
+
+[1/5] analyze client references...
+[2K
+transforming...(node:6800) ExperimentalWarning: glob is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✓ 188 modules transformed.
+rendering chunks...
+✓ built in 336ms
+[2/5] analyze server references...
+[2K
+transforming...✓ 318 modules transformed.
+rendering chunks...
+✓ built in 162ms
+[3/5] build rsc environment...
+[2K
+transforming...✓ 194 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 333ms
+[4/5] build client environment...
+[2K
+transforming...✓ 2121 modules transformed.
+rendering chunks...
+computing gzip size...
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 915ms
+[5/5] build ssr environment...
+[2K
+transforming...✓ 324 modules transformed.
+rendering chunks...
+computing gzip size...
+✓ built in 359ms
+[0m
+  Route (app)
+  ┌ ? /                  
+  ├ λ /api/model-settings
+  ├ λ /api/negotiation   
+  ├ λ /api/portraits     
+  └ ? /author            
+
+  λ API  ? Unknown
+
+  ? Some routes could not be classified. vinext currently uses static analysis
+    and cannot detect dynamic API usage (headers(), cookies(), etc.) at build time.
+    Automatic classification will be improved in a future release.
+
+  Build complete. Run `vinext start` to start the production server.
+
+
+> xiantu@0.1.0 postbuild:local
+> node scripts/prepare-offline.mjs
+
+离线核心 a844861d49c2b0be6fcb: 18 个文件（HTML在安装时原子缓存），保留最近两版。
+
+COMMAND: XIANTU_STRESS_OUTPUT=/tmp/xiantu-a-stress XIANTU_TEST_OUTPUT=/tmp/xiantu-ab-browser-final-results XIANTU_TEST_URL=http://127.0.0.1:3100 PLAYWRIGHT_CHANNEL=chrome npm run test:browser:existing -- --workers=4
+
+> xiantu@0.1.0 pretest:browser:existing
+> npm run content:fixtures && npm run fixtures:ui
+
+
+> xiantu@0.1.0 content:fixtures
+> npm run content:prepare && esbuild scripts/content/fixtures.ts --bundle --platform=node --format=esm --outfile=.game-test-build/content-fixtures.mjs && node .game-test-build/content-fixtures.mjs
+
+
+> xiantu@0.1.0 content:prepare
+> node scripts/prepare-content.mjs
+
+内容包校验完成：8 个故事节点，3 张故事图片、6 张 NPC 图集。下载模板已同步。
+头像 123 张已核对人物、原立绘、取景和文件摘要。
+新版美术 257 张：129 张立绘、19 个地点；存档内容锁不变。
+展示图片 393 张，共 75746762 字节；原始画稿与官方游戏内容锁保持原值。
+已登记 5 个精确锁定的支线包。
+
+  .game-test-build/content-fixtures.mjs  1.2mb ⚠️
+
+⚡ Done in 29ms
+作者夹具已生成：/tmp/xiantu-author-fixtures。仅供 /author 导入，未经正常游玩不能作为验收证据。
+
+> xiantu@0.1.0 fixtures:ui
+> esbuild scripts/redesign-ab-fixtures.ts --bundle --platform=node --format=esm --outfile=.game-test-build/redesign-ab-fixtures.mjs && node .game-test-build/redesign-ab-fixtures.mjs
+
+
+  .game-test-build/redesign-ab-fixtures.mjs  1.2mb ⚠️
+
+⚡ Done in 13ms
+13 realm and 2 failure fixtures created at /tmp/xiantu-ab-fixtures. Controlled scenario setup; subsequent actions use real rules.
+
+> xiantu@0.1.0 test:browser:existing
+> playwright test --workers=4
+
+
+Running 71 tests using 4 workers
+
+(node:8056) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8055) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8054) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8057) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   4 tests/browser/art-refresh.spec.ts:18:1 › all refreshed full-size images and independent avatars are served with reviewed bytes (859ms)
+  ✓   2 tests/browser/faults.spec.ts:67:3 › real IndexedDB abort keeps the old save and retry commits once (2.7s)
+  ✓   6 tests/browser/faults.spec.ts:67:3 › real IndexedDB quota keeps the old save and retry commits once (2.2s)
+  ✓   7 tests/browser/faults.spec.ts:83:3 › worker beforePut recovers the last complete checkpoint after reopening (1.6s)
+  ✓   8 tests/browser/faults.spec.ts:83:3 › worker lostAck recovers the last complete checkpoint after reopening (2.6s)
+  ✓   9 tests/browser/faults.spec.ts:98:1 › another IndexedDB schema upgrade closes the worker connection and permits a reload (2.9s)
+  ✓  10 tests/browser/faults.spec.ts:122:3 › paid long action beforePut at checkpoint four resumes without duplicate days or cost (4.3s)
+  ✓  11 tests/browser/faults.spec.ts:122:3 › paid long action lostAck at checkpoint four resumes without duplicate days or cost (4.1s)
+  ✓  12 tests/browser/features.spec.ts:56:1 › author creation and actual preview file imports cannot overwrite the normal game (4.2s)
+  ✓  13 tests/browser/features.spec.ts:96:1 › AI ambiguity, explicit confirmation, escaped text and history reloading use one adopted proposal (3.5s)
+  ✓  14 tests/browser/features.spec.ts:142:1 › cancelled late AI response and provider failure leave the world unchanged (2.8s)
+  ✓  15 tests/browser/features.spec.ts:172:1 › 320px layout, 200 percent text and failed illustrations preserve actions and identity (2.3s)
+  ✓   3 tests/browser/atlas.spec.ts:20:1 › an unlocked cultivator previews and visits all ten destinations with durable route days, without consuming time on preview (36.1s)
+  ✓  17 tests/browser/atlas.spec.ts:56:3 › 390px atlas keeps all destinations tappable without horizontal overflow (11.5s)
+  ✓   5 tests/browser/art-refresh.spec.ts:71:1 › three sect locations and six new portraits render through real travel without view-time save writes (52.0s)
+  ✓  19 tests/browser/improvements.spec.ts:29:1 › mobile status, primary choices, prices and event feedback remain visible (4.8s)
+  ✓  18 tests/browser/atlas.spec.ts:56:3 › 320px atlas keeps all destinations tappable without horizontal overflow (10.9s)
+  ✓  20 tests/browser/improvements.spec.ts:44:1 › conditional retreat requests durable daily batches, exposes a collapsible summary and bounded journal (3.4s)
+  ✓   1 tests/browser/characters.spec.ts:49:1 › all local NPCs and the player expose live attributes, directed relations and history without revealing remote residents (1.0m)
+  ✓  22 tests/browser/improvements.spec.ts:103:1 › optimized images reserve dimensions and atlas downloads are excluded from initial offline core (1.8s)
+  ✓  23 tests/browser/characters.spec.ts:179:1 › NPC history shows personal events before acquaintance, with biography and no knowledge or save writes (12.3s)
+{"performance":{"npcCount":100,"importedDay":3650,"initialDay":3653,"days":30,"importBytes":984974,"importMs":576,"actionMs":20928,"maxUiTimerGapMs":192.69999980926514,"samples":389,"browser":"chromium"}}
+  ✓  16 tests/browser/features.spec.ts:190:1 › 100 NPC decade save imports at full size and keeps UI responsive during checkpointed waiting (44.1s)
+  ✓  21 tests/browser/atlas.spec.ts:79:1 › travel navigation and selected previews remain read-only across all viewport sizes (18.6s)
+  ✓  26 tests/browser/features.spec.ts:262:1 › two official reunion preview fixtures remain separate from the normal game when images fail (5.6s)
+  ✓  27 tests/browser/model-settings.spec.ts:110:1 › key-only settings persist both models and clear only the confirmed key without touching the world (8.2s)
+  ✓  29 tests/browser/model-settings.spec.ts:194:1 › separate browsers and stale key edits stay isolated (7.8s)
+  ✓  30 tests/browser/model-settings.spec.ts:226:1 › mobile key-only settings validate empty input and discard cancelled mock test results (4.4s)
+  ✓  31 tests/browser/offline.spec.ts:49:1 › production core can close and reopen offline, act and recover the saved day (4.6s)
+  ✓  32 tests/browser/offline.spec.ts:118:1 › waiting update keeps the active version and refuses another open game tab before explicit activation (4.1s)
+  ✓  24 tests/browser/journey-actions.spec.ts:28:1 › dojo shortcuts retain real costs, free learning, breakthrough and sect contribution rules (45.0s)
+  ✓  33 tests/browser/offline.spec.ts:169:1 › a failed update retains the old cache, and a paused long action blocks activation (6.0s)
+  ✓  35 tests/browser/portraits.spec.ts:64:1 › creation fits first-screen essentials while advanced shape and portrait settings remain available (6.0s)
+  ✓  28 tests/browser/npc-life.spec.ts:35:1 › elapsed time develops autonomous NPC friendships and sect lives, shown in summaries and durable profiles (38.1s)
+  ✓  36 tests/browser/portraits.spec.ts:96:1 › player body and generated asset persist; NPC adoption saves through Worker without progressing world (7.9s)
+  ✓  38 tests/browser/portraits.spec.ts:169:1 › legacy portrait features import into one editable field and preserve empty input (1.7s)
+  ✓  39 tests/browser/portraits.spec.ts:216:1 › late or cancelled generation and failed image cache cannot adopt a portrait (2.1s)
+  ✓  40 tests/browser/portraits.spec.ts:260:1 › unconfigured image service gives an actionable setup message without creating a world (1.3s)
+  ✓  41 tests/browser/portraits.spec.ts:279:1 › matching NPC full-body artwork loads without generation, remains offline, and never becomes player art (9.4s)
+  ✓  37 tests/browser/redesign-a.spec.ts:37:3 › AB acceptance 1440: first screen, first full bar, ceremony, portable save and metrics (26.1s)
+  ✓  42 tests/browser/portraits.spec.ts:344:1 › redraw shares creation fields, previews before saving, and keeps either bundled or previously generated originals (13.3s)
+  ✓  34 tests/browser/owned-art.spec.ts:86:1 › four-volume growth and main clues unlock local stories and real travel with persistent desktop/mobile art (53.3s)
+  ✓  44 tests/browser/portraits.spec.ts:536:1 › closing or cancelling an NPC redraw cannot adopt a late result, and male redraw omits the cup field (8.6s)
+  ✓  43 tests/browser/redesign-a.spec.ts:37:3 › AB acceptance 390: first screen, first full bar, ceremony, portable save and metrics (23.6s)
+  ✓  46 tests/browser/portraits.spec.ts:601:1 › player restoration recovers the created portrait and look after reload; missing original image preserves the current save (8.6s)
+  ✓  45 tests/browser/owned-art.spec.ts:346:1 › roadside-only new game reaches its planned image and keeps original card layout (14.4s)
+  ✓  49 tests/browser/owned-art.spec.ts:417:1 › all 120 registered extension WebPs are served successfully (537ms)
+  ✓  47 tests/browser/redesign-ab-economy.spec.ts:8:3 › AB 1440: all inventory prices, qi use and visible daily evidence match durable Worker results (6.5s)
+  ✓  51 tests/browser/redesign-ab-economy.spec.ts:8:3 › AB 390: all inventory prices, qi use and visible daily evidence match durable Worker results (6.9s)
+  ✓  52 tests/browser/storage.spec.ts:20:1 › draft fields and aptitude survive reloading before the world is created (2.1s)
+  ✓  53 tests/browser/storage.spec.ts:48:1 › double click makes one reward and refresh recovers the committed day (2.1s)
+  ✓  54 tests/browser/storage.spec.ts:60:1 › bad import is rejected and canceling a valid import keeps the original world (2.8s)
+  ✓  55 tests/browser/storage.spec.ts:93:1 › another page cannot write to a replaced character even at the same revision (3.6s)
+  ✓  56 tests/browser/storage.spec.ts:115:1 › backup restore requires confirmation and preserves the replaced character (4.2s)
+  ✓  57 tests/browser/storage.spec.ts:144:1 › exported save can be imported through the actual file control (2.5s)
+  ✓  48 tests/browser/redesign-ab-realms.spec.ts:21:3 › AB 1440: every adjacent realm, preparations, cap and both failure outcomes use actual Worker commands (31.0s)
+  ✓  58 tests/browser/storage.spec.ts:236:1 › an existing game gains the four fixed volumes atomically, keeps its original backup and never resets on reload (2.1s)
+  ✓  60 tests/browser/storage.spec.ts:275:1 › legacy browser storage upgrades on a copy and exposes the original backup (2.4s)
+  ✓  61 tests/browser/storage.spec.ts:292:1 › a corrupt current save stays exportable and a valid backup can recover it (3.2s)
+  ✓  62 tests/browser/storage.spec.ts:316:1 › a creation draft exports and imports without creating or replacing a world (2.2s)
+  ✓  59 tests/browser/redesign-ab-realms.spec.ts:21:3 › AB 390: every adjacent realm, preparations, cap and both failure outcomes use actual Worker commands (30.6s)
+  ✓  64 tests/browser/redesign-ab-realms.spec.ts:128:3 › AB 1440: legacy in-flight breakthrough preserves its snapshot across migration, checkpoint reload and new context (10.3s)
+  ✓  65 tests/browser/redesign-ab-realms.spec.ts:128:3 › AB 390: legacy in-flight breakthrough preserves its snapshot across migration, checkpoint reload and new context (11.0s)
+(node:9198) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  66 tests/browser/redesign-b.spec.ts:24:1 › B: real 0.1.6 import, migration notice, backup and exported new-context roundtrip (8.6s)
+  ✓  25 tests/browser/main-quest.spec.ts:100:1 › the default game integrates all four volumes into its main quest through local introductions, people, growth and travel (4.3m)
+  ✓  50 tests/browser/sects.spec.ts:56:1 › three sect routes, contribution economy, NPC relationship choices and reload work through real UI (3.1m)
+  ✓  63 tests/browser/story.spec.ts:31:3 › dojo story honor preserves battle, promises, reunion, breakthrough and paused checkpoints (2.6m)
+  ✓  67 tests/browser/redesign-b.spec.ts:127:1 › B: production Worker new games measure aptitude, command count and one hundred daily-event days (1.9m)
+  ✓  68 tests/browser/sects.spec.ts:147:1 › a new adult woman can voluntarily take the Jade vow; viewing or cancelling never joins (26.2s)
+  ✓  70 tests/browser/redesign-b.spec.ts:199:1 › B: daily retreat pause/resume and actual UI shortcuts for jobs, manual, sale and cave (37.0s)
+  ✓  69 tests/browser/story.spec.ts:31:3 › dojo story breach preserves battle, promises, reunion, breakthrough and paused checkpoints (2.2m)
+  ✓  71 tests/browser/story.spec.ts:170:1 › cancelled invitations stay closed on desktop and mobile, explicit renewal saves without charging (15.1s)
+
+  Slow test file: tests/browser/story.spec.ts (5.1m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  71 passed (8.7m)
+
+COMMAND: XIANTU_TEST_OUTPUT=/tmp/xiantu-ab-ceremony-results XIANTU_TEST_URL=http://127.0.0.1:3100 PLAYWRIGHT_CHANNEL=chrome npx playwright test tests/browser/redesign-ab-realms.spec.ts --grep "every adjacent realm" --workers=1
+
+Running 2 tests using 1 worker
+
+(node:9872) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/redesign-ab-realms.spec.ts:21:3 › AB 1440: every adjacent realm, preparations, cap and both failure outcomes use actual Worker commands (27.9s)
+  ✓  2 tests/browser/redesign-ab-realms.spec.ts:21:3 › AB 390: every adjacent realm, preparations, cap and both failure outcomes use actual Worker commands (26.3s)
+
+  2 passed (56.2s)
+
+COMMAND: XIANTU_TEST_URL=http://127.0.0.1:3100 PLAYWRIGHT_CHANNEL=chrome XIANTU_PORTABILITY_OUTPUT=/tmp/xiantu-ab-portability npm run test:portability
+
+> xiantu@0.1.0 test:portability
+> node scripts/qa-portability.mjs
+
+{"chrome":"152.0.7977.83","firefox":"153.0","platform":"darwin","results":[{"file":"arrival.json","day":0,"fingerprint":"ab574eb04df1e597366dffd208f89b46f28457a4d01be820cb164924061e55cc","passed":true},{"file":"story-1.json","day":0,"fingerprint":"a210f6f1efe13f41d026e2ed49ab900fea69dabef7eede81f2c7a293d29584ea","passed":true},{"file":"story-2.json","day":0,"fingerprint":"561ba25e1a28f2fdf96511c36a2445f0513ca36d5b2b6f1b863675e00fa1eead","passed":true},{"file":"story-3.json","day":0,"fingerprint":"0de021b790cad30da63e9dfc0a7f0e1d9d2d533116aa07d52bb3a7825818f1a0","passed":true},{"file":"story-4.json","day":0,"fingerprint":"7c70bd9dbc10a7d23495b1e6b5cae0eab5f8aa9db3cbbcb7aa0ec7188135af2d","passed":true},{"file":"honor.json","day":7,"fingerprint":"eccea837143fc1673343aee1068273caafda0e17ac8c0a321da23be8d723b947","passed":true},{"file":"breach.json","day":7,"fingerprint":"3c245bb306fdbb073859ecf9b49cd6d928c325e2e5f5a8121fe4aabea2c77008","passed":true}]}

@@ -1,0 +1,18 @@
+{
+  "fixture": "legacy-0.1.6-foundation.json",
+  "before": {
+    "day": 25,
+    "schema": 6,
+    "rules": "0.1.6",
+    "realm": 4
+  },
+  "after": {
+    "day": 25,
+    "schema": 7,
+    "rules": "0.2.0",
+    "realm": 10
+  },
+  "backupExact": true,
+  "historyExact": true,
+  "roundtrip": true
+}

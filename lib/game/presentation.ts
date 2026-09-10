@@ -124,8 +124,9 @@ export function objective(w: World): Objective {
   if (!p.manual || (rule.kind !== "cap" && p.xp >= threshold(p))) return train();
   if (w.agreement?.status === "accepted") {
     if (
+      !presentationShows(w, "inviteCompanion") ||
       p.realm <
-      REALM_KEYS.indexOf(B.story.playerMinimumExplorationRealm as (typeof REALM_KEYS)[number])
+        REALM_KEYS.indexOf(B.story.playerMinimumExplorationRealm as (typeof REALM_KEYS)[number])
     )
       return train();
     if (w.party.length < B.combat.partyMaxSize) {
@@ -222,6 +223,10 @@ export function presentationActionVisible(w: World, command: Command) {
         ? "visitSect"
         : command.type === "rentCave"
           ? "rentCave"
-          : null;
+          : command.type === "formParty" || command.type === "rally"
+            ? "inviteCompanion"
+            : ["expedition", "meet", "spendTime"].includes(command.type)
+              ? command.type
+              : null;
   return !key || presentationShows(w, key);
 }

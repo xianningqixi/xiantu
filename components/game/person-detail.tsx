@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ARTIFACTS, COLORS, FACES, HAIRS, REALMS } from "@/lib/game/content/official";
 import { actorById, threshold } from "@/lib/game/rules";
 import { LOCATIONS } from "@/lib/game/world-map";
+import { presentationShows } from "@/lib/game/presentation";
 import { relation, relationshipLabel } from "@/lib/game/relationships";
 import { characterVitals, characterRelations, characterHistory } from "@/lib/game/character-sheet";
 import { npcProfile } from "@/lib/game/npc-profile";
@@ -516,7 +517,15 @@ export function PersonDetail({
       {!self && tab !== "portrait" && (
         <div className="sheet-contact">
           <Button
-            disabled={busy || !present || !!w.battle || !!w.longAction || w.ended}
+            disabled={
+              busy ||
+              !present ||
+              !!w.battle ||
+              !!w.longAction ||
+              w.ended ||
+              !presentationShows(w, "meet")
+            }
+            title={!presentationShows(w, "meet") ? "引气入体后开放见礼" : undefined}
             onClick={() => send({ type: "meet", target: id })}
           >
             {r?.known ? "聊聊近况" : "上前见礼"}

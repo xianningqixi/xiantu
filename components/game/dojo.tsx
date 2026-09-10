@@ -304,7 +304,16 @@ export function Dojo({
                 {w.agreement?.status === "accepted" && (
                   <Button
                     variant="outline"
-                    disabled={blocked || w.player.realm < minRealm}
+                    disabled={
+                      blocked ||
+                      w.player.realm < minRealm ||
+                      !presentationShows(w, "inviteCompanion")
+                    }
+                    title={
+                      !presentationShows(w, "inviteCompanion")
+                        ? "继续修炼，待同行邀请开放"
+                        : undefined
+                    }
                     onClick={() => void invoke({ type: readiness.ready ? "formParty" : "rally" })}
                   >
                     {readiness.ready ? "邀二人同行" : "约在此处会合"}

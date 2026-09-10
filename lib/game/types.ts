@@ -346,6 +346,7 @@ export interface WorkerRequest {
   advanceId?: string;
 }
 export interface AdvanceProgress {
+  newEventIds: string[];
   actionId: string;
   completed: number;
   total: number;

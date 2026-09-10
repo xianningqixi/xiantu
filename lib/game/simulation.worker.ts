@@ -1,4 +1,5 @@
 /// <reference lib="webworker" />
+import { knownEvents } from "./knowledge";
 import { legacyRealmIndex } from "./rules";
 import { advanceStopReason } from "./advance";
 import balanceLimits from "./content/balance.json";
@@ -239,6 +240,7 @@ async function advanceBatch(
     ) {
       if (advances.get(request.id)?.cancelled) break;
       const action = world.longAction;
+      const previousEventCount = world.events.length;
       const next = applyCommand(
         world,
         { type: "step" },
@@ -248,10 +250,15 @@ async function advanceBatch(
       await commit(db, next, world);
       world = next;
       const completed = action.checkpoint + 1;
+      const knownIds = new Set(knownEvents(world).map((e) => e.id));
       scope.postMessage({
         id: request.id,
         ok: true,
         progress: {
+          newEventIds: world.events
+            .slice(previousEventCount)
+            .filter((e) => e.day === world.day && knownIds.has(e.id))
+            .map((e) => e.id),
           actionId: action.id,
           completed,
           total: action.total,

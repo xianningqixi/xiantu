@@ -579,6 +579,13 @@ test("Worker batches publish only durable progress and one final world, identica
   const result = await a.send(advanceRequest(start));
   assert.equal(result.ok, true, result.error);
   assert.equal(progress.length, 7);
+  for (const update of progress) {
+    assert.ok(Array.isArray(update.newEventIds));
+    for (const id of update.newEventIds) {
+      assert.equal(result.state.events.find((e) => e.id === id)?.day, update.day);
+      assert.ok(result.state.knowledge[id].some((k) => k[0] === 0));
+    }
+  }
   assert.equal(result.state.player.stones, start.player.stones - 7);
   assert.deepEqual(await a.load(), result.state);
   assert.deepEqual(

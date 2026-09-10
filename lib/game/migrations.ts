@@ -134,7 +134,8 @@ export function migrateSave(value: unknown): { world: World; migrated: boolean }
       if (actor.sectMembership) {
         actor.sectMembership.rank ??= "outer";
         actor.sectMembership.questStep ??= 0;
-        actor.sectMembership.lastStipendDay ??= actor.sectMembership.joinedDay;
+        // Old rules had no stipend: begin the new clock at import without back-paying historical periods.
+        actor.sectMembership.lastStipendDay ??= copy.day;
       }
     }
     if (copy.agreement) copy.agreement.terms ??= "story";

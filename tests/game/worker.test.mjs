@@ -1036,6 +1036,8 @@ test("real 0.1.6 imports preserve the input backup atomically even in an empty b
     assert.equal(result.state.rulesVersion, "0.2.0");
     assert.equal(result.state.player.realm, stage === "foundation" ? 10 : 3);
     assert.equal(result.state.longAction?.chance, old.longAction?.chance);
+    for (const a of [result.state.player, ...result.state.npcs])
+      if (a.sectMembership) assert.equal(a.sectMembership.lastStipendDay, old.day);
     for (const key of ["events", "relations", "knowledge", "rng", "day"])
       assert.deepEqual(result.state[key], old[key]);
     old.npcs.forEach((a, i) => assert.equal(result.state.npcs[i].realm, [0, 1, 2, 3, 10][a.realm]));

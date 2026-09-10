@@ -5,7 +5,7 @@ import { mainObjective } from "./main-story";
 import presentation from "../../content-packs/official-qingshi/ui-presentation.json";
 import B from "./content/balance.json";
 import { PACK, contentText } from "./content/official";
-import type { World } from "./types";
+import type { Command, World } from "./types";
 function at(value: unknown, path: string): unknown {
   return path
     .split(".")
@@ -18,6 +18,15 @@ function at(value: unknown, path: string): unknown {
     );
 }
 export function objective(world: World) {
+  if (world.pendingDailyEventId && world.longAction?.kind !== "breakthrough")
+    return {
+      title: "途中小事 · 等你回应",
+      text: "小事已经记下，回应后可继续原来的行程。",
+      tab: "journey",
+      anchor: "current-scene",
+      command: undefined as Command | undefined,
+    };
+
   const context = {
     ...world,
     primaryPresent: world.npcs.some(
@@ -99,13 +108,23 @@ export function objective(world: World) {
               : advanceRule(world.player).kind !== "cap" &&
                   world.player.xp >= threshold(world.player)
                 ? {
-                    title: "修为圆满 · 尝试突破",
-                    text: "先突破大境界，再继续修行；突破失败不会致命。",
+                    title:
+                      advanceRule(world.player).kind === "minor"
+                        ? "修为圆满 · 冲关"
+                        : "修为圆满 · 尝试突破",
+                    text:
+                      advanceRule(world.player).kind === "minor"
+                        ? "手动冲关即可晋升下一层，余下修为保留。"
+                        : "准备突破当前瓶颈；突破失败不会致命。",
+                    command: (advanceRule(world.player).kind === "minor"
+                      ? { type: "advanceMinor" }
+                      : { type: "breakthrough", usePill: false, guardian: false }) as Command,
                     tab: "cultivation",
                     anchor: "breakthrough-preparation",
                   }
                 : mainObjective(world);
   return {
+    command: undefined as Command | undefined,
     ...entry,
     title: format(entry.title),
     text: format(entry.text),

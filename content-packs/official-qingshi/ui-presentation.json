@@ -12,7 +12,11 @@
     },
     {
       "when": {
-        "player.realm": 4
+        "player.realm": [
+          10,
+          11,
+          12
+        ]
       },
       "title": "筑基已成",
       "text": "再访故人，看看他们这些日子的变化。",
@@ -113,6 +117,102 @@
       "text": "听听{{primary.name}}的打算，商定一场秘境之行。",
       "tab": "journey",
       "anchor": "story-choice-listen"
+    }
+  ],
+  "unlocks": [
+    {
+      "when": {
+        "day": {
+          "gte": 0
+        }
+      },
+      "show": [
+        "primary-action",
+        "work.chores",
+        "event-stream",
+        "tab.dojo",
+        "tab.inventory"
+      ],
+      "toast": ""
+    },
+    {
+      "when": {
+        "player.manual": true
+      },
+      "show": [
+        "train.7",
+        "training-settings"
+      ],
+      "toast": "吐纳有成，可以闭关"
+    },
+    {
+      "when": {
+        "player.realm": {
+          "gte": 1
+        }
+      },
+      "show": [
+        "meet",
+        "spendTime",
+        "work.herbs",
+        "explore",
+        "tab.people",
+        "travel.local"
+      ],
+      "toast": "你已是修士，青石一带可以走动了"
+    },
+    {
+      "when": {
+        "player.realm": {
+          "gte": 3
+        }
+      },
+      "show": [
+        "inviteCompanion",
+        "expedition",
+        "work.escort",
+        "rentCave",
+        "travel.four-cities"
+      ],
+      "toast": "林晚的邀约可以应下了"
+    },
+    {
+      "when": {
+        "player.realm": {
+          "gte": 4
+        }
+      },
+      "show": [
+        "skill-slot.2",
+        "manual-rank.2"
+      ],
+      "toast": "可再习一门技法"
+    },
+    {
+      "when": {
+        "player.realm": {
+          "gte": 5
+        }
+      },
+      "show": [
+        "visitSect",
+        "travel.sects"
+      ],
+      "toast": "三宗门人开始留意你"
+    },
+    {
+      "when": {
+        "player.realm": {
+          "gte": 10
+        }
+      },
+      "show": [
+        "intimacy.bond",
+        "intimacy.dual",
+        "skill-slot.3",
+        "main.shuanghe"
+      ],
+      "toast": "筑基之后，有人愿与你共度长生"
     }
   ]
 }

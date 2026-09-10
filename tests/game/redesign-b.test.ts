@@ -336,3 +336,20 @@ test("sect stipends share the same thirty-day clock and contribution exchanges s
   validateWorld(w);
   assert.equal(w.player.sectMembership!.contribution, 0);
 });
+
+import { cultivationJourney } from "../../lib/game/growth";
+test("nine-step growth distinguishes early bottlenecks, readiness for foundation and reserved companion trips", () => {
+  const w = freshB();
+  Object.assign(w.player, { manual: true, realm: 3, xp: 0 });
+  let steps = cultivationJourney(w).steps;
+  assert.equal(steps.length, 9);
+  assert.equal(steps.find((s) => s.id === "qi-three")!.done, true);
+  assert.equal(steps.find((s) => s.id === "path")!.done, false);
+  Object.assign(w.player, { realm: 9, xp: 0 });
+  steps = cultivationJourney(w).steps;
+  assert.equal(steps.find((s) => s.id === "attempt-foundation")!.done, false);
+  w.player.xp = threshold(w.player);
+  steps = cultivationJourney(w).steps;
+  assert.equal(steps.find((s) => s.id === "attempt-foundation")!.done, true);
+  assert.ok(!steps.find((s) => s.id === "companions")!.done);
+});

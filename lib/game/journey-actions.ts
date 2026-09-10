@@ -23,6 +23,51 @@ export function journeyActions(w: World): JourneyAction[] {
     member = p.sectMembership;
   if (kind === "ruins" || w.loot) return [];
   const actions: JourneyAction[] = [];
+  const add = (id: string, title: string, hint: string, command: Command) =>
+    actions.push({ id, title, hint, icon: "coins", command });
+  const nextManual = B.cultivation.manualRanks[p.manualRank + 1];
+  if (
+    kind === "inn" &&
+    p.manual &&
+    nextManual &&
+    p.realm >= (nextManual.minRealm ?? 0) &&
+    p.stones >= nextManual.cost
+  )
+    add("upgrade-manual", "功法进阶", `${nextManual.cost} 灵石 · 每日加成 ${nextManual.gain}`, {
+      type: "upgradeManual",
+    });
+  if (kind === "market") {
+    if (p.stones >= B.economy.shopPrices.qi)
+      add("buy-qi", "购买聚气丹", `${B.economy.shopPrices.qi} 灵石`, { type: "buy", item: "qi" });
+    if (
+      p.realm >= B.cultivation.cave.minRealm &&
+      p.cave !== p.location &&
+      p.stones >= B.cultivation.cave.cost
+    )
+      add("rent-cave", "置办洞府", `${B.cultivation.cave.cost} 灵石 · 本城修炼加成`, {
+        type: "rentCave",
+      });
+    for (const item of ["grass", "healing", "pills"] as const)
+      if (p[item] > 0)
+        add(
+          `sell-${item}`,
+          `出售一份${{ grass: "凝元草", healing: "回春丹", pills: "突破丹" }[item]}`,
+          `${B.economy.sellPrices[item]} 灵石`,
+          { type: "sell", item, quantity: 1 },
+        );
+  }
+  if (p.manual && p.qi > 0)
+    add("use-qi", "服用聚气丹", "增加修为 · 不耗时", { type: "use", item: "qi" });
+  for (const job of ["herbs", "escort"] as const) {
+    const rule = B.actions.jobs[job];
+    if (rule.locationKinds.includes(kind) && p.realm >= rule.minRealm)
+      add(`work-${job}`, rule.name, `${rule.days} 日 · ${rule.stones} 灵石`, { type: "work", job });
+  }
+  if (member && sect?.id === member.id && member.contribution >= B.sects.pillContributionCost)
+    add("sect-exchange", "贡献换突破丹", `${B.sects.pillContributionCost} 贡献`, {
+      type: "sectExchange",
+    });
+
   if (sect) {
     if (!w.visitedSects?.includes(sect.id))
       actions.push({
@@ -69,6 +114,14 @@ export function journeyActions(w: World): JourneyAction[] {
 
     const ready =
       ["mortal-entry", "bottleneck", "major"].includes(advanceRule(p).kind) && p.xp >= threshold(p);
+    if (ready)
+      actions.push({
+        id: "breakthrough",
+        title: "尝试突破",
+        hint: "开始当前瓶颈突破",
+        icon: "practice",
+        command: { type: "breakthrough", usePill: false, guardian: false },
+      });
     actions.push({
       id: "practice",
       title: ready ? "准备突破" : "静心修炼",
@@ -92,7 +145,7 @@ export function journeyActions(w: World): JourneyAction[] {
       title: "接些坊市杂务",
       hint: `获得 ${B.actions.workSpiritStoneReward} 灵石`,
       icon: "coins",
-      command: { type: "work" },
+      command: { type: "work", job: "chores" },
     });
     actions.push({
       id: "shop",

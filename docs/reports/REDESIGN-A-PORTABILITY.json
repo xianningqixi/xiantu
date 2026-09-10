@@ -1,0 +1,49 @@
+{
+  "chrome": "152.0.7977.83",
+  "firefox": "153.0",
+  "platform": "darwin",
+  "results": [
+    {
+      "file": "arrival.json",
+      "day": 0,
+      "fingerprint": "3a25ed2512ca8c7abe1ec956bacdfde80b0c3556085bfb3711ff9fbb890a8f5c",
+      "passed": true
+    },
+    {
+      "file": "story-1.json",
+      "day": 0,
+      "fingerprint": "5d9c7e687158169b73bad80d215485796fa163944fbde1f146dc156e3024015e",
+      "passed": true
+    },
+    {
+      "file": "story-2.json",
+      "day": 0,
+      "fingerprint": "a58014e4afe366acb6a4eefaf2b366c20389d23dc6387f3177170589ca2b85af",
+      "passed": true
+    },
+    {
+      "file": "story-3.json",
+      "day": 0,
+      "fingerprint": "09c0aeaa71fd0c19ef2ba05c8f251759293fc213ddbd652d2885c1579c1cedea",
+      "passed": true
+    },
+    {
+      "file": "story-4.json",
+      "day": 0,
+      "fingerprint": "27b8497d3e566185e334113dff0eb22b29870cad3612b472ef90d13aade1ea9f",
+      "passed": true
+    },
+    {
+      "file": "honor.json",
+      "day": 8,
+      "fingerprint": "fb72aba3ea1657e4571779618b21475e171a2950be08ca8c7987dd0aeac5b0dc",
+      "passed": true
+    },
+    {
+      "file": "breach.json",
+      "day": 8,
+      "fingerprint": "8f37a2b49e31027b652fe4c5a78b0f5132eeafa58a3d41e37ab2bac4405af531",
+      "passed": true
+    }
+  ]
+}

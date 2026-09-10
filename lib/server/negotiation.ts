@@ -4,6 +4,7 @@ import { z } from "zod";
 import { canonicalTerms, proposalSchema, termsSchema } from "../game/negotiation";
 import { PACK } from "../game/content/official";
 import { MODEL_PRESETS, matchesModelEndpoint } from "../ai/model-settings";
+import { modelFailure, upstreamFailure } from "./model-errors";
 const contextSchema = z
   .object({
     target: z.object({ id: z.string().max(160), name: z.string().max(16) }).strict(),
@@ -152,6 +153,7 @@ export async function handleNegotiation(
   const abort = () => controller.abort();
   request.signal.addEventListener("abort", abort, { once: true });
   const timeout = setTimeout(abort, config.timeout);
+  let receivedResponse = false;
   try {
     if (request.signal.aborted) throw new Error("cancelled");
     const upstream = await (options.fetcher ?? fetch)(`${config.baseUrl}/chat/completions`, {
@@ -177,22 +179,25 @@ export async function handleNegotiation(
     });
     if (!upstream.ok) {
       await upstream.body?.cancel();
-      return json(upstream.status === 429 ? 429 : 502, {
-        error:
-          upstream.status === 429
-            ? "交涉服务繁忙，请稍后再试。"
-            : "交涉服务暂时不可用，可继续固定选项。",
-      });
+      return json(upstream.status === 429 ? 429 : 502, upstreamFailure(upstream.status));
     }
+    receivedResponse = true;
     const body = JSON.parse(await boundedText(upstream, 65536));
     const proposal = proposalSchema.parse(JSON.parse(body.choices?.[0]?.message?.content));
     return json(200, { ...responseBase, mock: false, proposal });
   } catch {
-    return json(controller.signal.aborted ? 504 : 502, {
-      error: controller.signal.aborted
-        ? "交涉已取消或等待超时，游戏进度未改变。"
-        : "对方未能给出可用条款，游戏进度未改变。",
-    });
+    return json(
+      controller.signal.aborted ? 504 : 502,
+      modelFailure(
+        request.signal.aborted
+          ? "cancelled"
+          : controller.signal.aborted
+            ? "timeout"
+            : receivedResponse
+              ? "invalid_response"
+              : "network_error",
+      ),
+    );
   } finally {
     clearTimeout(timeout);
     request.signal.removeEventListener("abort", abort);

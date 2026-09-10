@@ -8,11 +8,11 @@
   "scripts": {
     "install:ci": "bash scripts/install-ci.sh",
     "dev": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vite",
-    "dev:local": "vinext dev",
+    "dev:local": "XIANTU_RUNTIME=node vinext dev",
     "predev:local": "npm run content:prepare",
     "build": "bash scripts/build-verified.sh",
     "prebuild:local": "npm run content:prepare",
-    "build:local": "vinext build",
+    "build:local": "XIANTU_RUNTIME=node vinext build",
     "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
     "start:local": "node scripts/start-local.mjs",
     "verify": "npm run format:check && npm run check:boundaries && npm run test:boundaries && npm run typecheck:game && npm run test:content && npm run test:extensions && npm run test:ai && npm run test:models && npm run test:portraits && npm run test:storage && npm run test:client && npm run test:game && npm run test:economy && npm run build:local && npm run test:ui",

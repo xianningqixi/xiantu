@@ -215,6 +215,7 @@ test("provider errors, malformed JSON, timeout, mock clarification and rate limi
     ),
   );
   assert.equal(timeout.status, 504);
+  assert.equal((await timeout.json()).code, "timeout");
   const mock = providerConfig({ XIANTU_AI_MOCK: "1" })!;
   const value = await (
     await handleNegotiation(request({ ...input(), text: "平分吧" }), {

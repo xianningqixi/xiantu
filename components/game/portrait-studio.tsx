@@ -67,6 +67,7 @@ export function PortraitStudio({
   originalPortraitId,
   protectedIds = [],
   onStateChange,
+  showModelSettings = true,
 }: {
   subject: PortraitSubject;
   portraitId?: string;
@@ -81,6 +82,7 @@ export function PortraitStudio({
   originalPortraitId?: string;
   protectedIds?: string[];
   onStateChange?: (state: { busy: boolean; pending: boolean }) => void;
+  showModelSettings?: boolean;
 }) {
   const readiness = useModelReadiness();
   const cached = usePortrait(portraitId);
@@ -271,84 +273,95 @@ export function PortraitStudio({
       className={`portrait-studio${draft ? " portrait-redraw" : ""}`}
       aria-label={`${name}的全身立绘`}
     >
-      <p className="portrait-state" role="status">
-        {busy
-          ? "正在绘制 · 可取消"
-          : adopting
-            ? "正在保存采用结果"
-            : preview
-              ? "新立绘待采用 · 当前角色尚未改变"
-              : draft
-                ? "编辑形貌 · 原立绘保留中"
-                : hasOriginal
-                  ? "当前立绘"
-                  : "尚未生成立绘 · 也可直接开始游戏"}
-      </p>
-      {draft && (
-        <section className="portrait-editor" aria-label="重新绘制形貌" ref={editor} tabIndex={-1}>
-          <h3 className="list-heading">重新绘制 · {name}</h3>
-          <p className="subtle">按创建主角时的方式调整形貌，生成后再选择是否采用。</p>
-          <AppearanceFields
-            sex={drawing.sex}
-            appearance={drawing.appearance}
-            physique={drawing.physique}
-            onAppearanceChange={(appearance) => setDraft({ ...drawing, appearance })}
-            onPhysiqueChange={(physique) => setDraft({ ...drawing, physique })}
-            disabled={disabled || adopting}
-          />
-        </section>
-      )}
-      {(draft || onFeaturesChange) && (
-        <fieldset className="portrait-features">
-          <legend>
-            立绘特征 <span>可选 · 可修改默认造型</span>
-          </legend>
-          <input
-            aria-label="立绘特征"
-            autoComplete="off"
-            maxLength={PORTRAIT_FEATURES_MAX_LENGTH}
-            value={portraitFeatures(drawing)}
-            placeholder="描述服饰、腿部、鞋履等立绘特征"
-            disabled={disabled || adopting}
-            onChange={(event) =>
-              draft
-                ? setDraft({ ...drawing, portraitFeatures: event.target.value })
-                : onFeaturesChange?.(event.target.value)
-            }
-          />
-          <small>衣着选项指定整体基调；这里补充剪裁、腿部与配饰，生成时合并使用。</small>
-        </fieldset>
-      )}
-      {preview ? (
-        <div className="portrait-comparison" aria-label="立绘对比">
-          <figure>
-            <figcaption>{hasOriginal ? "原立绘 · 当前使用" : "当前形象"}</figcaption>
-            <div className="fullbody-frame">{originalPicture}</div>
-          </figure>
-          <figure>
-            <figcaption>新立绘 · 待选择</figcaption>
-            <div className="fullbody-frame">
-              {previewSrc && (
-                <img src={previewSrc} alt={`${name}的新立绘预览`} width={640} height={960} />
-              )}
-            </div>
-          </figure>
-        </div>
-      ) : (
-        <div className="fullbody-frame">{originalPicture}</div>
-      )}
-      {!draft && !onFeaturesChange && (subject.role === "player" || subject.sex === "female") && (
-        <small className="portrait-hint">{portraitFeatures(subject)}</small>
-      )}
-      {draft && <p className="portrait-hint">生成后可对比新旧立绘，采用时一并保存形貌。</p>}
-      {!valid && (
-        <p role="alert" className="portrait-error">
-          请填写有效形貌，身高需为 145–210 cm 的整数。
+      <div className="portrait-content">
+        <p className="portrait-state" role="status">
+          {busy
+            ? "正在绘制 · 可取消"
+            : adopting
+              ? "正在保存采用结果"
+              : preview
+                ? "新立绘待采用 · 当前角色尚未改变"
+                : draft
+                  ? "编辑形貌 · 原立绘保留中"
+                  : hasOriginal
+                    ? "当前立绘"
+                    : "尚未生成立绘 · 也可直接开始游戏"}
         </p>
-      )}
-      <div className="model-readiness">
-        <p>{readiness.reason || "文字与生图模型已就绪。"}</p>
-        <AISettingsEntry onPause={() => {}} />
+        {draft && (
+          <section className="portrait-editor" aria-label="重新绘制形貌" ref={editor} tabIndex={-1}>
+            <h3 className="list-heading">重新绘制 · {name}</h3>
+            <p className="subtle">按创建主角时的方式调整形貌，生成后再选择是否采用。</p>
+            <AppearanceFields
+              sex={drawing.sex}
+              appearance={drawing.appearance}
+              physique={drawing.physique}
+              onAppearanceChange={(appearance) => setDraft({ ...drawing, appearance })}
+              onPhysiqueChange={(physique) => setDraft({ ...drawing, physique })}
+              disabled={disabled || adopting}
+            />
+          </section>
+        )}
+        {(draft || onFeaturesChange) && (
+          <fieldset className="portrait-features">
+            <legend>
+              立绘特征 <span>可选 · 可修改默认造型</span>
+            </legend>
+            <input
+              aria-label="立绘特征"
+              autoComplete="off"
+              maxLength={PORTRAIT_FEATURES_MAX_LENGTH}
+              value={portraitFeatures(drawing)}
+              placeholder="描述服饰、腿部、鞋履等立绘特征"
+              disabled={disabled || adopting}
+              onChange={(event) =>
+                draft
+                  ? setDraft({ ...drawing, portraitFeatures: event.target.value })
+                  : onFeaturesChange?.(event.target.value)
+              }
+            />
+            <small>衣着选项指定整体基调；这里补充剪裁、腿部与配饰，生成时合并使用。</small>
+          </fieldset>
+        )}
+        {preview ? (
+          <div className="portrait-comparison" aria-label="立绘对比">
+            <figure>
+              <figcaption>{hasOriginal ? "原立绘 · 当前使用" : "当前形象"}</figcaption>
+              <div className="fullbody-frame">{originalPicture}</div>
+            </figure>
+            <figure>
+              <figcaption>新立绘 · 待选择</figcaption>
+              <div className="fullbody-frame">
+                {previewSrc && (
+                  <img src={previewSrc} alt={`${name}的新立绘预览`} width={640} height={960} />
+                )}
+              </div>
+            </figure>
+          </div>
+        ) : (
+          <div className="fullbody-frame">{originalPicture}</div>
+        )}
+        {!draft && !onFeaturesChange && (subject.role === "player" || subject.sex === "female") && (
+          <small className="portrait-hint">{portraitFeatures(subject)}</small>
+        )}
+        {draft && <p className="portrait-hint">生成后可对比新旧立绘，采用时一并保存形貌。</p>}
+        {!valid && (
+          <p role="alert" className="portrait-error">
+            请填写有效形貌，身高需为 145–210 cm 的整数。
+          </p>
+        )}
+        {showModelSettings ? (
+          <div className="model-readiness">
+            <p>{readiness.reason || "文字与生图模型已就绪。"}</p>
+            <AISettingsEntry onPause={() => {}} />
+          </div>
+        ) : (
+          !readiness.loading &&
+          readiness.reason && (
+            <p className="portrait-hint" role="status">
+              {readiness.reason}
+            </p>
+          )
+        )}
       </div>
       <div className="portrait-actions">
         {busy && (

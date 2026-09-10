@@ -289,6 +289,49 @@ test("LLM test uses the fixed model and strict schema without saving credentials
   assert.equal((await (await call({ action: "read" }, cookie)).json()).models.llm.hasKey, false);
 });
 
+test("LLM diagnostics distinguish provider, transport and format failures without exposing secrets", async (t) => {
+  for (const [status, code] of [
+    [401, "authentication_failed"],
+    [403, "permission_denied"],
+    [404, "model_not_found"],
+    [400, "request_rejected"],
+    [422, "request_rejected"],
+    [429, "rate_limited"],
+    [503, "upstream_error"],
+  ] as const) {
+    await t.test(String(status), async (t) => {
+      const { call, cookie, directory } = await fixture(t);
+      const result = await call(
+        { action: "test", kind: "llm", config: draft("llm") },
+        cookie,
+        async () => Response.json({ error: draft("llm").key }, { status }),
+      );
+      assert.equal(result.status, status === 429 ? 429 : 502);
+      const body = await result.json();
+      assert.equal(body.code, code);
+      assert.ok(!JSON.stringify(body).includes(draft("llm").key));
+      assert.deepEqual(await readdir(directory), []);
+    });
+  }
+  for (const code of ["network_error", "invalid_response"] as const) {
+    await t.test(code, async (t) => {
+      const { call, cookie } = await fixture(t);
+      const result = await call(
+        { action: "test", kind: "llm", config: draft("llm") },
+        cookie,
+        async () => {
+          if (code === "network_error") throw new Error(draft("llm").key);
+          return Response.json({ choices: [{ message: { content: draft("llm").key } }] });
+        },
+      );
+      assert.equal(result.status, 502);
+      const body = await result.json();
+      assert.equal(body.code, code);
+      assert.ok(!JSON.stringify(body).includes(draft("llm").key));
+    });
+  }
+});
+
 const png = Buffer.from(
   "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aSr8AAAAASUVORK5CYII=",
   "base64",

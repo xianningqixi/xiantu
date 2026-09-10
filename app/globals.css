@@ -911,42 +911,61 @@ legend,
 .nearby-people {
   margin-top: 22px;
 }
-.nearby-people > h3 {
+.nearby-heading h3 {
   font-size: 12px;
   color: #7f957b;
   letter-spacing: 0.1em;
   font-weight: 400;
   margin-bottom: 6px;
 }
-.nearby-people > button {
+.nearby-person {
   display: flex;
   align-items: center;
   gap: 10px;
   text-align: left;
   width: 100%;
+  min-width: 0;
   background: none;
   border: 0;
   border-bottom: 1px solid #2a3b2a;
-  padding: 12px 0;
+  border-radius: 6px;
+  min-height: 60px;
+  padding: 8px 6px;
   color: #bdc9b0;
   font-size: 13px;
+  line-height: 1.5;
 }
-.nearby-people button > span:nth-child(2) {
+.nearby-person-info {
   flex: 1;
+  min-width: 0;
 }
-.nearby-people small {
+.nearby-person-info strong {
+  display: block;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+.nearby-person-info small {
   display: block;
   color: #738c70;
   font-size: 12px;
 }
-.nearby-people button > svg {
+.nearby-person > svg {
   color: #637d62;
+  flex-shrink: 0;
 }
-.nearby-people .all-people {
-  color: #939b70;
+.nearby-person:hover {
+  background: #bdc9b00a;
+}
+.nearby-person:focus-visible {
+  outline-offset: -2px;
+}
+.nearby-person:last-child {
+  border-bottom-color: transparent;
+}
+.nearby-empty {
+  padding: 12px 6px;
+  color: #899f8d;
   font-size: 12px;
-  border: 0;
-  justify-content: space-between;
 }
 .result-strip {
   display: flex;
@@ -2140,7 +2159,15 @@ legend,
 }
 .prologue-header > div {
   flex-wrap: wrap;
+  align-items: center;
   max-width: 100%;
+}
+.prologue-header > div > :where(button) {
+  height: var(--game-control-height);
+  min-height: var(--game-control-height);
+  padding: 0 14px;
+  font-size: 13px;
+  line-height: 1;
 }
 
 .side-stories {
@@ -2785,9 +2812,21 @@ legend,
 .creation-bottom {
   padding-top: 6px;
   flex: 0 0 auto;
+  flex-wrap: wrap;
+  align-items: center;
   margin-top: auto;
 }
+.creation-bottom > [role="status"] {
+  flex: 0 0 100%;
+  min-width: 0;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
 .creation-form .begin-button {
+  flex: 1 1 0;
+  width: auto;
+  min-width: 0;
   height: 43px;
   min-height: 43px;
   font-size: 16px;
@@ -2867,7 +2906,30 @@ legend,
   min-height: 0;
 }
 .creation-portrait-panel .portrait-studio {
-  height: 100%;
+  flex: 1;
+}
+.creation-portrait-panel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.creation-portrait-panel > :not(.portrait-studio) {
+  flex: 0 0 auto;
+}
+.portrait-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 10px;
+  min-height: 0;
+  overflow: auto;
+  scrollbar-width: thin;
+}
+.portrait-content > * {
+  flex: 0 0 auto;
+}
+.creation-portrait-panel .portrait-content {
+  container-type: size;
 }
 .fullbody-frame {
   position: relative;
@@ -2879,7 +2941,8 @@ legend,
   border-radius: 8px;
 }
 .creation-portrait-panel .fullbody-frame {
-  flex: 1;
+  flex: 0 0 auto;
+  height: clamp(100px, calc(100cqh - 36px), 360px);
   aspect-ratio: auto;
 }
 .fullbody-frame > img {
@@ -3021,9 +3084,11 @@ legend,
     width: 100%;
   }
   .creation-panel-identity .creation-identity,
-  .creation-panel-portrait .creation-portrait-panel,
   .creation-panel-options .creation-options-panel {
     display: block;
+  }
+  .creation-panel-portrait .creation-portrait-panel {
+    display: flex;
   }
   .creation-options-panel {
     border: 0;
@@ -3917,32 +3982,34 @@ legend,
 }
 .person-detail .portrait-studio.portrait-redraw {
   max-width: none;
+}
+.portrait-redraw .portrait-content {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
   align-items: start;
   gap: 16px;
 }
-.portrait-redraw > .portrait-editor,
-.portrait-redraw > .portrait-features {
+.portrait-redraw .portrait-content > .portrait-editor,
+.portrait-redraw .portrait-content > .portrait-features {
   grid-column: 1;
   min-width: 0;
 }
-.portrait-redraw > .fullbody-frame,
-.portrait-redraw > .portrait-comparison {
+.portrait-redraw .portrait-content > .fullbody-frame,
+.portrait-redraw .portrait-content > .portrait-comparison {
   grid-column: 2;
   grid-row: 1 / span 2;
 }
-.portrait-redraw > .portrait-hint,
-.portrait-redraw > .portrait-error,
-.portrait-redraw > .portrait-actions {
+.portrait-redraw .portrait-content > .portrait-hint,
+.portrait-redraw .portrait-content > .portrait-error,
+.portrait-redraw .portrait-content > .model-readiness {
   grid-column: 1 / -1;
 }
 @media (max-width: 700px) {
-  .person-detail .portrait-studio.portrait-redraw {
+  .portrait-redraw .portrait-content {
     display: flex;
   }
 }
-.portrait-redraw > .fullbody-frame {
+.portrait-redraw .portrait-content > .fullbody-frame {
   width: min(100%, 330px);
   align-self: center;
 }
@@ -3970,10 +4037,10 @@ legend,
   aspect-ratio: 2/3;
 }
 .creation-portrait-panel .portrait-comparison {
-  flex: 1;
+  flex: 0 0 auto;
 }
 .creation-portrait-panel .portrait-comparison .fullbody-frame {
-  flex: 1;
+  flex: 0 0 auto;
 }
 @media (max-width: 480px) {
   .portrait-editor .appearance-field,
@@ -4912,10 +4979,8 @@ body:has([role="dialog"]) [data-sonner-toaster] {
   margin-top: 10px;
 }
 .location-workspace .nearby-people {
+  display: block;
   margin-top: 14px;
-}
-.location-workspace .nearby-people > button {
-  padding: 8px 0;
 }
 #location-detail > .daily-actions {
   flex-shrink: 0;
@@ -5509,19 +5574,12 @@ textarea::placeholder {
 .location-workspace .nearby-people {
   margin: 10px 0;
 }
-.location-workspace .nearby-people > button {
-  min-height: 44px;
-  padding: 5px;
-}
 .location-people-toggle {
   display: inline-flex;
 }
 .local-people-list {
   display: grid;
-  gap: 6px;
-}
-.local-people-list > button {
-  justify-content: flex-start;
+  gap: 0;
 }
 .portrait-initial {
   display: grid;
@@ -5685,9 +5743,7 @@ textarea::placeholder {
   height: clamp(170px, 32dvh, 300px);
 }
 .portrait-actions {
-  position: sticky;
-  bottom: 0;
-  z-index: 2;
+  flex: 0 0 auto;
   padding: 10px 0;
   background: #132019;
   display: flex;
@@ -6259,25 +6315,38 @@ textarea::placeholder {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 4px;
-  margin-bottom: 4px;
+  gap: 4px 8px;
+  min-height: 44px;
+  padding-inline: 6px;
+  margin-bottom: 2px;
+  border-bottom: 1px solid #2a3b2a;
 }
 .location-workspace .nearby-heading h3 {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 8px;
   margin: 0;
+  color: #bdc9b0;
+  font-size: 13px;
+  letter-spacing: 0;
 }
-.location-workspace .nearby-heading button {
-  padding: 2px 4px;
-  height: 28px;
+.nearby-heading h3 > span {
+  color: #899f8d;
+  font-size: 11px;
+}
+.location-workspace .nearby-heading .nearby-toggle {
+  padding: 0 4px;
+  height: var(--game-control-height);
+  gap: 4px;
+  color: #b9ac7e;
   font-size: 12px;
+  font-weight: 400;
 }
 .location-workspace .nearby-people .npc-portrait.mini-portrait {
   width: 40px;
   height: 44px;
   flex-basis: 40px;
-}
-.location-workspace .nearby-people > button {
-  min-height: 48px;
-  padding: 2px 4px;
 }
 @media (min-width: 901px) and (max-height: 780px) {
   .location-workspace .encounter-person {

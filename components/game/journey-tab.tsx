@@ -42,7 +42,9 @@ import {
   ArrowLeft,
   ArrowRight,
   BookOpen,
+  ChevronDown,
   ChevronRight,
+  ChevronUp,
   Clock3,
   Coins,
   Compass,
@@ -159,6 +161,8 @@ export const JourneyTab = memo(function JourneyTab({
           Number(a.sectMembership?.id === localSect?.id && !!localSect) ||
         Number(!!relation(w, b.id)?.known) - Number(!!relation(w, a.id)?.known),
     );
+  const nearbyPreview = nearby.filter((a) => a.id !== focus?.id).slice(0, 3);
+  const visiblePeople = peopleOpen ? nearby : nearbyPreview;
 
   if (!detailOpen)
     return (
@@ -515,43 +519,46 @@ export const JourneyTab = memo(function JourneyTab({
           )}
           <div className="nearby-people">
             <div className="nearby-heading">
-              <h3>此地相逢</h3>
-              {nearby.length > 0 && (
-                <Button variant="ghost" onClick={() => onPeopleChange(true)}>
-                  查看全部在场修士
+              <h3>
+                此地相逢 <span>{nearby.length} 人在场</span>
+              </h3>
+              {nearby.length > nearbyPreview.length && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="nearby-toggle"
+                  aria-label={peopleOpen ? "收起在场修士列表" : "查看全部在场修士"}
+                  aria-expanded={peopleOpen}
+                  aria-controls="local-people-list"
+                  onClick={() => onPeopleChange(!peopleOpen)}
+                >
+                  {peopleOpen ? "收起" : "展开"}
+                  {peopleOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                 </Button>
               )}
             </div>
-            {nearby
-              .filter((a) => a.id !== focus?.id)
-              .slice(0, 3)
-              .map((a) => (
+            <div className="local-people-list" id="local-people-list">
+              {visiblePeople.map((a) => (
                 <button
+                  type="button"
+                  className="nearby-person"
                   key={a.id}
                   onClick={(event) => setProfileId(a.id, profileTabForClick(event))}
                 >
                   <NpcPortrait world={w} actor={a} className="mini-portrait" />
-                  <span>
-                    {a.name}
+                  <span className="nearby-person-info">
+                    <strong>{a.name}</strong>
                     <small>{REALMS[a.realm]}</small>
                   </span>
-                  <ChevronRight size={14} />
+                  <ChevronRight size={14} aria-hidden="true" />
                 </button>
               ))}
-            {peopleOpen && (
-              <div className="local-people-list">
-                {nearby.map((a) => (
-                  <Button
-                    variant="ghost"
-                    key={a.id}
-                    onClick={(event) => setProfileId(a.id, profileTabForClick(event))}
-                  >
-                    <NpcPortrait world={w} actor={a} className="mini-portrait" />
-                    {a.name} · {REALMS[a.realm]}
-                  </Button>
-                ))}
-              </div>
-            )}
+              {visiblePeople.length === 0 && (
+                <p className="nearby-empty">
+                  {nearby.length ? "暂无其他在场修士。" : "此处暂无在场修士。"}
+                </p>
+              )}
+            </div>
           </div>
           {w.agreement && ["accepted", "active"].includes(w.agreement.status) && (
             <details className="promise-note">

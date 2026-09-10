@@ -359,6 +359,7 @@ export function Creation({
             </div>
           )}
           <PortraitStudio
+            showModelSettings={false}
             onStateChange={setPortraitState}
             subject={playerSubject(profile, Number(seed))}
             portraitId={profile.portraitId ?? previousLook?.profile.portraitId}

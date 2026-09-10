@@ -19,6 +19,7 @@ import {
   type StoredModel,
 } from "./model-settings-store";
 import { boundedText, providerFetch } from "./provider-http";
+import { safeModelFailure } from "./model-errors";
 
 const kindSchema = z.enum(["llm", "image"]);
 const draftSchema = z
@@ -242,7 +243,7 @@ export async function handleModelSettings(request: Request, options: Options = {
       result.status,
       result.ok
         ? { message: "连接成功，模型已返回符合交涉格式的回应。" }
-        : { error: "LLM 测试未通过，请检查 Key 的权限和余额，或稍后重试。" },
+        : safeModelFailure(await result.json()),
     );
   } catch (error) {
     return reply(error instanceof SettingsConflict ? 409 : 503, {

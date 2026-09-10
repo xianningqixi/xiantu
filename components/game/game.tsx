@@ -1,7 +1,8 @@
 "use client";
 import { downloadSaveText, saveDownloadName } from "@/lib/ui/save-download";
-import type { ProfileTab } from "@/lib/ui/profile-navigation";
+import type { ProfileTab, ProfileTarget } from "@/lib/ui/profile-navigation";
 import { PersonDetail } from "./person-detail";
+import { ActorImageViewer } from "./actor-image-viewer";
 import balanceLimits from "@/lib/game/content/balance.json";
 import type { World } from "@/lib/game/types";
 import { useCallback, useMemo } from "react";
@@ -127,6 +128,11 @@ export default function Game({ preview = false }: { preview?: boolean }) {
     if (error && !isRuleRefusal(game.errorCode)) toast.error(error);
   }, [error]);
   const [profileId, setProfileId] = useState<string | null>(null);
+  const [portraitView, setPortraitView] = useState<{
+    id: string;
+    displayName?: string;
+    open: boolean;
+  } | null>(null);
   const [profileTab, setProfileTab] = useState<ProfileTab>("attributes");
   const [profileStack, setProfileStack] = useState<
     { id: string; tab: ProfileTab; scroll: number }[]
@@ -134,7 +140,15 @@ export default function Game({ preview = false }: { preview?: boolean }) {
   const activeProfileTab = useRef<ProfileTab>("attributes");
   const profileRestoreScroll = useRef<number | null>(null);
   const openProfile = useCallback(
-    (id: string, tab: ProfileTab = "attributes") => {
+    (id: string, tab: ProfileTarget = "attributes", displayName?: string) => {
+      game.pauseAdvance();
+      continuations.cancel();
+      setRunning(false);
+      setAutoRunning(false);
+      if (tab === "image") {
+        setPortraitView({ id, displayName, open: true });
+        return;
+      }
       if (profileId && profileId !== id)
         setProfileStack((stack) => [
           ...stack,
@@ -148,10 +162,6 @@ export default function Game({ preview = false }: { preview?: boolean }) {
           },
         ]);
       activeProfileTab.current = tab;
-      game.pauseAdvance();
-      continuations.cancel();
-      setRunning(false);
-      setAutoRunning(false);
       setProfileTab(tab);
       setProfileId(id);
     },
@@ -194,6 +204,7 @@ export default function Game({ preview = false }: { preview?: boolean }) {
       setSettings(false);
       setConfirm(null);
       setProfileId(null);
+      setPortraitView(null);
       setTab("journey");
       setLastSummary(null);
       actionStart.current = w.longAction
@@ -208,6 +219,7 @@ export default function Game({ preview = false }: { preview?: boolean }) {
     setSettings(false);
     setConfirm(null);
     setProfileId(null);
+    setPortraitView(null);
     setProfileStack([]);
   }, [w?.saveId]);
 
@@ -528,6 +540,8 @@ export default function Game({ preview = false }: { preview?: boolean }) {
       </main>
     );
   const p = w.player;
+  const portraitActor =
+    portraitView?.id === "PLAYER" ? p : w.npcs.find((npc) => npc.id === portraitView?.id);
   const saveBlocked = !!game.saveIssue;
   const saveUnconfirmed = ["SAVE_UNCONFIRMED", "WORKER_UNAVAILABLE"].includes(game.saveIssue);
   const advancing = running || game.isAdvancing;
@@ -745,7 +759,14 @@ export default function Game({ preview = false }: { preview?: boolean }) {
           }
         }}
       >
-        <DialogContent className="game-modal profile-modal">
+        <DialogContent
+          className="game-modal profile-modal"
+          onEscapeKeyDown={(event) => {
+            // A newly focused viewer can receive Escape before Radix updates its layer listeners.
+            if (event.target instanceof Element && event.target.closest(".image-viewer"))
+              event.preventDefault();
+          }}
+        >
           {!!profileStack.length && (
             <Button
               variant="ghost"
@@ -795,6 +816,18 @@ export default function Game({ preview = false }: { preview?: boolean }) {
           )}
         </DialogContent>
       </Dialog>
+      {portraitView && portraitActor && (
+        <ActorImageViewer
+          key={`${w.saveId}:${portraitActor.id}`}
+          world={w}
+          actor={portraitActor}
+          displayName={portraitView.displayName}
+          open={portraitView.open}
+          onOpenChange={(open) =>
+            setPortraitView((current) => (current ? { ...current, open } : null))
+          }
+        />
+      )}
       <SettingsDialog
         offlineRef={setOfflineContainer}
         world={w}

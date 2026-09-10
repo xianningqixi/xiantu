@@ -4,7 +4,7 @@ import { REALMS } from "@/lib/game/content/official";
 import { threshold } from "@/lib/game/rules";
 import { beginActionSummary, finishActionSummary, trainingGain } from "@/lib/ui/action-summary";
 import type { World } from "@/lib/game/types";
-import type { OpenProfile } from "@/lib/ui/profile-navigation";
+import { profileTargetForClick, type OpenProfile } from "@/lib/ui/profile-navigation";
 import { Meter } from "./panels";
 import { PlayerPortrait } from "./player-portrait";
 export function CharacterStatus({ world: w, onProfile }: { world: World; onProfile: OpenProfile }) {
@@ -50,7 +50,7 @@ export function CharacterStatus({ world: w, onProfile }: { world: World; onProfi
       <button
         className="status-profile"
         aria-label={`查看${w.player.name}的人物资料`}
-        onClick={() => onProfile("PLAYER")}
+        onClick={(event) => onProfile("PLAYER", profileTargetForClick(event))}
       >
         <PlayerPortrait world={w} className="status-avatar" />
         <span>

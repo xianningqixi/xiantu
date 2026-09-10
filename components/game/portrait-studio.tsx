@@ -13,6 +13,7 @@ import { extensionPortrait } from "@/lib/game/content/extensions";
 import { imageAsset } from "@/lib/game/images";
 import { cropAvatar } from "@/lib/ui/avatar-image";
 import { cosmeticPortrait } from "@/lib/ui/cosmetic-art";
+import { PortraitZoom } from "./image-viewer";
 export function usePortrait(id?: string, variant: "fullbody" | "avatar" = "fullbody") {
   const [loaded, setLoaded] = useState({ id, variant, src: "" });
   const [version, setVersion] = useState(0);
@@ -254,13 +255,7 @@ export function PortraitStudio({
     }
   };
   const originalPicture = src ? (
-    <img
-      src={src}
-      alt={`${name}的全身立绘`}
-      width={640}
-      height={960}
-      onError={() => setFailed(src)}
-    />
+    <PortraitZoom src={src} alt={`${name}的全身立绘`} onError={() => setFailed(src)} />
   ) : (
     <div className="portrait-empty">
       <UserRound size={42} strokeWidth={1} />
@@ -331,9 +326,7 @@ export function PortraitStudio({
             <figure>
               <figcaption>新立绘 · 待选择</figcaption>
               <div className="fullbody-frame">
-                {previewSrc && (
-                  <img src={previewSrc} alt={`${name}的新立绘预览`} width={640} height={960} />
-                )}
+                {previewSrc && <PortraitZoom src={previewSrc} alt={`${name}的新立绘预览`} />}
               </div>
             </figure>
           </div>

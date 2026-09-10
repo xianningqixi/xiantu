@@ -6034,6 +6034,23 @@ textarea::placeholder {
   display: flex;
   flex-direction: column;
 }
+.portrait-viewer {
+  width: min(680px, calc(100vw - 24px)) !important;
+}
+.image-viewer-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+  color: var(--muted-foreground);
+}
+.portrait-expand,
+[data-person-avatar] {
+  cursor: zoom-in;
+}
 .image-expand {
   padding: 0;
   display: block;

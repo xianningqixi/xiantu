@@ -21,7 +21,7 @@ export function PlayerPortrait({ world, className = "" }: { world: World; classN
       data-person-avatar="PLAYER"
       role="img"
       aria-label={`${world.player.name}的头像`}
-      title={`查看${world.player.name}的全身立绘`}
+      title={`点击放大${world.player.name}的全身立绘`}
     >
       {src && failed !== src ? (
         <img

@@ -4,6 +4,7 @@ import { CAMPAIGN_VOLUMES } from "@/lib/game/campaign-content";
 import { extensionPortrait, extensionVisual } from "@/lib/game/content/extensions";
 import type { Command, World } from "@/lib/game/types";
 import { GameImage } from "./panels";
+import type { OpenProfile } from "@/lib/ui/profile-navigation";
 import { TimeBadge } from "./time-badge";
 export function SideStories({
   world,
@@ -14,7 +15,7 @@ export function SideStories({
   world: World;
   busy: boolean;
   send: (command: Command) => Promise<boolean>;
-  onProfile: (id: string) => void;
+  onProfile: OpenProfile;
 }) {
   const scenes = extensionScenes(world);
   const hint = (text: string) =>
@@ -52,8 +53,8 @@ export function SideStories({
                 <figure className="side-story-portrait" aria-label="故事人物立绘">
                   <button
                     className="character-link"
-                    onClick={() => portraitActor && onProfile(portraitActor)}
-                    aria-label={`查看${participants.find((a) => a.id === portraitActor)?.name ?? "故事人物"}的人物资料`}
+                    onClick={() => portraitActor && onProfile(portraitActor, "image")}
+                    aria-label={`查看${participants.find((a) => a.id === portraitActor)?.name ?? "故事人物"}的全身立绘`}
                   >
                     <GameImage src={portrait.url} alt={portrait.alt} />
                   </button>

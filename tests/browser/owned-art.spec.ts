@@ -140,7 +140,7 @@ test("four-volume growth and main clues unlock local stories and real travel wit
     /suqingyan-portrait-.+\.webp$/,
   );
   const before = await world(page);
-  await card.locator(".dojo-speaker").click();
+  await card.locator(".dojo-speaker > span:not(.npc-portrait)").click();
   await expect(page.locator('[data-character-id="shichai.chunshui.suqingyan"]')).toBeVisible();
   await expect(page.getByRole("dialog")).toContainText(
     before.npcs.find((a: any) => a.id === "shichai.chunshui.suqingyan").goal,

@@ -1,14 +1,8 @@
 "use client";
 import { relationshipStage } from "@/lib/ui/relationship-stage";
 import { RelationshipStage } from "./relationship-stage";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogDescription,
-  DialogHeader,
-} from "@/components/ui/dialog";
-import { profileTabForClick, type OpenProfile } from "@/lib/ui/profile-navigation";
+import { ImageViewer } from "./image-viewer";
+import { profileTargetForClick, type OpenProfile } from "@/lib/ui/profile-navigation";
 import { imageAsset } from "@/lib/game/images";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -97,21 +91,14 @@ export function GameImage({
         {picture}
         <span>查看全图 ↗</span>
       </button>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="game-modal image-viewer">
-          <DialogHeader>
-            <DialogTitle>{alt}</DialogTitle>
-            <DialogDescription>完整构图 · 查看图片不改变游戏进度。</DialogDescription>
-          </DialogHeader>
-          <img
-            src={asset.src}
-            alt={alt}
-            className="image-viewer-image"
-            width={asset.width}
-            height={asset.height}
-          />
-        </DialogContent>
-      </Dialog>
+      <ImageViewer
+        open={open}
+        onOpenChange={setOpen}
+        src={asset.src}
+        alt={alt}
+        width={asset.width}
+        height={asset.height}
+      />
     </>
   ) : (
     picture
@@ -153,7 +140,7 @@ export function PeoplePanel({ world: w, onProfile }: { world: World; onProfile: 
     <button
       className="person-row"
       key={a.id}
-      onClick={(event) => onProfile(a.id, profileTabForClick(event))}
+      onClick={(event) => onProfile(a.id, profileTargetForClick(event))}
     >
       <NpcPortrait world={w} actor={a} className="person-avatar" />
       <div>
@@ -361,7 +348,7 @@ export function BattlePanel({
           <button
             className="fighter ally"
             key={a.id}
-            onClick={(event) => onProfile(a.id, profileTabForClick(event))}
+            onClick={(event) => onProfile(a.id, profileTargetForClick(event))}
             aria-label={`查看${a.name}的人物资料`}
           >
             <strong>

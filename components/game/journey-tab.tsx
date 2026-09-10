@@ -6,7 +6,7 @@ import { extensionVisual } from "@/lib/game/content/extensions";
 import { CAMPAIGN_VOLUMES } from "@/lib/game/campaign-content";
 import { locationArt } from "@/lib/ui/cosmetic-art";
 import type { World } from "@/lib/game/types";
-import type { OpenProfile } from "@/lib/ui/profile-navigation";
+import { profileTargetForClick, type OpenProfile } from "@/lib/ui/profile-navigation";
 import { NpcPortrait } from "./npc-portrait";
 import { GameImage } from "./panels";
 
@@ -92,7 +92,9 @@ export function JourneyTab({ world: w, onProfile }: { world: World; onProfile: O
           <button
             className="dojo-speaker character-link"
             aria-label={`查看${context.displayName}的人物资料`}
-            onClick={() => onProfile(context.actor!.id)}
+            onClick={(event) =>
+              onProfile(context.actor!.id, profileTargetForClick(event), context.displayName)
+            }
           >
             <NpcPortrait world={w} actor={context.actor} full displayName={context.displayName} />
             <span>

@@ -69,7 +69,7 @@ async function completeNode(page: Page, nodeId: string, location: string) {
   const state = await world(page);
   expect(state.events.some((e: any) => e.mainStory?.nodeId === nodeId)).toBe(false);
   if (await scene.locator(".dojo-speaker").count()) {
-    await scene.locator(".dojo-speaker").click();
+    await scene.locator(".dojo-speaker > span:not(.npc-portrait)").click();
     await expect(
       page.getByRole("dialog").getByRole("tab", { name: "属性", exact: true }),
     ).toBeVisible();
@@ -117,7 +117,7 @@ test("the default game integrates all four volumes into its main quest through l
   const initial = await world(page);
   expect(initial.contentLocks).toHaveLength(4);
   expect(initial.npcs).toHaveLength(123);
-  await page.locator(".dojo-speaker").click();
+  await page.locator(".dojo-speaker > span:not(.npc-portrait)").click();
   await expect(page.getByRole("dialog")).toContainText("身份与心愿");
   await page.keyboard.press("Escape");
   expect(await world(page)).toEqual(initial);

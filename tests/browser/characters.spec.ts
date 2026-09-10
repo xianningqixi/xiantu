@@ -91,7 +91,7 @@ test("all local NPCs and the player expose live attributes, directed relations a
     snapshot.npcs.find((a: any) => a.id === "NPC_LIN_WAN"),
   );
   await page.keyboard.press("Escape");
-  await page.locator(".dojo-speaker").click();
+  await page.locator(".dojo-speaker > span:not(.npc-portrait)").click();
   await checkAttributes(
     page,
     snapshot.npcs.find((a: any) => a.id === "NPC_LIN_WAN"),
@@ -188,7 +188,7 @@ test("NPC history shows personal events before acquaintance, with biography and 
   await expect(page.getByLabel("本机已存", { exact: true })).toBeVisible();
   await openCurrentLocation(page);
   const initial = await world(page);
-  await page.locator(".dojo-speaker").click();
+  await page.locator(".dojo-speaker > span:not(.npc-portrait)").click();
   const dialog = page.getByRole("dialog");
   await dialog.getByRole("tab", { name: "经历", exact: true }).click();
   await expect(dialog.getByRole("region", { name: "生平小传" })).toContainText("常在坊市药摊之间");

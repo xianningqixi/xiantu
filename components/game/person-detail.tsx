@@ -1,7 +1,11 @@
 "use client";
 import { RelationshipStage } from "./relationship-stage";
 import { relationshipDisplay, relationshipProgress } from "@/lib/ui/character-presentation";
-import { profileTabForClick, type OpenProfile, type ProfileTab } from "@/lib/ui/profile-navigation";
+import {
+  profileTargetForClick,
+  type OpenProfile,
+  type ProfileTab,
+} from "@/lib/ui/profile-navigation";
 import { IntimacyPanel } from "./intimacy-panel";
 import { intimacyHistory, bondPartner } from "@/lib/game/intimacy";
 import { sectById } from "@/lib/game/sect-content";
@@ -178,7 +182,7 @@ export function PersonDetail({
         <button
           className="sheet-portrait-link"
           aria-label={`查看${a.name}的全身立绘`}
-          onClick={() => setTab("portrait")}
+          onClick={() => onProfile(id, "image")}
         >
           {self ? (
             <PlayerAvatar world={w} />
@@ -300,7 +304,7 @@ export function PersonDetail({
               <article className="sheet-relation" key={peer.id} data-relation-peer={peer.id}>
                 <button
                   className="sheet-peer"
-                  onClick={(event) => onProfile(peer.id, profileTabForClick(event))}
+                  onClick={(event) => onProfile(peer.id, profileTargetForClick(event))}
                 >
                   {peer.id === "PLAYER" ? (
                     <PlayerAvatar world={w} />

@@ -21,7 +21,7 @@ async function openLin(page: Page) {
   const all = page.getByRole("button", { name: "查看全部人物", exact: true });
   if (await all.isVisible()) await all.click();
   await page.getByRole("searchbox", { name: "搜索姓名", exact: true }).fill("林晚");
-  await page.locator('.person-row [data-person-avatar="NPC_LIN_WAN"]').click();
+  await page.locator(".person-row").filter({ hasText: "林晚" }).getByRole("heading").click();
 }
 async function saved(page: Page, store = "saves", key = "current") {
   return page.evaluate(
@@ -124,6 +124,11 @@ test("player body and generated asset persist; NPC adoption saves through Worker
   await page.getByRole("button", { name: "随机生成立绘", exact: true }).click();
   await page.getByRole("button", { name: "采用新立绘", exact: true }).click();
   await expect(page.locator(".fullbody-frame img")).toBeVisible();
+  const createdImage = await page
+    .locator(".fullbody-frame img")
+    .evaluate(async (img: HTMLImageElement) =>
+      Array.from(new Uint8Array(await (await fetch(img.src)).arrayBuffer())),
+    );
   expect(subjects[0].portraitFeatures).toEqual(features);
   expect(subjects[0].physique.bustCup).toBe("E");
   await create(page);
@@ -135,6 +140,22 @@ test("player body and generated asset persist; NPC adoption saves through Worker
   expect(first.player.portraitId).toMatch(/^[a-f0-9]{64}$/);
   expect(first.profile.portraitId).toBe(first.player.portraitId);
   await expect(page.locator(".status-avatar img")).toBeVisible();
+  await page.locator(".status-avatar").click();
+  const playerViewer = page.locator(".image-viewer");
+  await expect(playerViewer.getByRole("heading")).toHaveText("立绘修士的全身立绘");
+  await expect(playerViewer.locator("img")).toHaveAttribute("src", /^blob:/);
+  expect(
+    await playerViewer
+      .locator("img")
+      .evaluate(async (img: HTMLImageElement) =>
+        Array.from(new Uint8Array(await (await fetch(img.src)).arrayBuffer())),
+      ),
+  ).toEqual(createdImage);
+  await expect(page.locator(".profile-modal")).toHaveCount(0);
+  await page.keyboard.press("Escape");
+  await expect(playerViewer).toHaveCount(0);
+  await expect(page.locator(".status-profile")).toBeFocused();
+  expect(await saved(page)).toEqual(first);
   await page.reload();
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
   if (await page.locator(".creation-more").count()) await creationSettings(page);
@@ -445,6 +466,21 @@ test("redraw shares creation fields, previews before saving, and keeps either bu
   await dialog
     .locator(".portrait-comparison")
     .screenshot({ path: "/tmp/xiantu-redraw-comparison.png" });
+  const generatedCount = requests.length;
+  for (const figure of await dialog.locator(".portrait-comparison figure").all()) {
+    const imageSource = await figure.locator("img").getAttribute("src");
+    const opener = figure.getByRole("button");
+    await opener.click();
+    const viewer = page.locator(".image-viewer");
+    await expect(viewer).toBeVisible();
+    await expect(viewer.locator("img")).toHaveAttribute("src", imageSource!);
+    await expect(viewer.getByRole("button", { name: "关闭", exact: true })).toBeFocused();
+    await page.keyboard.press("Escape");
+    await expect(viewer).toHaveCount(0);
+    await expect(opener).toBeFocused();
+    expect(await saved(page)).toEqual(before);
+  }
+  expect(requests).toHaveLength(generatedCount);
   expect(await saved(page)).toEqual(before);
   await dialog.getByRole("button", { name: "采用新立绘", exact: true }).click();
   await expect.poll(async () => (await saved(page)).revision).toBe(before.revision + 1);
@@ -620,7 +656,7 @@ test("player restoration recovers the created portrait and look after reload; mi
   await create(page);
   const original = await saved(page);
   const open = async () => {
-    await page.locator('[data-person-avatar="PLAYER"]').first().click();
+    await page.locator(".status-profile h2").click();
     await page.getByRole("dialog").getByRole("tab", { name: "立绘", exact: true }).click();
   };
   await open();

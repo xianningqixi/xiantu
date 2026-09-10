@@ -1,5 +1,5 @@
 "use client";
-import { profileTabForClick, type OpenProfile } from "@/lib/ui/profile-navigation";
+import { profileTargetForClick, type OpenProfile } from "@/lib/ui/profile-navigation";
 import type { mainScene } from "@/lib/game/main-story";
 import type { World } from "@/lib/game/types";
 import { TimeBadge } from "./time-badge";
@@ -25,7 +25,7 @@ export function MainStoryScene({
       {scene.guide && (
         <button
           className="main-story-speaker character-link"
-          onClick={(event) => onProfile(scene.guide!.id, profileTabForClick(event))}
+          onClick={(event) => onProfile(scene.guide!.id, profileTargetForClick(event))}
           aria-label={`查看${scene.guide.name}的人物资料`}
         >
           <NpcPortrait world={world} actor={scene.guide} className="person-avatar" />

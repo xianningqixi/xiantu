@@ -8,7 +8,6 @@ import { avatarForPortrait } from "@/lib/ui/avatar-library";
 import { cosmeticPortrait } from "@/lib/ui/cosmetic-art";
 import { imageAsset } from "@/lib/game/images";
 import { useState } from "react";
-import { UserRound } from "lucide-react";
 
 export function NpcPortrait({
   actor,
@@ -34,8 +33,8 @@ export function NpcPortrait({
       className={`npc-portrait generated-portrait character-avatar${full ? " is-fullbody" : ""} ${className}`}
       data-person-avatar={actor.id}
       role="img"
-      aria-label={`${displayName ?? actor.name}的头像`}
-      title={`查看${displayName ?? actor.name}的全身立绘`}
+      aria-label={`${displayName ?? actor.name}的${full ? "全身立绘" : "头像"}`}
+      title={`点击放大${displayName ?? actor.name}的全身立绘`}
     >
       {src && failed !== src ? (
         <img

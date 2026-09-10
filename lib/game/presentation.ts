@@ -1,3 +1,4 @@
+import { dailyScene } from "./daily-events";
 import { journeyContext } from "./journey-presentation";
 import { B, REALM_KEYS, advanceRule, threshold } from "./rules";
 import { mainObjective, currentMainStep, hasRubbing } from "./main-story";
@@ -38,6 +39,12 @@ export function objective(w: World): Objective {
       return locationKind(p.location) === "inn"
         ? goal("学习《基础吐纳诀》", "免费领取，学会后即可修炼。", { command: { type: "learn" } })
         : travel(w, localSite(p.location, "inn"), "客栈备有免费的入门功法。");
+    if (rule.kind === "minor" && p.xp >= threshold(p))
+      return goal(
+        `冲关 · ${REALMS[REALM_KEYS.findIndex((key) => key === rule.targetRealm)]}`,
+        "修为圆满，冲关不耗时，余下修为保留。",
+        { command: { type: "advanceMinor" } },
+      );
     if (rule.targetRealm && rule.days > 0 && p.xp >= threshold(p))
       return goal(
         `尝试突破 · ${breakthroughChance(w, p, false, false) / 100}%`,
@@ -78,6 +85,18 @@ export function objective(w: World): Objective {
           command: { type: "return" },
         })
       : goal("分配战利品", "核对承诺与分配，再继续远行。", { anchor: "loot-settlement" });
+  const daily = dailyScene(w);
+  if (daily?.choices.length) {
+    const choices = daily.choices.map((c) => ({
+      title: c.label,
+      command: { type: "choose", nodeId: daily.id, choiceId: c.id } as Command,
+    }));
+    return goal(choices[0].title, "回应这件小事，保存后继续原来行程。", {
+      command: choices[0].command,
+      choices,
+      anchor: "current-scene",
+    });
+  }
   if (w.longAction)
     return goal("继续当前行动", `已保存 ${w.longAction.checkpoint}/${w.longAction.total} 日。`, {
       anchor: "long-action-state",
@@ -102,7 +121,7 @@ export function objective(w: World): Objective {
     });
   if (p.location === "ruins")
     return goal("返回青石坊市", "离开秘境后可以修炼与休息。", { command: { type: "return" } });
-  if (!p.manual || (rule.days > 0 && p.xp >= threshold(p))) return train();
+  if (!p.manual || (rule.kind !== "cap" && p.xp >= threshold(p))) return train();
   if (w.agreement?.status === "accepted") {
     if (
       p.realm <
@@ -170,7 +189,39 @@ export function presentationUnlocks(w: World) {
   return presentation.unlocks.filter((entry) =>
     Object.entries(entry.when).every(([path, expected]) => {
       const value = at(context, path);
-      return Array.isArray(expected) ? expected.includes(value as never) : value === expected;
+      if (Array.isArray(expected)) return expected.includes(value as never);
+      if (expected && typeof expected === "object") {
+        return Object.entries(expected).every(([operator, bound]) => {
+          if (typeof value !== "number" || typeof bound !== "number") return false;
+          return operator === "gte"
+            ? value >= bound
+            : operator === "gt"
+              ? value > bound
+              : operator === "lte"
+                ? value <= bound
+                : operator === "lt"
+                  ? value < bound
+                  : operator === "eq" && value === bound;
+        });
+      }
+      return value === expected;
     }),
   );
+}
+
+export function presentationShows(w: World, key: string) {
+  return presentationUnlocks(w).some((entry) => entry.show.includes(key as never));
+}
+
+/** Visibility gates only; all commands remain validated by the rules in the Worker. */
+export function presentationActionVisible(w: World, command: Command) {
+  const key =
+    command.type === "work"
+      ? `work.${command.job ?? "chores"}`
+      : command.type === "visitSect"
+        ? "visitSect"
+        : command.type === "rentCave"
+          ? "rentCave"
+          : null;
+  return !key || presentationShows(w, key);
 }

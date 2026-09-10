@@ -1,4 +1,5 @@
 "use client";
+import { presentationShows } from "@/lib/game/presentation";
 import { B } from "@/lib/game/rules";
 import { relation } from "@/lib/game/relationships";
 import { sectAt } from "@/lib/game/sect-content";
@@ -50,8 +51,11 @@ export function AtlasMap({
     return parent ? [[parent, p]] : [];
   });
   const routeStops = route?.path.filter((id) => places.some((p) => p.to === id)) ?? [];
+  const disclosed =
+    selected.region === regionOf(w.player.location) || presentationShows(w, "travel.four-cities");
   const visitable =
     !blocked &&
+    disclosed &&
     !w.loot &&
     !here &&
     !!route &&
@@ -231,6 +235,7 @@ export function AtlasMap({
             </p>
           )}
           <small>{storyNote}</small>
+          {!disclosed && <small>修至炼气三层后开放远行入口。</small>}
           {!here && route && (
             <small className="atlas-itinerary">
               行程：

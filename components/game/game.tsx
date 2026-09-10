@@ -54,7 +54,7 @@ import { Creation } from "./creation";
 import { OfflineStatus } from "./offline-status";
 import { BattlePanel, GameImage, InventoryPanel, JournalPanel, PeoplePanel } from "./panels";
 
-import { objective } from "@/lib/game/presentation";
+import { objective, presentationShows } from "@/lib/game/presentation";
 import { CharacterStatus } from "./character-sidebar";
 import { Dojo } from "./dojo";
 import { AtlasPage } from "./atlas-dialog";
@@ -247,7 +247,7 @@ export default function Game({ preview = false }: { preview?: boolean }) {
   }, [continuations, game.pauseAdvance]);
   useEffect(() => {
     if (!w || busy || !visible || settings || showCreate || confirm || profileId || error) return;
-    if (w.longAction && running) {
+    if (w.longAction && running && !w.pendingDailyEventId) {
       const timer = setTimeout(() => {
         void game.advance(1).then((ok) => {
           if (!ok) setRunning(false);
@@ -298,13 +298,16 @@ export default function Game({ preview = false }: { preview?: boolean }) {
         () => {
           if (
             !document.hidden &&
-            (c.type === "train" || c.type === "wait" || c.type === "breakthrough")
+            (c.type === "train" ||
+              c.type === "wait" ||
+              c.type === "breakthrough" ||
+              (c.type === "choose" && c.nodeId === w?.pendingDailyEventId && !!w.longAction))
           ) {
             setRunning(true);
           }
         },
       ),
-    [continuations, send],
+    [continuations, send, w?.pendingDailyEventId, w?.longAction],
   );
   const download = async () => {
     const text = await game.exportSave();
@@ -528,7 +531,8 @@ export default function Game({ preview = false }: { preview?: boolean }) {
   const saveBlocked = !!game.saveIssue;
   const saveUnconfirmed = ["SAVE_UNCONFIRMED", "WORKER_UNAVAILABLE"].includes(game.saveIssue);
   const advancing = running || game.isAdvancing;
-  const blocked = busy || saveBlocked || !!w.longAction || !!w.battle || w.ended;
+  const blocked =
+    busy || saveBlocked || !!w.longAction || !!w.pendingDailyEventId || !!w.battle || w.ended;
   const useTab = (value: string) => {
     pause();
     setTab(value === "cultivation" || value === "journal" ? "journey" : value);
@@ -567,7 +571,19 @@ export default function Game({ preview = false }: { preview?: boolean }) {
           <div className="nav-bar">
             <TabsList className="game-nav" variant="line" aria-label="游戏页面">
               {NAV.map((n) => (
-                <TabsTrigger key={n.id} value={n.id}>
+                <TabsTrigger
+                  key={n.id}
+                  value={n.id}
+                  disabled={
+                    (n.id === "people" && !presentationShows(w, "tab.people")) ||
+                    (n.id === "travel" && !presentationShows(w, "travel.local"))
+                  }
+                  title={
+                    (n.id === "people" || n.id === "travel") && !presentationShows(w, "tab.people")
+                      ? "引气入体后开放"
+                      : undefined
+                  }
+                >
                   <n.icon size={17} />
                   {n.name}
                 </TabsTrigger>
@@ -676,6 +692,8 @@ export default function Game({ preview = false }: { preview?: boolean }) {
                 onNavigate={useTab}
                 requestConfirm={requestConfirm}
                 result={game.lastResult}
+                progress={game.progress}
+                choiceBlocked={busy || saveBlocked || w.ended || !!w.battle}
                 summary={lastSummary}
                 battle={
                   w.battle ? (

@@ -9,18 +9,21 @@ import {
   trainingGain,
   type ActionSummary,
 } from "@/lib/ui/action-summary";
-import type { World } from "@/lib/game/types";
+import { presentationUnlocks } from "@/lib/game/presentation";
+import type { World, AdvanceProgress } from "@/lib/game/types";
 import { RetreatSummary } from "./retreat-summary";
 type Entry = { id: string; day: number; text: string; important?: boolean };
 type Result = { id: string; kind: string; notice: string; day: number; revision: number } | null;
 export function EventFeed({
   world: w,
   result,
+  progress,
   summary,
   onAll,
 }: {
   world: World;
   result: Result;
+  progress: AdvanceProgress | null;
   summary: ActionSummary | null;
   onAll: () => void;
 }) {
@@ -58,7 +61,20 @@ export function EventFeed({
       );
       const stones = w.player.stones - p.player.stones;
       const oldIds = new Set(knownEvents(p).map((e) => e.id));
-      const news = knownNpcUpdates(w).filter((e) => !oldIds.has(e.id));
+      const ids =
+        progress?.day === w.day && progress.actionId === p.longAction.id
+          ? new Set(progress.newEventIds)
+          : null;
+      const known = knownEvents(w).filter((e) => !oldIds.has(e.id) && (!ids || ids.has(e.id)));
+      const npcIds = new Set(knownNpcUpdates(w).map((e) => e.id));
+      const news = known.filter(
+        (e) =>
+          npcIds.has(e.id) ||
+          e.kind === "daily-event" ||
+          e.kind === "daily-gift" ||
+          e.kind === "breakthrough" ||
+          e.kind === "breakthrough-failed",
+      );
       entries.push({
         id: `day:${w.saveId}:${w.revision}`,
         day: w.day,
@@ -73,11 +89,22 @@ export function EventFeed({
       });
     } else if (result && seenResult.current !== result.id)
       entries.push({ id: result.id, day: result.day, text: result.notice });
+    if (p.saveId === w.saveId && p.revision < w.revision) {
+      const before = new Set(presentationUnlocks(p).flatMap((u) => u.show));
+      for (const u of presentationUnlocks(w))
+        if (u.toast && u.show.some((key) => !before.has(key)))
+          entries.push({
+            id: `unlock:${w.revision}:${u.show[0]}`,
+            day: w.day,
+            text: u.toast,
+            important: true,
+          });
+    }
     if (result) seenResult.current = result.id;
     if (!entries.length) return;
     pending.current.push(...entries);
     setQueued(pending.current.length);
-  }, [w, result]);
+  }, [w, result, progress]);
   useEffect(() => {
     if (!queued) return;
     const timer = setTimeout(() => {

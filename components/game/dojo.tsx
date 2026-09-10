@@ -8,13 +8,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { objective } from "@/lib/game/presentation";
+import { objective, presentationActionVisible } from "@/lib/game/presentation";
 import { journeyActions } from "@/lib/game/journey-actions";
 import { practicePreview, realmPresentation } from "@/lib/ui/realm-presentation";
 import { partyReadiness } from "@/lib/game/agreement";
 import { B, REALM_KEYS } from "@/lib/game/rules";
 import { PACK } from "@/lib/game/content/official";
 import { hasRubbing } from "@/lib/game/main-story";
+import type { AdvanceProgress } from "@/lib/game/types";
 import type { World, Command } from "@/lib/game/types";
 import type { OpenProfile } from "@/lib/ui/profile-navigation";
 import type { ActionSummary } from "@/lib/ui/action-summary";
@@ -34,6 +35,8 @@ type Props = {
   act: Send;
   send: Send;
   blocked: boolean;
+  choiceBlocked: boolean;
+  progress: AdvanceProgress | null;
   busy: boolean;
   advancing: boolean;
   onPause: () => void;
@@ -54,6 +57,8 @@ export function Dojo({
   act,
   send,
   blocked,
+  choiceBlocked,
+  progress,
   busy,
   advancing,
   onPause,
@@ -89,8 +94,9 @@ export function Dojo({
       state.canBreak ? setBreakthrough(true) : setPractice(true);
     } else onNavigate(tab);
   };
+  const dailyChoice = !!w.pendingDailyEventId && goal.command?.type === "choose";
   const follow = () => {
-    if (w.longAction) {
+    if (w.longAction && !dailyChoice) {
       advancing ? onPause() : onResume();
       return;
     }
@@ -113,8 +119,9 @@ export function Dojo({
     setMore(true);
   };
   const actions = journeyActions(w)
+    .filter((a) => !a.command || presentationActionVisible(w, a.command))
     .map((a) =>
-      a.id === "practice" && w.player.manual && !state.canBreak
+      a.id === "practice" && w.player.manual && !state.canBreak && !state.canAdvance
         ? { ...a, title: "修炼 7 日", command: preview.command, tab: undefined }
         : a,
     )
@@ -139,8 +146,7 @@ export function Dojo({
   const readiness = partyReadiness(w);
   const minRealm = REALM_KEYS.findIndex((key) => key === B.story.playerMinimumExplorationRealm);
   const primary = w.npcs.find((a) => a.id === PACK.roles.primary)!;
-  const longFull =
-    w.longAction?.kind === "train" && state.ready && (state.canBreak || state.capped);
+  const longFull = w.longAction?.kind === "train" && state.ready;
   return (
     <div className="dojo" aria-label="道场内容">
       <div className="dojo-reading">
@@ -170,6 +176,7 @@ export function Dojo({
         <EventFeed
           world={w}
           result={result}
+          progress={progress}
           summary={summary}
           onAll={() => {
             onPause();
@@ -182,18 +189,26 @@ export function Dojo({
           className="dojo-primary"
           data-primary-action
           data-story-choice={goal.choices ? "primary" : undefined}
-          disabled={(busy && !advancing) || (!!w.longAction && !advancing && !!longFull)}
+          disabled={
+            dailyChoice
+              ? choiceBlocked
+              : (busy && !advancing) || (!!w.longAction && !advancing && !!longFull)
+          }
           onClick={follow}
         >
-          {w.longAction ? (advancing ? "暂停当前行动" : "继续当前行动") : goal.title}
+          {w.longAction && !dailyChoice
+            ? advancing
+              ? "暂停当前行动"
+              : "继续当前行动"
+            : goal.title}
         </Button>
         <p className="dojo-reason">
-          {w.longAction
+          {w.longAction && !dailyChoice
             ? `已保存 ${w.longAction.checkpoint}/${w.longAction.total} 日${longFull ? " · 修为已满，结束当前修炼后尝试突破。" : " · 暂停后可保留进度或结束行动。"}`
             : goal.reason}
         </p>
         <div className="dojo-secondary">
-          {w.longAction
+          {w.longAction && !dailyChoice
             ? w.longAction.kind !== "breakthrough" && (
                 <Button variant="outline" disabled={busy} onClick={onStop}>
                   结束当前行动
@@ -204,7 +219,10 @@ export function Dojo({
                   key={a.id}
                   data-journey-action={a.id}
                   variant="outline"
-                  disabled={blocked || (a.command?.type === "train" && !!preview.reason)}
+                  disabled={
+                    (dailyChoice && a.command?.type === "choose" ? choiceBlocked : blocked) ||
+                    (a.command?.type === "train" && !!preview.reason)
+                  }
                   onClick={() =>
                     a.command ? void invoke(a.command) : a.tab ? navigate(a.tab) : setMore(true)
                   }
@@ -239,7 +257,7 @@ export function Dojo({
                     key={a.id}
                     data-journey-action={a.id}
                     variant="outline"
-                    disabled={blocked}
+                    disabled={dailyChoice ? choiceBlocked : blocked}
                     onClick={() => void invoke(a.command)}
                   >
                     {a.title}
@@ -256,7 +274,10 @@ export function Dojo({
                     variant="outline"
                     key={a.id}
                     data-journey-action={a.id}
-                    disabled={blocked || (a.command?.type === "train" && !!preview.reason)}
+                    disabled={
+                      (dailyChoice && a.command?.type === "choose" ? choiceBlocked : blocked) ||
+                      (a.command?.type === "train" && !!preview.reason)
+                    }
                     onClick={() =>
                       a.command
                         ? void invoke(a.command)

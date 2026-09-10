@@ -8,7 +8,7 @@ import type { OpenProfile } from "@/lib/ui/profile-navigation";
 import { Meter } from "./panels";
 import { PlayerPortrait } from "./player-portrait";
 export function CharacterStatus({ world: w, onProfile }: { world: World; onProfile: OpenProfile }) {
-  type Delta = { id: number; xp: number; stones: number };
+  type Delta = { id: number; xp: number; stones: number; insight: number };
   const queue = useRef<Delta[]>([]);
   const [queued, setQueued] = useState(0);
   const previous = useRef(w),
@@ -28,8 +28,9 @@ export function CharacterStatus({ world: w, onProfile }: { world: World; onProfi
         ? trainingGain(finishActionSummary(beginActionSummary(p, "train"), w, "completed"))
         : w.player.xp - p.player.xp;
     const stones = w.player.stones - p.player.stones;
-    if (xp || stones) {
-      queue.current.push({ id: w.revision, xp, stones });
+    const insight = w.player.insight - p.player.insight;
+    if (xp || stones || insight) {
+      queue.current.push({ id: w.revision, xp, stones, insight });
       setQueued(queue.current.length);
     }
   }, [w]);
@@ -61,11 +62,15 @@ export function CharacterStatus({ world: w, onProfile }: { world: World; onProfi
       <span className="status-stones">
         灵石 <b>{w.player.stones}</b>
       </span>
+      <span className="status-insight">
+        感悟 <b>{w.player.insight}</b>
+      </span>
       <time>第 {w.day + 1} 日</time>
       {delta && (
         <span key={delta.id} className="status-delta" aria-hidden="true">
           {delta.xp !== 0 && `修为 ${delta.xp > 0 ? "+" : ""}${delta.xp} `}
-          {delta.stones !== 0 && `灵石 ${delta.stones > 0 ? "+" : ""}${delta.stones}`}
+          {delta.stones !== 0 && `灵石 ${delta.stones > 0 ? "+" : ""}${delta.stones} `}
+          {delta.insight !== 0 && `感悟 ${delta.insight > 0 ? "+" : ""}${delta.insight}`}
         </span>
       )}
     </div>

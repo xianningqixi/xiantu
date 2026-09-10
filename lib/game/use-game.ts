@@ -133,7 +133,7 @@ export function useGame(preview = false) {
           setLastResult({
             id: saved.id,
             kind: "migration",
-            notice: `旧档已迁移至规则 ${result.state.rulesVersion}，原始存档已保留备份。`,
+            notice: `旧档已迁移至规则 ${saved.state.rulesVersion}，原始存档已保留备份。`,
             day: saved.state.day,
             revision: saved.state.revision,
           });

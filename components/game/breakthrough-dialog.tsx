@@ -83,6 +83,15 @@ export function BreakthroughDialog({
           {breakthroughChance(w, p, usePill, useGuardian) / 100}
           <small>% 成功率</small>
         </strong>
+        <p data-breakthrough-insight>
+          感悟 {p.insight} · 本次成功率加成 +
+          {Math.min(
+            p.insight * B.cultivation.insight.perPointBp,
+            B.cultivation.insight.maxBonusBp,
+          ) / 100}
+          % （开始尝试时消耗全部感悟，已计入成功率）
+        </p>
+        {state.kind === "bottleneck" && <p>小瓶颈只使用感悟，不消耗突破丹，也无需护法。</p>}
         {state.preparation && (
           <>
             <label className="switch-row">

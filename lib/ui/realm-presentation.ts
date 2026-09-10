@@ -4,19 +4,10 @@ import { gainPerDay } from "@/lib/game/cultivation";
 import { STONE_METHOD } from "@/lib/game/economy";
 import type { Actor, Command, World } from "@/lib/game/types";
 
-/** Presentation only: both the five-realm table and future typed advance rules use this adapter. */
+/** Display rules follow the configured advancement kind, never numeric realm indices. */
 export function realmPresentation(actor: Actor) {
   const rule = advanceRule(actor);
-  const kind =
-    "kind" in rule
-      ? String(rule.kind)
-      : !rule.targetRealm
-        ? "cap"
-        : rule.days === 0
-          ? "minor"
-          : REALM_KEYS[actor.realm] === B.cultivation.realmOrder[0]
-            ? "mortal-entry"
-            : "major";
+  const kind = rule.kind;
   const target = rule.targetRealm
     ? REALMS[REALM_KEYS.findIndex((key) => key === rule.targetRealm)]
     : undefined;
@@ -26,7 +17,8 @@ export function realmPresentation(actor: Actor) {
     target,
     capped: kind === "cap",
     ready: actor.xp >= threshold(actor),
-    preparation: kind === "major" || kind === "bottleneck",
+    preparation: kind === "major",
+    canAdvance: kind === "minor" && actor.xp >= threshold(actor),
     canBreak: actor.xp >= threshold(actor) && rule.days > 0 && !!rule.targetRealm,
   };
 }
@@ -51,7 +43,7 @@ export function practicePreview(w: World, days = 1, stone = false, important = f
             ? "先领取并学习入门功法。"
             : state.capped
               ? "本版境界已至终点，可继续远行与访友。"
-              : state.canBreak
+              : state.ready && !state.capped
                 ? "修为已圆满，请先尝试突破。"
                 : w.player.stones < budget
                   ? `最多 ${days} 日需备足 ${budget} 灵石。`

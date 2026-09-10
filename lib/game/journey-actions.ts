@@ -103,6 +103,14 @@ export function journeyActions(w: World): JourneyAction[] {
       });
   }
   if (p.manual) {
+    if (advanceRule(p).kind === "minor" && p.xp >= threshold(p))
+      actions.push({
+        id: "advance-minor",
+        title: "冲关",
+        hint: "修为圆满 · 不耗时",
+        icon: "practice",
+        command: { type: "advanceMinor" },
+      });
     const ready = !!advanceRule(p).targetRealm && advanceRule(p).days > 0 && p.xp >= threshold(p);
     actions.push({
       id: "practice",

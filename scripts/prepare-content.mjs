@@ -1,3 +1,4 @@
+import { validateDailyEvents } from "../lib/game/content/daily-event-contract.mjs";
 import { validateMainStory } from "../lib/game/content/main-story-contract.mjs";
 import { extensionImages } from "./extension-images.mjs";
 import { prepareImages } from "./prepare-images.mjs";
@@ -17,6 +18,9 @@ import {
 import { validateContent } from "../lib/game/content/contract.mjs";
 
 const project = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+validateDailyEvents(
+  JSON.parse(fs.readFileSync(path.join(project, "content-packs/daily-events/events.json"), "utf8")),
+);
 const root = path.join(project, "content-packs/official-qingshi");
 const read = (file) => JSON.parse(fs.readFileSync(path.join(root, file), "utf8"));
 const p = validateContent({

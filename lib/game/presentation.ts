@@ -1,133 +1,176 @@
-import { realmIndex, advanceRule } from "./rules";
-import { journeyContext, companionStatus } from "./journey-presentation";
-import { threshold } from "./rules";
-import { mainObjective } from "./main-story";
+import { journeyContext } from "./journey-presentation";
+import { B, REALM_KEYS, advanceRule, threshold } from "./rules";
+import { mainObjective, currentMainStep, hasRubbing } from "./main-story";
+import { partyReadiness, departureStatus } from "./agreement";
+import { breakthroughChance, gainPerDay } from "./cultivation";
+import { commandDays } from "./action-cost";
+import { PACK, REALMS } from "./content/official";
+import { LOCATIONS, localSite, locationKind, regionOf } from "./world-map";
 import presentation from "../../content-packs/official-qingshi/ui-presentation.json";
-import B from "./content/balance.json";
-import { PACK, contentText } from "./content/official";
-import type { Command, World } from "./types";
+import type { Command, LocationId, World } from "./types";
+
+export interface Objective {
+  title: string;
+  reason: string;
+  text: string;
+  tab: string;
+  command?: Command;
+  anchor?: string;
+  location?: LocationId;
+  choices?: { title: string; command: Command }[];
+}
+function goal(title: string, reason: string, extra: Partial<Objective> = {}): Objective {
+  return { title, reason, text: reason, tab: "journey", ...extra };
+}
+function travel(w: World, to: LocationId, reason: string) {
+  const command: Command = { type: "travel", to };
+  return goal(`前往${LOCATIONS[to].name} · ${commandDays(w, command)} 日`, reason, {
+    command,
+    location: to,
+  });
+}
+export function objective(w: World): Objective {
+  const p = w.player,
+    rule = advanceRule(p),
+    context = journeyContext(w);
+  const train = (reason?: string) => {
+    if (!p.manual)
+      return locationKind(p.location) === "inn"
+        ? goal("学习《基础吐纳诀》", "免费领取，学会后即可修炼。", { command: { type: "learn" } })
+        : travel(w, localSite(p.location, "inn"), "客栈备有免费的入门功法。");
+    if (rule.targetRealm && rule.days > 0 && p.xp >= threshold(p))
+      return goal(
+        `尝试突破 · ${breakthroughChance(w, p, false, false) / 100}%`,
+        `准备踏入${REALMS[REALM_KEYS.findIndex((key) => key === rule.targetRealm)]}；失败不致命。`,
+        { tab: "cultivation", anchor: "breakthrough-preparation" },
+      );
+    if (!rule.targetRealm)
+      return goal("前往游历", "本版境界已至终点，仍可查访主线与故人。", { anchor: "atlas-page" });
+    return goal(
+      "静心修炼 · 1 日",
+      reason ??
+        `再修约 ${Math.ceil(Math.max(0, threshold(p) - p.xp) / gainPerDay(w, p))} 日修为圆满。`,
+      {
+        command: {
+          type: "train",
+          days: 1,
+          stoneMethod: false,
+          stopWhen: { kind: "cultivationReady" },
+        },
+      },
+    );
+  };
+  if (w.ended)
+    return goal("回顾这一世", "修行与相逢已记入历程。", {
+      tab: "journal",
+      anchor: "journal-heading",
+    });
+  if (w.battle) {
+    const fighter = w.battle.allies.find((a) => a.id === p.id)!;
+    const skill = fighter.cooldown === 0;
+    return goal(skill ? "施展青芒剑诀" : "挥剑普攻", "指挥本回合行动；其他招式在更多行动中。", {
+      command: { type: "battle", action: skill ? "skill" : "attack" },
+    });
+  }
+  if (w.loot)
+    return p.location === "ruins"
+      ? goal("收好战利品，返回坊市", "返回后清点所得，兑现同行约定。", {
+          command: { type: "return" },
+        })
+      : goal("分配战利品", "核对承诺与分配，再继续远行。", { anchor: "loot-settlement" });
+  if (w.longAction)
+    return goal("继续当前行动", `已保存 ${w.longAction.checkpoint}/${w.longAction.total} 日。`, {
+      anchor: "long-action-state",
+    });
+  if (context.actionable) {
+    const node = context.main ?? context.side ?? context.official!;
+    const type = context.main ? "chooseMain" : context.side ? "chooseExtension" : "choose";
+    const choices = node.choices.map((choice) => ({
+      title: choice.label,
+      command: { type, nodeId: node.id, choiceId: choice.id } as Command,
+    }));
+    return goal(choices[0].title, "作出回应，继续眼前的故事。", {
+      command: choices[0].command,
+      choices,
+      anchor: context.anchor,
+      location: p.location,
+    });
+  }
+  if (w.agreement?.status === "impossible")
+    return goal("确认约定无法继续", w.agreement.reason ?? "查看这次同行的实际结果。", {
+      command: p.location === "ruins" ? { type: "return" } : { type: "resolveAgreement" },
+    });
+  if (p.location === "ruins")
+    return goal("返回青石坊市", "离开秘境后可以修炼与休息。", { command: { type: "return" } });
+  if (!p.manual || (rule.days > 0 && p.xp >= threshold(p))) return train();
+  if (w.agreement?.status === "accepted") {
+    if (
+      p.realm <
+      REALM_KEYS.indexOf(B.story.playerMinimumExplorationRealm as (typeof REALM_KEYS)[number])
+    )
+      return train();
+    if (w.party.length < B.combat.partyMaxSize) {
+      const status = partyReadiness(w);
+      const remote = status.members.find((a) => regionOf(a.location) !== regionOf(p.location));
+      if (remote) return travel(w, localSite(remote.location, "market"), "回到同伴所在城镇会合。");
+      return goal(
+        status.ready ? "邀二人同行" : "约在此处会合",
+        status.reason || "同伴已经在场，组队不扣路费。",
+        { command: { type: status.ready ? "formParty" : "rally" } },
+      );
+    }
+    if (p.location !== "gate") return travel(w, "gate", "同伴已齐，前往古道准备出发。");
+    const departure = departureStatus(w);
+    if (departure.ready)
+      return goal("三人同行，进入残碑秘境", "出发时支付路费，将遭遇战斗。", {
+        command: { type: "expedition" },
+      });
+    return goal(
+      p.stones < B.story.departureFeePerNpc * (B.combat.partyMaxSize - 1)
+        ? "接取杂务"
+        : "在此停留 1 日",
+      departure.reason,
+      {
+        command:
+          p.stones < B.story.departureFeePerNpc * (B.combat.partyMaxSize - 1)
+            ? { type: "work" }
+            : { type: "wait", days: 1 },
+      },
+    );
+  }
+  const main = mainObjective(w),
+    step = currentMainStep(w);
+  if (main && main.tab !== "cultivation") {
+    const destination =
+      "location" in main
+        ? main.location
+        : step && !step.sameRegion
+          ? (step.chapter.sites.market as LocationId)
+          : undefined;
+    if (destination && destination !== p.location) return travel(w, destination, main.text);
+    if (p.location === "gate" && !hasRubbing(w) && w.party.length === 1)
+      return goal("勘察古道残碑", "取得水纹拓片，查访主线线索。", {
+        command: { type: "surveyRuins" },
+      });
+  }
+  return train(main?.text);
+}
+
 function at(value: unknown, path: string): unknown {
   return path
     .split(".")
     .reduce<unknown>(
-      (current, key) =>
-        current && typeof current === "object" && Object.hasOwn(current, key)
-          ? (current as Record<string, unknown>)[key]
-          : undefined,
+      (v, key) => (v && typeof v === "object" ? (v as Record<string, unknown>)[key] : undefined),
       value,
     );
 }
-export function objective(world: World) {
-  if (world.pendingDailyEventId && world.longAction?.kind !== "breakthrough")
-    return {
-      title: "途中小事 · 等你回应",
-      text: "小事已经记下，回应后可继续原来的行程。",
-      tab: "journey",
-      anchor: "current-scene",
-      command: undefined as Command | undefined,
-    };
-
-  const context = {
-    ...world,
-    primaryPresent: world.npcs.some(
-      (a) => a.id === PACK.roles.primary && a.alive && a.location === world.player.location,
-    ),
-  };
-  const entry = presentation.objectives.find((entry) =>
+/** Only disclosure metadata. This never grants a rule capability or mutates the save. */
+export function presentationUnlocks(w: World) {
+  const context = { ...w, realmKey: REALM_KEYS[w.player.realm] };
+  return presentation.unlocks.filter((entry) =>
     Object.entries(entry.when).every(([path, expected]) => {
       const value = at(context, path);
-      return expected === "present"
-        ? value != null
-        : Array.isArray(expected)
-          ? expected.includes(value as string)
-          : typeof expected === "boolean"
-            ? Boolean(value) === expected
-            : value === expected;
+      return Array.isArray(expected) ? expected.includes(value as never) : value === expected;
     }),
-  )!;
-  const format = (text: string) =>
-    contentText(
-      text.replace(/\{\{balance\.([^{}]+)\}\}/g, (_, path: string) => String(at(B, path) ?? "")),
-      world,
-    );
-  const current = journeyContext(world),
-    companion = companionStatus(world);
-  const override = world.ended
-    ? {
-        title: "此生已落笔",
-        text: "回顾这一世的修行与相逢，也可导出保存。",
-        tab: "journal",
-        anchor: "journal-heading",
-      }
-    : world.battle
-      ? {
-          title: "秘境战斗 · 轮到你行动",
-          text: "查看最近战报，选择进攻、防御或撤退。",
-          tab: "journey",
-          anchor: "battle-controls",
-        }
-      : world.loot
-        ? {
-            title: world.player.location === "ruins" ? "收好战利品 · 返回坊市" : "战利品待分配",
-            text: "完成此次同行的分配后，再继续远行与修炼。",
-            tab: "journey",
-            anchor: "current-scene",
-          }
-        : world.longAction
-          ? {
-              title:
-                world.longAction.kind === "wait"
-                  ? "正在等候"
-                  : world.longAction.kind === "breakthrough"
-                    ? "正在突破"
-                    : "正在修炼",
-              text: `已保存 ${world.longAction.checkpoint}/${world.longAction.total} 日，可暂停后查看变化。`,
-              tab: world.longAction.kind === "wait" ? "journey" : "cultivation",
-              anchor: "long-action-state",
-            }
-          : current.actionable
-            ? {
-                title: current.title!,
-                text: `${current.displayName ? `与${current.displayName}的故事` : "此处的故事"}正在展开，继续阅读并作出回应。`,
-                tab: "journey",
-                anchor: current.anchor,
-                location: world.player.location,
-              }
-            : companion && world.agreement?.status === "accepted"
-              ? {
-                  ...companion,
-                  tab: world.player.realm < realmIndex("QI_1") ? "cultivation" : "journey",
-                  anchor:
-                    world.player.realm < realmIndex("QI_1")
-                      ? "practice-start"
-                      : world.party.length === 3 && world.player.location !== "gate"
-                        ? "world-map"
-                        : "companion-status",
-                  location: world.party.length === 3 ? "gate" : world.player.location,
-                }
-              : advanceRule(world.player).kind !== "cap" &&
-                  world.player.xp >= threshold(world.player)
-                ? {
-                    title:
-                      advanceRule(world.player).kind === "minor"
-                        ? "修为圆满 · 冲关"
-                        : "修为圆满 · 尝试突破",
-                    text:
-                      advanceRule(world.player).kind === "minor"
-                        ? "手动冲关即可晋升下一层，余下修为保留。"
-                        : "准备突破当前瓶颈；突破失败不会致命。",
-                    command: (advanceRule(world.player).kind === "minor"
-                      ? { type: "advanceMinor" }
-                      : { type: "breakthrough", usePill: false, guardian: false }) as Command,
-                    tab: "cultivation",
-                    anchor: "breakthrough-preparation",
-                  }
-                : mainObjective(world);
-  return {
-    command: undefined as Command | undefined,
-    ...entry,
-    title: format(entry.title),
-    text: format(entry.text),
-    ...override,
-  };
+  );
 }

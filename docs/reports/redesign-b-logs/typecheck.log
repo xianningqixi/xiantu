@@ -1,0 +1,4 @@
+
+> xiantu@0.1.0 typecheck:game
+> tsc --project tsconfig.game.json --noEmit
+

@@ -1,0 +1,46 @@
+
+Running 3 tests using 1 worker
+
+(node:83005) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/redesign-b.spec.ts:23:1 › B: real 0.1.6 import, migration notice, backup and exported new-context roundtrip (5.2s)
+  ✓  2 tests/browser/redesign-b.spec.ts:126:1 › B: production Worker new games measure aptitude, command count and one hundred daily-event days (1.4m)
+  ✘  3 tests/browser/redesign-b.spec.ts:198:1 › B: daily retreat pause/resume and actual UI shortcuts for jobs, manual, sale and cave (3.0m)
+
+
+  1) tests/browser/redesign-b.spec.ts:198:1 › B: daily retreat pause/resume and actual UI shortcuts for jobs, manual, sale and cave 
+
+    Test timeout of 180000ms exceeded.
+
+    Error: locator.click: Test timeout of 180000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: /接些坊市杂务/ }).first()
+
+
+      253 |   }
+      254 |   async function clickAction(label: RegExp) {
+    > 255 |     await showB(page, w);
+          |                          ^
+      256 |     const previous = w;
+      257 |     await page.getByRole("button", { name: label }).first().click();
+      258 |     await expect
+        at clickAction (/Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/tests/browser/redesign-b.spec.ts:255:61)
+        at /Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/tests/browser/redesign-b.spec.ts:263:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../../../../../tmp/xiantu-browser-results/redesign-b-B-daily-retreat-54d9b-r-jobs-manual-sale-and-cave/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../../../../../tmp/xiantu-browser-results/redesign-b-B-daily-retreat-54d9b-r-jobs-manual-sale-and-cave/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../../../../../tmp/xiantu-browser-results/redesign-b-B-daily-retreat-54d9b-r-jobs-manual-sale-and-cave/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../../../../../tmp/xiantu-browser-results/redesign-b-B-daily-retreat-54d9b-r-jobs-manual-sale-and-cave/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/browser/redesign-b.spec.ts:198:1 › B: daily retreat pause/resume and actual UI shortcuts for jobs, manual, sale and cave 
+  2 passed (4.6m)

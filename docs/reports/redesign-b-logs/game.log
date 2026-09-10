@@ -1,0 +1,105 @@
+
+> xiantu@0.1.0 test:game
+> esbuild tests/game/redesign-b.test.ts tests/game/engine.test.ts tests/game/ui-review.test.ts tests/game/npc-names.test.ts tests/game/npc-life.test.ts tests/game/sects.test.ts tests/game/journey-actions.test.ts --bundle --platform=node --format=esm --outdir=.game-test-build/rules && node --test .game-test-build/rules/*.js
+
+
+  .game-test-build/rules/engine.test.js           1.4mb ⚠️
+  .game-test-build/rules/redesign-b.test.js       1.4mb ⚠️
+  .game-test-build/rules/ui-review.test.js        1.3mb ⚠️
+  .game-test-build/rules/sects.test.js            1.3mb ⚠️
+  .game-test-build/rules/npc-life.test.js         1.3mb ⚠️
+  .game-test-build/rules/journey-actions.test.js  1.3mb ⚠️
+  .game-test-build/rules/npc-names.test.js        1.2mb ⚠️
+
+⚡ Done in 156ms
+✔ same seed reproduces 100 NPCs; player sex/appearance do not replace fixed NPC identities (24.843584ms)
+✔ the expanded roster preserves the original forty and gives sixty adult women stable identities across seeds (31.36ms)
+✔ expanded NPC templates cannot replace the player or another saved actor (11.284459ms)
+✔ rejected command preserves RNG, resources, revision and all source data (16.149084ms)
+✔ duplicate command does not repeat time or rewards (20.918625ms)
+✔ looking at a story is inert; learning has one shared acquisition rule (24.357292ms)
+✔ manual fallback works even when the story NPC has died (4.07275ms)
+✔ chunked and daily training yield the same actors, RNG and relationship state (518.135833ms)
+✔ breakthrough can fail and never kills the player (195.064834ms)
+✔ player minor realms wait for a manual, zero-day advancement (1.871583ms)
+✔ full story: agreement, 3-person combat, honor, memory and reunion (56.24275ms)
+✔ renewal is explicit, immediate, idempotent and preserves the previous settlement (33.971042ms)
+✔ cancelled invitations stay completed and can be renewed without replaying the first scene (3.306875ms)
+✔ renewal rejects unresolved loot, breach, absent or busy companions and other locations (37.872542ms)
+✔ breach requires explicit confirmation; compensation retains the original memory (23.160375ms)
+✔ dead NPC cannot move, cultivate, or participate on subsequent days (7.687917ms)
+✔ day-15 missing companions can reliably gather without interrupting a breakthrough (40.760875ms)
+✔ rendezvous waits for an ongoing attempt and keeps the arrived companion available (7.820208ms)
+✔ a later breach overrides the latest response while preserving earlier fulfilled memories (53.668041ms)
+✔ departure availability exposes the same cooldown and attempt restrictions as the command (34.198834ms)
+✔ player and NPC skills both skip exactly two own turns before becoming available (38.931ms)
+✔ malformed saves are rejected while the existing released profile shape remains valid (2.11775ms)
+✔ same revision on a different character cannot authorize a stale action, replacement or export (5.517625ms)
+✔ NPC portrait identities are distinct and legacy thumbnails remain deterministic without world RNG (37.330417ms)
+✔ portrait identity survives elapsed time and an NPC death; rendezvous can be cancelled (54.69925ms)
+✔ knowledge distinguishes private participants, local witnesses and sourced conversation (2.255208ms)
+✔ directed relationships need distinct evidence for close friendship; grievance is explicit (1.905417ms)
+✔ a deceased recipient produces once-only exception settlement without false betrayal (43.759541ms)
+✔ enabled NPC conflict shares damage rules and cancels a killed actor action (14.687542ms)
+✔ lethal complex encounter ends life, simple mode rescues, teaching defeat is nonlethal (104.30425ms)
+✔ complex lifespan death stops work rewards and remains exportable (1.658375ms)
+✔ paid training resumes exact checkpoints and never double-charges a retried day (5.339166ms)
+✔ daily lifespan deaths resolve before another NPC can start a conflict (2.790625ms)
+✔ player and NPC resolve the same ordinary failure, severe failure and success from the same inputs (4.562416ms)
+✔ xorshift golden vectors, object-key permutations and one hundred rerolls preserve the seed contract (145.408125ms)
+✔ schema four knowledge migration preserves provenance and bounded receipts retain old-ID protection (4214.072917ms)
+✔ shared-event trends record actual relationship changes and do not claim increases at the cap (3.068209ms)
+✔ character inspection uses shared combat attributes, live battle HP and preserved death state without writing the world (1.826333ms)
+✔ profiles show the subject's own history without changing world knowledge or relationship directions (3.054583ms)
+✔ every enabled inn learns locally for free; other places route to the named local inn (586.749958ms)
+✔ market work is offered only in markets and pays the projected balance reward (9.118625ms)
+✔ sect shortcuts change after visit, voluntary admission, contribution earnings and art learning (155.327667ms)
+✔ breakthrough readiness and injury alter shortcuts without writing time, RNG, rewards or memory (11.752667ms)
+✔ repeated NPC contact builds both directions, records one friendship and never pairs the player (34.431334ms)
+✔ busy, absent, deceased and hostile targets cannot consume another NPC action (39.444958ms)
+✔ friendship is witnessed locally or learned from a participant, never via profile inspection (7.753084ms)
+✔ sect journeys cost real route days, suspend interaction and join only after arrival without spawning residents (77.195375ms)
+✔ existing affiliations and authored cast remain intact; admission shares adult and sect requirements (6.3405ms)
+✔ malformed journeys and incompatible older versions are rejected without repairing state (27.284791ms)
+✔ known social milestones remain visible among cultivation updates (7.010167ms)
+✔ seeded NPC lives are deterministic, diverse and bounded over one year (16604.797875ms)
+✔ NPC names are unique across seeds and every installed content roster (434.37775ms)
+✔ duplicate repair preserves authored names, untouched NPCs, identity, history and random streams (11.999917ms)
+✔ name repair also handles duplicate dead actors and current battle labels without changing battle state (6.339292ms)
+✔ the maximum 200-NPC duplicate roster resolves deterministically without numeric names (12.412459ms)
+✔ thirteen realms share gain, stats, threshold and lifespan tables; manual advancement carries overflow (33.3215ms)
+✔ manual rank, cave, focus, stone and injury obey the complete daily gain formula (2.183708ms)
+✔ minor bottlenecks reject preparations and consume insight once; failed attempts never reduce health (15.19375ms)
+✔ schema six remaps all legacy realms once, preserves history and in-flight resolution, and rejects bad versions (15.449667ms)
+✔ migrated battle snapshots finish without overflowing the new actor HP cap (2.670667ms)
+✔ daily pool has ten of each category; 100 waiting days are deterministic, frequent and never repeat consecutively (13.504416ms)
+✔ daily choice pauses a paid retreat at its durable checkpoint; reload and retry never duplicate costs (95.807792ms)
+✔ cave retreats suppress ordinary events; negative daily costs are atomic and promised gifts settle once (9.571708ms)
+✔ new economic commands enforce place, realm, inventory, exact prices and duplicate protection (16.349833ms)
+✔ jobs use configured location, realm, duration, rewards, deterministic rolls and four receipts (15.052458ms)
+✔ sect stipends share the same thirty-day clock and contribution exchanges survive rejoining (56.345542ms)
+✔ nine-step growth distinguishes early bottlenecks, readiness for foundation and reserved companion trips (1.899042ms)
+✔ three sects are visited at real map homes; lazy residents preserve old actors, RNG and knowledge indexes (238.105916ms)
+✔ sect tasks cost days, pay shared prices once, unlock shared cultivation benefits and survive reload (208.832917ms)
+✔ admission, vow, availability and explicit consent reject invalid requests without partial writes (38.971417ms)
+✔ relationships grow through timed company; adults choose bonds and private intimacy, with shared dual-cultivation (138.837084ms)
+✔ NPC partners build their own relationship during long waits; private lives do not consume player resources (195.550541ms)
+✔ underage, dead, busy partners and death on the action day cannot create intimacy or rewards (29.291833ms)
+✔ new optional state is strict and malformed membership, consent or private witnesses cannot load (60.516125ms)
+✔ authored past intimacy is projected only from completed experiences; acquaintance and declined choices stay distinct (8.501042ms)
+✔ new adult characters validate across creation draft, world and portrait pathways (27.285667ms)
+✔ training preview equals execution across minor realms and never mutates the world (186.695875ms)
+✔ conditional training refuses a full bar before spending any day or stone (2.717542ms)
+✔ completed summaries freeze results and restored actions explicitly use partial baselines (14.253459ms)
+✔ scene objectives stay at the current dialogue, ended objectives lead to the journal (9.995375ms)
+✔ people discovery preserves the legacy known direction and does not expose unknown distant NPCs (6.155625ms)
+✔ bond display requires mutually latest recorded bonds and retains adverse attitude (1.761709ms)
+✔ key-only drafts reuse personal credentials only for the fixed endpoint (0.889834ms)
+ℹ tests 83
+ℹ suites 0
+ℹ pass 83
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16963.590708

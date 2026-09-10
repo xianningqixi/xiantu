@@ -1,0 +1,10 @@
+
+Running 3 tests using 1 worker
+
+(node:86491) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/redesign-b.spec.ts:23:1 › B: real 0.1.6 import, migration notice, backup and exported new-context roundtrip (5.5s)
+  ✓  2 tests/browser/redesign-b.spec.ts:127:1 › B: production Worker new games measure aptitude, command count and one hundred daily-event days (1.4m)
+  ✓  3 tests/browser/redesign-b.spec.ts:199:1 › B: daily retreat pause/resume and actual UI shortcuts for jobs, manual, sale and cave (32.1s)
+
+  3 passed (2.1m)

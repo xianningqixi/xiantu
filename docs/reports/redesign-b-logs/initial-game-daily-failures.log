@@ -1,0 +1,325 @@
+
+> xiantu@0.1.0 test:game
+> esbuild tests/game/redesign-b.test.ts tests/game/engine.test.ts tests/game/ui-review.test.ts tests/game/npc-names.test.ts tests/game/npc-life.test.ts tests/game/sects.test.ts tests/game/journey-actions.test.ts --bundle --platform=node --format=esm --outdir=.game-test-build/rules && node --test .game-test-build/rules/*.js
+
+
+  .game-test-build/rules/engine.test.js           1.4mb ⚠️
+  .game-test-build/rules/redesign-b.test.js       1.3mb ⚠️
+  .game-test-build/rules/ui-review.test.js        1.3mb ⚠️
+  .game-test-build/rules/sects.test.js            1.3mb ⚠️
+  .game-test-build/rules/npc-life.test.js         1.3mb ⚠️
+  .game-test-build/rules/journey-actions.test.js  1.2mb ⚠️
+  .game-test-build/rules/npc-names.test.js        1.2mb ⚠️
+
+⚡ Done in 60ms
+✔ same seed reproduces 100 NPCs; player sex/appearance do not replace fixed NPC identities (20.205291ms)
+✔ the expanded roster preserves the original forty and gives sixty adult women stable identities across seeds (22.615959ms)
+✔ expanded NPC templates cannot replace the player or another saved actor (5.100417ms)
+✔ rejected command preserves RNG, resources, revision and all source data (7.809417ms)
+✔ duplicate command does not repeat time or rewards (7.628667ms)
+✔ looking at a story is inert; learning has one shared acquisition rule (5.230792ms)
+✔ manual fallback works even when the story NPC has died (3.319375ms)
+✖ chunked and daily training yield the same actors, RNG and relationship state (43.139708ms)
+✔ breakthrough can fail and never kills the player (148.861333ms)
+✔ player minor realms wait for a manual, zero-day advancement (2.092291ms)
+✔ full story: agreement, 3-person combat, honor, memory and reunion (44.827333ms)
+✔ renewal is explicit, immediate, idempotent and preserves the previous settlement (17.84825ms)
+✔ cancelled invitations stay completed and can be renewed without replaying the first scene (2.675208ms)
+✔ renewal rejects unresolved loot, breach, absent or busy companions and other locations (27.816625ms)
+✔ breach requires explicit confirmation; compensation retains the original memory (21.307666ms)
+✔ dead NPC cannot move, cultivate, or participate on subsequent days (9.716542ms)
+✖ day-15 missing companions can reliably gather without interrupting a breakthrough (13.109292ms)
+✔ rendezvous waits for an ongoing attempt and keeps the arrived companion available (3.702583ms)
+✖ a later breach overrides the latest response while preserving earlier fulfilled memories (18.807458ms)
+✖ departure availability exposes the same cooldown and attempt restrictions as the command (18.613042ms)
+✖ player and NPC skills both skip exactly two own turns before becoming available (18.3625ms)
+✔ malformed saves are rejected while the existing released profile shape remains valid (1.424333ms)
+✔ same revision on a different character cannot authorize a stale action, replacement or export (6.196083ms)
+✔ NPC portrait identities are distinct and legacy thumbnails remain deterministic without world RNG (70.653292ms)
+✖ portrait identity survives elapsed time and an NPC death; rendezvous can be cancelled (12.4765ms)
+✔ knowledge distinguishes private participants, local witnesses and sourced conversation (0.898ms)
+✔ directed relationships need distinct evidence for close friendship; grievance is explicit (0.689875ms)
+✔ a deceased recipient produces once-only exception settlement without false betrayal (21.871791ms)
+✔ enabled NPC conflict shares damage rules and cancels a killed actor action (5.250125ms)
+✖ lethal complex encounter ends life, simple mode rescues, teaching defeat is nonlethal (20.003417ms)
+✔ complex lifespan death stops work rewards and remains exportable (1.021875ms)
+✔ paid training resumes exact checkpoints and never double-charges a retried day (4.203667ms)
+✔ daily lifespan deaths resolve before another NPC can start a conflict (1.685458ms)
+✔ player and NPC resolve the same ordinary failure, severe failure and success from the same inputs (4.20825ms)
+✔ xorshift golden vectors, object-key permutations and one hundred rerolls preserve the seed contract (111.339167ms)
+✔ schema four knowledge migration preserves provenance and bounded receipts retain old-ID protection (3636.640541ms)
+✔ shared-event trends record actual relationship changes and do not claim increases at the cap (1.119334ms)
+✔ character inspection uses shared combat attributes, live battle HP and preserved death state without writing the world (1.702042ms)
+✔ profiles show the subject's own history without changing world knowledge or relationship directions (3.533375ms)
+✖ every enabled inn learns locally for free; other places route to the named local inn (83.750375ms)
+✔ market work is offered only in markets and pays the projected balance reward (13.298375ms)
+✖ sect shortcuts change after visit, voluntary admission, contribution earnings and art learning (40.055834ms)
+✔ breakthrough readiness and injury alter shortcuts without writing time, RNG, rewards or memory (16.390709ms)
+✔ repeated NPC contact builds both directions, records one friendship and never pairs the player (26.202584ms)
+✔ busy, absent, deceased and hostile targets cannot consume another NPC action (33.558584ms)
+✔ friendship is witnessed locally or learned from a participant, never via profile inspection (4.936458ms)
+✔ sect journeys cost real route days, suspend interaction and join only after arrival without spawning residents (25.254375ms)
+✔ existing affiliations and authored cast remain intact; admission shares adult and sect requirements (4.247167ms)
+✔ malformed journeys and incompatible older versions are rejected without repairing state (23.264625ms)
+✔ known social milestones remain visible among cultivation updates (2.938667ms)
+✔ seeded NPC lives are deterministic, diverse and bounded over one year (15636.348833ms)
+✔ NPC names are unique across seeds and every installed content roster (263.637917ms)
+✔ duplicate repair preserves authored names, untouched NPCs, identity, history and random streams (9.210042ms)
+✔ name repair also handles duplicate dead actors and current battle labels without changing battle state (4.644292ms)
+✔ the maximum 200-NPC duplicate roster resolves deterministically without numeric names (5.505292ms)
+✔ thirteen realms share gain, stats, threshold and lifespan tables; manual advancement carries overflow (21.583542ms)
+✔ manual rank, cave, focus, stone and injury obey the complete daily gain formula (2.130666ms)
+✔ minor bottlenecks reject preparations and consume insight once; failed attempts never reduce health (12.915417ms)
+✔ schema six remaps all legacy realms once, preserves history and in-flight resolution, and rejects bad versions (12.868667ms)
+✔ migrated battle snapshots finish without overflowing the new actor HP cap (1.557041ms)
+✔ daily pool has ten of each category; 100 waiting days are deterministic, frequent and never repeat consecutively (4.923917ms)
+✔ daily choice pauses a paid retreat at its durable checkpoint; reload and retry never duplicate costs (35.62525ms)
+✔ cave retreats suppress ordinary events; negative daily costs are atomic and promised gifts settle once (4.551584ms)
+✔ three sects are visited at real map homes; lazy residents preserve old actors, RNG and knowledge indexes (114.863ms)
+✖ sect tasks cost days, pay shared prices once, unlock shared cultivation benefits and survive reload (97.15275ms)
+✔ admission, vow, availability and explicit consent reject invalid requests without partial writes (30.213792ms)
+✖ relationships grow through timed company; adults choose bonds and private intimacy, with shared dual-cultivation (10.008084ms)
+✔ NPC partners build their own relationship during long waits; private lives do not consume player resources (126.552083ms)
+✖ underage, dead, busy partners and death on the action day cannot create intimacy or rewards (11.841583ms)
+✖ new optional state is strict and malformed membership, consent or private witnesses cannot load (6.048208ms)
+✔ authored past intimacy is projected only from completed experiences; acquaintance and declined choices stay distinct (3.808667ms)
+✔ new adult characters validate across creation draft, world and portrait pathways (15.9915ms)
+✔ training preview equals execution across minor realms and never mutates the world (107.580125ms)
+✔ conditional training refuses a full bar before spending any day or stone (2.821625ms)
+✔ completed summaries freeze results and restored actions explicitly use partial baselines (12.134917ms)
+✔ scene objectives stay at the current dialogue, ended objectives lead to the journal (9.949333ms)
+✔ people discovery preserves the legacy known direction and does not expose unknown distant NPCs (3.358875ms)
+✔ bond display requires mutually latest recorded bonds and retains adverse attitude (0.55025ms)
+✔ key-only drafts reuse personal credentials only for the fixed endpoint (0.426584ms)
+ℹ tests 79
+ℹ suites 0
+ℹ pass 66
+ℹ fail 13
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 15869.706375
+
+✖ failing tests:
+
+test at .game-test-build/rules/engine.test.js:27009:1
+✖ chunked and daily training yield the same actors, RNG and relationship state (43.139708ms)
+  Error [GameError]: 先回应当前小事，再继续行程。
+      at requireRule (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:20433:18)
+      at handle (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:24468:30)
+      at applyCommand (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:25941:3)
+      at Run.do (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:26887:18)
+      at Run.finish (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:26894:14)
+      at TestContext.<anonymous> (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:27016:5)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1047:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+      at Test.postRun (node:internal/test_runner/test:1173:19) {
+    code: 'ACTION_UNAVAILABLE'
+  }
+
+test at .game-test-build/rules/engine.test.js:27166:1
+✖ day-15 missing companions can reliably gather without interrupting a breakthrough (13.109292ms)
+  Error [GameError]: 先回应当前小事，再继续行程。
+      at requireRule (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:20433:18)
+      at handle (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:24468:30)
+      at applyCommand (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:25941:3)
+      at Run.do (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:26887:18)
+      at Run.finish (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:26894:14)
+      at Run.wait (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:26899:10)
+      at TestContext.<anonymous> (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:27173:5)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1047:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:744:18) {
+    code: 'ACTION_UNAVAILABLE'
+  }
+
+test at .game-test-build/rules/engine.test.js:27202:1
+✖ a later breach overrides the latest response while preserving earlier fulfilled memories (18.807458ms)
+  Error [GameError]: 先回应当前小事，再继续行程。
+      at requireRule (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:20433:18)
+      at handle (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:24468:30)
+      at applyCommand (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:25941:3)
+      at Run.do (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:26887:18)
+      at TestContext.<anonymous> (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:27210:7)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1047:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+      at Test.postRun (node:internal/test_runner/test:1173:19)
+      at Test.run (node:internal/test_runner/test:1101:12) {
+    code: 'ACTION_UNAVAILABLE'
+  }
+
+test at .game-test-build/rules/engine.test.js:27222:1
+✖ departure availability exposes the same cooldown and attempt restrictions as the command (18.613042ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /等候 1 日/. Input:
+  
+  'GameError: 先回应当前小事，再继续行程。'
+  
+      at TestContext.<anonymous> (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:27231:10)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1047:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+      at Test.postRun (node:internal/test_runner/test:1173:19)
+      at Test.run (node:internal/test_runner/test:1101:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:744:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: GameError: 先回应当前小事，再继续行程。
+        at requireRule (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:20433:18)
+        at handle (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:24468:30)
+        at applyCommand (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:25941:3)
+        at Run.do (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:26887:18)
+        at file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:27231:27
+        at getActual (node:assert:840:5)
+        at Function.throws (node:assert:986:24)
+        at TestContext.<anonymous> (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:27231:10)
+        at Test.runInAsyncScope (node:async_hooks:214:14)
+        at Test.run (node:internal/test_runner/test:1047:25),
+    expected: /等候 1 日/,
+    operator: 'throws'
+  }
+
+test at .game-test-build/rules/engine.test.js:27235:1
+✖ player and NPC skills both skip exactly two own turns before becoming available (18.3625ms)
+  Error [GameError]: 先回应当前小事，再继续行程。
+      at requireRule (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:20433:18)
+      at handle (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:24468:30)
+      at applyCommand (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:25941:3)
+      at Run.do (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:26887:18)
+      at TestContext.<anonymous> (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:27241:7)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1047:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+      at Test.postRun (node:internal/test_runner/test:1173:19)
+      at Test.run (node:internal/test_runner/test:1101:12) {
+    code: 'ACTION_UNAVAILABLE'
+  }
+
+test at .game-test-build/rules/engine.test.js:27299:1
+✖ portrait identity survives elapsed time and an NPC death; rendezvous can be cancelled (12.4765ms)
+  Error [GameError]: 先回应当前小事，再继续行程。
+      at requireRule (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:20433:18)
+      at handle (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:24468:30)
+      at applyCommand (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:25941:3)
+      at Run.do (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:26887:18)
+      at Run.finish (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:26894:14)
+      at Run.wait (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:26899:10)
+      at TestContext.<anonymous> (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:27318:5)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1047:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:744:18) {
+    code: 'ACTION_UNAVAILABLE'
+  }
+
+test at .game-test-build/rules/engine.test.js:27419:1
+✖ lethal complex encounter ends life, simple mode rescues, teaching defeat is nonlethal (20.003417ms)
+  Error [GameError]: 先回应当前小事，再继续行程。
+      at requireRule (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:20433:18)
+      at handle (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:24468:30)
+      at applyCommand (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:25941:3)
+      at Run.do (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:26887:18)
+      at TestContext.<anonymous> (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/engine.test.js:27430:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1047:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+      at Test.postRun (node:internal/test_runner/test:1173:19)
+      at Test.run (node:internal/test_runner/test:1101:12) {
+    code: 'ACTION_UNAVAILABLE'
+  }
+
+test at .game-test-build/rules/journey-actions.test.js:25420:1
+✖ every enabled inn learns locally for free; other places route to the named local inn (83.750375ms)
+  Error [GameError]: 先回应当前小事，再继续行程。
+      at requireRule (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/journey-actions.test.js:19736:18)
+      at handle (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/journey-actions.test.js:24494:30)
+      at applyCommand (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/journey-actions.test.js:25269:3)
+      at run (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/journey-actions.test.js:25410:10)
+      at use (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/journey-actions.test.js:25415:16)
+      at TestContext.<anonymous> (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/journey-actions.test.js:25431:11)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1047:25)
+      at Test.start (node:internal/test_runner/test:944:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:297:17) {
+    code: 'ACTION_UNAVAILABLE'
+  }
+
+test at .game-test-build/rules/journey-actions.test.js:25454:1
+✖ sect shortcuts change after visit, voluntary admission, contribution earnings and art learning (40.055834ms)
+  Error [GameError]: 先回应当前小事，再继续行程。
+      at requireRule (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/journey-actions.test.js:19736:18)
+      at handle (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/journey-actions.test.js:24494:30)
+      at applyCommand (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/journey-actions.test.js:25269:3)
+      at run (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/journey-actions.test.js:25410:10)
+      at use (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/journey-actions.test.js:25415:16)
+      at TestContext.<anonymous> (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/journey-actions.test.js:25457:9)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1047:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+      at Test.postRun (node:internal/test_runner/test:1173:19) {
+    code: 'ACTION_UNAVAILABLE'
+  }
+
+test at .game-test-build/rules/sects.test.js:25649:1
+✖ sect tasks cost days, pay shared prices once, unlock shared cultivation benefits and survive reload (97.15275ms)
+  Error [GameError]: 先回应当前小事，再继续行程。
+      at requireRule (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:19267:18)
+      at handle (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:24541:30)
+      at applyCommand (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:25316:3)
+      at Run.do (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:25600:14)
+      at Run.visit (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:25605:12)
+      at Run.join (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:25608:10)
+      at TestContext.<anonymous> (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:25652:7)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1047:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:744:18) {
+    code: 'ACTION_UNAVAILABLE'
+  }
+
+test at .game-test-build/rules/sects.test.js:25707:1
+✖ relationships grow through timed company; adults choose bonds and private intimacy, with shared dual-cultivation (10.008084ms)
+  Error [GameError]: 先回应当前小事，再继续行程。
+      at requireRule (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:19267:18)
+      at handle (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:24541:30)
+      at applyCommand (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:25316:3)
+      at Run.do (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:25600:14)
+      at Run.visit (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:25605:12)
+      at Run.join (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:25608:10)
+      at TestContext.<anonymous> (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:25709:5)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1047:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:744:18) {
+    code: 'ACTION_UNAVAILABLE'
+  }
+
+test at .game-test-build/rules/sects.test.js:25763:1
+✖ underage, dead, busy partners and death on the action day cannot create intimacy or rewards (11.841583ms)
+  Error [GameError]: 先回应当前小事，再继续行程。
+      at requireRule (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:19267:18)
+      at handle (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:24541:30)
+      at applyCommand (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:25316:3)
+      at Run.do (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:25600:14)
+      at Run.visit (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:25605:12)
+      at Run.join (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:25608:10)
+      at TestContext.<anonymous> (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:25765:5)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1047:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:744:18) {
+    code: 'ACTION_UNAVAILABLE'
+  }
+
+test at .game-test-build/rules/sects.test.js:25789:1
+✖ new optional state is strict and malformed membership, consent or private witnesses cannot load (6.048208ms)
+  Error [GameError]: 先回应当前小事，再继续行程。
+      at requireRule (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:19267:18)
+      at handle (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:24541:30)
+      at applyCommand (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:25316:3)
+      at Run.do (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:25600:14)
+      at Run.visit (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:25605:12)
+      at Run.join (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:25608:10)
+      at TestContext.<anonymous> (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/rules/sects.test.js:25791:5)
+      at Test.runInAsyncScope (node:async_hooks:214:14)
+      at Test.run (node:internal/test_runner/test:1047:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:744:18) {
+    code: 'ACTION_UNAVAILABLE'
+  }

@@ -1,0 +1,281 @@
+{
+  "before": "/tmp/xiantu-redesign-b-before",
+  "after": "/tmp/xiantu-redesign-b-after-final",
+  "rows": [
+    {
+      "seed": 1,
+      "before": {
+        "rules": "0.1.6",
+        "schema": 6,
+        "day": 3650,
+        "npcs": 100,
+        "dead": 0,
+        "deathPercent": 0,
+        "admitted": 21,
+        "admissionPercent": 21,
+        "distribution": [
+          0,
+          0,
+          0,
+          0,
+          100
+        ],
+        "meanRealm": 4,
+        "seconds": 121.13,
+        "bytes": 984974,
+        "checkpointRecovery": "passed",
+        "bundleSHA256": "a5b9bc43bc84a2c7d666cb6a35d6cce4a48f2d48401bbc18ea65dc189f918dfc"
+      },
+      "after": {
+        "rules": "0.2.0",
+        "schema": 7,
+        "day": 3650,
+        "npcs": 100,
+        "dead": 0,
+        "deathPercent": 0,
+        "admitted": 21,
+        "admissionPercent": 21,
+        "distribution": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          100
+        ],
+        "meanRealm": 12,
+        "seconds": 262.39,
+        "bytes": 1920490,
+        "checkpointRecovery": "passed",
+        "bundleSHA256": "bfa2cb1134a63b2ab563bd83d1ae8e3ead69dd1bdb3ccf91fd91084f786532ba"
+      }
+    },
+    {
+      "seed": 42,
+      "before": {
+        "rules": "0.1.6",
+        "schema": 6,
+        "day": 3650,
+        "npcs": 100,
+        "dead": 0,
+        "deathPercent": 0,
+        "admitted": 10,
+        "admissionPercent": 10,
+        "distribution": [
+          0,
+          0,
+          0,
+          0,
+          100
+        ],
+        "meanRealm": 4,
+        "seconds": 119.17,
+        "bytes": 982795,
+        "checkpointRecovery": "passed",
+        "bundleSHA256": "a5b9bc43bc84a2c7d666cb6a35d6cce4a48f2d48401bbc18ea65dc189f918dfc"
+      },
+      "after": {
+        "rules": "0.2.0",
+        "schema": 7,
+        "day": 3650,
+        "npcs": 100,
+        "dead": 0,
+        "deathPercent": 0,
+        "admitted": 10,
+        "admissionPercent": 10,
+        "distribution": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          100
+        ],
+        "meanRealm": 12,
+        "seconds": 251.22,
+        "bytes": 1963389,
+        "checkpointRecovery": "passed",
+        "bundleSHA256": "bfa2cb1134a63b2ab563bd83d1ae8e3ead69dd1bdb3ccf91fd91084f786532ba"
+      }
+    },
+    {
+      "seed": 12345,
+      "before": {
+        "rules": "0.1.6",
+        "schema": 6,
+        "day": 3650,
+        "npcs": 100,
+        "dead": 0,
+        "deathPercent": 0,
+        "admitted": 16,
+        "admissionPercent": 16,
+        "distribution": [
+          0,
+          0,
+          0,
+          0,
+          100
+        ],
+        "meanRealm": 4,
+        "seconds": 117.75,
+        "bytes": 985552,
+        "checkpointRecovery": "passed",
+        "bundleSHA256": "a5b9bc43bc84a2c7d666cb6a35d6cce4a48f2d48401bbc18ea65dc189f918dfc"
+      },
+      "after": {
+        "rules": "0.2.0",
+        "schema": 7,
+        "day": 3650,
+        "npcs": 100,
+        "dead": 0,
+        "deathPercent": 0,
+        "admitted": 16,
+        "admissionPercent": 16,
+        "distribution": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          100
+        ],
+        "meanRealm": 12,
+        "seconds": 299.89,
+        "bytes": 1971721,
+        "checkpointRecovery": "passed",
+        "bundleSHA256": "bfa2cb1134a63b2ab563bd83d1ae8e3ead69dd1bdb3ccf91fd91084f786532ba"
+      }
+    },
+    {
+      "seed": 20260906,
+      "before": {
+        "rules": "0.1.6",
+        "schema": 6,
+        "day": 3650,
+        "npcs": 100,
+        "dead": 0,
+        "deathPercent": 0,
+        "admitted": 13,
+        "admissionPercent": 13,
+        "distribution": [
+          0,
+          0,
+          0,
+          0,
+          100
+        ],
+        "meanRealm": 4,
+        "seconds": 129.13,
+        "bytes": 988146,
+        "checkpointRecovery": "passed",
+        "bundleSHA256": "a5b9bc43bc84a2c7d666cb6a35d6cce4a48f2d48401bbc18ea65dc189f918dfc"
+      },
+      "after": {
+        "rules": "0.2.0",
+        "schema": 7,
+        "day": 3650,
+        "npcs": 100,
+        "dead": 0,
+        "deathPercent": 0,
+        "admitted": 13,
+        "admissionPercent": 13,
+        "distribution": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          100
+        ],
+        "meanRealm": 12,
+        "seconds": 323.71,
+        "bytes": 1976250,
+        "checkpointRecovery": "passed",
+        "bundleSHA256": "bfa2cb1134a63b2ab563bd83d1ae8e3ead69dd1bdb3ccf91fd91084f786532ba"
+      }
+    },
+    {
+      "seed": 987654321,
+      "before": {
+        "rules": "0.1.6",
+        "schema": 6,
+        "day": 3650,
+        "npcs": 100,
+        "dead": 0,
+        "deathPercent": 0,
+        "admitted": 23,
+        "admissionPercent": 23,
+        "distribution": [
+          0,
+          0,
+          0,
+          0,
+          100
+        ],
+        "meanRealm": 4,
+        "seconds": 130.22,
+        "bytes": 992860,
+        "checkpointRecovery": "passed",
+        "bundleSHA256": "a5b9bc43bc84a2c7d666cb6a35d6cce4a48f2d48401bbc18ea65dc189f918dfc"
+      },
+      "after": {
+        "rules": "0.2.0",
+        "schema": 7,
+        "day": 3650,
+        "npcs": 100,
+        "dead": 0,
+        "deathPercent": 0,
+        "admitted": 23,
+        "admissionPercent": 23,
+        "distribution": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          100
+        ],
+        "meanRealm": 12,
+        "seconds": 271.5,
+        "bytes": 1971393,
+        "checkpointRecovery": "passed",
+        "bundleSHA256": "bfa2cb1134a63b2ab563bd83d1ae8e3ead69dd1bdb3ccf91fd91084f786532ba"
+      }
+    }
+  ]
+}

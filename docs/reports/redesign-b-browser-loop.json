@@ -1,0 +1,23 @@
+{
+  "viewport": [
+    1440,
+    900
+  ],
+  "channel": "chrome",
+  "dailyChoice": {
+    "workerPause": true,
+    "durableEventId": "event:448",
+    "checkpoint": 5,
+    "workerResume": true,
+    "uiChoiceBlocked": true,
+    "knownNpcProgressEvents": 32
+  },
+  "economy": {
+    "threeJobsClicked": true,
+    "manualRank": 1,
+    "cave": "market",
+    "grass": 0,
+    "stones": 101
+  },
+  "pageErrors": []
+}

@@ -1,0 +1,63 @@
+
+> xiantu@0.1.0 test:extensions
+> npm run content:prepare && esbuild tests/game/extensions.test.ts tests/game/journey.test.ts tests/game/main-story.test.ts --bundle --platform=node --format=esm --outdir=.game-test-build/extensions && node --test .game-test-build/extensions/*.js tests/extension-images.test.mjs tests/cosmetic-art.test.mjs
+
+
+> xiantu@0.1.0 content:prepare
+> node scripts/prepare-content.mjs
+
+内容包校验完成：8 个故事节点，3 张故事图片、6 张 NPC 图集。下载模板已同步。
+头像 123 张已核对人物、原立绘、取景和文件摘要。
+新版美术 257 张：129 张立绘、19 个地点；存档内容锁不变。
+展示图片 393 张，共 75746762 字节；原始画稿与官方游戏内容锁保持原值。
+已登记 5 个精确锁定的支线包。
+
+  .game-test-build/extensions/extensions.test.js  1.3mb ⚠️
+  .game-test-build/extensions/main-story.test.js  1.3mb ⚠️
+  .game-test-build/extensions/journey.test.js     1.3mb ⚠️
+
+⚡ Done in 40ms
+✔ independent content pack has exact dependencies and rejects invalid capabilities, namespaces and types (5.30425ms)
+✔ funded and zero-resource side stories use real commands and have no duplicate reward (56.394ms)
+✔ a disappeared participant invalidates a viewed choice without mutating source (3.568584ms)
+✔ death after acceptance reaches an explanatory close and never speaks for the dead (6.359042ms)
+✔ a failed purchase rolls back all story state; old official saves retain the base lock when joining the campaign (11.430458ms)
+✔ all 120 owned visuals resolve to lazy derivatives and 11 heroine portraits have runtime lookups (10.528417ms)
+✔ owned contract rejects missing art, foreign URLs, invalid paths and scene portraits (29.255792ms)
+✔ new games show no four-volume scenes and distant residents never wander into Qingshi (383.479667ms)
+✔ growth unlocks the local introduction; chapter scenes require the intro, local presence and elapsed days (27.384791ms)
+✔ regional roads are open without main clues; travel pays its exact days and survives saves (70.935959ms)
+✔ solo selected later volumes remain reachable without a missing earlier pack (16.542959ms)
+✔ old exact four-volume saves upgrade geography while preserving progress, resources and original input (8.980916ms)
+✔ unselected locations and distant event witnesses cannot be invented (3.068583ms)
+✔ scheduled local home visits preserve occupied days, breakthroughs, parties and regional boundaries (10.187833ms)
+✔ journey contracts reject invalid routes, undeclared files, wrong site kinds and unknown introductions (15.730459ms)
+✔ all four chapters open only in their own town and return roads stay usable (185.986167ms)
+✔ rally cannot move companions across cities in a single day (3.999459ms)
+✔ a mortal can visit all ten atlas destinations in any order without story, reward or identity shortcuts (235.57975ms)
+✔ early NPC visits never trigger gated stories; forged choices cannot spend time or grant rewards (36.995875ms)
+✔ atlas routes respect installed geography, busy companions and the existing expedition settlement (3.837167ms)
+✔ previous atlas-less saves upgrade only the rules version and retain all recorded life (5.728125ms)
+✔ main story requires evidence, its own location, the actual NPC and elapsed days; reads are inert (63.669834ms)
+✔ open roads preserve main clue order, exact travel time and the four-chapter ending (382.322167ms)
+✔ a dead guide leads to archived evidence, never a speaking replacement or a blocked campaign (46.194709ms)
+✔ old saves gain only a versioned campaign lock; malformed or unknown main histories are rejected (5.6035ms)
+✔ a sole later volume follows the base main clue without depending on unselected side stories (17.472083ms)
+✔ main history rejects malformed metadata, forged identities and out-of-place records (29.2425ms)
+✔ main content rejects broken actor, place, pack, node, choice and text references before packaging (2.641833ms)
+✔ the fixed campaign includes all four volumes and requires each local introduction before main clues (3.320042ms)
+✔ legacy partial campaigns retain past chapters, actors and choices while absent volumes join exactly once (80.61025ms)
+新版美术 1 张：1 张立绘、0 个地点；存档内容锁不变。
+✔ cosmetic replacement keeps the locked original and old URL while deriving the new face (215.161917ms)
+✔ cosmetic portraits reject a different character's source and out-of-bounds avatar crops (170.485959ms)
+新版美术 1 张：1 张立绘、0 个地点；存档内容锁不变。
+✔ only known missing sect identities can add an actor-ID portrait (235.941666ms)
+✔ extension build validates PNG sources, dimensions and global URL uniqueness (13.912834ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 34
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1156.25375

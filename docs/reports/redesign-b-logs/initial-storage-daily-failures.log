@@ -1,0 +1,105 @@
+
+> xiantu@0.1.0 test:storage
+> node --test tests/game/worker.test.mjs
+
+✔ create, export and a fresh Worker preserve the complete saved world (59.463583ms)
+✖ generated day-9 and day-40 worlds import intact and keep the replaced save in backups (175.809083ms)
+✔ unconfirmed replacement and malformed imports leave the current save and backups untouched (176.576208ms)
+✔ two independent Workers racing to act commit exactly one day and one reward (78.016042ms)
+✔ a stale page cannot act, export, or confirm an earlier replacement after another Worker advances (152.086833ms)
+✔ two new characters at revision zero are distinguished by save identity (50.981291ms)
+✔ an aborted commit rolls back both imported progress and its backup, then retry succeeds (80.063916ms)
+✔ storage access failure returns an error and keeps the last saved world recoverable (51.534208ms)
+✔ a lost acknowledgment retry is idempotent but the same ID cannot change its payload (66.221125ms)
+✔ unknown messages and extra command fields are rejected without changing the saved world (58.21175ms)
+✔ creation drafts survive Worker restart, reject stale editing, and clear only after successful creation (48.17775ms)
+✖ released version-one snapshots migrate additively with an exact old backup and no RNG/time changes (29.474417ms)
+✖ failed migration preserves the original legacy snapshot; restoring a backup retains the replaced world (45.645541ms)
+✔ future save schemas and unrelated content locks never migrate or replace the current world (37.524791ms)
+✔ schema two migration preserves payload receipts and checkpoint resource accounting (60.551875ms)
+✔ Worker batches publish only durable progress and one final world, identical to individual checkpoints (275.92225ms)
+✔ batch pause and a failed fourth paid checkpoint preserve restartable durable progress (305.568417ms)
+✔ a retried partial batch never advances beyond its original checkpoint boundary (90.10925ms)
+✔ conditional training stops at eligibility and important news pauses a resumable action (139.179959ms)
+✔ exact old journey locks migrate durably with an intact backup, including an aborted migration retry (86.058208ms)
+✔ adding the main campaign lock backs up the intact old save and rolls back on failed storage (101.810208ms)
+✔ duplicate NPC names migrate atomically with exact backup, rollback and idempotent reload (113.867ms)
+✔ open-map rule migration saves atomically with the exact old backup before allowing distant travel (88.138208ms)
+✔ redraw adoption commits portrait and visual traits together, and failed storage retains both originals (124.275958ms)
+✔ renewed invitations commit once, survive reload and roll back on save failure (123.742292ms)
+✔ sect discovery, task rewards and private intimacy commit atomically and survive a fresh Worker (2396.995792ms)
+✖ autonomous NPC relationships, journeys and admission are atomic, replay-safe and durable (1560.217375ms)
+✔ real 0.1.6 imports preserve the input backup atomically even in an empty browser (330.57025ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 24
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 7249.708375
+
+✖ failing tests:
+
+test at tests/game/worker.test.mjs:195:1
+✖ generated day-9 and day-40 worlds import intact and keep the replaced save in backups (175.809083ms)
+  Error [GameError]: 先回应当前小事，再继续行程。
+      at requireRule (data:text/javascript;base64,[bundled module path omitted]:19663:18)
+      at handle (data:text/javascript;base64,[bundled module path omitted]:24588:30)
+      at applyCommand (data:text/javascript;base64,[bundled module path omitted]:25363:3)
+      at act (data:text/javascript;base64,[bundled module path omitted]:25392:13)
+      at syntheticFixture (data:text/javascript;base64,[bundled module path omitted]:25400:33)
+      at TestContext.<anonymous> (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/tests/game/worker.test.mjs:200:22)
+      at async Test.run (node:internal/test_runner/test:1054:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:744:7) {
+    code: 'ACTION_UNAVAILABLE'
+  }
+
+test at tests/game/worker.test.mjs:460:1
+✖ released version-one snapshots migrate additively with an exact old backup and no RNG/time changes (29.474417ms)
+  AssertionError [ERR_ASSERTION]: 日常事件进度缺失。 可先导出原始进度或从本机备份恢复。
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/tests/game/worker.test.mjs:465:10)
+      at async Test.run (node:internal/test_runner/test:1054:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:744:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at tests/game/worker.test.mjs:478:1
+✖ failed migration preserves the original legacy snapshot; restoring a backup retains the replaced world (45.645541ms)
+  AssertionError [ERR_ASSERTION]: 日常事件进度缺失。 可先导出原始进度或从本机备份恢复。
+  
+  false !== true
+  
+      at Object.load (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/tests/game/worker.test.mjs:118:16)
+      at async TestContext.<anonymous> (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/tests/game/worker.test.mjs:488:19)
+      at async Test.run (node:internal/test_runner/test:1054:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:744:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }
+
+test at tests/game/worker.test.mjs:971:1
+✖ autonomous NPC relationships, journeys and admission are atomic, replay-safe and durable (1560.217375ms)
+  AssertionError [ERR_ASSERTION]: 先回应当前小事，再继续行程。
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/tests/game/worker.test.mjs:993:12)
+      at async Test.run (node:internal/test_runner/test:1054:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:744:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual'
+  }

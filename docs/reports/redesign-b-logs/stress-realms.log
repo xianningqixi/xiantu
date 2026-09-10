@@ -1,0 +1,76 @@
+
+> xiantu@0.1.0 test:stress
+> esbuild tests/game/stress.test.ts --bundle --platform=node --format=esm --outfile=.game-test-build/stress.test.mjs && node --test .game-test-build/stress.test.mjs
+
+
+  .game-test-build/stress.test.mjs  1.2mb ⚠️
+
+⚡ Done in 40ms
+{"seed":1,"day":365,"seconds":17.53}
+{"seed":1,"day":730,"seconds":39.12}
+{"seed":1,"day":1095,"seconds":60.26}
+{"seed":1,"day":1460,"seconds":80.58}
+{"seed":1,"day":1825,"seconds":105.42}
+{"seed":1,"day":2190,"seconds":125.21}
+{"seed":1,"day":2555,"seconds":145.37}
+{"seed":1,"day":2920,"seconds":166.87}
+{"seed":1,"day":3285,"seconds":186.33}
+{"seed":1,"day":3650,"seconds":205.25}
+{"seed":1,"bundleSHA256":"29dd9e8128cbb9ce996e3bf12036b4382354853f6f08f6a818d07d455edef115","platform":"darwin","node":"v23.9.0","prettyExportBytes":4030572,"rules":"0.2.0","schema":7,"packLock":"official.qingshi@0.1.1:c7402c381fe903eaa99784deae2066993da76500f5ea9422e61ae40779670cd9","days":3650,"commands":4172,"alive":100,"dead":0,"bytes":1380101,"seconds":205.3,"maxCommandMs":207.8,"fingerprint":"1fea114a7857edcd83ba84d2c76db948405a6253004399baebafd2a83eb11296","checkpointRecovery":"passed"}
+{"seed":42,"day":365,"seconds":15.43}
+{"seed":42,"day":730,"seconds":34.95}
+{"seed":42,"day":1095,"seconds":55.89}
+{"seed":42,"day":1460,"seconds":79.3}
+{"seed":42,"day":1825,"seconds":98.85}
+{"seed":42,"day":2190,"seconds":118.5}
+{"seed":42,"day":2555,"seconds":139.49}
+{"seed":42,"day":2920,"seconds":159.63}
+{"seed":42,"day":3285,"seconds":180.18}
+{"seed":42,"day":3650,"seconds":201.67}
+{"seed":42,"bundleSHA256":"29dd9e8128cbb9ce996e3bf12036b4382354853f6f08f6a818d07d455edef115","platform":"darwin","node":"v23.9.0","prettyExportBytes":4234091,"rules":"0.2.0","schema":7,"packLock":"official.qingshi@0.1.1:c7402c381fe903eaa99784deae2066993da76500f5ea9422e61ae40779670cd9","days":3650,"commands":4172,"alive":100,"dead":0,"bytes":1415793,"seconds":201.71,"maxCommandMs":166.92,"fingerprint":"bdb676689350a6ba6f257b2be3f99e3d6913b8c0340bd1ed28680248fe03d4eb","checkpointRecovery":"passed"}
+{"seed":12345,"day":365,"seconds":15.35}
+{"seed":12345,"day":730,"seconds":33.9}
+{"seed":12345,"day":1095,"seconds":54.66}
+{"seed":12345,"day":1460,"seconds":75.79}
+{"seed":12345,"day":1825,"seconds":96.54}
+{"seed":12345,"day":2190,"seconds":116}
+{"seed":12345,"day":2555,"seconds":135.2}
+{"seed":12345,"day":2920,"seconds":154.78}
+{"seed":12345,"day":3285,"seconds":174.31}
+{"seed":12345,"day":3650,"seconds":193.73}
+{"seed":12345,"bundleSHA256":"29dd9e8128cbb9ce996e3bf12036b4382354853f6f08f6a818d07d455edef115","platform":"darwin","node":"v23.9.0","prettyExportBytes":4209742,"rules":"0.2.0","schema":7,"packLock":"official.qingshi@0.1.1:c7402c381fe903eaa99784deae2066993da76500f5ea9422e61ae40779670cd9","days":3650,"commands":4172,"alive":100,"dead":0,"bytes":1417546,"seconds":193.77,"maxCommandMs":180.24,"fingerprint":"769216f8f5b8f22241a937432ee741a0494bc9bd77ed133f545d2a2180474573","checkpointRecovery":"passed"}
+{"seed":20260906,"day":365,"seconds":13.93}
+{"seed":20260906,"day":730,"seconds":32.45}
+{"seed":20260906,"day":1095,"seconds":51.23}
+{"seed":20260906,"day":1460,"seconds":69.97}
+{"seed":20260906,"day":1825,"seconds":89.23}
+{"seed":20260906,"day":2190,"seconds":108.97}
+{"seed":20260906,"day":2555,"seconds":128.79}
+{"seed":20260906,"day":2920,"seconds":148.36}
+{"seed":20260906,"day":3285,"seconds":167.09}
+{"seed":20260906,"day":3650,"seconds":186.07}
+{"seed":20260906,"bundleSHA256":"29dd9e8128cbb9ce996e3bf12036b4382354853f6f08f6a818d07d455edef115","platform":"darwin","node":"v23.9.0","prettyExportBytes":4183331,"rules":"0.2.0","schema":7,"packLock":"official.qingshi@0.1.1:c7402c381fe903eaa99784deae2066993da76500f5ea9422e61ae40779670cd9","days":3650,"commands":4172,"alive":100,"dead":0,"bytes":1410349,"seconds":186.11,"maxCommandMs":93.32,"fingerprint":"7e88395fe581b8ce91148940749930e6f4d2ccfbf775b8f7530c352a72a3c6a1","checkpointRecovery":"passed"}
+{"seed":987654321,"day":365,"seconds":14.24}
+{"seed":987654321,"day":730,"seconds":33.72}
+{"seed":987654321,"day":1095,"seconds":52.3}
+{"seed":987654321,"day":1460,"seconds":71.17}
+{"seed":987654321,"day":1825,"seconds":91.28}
+{"seed":987654321,"day":2190,"seconds":112.26}
+{"seed":987654321,"day":2555,"seconds":132.68}
+{"seed":987654321,"day":2920,"seconds":152.99}
+{"seed":987654321,"day":3285,"seconds":174.85}
+{"seed":987654321,"day":3650,"seconds":194.82}
+{"seed":987654321,"bundleSHA256":"29dd9e8128cbb9ce996e3bf12036b4382354853f6f08f6a818d07d455edef115","platform":"darwin","node":"v23.9.0","prettyExportBytes":4191423,"rules":"0.2.0","schema":7,"packLock":"official.qingshi@0.1.1:c7402c381fe903eaa99784deae2066993da76500f5ea9422e61ae40779670cd9","days":3650,"commands":4172,"alive":100,"dead":0,"bytes":1418158,"seconds":194.86,"maxCommandMs":111.92,"fingerprint":"30b89775f1d692f8097115a2afa05dd26f0bcfca596e7ece6fbfaac2b50759ec","checkpointRecovery":"passed"}
+✔ seed 1: 100 NPC / 3650 days with checkpoint recovery (205312.636875ms)
+✔ seed 42: 100 NPC / 3650 days with checkpoint recovery (201721.168208ms)
+✔ seed 12345: 100 NPC / 3650 days with checkpoint recovery (193776.409708ms)
+✔ seed 20260906: 100 NPC / 3650 days with checkpoint recovery (186114.183458ms)
+✔ seed 987654321: 100 NPC / 3650 days with checkpoint recovery (194864.519875ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 981882.216542

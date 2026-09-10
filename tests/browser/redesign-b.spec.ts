@@ -111,3 +111,219 @@ test("B: real 0.1.6 import, migration notice, backup and exported new-context ro
     ) + "\n",
   );
 });
+
+import {
+  installBDriver,
+  askB,
+  commandB,
+  createB,
+  replyB,
+  growthB,
+  showB,
+} from "./redesign-b-driver";
+import type { Command, World } from "../../lib/game/types";
+const DAILY_EVENTS = JSON.parse(readFileSync("content-packs/daily-events/events.json", "utf8"))
+  .events as { id: string; category: string; choices: { id: string; label: string }[] }[];
+test("B: production Worker new games measure aptitude, command count and one hundred daily-event days", async ({
+  browser,
+}) => {
+  test.setTimeout(360000);
+  const samples = [];
+  for (const aptitude of [20, 90]) {
+    const context = await browser.newContext({
+      baseURL: process.env.XIANTU_TEST_URL || "http://127.0.0.1:3100",
+      viewport: { width: 1440, height: 900 },
+    });
+    const page = await context.newPage();
+    await installBDriver(page);
+    let w = await createB(page, aptitude),
+      commands = 0;
+    while (w.player.realm < 3) {
+      const oldRealm = w.player.realm;
+      w = await commandB(page, w, growthB(w));
+      commands++;
+      if (aptitude === 90 && oldRealm === 0 && w.player.realm === 1) {
+        await showB(page, w);
+        await page.screenshot({ path: `${output}/entry.png` });
+      }
+    }
+    expect(commands).toBeLessThanOrEqual(40);
+    if (aptitude === 90) {
+      await showB(page, w);
+      await page.screenshot({ path: `${output}/qi-three.png` });
+    }
+    samples.push({ aptitude, days: w.day, commands });
+    await context.close();
+  }
+  const context = await browser.newContext({
+    baseURL: process.env.XIANTU_TEST_URL || "http://127.0.0.1:3100",
+    viewport: { width: 1440, height: 900 },
+  });
+  const page = await context.newPage();
+  await installBDriver(page);
+  let w = await createB(page),
+    commands = 0;
+  while (w.day < 100 || replyB(w)) {
+    const c: Command = replyB(w) ?? (w.longAction ? { type: "step" } : { type: "wait", days: 1 });
+    w = await commandB(page, w, c);
+    commands++;
+  }
+  const events = w.events.filter((e) => e.kind === "daily-event");
+  expect(events.length).toBeGreaterThanOrEqual(15);
+  events.forEach((e, i) => {
+    if (i) expect(e.daily!.nodeId).not.toBe(events[i - 1].daily!.nodeId);
+  });
+  const slow = samples[0].days,
+    fast = samples[1].days;
+  expect((slow - fast) / fast).toBeGreaterThanOrEqual(0.4);
+  await showB(page, w);
+  await page.screenshot({ path: `${output}/hundred-days.png` });
+  await context.close();
+  writeFileSync(
+    "docs/reports/redesign-b-browser-metrics.json",
+    JSON.stringify(
+      {
+        driver:
+          "Real Chrome production Worker protocol; all writes transact through the shipped Worker",
+        samples,
+        lowAptitudeExtraDaysRatio: (slow - fast) / fast,
+        highAptitudeDayReduction: (slow - fast) / slow,
+        daily: { days: w.day, count: events.length, consecutiveRepeats: 0, commands },
+      },
+      null,
+      2,
+    ) + "\n",
+  );
+});
+
+test("B: daily retreat pause/resume and actual UI shortcuts for jobs, manual, sale and cave", async ({
+  page,
+}) => {
+  test.setTimeout(360000);
+  await installBDriver(page);
+  let w = await createB(page);
+  const errors: string[] = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  w = await commandB(page, w, { type: "meet", target: "NPC_LIN_WAN" });
+  await showB(page, w);
+  await page.screenshot({ path: `${output}/greeting.png` });
+  while (w.player.realm < 3) w = await commandB(page, w, growthB(w));
+  w = await commandB(page, w, { type: "train", days: 30, stoneMethod: false });
+  let r = await askB(page, {
+    kind: "advance",
+    actionId: w.longAction!.id,
+    checkpoint: 0,
+    days: 30,
+    expected: { saveId: w.saveId, revision: w.revision },
+  });
+  w = r.state;
+  expect(w.pendingDailyEventId).toBeTruthy();
+  expect(w.longAction).toBeTruthy();
+  expect(r.advanceResult.reason).toBe("condition");
+  const checkpoints = await page.evaluate(() => (window as any).__bProgress);
+  const event = w.events.findLast((e) => e.kind === "daily-event")!;
+  expect(checkpoints.at(-1).newEventIds).toContain(event.id);
+  await showB(page, w);
+  await page.screenshot({ path: `${output}/daily-paused.png` });
+  const npcEventIds = checkpoints
+    .flatMap((p: { newEventIds: string[] }) => p.newEventIds)
+    .filter((id: string) => w.events.some((e) => e.id === id && !e.actors.includes("PLAYER")));
+  expect(npcEventIds.length).toBeGreaterThan(0);
+  const checkpoint = w.longAction!.checkpoint;
+  const node = DAILY_EVENTS.find((n) => n.id === w.pendingDailyEventId)!;
+  const label = node.choices.find(
+    (c) => c.id === (node.category === "risk" ? "face" : "decline"),
+  )!.label;
+  const buttons = page.getByRole("button", { name: new RegExp(label) });
+  const uiChoiceBlocked = (await buttons.count()) ? !(await buttons.first().isEnabled()) : true;
+  w = await commandB(page, w, replyB(w)!);
+  r = await askB(page, {
+    kind: "advance",
+    actionId: w.longAction!.id,
+    checkpoint,
+    days: 1,
+    expected: { saveId: w.saveId, revision: w.revision },
+  });
+  w = r.state;
+  expect(w.longAction!.checkpoint).toBe(checkpoint + 1);
+  if (replyB(w)) w = await commandB(page, w, replyB(w)!);
+  await showB(page, w);
+  await page.screenshot({ path: `${output}/daily-resumed.png` });
+  w = await commandB(page, w, { type: "stop" });
+  if (replyB(w)) w = await commandB(page, w, replyB(w)!);
+  w = await commandB(page, w, { type: "travel", to: "market" });
+  if (replyB(w)) w = await commandB(page, w, replyB(w)!);
+  while (w.player.stones < 270) {
+    w = await commandB(page, w, { type: "work", job: "chores" });
+    if (replyB(w)) w = await commandB(page, w, replyB(w)!);
+  }
+  async function clickAction(label: RegExp) {
+    await showB(page, w);
+    const previous = w;
+    await page.getByRole("button", { name: label }).first().click({ timeout: 15000 });
+    await expect
+      .poll(async () => (await savedB(page))?.revision)
+      .toBeGreaterThan(previous.revision);
+    w = await savedB(page);
+    if (replyB(w)) w = await commandB(page, w, replyB(w)!);
+    return previous;
+  }
+  let before = await clickAction(/接些坊市杂务/);
+  expect(w.day - before.day).toBe(1);
+  await page.screenshot({ path: `${output}/job-chores.png` });
+  before = await clickAction(/护送商队/);
+  expect(w.day - before.day).toBe(2);
+  await page.screenshot({ path: `${output}/job-escort.png` });
+  w = await commandB(page, w, { type: "travel", to: "atlas.cangzhu" });
+  if (replyB(w)) w = await commandB(page, w, replyB(w)!);
+  before = await clickAction(/^采药/);
+  expect(w.day - before.day).toBe(1);
+  await page.screenshot({ path: `${output}/job-herbs.png` });
+  while (!w.player.grass) {
+    w = await commandB(page, w, { type: "work", job: "herbs" });
+    if (replyB(w)) w = await commandB(page, w, replyB(w)!);
+  }
+  w = await commandB(page, w, { type: "travel", to: "inn" });
+  if (replyB(w)) w = await commandB(page, w, replyB(w)!);
+  before = await clickAction(/功法进阶/);
+  expect(w.player.stones).toBe(before.player.stones - 40);
+  expect(w.player.manualRank).toBe(1);
+  await page.screenshot({ path: `${output}/manual-upgrade.png` });
+  w = await commandB(page, w, { type: "travel", to: "market" });
+  if (replyB(w)) w = await commandB(page, w, replyB(w)!);
+  before = await clickAction(/出售一份凝元草/);
+  expect(w.player.stones).toBe(before.player.stones + 25);
+  await page.screenshot({ path: `${output}/sell-grass.png` });
+  before = await clickAction(/置办洞府/);
+  expect(w.player.stones).toBe(before.player.stones - 200);
+  expect(w.player.cave).toBe("market");
+  await page.screenshot({ path: `${output}/rent-cave.png` });
+  expect(errors).toEqual([]);
+  writeFileSync(
+    "docs/reports/redesign-b-browser-loop.json",
+    JSON.stringify(
+      {
+        viewport: [1440, 900],
+        channel: "chrome",
+        dailyChoice: {
+          workerPause: true,
+          durableEventId: event.id,
+          checkpoint,
+          workerResume: true,
+          uiChoiceBlocked,
+          knownNpcProgressEvents: npcEventIds.length,
+        },
+        economy: {
+          threeJobsClicked: true,
+          manualRank: w.player.manualRank,
+          cave: w.player.cave,
+          grass: w.player.grass,
+          stones: w.player.stones,
+        },
+        pageErrors: errors,
+      },
+      null,
+      2,
+    ) + "\n",
+  );
+});

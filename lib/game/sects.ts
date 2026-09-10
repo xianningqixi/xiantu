@@ -191,3 +191,40 @@ export function npcSectTask(w: World, a: Actor) {
     learnSectArt(w, a);
   return true;
 }
+
+export function sectExchange(w: World) {
+  const { membership: m } = requireSectHome(w);
+  requireRule(
+    m.contribution >= B.sects.pillContributionCost,
+    "兑换突破丹所需贡献不足。",
+    "INSUFFICIENT_RESOURCES",
+  );
+  m.contribution -= B.sects.pillContributionCost;
+  w.player.pills++;
+  w.notice = `你以 ${B.sects.pillContributionCost} 贡献换得一枚突破丹。`;
+  recordFact(w, "sect-exchange", w.notice, [w.player.id]);
+}
+/** All living members receive the same stipend even while away or preparing a breakthrough. */
+export function settleSectStipends(w: World) {
+  for (const a of [w.player, ...w.npcs]) {
+    const m = a.sectMembership;
+    if (!a.alive || !m || w.day - m.lastStipendDay < B.sects.stipendIntervalDays) continue;
+    const intervals = Math.floor((w.day - m.lastStipendDay) / B.sects.stipendIntervalDays);
+    a.stones += B.sects.stipendStones * intervals;
+    m.lastStipendDay += B.sects.stipendIntervalDays * intervals;
+    const id = `sect-stipend:${a.id}:${m.joinedDay}`;
+    const recurring = a.id === "PLAYER" ? undefined : w.events.find((e) => e.id === id);
+    if (recurring) {
+      recurring.count = (recurring.count ?? 1) + intervals;
+      recurring.lastDay = w.day;
+    } else
+      recordFact(
+        w,
+        "sect-stipend",
+        `${a.name}领到宗门俸禄 ${B.sects.stipendStones * intervals} 枚灵石。`,
+        [a.id],
+        false,
+        a.id === "PLAYER" ? undefined : id,
+      );
+  }
+}

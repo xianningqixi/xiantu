@@ -1,3 +1,4 @@
+import { answerDaily } from "./daily-test-helpers";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { applyCommand, createWorld, validateWorld } from "../../lib/game/engine";
@@ -26,7 +27,7 @@ function world() {
   );
 }
 function run(w: World, c: Command) {
-  return applyCommand(w, c, `action:${w.revision}`, w.revision);
+  return answerDaily(applyCommand(w, c, `action:${w.revision}`, w.revision));
 }
 function use(w: World, id: string) {
   const a = journeyActions(w).find((a) => a.id === id);

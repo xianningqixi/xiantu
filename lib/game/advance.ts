@@ -3,6 +3,7 @@ import { threshold, actorById } from "./rules";
 import { requireRule } from "./errors";
 import type { StopCondition, World } from "./types";
 export const IMPORTANT_EVENT_KINDS = new Set([
+  "daily-event",
   "advance",
   "breakthrough",
   "breakthrough-failed",

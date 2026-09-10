@@ -273,8 +273,9 @@ async function advanceBatch(
       } satisfies WorkerResponse);
       if (!world.longAction) reason = completed < action.total ? "condition" : "completed";
       else if (
-        action.stopWhen?.kind === "importantEvent" &&
-        advanceStopReason(world, action.stopWhen, world.day - 1)
+        (world.pendingDailyEventId && action.kind !== "breakthrough") ||
+        (action.stopWhen?.kind === "importantEvent" &&
+          advanceStopReason(world, action.stopWhen, world.day - 1))
       ) {
         reason = "condition";
         break;

@@ -1,3 +1,7 @@
+import { requireJob, settleJob } from "./jobs";
+import { upgradeManual, rentCave, sell, useQi } from "./economy";
+import { sectExchange } from "./sects";
+import { chooseDailyEvent, waitReceipt } from "./daily-events";
 import { realmIndex } from "./rules";
 import { storyIntimacyKind } from "./intimacy-history";
 import {
@@ -21,10 +25,10 @@ import {
   recordCompany,
   settleIntimacy,
 } from "./intimacy";
-import { mainScene, hasRubbing } from "./main-story";
+import { MAIN_STORY, mainScene, hasRubbing } from "./main-story";
 import { commandDays, travelDays } from "./action-cost";
 import { advanceStopReason, validateStopCondition } from "./advance";
-import { DEPARTURE_FEE, SHOP_ITEMS, STONE_METHOD } from "./economy";
+import { DEPARTURE_FEE, ALL_SHOP_ITEMS as SHOP_ITEMS, STONE_METHOD } from "./economy";
 import { validTerms } from "./negotiation";
 import { extensionScenes } from "./content-story";
 import { PACK, REALMS, PRESENTATION, contentText } from "./content/official";
@@ -56,6 +60,11 @@ type CommandHandlers = {
 };
 
 const commandHandlers: CommandHandlers = {
+  upgradeManual,
+  rentCave,
+  sectExchange,
+  sell: (w, c) => sell(w, c.item, c.quantity),
+  use: (w) => useQi(w),
   advanceMinor: (w) => advanceMinor(w, w.player),
   visitSect: (w, c) => visitSect(w, c.sectId),
   joinSect: (w, c) => joinSect(w, c.sectId),
@@ -99,6 +108,18 @@ const commandHandlers: CommandHandlers = {
     );
     w.events[w.events.length - 1].mainStory = { nodeId: node!.id, choiceId: choice!.id };
     w.notice = choice!.reply;
+    const chapterIndex = MAIN_STORY.chapters.findIndex((ch) => ch.discovery.id === node!.id);
+    if (chapterIndex >= 0) {
+      const stones = B.economy.chapterRewards[chapterIndex];
+      w.player.stones += stones;
+      w.player.insight += B.cultivation.insight.chapterGain;
+      record(
+        w,
+        "chapter-reward",
+        `本章查证完成，获得 ${stones} 枚灵石、${B.cultivation.insight.chapterGain} 感悟。`,
+      );
+      w.notice += ` 获得 ${stones} 枚灵石、${B.cultivation.insight.chapterGain} 感悟。`;
+    }
   },
   surveyRuins: (w, c) => {
     requireRule(
@@ -228,6 +249,13 @@ const commandHandlers: CommandHandlers = {
     return;
   },
   choose: (w, c) => {
+    if (w.pendingDailyEventId) {
+      const days = chooseDailyEvent(w, c.nodeId, c.choiceId);
+      const reply = w.notice;
+      for (let d = 0; d < days && !w.ended; d++) advanceDay(w);
+      if (!w.ended) w.notice = reply;
+      return;
+    }
     const p = w.player;
 
     const n = scene(w);
@@ -273,7 +301,7 @@ const commandHandlers: CommandHandlers = {
     const route = travelRoute(p.location, c.to, w);
     requireRule(route && p.location !== c.to, "这里不能直接到达那个地点。");
     const time = route!.days;
-    for (let d = 0; d < time; d++) advanceDay(w, new Set(w.party));
+    for (let d = 0; d < time; d++) advanceDay(w, new Set(w.party), "travel");
     if (w.ended) return;
     p.location = c.to;
     for (const id of w.party) actorById(w, id)!.location = c.to;
@@ -346,7 +374,7 @@ const commandHandlers: CommandHandlers = {
     const a = w.longAction;
     requireRule(a, "没有正在进行的长行动。");
     const occupied = new Set(["PLAYER", ...(a!.guardian ? [a!.guardian] : [])]);
-    advanceDay(w, occupied);
+    advanceDay(w, occupied, a!.kind === "breakthrough" ? undefined : a!.kind);
     if (w.ended) return;
     if (a!.kind === "train") cultivate(w, p, a!.stoneMethod);
     a!.remaining--;
@@ -371,13 +399,15 @@ const commandHandlers: CommandHandlers = {
         w.notice =
           a!.kind === "train"
             ? `${a!.checkpoint}日修炼结束。山中无甲子，故人也在各自前行。`
-            : `${a!.checkpoint}日过去，坊市依旧人来人往。`;
+            : waitReceipt(w);
         if (stopReason) w.notice += ` ${stopReason}`;
         record(w, a!.kind, w.notice);
       }
       w.longAction = null;
     } else
       w.notice = `${a!.kind === "wait" ? "等候" : a!.kind === "breakthrough" ? "突破" : "修炼"}已过 ${a!.total - a!.remaining} 日，还剩 ${a!.remaining} 日。`;
+    if (!w.ended && a!.kind === "wait") w.notice = waitReceipt(w);
+    if (w.pendingDailyEventId) w.notice = w.events.findLast((e) => e.kind === "daily-event")!.text;
     return;
   },
   stop: (w, c) => {
@@ -390,14 +420,10 @@ const commandHandlers: CommandHandlers = {
     return;
   },
   work: (w, c) => {
-    const p = w.player;
-    requireRule(p.location !== "ruins", "这里没有可接的杂务。");
-    for (let d = 0; d < commandDays(w, c); d++) advanceDay(w);
-    if (w.ended) return;
-    p.stones += B.actions.workSpiritStoneReward;
-    w.notice = `你替人整理药材、搬运货物，忙过 ${B.actions.workDays} 日，获得 ${B.actions.workSpiritStoneReward} 枚灵石。`;
-    record(w, "work", w.notice);
-    return;
+    const job = c.job ?? "chores";
+    const rule = requireJob(w, job);
+    for (let d = 0; d < rule.days && !w.ended; d++) advanceDay(w, new Set(["PLAYER"]), "work");
+    if (!w.ended) settleJob(w, job);
   },
   rest: (w, c) => {
     const p = w.player;
@@ -718,7 +744,17 @@ const commandHandlers: CommandHandlers = {
 
 export function handle(w: World, c: Command) {
   requireRule(!w.ended && w.player.alive, "这一段人生已经结束，可以导出历程或开始新的一局。");
-  if (w.longAction) requireRule(["step", "stop"].includes(c.type), "先完成或结束当前修行。");
+  const dailyChoice = c.type === "choose" && c.nodeId === w.pendingDailyEventId;
+  if (w.pendingDailyEventId)
+    requireRule(
+      dailyChoice ||
+        c.type === "stop" ||
+        (c.type === "step" && w.longAction?.kind === "breakthrough"),
+      "先回应当前小事，再继续行程。",
+      "ACTION_UNAVAILABLE",
+    );
+  if (w.longAction)
+    requireRule(["step", "stop"].includes(c.type) || dailyChoice, "先完成或结束当前修行。");
   if (w.battle) requireRule(["battle", "auto"].includes(c.type), "请先完成当前战斗。");
   const handler = commandHandlers[c.type] as (world: World, command: Command) => void;
   handler(w, c);

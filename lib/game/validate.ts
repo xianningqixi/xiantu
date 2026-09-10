@@ -1,3 +1,4 @@
+import { DAILY_EVENTS, validateDailyState } from "./daily-events";
 import { validateSectState } from "./sect-validation";
 import { validateMainHistory } from "./main-story";
 import { physiqueSchema, portraitIdSchema } from "./physique";
@@ -155,6 +156,7 @@ export function validateWorld(w: World) {
   const allowedKeys = new Set(
     extensionSet.flatMap((e) => [...e.data.manifest.flags, ...e.data.storylets.map((n) => n.id)]),
   );
+  for (const node of DAILY_EVENTS) allowedKeys.add(node.id);
   requireRule(
     Object.keys(w.contentState).every((key) => allowedKeys.has(key)),
     "支线进度越过内容包范围。",
@@ -164,9 +166,10 @@ export function validateWorld(w: World) {
       Object.values(w.dailyEventCooldowns).every(
         (day) => Number.isSafeInteger(day) && day >= 0 && day <= w.day,
       ) &&
-      w.pendingDailyEventId === null,
+      (w.pendingDailyEventId === null || DAILY_EVENTS.some((n) => n.id === w.pendingDailyEventId)),
     "日常事件状态不合法。",
   );
+  validateDailyState(w);
   const actors = [w.player, ...w.npcs];
   const ids = new Set(actors.map((a) => a.id));
   requireRule(ids.size === actors.length && w.player.id === "PLAYER", "人物身份重复或缺失。");

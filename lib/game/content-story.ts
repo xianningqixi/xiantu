@@ -6,6 +6,7 @@ import { chapterWaitDays, expeditionCount } from "./world-map";
 const person = (w: World, id: string) =>
   id === "PLAYER" ? w.player : w.npcs.find((a) => a.id === id);
 export function extensionScenes(w: World) {
+  if (w.pendingDailyEventId) return [];
   if (w.ended || w.battle || w.loot || w.longAction || mainScene(w)) return [];
   return selectedExtensions(w.contentLocks)
     .flatMap(({ data, lock }) => {

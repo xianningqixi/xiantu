@@ -95,7 +95,16 @@ export function validateSectState(w: World, requireSave: (ok: unknown, message: 
           m!.lastStipendDay >= m!.joinedDay &&
           m!.lastStipendDay <= w.day &&
           a.sect === sectById(m!.id)?.name &&
-          m!.contribution === m!.earned - (m!.artLearned ? B.sects.artContributionCost : 0),
+          m!.contribution ===
+            m!.earned -
+              (m!.artLearned ? B.sects.artContributionCost : 0) -
+              w.events
+                .slice(
+                  w.events.findLastIndex((e) => e.kind === "sect-join" && e.actors.includes(a.id)) +
+                    1,
+                )
+                .filter((e) => e.kind === "sect-exchange" && e.actors.includes(a.id)).length *
+                B.sects.pillContributionCost,
         "宗门贡献或日期不合法。",
       );
       if (m!.id === "yunv") requireSave(a.sex === "female", "玉女宗门籍须为成年女子。");

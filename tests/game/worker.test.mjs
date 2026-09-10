@@ -978,7 +978,7 @@ test("autonomous NPC relationships, journeys and admission are atomic, replay-sa
     const message = {
       id: `npc-life-day:${day}`,
       kind: "command",
-      command: { type: "work" },
+      command: { type: "rest" },
       revision: world.revision,
       expected: expected(world),
     };
@@ -1041,4 +1041,66 @@ test("real 0.1.6 imports preserve the input backup atomically even in an empty b
     old.npcs.forEach((a, i) => assert.equal(result.state.npcs[i].realm, [0, 1, 2, 3, 10][a.realm]));
     assert.deepEqual(await env.client().load(), result.state);
   }
+});
+
+test("daily choice interrupts durable Worker progress, rolls back a failed answer and resumes the same checkpoint", async () => {
+  const env = environment(),
+    progress = [];
+  const client = env.client((r) => progress.push(r.progress));
+  let result = await client.send({ kind: "create", seed: 1, profile, expected: expected(null) });
+  assert.equal(result.ok, true, result.error);
+  let world = result.state;
+  async function command(c, id) {
+    const r = await client.send({
+      ...(id ? { id } : {}),
+      kind: "command",
+      command: c,
+      revision: world.revision,
+      expected: expected(world),
+    });
+    if (r.ok) world = r.state;
+    return r;
+  }
+  assert.equal((await command({ type: "travel", to: "inn" })).ok, true);
+  assert.equal((await command({ type: "learn" })).ok, true);
+  assert.equal((await command({ type: "train", days: 30, stoneMethod: false })).ok, true);
+  result = await client.send({
+    kind: "advance",
+    actionId: world.longAction.id,
+    checkpoint: 0,
+    days: 30,
+    expected: expected(world),
+  });
+  assert.equal(result.ok, true, result.error);
+  world = result.state;
+  assert.ok(world.pendingDailyEventId);
+  assert.ok(world.longAction);
+  assert.equal(result.advanceResult.reason, "condition");
+  const before = structuredClone(world),
+    checkpoint = world.longAction.checkpoint;
+  const event = world.events.findLast((e) => e.kind === "daily-event");
+  assert.ok(progress.at(-1).newEventIds.includes(event.id));
+  assert.deepEqual(await env.client().load(), world);
+  const c = { type: "choose", nodeId: world.pendingDailyEventId, choiceId: "decline" };
+  env.fault.abortWrite = true;
+  assert.equal((await command(c, "daily-answer")).ok, false);
+  env.fault.abortWrite = false;
+  assert.deepEqual(await env.client().load(), before);
+  assert.equal((await command(c, "daily-answer")).ok, true);
+  assert.equal(world.pendingDailyEventId, null);
+  assert.equal(world.day, before.day);
+  assert.equal(world.longAction.checkpoint, checkpoint);
+  const answered = structuredClone(world);
+  assert.equal((await command(c, "daily-answer")).ok, true);
+  assert.deepEqual(world, answered);
+  result = await client.send({
+    kind: "advance",
+    actionId: world.longAction.id,
+    checkpoint,
+    days: 1,
+    expected: expected(world),
+  });
+  assert.equal(result.ok, true, result.error);
+  assert.equal(result.state.day, world.day + 1);
+  assert.equal(result.state.longAction.checkpoint, checkpoint + 1);
 });

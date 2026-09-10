@@ -1,3 +1,4 @@
+import { dailyReply } from "./daily-test-helpers";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
@@ -47,6 +48,11 @@ for (const seed of B.world.stressTestSeeds)
     };
     let checkpoint: World | undefined;
     while (w.day < 3650) {
+      const reply = dailyReply(w);
+      if (reply) {
+        command(reply);
+        continue;
+      }
       if (!w.longAction) command({ type: "wait", days: w.day < 3647 ? 7 : 3 });
       command({ type: "step" });
       if (w.day === 40) checkpoint = JSON.parse(JSON.stringify(w));
@@ -54,7 +60,9 @@ for (const seed of B.world.stressTestSeeds)
         let recovered = checkpoint!;
         let replaySerial = recovered.revision;
         while (recovered.day < 100) {
-          const c: Command = recovered.longAction ? { type: "step" } : { type: "wait", days: 7 };
+          const c: Command =
+            dailyReply(recovered) ??
+            (recovered.longAction ? { type: "step" } : { type: "wait", days: 7 });
           recovered = applyCommand(recovered, c, `stress:${++replaySerial}`, recovered.revision);
         }
         assert.equal(digest(recovered), digest(w));

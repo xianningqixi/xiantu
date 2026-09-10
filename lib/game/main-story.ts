@@ -64,6 +64,7 @@ export function currentMainStep(w: World) {
     (dialogue || fallback || (guide?.location === location && !guide.attempt)) &&
     !w.ended &&
     !w.longAction &&
+    !w.pendingDailyEventId &&
     !w.battle &&
     !w.loot;
   const fill = (text: string) =>

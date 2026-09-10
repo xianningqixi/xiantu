@@ -1,3 +1,4 @@
+import { answerDaily } from "./daily-test-helpers";
 import { npcSubject } from "../../lib/game/portrait-subject";
 import { canonicalJson, simulationFingerprint } from "./semantic";
 import {
@@ -46,6 +47,7 @@ class Run {
   }
   do(c: Command) {
     this.state = applyCommand(this.state, c, `command:${++this.serial}`, this.state.revision);
+    this.state = answerDaily(this.state);
     return this.state;
   }
   finish() {
@@ -756,9 +758,9 @@ test("schema four knowledge migration preserves provenance and bounded receipts 
   const { migrateSave } = await import("../../lib/game/migrations");
   let world = createWorld(42, profile, "compact-migration");
   for (let i = 0; i < 140; i++)
-    world = applyCommand(world, { type: "work" }, `work-${i}`, world.revision);
+    world = answerDaily(applyCommand(world, { type: "work" }, `work-${i}`, world.revision));
   assert.equal(Object.keys(world.commandReceipts).length, B.limits.recentCommandReceipts);
-  assert.equal(world.receiptHistory.count, 12);
+  assert.equal(world.receiptHistory.count, world.revision - B.limits.recentCommandReceipts);
   assert.notEqual(world.receiptHistory.hash, "0".repeat(64));
   assert.equal(applyCommand(world, { type: "work" }, "work-139", 0), world);
   assert.throws(

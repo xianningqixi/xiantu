@@ -1,3 +1,5 @@
+import { DAILY_EVENTS } from "../../lib/game/daily-events";
+import { answerDaily } from "./daily-test-helpers";
 import { currentMainStep, mainScene, hasRubbing } from "../../lib/game/main-story";
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -34,7 +36,7 @@ const profile = {
 const fresh = (locks = packs.map((p) => p.lock)) =>
   createWorld(12345, profile, "journey-unit", 40, { contentLocks: locks });
 function command(w: World, c: Command) {
-  return applyCommand(w, c, `journey:${w.revision + 1}`, w.revision);
+  return answerDaily(applyCommand(w, c, `journey:${w.revision + 1}`, w.revision));
 }
 function mature(w: World, realm: number) {
   w.player.realm = realm;
@@ -314,13 +316,29 @@ test("a mortal can visit all ten atlas destinations in any order without story, 
     const route = travelRoute(w.player.location, to, w)!;
     const before = structuredClone(w);
     const id = `atlas:${w.revision + 1}`;
-    w = applyCommand(w, { type: "travel", to }, id, w.revision);
+    w = answerDaily(applyCommand(w, { type: "travel", to }, id, w.revision));
     assert.equal(w.player.location, to);
     assert.equal(w.day, before.day + route.days);
     assert.equal(w.player.realm, 0);
-    assert.equal(w.player.stones, initial.player.stones);
+    assert.equal(
+      w.player.stones,
+      initial.player.stones +
+        w.events
+          .filter((e) => e.kind === "daily-event")
+          .reduce(
+            (total, e) =>
+              total +
+              DAILY_EVENTS.find((n) => n.id === e.daily!.nodeId)!
+                .effects.filter((f) => f.kind === "stones")
+                .reduce((n, f) => n + (f.value ?? 0), 0),
+            0,
+          ),
+    );
     assert.equal(w.player.name, initial.player.name);
-    assert.deepEqual(w.contentState, initial.contentState);
+    assert.deepEqual(
+      Object.fromEntries(Object.entries(w.contentState).filter(([id]) => !id.startsWith("daily."))),
+      initial.contentState,
+    );
     assert.deepEqual(extensionScenes(w), []);
     assert.equal(mainScene(w), null);
     assert.equal(w.events.filter((e) => e.mainStory).length, 0);

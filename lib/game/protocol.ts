@@ -34,6 +34,17 @@ export const stopConditionSchema = z.discriminatedUnion("kind", [
 ]);
 const sectId = z.enum(["yunv", "hehuan", "quanzhen"]);
 const commandSchemas = [
+  z
+    .object({ type: z.literal("work"), job: z.enum(["chores", "herbs", "escort"]).optional() })
+    .strict(),
+  z.object({ type: z.literal("use"), item: z.literal("qi") }).strict(),
+  z
+    .object({
+      type: z.literal("sell"),
+      item: z.enum(["grass", "healing", "pills"]),
+      quantity: z.number().int().min(1).max(balanceLimits.limits.maxTradeQuantity),
+    })
+    .strict(),
   z.object({ type: z.literal("restorePortrait"), target: id }).strict(),
   z.object({ type: z.literal("visitSect"), sectId }).strict(),
   z.object({ type: z.literal("joinSect"), sectId, confirmed: z.literal(true) }).strict(),
@@ -83,12 +94,14 @@ const commandSchemas = [
   ...(
     [
       "advanceMinor",
+      "upgradeManual",
+      "rentCave",
+      "sectExchange",
       "sectTask",
       "learnSectArt",
       "leaveSect",
       "step",
       "stop",
-      "work",
       "rest",
       "learn",
       "renewAgreement",
@@ -108,7 +121,7 @@ const commandSchemas = [
   z
     .object({ type: z.literal("breakthrough"), usePill: z.boolean(), guardian: z.boolean() })
     .strict(),
-  z.object({ type: z.literal("buy"), item: z.enum(["healing", "pills", "grass"]) }).strict(),
+  z.object({ type: z.literal("buy"), item: z.enum(["healing", "pills", "grass", "qi"]) }).strict(),
   z
     .object({
       type: z.literal("battle"),

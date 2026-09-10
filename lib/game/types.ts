@@ -79,6 +79,14 @@ export interface Relation {
   grievance?: boolean;
 }
 export interface WorldEvent {
+  daily?: {
+    nodeId: string;
+    target?: string;
+    choiceId?: string;
+    choiceDay?: number;
+    giftDueDay?: number;
+    giftSentDay?: number;
+  };
   intimacy?: { kind: "bond" | "night" | "dual"; consent: "mutual" };
   mainStory?: { nodeId: string; choiceId: string };
   storyNodeId?: string;
@@ -214,7 +222,10 @@ export interface World {
   appliedCommands: string[];
 }
 export type Command =
-  | { type: "advanceMinor" }
+  | { type: "advanceMinor" | "upgradeManual" | "rentCave" | "sectExchange" }
+  | { type: "use"; item: "qi" }
+  | { type: "sell"; item: "grass" | "healing" | "pills"; quantity: number }
+  | { type: "work"; job?: "chores" | "herbs" | "escort" }
   | { type: "visitSect"; sectId: SectId }
   | { type: "joinSect"; sectId: SectId; confirmed: true }
   | { type: "sectTask" | "learnSectArt" | "leaveSect" }
@@ -243,7 +254,6 @@ export type Command =
   | { type: "stop" }
   | {
       type:
-        | "work"
         | "rest"
         | "learn"
         | "renewAgreement"
@@ -259,7 +269,7 @@ export type Command =
   | { type: "formParty" | "rally" }
   | { type: "settle"; honor: boolean; confirm: boolean }
   | { type: "breakthrough"; usePill: boolean; guardian: boolean }
-  | { type: "buy"; item: "healing" | "pills" | "grass" }
+  | { type: "buy"; item: "healing" | "pills" | "grass" | "qi" }
   | { type: "battle"; action: "attack" | "skill" | "guard" | "heal" | "retreat"; target?: string }
   | { type: "auto"; enabled: boolean };
 export interface Condition {
@@ -268,7 +278,18 @@ export interface Condition {
   value: string | number | boolean;
 }
 export interface StoryEffect {
-  kind: "meet" | "learn" | "flag" | "agreement";
+  kind:
+    | "meet"
+    | "learn"
+    | "flag"
+    | "agreement"
+    | "stones"
+    | "insight"
+    | "grass"
+    | "healing"
+    | "relation"
+    | "encounter";
+  value?: number;
   key?: string;
   target?: string;
 }

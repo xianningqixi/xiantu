@@ -1,3 +1,4 @@
+import { dailyOccurrence } from "./daily-events";
 import { realmIndex } from "./rules";
 import {
   mainScene,
@@ -18,7 +19,13 @@ export function journeyContext(w: World) {
     side = extensionScenes(w)[0],
     official = w.ended ? undefined : scene(w);
   const participants =
-    main?.participants ?? side?.participants ?? (official ? [PACK.roles.primary] : []);
+    main?.participants ??
+    side?.participants ??
+    (w.pendingDailyEventId
+      ? [dailyOccurrence(w)?.daily?.target].filter((id): id is string => !!id)
+      : official
+        ? [PACK.roles.primary]
+        : []);
   const actor = w.npcs.find(
     (a) =>
       participants.includes(a.id) && a.alive && !a.npcJourney && a.location === w.player.location,

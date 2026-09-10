@@ -1,3 +1,5 @@
+import { settleSectStipends } from "./sects";
+import { rollDailyEvent, settleDailyGifts, type DailyActivity } from "./daily-events";
 import { sectNpcAction } from "./sect-simulation";
 import { continueNpcJourney, npcSeekSect, npcSocialize } from "./npc-life";
 import { PACK } from "./content/official";
@@ -53,7 +55,11 @@ export function npcConflict(w: World, attacker: Actor, defender: Actor) {
   }
 }
 
-export function advanceDay(w: World, occupied: Set<string> = new Set(["PLAYER"])) {
+export function advanceDay(
+  w: World,
+  occupied: Set<string> = new Set(["PLAYER"]),
+  activity?: DailyActivity,
+) {
   if (w.ended) return;
   w.rulesVersion = "0.2.0";
   w.day++;
@@ -215,4 +221,7 @@ export function advanceDay(w: World, occupied: Set<string> = new Set(["PLAYER"])
     }
   }
   updateAgreementAvailability(w);
+  settleSectStipends(w);
+  settleDailyGifts(w);
+  rollDailyEvent(w, activity);
 }

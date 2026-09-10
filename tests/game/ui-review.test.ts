@@ -1,3 +1,4 @@
+import { answerDaily } from "./daily-test-helpers";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { applyCommand, createWorld, gainPerDay } from "../../lib/game/engine";
@@ -48,7 +49,7 @@ test("new adult characters validate across creation draft, world and portrait pa
   }
 });
 const step = (w: World, command: Parameters<typeof applyCommand>[1]) =>
-  applyCommand(w, command, `ui:${w.revision + 1}`, w.revision);
+  answerDaily(applyCommand(w, command, `ui:${w.revision + 1}`, w.revision));
 test("training preview equals execution across minor realms and never mutates the world", () => {
   for (const realm of [0, 1, 2, 3] as const)
     for (const stone of [false, true])

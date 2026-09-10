@@ -181,11 +181,11 @@ export function useGame(preview = false) {
         failedRequest.current?.key === key
           ? failedRequest.current.id
           : (checkpointId ?? uniqueId());
+      setProgress(null);
       if (input.kind === "advance") {
         advancing.current = id;
         setIsAdvancing(true);
         setAdvanceResult(undefined);
-        setProgress(null);
       }
       try {
         const result = await ask(input, id);
@@ -232,7 +232,6 @@ export function useGame(preview = false) {
         if (input.kind === "advance") {
           advancing.current = null;
           setIsAdvancing(false);
-          setProgress(null);
         }
         locked.current = false;
         setBusy(false);

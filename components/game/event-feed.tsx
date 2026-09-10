@@ -115,8 +115,9 @@ export function EventFeed({
     return () => clearTimeout(timer);
   }, [queued, rows]);
   const speed = () => {
-    setRows((rows) => [...rows, ...pending.current].slice(-60));
+    const ready = pending.current;
     pending.current = [];
+    setRows((rows) => [...rows, ...ready].slice(-60));
     setQueued(0);
   };
   return (

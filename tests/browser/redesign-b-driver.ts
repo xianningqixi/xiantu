@@ -94,11 +94,6 @@ export function growthB(w: World): Command {
 export async function showB(page: Page, w: World) {
   await page.reload();
   await page.waitForFunction(() => !!(window as any).__bAsk);
-  await expect(
-    page.getByRole("button", { name: new RegExp(w.player.name + " ") }).first(),
-  ).toBeVisible();
-  const journey = page.getByRole("tab", { name: /游历/ });
-  if (await journey.count()) await journey.click();
-  const enter = page.locator("button.map-travel[aria-label^='进入']");
-  if (await enter.count()) await enter.click();
+  await expect(page.getByRole("heading", { name: w.player.name, exact: true })).toBeVisible();
+  await page.getByRole("tab", { name: "道场", exact: true }).click();
 }

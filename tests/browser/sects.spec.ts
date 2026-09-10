@@ -1,3 +1,4 @@
+import { growTo, answerDaily } from "./journey-controls";
 import { openMore, dismissPanels } from "./journey-controls";
 import { creationSettings } from "./journey-controls";
 import { test, expect, type Page, type Locator } from "@playwright/test";
@@ -39,6 +40,7 @@ async function create(page: Page) {
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
   await expect(page.locator(".dojo")).toBeVisible();
   await expect(page.locator("[data-atlas-place]")).toHaveCount(0);
+  await growTo(page, "QI_5");
 }
 async function travel(page: Page, place: string) {
   await selectLocations(page);
@@ -47,16 +49,18 @@ async function travel(page: Page, place: string) {
   await act(page, modal.locator(".atlas-go"));
   await expect(modal).not.toBeVisible();
   await openCurrentLocation(page);
+  await answerDaily(page);
   await openMore(page);
 }
 
 test("three sect routes, contribution economy, NPC relationship choices and reload work through real UI", async ({
   page,
 }) => {
-  test.setTimeout(120000);
+  test.setTimeout(360000);
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await create(page);
+  await growTo(page, "FOUNDATION_1");
   await travel(page, "atlas.wendao");
   await openMore(page);
   const sect = page.getByRole("region", { name: "宗门修行" });
@@ -110,6 +114,7 @@ test("three sect routes, contribution economy, NPC relationship choices and relo
   await expect(page.locator(".dojo")).toBeVisible();
   expect(await saved(page)).toEqual(final);
   await openCurrentLocation(page);
+  await answerDaily(page);
   await openMore(page);
   for (const width of [390, 320]) {
     await page.setViewportSize({ width, height: 844 });

@@ -174,6 +174,16 @@ async function mutateStoredSave(page: Page, change: "legacy" | "campaign" | "cor
       q.onsuccess = () => {
         original = structuredClone(q.result);
         if (change === "legacy") {
+          // Build an authentic released five-realm/schema-one shape for this old-format test.
+          const realmBack = (r: number) => (r >= 10 ? 4 : Math.min(r, 3));
+          for (const a of [q.result.player, ...q.result.npcs]) {
+            a.realm = realmBack(a.realm);
+            a.hp = Math.min(a.hp, [30, 50, 70, 90, 130][a.realm]);
+            for (const key of ["insight", "manualRank", "skills", "qi", "jobCooldowns", "cave"])
+              delete a[key];
+          }
+          delete q.result.pendingDailyEventId;
+          delete q.result.dailyEventCooldowns;
           delete q.result.schemaVersion;
           delete q.result.commandReceipts;
           q.result.rulesVersion = "0.1.1";
@@ -254,8 +264,7 @@ test("an existing game gains the four fixed volumes atomically, keeps its origin
     expect(joined.world[key]).toEqual(old[key]);
   expect(joined.world.revision).toBe(old.revision + 1);
   expect(joined.backups).toEqual([old]);
-  await page.getByRole("tab", { name: "游历", exact: true }).click();
-  await expect(page.locator("[data-atlas-place]")).toHaveCount(10);
+  await expect(page.getByRole("tab", { name: "游历", exact: true })).toBeDisabled();
   await page.reload();
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
   if (await page.locator(".creation-more").count()) await creationSettings(page);

@@ -1,6 +1,7 @@
+import { dismissPanels, openMore } from "./journey-controls";
 import { test, expect, type Page } from "@playwright/test";
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
-const output = "docs/reports/screenshots/redesign-b";
+const output = "docs/reports/screenshots/redesign-ab/b";
 test.use({ channel: "chrome", viewport: { width: 1440, height: 900 } });
 export async function savedB(page: Page) {
   return page.evaluate(async () => {
@@ -45,7 +46,7 @@ test("B: real 0.1.6 import, migration notice, backup and exported new-context ro
   original.npcs.forEach((a: any, i: number) =>
     expect(w.npcs[i].realm).toBe([0, 1, 2, 3, 10][a.realm]),
   );
-  await expect(page.getByRole("button", { name: /旧档筑基行者 筑基初期/ })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "旧档筑基行者", exact: true })).toBeVisible();
   await page.screenshot({ path: `${output}/migration-notice.png` });
   await page.getByRole("button", { name: "存档与设置", exact: true }).click();
   await page.getByRole("button", { name: /本机备份/ }).click();
@@ -61,8 +62,7 @@ test("B: real 0.1.6 import, migration notice, backup and exported new-context ro
   await (await download).saveAs(backupPath);
   expect(JSON.parse(readFileSync(backupPath, "utf8"))).toEqual(original);
   await page.screenshot({ path: `${output}/migration-backup.png` });
-  await page.keyboard.press("Escape");
-  await page.keyboard.press("Escape");
+  await dismissPanels(page);
   await page.getByRole("button", { name: "存档与设置", exact: true }).click();
   const exported = page.waitForEvent("download");
   await page.getByRole("button", { name: "导出当前存档", exact: true }).click();
@@ -76,7 +76,7 @@ test("B: real 0.1.6 import, migration notice, backup and exported new-context ro
   await next.goto("/");
   await next.getByLabel("选择存档文件").setInputFiles(exportedPath);
   await next.getByRole("button", { name: "确认继续", exact: true }).click();
-  await expect(next.getByRole("button", { name: /旧档筑基行者 筑基初期/ })).toBeVisible();
+  await expect(next.getByRole("heading", { name: "旧档筑基行者", exact: true })).toBeVisible();
   const normal = (v: any) => {
     const { saveId, revision, ...rest } = v;
     return rest;
@@ -86,7 +86,7 @@ test("B: real 0.1.6 import, migration notice, backup and exported new-context ro
   await context.close();
   expect(errors).toEqual([]);
   writeFileSync(
-    "docs/reports/redesign-b-migration.json",
+    "docs/reports/redesign-ab-migration.json",
     JSON.stringify(
       {
         fixture: "legacy-0.1.6-foundation.json",
@@ -180,7 +180,7 @@ test("B: production Worker new games measure aptitude, command count and one hun
   await page.screenshot({ path: `${output}/hundred-days.png` });
   await context.close();
   writeFileSync(
-    "docs/reports/redesign-b-browser-metrics.json",
+    "docs/reports/redesign-ab-browser-metrics.json",
     JSON.stringify(
       {
         driver:
@@ -235,17 +235,27 @@ test("B: daily retreat pause/resume and actual UI shortcuts for jobs, manual, sa
     (c) => c.id === (node.category === "risk" ? "face" : "decline"),
   )!.label;
   const buttons = page.getByRole("button", { name: new RegExp(label) });
-  const uiChoiceBlocked = (await buttons.count()) ? !(await buttons.first().isEnabled()) : true;
-  w = await commandB(page, w, replyB(w)!);
+  if (!(await buttons.first().isVisible())) await openMore(page);
+  await expect(buttons.first()).toBeEnabled();
+  const uiChoiceBlocked = false;
+  await buttons.first().click();
+  // The real UI acknowledges the choice and resumes the original action automatically.
+  await expect
+    .poll(async () => (await savedB(page)).longAction?.checkpoint ?? 999)
+    .toBeGreaterThan(checkpoint);
+  await page.getByRole("tab", { name: "行囊", exact: true }).click();
+  w = await savedB(page);
+  if (replyB(w)) w = await commandB(page, w, replyB(w)!);
+  const resumeCheckpoint = w.longAction!.checkpoint;
   r = await askB(page, {
     kind: "advance",
     actionId: w.longAction!.id,
-    checkpoint,
+    checkpoint: resumeCheckpoint,
     days: 1,
     expected: { saveId: w.saveId, revision: w.revision },
   });
   w = r.state;
-  expect(w.longAction!.checkpoint).toBe(checkpoint + 1);
+  expect(w.longAction!.checkpoint).toBe(resumeCheckpoint + 1);
   if (replyB(w)) w = await commandB(page, w, replyB(w)!);
   await showB(page, w);
   await page.screenshot({ path: `${output}/daily-resumed.png` });
@@ -260,6 +270,7 @@ test("B: daily retreat pause/resume and actual UI shortcuts for jobs, manual, sa
   async function clickAction(label: RegExp) {
     await showB(page, w);
     const previous = w;
+    await openMore(page);
     await page.getByRole("button", { name: label }).first().click({ timeout: 15000 });
     await expect
       .poll(async () => (await savedB(page))?.revision)
@@ -300,7 +311,7 @@ test("B: daily retreat pause/resume and actual UI shortcuts for jobs, manual, sa
   await page.screenshot({ path: `${output}/rent-cave.png` });
   expect(errors).toEqual([]);
   writeFileSync(
-    "docs/reports/redesign-b-browser-loop.json",
+    "docs/reports/redesign-ab-browser-loop.json",
     JSON.stringify(
       {
         viewport: [1440, 900],

@@ -1,3 +1,4 @@
+import { growTo, answerDaily } from "./journey-controls";
 import { openMore, dismissPanels } from "./journey-controls";
 import { test, expect, type Page } from "@playwright/test";
 import { readFileSync, mkdirSync } from "node:fs";
@@ -85,6 +86,7 @@ test("three sect locations and six new portraits render through real travel with
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("新图验收");
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
   await expect(page.locator(".dojo")).toBeVisible();
+  await growTo(page, "QI_5");
   for (const sect of sects) {
     await selectLocations(page);
     const map = page.locator("#atlas-page");
@@ -96,6 +98,7 @@ test("three sect locations and six new portraits render through real travel with
     const scene = page.locator(".dojo-landscape img");
     await expect(scene).toHaveAttribute("src", placeArt.src);
     await expect.poll(() => scene.evaluate((i: HTMLImageElement) => i.naturalWidth)).toBe(1672);
+    await answerDaily(page);
     await openMore(page);
     const panel = page.getByRole("region", { name: "宗门修行" });
     const beforeVisit = await saved(page);

@@ -1,5 +1,11 @@
+import { readFileSync } from "node:fs";
+const dailyNodes = JSON.parse(
+  readFileSync("content-packs/daily-events/events.json", "utf8"),
+).events;
 import { expect, type Page, type Locator } from "@playwright/test";
 export async function saved(page: Page, database = "xiantu-qingshi") {
+  if (database === "xiantu-qingshi" && new URL(page.url()).pathname === "/author")
+    database = "xiantu-author-preview";
   return page.evaluate(async (database) => {
     const db = await new Promise<IDBDatabase>((resolve, reject) => {
       const q = indexedDB.open(database);
@@ -78,9 +84,34 @@ export async function act(page: Page, button: Locator) {
   await expect(page.getByLabel("本机已存", { exact: true })).toBeVisible();
   return saved(page);
 }
+export async function answerDaily(page: Page) {
+  const w = await saved(page);
+  if (!w.pendingDailyEventId) return false;
+  const node = dailyNodes.find((n: any) => n.id === w.pendingDailyEventId);
+  const choice =
+    node.choices.find((c: any) => c.id === (node.category === "risk" ? "face" : "decline")) ??
+    node.choices.at(-1);
+  await openCurrentLocation(page);
+  let button = page.getByRole("button", { name: choice.label, exact: true });
+  if (!(await button.isVisible())) {
+    await openMore(page);
+    button = page.getByRole("dialog").getByRole("button", { name: choice.label, exact: true });
+  }
+  await act(page, button);
+  return true;
+}
 export async function finish(page: Page) {
   await expect(page.getByRole("button", { name: "凝聚气机…", exact: true })).toHaveCount(0);
-  await expect.poll(async () => !!(await saved(page)).longAction, { timeout: 30000 }).toBe(false);
+  for (let i = 0; i < 400; i++) {
+    const w = await saved(page);
+    if (!w.longAction && !w.pendingDailyEventId) break;
+    if (w.pendingDailyEventId) await answerDaily(page);
+    else if (await page.locator(".dojo-primary").filter({ hasText: "继续当前行动" }).isVisible())
+      await page.locator(".dojo-primary").click();
+    else await page.waitForTimeout(100);
+  }
+  expect((await saved(page)).longAction).toBeNull();
+  expect((await saved(page)).pendingDailyEventId).toBeNull();
   await expect(page.getByLabel("本机已存", { exact: true })).toBeVisible();
 }
 export async function train(page: Page, days: number) {
@@ -120,4 +151,60 @@ export async function travelLocation(page: Page, to: string, database = "xiantu-
   } else await local.click();
   await expect(page.locator(".dojo")).toBeVisible();
   expect((await saved(page, database)).player.location).toBe(to);
+}
+
+const realmConfig = JSON.parse(readFileSync("lib/game/content/balance.json", "utf8")).cultivation;
+/** Grow through visible controls; setup occurs before the read-only snapshot under test. */
+export async function growTo(page: Page, key: string) {
+  const target = realmConfig.realmOrder.indexOf(key);
+  for (let i = 0; i < 160; i++) {
+    const w = await saved(page);
+    if (w.player.realm >= target) return;
+    if (w.pendingDailyEventId || w.longAction) {
+      await finish(page);
+      continue;
+    }
+    if (!w.player.manual) {
+      await openCurrentLocation(page);
+      const learn = page
+        .locator(".dojo-primary")
+        .filter({ hasText: /学习《基础吐纳诀》|前往.*客栈/ });
+      if (await learn.isVisible()) await act(page, learn);
+      else {
+        await openMore(page);
+        await act(page, page.getByRole("dialog").locator('[data-journey-action="practice"]'));
+      }
+      continue;
+    }
+    const rule = realmConfig.advanceRules[realmConfig.realmOrder[w.player.realm]];
+    if (w.player.xp >= rule.requiredExperience) {
+      if (rule.kind === "minor") {
+        await openCurrentLocation(page);
+        if ((await page.locator(".dojo-primary").innerText()).startsWith("冲关"))
+          await act(page, page.locator(".dojo-primary"));
+        else {
+          await openMore(page);
+          await act(
+            page,
+            page.getByRole("dialog").locator('[data-journey-action="advance-minor"]'),
+          );
+        }
+      } else {
+        await openPractice(page);
+        await page.getByRole("button", { name: /凝神，尝试突破/ }).click();
+        await finish(page);
+      }
+    } else await train(page, 30);
+  }
+  throw new Error(`Did not grow to ${key} through the UI`);
+}
+
+export async function waitCheckpoint(page: Page, checkpoint: number) {
+  for (let i = 0; i < 600; i++) {
+    const w = await saved(page);
+    if (w.longAction?.checkpoint >= checkpoint) return;
+    if (w.pendingDailyEventId) await answerDaily(page);
+    else await page.waitForTimeout(100);
+  }
+  throw new Error(`No durable checkpoint ${checkpoint}`);
 }

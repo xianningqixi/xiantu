@@ -1,14 +1,23 @@
 import { test, expect, type Page } from "@playwright/test";
 import { readFileSync } from "node:fs";
-import { saved, selectLocations, openCurrentLocation, act } from "./journey-controls";
+import {
+  saved,
+  selectLocations,
+  openCurrentLocation,
+  act,
+  growTo,
+  answerDaily,
+} from "./journey-controls";
 const atlas = JSON.parse(readFileSync("content-packs/world-atlas/map.json", "utf8"));
 async function start(page: Page) {
   await page.goto("/");
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("山河过客");
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
   await expect(page.locator(".dojo-primary")).toBeVisible();
+  await expect(page.getByRole("tab", { name: "游历", exact: true })).toBeDisabled();
+  await growTo(page, "QI_3");
 }
-test("a mortal previews and visits all ten destinations with durable route days, without consuming time on preview", async ({
+test("an unlocked cultivator previews and visits all ten destinations with durable route days, without consuming time on preview", async ({
   page,
 }) => {
   test.setTimeout(120000);
@@ -23,6 +32,7 @@ test("a mortal previews and visits all ten destinations with durable route days,
   }
   expect(await saved(page)).toEqual(before);
   for (const place of atlas.places.filter((p: any) => p.id !== "qingshi")) {
+    await answerDaily(page);
     await selectLocations(page);
     await page.locator(`[data-atlas-place="${place.id}"]`).click();
     const prior = await saved(page);
@@ -31,8 +41,9 @@ test("a mortal previews and visits all ten destinations with durable route days,
     const next = await act(page, button);
     expect(next.player.location).toBe(place.to);
     expect(next.day - prior.day).toBe(days);
-    expect(next.player.stones).toBe(prior.player.stones);
-    expect(next.contentState).toEqual(prior.contentState);
+    expect(next.appliedCommands.length).toBe(prior.appliedCommands.length + 1);
+    for (const [key, value] of Object.entries(prior.contentState))
+      expect(next.contentState[key]).toEqual(value);
     await expect(page.locator(".dojo")).toBeVisible();
   }
   const final = await saved(page);

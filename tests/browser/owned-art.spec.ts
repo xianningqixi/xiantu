@@ -1,3 +1,4 @@
+import { growTo, finish as finishCurrent, answerDaily } from "./journey-controls";
 import { creationSettings, openMore, selectLocations, dismissPanels } from "./journey-controls";
 import { openPractice } from "./journey-controls";
 import { openCurrentLocation, travelTo } from "./journey-controls";
@@ -56,16 +57,7 @@ async function act(page: Page, button: import("@playwright/test").Locator) {
   await expect.poll(async () => (await world(page)).revision).toBeGreaterThan(revision);
 }
 async function finishAction(page: Page) {
-  await expect(page.getByRole("button", { name: "凝聚气机…", exact: true })).toHaveCount(0);
-  await expect.poll(async () => !!(await world(page)).longAction, { timeout: 60000 }).toBe(false);
-  await saved(page);
-  const summary = page.getByRole("dialog").filter({
-    has: page.getByRole("heading", { name: /^(闭关期间|等候见闻|突破结果)$/ }),
-  });
-  if (await summary.count()) {
-    await page.keyboard.press("Escape");
-    await expect(summary).toHaveCount(0);
-  }
+  await finishCurrent(page);
 }
 async function practice(page: Page, days: number) {
   await openPractice(page);
@@ -84,7 +76,9 @@ function errors(page: Page) {
   return found;
 }
 async function travel(page: Page, location: string) {
+  await answerDaily(page);
   await travelTo(page, location);
+  await answerDaily(page);
   await expect(page.locator(".dojo-landscape figcaption")).toContainText(location);
   await saved(page);
 }
@@ -239,7 +233,7 @@ test("four-volume growth and main clues unlock local stories and real travel wit
   expect(await world(page)).toEqual(after);
   await page.keyboard.press("Escape");
   // All subsequent progression uses visible controls and the real Worker/IndexedDB save.
-  for (let i = 0; i < 5 && (await world(page)).player.realm < 2; i++) await practice(page, 7);
+  await growTo(page, "QI_3");
   expect((await world(page)).player.realm).toBeGreaterThanOrEqual(2);
   await openCurrentLocation(page);
   for (let i = 0; i < 14 && !(await page.locator("[data-story-id]").count()); i++) {
@@ -362,6 +356,7 @@ test("roadside-only new game reaches its planned image and keeps original card l
     await finishAction(page);
     if ((await world(page)).player.realm === 0) await practice(page, 1);
   }
+  await growTo(page, "QI_3");
   await page.getByRole("tab", { name: "游历", exact: true }).click();
   await travel(page, "山门古道");
   if (!(await page.locator('[data-story-id="guest.roadside.introduction"]').count())) {
@@ -380,6 +375,7 @@ test("roadside-only new game reaches its planned image and keeps original card l
   await page.locator(".dojo-primary").click();
   await saved(page);
   await travel(page, "青石坊市");
+  await answerDaily(page);
   const market = page.locator('[data-story-id^="guest.roadside.market-"]');
   await expect(market).toBeVisible();
   await page.locator(".dojo-primary").click();

@@ -1,3 +1,4 @@
+import { growTo, finish, answerDaily } from "./journey-controls";
 import { openMore, selectLocations } from "./journey-controls";
 import { openPractice } from "./journey-controls";
 import { test, expect, type Page, type Locator } from "@playwright/test";
@@ -46,18 +47,20 @@ test("elapsed time develops autonomous NPC friendships and sect lives, shown in 
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
   await openCurrentLocation(page);
   for (let i = 0; i < 4; i++) await act(page, page.locator(".dojo-primary"));
+  await growTo(page, "QI_3");
   const before = await saved(page);
   await openMore(page);
   await page.locator("#wait-controls summary").click();
   await page.getByLabel("等候日数", { exact: true }).selectOption("30");
   await act(page, page.getByRole("button", { name: /^开始停留/ }));
-  await expect.poll(async () => !!(await saved(page)).longAction, { timeout: 60000 }).toBe(false);
+  await finish(page);
   const summary = page.locator(".retreat-summary");
   await summary.locator("summary").click();
   await expect(summary).toContainText(/结识|结为朋友|拜入|访求师门/);
   const after = await saved(page);
   expect(after.day - before.day).toBe(30);
-  expect(after.player.stones).toBe(before.player.stones);
+  // Daily sightings may award stones; waiting itself has no debit.
+  expect(after.player.stones).toBeGreaterThanOrEqual(before.player.stones);
   expect(after.visitedSects).toBeUndefined();
   expect(after.npcs.map((a: any) => [a.id, a.name, a.appearanceSeed])).toEqual(
     before.npcs.map((a: any) => [a.id, a.name, a.appearanceSeed]),

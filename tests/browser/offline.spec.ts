@@ -203,7 +203,8 @@ test("a failed update retains the old cache, and a paused long action blocks act
         (await caches.keys()).filter((key) => key.startsWith("xiantu-core-")),
       ),
     ).toEqual(cachesBefore);
-    await travelTo(page, "听雨客栈");
+    await openMore(page);
+    await page.getByRole("dialog").locator('[data-journey-action="practice"]').click();
     await expect(page.locator(".dojo-landscape figcaption")).toContainText("听雨客栈");
     await page.getByRole("button", { name: "学习《基础吐纳诀》", exact: true }).click();
     await openPractice(page);

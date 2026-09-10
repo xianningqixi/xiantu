@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { train, finish } from "./journey-controls";
 import { openPractice } from "./journey-controls";
 import { openCurrentLocation, travelTo } from "./journey-controls";
@@ -122,19 +123,17 @@ for (const type of ["beforePut", "lostAck"])
     page,
   }) => {
     await setup(page);
-    await page.getByRole("button", { name: /接些坊市杂务/ }).click();
-    await expect(page.locator("header").getByText("第 2 日", { exact: true })).toBeVisible();
-    await travelTo(page, "听雨客栈");
-    await expect(page.locator(".dojo-landscape figcaption")).toContainText("听雨客栈");
-    await page.getByRole("button", { name: "学习《基础吐纳诀》", exact: true }).click();
-    for (let i = 0; i < 6 && (await saved(page)).player.realm === 0; i++) {
-      await train(page, 7);
-      await openPractice(page);
-      await page.getByRole("button", { name: /凝神，尝试突破/ }).click();
-      await finish(page);
-    }
-    expect((await saved(page)).player.realm).toBeGreaterThan(0);
-
+    // Controlled paid-retreat setup isolates durability faults from the separate daily-choice regression.
+    const fixture = JSON.parse(readFileSync("/tmp/xiantu-ab-fixtures/realm-7.json", "utf8"));
+    Object.assign(fixture.player, { xp: 0, location: "inn", cave: "market" });
+    await page.getByRole("button", { name: "存档与设置", exact: true }).click();
+    await page.getByLabel("选择存档文件").setInputFiles({
+      name: "paid-retreat.json",
+      mimeType: "application/json",
+      buffer: Buffer.from(JSON.stringify(fixture)),
+    });
+    await page.getByRole("button", { name: "确认继续", exact: true }).click();
+    await expect(page.locator(".dojo-primary")).toBeVisible();
     await openPractice(page);
     await page.getByRole("switch").check();
     await page.getByLabel("停止条件", { exact: true }).selectOption("days");

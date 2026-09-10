@@ -1,3 +1,4 @@
+import { growTo } from "./journey-controls";
 import { creationSettings, dismissPanels } from "./journey-controls";
 import { test, expect, type Page } from "@playwright/test";
 import sharp from "sharp";
@@ -50,10 +51,15 @@ async function fixture() {
     .toBuffer();
   return `data:image/png;base64,${png.toString("base64")}`;
 }
-async function create(page: Page) {
+async function create(page: Page, unlockPeople = true) {
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("立绘修士");
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
   await expect(page.getByRole("heading", { name: "立绘修士", exact: true })).toBeVisible();
+  if (unlockPeople) {
+    await page.locator(".dojo-primary").click();
+    await expect(page.locator(".dojo-primary")).toHaveText(/谢过/);
+    await growTo(page, "QI_1");
+  }
 }
 test("creation fits first-screen essentials while advanced shape and portrait settings remain available", async ({
   page,
@@ -247,7 +253,7 @@ test("late or cancelled generation and failed image cache cannot adopt a portrai
   next = Promise.resolve();
   await page.getByRole("button", { name: "随机生成立绘", exact: true }).click();
   await expect(page.getByRole("alert")).toContainText("缓存空间不足");
-  await create(page);
+  await create(page, false);
   expect((await saved(page)).player.portraitId).toBeUndefined();
   expect((await saved(page)).day).toBe(0);
 });

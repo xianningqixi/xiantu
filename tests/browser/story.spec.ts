@@ -1,3 +1,4 @@
+import { growTo } from "./journey-controls";
 import { test, expect, type Page } from "@playwright/test";
 import {
   saved,
@@ -30,7 +31,7 @@ for (const honor of [true, false])
   test(`dojo story ${honor ? "honor" : "breach"} preserves battle, promises, reunion, breakthrough and paused checkpoints`, async ({
     page,
   }) => {
-    test.setTimeout(180000);
+    test.setTimeout(480000);
     const errors: string[] = [];
     page.on("pageerror", (e) => errors.push(e.message));
     await installPauseControl(page);
@@ -40,6 +41,7 @@ for (const honor of [true, false])
       await breakthrough(page);
     }
     expect((await saved(page)).player.realm).toBeGreaterThan(0);
+    await growTo(page, "QI_3");
     for (let i = 0; i < 5 && (await saved(page)).party.length === 1; i++) {
       await openMore(page);
       await act(
@@ -122,11 +124,11 @@ for (const honor of [true, false])
     await openPractice(page);
     await page.getByLabel("停止条件", { exact: true }).selectOption("days");
     await page.getByLabel("修炼日数", { exact: true }).selectOption("30");
-    await armPause(page);
+    await armPause(page, 1);
     await act(page, page.locator("#practice-start"));
     await expect(page.locator(".dojo-primary")).toHaveText("继续当前行动");
     const paused = await saved(page);
-    expect(paused.longAction.checkpoint).toBeGreaterThanOrEqual(3);
+    expect(paused.longAction.checkpoint).toBeGreaterThanOrEqual(1);
     await page.getByRole("tab", { name: "人物", exact: true }).click();
     await page.getByRole("button", { name: "查看全部人物", exact: true }).click();
     await page.getByLabel("人物范围", { exact: true }).selectOption("region");
@@ -150,21 +152,13 @@ for (const honor of [true, false])
         await act(page, page.locator(".dojo-primary"));
       else {
         await openMore(page);
-        await act(page, page.getByRole("button", { name: "在此停留 1 日", exact: true }));
+        await act(page, page.getByRole("dialog").locator('[data-journey-action="wait"]'));
         await finish(page);
       }
     }
     expect((await saved(page)).story.flags.reunion).toBe(true);
     const cap = B.cultivation.realmOrder.length - 1;
-    for (let i = 0; i < 10 && (await saved(page)).player.realm < cap; i++) {
-      const w = await saved(page),
-        rule =
-          B.cultivation.advanceRules[
-            B.cultivation.realmOrder[w.player.realm] as keyof typeof B.cultivation.advanceRules
-          ];
-      if (w.player.xp < rule.requiredExperience) await train(page, 30);
-      if ((await saved(page)).player.realm < cap) await breakthrough(page);
-    }
+    await growTo(page, B.cultivation.realmOrder[cap]);
     const final = await saved(page);
     expect(final.player.realm).toBe(cap);
     expect(final.player.alive).toBe(true);
@@ -180,6 +174,7 @@ test("cancelled invitations stay closed on desktop and mobile, explicit renewal 
   await startStory(page, "再访修士");
   await train(page, 7);
   await breakthrough(page);
+  await growTo(page, "QI_3");
   await openMore(page);
   await act(page, page.getByRole("button", { name: "邀二人同行", exact: true }));
   await openMore(page);

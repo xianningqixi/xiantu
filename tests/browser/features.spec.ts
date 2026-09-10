@@ -1,3 +1,4 @@
+import { growTo, waitCheckpoint } from "./journey-controls";
 import { installPauseControl, armPause } from "./pause-control";
 import { openMore, finish } from "./journey-controls";
 import { creationSettings } from "./journey-controls";
@@ -207,6 +208,8 @@ test("100 NPC decade save imports at full size and keeps UI responsive during ch
   await page.getByRole("button", { name: "确认继续", exact: true }).click();
   await expect(page.getByRole("heading", { name: "十年回归", exact: true })).toBeVisible();
   const importMs = Date.now() - started;
+  await growTo(page, "QI_1");
+  const actionInitialDay = (await world(page)).day;
   await installPauseControl(page);
   await page.reload();
   await expect(page.locator(".dojo-primary")).toBeVisible();
@@ -225,7 +228,7 @@ test("100 NPC decade save imports at full size and keeps UI responsive during ch
   });
   const runStarted = Date.now();
   await page.getByRole("button", { name: /^开始停留/ }).click();
-  await expect(page.locator(".dojo-primary")).toHaveText("继续当前行动", { timeout: 60000 });
+  await waitCheckpoint(page, 4);
   const paused = await world(page);
   expect(paused.longAction.checkpoint).toBeGreaterThanOrEqual(4);
   await page.getByRole("tab", { name: "人物", exact: true }).click();
@@ -241,7 +244,8 @@ test("100 NPC decade save imports at full size and keeps UI responsive during ch
   });
   const summary = {
     npcCount: 100,
-    initialDay: 3650,
+    importedDay: 3650,
+    initialDay: actionInitialDay,
     days: 30,
     importBytes: file.byteLength,
     importMs,

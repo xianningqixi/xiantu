@@ -1,3 +1,4 @@
+import { growTo, answerDaily } from "./journey-controls";
 import { test, expect, type Page } from "@playwright/test";
 import {
   saved,
@@ -39,14 +40,14 @@ test("dojo shortcuts retain real costs, free learning, breakthrough and sect con
   await (await shortcut(page, "shop")).click();
   await expect(page.locator('[data-shop-item="healing"]')).toBeVisible();
   expect(await saved(page)).toEqual(paid);
-  await forest(page);
-  await openMore(page);
-  await expect(page.getByRole("dialog", { name: "选择更多行动" })).toContainText("拜访玉女宗");
+  await answerDaily(page);
   const before = await saved(page);
   await act(page, await shortcut(page, "practice"));
   const inn = await saved(page);
   expect(inn.player.location).toBe("inn");
-  expect(inn.day).toBeGreaterThan(before.day);
+  expect(inn.day - before.day).toBe(
+    B.travel.routes.find((r: any) => r.from === "LOC_MARKET" && r.to === "LOC_INN").days,
+  );
   await act(page, page.locator(".dojo-primary"));
   const learned = await saved(page);
   expect(learned.player.manual).toBe(true);
@@ -61,7 +62,9 @@ test("dojo shortcuts retain real costs, free learning, breakthrough and sect con
   await openMore(page);
   await expect(page.getByRole("button", { name: "准备突破", exact: true }).first()).toBeVisible();
   await dismissPanels(page);
+  await growTo(page, "QI_5");
   await forest(page);
+  await answerDaily(page);
   await openMore(page);
   const sect = page.getByRole("region", { name: "宗门修行", exact: true });
   await act(page, sect.getByRole("button", { name: /拜访玉女宗/ }));

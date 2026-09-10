@@ -1,3 +1,4 @@
+import { growTo } from "./journey-controls";
 import { openCurrentLocation, selectLocations } from "./journey-controls";
 import { test, expect, type Page } from "@playwright/test";
 import { mkdirSync, readFileSync } from "node:fs";
@@ -66,6 +67,7 @@ test("all local NPCs and the player expose live attributes, directed relations a
     await page.locator(".dojo-primary").click();
     await expect.poll(async () => (await world(page)).revision).toBeGreaterThan(before);
   }
+  await growTo(page, "QI_1");
   const snapshot = await world(page);
   expect(snapshot.npcs).toHaveLength(123);
   await page.locator(".status-profile").click();
@@ -196,7 +198,8 @@ test("NPC history shows personal events before acquaintance, with biography and 
   expect(await world(page)).toEqual(initial);
   await dialog.screenshot({ path: `${output}/history-biography-desktop.png` });
   await page.keyboard.press("Escape");
-  let state = initial;
+  await growTo(page, "QI_1");
+  let state = await world(page);
   const candidate = (w: any) =>
     w.npcs.find(
       (actor: any) =>

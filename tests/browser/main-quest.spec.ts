@@ -1,3 +1,4 @@
+import { growTo, finish as finishCurrent, answerDaily } from "./journey-controls";
 import { openMore, creationSettings, viewJournal } from "./journey-controls";
 import { openPractice } from "./journey-controls";
 import { openCurrentLocation, selectLocations } from "./journey-controls";
@@ -32,34 +33,25 @@ async function act(page: Page, button: Locator) {
   await expect.poll(async () => (await world(page)).revision).toBeGreaterThan(revision);
 }
 async function finish(page: Page) {
-  await expect(page.getByRole("button", { name: "凝聚气机…", exact: true })).toHaveCount(0);
-  await expect.poll(async () => !!(await world(page)).longAction, { timeout: 60000 }).toBe(false);
-  await expect(page.getByLabel("本机已存", { exact: true })).toBeAttached();
-  const summary = page.getByRole("dialog", { name: "闭关期间", exact: true });
-  if (await summary.count()) await page.keyboard.press("Escape");
+  await finishCurrent(page);
 }
 async function grow(page: Page, realm: number) {
-  for (let i = 0; i < 24 && (await world(page)).player.realm < realm; i++) {
-    await openPractice(page);
-    const attempt = page.getByRole("button", { name: /凝神，尝试突破/ });
-    if (await attempt.count()) await act(page, attempt);
-    else {
-      await page.getByLabel("停止条件", { exact: true }).selectOption("days");
-      await page.getByLabel("修炼日数", { exact: true }).selectOption("30");
-      await act(page, page.locator("#practice-start"));
-    }
-    await finish(page);
-  }
-  expect((await world(page)).player.realm).toBeGreaterThanOrEqual(realm);
+  const B = JSON.parse(readFileSync("lib/game/content/balance.json", "utf8"));
+  await growTo(
+    page,
+    B.cultivation.realmOrder[Math.max(realm, B.cultivation.realmOrder.indexOf("QI_3"))],
+  );
   await selectLocations(page);
 }
 async function localTravel(page: Page, to: string) {
+  await answerDaily(page);
   if ((await world(page)).player.location === to) {
     await openCurrentLocation(page);
     return;
   }
   await selectLocations(page);
   await act(page, page.locator(`[data-travel-to="${to}"]`));
+  await answerDaily(page);
   expect((await world(page)).player.location).toBe(to);
 }
 async function completeNode(page: Page, nodeId: string, location: string) {

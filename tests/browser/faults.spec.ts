@@ -1,3 +1,5 @@
+import { train, finish } from "./journey-controls";
+import { openPractice } from "./journey-controls";
 import { openCurrentLocation, travelTo } from "./journey-controls";
 import { test, expect, type Page } from "@playwright/test";
 test.use({ serviceWorkers: "block" });
@@ -70,7 +72,7 @@ for (const type of ["abort", "quota"])
       type === "quota" ? "存储空间不足" : "保存未完成",
     );
     expect(await saved(page)).toEqual(before);
-    await page.getByRole("button", { name: /接些坊市杂务/ }).click();
+    await page.getByRole("button", { name: "重试此行动", exact: true }).click();
     await expect(page.locator("header").getByText("第 2 日", { exact: true })).toBeVisible();
     const after = await saved(page);
     expect(after.player.stones).toBe(before.player.stones + 6);
@@ -123,29 +125,35 @@ for (const type of ["beforePut", "lostAck"])
     await page.getByRole("button", { name: /接些坊市杂务/ }).click();
     await expect(page.locator("header").getByText("第 2 日", { exact: true })).toBeVisible();
     await travelTo(page, "听雨客栈");
-    await expect(page.locator(".place-heading h1")).toHaveText("听雨客栈");
-    await page.getByRole("button", { name: /向店家领取/ }).click();
-    await page.getByRole("tab", { name: "修行", exact: true }).click();
+    await expect(page.locator(".dojo-landscape figcaption")).toContainText("听雨客栈");
+    await page.getByRole("button", { name: "学习《基础吐纳诀》", exact: true }).click();
+    for (let i = 0; i < 6 && (await saved(page)).player.realm === 0; i++) {
+      await train(page, 7);
+      await openPractice(page);
+      await page.getByRole("button", { name: /凝神，尝试突破/ }).click();
+      await finish(page);
+    }
+    expect((await saved(page)).player.realm).toBeGreaterThan(0);
+
+    await openPractice(page);
     await page.getByRole("switch").check();
-    await page.getByRole("radio", { name: "7 日", exact: true }).check();
+    await page.getByLabel("停止条件", { exact: true }).selectOption("days");
+    await page.getByLabel("修炼日数", { exact: true }).selectOption("7");
     const before = await saved(page);
     await fault(page, `checkpoint:${type}`);
-    await page.getByRole("button", { name: /开始闭关/ }).click();
+    await page.getByRole("button", { name: /^开始修炼/ }).click();
     if (type === "beforePut")
       await expect.poll(() => page.evaluate(() => (window as any).__xiantuFaultHit)).toBe(true);
-    else await expect.poll(async () => (await saved(page)).longAction).toBeNull();
+    else await expect.poll(async () => (await saved(page)).longAction?.checkpoint).toBe(4);
     await page.reload();
-    if (type === "beforePut")
-      await expect(page.getByText("计算已暂停，已完成的日数和进度均已保存。")).toBeVisible();
+    if (type === "beforePut") await expect(page.locator(".dojo-primary")).toBeVisible();
     const recovered = await saved(page),
-      completed = type === "beforePut" ? 3 : 7;
-    if (type === "beforePut") {
-      expect(recovered.longAction.checkpoint).toBe(completed);
-      expect(recovered.longAction.paidStones).toBe(completed);
-    } else expect(recovered.longAction).toBeNull();
+      completed = type === "beforePut" ? 3 : 4;
+    expect(recovered.longAction.checkpoint).toBe(completed);
+    expect(recovered.longAction.paidStones).toBe(completed);
     expect(recovered.player.stones).toBe(before.player.stones - completed);
     expect(recovered.day).toBe(before.day + completed);
-    if (type === "beforePut") await page.getByRole("button", { name: "继续", exact: true }).click();
+    await page.getByRole("button", { name: "继续当前行动", exact: true }).click();
     await expect.poll(async () => !!(await saved(page)).longAction).toBe(false);
     const final = await saved(page);
     expect(final.day).toBe(before.day + 7);

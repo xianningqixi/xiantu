@@ -4,7 +4,7 @@ import { mkdirSync, readFileSync } from "node:fs";
 const B = JSON.parse(readFileSync("lib/game/content/balance.json", "utf8"));
 const output = "/tmp/xiantu-character-qa";
 mkdirSync(output, { recursive: true });
-const realms = ["MORTAL", "QI_1", "QI_2", "QI_3", "FOUNDATION_1"] as const;
+const realms = B.cultivation.realmOrder;
 async function world(page: Page) {
   return page.evaluate(async () => {
     const db = await new Promise<IDBDatabase>((resolve, reject) => {
@@ -59,16 +59,16 @@ test("all local NPCs and the player expose live attributes, directed relations a
   await expect(page).toHaveTitle(/仙途/);
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("属性验收");
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
-  await expect(page.getByText("本机已存", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("本机已存", { exact: true })).toBeVisible();
   await openCurrentLocation(page);
   for (let i = 0; i < 4; i++) {
     const before = (await world(page)).revision;
-    await page.locator(".story-choices .story-choice").first().click();
+    await page.locator(".dojo-primary").click();
     await expect.poll(async () => (await world(page)).revision).toBeGreaterThan(before);
   }
   const snapshot = await world(page);
   expect(snapshot.npcs).toHaveLength(123);
-  await page.locator(".player-identity").click();
+  await page.locator(".status-profile").click();
   await checkAttributes(page, snapshot.player);
   let dialog = page.getByRole("dialog");
   await dialog.getByRole("tab", { name: "关系", exact: true }).click();
@@ -89,30 +89,51 @@ test("all local NPCs and the player expose live attributes, directed relations a
     snapshot.npcs.find((a: any) => a.id === "NPC_LIN_WAN"),
   );
   await page.keyboard.press("Escape");
-  await page.locator(".encounter-person .portrait-frame").click();
+  await page.locator(".dojo-speaker").click();
   await checkAttributes(
     page,
     snapshot.npcs.find((a: any) => a.id === "NPC_LIN_WAN"),
   );
   await page.keyboard.press("Escape");
-  await selectLocations(page);
-  await page.locator(".map-residents button").first().click();
-  await expect(page.locator(".character-sheet")).toBeVisible();
-  await page.keyboard.press("Escape");
-  await page.getByRole("tab", { name: "故人", exact: true }).click();
-  await page.getByRole("button", { name: /^打听本地人物/ }).click();
+  await page.getByRole("tab", { name: "人物", exact: true }).click();
+  await page.getByRole("button", { name: "查看全部人物", exact: true }).click();
+  await page.getByLabel("人物范围", { exact: true }).selectOption("region");
   const rows = page.locator(".person-row");
-  await expect(rows).toHaveCount(106);
-  for (let i = 0; i < 106; i++) {
-    await rows.nth(i).click();
-    const id = await page.locator(".character-sheet").getAttribute("data-character-id");
-    await checkAttributes(
-      page,
-      snapshot.npcs.find((a: any) => a.id === id),
-    );
-    await expect(page.getByRole("dialog")).toContainText("人物小传");
-    await page.keyboard.press("Escape");
+  const visibleIds = new Set<string>();
+  for (let pageIndex = 0; pageIndex < 10; pageIndex++) {
+    for (let i = 0; i < (await rows.count()); i++) {
+      await rows.nth(i).getByRole("heading").click();
+      await expect(page.locator(".profile-modal")).toBeVisible();
+      const id = (await page.locator(".character-sheet").getAttribute("data-character-id"))!;
+      expect(visibleIds.has(id)).toBe(false);
+      visibleIds.add(id);
+      await checkAttributes(
+        page,
+        snapshot.npcs.find((a: any) => a.id === id),
+      );
+      await expect(page.getByRole("dialog")).toContainText("身份与心愿");
+      await page.keyboard.press("Escape");
+      await expect(page.locator(".profile-modal")).toHaveCount(0);
+    }
+    const next = page.getByRole("button", { name: "下一页", exact: true });
+    if (await next.isDisabled()) break;
+    await next.click();
   }
+  const atlas = JSON.parse(readFileSync("content-packs/world-atlas/map.json", "utf8"));
+  const regionSites = new Set([
+    "market",
+    "inn",
+    "gate",
+    "ruins",
+    ...atlas.places.filter((p: any) => p.region === "qingshi").map((p: any) => p.to),
+  ]);
+  expect([...visibleIds].sort()).toEqual(
+    snapshot.npcs
+      .filter((a: any) => regionSites.has(a.location))
+      .map((a: any) => a.id)
+      .sort(),
+  );
+  await page.getByRole("searchbox", { name: "搜索姓名", exact: true }).fill("林晚");
   expect(await world(page)).toEqual(snapshot);
   await rows.filter({ hasText: "林晚" }).click();
   dialog = page.getByRole("dialog");
@@ -147,7 +168,7 @@ test("all local NPCs and the player expose live attributes, directed relations a
   expect(await world(page)).toEqual(snapshot);
   await page.keyboard.press("Escape");
   await page.reload();
-  await expect(page.locator(".player-identity")).toBeVisible();
+  await expect(page.locator(".status-profile")).toBeVisible();
   expect(await world(page)).toEqual(snapshot);
   expect(errors).toEqual([]);
   expect(generated).toBe(0);
@@ -162,14 +183,14 @@ test("NPC history shows personal events before acquaintance, with biography and 
   await expect(page).toHaveTitle(/仙途/);
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("生平验收");
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
-  await expect(page.getByText("本机已存", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("本机已存", { exact: true })).toBeVisible();
   await openCurrentLocation(page);
   const initial = await world(page);
-  await page.locator(".encounter-person .portrait-frame").click();
+  await page.locator(".dojo-speaker").click();
   const dialog = page.getByRole("dialog");
   await dialog.getByRole("tab", { name: "经历", exact: true }).click();
   await expect(dialog.getByRole("region", { name: "生平小传" })).toContainText("常在坊市药摊之间");
-  await expect(dialog).toContainText("林晚的经历 · 0 条");
+  await expect(dialog).toContainText("林晚的个人经历 · 0 条");
   await expect(dialog).toContainText("此世尚无新的经历记录");
   await expect(dialog).not.toContainText("共同经历与已知近况");
   expect(await world(page)).toEqual(initial);
@@ -201,14 +222,16 @@ test("NPC history shows personal events before acquaintance, with biography and 
     (event: any) => !state.knowledge[event.id]?.some((row: number[]) => row[0] === 0),
   );
   expect(unseen).toBeTruthy();
-  await page.getByRole("tab", { name: "故人", exact: true }).click();
-  await page.getByRole("button", { name: /^打听本地人物/ }).click();
+  await page.getByRole("tab", { name: "人物", exact: true }).click();
+  await page.getByRole("button", { name: "查看全部人物", exact: true }).click();
+  await page.getByLabel("人物范围", { exact: true }).selectOption("region");
+  await page.getByRole("searchbox", { name: "搜索姓名", exact: true }).fill(actor.name);
   await page
     .locator(".person-row")
     .filter({ has: page.getByRole("heading", { name: new RegExp(`^${actor.name}`) }) })
     .click();
   await dialog.getByRole("tab", { name: "经历", exact: true }).click();
-  await expect(dialog).toContainText(`${actor.name}的经历 · ${own.length} 条`);
+  await expect(dialog).toContainText(`${actor.name}的个人经历 · ${own.length} 条`);
   await expect(dialog.locator(`[data-event-id="${unseen.id}"]`)).toContainText(unseen.text);
   await expect(dialog.locator(`[data-event-id="${unseen.id}"]`)).toContainText("个人经历");
   for (const item of await dialog.locator(".sheet-memory").all()) {
@@ -233,7 +256,7 @@ test("NPC history shows personal events before acquaintance, with biography and 
   expect(await world(page)).toEqual(state);
   await page.keyboard.press("Escape");
   await page.reload();
-  await expect(page.locator(".player-identity")).toBeVisible();
+  await expect(page.locator(".status-profile")).toBeVisible();
   expect(await world(page)).toEqual(state);
   expect(errors).toEqual([]);
 });

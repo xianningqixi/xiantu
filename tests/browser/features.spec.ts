@@ -1,3 +1,7 @@
+import { installPauseControl, armPause } from "./pause-control";
+import { openMore, finish } from "./journey-controls";
+import { creationSettings } from "./journey-controls";
+import { openPractice } from "./journey-controls";
 import { openCurrentLocation, travelTo } from "./journey-controls";
 import { test, expect, type Page } from "@playwright/test";
 import { readFileSync, existsSync } from "node:fs";
@@ -30,11 +34,12 @@ async function create(page: Page, name = "功能验收") {
 async function agreeReady(page: Page) {
   await create(page);
   for (let i = 0; i < 3; i++) {
-    await page.locator(".story-choices .story-choice").first().click();
-    await expect(page.getByText("本机已存", { exact: true })).toBeVisible();
+    await page.locator(".dojo-primary").click();
+    await expect(page.getByLabel("本机已存", { exact: true })).toBeVisible();
   }
 }
 async function openNegotiation(page: Page) {
+  await openMore(page);
   await page.getByRole("button", { name: "与林晚同行交涉", exact: true }).click();
   return page.getByRole("dialog", { name: "与林晚商议同行" });
 }
@@ -57,6 +62,7 @@ test("author creation and actual preview file imports cannot overwrite the norma
   await preview.goto("/author");
   await expect(preview.getByText(/作者预览 · 独立测试存档/)).toBeVisible();
   await preview.getByRole("textbox", { name: "姓名", exact: true }).fill("作者测试");
+  await creationSettings(preview);
   await preview.getByRole("checkbox", { name: /周安的归途口信/ }).check();
   await preview.getByRole("button", { name: "踏入仙途", exact: true }).click();
   await expect(preview.getByRole("heading", { name: "作者测试", exact: true })).toBeVisible();
@@ -67,11 +73,11 @@ test("author creation and actual preview file imports cannot overwrite the norma
     .getByLabel("选择存档文件")
     .setInputFiles("/tmp/xiantu-author-fixtures/guest.roadside-arrival.json");
   await preview.getByRole("button", { name: "确认继续", exact: true }).click();
-  const side = preview.getByRole("region", { name: "此地故事" });
+  const side = preview.locator(".dojo-scene");
   await expect(side).toContainText("周安");
-  const first = side.locator(".story-choice").first();
+  const first = preview.locator(".dojo-primary");
   await first.click();
-  await expect(preview.getByText("本机已存", { exact: true })).toBeVisible();
+  await expect(preview.getByLabel("本机已存", { exact: true })).toBeVisible();
   expect(
     (await world(preview, "xiantu-author-preview")).contentState["guest.roadside.started"],
   ).toBe(true);
@@ -81,9 +87,9 @@ test("author creation and actual preview file imports cannot overwrite the norma
     .getByLabel("选择存档文件")
     .setInputFiles("/tmp/xiantu-author-fixtures/guest.roadside-arrival.json");
   await page.getByRole("button", { name: "确认继续", exact: true }).click();
-  await expect(
-    page.getByRole("dialog", { name: "收好这一卷人生" }).getByRole("alert"),
-  ).toContainText("作者预览");
+  await expect(page.getByRole("dialog", { name: "存档与设置" }).getByRole("alert")).toContainText(
+    "作者预览",
+  );
   expect(await world(page)).toEqual(before);
 });
 test("AI ambiguity, explicit confirmation, escaped text and history reloading use one adopted proposal", async ({
@@ -180,7 +186,7 @@ test("320px layout, 200 percent text and failed illustrations preserve actions a
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
 
-test("100 NPC decade save imports at full size and keeps UI responsive during checkpointed training", async ({
+test("100 NPC decade save imports at full size and keeps UI responsive during checkpointed waiting", async ({
   page,
 }, testInfo) => {
   test.setTimeout(90000);
@@ -190,7 +196,10 @@ test("100 NPC decade save imports at full size and keeps UI responsive during ch
     "Run npm run test:stress first for the full decade performance check",
   );
   const file = readFileSync(fixture);
-  expect(file.byteLength).toBeGreaterThan(5 * 1024 * 1024);
+  const decade = JSON.parse(file.toString());
+  expect(decade.day).toBe(3650);
+  expect(decade.npcs).toHaveLength(100);
+  expect(decade.events.length).toBeGreaterThan(100);
   await create(page, "性能回归");
   await page.getByRole("button", { name: "存档与设置" }).click();
   const started = Date.now();
@@ -198,11 +207,13 @@ test("100 NPC decade save imports at full size and keeps UI responsive during ch
   await page.getByRole("button", { name: "确认继续", exact: true }).click();
   await expect(page.getByRole("heading", { name: "十年回归", exact: true })).toBeVisible();
   const importMs = Date.now() - started;
-  await travelTo(page, "听雨客栈");
-  await expect(page.locator(".place-heading h1")).toHaveText("听雨客栈");
-  await page.getByRole("button", { name: /向店家领取/ }).click();
-  await page.getByRole("tab", { name: "修行", exact: true }).click();
-  await page.getByRole("radio", { name: "30 日", exact: true }).check();
+  await installPauseControl(page);
+  await page.reload();
+  await expect(page.locator(".dojo-primary")).toBeVisible();
+  await openMore(page);
+  await page.locator("#wait-controls summary").click();
+  await page.getByLabel("等候日数", { exact: true }).selectOption("30");
+  await armPause(page, 4);
   await page.evaluate(() => {
     (window as any).__lag = [];
     let previous = performance.now();
@@ -213,22 +224,17 @@ test("100 NPC decade save imports at full size and keeps UI responsive during ch
     }, 50);
   });
   const runStarted = Date.now();
-  await page.getByRole("button", { name: /开始闭关/ }).click();
-  await expect
-    .poll(async () =>
-      Number(
-        await page.getByRole("progressbar", { name: "时间推进进度" }).getAttribute("aria-valuenow"),
-      ),
-    )
-    .toBeGreaterThan(3);
-  await page.getByRole("button", { name: "暂停", exact: true }).click();
-  await expect(page.getByText("计算已暂停，已完成的日数和进度均已保存。")).toBeVisible();
-  await page.getByRole("tab", { name: "故人", exact: true }).click();
-  await expect(page.getByRole("heading", { name: "相逢的人" })).toBeVisible();
-  await page.getByRole("button", { name: "继续", exact: true }).click();
-  await expect(page.getByRole("progressbar", { name: "时间推进进度" })).toHaveCount(0, {
-    timeout: 60000,
-  });
+  await page.getByRole("button", { name: /^开始停留/ }).click();
+  await expect(page.locator(".dojo-primary")).toHaveText("继续当前行动", { timeout: 60000 });
+  const paused = await world(page);
+  expect(paused.longAction.checkpoint).toBeGreaterThanOrEqual(4);
+  await page.getByRole("tab", { name: "人物", exact: true }).click();
+  await page.getByRole("button", { name: "查看全部人物", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "查看人物" })).toBeVisible();
+  expect(await world(page)).toEqual(paused);
+  await openCurrentLocation(page);
+  await page.locator(".dojo-primary").click();
+  await finish(page);
   const lag = await page.evaluate(() => {
     clearInterval((window as any).__lagTimer);
     return (window as any).__lag as number[];
@@ -269,7 +275,7 @@ test("two official reunion preview fixtures remain separate from the normal game
       .setInputFiles(`/tmp/xiantu-author-fixtures/official-${outcome}.json`);
     await preview.getByRole("button", { name: "确认继续", exact: true }).click();
     await expect(preview.getByRole("heading", { name: "演示数据", exact: true })).toBeVisible();
-    await expect(preview.locator(".story-copy h2")).toContainText(
+    await expect(preview.locator(".dojo-story h1")).toContainText(
       outcome === "fulfilled" ? "她还记得那株草" : "一诺之后",
     );
     const snapshot = await world(preview, "xiantu-author-preview");

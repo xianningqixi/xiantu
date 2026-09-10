@@ -1,8 +1,9 @@
+import { openMore, dismissPanels } from "./journey-controls";
 import { test, expect, type Page } from "@playwright/test";
 import { readFileSync, mkdirSync } from "node:fs";
 import { createHash } from "node:crypto";
 import sharp from "sharp";
-import { openCurrentLocation } from "./journey-controls";
+import { openCurrentLocation, selectLocations } from "./journey-controls";
 
 const read = (file: string) => JSON.parse(readFileSync(file, "utf8"));
 const catalog = read("content-packs/art-refresh-20260909/catalog.json");
@@ -83,18 +84,19 @@ test("three sect locations and six new portraits render through real travel with
   await page.goto("/author");
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("新图验收");
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
-  await expect(page.locator("#world-map")).toBeVisible();
+  await expect(page.locator(".dojo")).toBeVisible();
   for (const sect of sects) {
-    await page.getByRole("button", { name: "地图", exact: true }).click();
-    const map = page.getByRole("dialog", { name: "云岚境大地图", exact: true });
+    await selectLocations(page);
+    const map = page.locator("#atlas-page");
     await map.locator(`[data-atlas-place="${sect.home}"]`).click();
     await map.locator(".atlas-go").click();
     await expect(map).not.toBeVisible();
     await openCurrentLocation(page);
     const placeArt = images[display.locations[sect.home].url];
-    const scene = page.locator(".scene-figure img");
+    const scene = page.locator(".dojo-landscape img");
     await expect(scene).toHaveAttribute("src", placeArt.src);
     await expect.poll(() => scene.evaluate((i: HTMLImageElement) => i.naturalWidth)).toBe(1672);
+    await openMore(page);
     const panel = page.getByRole("region", { name: "宗门修行" });
     const beforeVisit = await saved(page);
     await panel.getByRole("button", { name: new RegExp(`拜访${sect.name}`) }).click();
@@ -116,7 +118,8 @@ test("three sect locations and six new portraits render through real travel with
       }
       await page.setViewportSize({ width: 1440, height: 900 });
       await page.keyboard.press("Escape");
-      await expect(page.getByRole("dialog")).toHaveCount(0);
+      await openMore(page);
+      await expect(page.locator(".profile-modal")).toHaveCount(0);
       expect(await saved(page)).toEqual(beforeViewing);
     }
     await page.screenshot({ animations: "disabled", path: `${output}/${sect.id}-location.png` });

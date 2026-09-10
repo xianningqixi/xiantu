@@ -40,7 +40,7 @@ async function download(page, label) {
   await page.getByRole("button", { name: "导出当前存档", exact: true }).click();
   const path = `${output}/${label}.json`;
   await (await event).saveAs(path);
-  await page.getByRole("dialog").getByRole("button", { name: "Close", exact: true }).click();
+  await page.getByRole("dialog").getByRole("button", { name: "关闭", exact: true }).click();
   return path;
 }
 const report = {
@@ -55,18 +55,22 @@ try {
   await page.goto("/");
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("跨浏览器修士");
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
-  await expect(page.getByText("本机已存", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("本机已存", { exact: true })).toBeVisible();
   const fixtures = [await download(page, "arrival")];
   for (let i = 0; i < 4; i++) {
-    await page.locator(".story-choices .story-choice").first().click();
-    await expect(page.getByText("本机已存", { exact: true })).toBeVisible();
+    const before = await saved(page);
+    await page.locator(".dojo-primary").click();
+    await expect.poll(async () => (await saved(page)).revision).toBeGreaterThan(before.revision);
+    await expect(page.getByLabel("本机已存", { exact: true })).toBeVisible();
     fixtures.push(await download(page, `story-${i + 1}`));
   }
   for (const branch of ["honor", "breach"]) {
     await page.getByRole("button", { name: "存档与设置", exact: true }).click();
     await page
       .getByLabel("选择存档文件")
-      .setInputFiles(`/tmp/xiantu-story-chromium/${branch}.json`);
+      .setInputFiles(
+        `${process.env.XIANTU_STORY_OUTPUT ?? "/tmp/xiantu-story-chromium"}/${branch}.json`,
+      );
     await page.getByRole("button", { name: "确认继续", exact: true }).click();
     await expect(page.getByRole("dialog")).toHaveCount(0);
     fixtures.push(await download(page, branch));

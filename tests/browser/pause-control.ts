@@ -13,7 +13,7 @@ export async function installPauseControl(page: Page) {
           if (target && event.data?.progress?.completed >= target) {
             (window as any).__pauseAfterCheckpoint = null;
             const button = [...document.querySelectorAll("button")].find(
-              (button) => button.textContent?.trim() === "暂停",
+              (button) => button.textContent?.trim() === "暂停当前行动",
             );
             button?.click();
           }

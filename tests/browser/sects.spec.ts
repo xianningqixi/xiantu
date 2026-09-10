@@ -1,3 +1,5 @@
+import { openMore, dismissPanels } from "./journey-controls";
+import { creationSettings } from "./journey-controls";
 import { test, expect, type Page, type Locator } from "@playwright/test";
 import { mkdirSync, readFileSync } from "node:fs";
 import { openCurrentLocation, selectLocations } from "./journey-controls";
@@ -28,23 +30,24 @@ async function act(page: Page, button: Locator) {
   await page.waitForTimeout(450);
   await button.click();
   await expect.poll(async () => (await saved(page)).revision).toBeGreaterThan(before.revision);
-  await expect(page.getByText("本机已存", { exact: true })).toBeAttached();
+  await expect(page.getByLabel("本机已存", { exact: true })).toBeAttached();
   return saved(page);
 }
 async function create(page: Page) {
   await page.goto("/");
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("问道行人");
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
-  await expect(page.locator("#world-map")).toBeVisible();
+  await expect(page.locator(".dojo")).toBeVisible();
   await expect(page.locator("[data-atlas-place]")).toHaveCount(0);
 }
 async function travel(page: Page, place: string) {
-  await page.getByRole("button", { name: "地图", exact: true }).click();
-  const modal = page.getByRole("dialog", { name: "云岚境大地图", exact: true });
+  await selectLocations(page);
+  const modal = page.locator("#atlas-page");
   await modal.locator(`[data-atlas-place="${place}"]`).click();
   await act(page, modal.locator(".atlas-go"));
   await expect(modal).not.toBeVisible();
   await openCurrentLocation(page);
+  await openMore(page);
 }
 
 test("three sect routes, contribution economy, NPC relationship choices and reload work through real UI", async ({
@@ -55,6 +58,7 @@ test("three sect routes, contribution economy, NPC relationship choices and relo
   page.on("pageerror", (e) => errors.push(e.message));
   await create(page);
   await travel(page, "atlas.wendao");
+  await openMore(page);
   const sect = page.getByRole("region", { name: "宗门修行" });
   await expect(sect).toContainText("全真派");
   const before = await saved(page);
@@ -78,10 +82,11 @@ test("three sect routes, contribution economy, NPC relationship choices and relo
   await expect(sheet.getByRole("region", { name: "角色属性" })).toBeVisible();
   const original = await saved(page);
   await sheet.getByRole("tab", { name: "经历", exact: true }).click();
-  await expect(sheet.getByRole("region", { name: "性与亲密经历" })).toContainText("此前未记载");
+  await expect(sheet.getByRole("region", { name: "性与亲密经历" })).toContainText("仅呈现已记录");
   await sheet.getByRole("button", { name: "性与亲密经历", exact: true }).click();
   expect(await saved(page)).toEqual(original);
   await sheet.getByRole("tab", { name: "关系", exact: true }).click();
+  await act(page, sheet.getByRole("button", { name: /^上前见礼/ }));
   const bond = sheet.getByRole("button", { name: /^结为道侣/ });
   await expect(bond).toBeDisabled();
   for (let i = 0; i < 4; i++) await act(page, sheet.getByRole("button", { name: /^相伴交流/ }));
@@ -100,10 +105,12 @@ test("three sect routes, contribution economy, NPC relationship choices and relo
   await sheet.screenshot({ path: `${output}/personal-history-desktop.png` });
   const final = await saved(page);
   await page.keyboard.press("Escape");
+  await openMore(page);
   await page.reload();
-  await expect(page.locator("#world-map")).toBeVisible();
+  await expect(page.locator(".dojo")).toBeVisible();
   expect(await saved(page)).toEqual(final);
   await openCurrentLocation(page);
+  await openMore(page);
   for (const width of [390, 320]) {
     await page.setViewportSize({ width, height: 844 });
     await expect(sect.locator('[data-sect-membership="quanzhen"]')).toBeVisible();
@@ -117,6 +124,7 @@ test("three sect routes, contribution economy, NPC relationship choices and relo
     expect(await sheet.evaluate((el) => el.scrollWidth <= el.clientWidth)).toBe(true);
     await sheet.screenshot({ path: `${output}/history-${width}.png` });
     await page.keyboard.press("Escape");
+    await openMore(page);
   }
   expect(await saved(page)).toEqual(final);
   await sect.locator(".sect-departure summary").click();
@@ -137,6 +145,7 @@ test("a new adult woman can voluntarily take the Jade vow; viewing or cancelling
   await page.setViewportSize({ width: 390, height: 844 });
   await create(page);
   await travel(page, "atlas.cangzhu");
+  await openMore(page);
   const sect = page.getByRole("region", { name: "宗门修行" });
   await act(page, sect.getByRole("button", { name: /拜访玉女宗/ }));
   const before = await saved(page);
@@ -150,10 +159,12 @@ test("a new adult woman can voluntarily take the Jade vow; viewing or cancelling
   await sect.getByRole("button", { name: /查看顾清蘅/ }).click();
   const sheet = page.locator('[data-character-id="SECT_YUNV_GU"]');
   await sheet.getByRole("tab", { name: "关系", exact: true }).click();
+  await act(page, sheet.getByRole("button", { name: /^上前见礼/ }));
   await expect(sheet.getByRole("button", { name: /^结为道侣/ })).toBeDisabled();
-  await expect(sheet.getByRole("button", { name: /^道侣共修/ })).toBeDisabled();
+  await expect(sheet.getByRole("button", { name: /^道侣共修/ })).toHaveCount(0);
   await page.keyboard.press("Escape");
-  await expect(page.getByRole("dialog")).not.toBeVisible();
+  await openMore(page);
+  await dismissPanels(page);
   await selectLocations(page);
-  await expect(page.locator("#world-map")).toBeVisible();
+  await expect(page.locator("#atlas-page")).toBeVisible();
 });

@@ -204,7 +204,7 @@ export function Dojo({
                   key={a.id}
                   data-journey-action={a.id}
                   variant="outline"
-                  disabled={blocked || (a.id === "practice" && !!a.command && !!preview.reason)}
+                  disabled={blocked || (a.command?.type === "train" && !!preview.reason)}
                   onClick={() =>
                     a.command ? void invoke(a.command) : a.tab ? navigate(a.tab) : setMore(true)
                   }
@@ -256,7 +256,7 @@ export function Dojo({
                     variant="outline"
                     key={a.id}
                     data-journey-action={a.id}
-                    disabled={blocked || (a.id === "practice" && !!a.command && !!preview.reason)}
+                    disabled={blocked || (a.command?.type === "train" && !!preview.reason)}
                     onClick={() =>
                       a.command
                         ? void invoke(a.command)

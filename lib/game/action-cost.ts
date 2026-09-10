@@ -27,7 +27,7 @@ export function commandDays(world: World, command: Command): number {
     case "wait":
       return command.days;
     case "work":
-      return B.actions.workDays;
+      return B.actions.jobs[command.job ?? "chores"].days;
     case "rest":
       return B.actions.restDays;
     case "breakthrough":

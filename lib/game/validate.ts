@@ -1,3 +1,4 @@
+import { DAILY_EVENTS, validateDailyState } from "./daily-events";
 import { validateSectState } from "./sect-validation";
 import { validateMainHistory } from "./main-story";
 import { physiqueSchema, portraitIdSchema } from "./physique";
@@ -5,26 +6,24 @@ import { portraitFeaturesSchema } from "./portrait-features";
 import { appearanceSchema, portraitOriginalSchema } from "./portrait-look";
 import { stopConditionSchema } from "./protocol";
 import { knowledgeEntries } from "./knowledge";
-import { B } from "./rules";
+import { B, REALM_KEYS } from "./rules";
 import { requireSave as requireRule } from "./errors";
 import { validTerms, proposalSchema } from "./negotiation";
 import { selectedExtensions } from "./content/extensions";
 import { PACK } from "./content/official";
 import { LOCATIONS, locationEnabled } from "./world-map";
-import type { Fighter, World } from "./types";
+import type { AttemptRule, Fighter, World } from "./types";
 import { threshold, stats, actorById } from "./rules";
 import { actorNpcTemplate, expandedAppearanceSeed } from "./npc-roster";
 
 export function validateWorld(w: World) {
   requireRule(
-    w?.format === "xiantu-web-1" &&
-      ["0.1.2", "0.1.3", "0.1.4", "0.1.5", "0.1.6"].includes(w.rulesVersion) &&
-      w.packLock === PACK.lock,
+    w?.format === "xiantu-web-1" && ["0.2.0"].includes(w.rulesVersion) && w.packLock === PACK.lock,
     "存档格式或内容版本不匹配。",
   );
   const object = (value: unknown) => !!value && typeof value === "object" && !Array.isArray(value);
   requireRule(
-    w.schemaVersion === 6 && object(w.commandReceipts),
+    w.schemaVersion === 7 && object(w.commandReceipts),
     "存档结构版本不支持，请使用迁移入口。",
   );
   requireRule(
@@ -157,10 +156,20 @@ export function validateWorld(w: World) {
   const allowedKeys = new Set(
     extensionSet.flatMap((e) => [...e.data.manifest.flags, ...e.data.storylets.map((n) => n.id)]),
   );
+  for (const node of DAILY_EVENTS) allowedKeys.add(node.id);
   requireRule(
     Object.keys(w.contentState).every((key) => allowedKeys.has(key)),
     "支线进度越过内容包范围。",
   );
+  requireRule(
+    object(w.dailyEventCooldowns) &&
+      Object.values(w.dailyEventCooldowns).every(
+        (day) => Number.isSafeInteger(day) && day >= 0 && day <= w.day,
+      ) &&
+      (w.pendingDailyEventId === null || DAILY_EVENTS.some((n) => n.id === w.pendingDailyEventId)),
+    "日常事件状态不合法。",
+  );
+  validateDailyState(w);
   const actors = [w.player, ...w.npcs];
   const ids = new Set(actors.map((a) => a.id));
   requireRule(ids.size === actors.length && w.player.id === "PLAYER", "人物身份重复或缺失。");
@@ -203,9 +212,42 @@ export function validateWorld(w: World) {
       typeof a.name === "string" && a.name.length >= 1 && a.name.length <= 16,
       "人物姓名不合法。",
     );
-    requireRule(Number.isInteger(a.realm) && a.realm >= 0 && a.realm <= 4, "境界不合法。");
+    requireRule(
+      Number.isInteger(a.realm) && a.realm >= 0 && a.realm < REALM_KEYS.length,
+      "境界不合法。",
+    );
     requireRule(locationEnabled(w, a.location), "人物地点不合法或不属于本局内容。");
+    requireRule(
+      [0, 1, 2, 3].includes(a.manualRank) &&
+        Array.isArray(a.skills) &&
+        a.skills.length > 0 &&
+        new Set(a.skills).size === a.skills.length &&
+        a.skills.every((id) => ["qingmang", "yufeng", "bingxin", "shexin", "taiji"].includes(id)),
+      "功法或技能不合法。",
+    );
+    if (a.cave !== undefined)
+      requireRule(
+        locationEnabled(w, a.cave) && (a.cave === "market" || a.cave.endsWith(".market")),
+        "洞府地点不合法。",
+      );
+    if (a.jobCooldowns !== undefined)
+      requireRule(
+        object(a.jobCooldowns) &&
+          Object.values(a.jobCooldowns).every(
+            (day) => Number.isSafeInteger(day) && day >= 0 && day <= w.day,
+          ),
+        "行动冷却不合法。",
+      );
+    if (a.gear !== undefined)
+      requireRule(
+        object(a.gear) &&
+          Object.keys(a.gear).every((k) => k === "charm") &&
+          (a.gear.charm === undefined || typeof a.gear.charm === "string"),
+        "法器资料不合法。",
+      );
     for (const k of [
+      "insight",
+      "qi",
       "ageDays",
       "xp",
       "hp",
@@ -216,7 +258,7 @@ export function validateWorld(w: World) {
       "readyDay",
     ] as const)
       requireRule(Number.isSafeInteger(a[k]) && a[k] >= 0, `${a.name}的状态不合法。`);
-    requireRule(a.xp <= threshold(a) && a.hp <= stats(a).maxHp, "修为或气血超过当前境界上限。");
+    requireRule(a.hp <= stats(a).maxHp, "修为或气血超过当前境界上限。");
     requireRule(
       typeof a.alive === "boolean" && typeof a.manual === "boolean",
       "人物生死或功法状态不合法。",
@@ -350,6 +392,25 @@ export function validateWorld(w: World) {
     w.story && ["none", "fulfilled", "breached", "not_triggered"].includes(w.story.outcome),
     "故事状态不合法。",
   );
+  const checkAttemptRule = (r?: AttemptRule) => {
+    if (r === undefined) return;
+    requireRule(
+      object(r) &&
+        typeof r.targetRealm === "string" &&
+        (REALM_KEYS as readonly string[]).includes(r.targetRealm) &&
+        [r.requiredExperience, r.failureExperienceLossBp, r.severeFailureConditionalBp].every(
+          Number.isSafeInteger,
+        ) &&
+        r.requiredExperience > 0 &&
+        r.failureExperienceLossBp >= 0 &&
+        r.failureExperienceLossBp <= B.probabilityScaleBp &&
+        r.severeFailureConditionalBp >= 0 &&
+        r.severeFailureConditionalBp <= B.probabilityScaleBp,
+      "突破规则快照不合法。",
+    );
+  };
+  checkAttemptRule(w.longAction?.rule);
+  for (const actor of actors) checkAttemptRule(actor.attempt?.rule);
   if (w.longAction)
     requireRule(
       ["train", "wait", "breakthrough"].includes(w.longAction.kind) &&
@@ -386,6 +447,7 @@ export function validateWorld(w: World) {
     const a = w.agreement;
     requireRule(
       typeof a.id === "string" &&
+        ["story", "split"].includes(a.terms) &&
         [
           "accepted",
           "active",

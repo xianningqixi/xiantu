@@ -1,3 +1,4 @@
+import { answerDaily } from "./daily-test-helpers";
 import { applyCommand, createWorld, scene, validateWorld } from "../../lib/game/engine";
 import type { Command, Profile } from "../../lib/game/types";
 
@@ -18,7 +19,7 @@ export function syntheticFixture(stage: "early" | "evolved", legacy = false) {
   if (legacy) for (const a of world.npcs.slice(2)) a.sect = "青岚宗";
   let serial = 0;
   const act = (command: Command) => {
-    world = applyCommand(world, command, `generated:${++serial}`, world.revision);
+    world = answerDaily(applyCommand(world, command, `generated:${++serial}`, world.revision));
   };
   // Exercise structured promises and memories as well as NPC daily evolution.
   for (let i = 0; i < 4; i++) {
@@ -27,7 +28,7 @@ export function syntheticFixture(stage: "early" | "evolved", legacy = false) {
     act({ type: "choose", nodeId: node.id, choiceId: node.choices[0].id });
   }
   const targetDay = stage === "early" ? 8 : 39;
-  while (world.day < targetDay) act({ type: "work" });
+  while (world.day < targetDay) act({ type: legacy ? "rest" : "work" });
   validateWorld(world);
   return world;
 }

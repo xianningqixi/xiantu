@@ -1,3 +1,4 @@
+import { answerDaily } from "./daily-test-helpers";
 import { recordFact } from "../../lib/game/knowledge";
 import { intimacyKind, storyIntimacyKind } from "../../lib/game/intimacy-history";
 import test from "node:test";
@@ -36,6 +37,7 @@ class Run {
   }
   do(c: Command) {
     this.w = applyCommand(this.w, c, `sect-cmd:${this.w.revision}`, this.w.revision);
+    this.w = answerDaily(this.w);
     return this.w;
   }
   visit(id: SectId) {

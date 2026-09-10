@@ -1,0 +1,18 @@
+
+> xiantu@0.1.0 test:economy
+> esbuild tests/game/economy.test.tsx --bundle --platform=node --format=esm --packages=external --outfile=.game-test-build/economy.test.mjs && node --test .game-test-build/economy.test.mjs
+
+
+  .game-test-build/economy.test.mjs  1.3mb ⚠️
+
+⚡ Done in 48ms
+✔ rendered shop prices equal the actual rule debit for every item (62.625916ms)
+✔ resource refusals carry a stable code and preserve source state (2.643083ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 590.679458

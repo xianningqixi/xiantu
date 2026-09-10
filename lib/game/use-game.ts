@@ -197,7 +197,7 @@ export function useGame(preview = false) {
             id,
             kind: input.kind,
             notice: ["restore", "import", "create"].includes(input.kind)
-              ? `${input.kind === "restore" ? "已恢复" : input.kind === "import" ? "已导入" : "已创建"}${result.state.player.name}的这一世 · 第 ${result.state.day + 1} 日。`
+              ? `${result.migrated ? "旧档已迁移至规则 0.2.0，原档已备份。" : ""}${input.kind === "restore" ? "已恢复" : input.kind === "import" ? "已导入" : "已创建"}${result.state.player.name}的这一世 · 第 ${result.state.day + 1} 日。`
               : result.state.notice,
             day: result.state.day,
             revision: result.state.revision,

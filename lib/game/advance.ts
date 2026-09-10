@@ -3,6 +3,7 @@ import { threshold, actorById } from "./rules";
 import { requireRule } from "./errors";
 import type { StopCondition, World } from "./types";
 export const IMPORTANT_EVENT_KINDS = new Set([
+  "daily-event",
   "advance",
   "breakthrough",
   "breakthrough-failed",
@@ -28,11 +29,7 @@ export function advanceStopReason(
   afterDay = world.day,
 ): string | null {
   if (world.ended) return "此生已落笔。";
-  if (
-    condition?.kind === "cultivationReady" &&
-    world.player.xp >= threshold(world.player) &&
-    [0, 3, 4].includes(world.player.realm)
-  )
+  if (condition?.kind === "cultivationReady" && world.player.xp >= threshold(world.player))
     return "修为已圆满。";
   if (condition?.kind === "npcArrives") {
     const person = actorById(world, condition.target);

@@ -1,3 +1,4 @@
+import { dailyScene } from "./daily-events";
 import { PACK, STORY, contentText } from "./content/official";
 import type { StoryNode, World } from "./types";
 import { knownEvents } from "./knowledge";
@@ -23,6 +24,7 @@ export function facts(w: World): Record<string, string | number | boolean> {
 }
 
 export function scene(w: World): StoryNode | undefined {
+  if (w.pendingDailyEventId) return dailyScene(w);
   if (w.battle || w.loot || w.longAction) return undefined;
   const f = facts(w);
   const n = STORY.find(

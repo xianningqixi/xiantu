@@ -1,7 +1,7 @@
 import { createActor } from "./actor-factory";
 import { defaultPhysique } from "./physique";
 import { hashSeed } from "./rng";
-import { B, REALM_KEYS, requireRule } from "./rules";
+import { B, REALM_KEYS, legacyRealmIndex, requireRule } from "./rules";
 import { recordFact } from "./knowledge";
 import { sectAt, sectById } from "./sect-content";
 import { locationEnabled } from "./world-map";
@@ -28,7 +28,14 @@ export function visitSect(w: World, id: SectId) {
     let name = resident.name;
     for (let suffix = 1; usedNames.has(name); suffix++) name = `${resident.name}${suffix}`;
     usedNames.add(name);
-    const a = createActor(resident.id, name, resident.realm, resident.age, resident.aptitude, seed);
+    const a = createActor(
+      resident.id,
+      name,
+      legacyRealmIndex(resident.realm),
+      resident.age,
+      resident.aptitude,
+      seed,
+    );
     a.sex = resident.sex as Actor["sex"];
     a.physique = defaultPhysique(a.sex, seed);
     a.ageDays += w.day;
@@ -40,6 +47,9 @@ export function visitSect(w: World, id: SectId) {
     a.sectMembership = {
       id,
       joinedDay: w.day,
+      rank: "outer",
+      questStep: 0,
+      lastStipendDay: w.day,
       contribution: 0,
       earned: 0,
       artLearned: false,
@@ -50,7 +60,7 @@ export function visitSect(w: World, id: SectId) {
     a.activity = a.alive ? "在宗门修行，接待行路人" : "寿元已尽";
     w.npcs.push(a);
   }
-  if (w.rulesVersion !== "0.1.6") w.rulesVersion = "0.1.5";
+  w.rulesVersion = "0.2.0";
   (w.visitedSects ??= []).push(id);
   w.notice = `你拜访了${sect.name}，结识此处门人。`;
   recordFact(w, "sect-visit", w.notice);
@@ -95,6 +105,9 @@ export function enrollSect(w: World, p: Actor, id: SectId) {
   p.sectMembership = {
     id,
     joinedDay: w.day,
+    rank: "outer",
+    questStep: 0,
+    lastStipendDay: w.day,
     contribution: 0,
     earned: 0,
     artLearned: false,
@@ -107,7 +120,7 @@ export function enrollSect(w: World, p: Actor, id: SectId) {
       ? `你自愿拜入${sect.name}，领得入门吐纳法。${id === "yunv" ? "你自陈此前未有性经历，并立下在宗期间守贞清修的誓约。" : "从今日起，可以通过宗门委托积累贡献，学习进阶心法。"}`
       : `${p.name}经当地门人考察，自愿拜入${sect.name}，领得入门功法，开始宗门修行。`;
   if (p.id === "PLAYER") w.notice = text;
-  else w.rulesVersion = "0.1.6";
+  else w.rulesVersion = "0.2.0";
   // Enrollment announcements can be heard locally without discovering the sect's cast for the player.
   recordFact(w, "sect-join", text, [p.id], p.id !== "PLAYER");
 }
@@ -177,4 +190,41 @@ export function npcSectTask(w: World, a: Actor) {
   if (!a.sectMembership.artLearned && a.sectMembership.contribution >= B.sects.artContributionCost)
     learnSectArt(w, a);
   return true;
+}
+
+export function sectExchange(w: World) {
+  const { membership: m } = requireSectHome(w);
+  requireRule(
+    m.contribution >= B.sects.pillContributionCost,
+    "兑换突破丹所需贡献不足。",
+    "INSUFFICIENT_RESOURCES",
+  );
+  m.contribution -= B.sects.pillContributionCost;
+  w.player.pills++;
+  w.notice = `你以 ${B.sects.pillContributionCost} 贡献换得一枚突破丹。`;
+  recordFact(w, "sect-exchange", w.notice, [w.player.id]);
+}
+/** All living members receive the same stipend even while away or preparing a breakthrough. */
+export function settleSectStipends(w: World) {
+  for (const a of [w.player, ...w.npcs]) {
+    const m = a.sectMembership;
+    if (!a.alive || !m || w.day - m.lastStipendDay < B.sects.stipendIntervalDays) continue;
+    const intervals = Math.floor((w.day - m.lastStipendDay) / B.sects.stipendIntervalDays);
+    a.stones += B.sects.stipendStones * intervals;
+    m.lastStipendDay += B.sects.stipendIntervalDays * intervals;
+    const id = `sect-stipend:${a.id}:${m.joinedDay}`;
+    const recurring = a.id === "PLAYER" ? undefined : w.events.find((e) => e.id === id);
+    if (recurring) {
+      recurring.count = (recurring.count ?? 1) + intervals;
+      recurring.lastDay = w.day;
+    } else
+      recordFact(
+        w,
+        "sect-stipend",
+        `${a.name}领到宗门俸禄 ${B.sects.stipendStones * intervals} 枚灵石。`,
+        [a.id],
+        false,
+        a.id === "PLAYER" ? undefined : id,
+      );
+  }
 }

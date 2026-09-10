@@ -1,0 +1,1205 @@
+{
+  "version": "0.2.0",
+  "events": [
+    {
+      "id": "daily.loose-stones",
+      "category": "sighting",
+      "title": "石缝里的微光",
+      "eyebrow": "途中小事",
+      "body": "你在石阶缝中发现三枚遗落的灵石，问过四下无人认领，便收入囊中。",
+      "conditions": [
+        {
+          "fact": "daily.loose-stones",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": [
+        {
+          "kind": "stones",
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "daily.tea-rumor",
+      "category": "sighting",
+      "title": "茶棚闲话",
+      "eyebrow": "途中小事",
+      "body": "有人说起{{npc}}近日的勤勉，你在人群中向对方致意。",
+      "conditions": [
+        {
+          "fact": "daily.tea-rumor",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": true,
+      "effects": [
+        {
+          "kind": "relation",
+          "value": 1,
+          "target": "npc"
+        }
+      ]
+    },
+    {
+      "id": "daily.rain",
+      "category": "sighting",
+      "title": "檐下听雨",
+      "eyebrow": "途中小事",
+      "body": "一阵细雨洗净浮尘。你在檐下听了片刻雨声，心绪渐平。",
+      "conditions": [
+        {
+          "fact": "daily.rain",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": []
+    },
+    {
+      "id": "daily.crane",
+      "category": "sighting",
+      "title": "云间白鹤",
+      "eyebrow": "途中小事",
+      "body": "一双白鹤掠过云端，翼影倏忽消失在山岚中。",
+      "conditions": [
+        {
+          "fact": "daily.crane",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": []
+    },
+    {
+      "id": "daily.lost-pouch",
+      "category": "sighting",
+      "title": "归还荷包",
+      "eyebrow": "途中小事",
+      "body": "你拾到一只荷包并交还失主。对方留下两枚灵石答谢。",
+      "conditions": [
+        {
+          "fact": "daily.lost-pouch",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": [
+        {
+          "kind": "stones",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "daily.herb-scent",
+      "category": "sighting",
+      "title": "药香拂袖",
+      "eyebrow": "途中小事",
+      "body": "药摊主人赠你一小包药香。你想起旧日赶路时，也闻过同样的清苦气息。",
+      "conditions": [
+        {
+          "fact": "daily.herb-scent",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": []
+    },
+    {
+      "id": "daily.shared-shade",
+      "category": "sighting",
+      "title": "树下小憩",
+      "eyebrow": "途中小事",
+      "body": "{{npc}}为你腾出一块阴凉处。你们望着来往行人，聊了几句天气。",
+      "conditions": [
+        {
+          "fact": "daily.shared-shade",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": true,
+      "effects": [
+        {
+          "kind": "relation",
+          "value": 1,
+          "target": "npc"
+        }
+      ]
+    },
+    {
+      "id": "daily.evening-bells",
+      "category": "sighting",
+      "title": "暮钟",
+      "eyebrow": "途中小事",
+      "body": "远处钟声随晚风而来。劳作的人渐次收摊，灯火在窗下亮起。",
+      "conditions": [
+        {
+          "fact": "daily.evening-bells",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": []
+    },
+    {
+      "id": "daily.small-repayment",
+      "category": "sighting",
+      "title": "一笔小谢礼",
+      "eyebrow": "途中小事",
+      "body": "你顺手扶正倾倒的货筐，货主塞来三枚灵石，说不能让人白白出力。",
+      "conditions": [
+        {
+          "fact": "daily.small-repayment",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": [
+        {
+          "kind": "stones",
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "daily.footprints",
+      "category": "sighting",
+      "title": "新旧足迹",
+      "eyebrow": "途中小事",
+      "body": "泥路上新旧足迹交错。昨日擦肩的行路人，今日已各奔前程。",
+      "conditions": [
+        {
+          "fact": "daily.footprints",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": []
+    },
+    {
+      "id": "daily.help-fare",
+      "category": "choice",
+      "title": "短了路费",
+      "eyebrow": "途中小事",
+      "body": "{{npc}}翻遍行囊，还差五枚灵石才能凑齐路费。",
+      "conditions": [
+        {
+          "fact": "daily.help-fare",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "help",
+          "label": "借出五枚灵石",
+          "hint": "不耗时",
+          "reply": "你将灵石递去，对方郑重道谢。",
+          "effects": [
+            {
+              "kind": "stones",
+              "value": -5
+            },
+            {
+              "kind": "relation",
+              "value": 5,
+              "target": "npc"
+            }
+          ],
+          "days": 0,
+          "gift": false
+        },
+        {
+          "id": "decline",
+          "label": "婉拒，继续此行",
+          "hint": "不耗时",
+          "reply": "你说明尚有自己的行程，对方点头道别。",
+          "effects": [],
+          "days": 0,
+          "gift": false
+        }
+      ],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": true,
+      "effects": []
+    },
+    {
+      "id": "daily.discuss",
+      "category": "choice",
+      "title": "偶遇同道",
+      "eyebrow": "途中小事",
+      "body": "{{npc}}谈起吐纳时的一处疑难，邀你坐下推敲。",
+      "conditions": [
+        {
+          "fact": "daily.discuss",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "help",
+          "label": "留一日论道",
+          "hint": "耗时一日",
+          "reply": "你们反复印证经义，直到月上树梢，终于有所领悟。",
+          "effects": [
+            {
+              "kind": "insight",
+              "value": 1
+            }
+          ],
+          "days": 1,
+          "gift": false
+        },
+        {
+          "id": "decline",
+          "label": "婉拒，继续此行",
+          "hint": "不耗时",
+          "reply": "你说明尚有自己的行程，对方点头道别。",
+          "effects": [],
+          "days": 0,
+          "gift": false
+        }
+      ],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": true,
+      "effects": []
+    },
+    {
+      "id": "daily.injured-traveler",
+      "category": "choice",
+      "title": "负伤的行路人",
+      "eyebrow": "途中小事",
+      "body": "{{npc}}在路边包扎伤口，身上已无疗伤丹药。",
+      "conditions": [
+        {
+          "fact": "daily.injured-traveler",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "help",
+          "label": "赠一枚回春丹",
+          "hint": "不耗时",
+          "reply": "对方服药后气色渐缓，许诺安顿下来便送来谢礼。",
+          "effects": [
+            {
+              "kind": "healing",
+              "value": -1
+            },
+            {
+              "kind": "relation",
+              "value": 3,
+              "target": "npc"
+            }
+          ],
+          "days": 0,
+          "gift": true
+        },
+        {
+          "id": "decline",
+          "label": "婉拒，继续此行",
+          "hint": "不耗时",
+          "reply": "你说明尚有自己的行程，对方点头道别。",
+          "effects": [],
+          "days": 0,
+          "gift": false
+        }
+      ],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": true,
+      "effects": []
+    },
+    {
+      "id": "daily.copy-page",
+      "category": "choice",
+      "title": "抄录残页",
+      "eyebrow": "途中小事",
+      "body": "一位书商想请人将褪色经页重新誊清。",
+      "conditions": [
+        {
+          "fact": "daily.copy-page",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "help",
+          "label": "静坐一日抄经",
+          "hint": "耗时一日",
+          "reply": "逐字抄录间，你对灵气运行又多了一分体会。",
+          "effects": [
+            {
+              "kind": "insight",
+              "value": 1
+            }
+          ],
+          "days": 1,
+          "gift": false
+        },
+        {
+          "id": "decline",
+          "label": "婉拒，继续此行",
+          "hint": "不耗时",
+          "reply": "你说明尚有自己的行程，对方点头道别。",
+          "effects": [],
+          "days": 0,
+          "gift": false
+        }
+      ],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": []
+    },
+    {
+      "id": "daily.share-meal",
+      "category": "choice",
+      "title": "一碗热汤",
+      "eyebrow": "途中小事",
+      "body": "{{npc}}忙了一日，才发现钱袋落在了住处。",
+      "conditions": [
+        {
+          "fact": "daily.share-meal",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "help",
+          "label": "请客五枚灵石",
+          "hint": "不耗时",
+          "reply": "两碗热汤驱走寒意，你们聊起各自的见闻。",
+          "effects": [
+            {
+              "kind": "stones",
+              "value": -5
+            },
+            {
+              "kind": "relation",
+              "value": 5,
+              "target": "npc"
+            }
+          ],
+          "days": 0,
+          "gift": false
+        },
+        {
+          "id": "decline",
+          "label": "婉拒，继续此行",
+          "hint": "不耗时",
+          "reply": "你说明尚有自己的行程，对方点头道别。",
+          "effects": [],
+          "days": 0,
+          "gift": false
+        }
+      ],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": true,
+      "effects": []
+    },
+    {
+      "id": "daily.herb-trade",
+      "category": "choice",
+      "title": "采药人的余货",
+      "eyebrow": "途中小事",
+      "body": "采药人有一株刚采的凝元草，愿以十枚灵石转让。",
+      "conditions": [
+        {
+          "fact": "daily.herb-trade",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "help",
+          "label": "花十枚灵石买草",
+          "hint": "不耗时",
+          "reply": "你收好带着露水的凝元草。",
+          "effects": [
+            {
+              "kind": "stones",
+              "value": -10
+            },
+            {
+              "kind": "grass",
+              "value": 1
+            }
+          ],
+          "days": 0,
+          "gift": false
+        },
+        {
+          "id": "decline",
+          "label": "婉拒，继续此行",
+          "hint": "不耗时",
+          "reply": "你说明尚有自己的行程，对方点头道别。",
+          "effects": [],
+          "days": 0,
+          "gift": false
+        }
+      ],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": []
+    },
+    {
+      "id": "daily.bandage",
+      "category": "choice",
+      "title": "药袋告急",
+      "eyebrow": "途中小事",
+      "body": "{{npc}}替同行人疗伤，想向你求一枚回春丹。",
+      "conditions": [
+        {
+          "fact": "daily.bandage",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "help",
+          "label": "匀一枚回春丹",
+          "hint": "不耗时",
+          "reply": "药送到了需要的人手上，对方向你认真致谢。",
+          "effects": [
+            {
+              "kind": "healing",
+              "value": -1
+            },
+            {
+              "kind": "relation",
+              "value": 4,
+              "target": "npc"
+            }
+          ],
+          "days": 0,
+          "gift": false
+        },
+        {
+          "id": "decline",
+          "label": "婉拒，继续此行",
+          "hint": "不耗时",
+          "reply": "你说明尚有自己的行程，对方点头道别。",
+          "effects": [],
+          "days": 0,
+          "gift": false
+        }
+      ],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": true,
+      "effects": []
+    },
+    {
+      "id": "daily.old-map",
+      "category": "choice",
+      "title": "旧图上的岔路",
+      "eyebrow": "途中小事",
+      "body": "{{npc}}拿着旧图请教，一处岔路的走向令人困惑。",
+      "conditions": [
+        {
+          "fact": "daily.old-map",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "help",
+          "label": "一同推演一日",
+          "hint": "耗时一日",
+          "reply": "你们比对地势与灵脉，沿图理出一条新的思路。",
+          "effects": [
+            {
+              "kind": "insight",
+              "value": 1
+            }
+          ],
+          "days": 1,
+          "gift": false
+        },
+        {
+          "id": "decline",
+          "label": "婉拒，继续此行",
+          "hint": "不耗时",
+          "reply": "你说明尚有自己的行程，对方点头道别。",
+          "effects": [],
+          "days": 0,
+          "gift": false
+        }
+      ],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": true,
+      "effects": []
+    },
+    {
+      "id": "daily.repair-cart",
+      "category": "choice",
+      "title": "折轴的小车",
+      "eyebrow": "途中小事",
+      "body": "货郎的小车折了轴，尚缺五枚灵石置换木料。",
+      "conditions": [
+        {
+          "fact": "daily.repair-cart",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "help",
+          "label": "垫付五枚灵石",
+          "hint": "不耗时",
+          "reply": "车轮重新转动，货郎赠你一枚回春丹作为谢意。",
+          "effects": [
+            {
+              "kind": "stones",
+              "value": -5
+            },
+            {
+              "kind": "healing",
+              "value": 1
+            }
+          ],
+          "days": 0,
+          "gift": false
+        },
+        {
+          "id": "decline",
+          "label": "婉拒，继续此行",
+          "hint": "不耗时",
+          "reply": "你说明尚有自己的行程，对方点头道别。",
+          "effects": [],
+          "days": 0,
+          "gift": false
+        }
+      ],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": []
+    },
+    {
+      "id": "daily.quiet-watch",
+      "category": "choice",
+      "title": "守一夜炉火",
+      "eyebrow": "途中小事",
+      "body": "{{npc}}想请你帮忙照看温养药液的炉火。",
+      "conditions": [
+        {
+          "fact": "daily.quiet-watch",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "help",
+          "label": "照看一日",
+          "hint": "耗时一日",
+          "reply": "火候起落之间，你渐渐领会吐纳中的收放之理。",
+          "effects": [
+            {
+              "kind": "insight",
+              "value": 1
+            },
+            {
+              "kind": "relation",
+              "value": 2,
+              "target": "npc"
+            }
+          ],
+          "days": 1,
+          "gift": false
+        },
+        {
+          "id": "decline",
+          "label": "婉拒，继续此行",
+          "hint": "不耗时",
+          "reply": "你说明尚有自己的行程，对方点头道别。",
+          "effects": [],
+          "days": 0,
+          "gift": false
+        }
+      ],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": true,
+      "effects": []
+    },
+    {
+      "id": "daily.brush-wolves",
+      "category": "risk",
+      "title": "灌木窸窣",
+      "eyebrow": "途中小事",
+      "body": "灌木深处露出一双兽瞳，小妖兽正在试探着靠近。",
+      "conditions": [
+        {
+          "fact": "daily.brush-wolves",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "face",
+          "label": "站稳脚步应对",
+          "hint": "不耗时",
+          "reply": "你记下这场遭遇，谨慎守住退路。",
+          "effects": [
+            {
+              "kind": "encounter",
+              "value": 1,
+              "target": "wolves"
+            }
+          ],
+          "days": 0,
+          "gift": false
+        },
+        {
+          "id": "pay",
+          "label": "花五枚灵石打发",
+          "hint": "不耗时",
+          "reply": "你留下五枚灵石，对方让开了路。",
+          "effects": [
+            {
+              "kind": "stones",
+              "value": -5
+            }
+          ],
+          "days": 0,
+          "gift": false
+        }
+      ],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": []
+    },
+    {
+      "id": "daily.road-bandits",
+      "category": "risk",
+      "title": "拦路客",
+      "eyebrow": "途中小事",
+      "body": "几个持棍的陌生人拦住去路，索要过路灵石。",
+      "conditions": [
+        {
+          "fact": "daily.road-bandits",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "face",
+          "label": "站稳脚步应对",
+          "hint": "不耗时",
+          "reply": "你记下这场遭遇，谨慎守住退路。",
+          "effects": [
+            {
+              "kind": "encounter",
+              "value": 1,
+              "target": "bandits"
+            }
+          ],
+          "days": 0,
+          "gift": false
+        },
+        {
+          "id": "pay",
+          "label": "花五枚灵石打发",
+          "hint": "不耗时",
+          "reply": "你留下五枚灵石，对方让开了路。",
+          "effects": [
+            {
+              "kind": "stones",
+              "value": -5
+            }
+          ],
+          "days": 0,
+          "gift": false
+        }
+      ],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": []
+    },
+    {
+      "id": "daily.night-prowler",
+      "category": "risk",
+      "title": "夜色里的低吼",
+      "eyebrow": "途中小事",
+      "body": "低吼沿着墙根传来，一只妖兽嗅到了行囊中的药味。",
+      "conditions": [
+        {
+          "fact": "daily.night-prowler",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "face",
+          "label": "站稳脚步应对",
+          "hint": "不耗时",
+          "reply": "你记下这场遭遇，谨慎守住退路。",
+          "effects": [
+            {
+              "kind": "encounter",
+              "value": 1,
+              "target": "wolves"
+            }
+          ],
+          "days": 0,
+          "gift": false
+        },
+        {
+          "id": "pay",
+          "label": "花五枚灵石打发",
+          "hint": "不耗时",
+          "reply": "你留下五枚灵石，对方让开了路。",
+          "effects": [
+            {
+              "kind": "stones",
+              "value": -5
+            }
+          ],
+          "days": 0,
+          "gift": false
+        }
+      ],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": []
+    },
+    {
+      "id": "daily.bridge-toll",
+      "category": "risk",
+      "title": "桥头横索",
+      "eyebrow": "途中小事",
+      "body": "桥头有人横起绳索，声称今日过桥要另交费用。",
+      "conditions": [
+        {
+          "fact": "daily.bridge-toll",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "face",
+          "label": "站稳脚步应对",
+          "hint": "不耗时",
+          "reply": "你记下这场遭遇，谨慎守住退路。",
+          "effects": [
+            {
+              "kind": "encounter",
+              "value": 1,
+              "target": "bandits"
+            }
+          ],
+          "days": 0,
+          "gift": false
+        },
+        {
+          "id": "pay",
+          "label": "花五枚灵石打发",
+          "hint": "不耗时",
+          "reply": "你留下五枚灵石，对方让开了路。",
+          "effects": [
+            {
+              "kind": "stones",
+              "value": -5
+            }
+          ],
+          "days": 0,
+          "gift": false
+        }
+      ],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": []
+    },
+    {
+      "id": "daily.stolen-bundle",
+      "category": "risk",
+      "title": "被拖走的包袱",
+      "eyebrow": "途中小事",
+      "body": "小妖兽咬住路旁包袱，见你走近，突然龇起牙来。",
+      "conditions": [
+        {
+          "fact": "daily.stolen-bundle",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "face",
+          "label": "站稳脚步应对",
+          "hint": "不耗时",
+          "reply": "你记下这场遭遇，谨慎守住退路。",
+          "effects": [
+            {
+              "kind": "encounter",
+              "value": 1,
+              "target": "wolves"
+            }
+          ],
+          "days": 0,
+          "gift": false
+        },
+        {
+          "id": "pay",
+          "label": "花五枚灵石打发",
+          "hint": "不耗时",
+          "reply": "你留下五枚灵石，对方让开了路。",
+          "effects": [
+            {
+              "kind": "stones",
+              "value": -5
+            }
+          ],
+          "days": 0,
+          "gift": false
+        }
+      ],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": []
+    },
+    {
+      "id": "daily.false-guide",
+      "category": "risk",
+      "title": "假向导",
+      "eyebrow": "途中小事",
+      "body": "自称向导的人带你绕到僻静处，几个同伙从后面现身。",
+      "conditions": [
+        {
+          "fact": "daily.false-guide",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "face",
+          "label": "站稳脚步应对",
+          "hint": "不耗时",
+          "reply": "你记下这场遭遇，谨慎守住退路。",
+          "effects": [
+            {
+              "kind": "encounter",
+              "value": 1,
+              "target": "bandits"
+            }
+          ],
+          "days": 0,
+          "gift": false
+        },
+        {
+          "id": "pay",
+          "label": "花五枚灵石打发",
+          "hint": "不耗时",
+          "reply": "你留下五枚灵石，对方让开了路。",
+          "effects": [
+            {
+              "kind": "stones",
+              "value": -5
+            }
+          ],
+          "days": 0,
+          "gift": false
+        }
+      ],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": []
+    },
+    {
+      "id": "daily.water-beast",
+      "category": "risk",
+      "title": "水边惊动",
+      "eyebrow": "途中小事",
+      "body": "水边草叶剧烈晃动，一头受惊妖兽挡住了道路。",
+      "conditions": [
+        {
+          "fact": "daily.water-beast",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "face",
+          "label": "站稳脚步应对",
+          "hint": "不耗时",
+          "reply": "你记下这场遭遇，谨慎守住退路。",
+          "effects": [
+            {
+              "kind": "encounter",
+              "value": 1,
+              "target": "wolves"
+            }
+          ],
+          "days": 0,
+          "gift": false
+        },
+        {
+          "id": "pay",
+          "label": "花五枚灵石打发",
+          "hint": "不耗时",
+          "reply": "你留下五枚灵石，对方让开了路。",
+          "effects": [
+            {
+              "kind": "stones",
+              "value": -5
+            }
+          ],
+          "days": 0,
+          "gift": false
+        }
+      ],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": []
+    },
+    {
+      "id": "daily.camp-intruders",
+      "category": "risk",
+      "title": "营火外的影子",
+      "eyebrow": "途中小事",
+      "body": "几个身影在营火外徘徊，终于开口索要一笔买路钱。",
+      "conditions": [
+        {
+          "fact": "daily.camp-intruders",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "face",
+          "label": "站稳脚步应对",
+          "hint": "不耗时",
+          "reply": "你记下这场遭遇，谨慎守住退路。",
+          "effects": [
+            {
+              "kind": "encounter",
+              "value": 1,
+              "target": "bandits"
+            }
+          ],
+          "days": 0,
+          "gift": false
+        },
+        {
+          "id": "pay",
+          "label": "花五枚灵石打发",
+          "hint": "不耗时",
+          "reply": "你留下五枚灵石，对方让开了路。",
+          "effects": [
+            {
+              "kind": "stones",
+              "value": -5
+            }
+          ],
+          "days": 0,
+          "gift": false
+        }
+      ],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": []
+    },
+    {
+      "id": "daily.stone-crevice",
+      "category": "risk",
+      "title": "石隙来客",
+      "eyebrow": "途中小事",
+      "body": "你踏过碎石坡，一只小妖兽从石缝扑出。",
+      "conditions": [
+        {
+          "fact": "daily.stone-crevice",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "face",
+          "label": "站稳脚步应对",
+          "hint": "不耗时",
+          "reply": "你记下这场遭遇，谨慎守住退路。",
+          "effects": [
+            {
+              "kind": "encounter",
+              "value": 1,
+              "target": "wolves"
+            }
+          ],
+          "days": 0,
+          "gift": false
+        },
+        {
+          "id": "pay",
+          "label": "花五枚灵石打发",
+          "hint": "不耗时",
+          "reply": "你留下五枚灵石，对方让开了路。",
+          "effects": [
+            {
+              "kind": "stones",
+              "value": -5
+            }
+          ],
+          "days": 0,
+          "gift": false
+        }
+      ],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": []
+    },
+    {
+      "id": "daily.market-extortion",
+      "category": "risk",
+      "title": "巷口争执",
+      "eyebrow": "途中小事",
+      "body": "几个横人堵在巷口，执意要收所谓的照看费。",
+      "conditions": [
+        {
+          "fact": "daily.market-extortion",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "face",
+          "label": "站稳脚步应对",
+          "hint": "不耗时",
+          "reply": "你记下这场遭遇，谨慎守住退路。",
+          "effects": [
+            {
+              "kind": "encounter",
+              "value": 1,
+              "target": "bandits"
+            }
+          ],
+          "days": 0,
+          "gift": false
+        },
+        {
+          "id": "pay",
+          "label": "花五枚灵石打发",
+          "hint": "不耗时",
+          "reply": "你留下五枚灵石，对方让开了路。",
+          "effects": [
+            {
+              "kind": "stones",
+              "value": -5
+            }
+          ],
+          "days": 0,
+          "gift": false
+        }
+      ],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": []
+    }
+  ]
+}

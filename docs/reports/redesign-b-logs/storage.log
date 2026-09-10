@@ -1,0 +1,41 @@
+
+> xiantu@0.1.0 test:storage
+> node --test tests/game/worker.test.mjs
+
+✔ create, export and a fresh Worker preserve the complete saved world (106.971875ms)
+✔ generated day-9 and day-40 worlds import intact and keep the replaced save in backups (354.039958ms)
+✔ unconfirmed replacement and malformed imports leave the current save and backups untouched (165.456333ms)
+✔ two independent Workers racing to act commit exactly one day and one reward (99.078417ms)
+✔ a stale page cannot act, export, or confirm an earlier replacement after another Worker advances (190.542125ms)
+✔ two new characters at revision zero are distinguished by save identity (48.949458ms)
+✔ an aborted commit rolls back both imported progress and its backup, then retry succeeds (91.59225ms)
+✔ storage access failure returns an error and keeps the last saved world recoverable (62.825459ms)
+✔ a lost acknowledgment retry is idempotent but the same ID cannot change its payload (76.358541ms)
+✔ unknown messages and extra command fields are rejected without changing the saved world (46.902166ms)
+✔ creation drafts survive Worker restart, reject stale editing, and clear only after successful creation (64.937541ms)
+✔ released version-one snapshots migrate additively with an exact old backup and no RNG/time changes (58.398541ms)
+✔ failed migration preserves the original legacy snapshot; restoring a backup retains the replaced world (86.7595ms)
+✔ future save schemas and unrelated content locks never migrate or replace the current world (40.421083ms)
+✔ schema two migration preserves payload receipts and checkpoint resource accounting (64.831ms)
+✔ Worker batches publish only durable progress and one final world, identical to individual checkpoints (304.202708ms)
+✔ batch pause and a failed fourth paid checkpoint preserve restartable durable progress (493.609916ms)
+✔ a retried partial batch never advances beyond its original checkpoint boundary (118.727833ms)
+✔ conditional training stops at eligibility and important news pauses a resumable action (202.691542ms)
+✔ exact old journey locks migrate durably with an intact backup, including an aborted migration retry (194.822ms)
+✔ adding the main campaign lock backs up the intact old save and rolls back on failed storage (164.332709ms)
+✔ duplicate NPC names migrate atomically with exact backup, rollback and idempotent reload (125.57175ms)
+✔ open-map rule migration saves atomically with the exact old backup before allowing distant travel (100.635042ms)
+✔ redraw adoption commits portrait and visual traits together, and failed storage retains both originals (178.200459ms)
+✔ renewed invitations commit once, survive reload and roll back on save failure (158.050666ms)
+✔ sect discovery, task rewards and private intimacy commit atomically and survive a fresh Worker (3293.423375ms)
+✔ autonomous NPC relationships, journeys and admission are atomic, replay-safe and durable (13949.428708ms)
+✔ real 0.1.6 imports preserve the input backup atomically even in an empty browser (368.777584ms)
+✔ daily choice interrupts durable Worker progress, rolls back a failed answer and resumes the same checkpoint (135.922958ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 21943.944625

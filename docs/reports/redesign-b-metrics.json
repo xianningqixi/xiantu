@@ -1,0 +1,493 @@
+{
+  "seed": 42,
+  "artifact": "ward",
+  "method": "free 7-day cultivation stopped at readiness; decline optional daily choices; command count includes Worker step and event replies",
+  "low": {
+    "aptitude": 20,
+    "days": 13,
+    "commands": 21,
+    "trace": [
+      {
+        "command": {
+          "type": "travel",
+          "to": "inn"
+        },
+        "day": 0,
+        "realm": 0,
+        "xp": 0
+      },
+      {
+        "command": {
+          "type": "learn"
+        },
+        "day": 0,
+        "realm": 0,
+        "xp": 0
+      },
+      {
+        "command": {
+          "type": "train",
+          "days": 7,
+          "stoneMethod": false,
+          "stopWhen": {
+            "kind": "cultivationReady"
+          }
+        },
+        "day": 0,
+        "realm": 0,
+        "xp": 0
+      },
+      {
+        "command": {
+          "type": "step"
+        },
+        "day": 1,
+        "realm": 0,
+        "xp": 6
+      },
+      {
+        "command": {
+          "type": "step"
+        },
+        "day": 2,
+        "realm": 0,
+        "xp": 12
+      },
+      {
+        "command": {
+          "type": "step"
+        },
+        "day": 3,
+        "realm": 0,
+        "xp": 18
+      },
+      {
+        "command": {
+          "type": "step"
+        },
+        "day": 4,
+        "realm": 0,
+        "xp": 24
+      },
+      {
+        "command": {
+          "type": "breakthrough",
+          "usePill": false,
+          "guardian": false
+        },
+        "day": 4,
+        "realm": 0,
+        "xp": 24
+      },
+      {
+        "command": {
+          "type": "step"
+        },
+        "day": 5,
+        "realm": 1,
+        "xp": 4
+      },
+      {
+        "command": {
+          "type": "train",
+          "days": 7,
+          "stoneMethod": false,
+          "stopWhen": {
+            "kind": "cultivationReady"
+          }
+        },
+        "day": 5,
+        "realm": 1,
+        "xp": 4
+      },
+      {
+        "command": {
+          "type": "step"
+        },
+        "day": 6,
+        "realm": 1,
+        "xp": 16
+      },
+      {
+        "command": {
+          "type": "step"
+        },
+        "day": 7,
+        "realm": 1,
+        "xp": 28
+      },
+      {
+        "command": {
+          "type": "step"
+        },
+        "day": 8,
+        "realm": 1,
+        "xp": 40
+      },
+      {
+        "command": {
+          "type": "advanceMinor"
+        },
+        "day": 8,
+        "realm": 2,
+        "xp": 0
+      },
+      {
+        "command": {
+          "type": "train",
+          "days": 7,
+          "stoneMethod": false,
+          "stopWhen": {
+            "kind": "cultivationReady"
+          }
+        },
+        "day": 8,
+        "realm": 2,
+        "xp": 0
+      },
+      {
+        "command": {
+          "type": "step"
+        },
+        "day": 9,
+        "realm": 2,
+        "xp": 12
+      },
+      {
+        "command": {
+          "type": "step"
+        },
+        "day": 10,
+        "realm": 2,
+        "xp": 24
+      },
+      {
+        "command": {
+          "type": "step"
+        },
+        "day": 11,
+        "realm": 2,
+        "xp": 36
+      },
+      {
+        "command": {
+          "type": "step"
+        },
+        "day": 12,
+        "realm": 2,
+        "xp": 48
+      },
+      {
+        "command": {
+          "type": "step"
+        },
+        "day": 13,
+        "realm": 2,
+        "xp": 60
+      },
+      {
+        "command": {
+          "type": "advanceMinor"
+        },
+        "day": 13,
+        "realm": 3,
+        "xp": 0
+      }
+    ]
+  },
+  "high": {
+    "aptitude": 90,
+    "days": 8,
+    "commands": 16,
+    "trace": [
+      {
+        "command": {
+          "type": "travel",
+          "to": "inn"
+        },
+        "day": 0,
+        "realm": 0,
+        "xp": 0
+      },
+      {
+        "command": {
+          "type": "learn"
+        },
+        "day": 0,
+        "realm": 0,
+        "xp": 0
+      },
+      {
+        "command": {
+          "type": "train",
+          "days": 7,
+          "stoneMethod": false,
+          "stopWhen": {
+            "kind": "cultivationReady"
+          }
+        },
+        "day": 0,
+        "realm": 0,
+        "xp": 0
+      },
+      {
+        "command": {
+          "type": "step"
+        },
+        "day": 1,
+        "realm": 0,
+        "xp": 15
+      },
+      {
+        "command": {
+          "type": "step"
+        },
+        "day": 2,
+        "realm": 0,
+        "xp": 30
+      },
+      {
+        "command": {
+          "type": "breakthrough",
+          "usePill": false,
+          "guardian": false
+        },
+        "day": 2,
+        "realm": 0,
+        "xp": 30
+      },
+      {
+        "command": {
+          "type": "step"
+        },
+        "day": 3,
+        "realm": 1,
+        "xp": 10
+      },
+      {
+        "command": {
+          "type": "train",
+          "days": 7,
+          "stoneMethod": false,
+          "stopWhen": {
+            "kind": "cultivationReady"
+          }
+        },
+        "day": 3,
+        "realm": 1,
+        "xp": 10
+      },
+      {
+        "command": {
+          "type": "step"
+        },
+        "day": 4,
+        "realm": 1,
+        "xp": 31
+      },
+      {
+        "command": {
+          "type": "step"
+        },
+        "day": 5,
+        "realm": 1,
+        "xp": 52
+      },
+      {
+        "command": {
+          "type": "advanceMinor"
+        },
+        "day": 5,
+        "realm": 2,
+        "xp": 12
+      },
+      {
+        "command": {
+          "type": "train",
+          "days": 7,
+          "stoneMethod": false,
+          "stopWhen": {
+            "kind": "cultivationReady"
+          }
+        },
+        "day": 5,
+        "realm": 2,
+        "xp": 12
+      },
+      {
+        "command": {
+          "type": "step"
+        },
+        "day": 6,
+        "realm": 2,
+        "xp": 33
+      },
+      {
+        "command": {
+          "type": "step"
+        },
+        "day": 7,
+        "realm": 2,
+        "xp": 54
+      },
+      {
+        "command": {
+          "type": "step"
+        },
+        "day": 8,
+        "realm": 2,
+        "xp": 75
+      },
+      {
+        "command": {
+          "type": "advanceMinor"
+        },
+        "day": 8,
+        "realm": 3,
+        "xp": 15
+      }
+    ]
+  },
+  "lowAptitudeExtraDaysRatio": 0.625,
+  "highAptitudeDayReduction": 0.38461538461538464,
+  "daily": {
+    "seed": 42,
+    "days": 100,
+    "count": 33,
+    "consecutiveRepeats": 0,
+    "events": [
+      {
+        "day": 4,
+        "id": "daily.herb-scent"
+      },
+      {
+        "day": 18,
+        "id": "daily.quiet-watch"
+      },
+      {
+        "day": 19,
+        "id": "daily.herb-scent"
+      },
+      {
+        "day": 20,
+        "id": "daily.help-fare"
+      },
+      {
+        "day": 22,
+        "id": "daily.lost-pouch"
+      },
+      {
+        "day": 27,
+        "id": "daily.crane"
+      },
+      {
+        "day": 28,
+        "id": "daily.shared-shade"
+      },
+      {
+        "day": 33,
+        "id": "daily.tea-rumor"
+      },
+      {
+        "day": 39,
+        "id": "daily.copy-page"
+      },
+      {
+        "day": 45,
+        "id": "daily.rain"
+      },
+      {
+        "day": 52,
+        "id": "daily.lost-pouch"
+      },
+      {
+        "day": 53,
+        "id": "daily.rain"
+      },
+      {
+        "day": 54,
+        "id": "daily.shared-shade"
+      },
+      {
+        "day": 55,
+        "id": "daily.footprints"
+      },
+      {
+        "day": 60,
+        "id": "daily.herb-scent"
+      },
+      {
+        "day": 61,
+        "id": "daily.quiet-watch"
+      },
+      {
+        "day": 64,
+        "id": "daily.footprints"
+      },
+      {
+        "day": 65,
+        "id": "daily.tea-rumor"
+      },
+      {
+        "day": 66,
+        "id": "daily.old-map"
+      },
+      {
+        "day": 67,
+        "id": "daily.loose-stones"
+      },
+      {
+        "day": 69,
+        "id": "daily.small-repayment"
+      },
+      {
+        "day": 72,
+        "id": "daily.tea-rumor"
+      },
+      {
+        "day": 73,
+        "id": "daily.crane"
+      },
+      {
+        "day": 74,
+        "id": "daily.rain"
+      },
+      {
+        "day": 76,
+        "id": "daily.injured-traveler"
+      },
+      {
+        "day": 80,
+        "id": "daily.discuss"
+      },
+      {
+        "day": 81,
+        "id": "daily.small-repayment"
+      },
+      {
+        "day": 82,
+        "id": "daily.old-map"
+      },
+      {
+        "day": 83,
+        "id": "daily.tea-rumor"
+      },
+      {
+        "day": 84,
+        "id": "daily.evening-bells"
+      },
+      {
+        "day": 85,
+        "id": "daily.injured-traveler"
+      },
+      {
+        "day": 91,
+        "id": "daily.repair-cart"
+      },
+      {
+        "day": 95,
+        "id": "daily.evening-bells"
+      }
+    ]
+  }
+}

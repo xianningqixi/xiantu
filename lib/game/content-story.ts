@@ -1,3 +1,4 @@
+import { legacyRealmIndex } from "./rules";
 import { mainScene, mainChapters, mainEvent } from "./main-story";
 import { selectedExtensions } from "./content/extensions";
 import type { World } from "./types";
@@ -5,10 +6,14 @@ import { chapterWaitDays, expeditionCount } from "./world-map";
 const person = (w: World, id: string) =>
   id === "PLAYER" ? w.player : w.npcs.find((a) => a.id === id);
 export function extensionScenes(w: World) {
+  if (w.pendingDailyEventId) return [];
   if (w.ended || w.battle || w.loot || w.longAction || mainScene(w)) return [];
   return selectedExtensions(w.contentLocks)
     .flatMap(({ data, lock }) => {
-      if (data.journey && (w.player.realm < data.journey.minRealm || chapterWaitDays(w, data) > 0))
+      if (
+        data.journey &&
+        (w.player.realm < legacyRealmIndex(data.journey.minRealm) || chapterWaitDays(w, data) > 0)
+      )
         return [];
       // Roads are open, but the story still needs the evidence that used to gate entry.
       if (data.journey && w.campaignLock) {
@@ -43,7 +48,7 @@ export function extensionScenes(w: World) {
         .find(
           (n) =>
             !w.contentState[n.id] &&
-            w.player.realm >= (n.minRealm ?? 0) &&
+            w.player.realm >= legacyRealmIndex(n.minRealm ?? 0) &&
             (!data.journey ||
               n.id === data.journey.introId ||
               w.contentState[data.journey.introId]) &&

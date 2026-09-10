@@ -1,3 +1,4 @@
+import { answerDaily } from "./daily-test-helpers";
 import { validateMainStory } from "../../lib/game/content/main-story-contract.mjs";
 import sourceStory from "../../content-packs/main-quest/story.json";
 import test from "node:test";
@@ -34,12 +35,13 @@ function fresh(selected = locks) {
     40,
     { contentLocks: selected },
   );
-  w.player.realm = 4;
+  w.player.realm = 10;
   w.player.manual = true;
   w.player.hp = stats(w.player).maxHp;
   return w;
 }
-const act = (w: World, c: Command) => applyCommand(w, c, `main:${w.revision + 1}`, w.revision);
+const act = (w: World, c: Command) =>
+  answerDaily(applyCommand(w, c, `main:${w.revision + 1}`, w.revision));
 function rubbing(w: World) {
   w = openVolume(w);
   if (w.player.location === "inn") w = act(w, { type: "travel", to: "market" });

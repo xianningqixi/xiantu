@@ -1,3 +1,4 @@
+import { realmIndex } from "./rules";
 import { B } from "./rules";
 import { DEPARTURE_FEE } from "./economy";
 import { PACK, PRESENTATION, contentText } from "./content/official";
@@ -42,7 +43,7 @@ export function partyReadiness(w: World) {
   const reason =
     w.agreement?.status !== "accepted"
       ? "先与同伴商定同行。"
-      : w.player.realm < 1
+      : w.player.realm < realmIndex("QI_1")
         ? "成为炼气修士后再组队。"
         : missing
             .map((a) =>
@@ -106,6 +107,7 @@ export function acceptAgreement(w: World) {
     "同伴需要存活、在场且空闲。",
   );
   w.agreement = {
+    terms: "story",
     id: `agreement:${w.events.length + 1}`,
     status: "accepted",
     members: ["PLAYER", PACK.roles.primary, PACK.roles.companion],

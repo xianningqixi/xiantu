@@ -1,3 +1,4 @@
+import { realmIndex } from "./rules";
 import { REALMS } from "./content/official";
 import registry from "./content/main-story.json";
 import { selectedExtensions } from "./content/extensions";
@@ -63,6 +64,7 @@ export function currentMainStep(w: World) {
     (dialogue || fallback || (guide?.location === location && !guide.attempt)) &&
     !w.ended &&
     !w.longAction &&
+    !w.pendingDailyEventId &&
     !w.battle &&
     !w.loot;
   const fill = (text: string) =>
@@ -109,7 +111,7 @@ export function mainObjective(w: World) {
     w.loot ||
     w.longAction ||
     !w.player.manual ||
-    w.player.realm < 1
+    w.player.realm < realmIndex("QI_1")
   )
     return null;
   const step = currentMainStep(w);

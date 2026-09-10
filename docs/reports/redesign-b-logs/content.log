@@ -1,0 +1,24 @@
+
+> xiantu@0.1.0 test:content
+> esbuild tests/game/content.test.ts --bundle --platform=node --format=esm --outfile=.game-test-build/content.test.mjs && node --test .game-test-build/content.test.mjs
+
+
+  .game-test-build/content.test.mjs  1.3mb ⚠️
+
+⚡ Done in 27ms
+✔ runtime reads the packaged JSON and resolves its scene and portrait references (5.402834ms)
+✔ replacement prose, choice label, and visual reference work without engine edits (9.060208ms)
+✔ a new declared-flag storylet can appear, execute once, and leave the candidate set (2.849666ms)
+✔ duplicate IDs, unknown effects and invalid visual references are rejected (1.295125ms)
+✔ unavailable facts, unlisted flags, wrong value types and reserved shadowing are rejected (1.065166ms)
+✔ NPC binding cannot take player identity, and names come from the saved actors (1.276917ms)
+✔ path traversal, unknown text expressions and incompatible save locks fail clearly (4.2805ms)
+✔ daily storylets contain three complete pools and reject ambiguous targets or duplicate IDs (1.196ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 85.486625

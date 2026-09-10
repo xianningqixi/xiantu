@@ -1,0 +1,17 @@
+
+> xiantu@0.1.0 test:client
+> node --test tests/game/continuation.test.mjs
+
+✔ automatic battle starts only after a successful current command (3.861916ms)
+✔ pause while enabling auto invalidates its late success even after returning to the page (4.818625ms)
+✔ pause while starting a long action preserves the pause and does not navigate on late success (6.273792ms)
+✔ failed commands and hidden pages do not start automatic advancement (2.620333ms)
+✔ a fresh explicit long-action request can resume after an earlier pause (4.427458ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 922.200875

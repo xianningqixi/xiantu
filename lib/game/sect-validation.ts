@@ -10,6 +10,9 @@ const membership = z
   .object({
     id: sectId,
     joinedDay: day,
+    rank: z.enum(["outer", "inner"]),
+    questStep: day,
+    lastStipendDay: day,
     contribution: day,
     earned: day,
     artLearned: z.boolean(),
@@ -22,7 +25,10 @@ const intimate = z
 
 export function validateSectState(w: World, requireSave: (ok: unknown, message: string) => void) {
   if (w.visitedSects !== undefined) {
-    requireSave(["0.1.5", "0.1.6"].includes(w.rulesVersion), "宗门进度需要 0.1.5 或更新规则。");
+    requireSave(
+      ["0.1.5", "0.1.6", "0.2.0"].includes(w.rulesVersion),
+      "宗门进度需要 0.1.5 或更新规则。",
+    );
     requireSave(
       z.array(sectId).max(SECTS.length).safeParse(w.visitedSects).success &&
         new Set(w.visitedSects).size === w.visitedSects.length,
@@ -49,7 +55,7 @@ export function validateSectState(w: World, requireSave: (ok: unknown, message: 
     if (a.npcJourney !== undefined) {
       const j = a.npcJourney;
       requireSave(
-        w.rulesVersion === "0.1.6" &&
+        ["0.1.6", "0.2.0"].includes(w.rulesVersion) &&
           /^NPC_\d+$/.test(a.id) &&
           a.alive &&
           !a.attempt &&
@@ -82,12 +88,23 @@ export function validateSectState(w: World, requireSave: (ok: unknown, message: 
       requireSave(membership.safeParse(m).success, "宗门门籍不合法。");
       requireSave(
         (w.visitedSects?.includes(m!.id) ||
-          (w.rulesVersion === "0.1.6" &&
+          (["0.1.6", "0.2.0"].includes(w.rulesVersion) &&
             /^NPC_\d+$/.test(a.id) &&
             locationEnabled(w, sectById(m!.id)!.home))) &&
           m!.joinedDay <= w.day &&
+          m!.lastStipendDay >= m!.joinedDay &&
+          m!.lastStipendDay <= w.day &&
           a.sect === sectById(m!.id)?.name &&
-          m!.contribution === m!.earned - (m!.artLearned ? B.sects.artContributionCost : 0),
+          m!.contribution ===
+            m!.earned -
+              (m!.artLearned ? B.sects.artContributionCost : 0) -
+              w.events
+                .slice(
+                  w.events.findLastIndex((e) => e.kind === "sect-join" && e.actors.includes(a.id)) +
+                    1,
+                )
+                .filter((e) => e.kind === "sect-exchange" && e.actors.includes(a.id)).length *
+                B.sects.pillContributionCost,
         "宗门贡献或日期不合法。",
       );
       if (m!.id === "yunv") requireSave(a.sex === "female", "玉女宗门籍须为成年女子。");
@@ -101,7 +118,10 @@ export function validateSectState(w: World, requireSave: (ok: unknown, message: 
       partners.set(b, a);
     }
     if (e.intimacy !== undefined || e.kind === "intimacy") {
-      requireSave(["0.1.5", "0.1.6"].includes(w.rulesVersion), "亲密事件需要 0.1.5 或更新规则。");
+      requireSave(
+        ["0.1.5", "0.1.6", "0.2.0"].includes(w.rulesVersion),
+        "亲密事件需要 0.1.5 或更新规则。",
+      );
       requireSave(
         intimate.safeParse(e.intimacy).success &&
           e.kind === "intimacy" &&

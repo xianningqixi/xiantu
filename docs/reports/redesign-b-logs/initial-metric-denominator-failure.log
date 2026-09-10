@@ -1,0 +1,18 @@
+{"lowDays":13,"highDays":8,"highCommands":16,"aptitudeDayReduction":0.38461538461538464,"dailyCount":33,"consecutiveRepeats":0}
+node:internal/modules/run_main:104
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: false == true
+    at file:///Users/wangdaxi/Documents/ChatGPT/xiuxian/xiantu-b-realms/.game-test-build/metrics.mjs:25429:8
+    at ModuleJob.run (node:internal/modules/esm/module_job:273:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:600:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:98:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '=='
+}
+
+Node.js v23.9.0

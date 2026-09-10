@@ -32,6 +32,7 @@ export function finishBattle(w: World, outcome: "win" | "retreat" | "defeat") {
                 : B.combat.nonlethalVictoryDownedHpRestoreBp / B.probabilityScaleBp),
           ),
       );
+    a.hp = Math.min(a.hp, stats(a).maxHp);
   }
   updateAgreementAvailability(w);
   if (w.ended) {
@@ -159,7 +160,11 @@ export function battleRound(
   }
   battle.logs = [...battle.logs, ...logs];
   battle.round++;
-  for (const f of battle.allies) actorById(w, f.id)!.hp = f.hp;
+  // Old in-flight battles retain Fighter snapshots; actor HP follows the migrated realm cap.
+  for (const f of battle.allies) {
+    const owner = actorById(w, f.id)!;
+    owner.hp = Math.min(f.hp, stats(owner).maxHp);
+  }
   if (battle.enemies.every((a) => a.hp <= 0)) {
     finishBattle(w, "win");
     return;

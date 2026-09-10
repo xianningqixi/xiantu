@@ -328,7 +328,10 @@ test("an aborted commit rolls back both imported progress and its backup, then r
   const retried = await a.send(input);
   assert.equal(retried.ok, true, retried.error);
   assert.equal(retried.state.day, 8);
-  assert.deepEqual(await env.records("backups"), [original]);
+  assert.deepEqual(
+    new Set((await env.records("backups")).map((w) => w.saveId)),
+    new Set([original.saveId, fixture("early").saveId]),
+  );
 });
 
 test("storage access failure returns an error and keeps the last saved world recoverable", async () => {
@@ -417,6 +420,19 @@ test("creation drafts survive Worker restart, reject stale editing, and clear on
 
 function releasedShape(world, version = 1) {
   const copy = structuredClone(world);
+  if (copy.rulesVersion === "0.2.0")
+    for (const a of [copy.player, ...copy.npcs]) {
+      a.realm = a.realm >= 10 ? 4 : Math.min(3, a.realm);
+      a.xp = Math.min(a.xp, [20, 40, 60, 90, 100][a.realm]);
+      a.hp = Math.min(a.hp, [30, 50, 60, 70, 130][a.realm]);
+      a.attempt = null;
+      for (const key of ["insight", "manualRank", "skills", "qi", "jobCooldowns"]) delete a[key];
+      if (a.sectMembership)
+        for (const key of ["rank", "questStep", "lastStipendDay"]) delete a.sectMembership[key];
+    }
+  delete copy.dailyEventCooldowns;
+  delete copy.pendingDailyEventId;
+  if (copy.agreement) delete copy.agreement.terms;
   copy.npcs = copy.npcs.filter((a) => !a.id.startsWith("shichai."));
   copy.events = copy.events.filter((e) => !e.actors.some((id) => id.startsWith("shichai.")));
   const events = new Set(copy.events.map((e) => e.id));
@@ -448,7 +464,7 @@ test("released version-one snapshots migrate additively with an exact old backup
   const response = await env.client().send({ kind: "load" });
   assert.equal(response.ok, true, response.error);
   assert.equal(response.migrated, true);
-  assert.equal(response.state.schemaVersion, 6);
+  assert.equal(response.state.schemaVersion, 7);
   assert.deepEqual({ ...releasedShape(response.state), revision: legacy.revision }, legacy);
   assert.ok(
     Object.values(response.state.knowledge)
@@ -524,7 +540,7 @@ test("schema two migration preserves payload receipts and checkpoint resource ac
   const clean = environment();
   await clean.seedLegacy(legacy);
   const result = await clean.client().load();
-  assert.equal(result.schemaVersion, 6);
+  assert.equal(result.schemaVersion, 7);
   assert.deepEqual(result.commandReceipts, w.commandReceipts);
   assert.deepEqual({ ...releasedShape(result, 2), revision: legacy.revision }, legacy);
 });
@@ -563,6 +579,13 @@ test("Worker batches publish only durable progress and one final world, identica
   const result = await a.send(advanceRequest(start));
   assert.equal(result.ok, true, result.error);
   assert.equal(progress.length, 7);
+  for (const update of progress) {
+    assert.ok(Array.isArray(update.newEventIds));
+    for (const id of update.newEventIds) {
+      assert.equal(result.state.events.find((e) => e.id === id)?.day, update.day);
+      assert.ok(result.state.knowledge[id].some((k) => k[0] === 0));
+    }
+  }
   assert.equal(result.state.player.stones, start.player.stones - 7);
   assert.deepEqual(await a.load(), result.state);
   assert.deepEqual(
@@ -630,7 +653,7 @@ test("conditional training stops at eligibility and important news pauses a resu
   const result = await env.client().send(advanceRequest(start));
   assert.equal(result.ok, true, result.error);
   assert.equal(result.advanceResult.reason, "condition");
-  assert.equal(result.state.player.xp, 20);
+  assert.equal(result.state.player.xp, 34);
   assert.equal(result.state.longAction, null);
   assert.ok(result.state.day - start.day < 7);
   const news = environment();
@@ -753,6 +776,11 @@ test("duplicate NPC names migrate atomically with exact backup, rollback and ide
 test("open-map rule migration saves atomically with the exact old backup before allowing distant travel", async () => {
   const env = environment();
   const old = await env.client().create();
+  for (const a of [old.player, ...old.npcs]) {
+    a.realm = a.realm >= 10 ? 4 : Math.min(3, a.realm);
+    a.xp = Math.min(a.xp, [20, 40, 60, 90, 100][a.realm]);
+    a.hp = Math.min(a.hp, [30, 50, 60, 70, 130][a.realm]);
+  }
   old.rulesVersion = "0.1.3";
   await env.seedLegacy(old);
   env.fault.abortWrite = true;
@@ -763,9 +791,14 @@ test("open-map rule migration saves atomically with the exact old backup before 
   const response = await env.client().send({ kind: "load" });
   assert.equal(response.ok, true, response.error);
   assert.equal(response.migrated, true);
-  assert.equal(response.state.rulesVersion, "0.1.4");
+  assert.equal(response.state.rulesVersion, "0.2.0");
   assert.deepEqual(
-    { ...response.state, rulesVersion: old.rulesVersion, revision: old.revision },
+    {
+      ...response.state,
+      npcs: response.state.npcs.map((a) => ({ ...a, realm: a.realm === 10 ? 4 : a.realm })),
+      rulesVersion: old.rulesVersion,
+      revision: old.revision,
+    },
     old,
   );
   assert.deepEqual(await env.records("backups"), [old]);
@@ -945,7 +978,7 @@ test("autonomous NPC relationships, journeys and admission are atomic, replay-sa
     const message = {
       id: `npc-life-day:${day}`,
       kind: "command",
-      command: { type: "work" },
+      command: { type: "rest" },
       revision: world.revision,
       expected: expected(world),
     };
@@ -967,7 +1000,7 @@ test("autonomous NPC relationships, journeys and admission are atomic, replay-sa
     sawJourney ||= world.npcs.some((a) => a.npcJourney);
     assert.deepEqual(await env.client().load(), world);
   }
-  assert.equal(world.rulesVersion, "0.1.6");
+  assert.equal(world.rulesVersion, "0.2.0");
   assert.equal(sawJourney, true);
   assert.ok(world.events.some((e) => e.kind === "npc-friendship"));
   assert.ok(world.events.some((e) => e.kind === "sect-join" && !e.actors.includes("PLAYER")));
@@ -979,4 +1012,97 @@ test("autonomous NPC relationships, journeys and admission are atomic, replay-sa
   const exported = await client.send({ kind: "export", expected: expected(world) });
   assert.equal(exported.ok, true);
   assert.deepEqual(JSON.parse(exported.text), world);
+});
+
+test("real 0.1.6 imports preserve the input backup atomically even in an empty browser", async () => {
+  for (const stage of ["foundation", "inflight"]) {
+    const old = JSON.parse(
+      readFileSync(`tests/game/fixtures/redesign-b/legacy-0.1.6-${stage}.json`, "utf8"),
+    );
+    const env = environment(),
+      client = env.client();
+    const request = { kind: "import", text: JSON.stringify(old), expected: expected(null) };
+    env.fault.abortWrite = true;
+    const failed = await client.send(request);
+    assert.equal(failed.ok, false);
+    assert.deepEqual(await env.records("saves"), []);
+    assert.deepEqual(await env.records("backups"), []);
+    env.fault.abortWrite = false;
+    const result = await client.send(request);
+    assert.equal(result.ok, true, result.error);
+    assert.equal(result.migrated, true);
+    assert.deepEqual(await env.records("backups"), [old]);
+    assert.equal(result.state.schemaVersion, 7);
+    assert.equal(result.state.rulesVersion, "0.2.0");
+    assert.equal(result.state.player.realm, stage === "foundation" ? 10 : 3);
+    assert.equal(result.state.longAction?.chance, old.longAction?.chance);
+    for (const a of [result.state.player, ...result.state.npcs])
+      if (a.sectMembership) assert.equal(a.sectMembership.lastStipendDay, old.day);
+    for (const key of ["events", "relations", "knowledge", "rng", "day"])
+      assert.deepEqual(result.state[key], old[key]);
+    old.npcs.forEach((a, i) => assert.equal(result.state.npcs[i].realm, [0, 1, 2, 3, 10][a.realm]));
+    assert.deepEqual(await env.client().load(), result.state);
+  }
+});
+
+test("daily choice interrupts durable Worker progress, rolls back a failed answer and resumes the same checkpoint", async () => {
+  const env = environment(),
+    progress = [];
+  const client = env.client((r) => progress.push(r.progress));
+  let result = await client.send({ kind: "create", seed: 1, profile, expected: expected(null) });
+  assert.equal(result.ok, true, result.error);
+  let world = result.state;
+  async function command(c, id) {
+    const r = await client.send({
+      ...(id ? { id } : {}),
+      kind: "command",
+      command: c,
+      revision: world.revision,
+      expected: expected(world),
+    });
+    if (r.ok) world = r.state;
+    return r;
+  }
+  assert.equal((await command({ type: "travel", to: "inn" })).ok, true);
+  assert.equal((await command({ type: "learn" })).ok, true);
+  assert.equal((await command({ type: "train", days: 30, stoneMethod: false })).ok, true);
+  result = await client.send({
+    kind: "advance",
+    actionId: world.longAction.id,
+    checkpoint: 0,
+    days: 30,
+    expected: expected(world),
+  });
+  assert.equal(result.ok, true, result.error);
+  world = result.state;
+  assert.ok(world.pendingDailyEventId);
+  assert.ok(world.longAction);
+  assert.equal(result.advanceResult.reason, "condition");
+  const before = structuredClone(world),
+    checkpoint = world.longAction.checkpoint;
+  const event = world.events.findLast((e) => e.kind === "daily-event");
+  assert.ok(progress.at(-1).newEventIds.includes(event.id));
+  assert.deepEqual(await env.client().load(), world);
+  const c = { type: "choose", nodeId: world.pendingDailyEventId, choiceId: "decline" };
+  env.fault.abortWrite = true;
+  assert.equal((await command(c, "daily-answer")).ok, false);
+  env.fault.abortWrite = false;
+  assert.deepEqual(await env.client().load(), before);
+  assert.equal((await command(c, "daily-answer")).ok, true);
+  assert.equal(world.pendingDailyEventId, null);
+  assert.equal(world.day, before.day);
+  assert.equal(world.longAction.checkpoint, checkpoint);
+  const answered = structuredClone(world);
+  assert.equal((await command(c, "daily-answer")).ok, true);
+  assert.deepEqual(world, answered);
+  result = await client.send({
+    kind: "advance",
+    actionId: world.longAction.id,
+    checkpoint,
+    days: 1,
+    expected: expected(world),
+  });
+  assert.equal(result.ok, true, result.error);
+  assert.equal(result.state.day, world.day + 1);
+  assert.equal(result.state.longAction.checkpoint, checkpoint + 1);
 });

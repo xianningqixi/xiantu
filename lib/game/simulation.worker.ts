@@ -1,4 +1,6 @@
 /// <reference lib="webworker" />
+import { knownEvents } from "./knowledge";
+import { legacyRealmIndex } from "./rules";
 import { advanceStopReason } from "./advance";
 import balanceLimits from "./content/balance.json";
 import { uniqueId } from "./ids";
@@ -74,6 +76,7 @@ function commit(
   backup = false,
   clearDraft = false,
   reason: NonNullable<BackupSummary["reason"]> = "migration",
+  importedOriginal?: World,
 ) {
   return new Promise<void>((resolve, reject) => {
     const tx = db.transaction(["saves", "backups", "drafts", "backupMeta"], "readwrite");
@@ -98,6 +101,11 @@ function commit(
           const key = `${current.saveId}:${current.revision}`;
           tx.objectStore("backups").put(current, key);
           tx.objectStore("backupMeta").put({ createdAt: Date.now(), reason }, key);
+        }
+        if (importedOriginal) {
+          const key = `migration-import:${importedOriginal.saveId}:${importedOriginal.revision}`;
+          tx.objectStore("backups").put(importedOriginal, key);
+          tx.objectStore("backupMeta").put({ reason: "migration" }, key);
         }
         saves.put(next, "current");
         if (clearDraft) tx.objectStore("drafts").delete("current");
@@ -181,7 +189,8 @@ function listBackups(db: IDBDatabase) {
           .map((w, i) => ({
             ...(metaValues.result[metaKeys.result.indexOf(keys.result[i])] ?? {}),
             mode: w?.profile?.mode,
-            realm: w?.player?.realm,
+            realm:
+              w?.rulesVersion === "0.2.0" ? w?.player?.realm : legacyRealmIndex(w?.player?.realm),
             key: String(keys.result[i]),
             name: w?.profile?.name ?? "旧存档",
             day: w?.day ?? 0,
@@ -231,6 +240,7 @@ async function advanceBatch(
     ) {
       if (advances.get(request.id)?.cancelled) break;
       const action = world.longAction;
+      const previousEventCount = world.events.length;
       const next = applyCommand(
         world,
         { type: "step" },
@@ -240,10 +250,15 @@ async function advanceBatch(
       await commit(db, next, world);
       world = next;
       const completed = action.checkpoint + 1;
+      const knownIds = new Set(knownEvents(world).map((e) => e.id));
       scope.postMessage({
         id: request.id,
         ok: true,
         progress: {
+          newEventIds: world.events
+            .slice(previousEventCount)
+            .filter((e) => e.day === world.day && knownIds.has(e.id))
+            .map((e) => e.id),
           actionId: action.id,
           completed,
           total: action.total,
@@ -258,8 +273,9 @@ async function advanceBatch(
       } satisfies WorkerResponse);
       if (!world.longAction) reason = completed < action.total ? "condition" : "completed";
       else if (
-        action.stopWhen?.kind === "importantEvent" &&
-        advanceStopReason(world, action.stopWhen, world.day - 1)
+        (world.pendingDailyEventId && action.kind !== "breakthrough") ||
+        (action.stopWhen?.kind === "importantEvent" &&
+          advanceStopReason(world, action.stopWhen, world.day - 1))
       ) {
         reason = "condition";
         break;
@@ -357,6 +373,7 @@ async function process(request: WorkerRequest): Promise<WorkerResponse> {
           : {}),
       };
     }
+    let importedOriginal: World | undefined;
     let next: World;
     let migrated = false;
     if (request.kind === "create") {
@@ -380,6 +397,7 @@ async function process(request: WorkerRequest): Promise<WorkerResponse> {
         }
       }
       ({ world: next, migrated } = migrateSave(value));
+      if (migrated) importedOriginal = value as World;
       if (!preview && next.saveId.startsWith("preview:"))
         throw new GameError("VALIDATION_ERROR", "作者预览存档只能导入作者预览页面。");
       next.saveId = newSaveId();
@@ -399,6 +417,7 @@ async function process(request: WorkerRequest): Promise<WorkerResponse> {
       request.kind === "create" || request.kind === "import" || request.kind === "restore"
         ? request.kind
         : "migration",
+      importedOriginal,
     );
     return { id: request.id, ok: true, state: next, migrated };
   } finally {

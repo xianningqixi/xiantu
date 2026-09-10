@@ -1,0 +1,23 @@
+{
+  "driver": "Real Chrome production Worker protocol; all writes transact through the shipped Worker",
+  "samples": [
+    {
+      "aptitude": 20,
+      "days": 13,
+      "commands": 21
+    },
+    {
+      "aptitude": 90,
+      "days": 8,
+      "commands": 17
+    }
+  ],
+  "lowAptitudeExtraDaysRatio": 0.625,
+  "highAptitudeDayReduction": 0.38461538461538464,
+  "daily": {
+    "days": 100,
+    "count": 33,
+    "consecutiveRepeats": 0,
+    "commands": 212
+  }
+}

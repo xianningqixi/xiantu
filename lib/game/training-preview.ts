@@ -1,5 +1,5 @@
 import { gainPerDay } from "./cultivation";
-import { threshold } from "./rules";
+import { advanceRule, threshold } from "./rules";
 import { STONE_METHOD } from "./economy";
 import type { Command, World } from "./types";
 
@@ -10,7 +10,7 @@ export function trainingPreview(
 ) {
   const player = world.player;
   const maxDays = input.mode === "ready" ? 30 : input.days;
-  const full = [0, 3, 4].includes(player.realm) && player.xp >= threshold(player);
+  const full = player.xp >= threshold(player);
   const command: Command = {
     type: "train",
     days: maxDays,
@@ -22,22 +22,18 @@ export function trainingPreview(
   let readyAfter = 0;
   while (
     readyAfter < 365 &&
-    projected.realm < 4 &&
-    !([0, 3].includes(projected.realm) && projected.xp >= threshold(projected))
+    advanceRule(projected).kind !== "cap" &&
+    projected.xp < threshold(projected)
   ) {
     projected.xp = Math.min(
       threshold(projected),
       projected.xp + gainPerDay(world, projected, input.stone),
     );
     readyAfter++;
-    if ([1, 2].includes(projected.realm) && projected.xp >= threshold(projected)) {
-      projected.realm++;
-      projected.xp = 0;
-    }
   }
   const reason =
-    player.realm === 4
-      ? "本版修行已至筑基，可继续远行、访友或研习宗门心法。"
+    advanceRule(player).kind === "cap"
+      ? "本版修行已至筑基后期，可继续远行、访友或研习宗门心法。"
       : full
         ? "修为已圆满，请先尝试突破；若只想度过时间，可选择等候。"
         : !player.manual

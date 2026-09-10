@@ -90,6 +90,11 @@ for (const width of [1440, 390])
       await page.getByRole("button", { name: /凝神，尝试突破/ }).click();
       if (outcome === "setback") {
         await expect(page.locator(".realm-setback")).toBeVisible();
+        await expect
+          .poll(() =>
+            page.locator(".realm-setback").evaluate((el) => Number(getComputedStyle(el).opacity)),
+          )
+          .toBeGreaterThan(0.9);
         await page.screenshot({ path: `${dir}/setback-${width}.png`, animations: "allow" });
       }
       await finish(page);

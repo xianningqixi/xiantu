@@ -1,0 +1,515 @@
+<title>仙途主画面重构</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<style>
+  :root {
+    --ground: #f2f4f0;
+    --paper: #ffffff;
+    --ink: #1c2624;
+    --ink-2: #4b5955;
+    --ink-3: #7d8a86;
+    --rule: #d7ded9;
+    --jade: #2a7a58;
+    --jade-soft: #e2efe8;
+    --gold: #9a7a2a;
+    --gold-soft: #f3ead2;
+    --alert: #a94b2a;
+    --alert-soft: #f6e3da;
+    --wire-bg: #eef1ec;
+    --wire-line: #9aa8a2;
+    --wire-fill: #d9e2dc;
+    --wire-accent: #2a7a58;
+    --code-bg: #e9ede8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0f1a16;
+      --paper: #162320;
+      --ink: #e6ece7;
+      --ink-2: #b4c0b9;
+      --ink-3: #7f8e87;
+      --rule: #27362f;
+      --jade: #6cc39a;
+      --jade-soft: #1b3128;
+      --gold: #d4b262;
+      --gold-soft: #2c2716;
+      --alert: #e08a66;
+      --alert-soft: #33201a;
+      --wire-bg: #111d19;
+      --wire-line: #4f625a;
+      --wire-fill: #1f2f29;
+      --wire-accent: #6cc39a;
+      --code-bg: #0c1512;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0f1a16;
+    --paper: #162320;
+    --ink: #e6ece7;
+    --ink-2: #b4c0b9;
+    --ink-3: #7f8e87;
+    --rule: #27362f;
+    --jade: #6cc39a;
+    --jade-soft: #1b3128;
+    --gold: #d4b262;
+    --gold-soft: #2c2716;
+    --alert: #e08a66;
+    --alert-soft: #33201a;
+    --wire-bg: #111d19;
+    --wire-line: #4f625a;
+    --wire-fill: #1f2f29;
+    --wire-accent: #6cc39a;
+    --code-bg: #0c1512;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-size: 16px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 1120px; margin: 0 auto; padding: 48px 24px 96px; display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 48px; }
+  @media (max-width: 860px) { .page { grid-template-columns: minmax(0, 1fr); padding: 32px 16px 64px; gap: 24px; } .toc { position: static !important; } }
+  .toc { position: sticky; top: 24px; align-self: start; font-size: 13px; line-height: 1.6; }
+  .toc a { display: block; color: var(--ink-3); text-decoration: none; padding: 4px 0 4px 12px; border-left: 2px solid var(--rule); }
+  .toc a:hover, .toc a:focus-visible { color: var(--jade); border-left-color: var(--jade); outline: none; }
+  .toc .toc-title { font-family: "Noto Serif SC", serif; font-weight: 700; color: var(--ink); margin: 0 0 8px; letter-spacing: .08em; }
+  main { max-width: 72ch; min-width: 0; }
+  h1, h2, h3 { font-family: "Noto Serif SC", "Songti SC", "SimSun", serif; text-wrap: balance; line-height: 1.3; margin: 0; }
+  h1 { font-size: 34px; font-weight: 700; letter-spacing: .02em; }
+  h2 { font-size: 24px; font-weight: 700; margin-top: 64px; padding-top: 20px; border-top: 1px solid var(--rule); }
+  h3 { font-size: 18px; font-weight: 700; margin-top: 36px; color: var(--ink); }
+  .eyebrow { font-size: 12px; letter-spacing: .18em; color: var(--gold); font-weight: 500; text-transform: uppercase; }
+  .lede { font-size: 18px; color: var(--ink-2); margin: 16px 0 0; }
+  p { margin: 14px 0 0; }
+  ul, ol { margin: 12px 0 0; padding-left: 1.4em; }
+  li { margin-top: 6px; }
+  li::marker { color: var(--ink-3); }
+  strong { font-weight: 700; color: var(--ink); }
+  code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: .86em; background: var(--code-bg); padding: 1px 6px; border-radius: 3px; color: var(--ink); }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 20px; font-size: 13px; color: var(--ink-3); }
+  .tldr { margin-top: 32px; background: var(--paper); border: 1px solid var(--rule); border-left: 4px solid var(--jade); padding: 20px 24px; }
+  .tldr h3 { margin: 0 0 6px; font-size: 16px; color: var(--jade); }
+  .tldr p { margin-top: 8px; }
+  .tldr ol { margin-top: 8px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; margin-top: 16px; font-variant-numeric: tabular-nums; }
+  .table-wrap { overflow-x: auto; margin-top: 16px; }
+  .table-wrap table { margin-top: 0; }
+  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-weight: 500; color: var(--ink-3); font-size: 12px; letter-spacing: .06em; border-bottom-color: var(--ink-3); }
+  td:first-child { white-space: nowrap; font-weight: 500; }
+  .num { font-variant-numeric: tabular-nums; }
+  .callout { margin-top: 20px; padding: 14px 18px; border-radius: 4px; font-size: 15px; background: var(--gold-soft); border-left: 3px solid var(--gold); }
+  .callout.warn { background: var(--alert-soft); border-left-color: var(--alert); }
+  .callout.ok { background: var(--jade-soft); border-left-color: var(--jade); }
+  .callout p { margin-top: 6px; }
+  .callout p:first-child { margin-top: 0; }
+  .obs { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 4px 16px; margin-top: 20px; padding: 16px 0; border-top: 1px dashed var(--rule); }
+  .obs .k { color: var(--gold); font-weight: 500; font-size: 13px; letter-spacing: .06em; padding-top: 3px; }
+  .obs p { margin: 0; }
+  .obs .why { color: var(--ink-2); font-size: 15px; margin-top: 6px; }
+  .principle { margin-top: 18px; padding-left: 16px; border-left: 3px solid var(--jade); }
+  .principle b { display: block; font-weight: 700; }
+  .principle span { color: var(--ink-2); font-size: 15px; }
+  /* wireframes */
+  .wire { margin-top: 20px; background: var(--wire-bg); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; overflow-x: auto; }
+  .wire-cap { font-size: 12px; color: var(--ink-3); letter-spacing: .06em; margin-bottom: 10px; }
+  .frame { border: 1.5px solid var(--wire-line); border-radius: 4px; background: var(--paper); font-size: 12px; line-height: 1.4; color: var(--ink-2); min-width: 520px; }
+  .frame.phone { min-width: 0; width: 260px; }
+  .bar { padding: 6px 10px; border-bottom: 1px solid var(--wire-line); display: flex; justify-content: space-between; gap: 8px; }
+  .row { display: flex; gap: 8px; padding: 8px 10px; }
+  .box { border: 1px dashed var(--wire-line); border-radius: 3px; padding: 6px 8px; flex: 1; background: transparent; min-width: 0; }
+  .box.solid { border-style: solid; background: var(--wire-fill); }
+  .box.big { border: 2px solid var(--wire-accent); color: var(--wire-accent); font-weight: 700; text-align: center; padding: 12px; font-size: 14px; }
+  .box.dim { opacity: .55; }
+  .box small { display: block; color: var(--ink-3); font-weight: 400; font-size: 11px; }
+  .meter { height: 8px; background: var(--wire-fill); border-radius: 4px; margin-top: 4px; position: relative; overflow: hidden; }
+  .meter i { position: absolute; left: 0; top: 0; bottom: 0; width: 55%; background: var(--wire-accent); }
+  .tabs { display: flex; border-top: 1px solid var(--wire-line); }
+  .tabs span { flex: 1; text-align: center; padding: 6px 0; border-right: 1px solid var(--wire-line); }
+  .tabs span:last-child { border-right: 0; }
+  .tabs .on { color: var(--wire-accent); font-weight: 700; }
+  .feed { font-family: "SF Mono", Menlo, monospace; font-size: 11px; line-height: 1.6; }
+  .feed .ev { color: var(--jade); }
+  .feed .num { color: var(--gold); }
+  .compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 20px; }
+  .compare .wire { margin-top: 0; }
+  .compare .frame { min-width: 0; }
+  .phase { margin-top: 24px; border: 1px solid var(--rule); background: var(--paper); border-radius: 6px; padding: 18px 20px; }
+  .phase header { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .phase h3 { margin: 0; }
+  .phase .tag { font-size: 12px; color: var(--jade); background: var(--jade-soft); padding: 2px 10px; border-radius: 999px; white-space: nowrap; }
+  .phase .tag.rule { color: var(--alert); background: var(--alert-soft); }
+  .phase ul { font-size: 15px; }
+  .files { margin-top: 10px; font-size: 13px; color: var(--ink-3); }
+  .kpi { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 16px; }
+  .kpi div { background: var(--paper); border: 1px solid var(--rule); padding: 12px 14px; border-radius: 4px; font-size: 14px; }
+  .kpi b { display: block; font-family: "Noto Serif SC", serif; font-size: 22px; color: var(--jade); font-variant-numeric: tabular-nums; }
+  @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+<div class="page">
+  <nav class="toc" aria-label="目录">
+    <p class="toc-title">目录</p>
+    <a href="#tldr">一句话结论</a>
+    <a href="#seen">实际玩下来看到什么</a>
+    <a href="#why">不好玩的五个根因</a>
+    <a href="#market">同类游戏怎么做</a>
+    <a href="#ia">方案一：信息架构</a>
+    <a href="#loop">方案二：核心循环与反馈</a>
+    <a href="#goal">方案三：目标即按钮</a>
+    <a href="#unlock">方案四：渐进解锁</a>
+    <a href="#screens">方案五：各页面处理</a>
+    <a href="#numbers">配套数值建议</a>
+    <a href="#roadmap">落地路线</a>
+    <a href="#kpi">验收标准</a>
+  </nav>
+
+  <main>
+    <p class="eyebrow">仙途 · 青石人间 · UI 操作重构方案</p>
+    <h1 style="margin-top:10px">把五个页签、三层地图、四个入口，收成一个主画面和一个按钮</h1>
+    <p class="lede">这不是又一轮 UI 打磨。上一轮 74 项评审已经把每个面板单独修得很规整了，但玩家的感受是"元素很多、很散、不知道该干嘛、干了也没感觉"。问题在结构和反馈密度，不在单个控件。</p>
+    <div class="meta">
+      <span>2026-09-10</span>
+      <span>基于实际跑起来的生产构建（1440×900 与 390×844）截图与 <code>balance.json</code> 数值</span>
+      <span>范围：UI／交互；数值改动单列并标注</span>
+    </div>
+
+    <section class="tldr" id="tldr">
+      <h3>一句话结论</h3>
+      <p>现在的游戏把"修仙"做成了一个<strong>资料管理系统</strong>：玩家在页签、地图、地点、弹窗之间导航，去找那个能推进时间的按钮；按下之后，得到的是一根填满的进度条和一句散文。市面上能让人玩下去的修仙游戏，不管是放置类、文字类还是开放世界类，都做对了同一件事：<strong>主画面永远是角色和修为，屏幕上永远有一个明确的"下一步"按钮，每次按下都在一两秒内给出可见的数字和事件反馈。</strong></p>
+      <p>方案分四层，前两层纯 UI、不动规则引擎，一周内能落：</p>
+      <ol>
+        <li><strong>信息架构</strong>：删掉"地图中间页"和独立的"修行"页签，把角色状态、当前场景、事件流和主行动合成一个"道场"主画面；底部固定 4 个入口。</li>
+        <li><strong>目标即按钮</strong>：现在"眼下之事"是侧栏里一段文字加"去看看"，改成主画面正中那个唯一的大按钮就是目标本身。</li>
+        <li><strong>反馈密度</strong>：修炼、等候、杂务不再"跳日数"，而是每一天在事件流里滚一行，数字飘字，NPC 自主人生的事件实时进流，小境界晋升有仪式。</li>
+        <li><strong>渐进解锁</strong>：凡人期只看到 2 个按钮，地图、宗门、同行、道侣随境界逐一亮起。规则不变，只控制显示。</li>
+      </ol>
+      <p>再往下是数值节奏：26 个游戏日封顶、资质只差 ±4／天、整局只有一场战斗，这些 UI 救不了，单列在<a href="#numbers">配套数值建议</a>。</p>
+    </section>
+
+    <h2 id="seen">实际玩下来看到什么</h2>
+    <p>我用生产构建走了一遍新手前十分钟：创角、进坊市、与林晚见礼、领功法、去修行页。以下是截图里最能说明问题的几处。</p>
+
+    <div class="obs">
+      <span class="k">第一屏</span>
+      <div>
+        <p>创角结束后落在"山河辽阔，随心而行"的地图中间页：三张地点卡片各带 3 张头像和"44 人 / 29 人 / 33 人"，左侧栏 5 个区块，顶部 5 个页签，右上地图按钮，底部"主线足迹"折叠。<strong>首屏可点击元素 20 个以上，其中没有一个是动词。</strong></p>
+        <p class="why">玩家第一反应是"我该点哪个"。同类游戏第一屏只回答一件事：你是谁、现在按哪里。</p>
+      </div>
+    </div>
+    <div class="obs">
+      <span class="k">同一件事四个入口</span>
+      <div>
+        <p>"修炼"这件事可以从：侧栏"眼下之事 → 去看看"、顶部"修行"页签、地点底部行动条"寻找入门功法"、以及剧情选项进入。它们指向的还不完全是同一个地方（页签是面板，行动条是命令）。</p>
+        <p class="why">入口越多，玩家越不确定哪个才是"正确的"。这是"分散"感的直接来源。</p>
+      </div>
+    </div>
+    <div class="obs">
+      <span class="k">三层导航</span>
+      <div>
+        <p>做一次修炼要经过：页签（游历）→ 地图中间页 → 进入地点 → 底部行动条 → 跳到修行页签 → 选推进方式下拉 → 选日数单选 → 开始闭关。<strong>八步。</strong>"一念逍遥"是一步，"想不想修真"是两步。</p>
+      </div>
+    </div>
+    <div class="obs">
+      <span class="k">修炼的反馈</span>
+      <div>
+        <p>按下"开始闭关"后，是一个进度条从 0/7 走到 7/7，旁边一句"正在修炼，世界也在继续"。结束后修为从 0 变成 20。<code>wait</code> 命令的回执是"坊市依旧人来人往"，产出为零（<code>commands.ts:308-331</code>）。</p>
+        <p class="why">这七天里世界确实发生了事（NPC 在结识、择宗、赶路），但全部被攒进"闭关摘要"里事后一次性给，玩家在推进的当下什么也看不到。</p>
+      </div>
+    </div>
+    <div class="obs">
+      <span class="k">静默的成长</span>
+      <div>
+        <p>炼气一层到三层是自动晋升（<code>cultivation.ts:48-53</code>），没有任何仪式。五段成长里三段玩家根本不会注意到自己升了。关系数值默认隐藏（<code>balance.json:588</code>），"相伴一日"后只有一句叙述。</p>
+      </div>
+    </div>
+    <div class="obs">
+      <span class="k">文案</span>
+      <div>
+        <p>"山河辽阔，随心而行""道途 · 一呼一吸""有人萍水相逢，有人会成为你这一世的牵挂"。写得好，但它们出现在本该放<strong>动词</strong>的位置上。所有页面标题都是意境句，没有一个告诉玩家这页是干什么的。</p>
+      </div>
+    </div>
+
+    <h2 id="why">不好玩的五个根因</h2>
+    <p>把截图观察和数值梳理合在一起，归成五条。前三条是 UI 结构能解决的，后两条需要动数值。</p>
+
+    <h3>1. 没有"主画面"，只有一堆平级的面板</h3>
+    <p>五个页签平级，游历页里又套地图和地点两层，角色状态被放在侧栏当装饰。玩家没有一个"回家"的地方。修仙游戏的主画面从来都是角色本人加修为条，因为那就是玩家在乎的东西。</p>
+
+    <h3>2. 目标是文字，不是按钮</h3>
+    <p><code>presentation.ts</code> 里的 <code>objective()</code> 其实算得很好：战斗、战利品、长行动、剧情、约定、突破、主线都排了优先级。但它的输出只是侧栏一段文字和一个"去看看"，点了之后还要在目标页面里再找一次真正的按钮。<strong>算出来的目标应该直接变成主按钮，而不是变成一段介绍。</strong></p>
+
+    <h3>3. 反馈被延迟、聚合、隐藏</h3>
+    <p>时间推进期间无实时反馈；NPC 事件攒到闭关摘要；小境界无仪式；关系数值隐藏；等候零产出；杂务恒定 +6 无变化。每次操作和"我变强了 / 世界变了"之间隔着好几步。</p>
+
+    <h3>4. 成长阶梯又短又平（数值）</h3>
+    <p>凡人到筑基约 26 个游戏日、20 到 30 次点击就封顶（<code>foundationAdvancementEnabled:false</code>）。资质 1 和 100 的差别是每天 ±4 修为（<code>aptitudeGainDivisor:25</code>），创角时"重掷灵根"这个仪式感十足的操作，实际上几乎不影响体验。溢出修为直接丢弃。</p>
+
+    <h3>5. 系统之间是孤岛（数值）</h3>
+    <p>战斗整局只有一场脚本遭遇且非致命（<code>randomRoadEncounterBp:0</code>）；灵石除了买一颗突破丹（30 灵石 = 5 天杂务）没有别的去处，出售关闭、无日常开销；宗门只是把同一条修为磨快一点，不改变剧情、战斗或关系。100 个有立绘、有小传、会自主生活的 NPC 是这个项目最贵的资产，但玩家和他们的交互被埋在"资料弹窗 → 关系页签 → 展开交往操作"三层之下。</p>
+
+    <h2 id="market">同类游戏怎么做</h2>
+    <p>看三种做法差异很大的产品，找它们的共同点。</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>类型 / 代表</th><th>主画面是什么</th><th>一次操作的反馈</th><th>目标怎么给</th></tr></thead>
+      <tbody>
+        <tr><td>放置修仙<br><span style="font-weight:400;color:var(--ink-3)">一念逍遥、最强祖师</span></td><td>角色立绘居中，修为条和境界名永远可见，底部 4–5 个固定入口</td><td>数字持续飘字；离线回来先弹一屏"这段时间你得到了什么"；境界突破全屏特效</td><td>主按钮上的红点和"可突破"高亮；系统按境界逐个解锁并弹"新功能开启"</td></tr>
+        <tr><td>文字修仙<br><span style="font-weight:400;color:var(--ink-3)">想不想修真、修仙立志传、各类文字放置</span></td><td>一段当前处境文字 + 一列动词按钮，状态行常驻顶部</td><td>每点一次立刻出一行日志和数字变化，几乎没有"等待中"状态</td><td>日志里直接写"修为已满，可尝试突破"，按钮随即出现</td></tr>
+        <tr><td>开放世界修仙<br><span style="font-weight:400;color:var(--ink-3)">鬼谷八荒、觅长生、了不起的修仙模拟器</span></td><td>大地图上是自己的棋子，但按 Tab 打开的角色面板永远是"境界 / 寿元 / 修为 / 当前功法"</td><td>以月为回合，每回合结束滚一屏事件：谁突破了、谁死了、哪里出了秘境</td><td>左上常驻当前任务，点它直接飞到目标点；新系统随境界解锁</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>提炼出六条原则，后面的方案全部对着这六条来：</p>
+    <div class="principle"><b>主画面 = 角色 + 修为 + 一个主按钮</b><span>其他一切都是从主画面出去再回来的抽屉，不是平级页面。</span></div>
+    <div class="principle"><b>目标就是按钮</b><span>任何时候屏幕上有且只有一个最亮的按钮，按它一定是对的。</span></div>
+    <div class="principle"><b>时间流逝必须可见</b><span>推进一天就滚一行事件，不允许"进度条填满再一次性结算"。</span></div>
+    <div class="principle"><b>数字要动给玩家看</b><span>修为、灵石、好感的每一次变化都飘字或跳动，隐藏数值只在极少数叙事场合成立。</span></div>
+    <div class="principle"><b>渐进解锁，不是一次性摊开</b><span>新手看到 2 个按钮，每升一个境界多亮一个系统，并且要"叮"一声告诉他。</span></div>
+    <div class="principle"><b>三层循环</b><span>短循环 30 秒内有反馈（一天修炼），中循环几分钟一次高光（晋升/突破/结识），长循环几十分钟一章（主线/入宗/道侣）。</span></div>
+
+    <h2 id="ia">方案一：信息架构</h2>
+    <p>现在的结构和建议的结构对比：</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>现在</th><th>建议</th><th>处理</th></tr></thead>
+      <tbody>
+        <tr><td>页签：游历</td><td><strong>道场</strong>（主画面，默认落点）</td><td>地图中间页 <code>WorldMap</code> 删除；地点详情 <code>JourneyTab</code> 的"场景 + 剧情 + 在场人物"并入主画面</td></tr>
+        <tr><td>页签：修行</td><td>并入道场主按钮与"修行"抽屉</td><td><code>CultivationPanel</code> 拆成：主按钮（一键修炼）+ 突破仪式弹窗 + 修炼设置抽屉（灵石辅助、停止条件）</td></tr>
+        <tr><td>页签：故人</td><td><strong>人物</strong></td><td>默认只列已结识（通常 ≤ 10 人），"此地在场"作为第二段，陌生人不进百人列表</td></tr>
+        <tr><td>页签：行囊</td><td><strong>行囊</strong></td><td>保留；坊市购买入口同时出现在道场的"坊市"行动里</td></tr>
+        <tr><td>页签：历程</td><td>并入人物页顶部 / 道场事件流"查看全部"</td><td>历程本质是事件流的长版本，不值一个一级入口</td></tr>
+        <tr><td>右上：地图弹窗</td><td><strong>游历</strong>（第 4 个底部入口）</td><td>现有 <code>AtlasDialog</code> 已经够好，直接升级为一级入口，不再需要中间页</td></tr>
+        <tr><td>左侧栏（5 块）</td><td>压成主画面顶部一条状态栏</td><td>头像 / 境界 / 修为条 / 灵石 / 日期；法宝与同行进人物页</td></tr>
+        <tr><td>右上：设置</td><td>保留</td><td>存档、AI 模型、备份都在这里，不占底部入口</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3>道场主画面的结构</h3>
+    <div class="wire">
+      <div class="wire-cap">桌面 · 道场主画面（线框）</div>
+      <div class="frame">
+        <div class="bar"><span>◉ 测试者 · <b>凡人</b> · 18 岁</span><span>修为 <b class="num">12 / 20</b> ▮▮▮▮▮▯▯▯</span><span>灵石 <b class="num">6</b></span><span>仙历 1 年 第 4 日</span><span>⚙</span></div>
+        <div class="row">
+          <div class="box solid" style="flex:1.3">
+            <b>青石坊市 · 药摊前</b><small>场景图</small>
+            <div style="height:70px"></div>
+            <small>在场：林晚 · 周安 · 宋疏桐 · +41</small>
+          </div>
+          <div class="box" style="flex:1">
+            <b>事件流</b>
+            <div class="feed">
+              <div>第 4 日 <span class="num">+8 修为</span></div>
+              <div>第 3 日 <span class="num">+8 修为</span> · <span class="ev">周安与宋疏桐结为朋友</span></div>
+              <div>第 2 日 <span class="num">+6 修为</span></div>
+              <div>第 1 日 <span class="ev">结识林晚</span> · 学会《基础吐纳诀》</div>
+            </div>
+            <small style="margin-top:6px">查看全部历程 →</small>
+          </div>
+        </div>
+        <div class="row">
+          <div class="box big">静心修炼 · 1 日<small style="color:inherit;opacity:.8">再修 1 日即可引气入体</small></div>
+        </div>
+        <div class="row">
+          <div class="box">修炼 7 日</div>
+          <div class="box">坊市杂务 +6 灵石</div>
+          <div class="box">与林晚相伴</div>
+          <div class="box dim">▸ 更多</div>
+        </div>
+        <div class="tabs"><span class="on">道场</span><span>游历</span><span>人物</span><span>行囊</span></div>
+      </div>
+    </div>
+    <p>要点：</p>
+    <ul>
+      <li><strong>主按钮由 <code>objective()</code> 驱动</strong>，它现在已经知道该干什么，只是输出方式不对。剧情进行中它是"回应林晚"，修为圆满时它是"尝试突破"，战斗中它是"出手"，有约定时它是"前往山门古道 · 1 日"。</li>
+      <li><strong>次级行动条来自 <code>journeyActions()</code></strong>，最多显示 3 个加"更多"，不再显示 5–6 个等宽卡片。</li>
+      <li><strong>事件流是新组件</strong>，数据源是现有的 <code>world.events</code> / <code>knownNpcUpdates()</code> / 命令回执。闭关摘要 <code>RetreatSummary</code> 降级为"长行动结束后事件流里的一条折叠汇总"。</li>
+      <li><strong>剧情不换页</strong>：主线场景 <code>MainStoryScene</code>、支线 <code>SideStories</code>、开场 storylet 都渲染在场景图的位置，选项就是主按钮区。剧情和日常在同一个画面里切换，而不是两个模式。</li>
+      <li>右侧"当前故事人物"大立绘保留，但只在有剧情焦点人物时出现；平时那个位置就是事件流。</li>
+    </ul>
+
+    <div class="wire">
+      <div class="wire-cap">手机 · 同一画面（拇指区放主按钮）</div>
+      <div class="frame phone">
+        <div class="bar" style="font-size:11px"><span>凡人 · 12/20</span><span>灵石 6</span><span>第 4 日</span></div>
+        <div class="row"><div class="box solid" style="height:90px"><b>青石坊市</b><small>场景 / 剧情 / 焦点人物</small></div></div>
+        <div class="row"><div class="box feed" style="height:70px">第 4 日 +8 修为<br>第 3 日 周安结识宋疏桐<br>第 2 日 +6 修为</div></div>
+        <div class="row"><div class="box big">静心修炼 · 1 日</div></div>
+        <div class="row"><div class="box">修炼 7 日</div><div class="box">杂务</div><div class="box dim">更多</div></div>
+        <div class="tabs"><span class="on">道场</span><span>游历</span><span>人物</span><span>行囊</span></div>
+      </div>
+    </div>
+
+    <h2 id="loop">方案二：核心循环与反馈</h2>
+    <p>目标：<strong>按一下，一两秒内看到三样东西同时发生：日期跳、数字飘、事件流多一行。</strong></p>
+
+    <h3>修炼从"配置 → 闭关 → 结算"变成"按一天看一天"</h3>
+    <ul>
+      <li>主按钮默认<strong>修炼 1 日</strong>；旁边一个"修炼 7 日"和长按/展开出的"修至圆满 / 遇事暂停"。删掉推进方式下拉和 1/3/7/30 单选。</li>
+      <li>多日修炼时，Worker 已经是逐日保存并发轻量进度（README 写明），UI 直接把每一日的进度当作事件流的一行渲染出来，再配 <code>+8</code> 的飘字。<strong>玩家看到的是七行滚过去，而不是一根进度条填满。</strong>推进速度控制在每日 300–500 毫秒，可点击加速。</li>
+      <li>推进途中触发的 NPC 事件（结识、入宗、抵达、突破）实时插入事件流并高亮，而不是攒到摘要里。<code>stopWhen: importantEvent</code> 已经存在，只需把"重要事件"同时推给事件流。</li>
+      <li>修为满时主按钮自动变成"尝试引气入体"，并且修为条闪一下。这个判断 <code>objective()</code> 已经有了。</li>
+    </ul>
+
+    <h3>晋升与突破要有仪式</h3>
+    <ul>
+      <li>炼气一层到三层的自动晋升，规则不改，但 UI 在检测到 <code>realm</code> 变化时弹一次全屏一秒的境界卡："炼气二层 · 每日修为 +10 → +12"。中循环的高光时刻不能被吞掉。</li>
+      <li>突破改成弹窗仪式：成功率大字、可勾选丹药和护法、一个"凝神"按钮；按下后有 1–2 秒的气机汇聚动画再出结果。现在的 <code>breakthrough-card</code> 内容都对，只是被埋在修行页下半截。</li>
+    </ul>
+
+    <h3>其他动作的反馈</h3>
+    <ul>
+      <li><strong>等候</strong>改名"闲逛 / 停留"，回执从"坊市依旧人来人往"改为随机一条当地小见闻，并且事件流里出现当日 NPC 动态。这条需要规则层加一个小随机文案池（不影响随机序列的话可以纯 UI 从事件里取）。</li>
+      <li><strong>杂务</strong>：+6 灵石飘字，回执从 3–5 条文案里轮换。</li>
+      <li><strong>相伴 / 见礼</strong>：好感和信任改为可见的阶段条（陌生 → 相识 → 朋友 → 挚友），每次交互条会涨一格。这点 U-14 评审已经做了"下一阶段缺口"，往前一步做成条。</li>
+      <li>所有写世界的命令，回执都从顶部横条改为<strong>事件流最新一行 + 飘字</strong>，顶部那条"已创建测试者的这一世·第 1 日 / 已保存"横条删除，保存状态移到右上角一个小勾。</li>
+    </ul>
+
+    <h2 id="goal">方案三：目标即按钮</h2>
+    <p><code>objective()</code> 的优先级链保留，输出改成三段式：</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>状态</th><th>主按钮文案</th><th>按下直接执行</th></tr></thead>
+      <tbody>
+        <tr><td>战斗中</td><td>青芒剑诀 / 普攻</td><td><code>battle</code> 命令，战斗面板就在场景位置</td></tr>
+        <tr><td>剧情选项待选</td><td>选项本身（1–3 个并列）</td><td><code>choose</code> / <code>chooseMain</code></td></tr>
+        <tr><td>修为圆满</td><td>尝试突破 · 65%</td><td>打开突破仪式弹窗</td></tr>
+        <tr><td>未学功法</td><td>去听雨客栈领功法 · 不耗日</td><td><code>travel</code> 到客栈后自动变成 <code>learn</code></td></tr>
+        <tr><td>同行约定已立、人未齐</td><td>约在此处会合 / 前往山门古道 · 1 日</td><td><code>rally</code> / <code>travel</code></td></tr>
+        <tr><td>主线下一节点在别城</td><td>前往临江城 · 3 日</td><td><code>travel</code>，途中事件流照常滚</td></tr>
+        <tr><td>以上都没有</td><td>静心修炼 · 1 日</td><td><code>train</code></td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>主按钮下方一行小字说"为什么是这个"（现在 <code>goal.text</code> 的内容），再往下是 2–3 个次级动作。侧栏"眼下之事"卡片和它的"去看看"删除。</p>
+    <div class="callout">
+      <p><strong>不要做的事：</strong>不要保留"目标卡片 + 主按钮"两套。只要还有一段独立的目标文字，玩家就会先读它再去找按钮，又回到现在的状态。</p>
+    </div>
+
+    <h2 id="unlock">方案四：渐进解锁</h2>
+    <p>规则层什么都能做，UI 层按境界控制显示。每次解锁弹一张卡片"新的去处已开启"，并在对应入口上加一个点。</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>阶段</th><th>道场上看得到的</th><th>底部入口</th><th>解锁提示</th></tr></thead>
+      <tbody>
+        <tr><td>凡人（第 1 日）</td><td>主按钮 + 坊市杂务 + 事件流</td><td>道场、行囊</td><td>—</td></tr>
+        <tr><td>学会功法</td><td>+ 修炼 7 日</td><td>—</td><td>"吐纳有成，可以闭关"</td></tr>
+        <tr><td>炼气一层</td><td>+ 与人相伴 / 见礼</td><td>+ 人物、游历（同城）</td><td>"你已是修士，坊市中人愿与你结交；青石一带可以走动了"</td></tr>
+        <tr><td>炼气二层</td><td>+ 同行约定、秘境</td><td>游历扩到四城</td><td>"林晚的邀约可以应下了"（现在是炼气一层就给，稍晚给让新手先把修炼循环跑熟）</td></tr>
+        <tr><td>炼气三层</td><td>+ 宗门拜访</td><td>游历标出三宗</td><td>"苍竹林、云梦泽、问道峰的门人开始留意你"</td></tr>
+        <tr><td>筑基</td><td>+ 道侣、共修、霜河主线</td><td>—</td><td>"筑基之后，有人愿与你共度长生"</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>秘境和宗门的具体境界门槛可以再商量，原则是<strong>每升一级至少亮一个新东西</strong>，让"升级"这件事在 UI 上有实际含义，弥补现在小境界静默的问题。</p>
+
+    <h2 id="screens">方案五：各页面处理</h2>
+
+    <h3>游历（原地图弹窗）</h3>
+    <p>现有 <code>AtlasDialog</code> 里的大地图是全项目最清晰的一个界面：位置、路径、天数、启程按钮都在一屏。直接升级为底部入口，去掉"地图中间页"里那三张带头像的地点卡。地点上的人物数量改成"已结识 2 人在此"而不是"44 人"，陌生人数量对玩家没有意义。</p>
+
+    <h3>人物（原故人）</h3>
+    <p>首屏三段：<strong>同行之人</strong>（0–2 人）、<strong>已结识</strong>（按关系阶段排序，带阶段条）、<strong>此地在场</strong>（陌生人，只显示头像和境界，点头像见礼）。搜索、筛选、分页折叠进"全部人物"二级页。人物资料弹窗保留四页签，但"关系"页的交往动作（相伴、结侣、共修）提到弹窗底部固定栏，不再要展开。</p>
+
+    <h3>修行（并入道场）</h3>
+    <p>独立页签取消。灵石辅助、停止条件、护法条件这些设置进"修炼设置"抽屉；突破进仪式弹窗；"筑基已成"的终点卡改成道场事件流里的一条大事件。</p>
+
+    <h3>行囊</h3>
+    <p>基本保留。购买动作同时挂在道场的"坊市"次级动作下，玩家不用为买一颗丹专门切页。</p>
+
+    <h3>创角</h3>
+    <p>结构没问题，但它现在把 AI 立绘、胸围、种子、内容包全部摊在第一屏，新手看到的门槛比游戏本身还高。建议：默认只显示姓名、性别、四选一外貌、法宝三选一、"踏入仙途"；身高胸围种子内容包收进"更多设定"折叠。AI 立绘按钮保留但降为次级。</p>
+
+    <h3>文案</h3>
+    <p>意境句保留在场景图的图注和事件流里，页面标题和按钮全部换成动词短语：</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>位置</th><th>现在</th><th>改为</th></tr></thead>
+      <tbody>
+        <tr><td>地图页标题</td><td>山河辽阔，随心而行</td><td>（页面删除；游历页标题就是"云岚境"）</td></tr>
+        <tr><td>修行页标题</td><td>道途 · 一呼一吸 / 静心修行</td><td>（页面并入道场；按钮"静心修炼 · 1 日"）</td></tr>
+        <tr><td>人物页标题</td><td>故人 · 一面一缘 / 相逢的人</td><td>人物 · 已结识 6 人</td></tr>
+        <tr><td>等候</td><td>等候 · 选择日数与停止条件</td><td>在此停留 1 日</td></tr>
+        <tr><td>推进中文案</td><td>正在修炼，世界也在继续；可随时暂停</td><td>（删除，事件流本身就是这句话）</td></tr>
+        <tr><td>侧栏</td><td>山路尚长，寻一两位同道吧</td><td>（删除）</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h2 id="numbers">配套数值建议</h2>
+    <p>以下不在 UI 范围，但不做的话主画面再好看，二十分钟后玩家还是会到顶。全部只涉及 <code>balance.json</code> 和少量规则，按 AGENTS.md 要跑规则测试和类型检查。</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>项</th><th>现值</th><th>建议</th><th>为什么</th></tr></thead>
+      <tbody>
+        <tr><td>资质权重</td><td class="num">aptitudeGainDivisor 25</td><td class="num">8–10</td><td>让创角重掷和资质数字真的影响节奏（资质 100 比 1 快约一倍）</td></tr>
+        <tr><td>境界数</td><td>凡人 + 炼气三层 + 筑基初期封顶</td><td>炼气至少 6–9 层，筑基初中后期</td><td>26 日到顶是"不好玩"的最硬原因；REALMS 表在 <code>official.ts:64</code>，规则用索引，扩表成本可控</td></tr>
+        <tr><td>小境界晋升</td><td>自动</td><td>保持自动，但每层阈值递增更明显（20/40/60 → 20/45/80/130…）</td><td>让"修炼 7 日"从"必满"变成"看得到还差多少"</td></tr>
+        <tr><td>溢出修为</td><td>丢弃</td><td>结转</td><td>去掉"多修白修"的负反馈</td></tr>
+        <tr><td>随机遭遇</td><td class="num">randomRoadEncounterBp 0</td><td class="num">城间旅途 800–1500（8–15%）</td><td>让战斗系统和气血、丹药、法宝在秘境之外有用；非致命即可</td></tr>
+        <tr><td>灵石去处</td><td>只有 3 件商品</td><td>加"功法进阶"或"洞府"一个长期灵石池</td><td>杂务和宗门委托才有持续意义</td></tr>
+        <tr><td>等候产出</td><td>零</td><td>小概率小事件（捡到灵石、被人搭话、听到传闻）</td><td>让"停留"成为一个有期待的动作</td></tr>
+        <tr><td>关系数值</td><td class="num">默认隐藏</td><td>显示阶段条，精确数字仍可隐藏</td><td>百人 NPC 的核心互动需要看得见的进度</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h2 id="roadmap">落地路线</h2>
+    <p>三期，前一期不改规则引擎，可以独立验收。文件引用对应当前仓库。</p>
+
+    <div class="phase">
+      <header><h3>第一期 · 主画面成形</h3><span class="tag">纯 UI · 约 1 周</span></header>
+      <ul>
+        <li>新建 <code>dojo.tsx</code> 主画面：顶部状态条 + 场景/剧情区 + 事件流 + 主按钮 + 次级动作；<code>game.tsx</code> 的 <code>NAV</code> 改为 道场/游历/人物/行囊。</li>
+        <li><code>objective()</code> 返回值增加 <code>command</code> 字段，主按钮直接执行；删除侧栏目标卡。</li>
+        <li>新建 <code>event-feed.tsx</code>：数据来自 <code>world.events</code>、<code>knownNpcUpdates()</code>、<code>game.lastResult</code>、长行动逐日进度；飘字组件挂在状态条数字上。</li>
+        <li>删除 <code>world-map.tsx</code> 中间页，<code>AtlasDialog</code> 升级为游历页；<code>journey-tab.tsx</code> 的场景/剧情/在场人物拆成道场子组件。</li>
+        <li><code>CultivationPanel</code> 拆为主按钮、修炼设置抽屉、突破仪式弹窗；<code>RetreatSummary</code> 改为事件流中一条可展开汇总。</li>
+        <li>人物页首屏改三段式；创角页折叠"更多设定"；标题与按钮文案动词化。</li>
+      </ul>
+      <p class="files">涉及：components/game/game.tsx、journey-tab.tsx、world-map.tsx、panels.tsx、character-sidebar.tsx、retreat-summary.tsx、creation.tsx；lib/game/presentation.ts、journey-actions.ts；app/globals.css</p>
+    </div>
+
+    <div class="phase">
+      <header><h3>第二期 · 反馈与解锁</h3><span class="tag">UI 为主，少量规则 · 1–2 周</span></header>
+      <ul>
+        <li>境界变化检测 → 晋升卡片；突破仪式动画。</li>
+        <li>渐进解锁表落地为 <code>ui-presentation.json</code> 里的配置，配套解锁提示卡。</li>
+        <li>长行动逐日推进的节奏控制（300–500 ms/日，可加速），重要 NPC 事件实时插流并高亮。</li>
+        <li>关系阶段条；等候改"停留"并从当日事件中取一条见闻（若需要新随机文案池则进规则层）。</li>
+        <li>杂务、见礼等回执文案池。</li>
+      </ul>
+      <p class="files">涉及：content-packs/official-qingshi/ui-presentation.json、lib/game/use-game.ts（进度事件）、lib/game/journey-presentation.ts、lib/game/commands.ts（回执文案）</p>
+    </div>
+
+    <div class="phase">
+      <header><h3>第三期 · 数值节奏</h3><span class="tag rule">改规则 · 需回归测试</span></header>
+      <ul>
+        <li>按上表调整 <code>balance.json</code>：资质权重、境界表扩展、阈值曲线、溢出结转。</li>
+        <li>城间随机遭遇（非致命）接入现有战斗；灵石长期去处。</li>
+        <li>跑 <code>test:game</code>、<code>test:stress</code>、<code>typecheck:game</code>，旧档迁移按现有规则版本机制处理。</li>
+      </ul>
+      <p class="files">涉及：lib/game/content/balance.json、official.ts REALMS、cultivation.ts、daily-simulation.ts、migrations.ts</p>
+    </div>
+
+    <div class="callout ok">
+      <p><strong>边界守住的地方：</strong>三期都不改"所有世界写入经 Worker、查看不推进时间、重绘不改随机"这些硬约束。第一期只是把已有命令换了个更近的入口，把已有事件换了个更早的呈现时机。</p>
+    </div>
+
+    <h2 id="kpi">验收标准</h2>
+    <p>不用问卷，用新手自己走一遍就能量出来的数字：</p>
+    <div class="kpi">
+      <div><b>≤ 3 步</b>从任意状态到"开始修炼"的点击数（现在 8 步）</div>
+      <div><b>≤ 7 个</b>道场首屏可点击元素（现在 20+）</div>
+      <div><b>≤ 30 秒</b>任意两次可见反馈之间的最长间隔</div>
+      <div><b>1 个</b>屏幕上同时最亮的按钮数</div>
+      <div><b>≤ 3 分钟</b>新手从创角到第一次修为条填满</div>
+      <div><b>每升一级</b>至少一个新入口亮起并有提示</div>
+    </div>
+    <p style="margin-top:28px;color:var(--ink-2)">最后一句：这个项目的资产（129 张立绘、四卷主线、NPC 自主人生、三宗）是远超原型级别的。现在的问题是玩家碰不到它们，因为界面让他们在找按钮。把按钮送到手上，资产自己会说话。</p>
+  </main>
+</div>

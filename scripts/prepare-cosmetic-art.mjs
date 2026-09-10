@@ -5,6 +5,7 @@ import sharp from "sharp";
 import { z } from "zod";
 
 const sha = (bytes) => crypto.createHash("sha256").update(bytes).digest("hex");
+const refreshBatch = "refresh-20260910";
 const schema = z
   .object({
     version: z.literal(1),
@@ -44,7 +45,7 @@ export async function prepareCosmeticArt({
   additionalActorIds,
   locationIds,
 }) {
-  const root = path.join(project, "content-packs/art-refresh-20260909");
+  const root = path.join(project, `content-packs/art-${refreshBatch}`);
   const catalog = schema.parse(
     JSON.parse(fs.readFileSync(path.join(root, "catalog.json"), "utf8")),
   );
@@ -67,7 +68,7 @@ export async function prepareCosmeticArt({
       asset.height !== (portrait ? 1536 : 941)
     )
       throw new Error(`新版美术摘要或尺寸不匹配：${asset.id}`);
-    const url = asset.sourceUrl ?? `/art/refresh-20260909/${asset.id}.webp`;
+    const url = asset.sourceUrl ?? `/art/${refreshBatch}/${asset.id}.webp`;
     if (seen.ids.has(asset.id) || seen.urls.has(url)) throw new Error(`新版美术重复：${asset.id}`);
     seen.ids.add(asset.id);
     seen.urls.add(url);
@@ -106,7 +107,7 @@ export async function prepareCosmeticArt({
         `${asset.id.replace(/[_.]/g, "-")}-${sha(avatar).slice(0, 12)}.webp`,
       );
       fs.writeFileSync(avatarFile, avatar);
-      const avatarUrl = `/art/refresh-20260909/avatars/${asset.id}.webp`;
+      const avatarUrl = `/art/${refreshBatch}/avatars/${asset.id}.webp`;
       presentationImages.push({ source: avatarFile, url: avatarUrl, lazy: true, preserve: true });
       avatarUrls[url] = avatarUrl;
     } else if (asset.actorId || asset.avatarCrop) {

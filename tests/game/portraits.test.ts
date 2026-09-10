@@ -519,6 +519,13 @@ test("legacy base NPCs keep their identities and portraits when campaign residen
   for (const count of [40, 100]) {
     const legacy = createWorld(12345, profile, `legacy-${count}`, count);
     legacy.rulesVersion = "0.1.2";
+    // Use valid old-rule actors so realm migration does not obscure identity preservation.
+    // The complete legacy realm conversion is covered in redesign-b.test.ts.
+    for (const actor of [legacy.player, ...legacy.npcs]) {
+      actor.realm = 0;
+      actor.xp = 0;
+      actor.hp = 1;
+    }
     for (const npc of legacy.npcs.slice(40)) {
       delete npc.npcTemplateId;
       npc.name = "旧局修士";

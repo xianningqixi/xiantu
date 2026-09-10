@@ -10,7 +10,7 @@ import { prepareCosmeticArt } from "../scripts/prepare-cosmetic-art.mjs";
 async function fixture(t, overrides = {}) {
   const project = fs.mkdtempSync(path.join(os.tmpdir(), "xiantu-cosmetic-test-"));
   t.after(() => fs.rmSync(project, { recursive: true, force: true }));
-  const root = path.join(project, "content-packs/art-refresh-20260909");
+  const root = path.join(project, "content-packs/art-refresh-20260910");
   fs.mkdirSync(path.join(root, "art/images"), { recursive: true });
   fs.mkdirSync(path.join(project, "lib/game/content"), { recursive: true });
   const bytes = await sharp({
@@ -72,7 +72,7 @@ test("cosmetic portraits reject a different character's source and out-of-bounds
 test("only known missing sect identities can add an actor-ID portrait", async (t) => {
   const valid = await fixture(t, { sourceUrl: undefined, actorId: "SECT_PERSON" });
   const display = await prepareCosmeticArt(valid.context);
-  assert.equal(display.portraits.SECT_PERSON.url, "/art/refresh-20260909/story-person.webp");
+  assert.equal(display.portraits.SECT_PERSON.url, "/art/refresh-20260910/story-person.webp");
   const invalid = await fixture(t, { sourceUrl: undefined, actorId: "PLAYER" });
   await assert.rejects(prepareCosmeticArt(invalid.context), /身份/);
 });

@@ -5,12 +5,12 @@ import sharp from "sharp";
 import { openCurrentLocation } from "./journey-controls";
 
 const read = (file: string) => JSON.parse(readFileSync(file, "utf8"));
-const catalog = read("content-packs/art-refresh-20260909/catalog.json");
+const catalog = read("content-packs/art-refresh-20260910/catalog.json");
 const images = read("lib/game/content/images.json");
 const avatars = read("lib/game/content/avatars.json");
 const display = read("lib/game/content/cosmetic-display.json");
 const sects = read("content-packs/cultivation-sects/sects.json").sects;
-const output = "outputs/art-refresh-20260909";
+const output = "outputs/art-refresh-20260910";
 mkdirSync(output, { recursive: true });
 
 test("all refreshed full-size images and independent avatars are served with reviewed bytes", async ({
@@ -23,7 +23,7 @@ test("all refreshed full-size images and independent avatars are served with rev
   expect(Object.keys(display.locations)).toHaveLength(19);
   const faces = new Set<string>();
   for (const asset of catalog.assets) {
-    const url = asset.sourceUrl ?? `/art/refresh-20260909/${asset.id}.webp`;
+    const url = asset.sourceUrl ?? `/art/refresh-20260910/${asset.id}.webp`;
     const meta = images[url];
     const response = await request.get(meta.src);
     expect(response.status(), asset.id).toBe(200);

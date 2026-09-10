@@ -1,32 +1,32 @@
 {
   "portraits": {
     "SECT_YUNV_GU": {
-      "url": "/art/refresh-20260909/sect_yunv_gu.webp",
+      "url": "/art/refresh-20260910/sect_yunv_gu.webp",
       "alt": "顾清蘅的全身立绘",
       "kind": "portrait"
     },
     "SECT_YUNV_BAI": {
-      "url": "/art/refresh-20260909/sect_yunv_bai.webp",
+      "url": "/art/refresh-20260910/sect_yunv_bai.webp",
       "alt": "白疏月的全身立绘",
       "kind": "portrait"
     },
     "SECT_HEHUAN_YAN": {
-      "url": "/art/refresh-20260909/sect_hehuan_yan.webp",
+      "url": "/art/refresh-20260910/sect_hehuan_yan.webp",
       "alt": "晏栖霞的全身立绘",
       "kind": "portrait"
     },
     "SECT_HEHUAN_RONG": {
-      "url": "/art/refresh-20260909/sect_hehuan_rong.webp",
+      "url": "/art/refresh-20260910/sect_hehuan_rong.webp",
       "alt": "容照夜的全身立绘",
       "kind": "portrait"
     },
     "SECT_QUAN_CHANG": {
-      "url": "/art/refresh-20260909/sect_quan_chang.webp",
+      "url": "/art/refresh-20260910/sect_quan_chang.webp",
       "alt": "常玄一的全身立绘",
       "kind": "portrait"
     },
     "SECT_QUAN_NING": {
-      "url": "/art/refresh-20260909/sect_quan_ning.webp",
+      "url": "/art/refresh-20260910/sect_quan_ning.webp",
       "alt": "宁含章的全身立绘",
       "kind": "portrait"
     }
@@ -38,12 +38,12 @@
       "kind": "scene"
     },
     "inn": {
-      "url": "/art/refresh-20260909/location.inn.webp",
+      "url": "/art/refresh-20260910/location.inn.webp",
       "alt": "听雨客栈的当地景致",
       "kind": "scene"
     },
     "gate": {
-      "url": "/art/refresh-20260909/location.gate.webp",
+      "url": "/art/refresh-20260910/location.gate.webp",
       "alt": "山门古道的当地景致",
       "kind": "scene"
     },
@@ -53,77 +53,77 @@
       "kind": "scene"
     },
     "atlas.luoxia": {
-      "url": "/art/refresh-20260909/location.atlas.luoxia.webp",
+      "url": "/art/refresh-20260910/location.atlas.luoxia.webp",
       "alt": "落霞村的当地景致",
       "kind": "scene"
     },
     "atlas.cangzhu": {
-      "url": "/art/refresh-20260909/location.atlas.cangzhu.webp",
+      "url": "/art/refresh-20260910/location.atlas.cangzhu.webp",
       "alt": "苍竹林的当地景致",
       "kind": "scene"
     },
     "shichai.xiaye.market": {
-      "url": "/art/refresh-20260909/location.shichai.xiaye.market.webp",
+      "url": "/art/refresh-20260910/location.shichai.xiaye.market.webp",
       "alt": "临江城坊市的当地景致",
       "kind": "scene"
     },
     "shichai.xiaye.inn": {
-      "url": "/art/refresh-20260909/location.shichai.xiaye.inn.webp",
+      "url": "/art/refresh-20260910/location.shichai.xiaye.inn.webp",
       "alt": "临江听潮客栈的当地景致",
       "kind": "scene"
     },
     "shichai.xiaye.gate": {
-      "url": "/art/refresh-20260909/location.shichai.xiaye.gate.webp",
+      "url": "/art/refresh-20260910/location.shichai.xiaye.gate.webp",
       "alt": "临江商道的当地景致",
       "kind": "scene"
     },
     "atlas.yanbo": {
-      "url": "/art/refresh-20260909/location.atlas.yanbo.webp",
+      "url": "/art/refresh-20260910/location.atlas.yanbo.webp",
       "alt": "烟波渡的当地景致",
       "kind": "scene"
     },
     "atlas.yunmeng": {
-      "url": "/art/refresh-20260909/location.atlas.yunmeng.webp",
+      "url": "/art/refresh-20260910/location.atlas.yunmeng.webp",
       "alt": "云梦泽的当地景致",
       "kind": "scene"
     },
     "shichai.qiudeng.market": {
-      "url": "/art/refresh-20260909/location.shichai.qiudeng.market.webp",
+      "url": "/art/refresh-20260910/location.shichai.qiudeng.market.webp",
       "alt": "青岚山城坊市的当地景致",
       "kind": "scene"
     },
     "shichai.qiudeng.inn": {
-      "url": "/art/refresh-20260909/location.shichai.qiudeng.inn.webp",
+      "url": "/art/refresh-20260910/location.shichai.qiudeng.inn.webp",
       "alt": "青岚问道客舍的当地景致",
       "kind": "scene"
     },
     "shichai.qiudeng.gate": {
-      "url": "/art/refresh-20260909/location.shichai.qiudeng.gate.webp",
+      "url": "/art/refresh-20260910/location.shichai.qiudeng.gate.webp",
       "alt": "青岚山门的当地景致",
       "kind": "scene"
     },
     "atlas.wendao": {
-      "url": "/art/refresh-20260909/location.atlas.wendao.webp",
+      "url": "/art/refresh-20260910/location.atlas.wendao.webp",
       "alt": "问道峰的当地景致",
       "kind": "scene"
     },
     "shichai.dongxue.market": {
-      "url": "/art/refresh-20260909/location.shichai.dongxue.market.webp",
+      "url": "/art/refresh-20260910/location.shichai.dongxue.market.webp",
       "alt": "霜河城坊市的当地景致",
       "kind": "scene"
     },
     "shichai.dongxue.inn": {
-      "url": "/art/refresh-20260909/location.shichai.dongxue.inn.webp",
+      "url": "/art/refresh-20260910/location.shichai.dongxue.inn.webp",
       "alt": "霜河藏书客舍的当地景致",
       "kind": "scene"
     },
     "shichai.dongxue.gate": {
-      "url": "/art/refresh-20260909/location.shichai.dongxue.gate.webp",
+      "url": "/art/refresh-20260910/location.shichai.dongxue.gate.webp",
       "alt": "霜河雪村的当地景致",
       "kind": "scene"
     },
     "atlas.xuesong": {
-      "url": "/art/refresh-20260909/location.atlas.xuesong.webp",
+      "url": "/art/refresh-20260910/location.atlas.xuesong.webp",
       "alt": "雪松原的当地景致",
       "kind": "scene"
     }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./viewport-layout.css";
 
 export const metadata: Metadata = {
   title: "仙途 · 青石人间",

@@ -44,7 +44,7 @@ export function WaitControls({
               : ""
         : "";
   return (
-    <details id="wait-controls" className="wait-controls">
+    <details id="wait-controls" className="wait-controls" open>
       <summary>设置停留日数</summary>
       <div className="conditional-wait">
         <label>

@@ -124,7 +124,6 @@ export function PortraitStudio({
   const editing = !!draft;
   useEffect(() => {
     if (editing) {
-      editor.current?.scrollIntoView({ block: "start" });
       editor.current?.focus({ preventScroll: true });
     }
   }, [editing]);

@@ -134,11 +134,11 @@ export default function Game({ preview = false }: { preview?: boolean }) {
     open: boolean;
   } | null>(null);
   const [profileTab, setProfileTab] = useState<ProfileTab>("attributes");
-  const [profileStack, setProfileStack] = useState<
-    { id: string; tab: ProfileTab; scroll: number }[]
-  >([]);
+  const [profileStack, setProfileStack] = useState<{ id: string; tab: ProfileTab; page: number }[]>(
+    [],
+  );
   const activeProfileTab = useRef<ProfileTab>("attributes");
-  const profileRestoreScroll = useRef<number | null>(null);
+  const [profilePage, setProfilePage] = useState(0);
   const openProfile = useCallback(
     (id: string, tab: ProfileTarget = "attributes", displayName?: string) => {
       game.pauseAdvance();
@@ -155,29 +155,21 @@ export default function Game({ preview = false }: { preview?: boolean }) {
           {
             id: profileId,
             tab: activeProfileTab.current,
-            scroll:
-              document.querySelector<HTMLElement>(
-                '.profile-modal [role="tabpanel"][data-state="active"]',
-              )?.scrollTop ?? 0,
+            page:
+              Number(
+                document.querySelector<HTMLElement>(
+                  '.profile-modal [role="tabpanel"][data-state="active"] .paged-content',
+                )?.dataset.page ?? 1,
+              ) - 1,
           },
         ]);
+      setProfilePage(0);
       activeProfileTab.current = tab;
       setProfileTab(tab);
       setProfileId(id);
     },
     [profileId],
   );
-  useEffect(() => {
-    if (profileRestoreScroll.current !== null) {
-      const top = profileRestoreScroll.current;
-      requestAnimationFrame(() => {
-        document
-          .querySelector<HTMLElement>('.profile-modal [role="tabpanel"][data-state="active"]')
-          ?.scrollTo({ top });
-      });
-      profileRestoreScroll.current = null;
-    }
-  }, [profileId, profileTab]);
   useEffect(() => {
     setProfileStack([]);
   }, [w?.saveId]);
@@ -775,7 +767,7 @@ export default function Game({ preview = false }: { preview?: boolean }) {
               onClick={() => {
                 const prior = profileStack.at(-1)!;
                 setProfileStack((stack) => stack.slice(0, -1));
-                profileRestoreScroll.current = prior.scroll;
+                setProfilePage(prior.page);
                 activeProfileTab.current = prior.tab;
                 setProfileTab(prior.tab);
                 setProfileId(prior.id);
@@ -804,6 +796,7 @@ export default function Game({ preview = false }: { preview?: boolean }) {
               world={w}
               id={profileId}
               initialTab={profileTab}
+              initialPage={profilePage}
               onTabChange={(value) => {
                 activeProfileTab.current = value;
               }}

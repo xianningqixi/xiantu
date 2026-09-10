@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState, lazy, Suspense } from "react";
+import { SectionNav } from "@/components/ui/section-nav";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -42,6 +43,7 @@ export function SettingsDialog({
   importRef,
   setShowCreate,
 }: SettingsProps) {
+  const [section, setSection] = useState("save");
   const [view, setView] = useState("settings");
   const modelsEntry = useRef<HTMLButtonElement>(null);
   const returningFromModels = useRef(false);
@@ -86,6 +88,19 @@ export function SettingsDialog({
             当前浏览器自动保存进度。换设备或清理浏览器前请导出。
           </DialogDescription>
         </DialogHeader>
+        {view === "settings" && (
+          <SectionNav
+            label="设置分类"
+            value={section}
+            onChange={setSection}
+            items={[
+              { id: "save", label: "存档" },
+              { id: "offline", label: "离线" },
+              { id: "new", label: "新角色" },
+              { id: "tools", label: "工具" },
+            ]}
+          />
+        )}
         {error && (
           <div className="error-banner" role="alert">
             <p>{error}</p>
@@ -108,11 +123,11 @@ export function SettingsDialog({
           </>
         ) : (
           <div className="settings-body">
-            <section>
+            <section hidden={section !== "offline"}>
               <h3>管理离线内容</h3>
               <div ref={offlineRef} />
             </section>
-            <section>
+            <section hidden={section !== "save"}>
               <h3>这一世</h3>
               <div className="save-info">
                 <div>
@@ -141,7 +156,7 @@ export function SettingsDialog({
                 </Button>
               </div>
             </section>
-            <section>
+            <section hidden={section !== "new"}>
               <h3>新的一世</h3>
               <p>填写新角色后再确认替换；旧进度会保留备份。</p>
               <Button
@@ -161,7 +176,7 @@ export function SettingsDialog({
                 创建新角色
               </Button>
             </section>
-            <section>
+            <section hidden={section !== "tools"}>
               <h3>工具</h3>
               <Button
                 ref={modelsEntry}

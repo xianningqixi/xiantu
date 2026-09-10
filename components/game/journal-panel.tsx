@@ -1,11 +1,14 @@
 "use client";
+import { PagedContent } from "@/components/ui/paged-content";
+import { SectionNav } from "@/components/ui/section-nav";
+import { useCompactLayout } from "@/lib/ui/use-compact-layout";
 import { MainQuestLog } from "./main-quest-log";
 import { Button } from "@/components/ui/button";
 import B from "@/lib/game/content/balance.json";
 import { visibleEvents } from "@/lib/game/engine";
 import type { World } from "@/lib/game/types";
 import { useEffect, useMemo, useState } from "react";
-const PAGE_SIZE = 50;
+
 type Seen = { day: number; ids: string[] };
 const key = (world: World) => `xiantu:journal-seen:${world.saveId}`;
 const labels: Record<string, string> = {
@@ -54,6 +57,8 @@ const labels: Record<string, string> = {
   social: "日常交往",
 };
 export function JournalPanel({ world: w }: { world: World }) {
+  const PAGE_SIZE = useCompactLayout() ? 2 : 4;
+  const [view, setView] = useState("events");
   const [newOnly, setNewOnly] = useState(false);
   const [person, setPerson] = useState("");
   const [kind, setKind] = useState("");
@@ -103,130 +108,125 @@ export function JournalPanel({ world: w }: { world: World }) {
     setPage(0);
   };
   return (
-    <section className="panel-section">
-      <div className="section-heading">
-        <span className="eyebrow">历程 · 落笔成忆</span>
-        <h2 className="serif" id="journal-heading" tabIndex={-1}>
-          这一世的故事
-        </h2>
-        <p>
-          共 {filtered.length} 条已知经历，{events.filter((e) => newFact(e.id)).length}{" "}
-          条上次查看后新增。
-        </p>
-      </div>
-      <MainQuestLog world={w} />
-      <div className="journal-filters">
-        <label>
-          人物
-          <select
-            aria-label="历程人物"
-            value={person}
-            onChange={(e) => change(setPerson, e.target.value)}
-          >
-            <option value="">所有人物</option>
-            {[w.player, ...w.npcs]
-              .filter((a) => events.some((e) => e.actors.includes(a.id)))
-              .map((a) => (
-                <option key={a.id} value={a.id}>
-                  {a.name}
-                </option>
-              ))}
-          </select>
-        </label>
-        <label>
-          类型
-          <select
-            aria-label="历程类型"
-            value={kind}
-            onChange={(e) => change(setKind, e.target.value)}
-          >
-            <option value="">所有类型</option>
-            {[...new Set(events.map((e) => (labels[e.kind] ? e.kind : "other")))].map((k) => (
-              <option key={k} value={k}>
-                {labels[k] ?? "其他经历"}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          年份
-          <select
-            aria-label="历程年份"
-            value={year}
-            onChange={(e) => change(setYear, e.target.value)}
-          >
-            <option value="">所有年份</option>
-            {[...new Set(events.map((e) => Math.floor(e.day / B.world.daysPerYear) + 1))].map(
-              (y) => (
-                <option key={y} value={y}>
-                  仙历 {y} 年
-                </option>
-              ),
-            )}
-          </select>
-        </label>
-      </div>
-      <div className="list-pagination">
-        <label>
-          <input
-            type="checkbox"
-            checked={newOnly}
-            onChange={(e) => {
-              setNewOnly(e.target.checked);
-              setPage(0);
-            }}
-          />{" "}
-          仅看上次查看后新增
-        </label>
-        <Button variant="ghost" disabled={!page} onClick={() => setPage((n) => n - 1)}>
-          上一页
-        </Button>
-        <span>
-          {Math.min(page + 1, pageCount)} / {pageCount}
-        </span>
-        <Button
-          variant="ghost"
-          disabled={page + 1 >= pageCount}
-          onClick={() => setPage((n) => n + 1)}
-        >
-          下一页
-        </Button>
-      </div>
-      <div className="journal">
-        {[...groups].map(([year, rows]) => (
-          <section key={year}>
-            <h3 className="journal-year">仙历 {year} 年</h3>
-            {rows.map((e) => (
-              <article className="journal-entry" key={e.id}>
-                <time>第 {e.day + 1} 日</time>
-                <div>
-                  <span className="journal-mark" />
-                  {newFact(e.id) && <small className="new-event">新增</small>}
-                  <p>{e.text}</p>
-                </div>
-              </article>
-            ))}
-          </section>
-        ))}
-      </div>
-      {!filtered.length && (
-        <div className="empty-copy">
-          <p>没有符合筛选条件的经历。</p>
-          <Button
-            variant="outline"
-            onClick={() => {
-              setPerson("");
-              setKind("");
-              setYear("");
-              setNewOnly(false);
-              setPage(0);
-            }}
-          >
-            清除筛选
-          </Button>
+    <section className="panel-section screen-panel journal-panel">
+      <SectionNav
+        label="历程分类"
+        value={view}
+        onChange={setView}
+        items={[
+          { id: "events", label: "人物与见闻" },
+          { id: "main", label: "主线线索" },
+        ]}
+      />
+      <PagedContent label="历程" resetKey={`${view}:${page}:${kind}:${person}:${year}`}>
+        <div hidden={view !== "main"}>
+          <MainQuestLog world={w} />
         </div>
-      )}
-      <nav className="journal-pagination" aria-label="历程分页">
+        <div hidden={view !== "events"}>
+          <p className="journal-count">
+            共 {filtered.length} 条已知经历 · {events.filter((e) => newFact(e.id)).length} 条新增
+          </p>
+          <div className="journal-filters">
+            <label>
+              人物
+              <select
+                aria-label="历程人物"
+                value={person}
+                onChange={(e) => change(setPerson, e.target.value)}
+              >
+                <option value="">所有人物</option>
+                {[w.player, ...w.npcs]
+                  .filter((a) => events.some((e) => e.actors.includes(a.id)))
+                  .map((a) => (
+                    <option key={a.id} value={a.id}>
+                      {a.name}
+                    </option>
+                  ))}
+              </select>
+            </label>
+            <label>
+              类型
+              <select
+                aria-label="历程类型"
+                value={kind}
+                onChange={(e) => change(setKind, e.target.value)}
+              >
+                <option value="">所有类型</option>
+                {[...new Set(events.map((e) => (labels[e.kind] ? e.kind : "other")))].map((k) => (
+                  <option key={k} value={k}>
+                    {labels[k] ?? "其他经历"}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              年份
+              <select
+                aria-label="历程年份"
+                value={year}
+                onChange={(e) => change(setYear, e.target.value)}
+              >
+                <option value="">所有年份</option>
+                {[...new Set(events.map((e) => Math.floor(e.day / B.world.daysPerYear) + 1))].map(
+                  (y) => (
+                    <option key={y} value={y}>
+                      仙历 {y} 年
+                    </option>
+                  ),
+                )}
+              </select>
+            </label>
+          </div>
+          <div className="list-pagination">
+            <label>
+              <input
+                type="checkbox"
+                checked={newOnly}
+                onChange={(e) => {
+                  setNewOnly(e.target.checked);
+                  setPage(0);
+                }}
+              />{" "}
+              仅看上次查看后新增
+            </label>
+          </div>
+          <div className="journal">
+            {[...groups].map(([year, rows]) => (
+              <section key={year}>
+                <h3 className="journal-year">仙历 {year} 年</h3>
+                {rows.map((e) => (
+                  <article className="journal-entry" key={e.id}>
+                    <time>第 {e.day + 1} 日</time>
+                    <div>
+                      <span className="journal-mark" />
+                      {newFact(e.id) && <small className="new-event">新增</small>}
+                      <p>{e.text}</p>
+                    </div>
+                  </article>
+                ))}
+              </section>
+            ))}
+          </div>
+          {!filtered.length && (
+            <div className="empty-copy">
+              <p>没有符合筛选条件的经历。</p>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setPerson("");
+                  setKind("");
+                  setYear("");
+                  setNewOnly(false);
+                  setPage(0);
+                }}
+              >
+                清除筛选
+              </Button>
+            </div>
+          )}
+        </div>
+      </PagedContent>
+      <nav hidden={view !== "events"} className="journal-pagination" aria-label="历程分页">
         <Button variant="outline" disabled={page === 0} onClick={() => setPage((n) => n - 1)}>
           上一页
         </Button>

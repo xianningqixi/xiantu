@@ -1,0 +1,1065 @@
+/* Viewport-based game surfaces. Long content is paginated, never hidden behind a scrollbar. */
+html:has(.game-shell, .prologue),
+body:has(.game-shell, .prologue) {
+  height: 100%;
+  overflow: clip;
+}
+[hidden] {
+  display: none !important;
+}
+.paged-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+.page-window {
+  flex: 1;
+  min-height: 0;
+  overflow: clip;
+}
+.page-crop {
+  max-height: 100%;
+  overflow: clip;
+}
+.paged-document {
+  display: flow-root;
+  min-width: 0;
+  transform-origin: top left;
+}
+.page-navigation {
+  display: flex;
+  flex: 0 0 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--border);
+  gap: 8px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.page-navigation > button[data-slot="button"] {
+  min-height: 36px;
+  height: 36px;
+  padding: 4px 8px;
+}
+.section-nav {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 4px;
+  border-bottom: 1px solid var(--border);
+  padding: 0 0 8px;
+  min-width: 0;
+}
+.section-nav button {
+  flex: 1;
+  min-width: 0;
+  min-height: 38px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: var(--muted-foreground);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.section-nav button[aria-current="page"] {
+  color: var(--primary);
+  background: #c4b77c16;
+}
+.section-nav button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+.screen-panel {
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0;
+  overflow: clip;
+}
+.screen-panel > .section-heading,
+.screen-panel > .list-pagination {
+  flex: 0 0 auto;
+  margin: 0;
+}
+.screen-panel > .section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.screen-panel .section-heading h1,
+.screen-panel .section-heading h2 {
+  font-size: 24px;
+  margin: 0;
+}
+.screen-panel .section-heading p {
+  margin: 4px 0 0;
+  font-size: 12px;
+}
+.screen-panel > .paged-content {
+  height: 0;
+}
+
+/* Persistent app frame and navigation. */
+.dojo-shell {
+  height: 100dvh;
+  min-height: 0;
+  padding: 0;
+  overflow: clip;
+}
+.dojo-shell .game-tabs {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 0;
+}
+.dojo-shell .game-header {
+  position: relative;
+  top: auto;
+  padding: 10px 20px;
+  min-height: 68px;
+  gap: 16px;
+  flex: 0 0 auto;
+}
+.dojo-shell .nav-bar {
+  position: static;
+  inset: auto;
+  flex: 0 0 auto;
+  border: 0;
+  background: transparent;
+}
+.dojo-shell .game-nav {
+  display: flex;
+  width: auto;
+  height: 44px;
+  gap: 4px;
+  margin: 0;
+}
+.dojo-shell .game-nav [role="tab"] {
+  min-width: 70px;
+  padding: 8px 12px;
+  flex-direction: row;
+  gap: 6px;
+}
+.dojo-shell .game-layout {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+.dojo-shell .play-area {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: clip;
+  padding: 16px 20px;
+}
+.dojo-shell .play-area > [role="tabpanel"] {
+  flex: 1;
+  height: 0;
+  min-height: 0;
+  overflow: clip;
+  padding: 0;
+  margin: 0;
+}
+.dojo-shell .character-status {
+  gap: 12px;
+}
+.dojo-shell .character-status .meter {
+  width: 150px;
+}
+.dojo-shell .status-profile {
+  min-width: 104px;
+}
+.author-preview {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: clip;
+}
+.author-preview .author-banner {
+  flex: 0 0 auto;
+  padding: 4px 12px;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.author-preview > .game-shell,
+.author-preview > .prologue {
+  flex: 1;
+  height: 0;
+  min-height: 0;
+}
+
+/* Scene, reading and action controls share the available height. */
+.dojo {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  gap: 12px;
+}
+.dojo-reading-nav {
+  display: none;
+}
+.dojo-reading {
+  flex: 1;
+  min-height: 0;
+  grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
+  gap: 16px;
+}
+.dojo-scene {
+  display: grid;
+  grid-template-rows: minmax(100px, 0.44fr) minmax(0, 0.56fr);
+  height: 100%;
+  min-height: 0;
+}
+.dojo-battle-scene {
+  height: 100%;
+  min-height: 0;
+  overflow: clip;
+}
+.dojo-landscape {
+  height: auto;
+  min-height: 0;
+}
+.dojo-landscape figcaption {
+  padding: 26px 18px 10px;
+}
+.dojo-story-layout {
+  min-height: 0;
+}
+.dojo-story {
+  display: flex;
+  padding: 16px 18px 8px;
+  min-height: 0;
+}
+.dojo-story h1 {
+  font-size: clamp(22px, 2vw, 28px);
+  margin: 6px 0 10px;
+}
+.dojo-speaker {
+  width: clamp(110px, 14vw, 190px);
+}
+.dojo-story p {
+  margin: 8px 0;
+}
+.event-feed {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  padding: 14px;
+}
+.event-feed > header {
+  flex: 0 0 auto;
+}
+.event-feed .event-feed-lines {
+  height: auto;
+  max-height: none;
+  overflow: visible;
+}
+.event-feed .event-feed-lines article {
+  margin: 0 0 14px;
+  padding: 12px 0;
+}
+.event-feed .event-feed-lines p {
+  margin: 5px 0;
+}
+.event-feed .retreat-summary {
+  flex: 0 0 auto;
+  margin: 8px 0 0;
+  padding: 8px;
+  overflow: visible;
+  max-height: none;
+}
+.dojo-action-dock {
+  position: static;
+  inset: auto;
+  width: 100%;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card);
+}
+.dojo-primary {
+  min-height: 44px;
+  padding: 8px 12px;
+  font-size: 16px;
+}
+.dojo-reason {
+  margin: 6px 0 8px;
+  line-height: 1.5;
+}
+.dojo-secondary {
+  gap: 8px;
+}
+.dojo-secondary button {
+  min-height: 38px;
+  padding: 6px 10px;
+}
+
+/* Dialog headings, categories and close controls stay in place; their bodies turn pages. */
+.game-modal:not(.image-viewer) {
+  display: flex;
+  flex-direction: column;
+  overflow: clip;
+  max-height: calc(100dvh - 28px);
+  gap: 12px;
+  padding: 20px;
+}
+.game-modal:not(.image-viewer):not(.compact-confirm) {
+  height: min(780px, calc(100dvh - 28px));
+}
+.game-modal > [data-slot="dialog-header"],
+.game-modal > [data-slot="dialog-footer"],
+.game-modal > [data-slot="alert-dialog-footer"],
+.game-modal > .section-nav {
+  flex: 0 0 auto;
+}
+.game-modal [data-slot="dialog-title"],
+.game-modal [data-slot="alert-dialog-title"] {
+  font-size: 23px;
+}
+.game-modal [data-slot="dialog-description"] {
+  font-size: 13px;
+  line-height: 1.6;
+}
+.game-modal > .paged-content {
+  height: 0;
+}
+.game-modal .paged-document > * + * {
+  margin-top: 14px;
+}
+.game-modal .paged-document > :first-child {
+  margin-top: 0;
+}
+.paged-document
+  :where(
+    .settings-body,
+    .backup-list,
+    .negotiation-history,
+    .portrait-content,
+    .portrait-editor,
+    .journal,
+    .battle-log,
+    .intimacy-panel,
+    .sheet-contact
+  ) {
+  height: auto;
+  max-height: none;
+  overflow: visible;
+  scrollbar-gutter: auto;
+}
+.paged-document .portrait-editor {
+  position: static;
+}
+.paged-document .portrait-studio {
+  height: auto;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+}
+.paged-document .portrait-content {
+  flex: 0 0 auto;
+  container-type: normal;
+}
+.paged-document .portrait-actions {
+  position: static;
+  overflow: visible;
+  flex-wrap: wrap;
+}
+.paged-document .fullbody-frame {
+  height: min(340px, 46dvh);
+  aspect-ratio: auto;
+  min-height: 120px;
+}
+.paged-document .portrait-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.paged-document .portrait-comparison figure {
+  min-width: 0;
+}
+.paged-document .portrait-hint {
+  display: block;
+  margin: 10px 0;
+}
+.paged-document .backup-list > ul {
+  overflow: visible;
+  max-height: none;
+}
+.profile-modal {
+  width: min(1060px, calc(100vw - 28px)) !important;
+  max-width: none !important;
+}
+.profile-modal .person-detail {
+  flex: 1;
+  height: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: clip;
+  gap: 10px;
+}
+.profile-modal .sheet-identity {
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0 0 10px;
+  gap: 12px;
+}
+.profile-modal .sheet-avatar {
+  width: 64px;
+  height: 64px;
+}
+.profile-modal .sheet-portrait-link {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+}
+.profile-modal .character-tabs {
+  flex: 1;
+  min-height: 0;
+  overflow: clip;
+}
+.profile-modal .character-tabs > [role="tablist"] {
+  flex: 0 0 auto;
+  width: 100%;
+}
+.profile-modal .character-tabs > [role="tabpanel"] {
+  flex: 1;
+  min-height: 0;
+  height: 0;
+  overflow: clip;
+  padding: 8px 0 0;
+}
+.profile-modal .person-detail > .relationship-stage {
+  flex: 0 0 auto;
+}
+.profile-modal .sheet-stat-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+.profile-modal .sheet-stat-grid > div {
+  min-width: 0;
+  padding: 9px;
+}
+.profile-modal .sheet-life {
+  margin: 14px 0;
+}
+.profile-modal .sheet-relation {
+  overflow: visible;
+}
+.profile-modal .paged-document .sheet-history {
+  max-height: none;
+  overflow: visible;
+}
+.profile-modal .sheet-contact {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  height: auto;
+  max-height: none;
+  overflow: visible;
+  padding: 8px 0 0;
+  margin: 0;
+}
+.profile-modal .sheet-contact > small {
+  flex-basis: 100%;
+}
+.journal-dialog > .journal-panel {
+  flex: 1;
+  height: 0;
+}
+.journal-panel .journal-count {
+  font-size: 12px;
+  margin: 0 0 10px;
+}
+.journal-panel .journal-filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.journal-panel .journal-filters label {
+  min-width: 0;
+  font-size: 12px;
+}
+.journal-panel .journal-filters select {
+  width: 100%;
+  min-width: 0;
+}
+.journal-panel .list-pagination {
+  margin: 10px 0;
+  padding: 0;
+}
+.journal-panel .journal {
+  height: auto;
+  overflow: visible;
+}
+.journal-panel .journal-entry {
+  padding: 12px 0;
+}
+.journal-panel .journal-pagination {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  gap: 8px;
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+}
+.settings-modal .settings-body {
+  display: block;
+  padding: 0;
+  gap: 0;
+}
+.settings-modal .settings-body > section {
+  margin: 0;
+  padding: 14px 0;
+}
+
+/* Creation keeps its draft mounted while switching between focused steps. */
+.prologue:has(.creation-simple) {
+  height: 100dvh;
+  min-height: 0;
+  overflow: clip;
+  display: flex;
+  flex-direction: column;
+}
+.prologue:has(.creation-simple) .prologue-header {
+  position: relative;
+  height: 60px;
+  flex: 0 0 auto;
+  padding: 12px 24px;
+}
+.prologue:has(.creation-simple) .prologue-layout {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  height: 0;
+  padding: 8px 24px 20px;
+}
+.prologue:has(.creation-simple) .creation-wrap {
+  width: min(1080px, 100%);
+  margin: 0 auto;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.creation-simple.creation-form {
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 22px;
+  overflow: clip;
+  gap: 12px;
+}
+.creation-simple .form-heading {
+  margin: 0;
+  flex: 0 0 auto;
+}
+.creation-simple .form-heading h2 {
+  font-size: 27px;
+}
+.creation-simple .creation-essential {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 20px 28px;
+  align-items: start;
+}
+.creation-simple .creation-essential > .artifact-field {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+}
+.creation-simple .artifact-choices {
+  grid-template-columns: 1fr;
+}
+.creation-simple .artifact-option {
+  flex-direction: row;
+  text-align: left;
+  gap: 14px;
+  padding: 14px;
+}
+.creation-simple .artifact-art {
+  width: 54px;
+  height: 54px;
+}
+.creation-simple .creation-advanced {
+  padding: 0;
+  display: block;
+}
+.creation-simple .creation-fate {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.creation-simple .creation-fate .aptitude-box {
+  margin: 0;
+}
+.creation-simple .appearance-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.creation-simple .appearance-field {
+  margin: 0;
+}
+.creation-simple .appearance-choices {
+  flex-wrap: wrap;
+}
+.creation-simple .creation-portrait-panel {
+  height: auto;
+  overflow: visible;
+}
+.creation-simple .creation-bottom {
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 12px 0 0;
+  border-top: 1px solid var(--border);
+  align-items: center;
+}
+.creation-simple .creation-bottom p {
+  flex: 1;
+  margin: 0;
+  font-size: 12px;
+}
+.creation-simple .begin-button {
+  width: auto;
+  min-width: 220px;
+  margin-left: auto;
+  height: 46px;
+}
+.creation-simple .creation-file-options {
+  margin-top: 18px;
+}
+
+/* Collections use bounded record pages; detailed copy can turn pages within the same frame. */
+.people-panel .people-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.people-panel .person-row {
+  padding: 12px;
+  min-height: 100px;
+}
+.people-panel .person-avatar {
+  width: 70px;
+  height: 70px;
+  flex: 0 0 70px;
+}
+.people-panel .people-controls {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  margin: 0;
+  gap: 12px;
+}
+.people-panel .people-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  min-width: 0;
+}
+.people-panel .people-controls input,
+.people-panel .people-controls select {
+  width: 100%;
+  min-width: 0;
+  min-height: 38px;
+}
+.people-panel .list-pagination {
+  min-height: 38px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+.inventory-panel .inventory-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+.inventory-panel .inventory-item {
+  min-height: 120px;
+  padding: 18px;
+}
+.inventory-panel .inventory-market {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+.inventory-panel .shop-row {
+  min-height: 92px;
+  padding: 14px;
+}
+.inventory-panel .exchange-button {
+  margin: 12px 0;
+}
+.atlas-page .local-destinations {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+.atlas-page .local-destinations > div {
+  min-width: 0;
+}
+.atlas-page .local-destinations button {
+  width: 100%;
+  white-space: normal;
+  height: auto;
+  padding: 8px;
+}
+.atlas-page .local-destinations small {
+  margin-top: 4px;
+  font-size: 11px;
+}
+.atlas-page .atlas-section {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(280px, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+}
+.atlas-page .atlas-caption {
+  grid-column: 1 / -1;
+  padding: 0;
+  margin: 0;
+  font-size: 13px;
+}
+.atlas-page .atlas-canvas {
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  aspect-ratio: auto;
+  margin: 0;
+}
+.atlas-inspector {
+  min-height: 0;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.atlas-inspector .atlas-destination,
+.atlas-place-modal .atlas-destination {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+.atlas-destination-copy p {
+  font-size: 13px;
+  line-height: 1.7;
+}
+.atlas-destination-copy small {
+  display: block;
+  margin-top: 8px;
+}
+.atlas-departure {
+  width: 100%;
+}
+
+@media (max-width: 1000px) {
+  .dojo-shell .game-tabs {
+    padding-bottom: 58px;
+  }
+  .dojo-shell .nav-bar {
+    position: fixed;
+    inset: auto 0 0;
+    border-top: 1px solid var(--border);
+    background: var(--background);
+  }
+  .dojo-shell .game-nav {
+    width: 100%;
+    height: 58px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .dojo-shell .game-nav [role="tab"] {
+    flex-direction: column;
+    gap: 3px;
+    font-size: 12px;
+  }
+  .dojo-shell .game-header {
+    min-height: 66px;
+    padding: 8px 12px;
+  }
+  .dojo-shell .character-status {
+    gap: 10px;
+  }
+  .dojo-reading {
+    grid-template-columns: minmax(0, 1.6fr) minmax(220px, 1fr);
+  }
+  .atlas-page .atlas-section {
+    grid-template-columns: minmax(0, 1.3fr) minmax(230px, 1fr);
+  }
+}
+@media (max-width: 700px) {
+  .dojo-shell .character-status .meter {
+    width: 100%;
+    max-width: none;
+  }
+  .dojo-shell .play-area {
+    padding: 10px;
+  }
+  .dojo {
+    gap: 8px;
+  }
+  .dojo-reading-nav {
+    display: block;
+    flex: 0 0 auto;
+  }
+  .dojo-reading-nav .section-nav {
+    padding-bottom: 4px;
+  }
+  .dojo-reading {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .dojo-reading[data-reading="story"] > .event-feed,
+  .dojo-reading[data-reading="news"] > .dojo-scene,
+  .dojo-reading[data-reading="news"] > .dojo-battle-scene {
+    display: none;
+  }
+  .dojo-scene {
+    grid-template-rows: minmax(76px, 0.34fr) minmax(0, 0.66fr);
+  }
+  .dojo-story {
+    padding: 12px 10px 4px;
+  }
+  .dojo-story h1 {
+    font-size: 20px;
+  }
+  .dojo-story p {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .dojo-story blockquote {
+    font-size: 13px;
+    padding-left: 8px;
+  }
+  .dojo-speaker {
+    width: 84px;
+  }
+  .dojo-speaker > span:not(.npc-portrait) {
+    font-size: 12px;
+    padding: 24px 4px 8px;
+  }
+  .dojo-speaker small {
+    font-size: 10px;
+  }
+  .dojo-action-dock {
+    padding: 8px;
+  }
+  .dojo-primary {
+    font-size: 14px;
+    padding: 8px;
+  }
+  .dojo-reason {
+    margin: 4px 0 6px;
+    font-size: 11px;
+  }
+  .dojo-secondary {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .dojo-secondary button[data-slot="button"] {
+    min-height: 34px;
+    padding: 5px;
+    font-size: 12px;
+  }
+  .game-modal:not(.image-viewer) {
+    width: calc(100vw - 20px);
+    max-width: none !important;
+    padding: 16px 12px;
+    gap: 10px;
+  }
+  .game-modal [data-slot="dialog-title"] {
+    font-size: 21px;
+  }
+  .game-modal .section-nav button {
+    padding: 6px 4px;
+    font-size: 12px;
+  }
+  .profile-modal .sheet-stat-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .profile-modal .sheet-stat-grid > div {
+    padding: 8px;
+  }
+  .profile-modal .sheet-stat-grid dd {
+    font-size: 16px;
+  }
+  .profile-modal .person-detail > .relationship-stage {
+    font-size: 11px;
+  }
+  .profile-modal .sheet-identity {
+    gap: 10px;
+    padding-bottom: 6px;
+  }
+  .profile-modal .sheet-identity p {
+    font-size: 12px;
+    margin: 3px 0;
+  }
+  .paged-document .portrait-comparison {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .paged-document .portrait-comparison .fullbody-frame {
+    height: min(250px, 36dvh);
+  }
+  .prologue:has(.creation-simple) .prologue-header {
+    height: 48px;
+    padding: 8px 14px;
+  }
+  .prologue:has(.creation-simple) .prologue-layout {
+    padding: 0 10px 10px;
+  }
+  .creation-simple.creation-form {
+    padding: 14px;
+    gap: 10px;
+  }
+  .creation-simple .form-heading h2 {
+    font-size: 24px;
+  }
+  .creation-simple .section-nav {
+    gap: 0;
+  }
+  .creation-simple .section-nav button {
+    padding: 5px 3px;
+    font-size: 12px;
+  }
+  .creation-simple .creation-essential {
+    display: flex;
+    gap: 14px;
+  }
+  .creation-simple .artifact-choices {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .creation-simple .artifact-option {
+    flex-direction: column;
+    text-align: center;
+    padding: 8px 4px;
+    gap: 4px;
+  }
+  .creation-simple .artifact-art {
+    width: 36px;
+    height: 36px;
+  }
+  .creation-simple .artifact-option small {
+    font-size: 10px;
+  }
+  .creation-simple .appearance-row,
+  .creation-simple .creation-fate {
+    display: block;
+  }
+  .creation-simple .appearance-field,
+  .creation-simple .creation-fate > * {
+    margin-bottom: 16px;
+  }
+  .creation-simple .begin-button {
+    min-width: 0;
+    width: 100%;
+    margin-left: 0;
+    height: 44px;
+  }
+  .creation-simple .creation-bottom {
+    padding-top: 8px;
+  }
+  .people-panel .people-grid,
+  .inventory-panel .inventory-grid {
+    grid-template-columns: 1fr;
+  }
+  .people-panel .person-row {
+    min-height: 90px;
+    padding: 10px;
+  }
+  .people-panel .person-avatar {
+    width: 60px;
+    height: 60px;
+    flex-basis: 60px;
+  }
+  .people-panel .people-controls {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .people-panel .people-controls > label:first-child {
+    grid-column: 1 / -1;
+  }
+  .screen-panel > .section-heading h1,
+  .screen-panel > .section-heading h2 {
+    font-size: 21px;
+  }
+  .screen-panel > .section-heading {
+    gap: 8px;
+  }
+  .screen-panel .section-heading button {
+    padding: 8px;
+    font-size: 12px;
+  }
+  .inventory-panel .shop-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .inventory-panel .shop-row > div {
+    grid-column: 1 / -1;
+  }
+  .inventory-panel .shop-row button {
+    padding: 6px;
+    font-size: 12px;
+    white-space: normal;
+  }
+  .atlas-page .atlas-section {
+    grid-template-columns: 1fr;
+  }
+  .atlas-page .atlas-caption {
+    font-size: 11px;
+  }
+  .atlas-page .atlas-legend {
+    display: none;
+  }
+  .atlas-page .local-destinations {
+    gap: 6px;
+  }
+  .atlas-page .local-destinations button {
+    padding: 5px;
+    font-size: 11px;
+  }
+  .atlas-page .atlas-place {
+    min-width: 92px;
+    padding: 2px;
+    gap: 1px;
+    transform: translate(-50%, -50%);
+  }
+  .atlas-page .atlas-place strong {
+    font-size: 13px;
+  }
+  .atlas-page .atlas-place small {
+    font-size: 10px;
+  }
+  .atlas-page .atlas-place .atlas-pin {
+    width: 24px;
+    height: 24px;
+  }
+}

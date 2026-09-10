@@ -11,6 +11,7 @@ import {
 } from "@/lib/ui/action-summary";
 import { presentationUnlocks } from "@/lib/game/presentation";
 import type { World, AdvanceProgress } from "@/lib/game/types";
+import { PagedContent } from "@/components/ui/paged-content";
 import { RetreatSummary } from "./retreat-summary";
 type Entry = { id: string; day: number; text: string; important?: boolean };
 type Result = { id: string; kind: string; notice: string; day: number; revision: number } | null;
@@ -128,18 +129,20 @@ export function EventFeed({
           {queued ? `加速显示 · ${queued} 条` : "查看全部"}
         </Button>
       </header>
-      <div className="event-feed-lines" role="log" aria-live="polite" aria-relevant="additions">
-        {rows
-          .slice(-6)
-          .reverse()
-          .map((row) => (
-            <article key={row.id} className={row.important ? "event-important" : ""}>
-              <time>第 {row.day + 1} 日</time>
-              <p>{row.text}</p>
-            </article>
-          ))}
-        {!rows.length && <p>此刻起，记录这一世的行止。</p>}
-      </div>
+      <PagedContent label="近日见闻">
+        <div className="event-feed-lines" role="log" aria-live="polite" aria-relevant="additions">
+          {rows
+            .slice(-6)
+            .reverse()
+            .map((row) => (
+              <article key={row.id} className={row.important ? "event-important" : ""}>
+                <time>第 {row.day + 1} 日</time>
+                <p>{row.text}</p>
+              </article>
+            ))}
+          {!rows.length && <p>此刻起，记录这一世的行止。</p>}
+        </div>
+      </PagedContent>
       <RetreatSummary interval={summary} />
     </section>
   );

@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect, type ReactNode } from "react";
+import { PagedContent } from "@/components/ui/paged-content";
+import { SectionNav } from "@/components/ui/section-nav";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { objective, presentationActionVisible, presentationShows } from "@/lib/game/presentation";
 import { journeyActions } from "@/lib/game/journey-actions";
+import { sectAt } from "@/lib/game/sect-content";
 import { practicePreview, realmPresentation } from "@/lib/ui/realm-presentation";
 import { partyReadiness } from "@/lib/game/agreement";
 import { B, REALM_KEYS } from "@/lib/game/rules";
@@ -73,10 +76,15 @@ export function Dojo({
   onNew,
   onExport,
 }: Props) {
+  const [reading, setReading] = useState("story");
+  const [moreTab, setMoreTab] = useState("actions");
   const [more, setMore] = useState(false),
     [practice, setPractice] = useState(false),
     [breakthrough, setBreakthrough] = useState(false),
     [journal, setJournal] = useState(false);
+  useEffect(() => {
+    if (!more) setMoreTab("actions");
+  }, [more]);
   useEffect(() => {
     if (profileOpen) setMore(false);
   }, [profileOpen]);
@@ -116,6 +124,7 @@ export function Dojo({
       setBreakthrough(true);
       return;
     }
+    setMoreTab(w.loot ? "loot" : "actions");
     setMore(true);
   };
   const actionOrder: Record<string, number> = { "advance-minor": 0, practice: 1, work: 2, shop: 3 };
@@ -151,26 +160,39 @@ export function Dojo({
   const longFull = w.longAction?.kind === "train" && state.ready;
   return (
     <div className="dojo" aria-label="道场内容">
-      <div className="dojo-reading">
+      <div className="dojo-reading-nav">
+        <SectionNav
+          label="道场阅读"
+          value={reading}
+          onChange={setReading}
+          items={[
+            { id: "story", label: "当前剧情" },
+            { id: "news", label: "近日见闻" },
+          ]}
+        />
+      </div>
+      <div className="dojo-reading" data-reading={reading}>
         {w.battle ? (
           <section className="dojo-battle-scene">
-            <h1 className="serif">指挥战斗 · 第 {w.battle.round} 回合</h1>
-            <div className="dojo-combatants">
-              {w.battle.enemies.map((a) => (
-                <p key={a.id}>
-                  {a.name} · 气血 {a.hp}/{a.maxHp}
-                </p>
-              ))}
-            </div>
-            <div className="dojo-combatants">
-              {w.battle.allies.map((a) => (
-                <p key={a.id}>
-                  {a.name} · 气血 {a.hp}/{a.maxHp}
-                </p>
-              ))}
-            </div>
-            <p>{w.battle.logs.at(-1)}</p>
-            <p>在“更多”中选择目标、招式或自动战斗。</p>
+            <PagedContent label="战斗近况">
+              <h1 className="serif">指挥战斗 · 第 {w.battle.round} 回合</h1>
+              <div className="dojo-combatants">
+                {w.battle.enemies.map((a) => (
+                  <p key={a.id}>
+                    {a.name} · 气血 {a.hp}/{a.maxHp}
+                  </p>
+                ))}
+              </div>
+              <div className="dojo-combatants">
+                {w.battle.allies.map((a) => (
+                  <p key={a.id}>
+                    {a.name} · 气血 {a.hp}/{a.maxHp}
+                  </p>
+                ))}
+              </div>
+              <p>{w.battle.logs.at(-1)}</p>
+              <p>在“更多”中选择目标、招式或自动战斗。</p>
+            </PagedContent>
           </section>
         ) : (
           <JourneyTab world={w} onProfile={onProfile} />
@@ -226,7 +248,11 @@ export function Dojo({
                     (a.command?.type === "train" && !!preview.reason)
                   }
                   onClick={() =>
-                    a.command ? void invoke(a.command) : a.tab ? navigate(a.tab) : setMore(true)
+                    a.command
+                      ? void invoke(a.command)
+                      : a.tab
+                        ? navigate(a.tab)
+                        : (setMoreTab("sect"), setMore(true))
                   }
                 >
                   {a.title}
@@ -249,11 +275,31 @@ export function Dojo({
             <DialogTitle>选择更多行动</DialogTitle>
             <DialogDescription>查看与设置不消耗游戏时间。</DialogDescription>
           </DialogHeader>
+          {!w.battle && (
+            <SectionNav
+              label="行动分类"
+              value={moreTab}
+              onChange={setMoreTab}
+              items={[
+                { id: "actions", label: "日常" },
+                ...(!w.ended ? [{ id: "wait", label: "等候" }] : []),
+                ...(presentationShows(w, "visitSect") && sectAt(w.player.location)
+                  ? [{ id: "sect", label: "宗门" }]
+                  : []),
+                ...(w.story.flags.met &&
+                primary.location === w.player.location &&
+                !["accepted", "active"].includes(w.agreement?.status ?? "")
+                  ? [{ id: "talk", label: "交涉" }]
+                  : []),
+                ...(w.loot ? [{ id: "loot", label: "战利品" }] : []),
+              ]}
+            />
+          )}
           {w.battle ? (
             battle
           ) : (
             <>
-              <div className="more-actions">
+              <div className="more-actions" hidden={moreTab !== "actions"}>
                 {choiceActions.map((a) => (
                   <Button
                     key={a.id}
@@ -266,7 +312,7 @@ export function Dojo({
                     <TimeBadge world={w} command={a.command} />
                   </Button>
                 ))}
-                {w.player.manual && (
+                {w.player.manual && !actions.some((action) => action.tab === "cultivation") && (
                   <Button variant="outline" onClick={() => navigate("cultivation")}>
                     {state.canBreak ? "准备突破" : "设置修炼方式"}
                   </Button>
@@ -285,7 +331,7 @@ export function Dojo({
                         ? void invoke(a.command)
                         : a.tab
                           ? navigate(a.tab)
-                          : document.getElementById(a.anchor ?? "")?.scrollIntoView()
+                          : setMoreTab("sect")
                     }
                   >
                     {a.title}
@@ -343,21 +389,31 @@ export function Dojo({
                   </Button>
                 )}
               </div>
-              <LootSettlement
-                world={w}
-                send={invoke}
-                blocked={blocked}
-                requestConfirm={requestConfirm}
-              />
+              <div hidden={moreTab !== "loot"}>
+                <LootSettlement
+                  world={w}
+                  send={invoke}
+                  blocked={blocked}
+                  requestConfirm={requestConfirm}
+                />
+              </div>
               {presentationShows(w, "visitSect") && (
-                <SectPanel world={w} send={send} blocked={blocked} onProfile={onProfile} />
+                <div hidden={moreTab !== "sect"}>
+                  <SectPanel world={w} send={send} blocked={blocked} onProfile={onProfile} />
+                </div>
               )}
               {w.story.flags.met &&
                 primary.location === w.player.location &&
                 !["accepted", "active"].includes(w.agreement?.status ?? "") && (
-                  <Negotiation world={w} busy={blocked} send={invoke} onPause={onPause} />
+                  <div hidden={moreTab !== "talk"}>
+                    <Negotiation world={w} busy={blocked} send={invoke} onPause={onPause} />
+                  </div>
                 )}
-              {!w.ended && <WaitControls world={w} act={invoke} blocked={blocked} />}
+              {!w.ended && (
+                <div hidden={moreTab !== "wait"}>
+                  <WaitControls world={w} act={invoke} blocked={blocked} />
+                </div>
+              )}
               {w.ended && (
                 <div>
                   <Button variant="outline" onClick={onExport}>

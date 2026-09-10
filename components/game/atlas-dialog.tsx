@@ -28,7 +28,7 @@ export function AtlasPage({
     return saved;
   };
   return (
-    <section className="atlas-page" id="atlas-page">
+    <section className="atlas-page screen-panel" id="atlas-page">
       <header className="section-heading">
         <h1 className="serif">选择去处</h1>
         <p>

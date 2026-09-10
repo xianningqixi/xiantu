@@ -9,6 +9,7 @@ import type { World } from "@/lib/game/types";
 import { profileTargetForClick, type OpenProfile } from "@/lib/ui/profile-navigation";
 import { NpcPortrait } from "./npc-portrait";
 import { GameImage } from "./panels";
+import { PagedContent } from "@/components/ui/paged-content";
 
 /** Reading surface only. Every story choice is projected into the dojo action dock. */
 export function JourneyTab({ world: w, onProfile }: { world: World; onProfile: OpenProfile }) {
@@ -50,43 +51,45 @@ export function JourneyTab({ world: w, onProfile }: { world: World; onProfile: O
       </figure>
       <div className={`dojo-story-layout${context.actor ? " has-speaker" : ""}`}>
         <article className="dojo-story">
-          <span className="eyebrow">
-            {main
-              ? `主线 · 残碑寻源 · ${main.chapter.volumeTitle}`
-              : side
-                ? chapter
-                  ? `${chapter.volumeTitle} · ${side.id.endsWith(".intro") ? "卷首" : "人物故事"}`
-                  : side.eyebrow
-                : transition?.eyebrow || official?.eyebrow || "此地见闻"}
-          </span>
-          <h1 className="serif">{transition?.title || node?.title || place.subtitle}</h1>
-          {chapter && side?.id.endsWith(".intro") && (
-            <p className="campaign-lead">{chapter.volumeLead}</p>
-          )}
-          <p>
-            {main?.body ||
-              side?.body ||
-              contentText(transition?.body || official?.body || place.body, w)}
-          </p>
-          {(side?.quote || (!w.loot && official?.quote && !main)) && (
-            <blockquote>
-              {side?.quote || official?.quote}
-              <cite>— {context.displayName || primary.name}</cite>
-            </blockquote>
-          )}
-          {!context.actionable && chapterStatus && (
-            <p className="subtle">
-              {chapterStatus.done ? chapterStatus.done.text : chapterStatus.missing.join("；")}
+          <PagedContent label="当前故事" resetKey={node?.id ?? w.player.location}>
+            <span className="eyebrow">
+              {main
+                ? `主线 · 残碑寻源 · ${main.chapter.volumeTitle}`
+                : side
+                  ? chapter
+                    ? `${chapter.volumeTitle} · ${side.id.endsWith(".intro") ? "卷首" : "人物故事"}`
+                    : side.eyebrow
+                  : transition?.eyebrow || official?.eyebrow || "此地见闻"}
+            </span>
+            <h1 className="serif">{transition?.title || node?.title || place.subtitle}</h1>
+            {chapter && side?.id.endsWith(".intro") && (
+              <p className="campaign-lead">{chapter.volumeLead}</p>
+            )}
+            <p>
+              {main?.body ||
+                side?.body ||
+                contentText(transition?.body || official?.body || place.body, w)}
             </p>
-          )}
-          <p className="dojo-present">
-            在场：
-            {present
-              .slice(0, 2)
-              .map((a) => a.name)
-              .join(" · ") || "暂无他人"}
-            {present.length > 2 && ` · +${present.length - 2}`}
-          </p>
+            {(side?.quote || (!w.loot && official?.quote && !main)) && (
+              <blockquote>
+                {side?.quote || official?.quote}
+                <cite>— {context.displayName || primary.name}</cite>
+              </blockquote>
+            )}
+            {!context.actionable && chapterStatus && (
+              <p className="subtle">
+                {chapterStatus.done ? chapterStatus.done.text : chapterStatus.missing.join("；")}
+              </p>
+            )}
+            <p className="dojo-present">
+              在场：
+              {present
+                .slice(0, 2)
+                .map((a) => a.name)
+                .join(" · ") || "暂无他人"}
+              {present.length > 2 && ` · +${present.length - 2}`}
+            </p>
+          </PagedContent>
         </article>
         {context.actor && (
           <button

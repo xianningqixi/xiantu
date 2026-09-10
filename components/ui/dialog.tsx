@@ -7,6 +7,8 @@ import { Dialog as DialogPrimitive } from "radix-ui";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { PagedContent } from "./paged-content";
+import { SectionNav } from "./section-nav";
 
 function Dialog({ ...props }: React.ComponentProps<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root data-slot="dialog" {...props} />;
@@ -44,11 +46,23 @@ function DialogContent({
   className,
   children,
   showCloseButton = true,
+  paginate = true,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   showCloseButton?: boolean;
+  paginate?: boolean;
 }) {
   const focus = useDialogFocus();
+  const pages =
+    paginate &&
+    className?.includes("game-modal") &&
+    !className.includes("image-viewer") &&
+    !className.includes("profile-modal") &&
+    !className.includes("journal-dialog");
+  const parts = React.Children.toArray(children);
+  const fixed = (child: React.ReactNode) =>
+    React.isValidElement(child) &&
+    [DialogHeader, DialogFooter, SectionNav].includes(child.type as typeof DialogHeader);
   return (
     <DialogPortal data-slot="dialog-portal">
       <DialogOverlay />
@@ -78,7 +92,18 @@ function DialogContent({
           focus.closed(event);
         }}
       >
-        {children}
+        {pages ? (
+          <>
+            {parts.filter(
+              (child) =>
+                fixed(child) && (!React.isValidElement(child) || child.type !== DialogFooter),
+            )}
+            <PagedContent label="浮窗内容">{parts.filter((child) => !fixed(child))}</PagedContent>
+            {parts.filter((child) => React.isValidElement(child) && child.type === DialogFooter)}
+          </>
+        ) : (
+          children
+        )}
         {showCloseButton && (
           <DialogPrimitive.Close
             data-slot="dialog-close"

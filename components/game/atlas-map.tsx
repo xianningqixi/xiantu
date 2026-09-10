@@ -1,4 +1,13 @@
 "use client";
+import { useCompactLayout } from "@/lib/ui/use-compact-layout";
+import { PagedContent } from "@/components/ui/paged-content";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { presentationShows } from "@/lib/game/presentation";
 import { B } from "@/lib/game/rules";
 import { relation } from "@/lib/game/relationships";
@@ -13,16 +22,16 @@ import type { Send } from "./panels";
 
 const symbols = { town: Castle, village: House, forest: Trees, mountain: Mountain, water: Waves };
 const mobilePoints: Record<string, [number, number]> = {
-  qingshi: [25, 84],
-  "atlas.luoxia": [24, 65],
-  "atlas.cangzhu": [25, 46],
-  xiaye: [74, 84],
-  "atlas.yanbo": [74, 65],
-  "atlas.yunmeng": [75, 46],
-  qiudeng: [25, 27],
-  "atlas.wendao": [24, 9],
-  dongxue: [75, 9],
-  "atlas.xuesong": [75, 27],
+  qingshi: [25, 87],
+  "atlas.luoxia": [24, 68],
+  "atlas.cangzhu": [25, 49],
+  xiaye: [74, 87],
+  "atlas.yanbo": [74, 68],
+  "atlas.yunmeng": [75, 49],
+  qiudeng: [25, 30],
+  "atlas.wendao": [24, 11],
+  dongxue: [75, 11],
+  "atlas.xuesong": [75, 30],
 };
 
 export function AtlasMap({
@@ -34,6 +43,8 @@ export function AtlasMap({
   send: Send;
   blocked: boolean;
 }) {
+  const compact = useCompactLayout();
+  const [detailOpen, setDetailOpen] = useState(false);
   const places = atlasPlaces(w);
   const current =
     places.find((p) => p.to === w.player.location) ??
@@ -68,6 +79,68 @@ export function AtlasMap({
         : mainEvent(w, chapter.discovery.id)
           ? "此地的主线旧事已查明，仍可回访故人。"
           : "可先入城探访；人物在场、前置线索与时机齐备后，剧情自然展开。";
+  const destination = (
+    <div className="atlas-destination" aria-label="目的地详情" aria-live="polite">
+      <div className="atlas-destination-copy">
+        <span className="eyebrow">
+          {here ? "此刻所在" : "下一程"} · {selected.subtitle}
+        </span>
+        <h3 className="serif">{selected.name}</h3>
+        <p>{selected.body}</p>
+        {presentationShows(w, "travel.sects") && sectAt(selected.to as LocationId) && (
+          <p className="atlas-sect-note">
+            <strong>{sectAt(selected.to as LocationId)!.name} · </strong>
+            {sectAt(selected.to as LocationId)!.description}
+          </p>
+        )}
+        <small>{storyNote}</small>
+        {!disclosed && <small>修至炼气三层后开放远行入口。</small>}
+        {!here && route && (
+          <small className="atlas-itinerary">
+            行程：
+            {[
+              current.name,
+              ...routeStops
+                .filter((id) => id !== current.to)
+                .map((id) => places.find((p) => p.to === id)!.name),
+            ].join(" → ")}
+          </small>
+        )}
+      </div>
+      <div className="atlas-departure">
+        <p>
+          已结识{" "}
+          {
+            w.npcs.filter(
+              (a) =>
+                a.alive && !a.npcJourney && a.location === selected.to && relation(w, a.id)?.known,
+            ).length
+          }{" "}
+          人在此
+        </p>
+        <p>
+          旅途 {here ? 0 : (route?.days ?? 0)} 日 · 遭遇概率 {B.travel.randomRoadEncounterBp / 100}%
+        </p>
+        <button
+          disabled={!visitable}
+          className="atlas-go"
+          onClick={() => void send({ type: "travel", to: selected.to as LocationId })}
+        >
+          {here ? <MapPin size={17} /> : <Footprints size={17} />}
+          {here ? "正在此地" : `启程前往 · ${route?.days ?? 0} 日`}
+        </button>
+        <small>
+          {w.loot
+            ? "先返回结算战利品"
+            : blocked
+              ? "当前行动结束后可启程"
+              : !route
+                ? "请先结束当前秘境行程"
+                : "自由往来 · 剧情随缘而起"}
+        </small>
+      </div>
+    </div>
+  );
   return (
     <div className="atlas-section">
       <div className="atlas-caption">
@@ -188,7 +261,10 @@ export function AtlasMap({
                 aria-label={`查看${p.name}`}
                 aria-pressed={p.id === selected.id}
                 aria-current={isHere ? "location" : undefined}
-                onClick={() => setSelectedId(p.id)}
+                onClick={() => {
+                  setSelectedId(p.id);
+                  if (compact) setDetailOpen(true);
+                }}
               >
                 <span className="atlas-pin">
                   {isHere ? <MapPin size={20} /> : <Icon size={18} />}
@@ -223,70 +299,24 @@ export function AtlasMap({
           任行
         </span>
       </div>
-      <div className="atlas-destination" aria-label="目的地详情" aria-live="polite">
-        <div className="atlas-destination-copy">
-          <span className="eyebrow">
-            {here ? "此刻所在" : "下一程"} · {selected.subtitle}
-          </span>
-          <h3 className="serif">{selected.name}</h3>
-          <p>{selected.body}</p>
-          {presentationShows(w, "travel.sects") && sectAt(selected.to as LocationId) && (
-            <p className="atlas-sect-note">
-              <strong>{sectAt(selected.to as LocationId)!.name} · </strong>
-              {sectAt(selected.to as LocationId)!.description}
-            </p>
-          )}
-          <small>{storyNote}</small>
-          {!disclosed && <small>修至炼气三层后开放远行入口。</small>}
-          {!here && route && (
-            <small className="atlas-itinerary">
-              行程：
-              {[
-                current.name,
-                ...routeStops
-                  .filter((id) => id !== current.to)
-                  .map((id) => places.find((p) => p.to === id)!.name),
-              ].join(" → ")}
-            </small>
-          )}
+      {!compact && (
+        <div className="atlas-inspector">
+          <PagedContent label="目的地详情" resetKey={selected.id}>
+            {destination}
+          </PagedContent>
         </div>
-        <div className="atlas-departure">
-          <p>
-            已结识{" "}
-            {
-              w.npcs.filter(
-                (a) =>
-                  a.alive &&
-                  !a.npcJourney &&
-                  a.location === selected.to &&
-                  relation(w, a.id)?.known,
-              ).length
-            }{" "}
-            人在此
-          </p>
-          <p>
-            旅途 {here ? 0 : (route?.days ?? 0)} 日 · 遭遇概率{" "}
-            {B.travel.randomRoadEncounterBp / 100}%
-          </p>
-          <button
-            disabled={!visitable}
-            className="atlas-go"
-            onClick={() => void send({ type: "travel", to: selected.to as LocationId })}
-          >
-            {here ? <MapPin size={17} /> : <Footprints size={17} />}
-            {here ? "正在此地" : `启程前往 · ${route?.days ?? 0} 日`}
-          </button>
-          <small>
-            {w.loot
-              ? "先返回结算战利品"
-              : blocked
-                ? "当前行动结束后可启程"
-                : !route
-                  ? "请先结束当前秘境行程"
-                  : "自由往来 · 剧情随缘而起"}
-          </small>
-        </div>
-      </div>
+      )}
+      {compact && (
+        <Dialog open={detailOpen} onOpenChange={setDetailOpen}>
+          <DialogContent className="game-modal atlas-place-modal">
+            <DialogHeader>
+              <DialogTitle>{selected.name}</DialogTitle>
+              <DialogDescription>查看路程、在场故人与此地线索。</DialogDescription>
+            </DialogHeader>
+            {destination}
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 }

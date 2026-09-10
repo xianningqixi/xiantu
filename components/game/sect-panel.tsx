@@ -24,7 +24,6 @@ export function SectPanel({
   const oath = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (confirmJoin) {
-      oath.current?.scrollIntoView({ block: "nearest" });
       oath.current?.focus({ preventScroll: true });
     }
   }, [confirmJoin]);

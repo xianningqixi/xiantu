@@ -86,6 +86,7 @@ export default function Game({ preview = false }: { preview?: boolean }) {
   const [lastSummary, setLastSummary] = useState<ActionSummary | null>(null);
   const actionStart = useRef<ActionSummary | null>(null);
   const { world: w, ready, busy, error, command: send } = game;
+  const [offlineContainer, setOfflineContainer] = useState<HTMLElement | null>(null);
   const [tab, setTab] = useState("journey");
   useEffect(() => {
     const previous = previousWorld.current;
@@ -481,13 +482,6 @@ export default function Game({ preview = false }: { preview?: boolean }) {
           <a className="wordmark serif" href="#">
             仙途<span>青石人间</span>
           </a>
-          <div className="flex gap-2">
-            <AISettingsEntry onPause={pause} />
-            <BackupManager game={game} onPause={pause} />
-            <Button variant="ghost" onClick={() => importRef.current?.click()}>
-              <Upload size={16} /> 导入存档
-            </Button>
-          </div>
         </header>
         <div className="prologue-layout">
           <div className="creation-wrap">
@@ -503,6 +497,19 @@ export default function Game({ preview = false }: { preview?: boolean }) {
               </div>
             )}
             <Creation
+              utilities={
+                <>
+                  <AISettingsEntry onPause={pause} />
+                  <BackupManager game={game} onPause={pause} />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => importRef.current?.click()}
+                  >
+                    <Upload size={16} /> 导入存档
+                  </Button>
+                </>
+              }
               key={game.draft?.revision ?? "new"}
               initialDraft={game.draft}
               onSaveDraft={game.saveCreationDraft}
@@ -568,7 +575,10 @@ export default function Game({ preview = false }: { preview?: boolean }) {
             </TabsList>
           </div>
           <div className="header-tools">
-            <OfflineStatus safe={!busy && !saveBlocked && !w.longAction && !w.battle && !confirm} />
+            <OfflineStatus
+              container={offlineContainer}
+              safe={!busy && !saveBlocked && !w.longAction && !w.battle && !confirm}
+            />
             <span
               aria-label={busy ? "正在保存" : saveBlocked ? "保存待确认" : "本机已存"}
               className={`saved-state${saveBlocked ? " is-unsaved" : ""}`}
@@ -648,6 +658,7 @@ export default function Game({ preview = false }: { preview?: boolean }) {
               className="journey-content"
             >
               <Dojo
+                profileOpen={!!profileId}
                 key={w.saveId}
                 world={w}
                 act={act}
@@ -767,6 +778,7 @@ export default function Game({ preview = false }: { preview?: boolean }) {
         </DialogContent>
       </Dialog>
       <SettingsDialog
+        offlineRef={setOfflineContainer}
         world={w}
         game={game}
         busy={busy}

@@ -26,7 +26,7 @@ export function realmPresentation(actor: Actor) {
     target,
     capped: kind === "cap",
     ready: actor.xp >= threshold(actor),
-    preparation: kind === "major",
+    preparation: kind === "major" || kind === "bottleneck",
     canBreak: actor.xp >= threshold(actor) && rule.days > 0 && !!rule.targetRealm,
   };
 }

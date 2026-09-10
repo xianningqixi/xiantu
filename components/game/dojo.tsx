@@ -1,5 +1,5 @@
 "use client";
-import { useState, type ReactNode } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -26,9 +26,11 @@ import { BreakthroughDialog } from "./breakthrough-dialog";
 import { SectPanel } from "./sect-panel";
 import { LootSettlement } from "./loot-settlement";
 import { Negotiation } from "./negotiation";
+import { TimeBadge } from "./time-badge";
 import { WaitControls } from "./wait-controls";
 type Props = {
   world: World;
+  profileOpen: boolean;
   act: Send;
   send: Send;
   blocked: boolean;
@@ -48,6 +50,7 @@ type Props = {
 };
 export function Dojo({
   world: w,
+  profileOpen,
   act,
   send,
   blocked,
@@ -69,13 +72,15 @@ export function Dojo({
     [practice, setPractice] = useState(false),
     [breakthrough, setBreakthrough] = useState(false),
     [journal, setJournal] = useState(false);
+  useEffect(() => {
+    if (profileOpen) setMore(false);
+  }, [profileOpen]);
   const goal = objective(w),
     state = realmPresentation(w.player),
     preview = practicePreview(w, 7);
-  const invoke = async (command: Command) => {
-    const ok = await act(command);
-    if (ok) setMore(false);
-    return ok;
+  const invoke = (command: Command) => {
+    setMore(false);
+    return act(command);
   };
   const navigate = (tab: string) => {
     setMore(false);
@@ -116,15 +121,21 @@ export function Dojo({
     .filter((a) => JSON.stringify(a.command) !== JSON.stringify(goal.command) || !a.command);
   const storyChoices = goal.choices?.slice(1) ?? [];
   const maxSecondary = summary ? 2 : 3;
-  const secondary = storyChoices.length
-    ? storyChoices.map((a, i) => ({
-        id: `choice-${i}`,
-        title: a.title,
-        command: a.command,
-        tab: undefined,
-        anchor: undefined,
-      }))
-    : actions.slice(0, maxSecondary);
+  const choiceActions = storyChoices.map((a, i) => ({
+    id: `choice-${i}`,
+    title: a.title,
+    command: a.command,
+    tab: undefined,
+    anchor: undefined,
+  }));
+  const directPractice = actions.find(
+    (a) => a.id === "practice" && a.command?.type === "train" && !preview.reason,
+  );
+  const secondary = [
+    ...(directPractice ? [directPractice] : []),
+    ...choiceActions,
+    ...actions.filter((a) => a !== directPractice),
+  ].slice(0, maxSecondary);
   const readiness = partyReadiness(w);
   const minRealm = REALM_KEYS.findIndex((key) => key === B.story.playerMinimumExplorationRealm);
   const primary = w.npcs.find((a) => a.id === PACK.roles.primary)!;
@@ -170,6 +181,7 @@ export function Dojo({
         <Button
           className="dojo-primary"
           data-primary-action
+          data-story-choice={goal.choices ? "primary" : undefined}
           disabled={(busy && !advancing) || (!!w.longAction && !advancing && !!longFull)}
           onClick={follow}
         >
@@ -222,6 +234,18 @@ export function Dojo({
           ) : (
             <>
               <div className="more-actions">
+                {choiceActions.map((a) => (
+                  <Button
+                    key={a.id}
+                    data-journey-action={a.id}
+                    variant="outline"
+                    disabled={blocked}
+                    onClick={() => void invoke(a.command)}
+                  >
+                    {a.title}
+                    <TimeBadge world={w} command={a.command} />
+                  </Button>
+                ))}
                 {w.player.manual && (
                   <Button variant="outline" onClick={() => navigate("cultivation")}>
                     {state.canBreak ? "准备突破" : "设置修炼方式"}
@@ -231,6 +255,7 @@ export function Dojo({
                   <Button
                     variant="outline"
                     key={a.id}
+                    data-journey-action={a.id}
                     disabled={blocked || (a.id === "practice" && !!a.command && !!preview.reason)}
                     onClick={() =>
                       a.command
@@ -241,6 +266,7 @@ export function Dojo({
                     }
                   >
                     {a.title}
+                    <TimeBadge world={w} command={a.command} />
                   </Button>
                 ))}
                 {w.player.location === "gate" && !hasRubbing(w) && (
@@ -291,7 +317,7 @@ export function Dojo({
                 blocked={blocked}
                 requestConfirm={requestConfirm}
               />
-              <SectPanel world={w} send={invoke} blocked={blocked} onProfile={onProfile} />
+              <SectPanel world={w} send={send} blocked={blocked} onProfile={onProfile} />
               {w.story.flags.met &&
                 primary.location === w.player.location &&
                 !["accepted", "active"].includes(w.agreement?.status ?? "") && (

@@ -129,6 +129,14 @@ export function useGame(preview = false) {
       .then(([saved, creation]) => {
         if (!active) return;
         setWorld(saved.state ?? null);
+        if (saved.migrated && saved.state)
+          setLastResult({
+            id: saved.id,
+            kind: "migration",
+            notice: `旧档已迁移至规则 ${result.state.rulesVersion}，原始存档已保留备份。`,
+            day: saved.state.day,
+            revision: saved.state.revision,
+          });
         setDraft(creation.draft ?? null);
         draftRevision.current = creation.draft?.revision ?? 0;
         setError("");
@@ -197,7 +205,7 @@ export function useGame(preview = false) {
             id,
             kind: input.kind,
             notice: ["restore", "import", "create"].includes(input.kind)
-              ? `${result.migrated ? "旧档已迁移至规则 0.2.0，原档已备份。" : ""}${input.kind === "restore" ? "已恢复" : input.kind === "import" ? "已导入" : "已创建"}${result.state.player.name}的这一世 · 第 ${result.state.day + 1} 日。`
+              ? `${input.kind === "restore" ? "已恢复" : input.kind === "import" ? "已导入" : "已创建"}${result.state.player.name}的这一世 · 第 ${result.state.day + 1} 日。${result.migrated ? `旧档已迁移至规则 ${result.state.rulesVersion}，原始存档已保留备份。` : input.kind === "import" ? `已读取 ${result.state.rulesVersion} 规则存档。` : ""}`
               : result.state.notice,
             day: result.state.day,
             revision: result.state.revision,

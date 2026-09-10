@@ -8,24 +8,42 @@ import type { OpenProfile } from "@/lib/ui/profile-navigation";
 import { Meter } from "./panels";
 import { PlayerPortrait } from "./player-portrait";
 export function CharacterStatus({ world: w, onProfile }: { world: World; onProfile: OpenProfile }) {
+  type Delta = { id: number; xp: number; stones: number };
+  const queue = useRef<Delta[]>([]);
+  const [queued, setQueued] = useState(0);
   const previous = useRef(w),
-    [delta, setDelta] = useState<{ id: number; xp: number; stones: number } | null>(null);
+    [delta, setDelta] = useState<Delta | null>(null);
   useEffect(() => {
     const p = previous.current;
     previous.current = w;
-    if (p.saveId !== w.saveId || p.revision >= w.revision) return;
+    if (p.saveId !== w.saveId || p.revision > w.revision) {
+      queue.current = [];
+      setQueued(0);
+      setDelta(null);
+      return;
+    }
+    if (p.revision === w.revision) return;
     const xp =
       p.player.realm <= w.player.realm
         ? trainingGain(finishActionSummary(beginActionSummary(p, "train"), w, "completed"))
         : w.player.xp - p.player.xp;
     const stones = w.player.stones - p.player.stones;
-    if (xp || stones) setDelta({ id: w.revision, xp, stones });
+    if (xp || stones) {
+      queue.current.push({ id: w.revision, xp, stones });
+      setQueued(queue.current.length);
+    }
   }, [w]);
   useEffect(() => {
-    if (!delta) return;
-    const t = setTimeout(() => setDelta(null), 1200);
-    return () => clearTimeout(t);
-  }, [delta]);
+    if (!queued && !delta) return;
+    const timer = setTimeout(
+      () => {
+        setDelta(queue.current.shift() ?? null);
+        setQueued(queue.current.length);
+      },
+      queued ? 400 : 1200,
+    );
+    return () => clearTimeout(timer);
+  }, [queued, delta]);
   return (
     <div className="character-status" aria-label="角色状态">
       <button

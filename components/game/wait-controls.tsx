@@ -45,7 +45,7 @@ export function WaitControls({
         : "";
   return (
     <details id="wait-controls" className="wait-controls">
-      <summary>等候 · 选择日数与停止条件</summary>
+      <summary>设置停留日数</summary>
       <div className="conditional-wait">
         <label>
           最多等候
@@ -93,7 +93,7 @@ export function WaitControls({
           }
           onClick={() => act(command)}
         >
-          {target === "days" ? "开始等候" : "开始条件等候"}
+          {target === "days" ? "开始停留" : "开始条件停留"}
           <TimeBadge world={w} command={command} />
         </Button>
         {reason && <p className="action-reason">{reason}</p>}

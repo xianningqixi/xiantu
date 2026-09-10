@@ -19,22 +19,23 @@ import { rollAptitude } from "@/lib/game/engine";
 import { draftSchema } from "@/lib/game/protocol";
 import type { CreationDraft, Profile } from "@/lib/game/types";
 import { ArrowRight, Dices, Leaf, Sparkles } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 export function Creation({
   onCreate,
+  utilities,
   busy,
   onCancel,
   initialDraft,
   onSaveDraft,
 }: {
+  utilities?: ReactNode;
   onCreate: (profile: Profile, seed: number, contentLocks: string[]) => void | Promise<void>;
   busy: boolean;
   onCancel?: () => void;
   initialDraft?: CreationDraft | null;
   onSaveDraft?: (draft: Omit<CreationDraft, "revision" | "version">) => Promise<CreationDraft>;
 }) {
-  const [panel, setPanel] = useState("identity");
   const [seed, setSeed] = useState(String(initialDraft?.seed ?? 12345));
   const [roll, setRoll] = useState(initialDraft?.roll ?? 0);
   const [profile, setProfile] = useState<Profile>(
@@ -307,6 +308,7 @@ export function Creation({
       <details className="creation-more">
         <summary>更多设定</summary>
         <div className="creation-advanced">
+          {utilities && <div className="creation-utilities">{utilities}</div>}
           <AppearanceFields
             omitFace
             sex={profile.sex}

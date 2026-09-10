@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Dialog,
   DialogContent,
@@ -31,6 +31,15 @@ export function BreakthroughDialog({
   act: Send;
   blocked: boolean;
 }) {
+  const [gathering, setGathering] = useState(false);
+  const gatherTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => {
+    if (!open) setGathering(false);
+    return () => {
+      if (gatherTimer.current) clearTimeout(gatherTimer.current);
+      gatherTimer.current = null;
+    };
+  }, [open]);
   const [pill, setPill] = useState(false),
     [guardian, setGuardian] = useState(false);
   const p = w.player,
@@ -87,7 +96,7 @@ export function BreakthroughDialog({
                 aria-label="服用突破丹"
                 checked={usePill}
                 onCheckedChange={setPill}
-                disabled={blocked || !p.pills}
+                disabled={blocked || gathering || !p.pills}
               />
             </label>
             {!p.pills && (
@@ -106,7 +115,7 @@ export function BreakthroughDialog({
                 aria-label={`邀请${person.name}护法`}
                 checked={useGuardian}
                 onCheckedChange={setGuardian}
-                disabled={blocked || !possible}
+                disabled={blocked || gathering || !possible}
               />
             </label>
             <div className="guardian-checks">
@@ -119,14 +128,24 @@ export function BreakthroughDialog({
           </>
         )}
         {!state.canBreak && <p>修为尚未圆满，或当前境界无需手动突破。</p>}
+        {gathering && (
+          <p className="breakthrough-gathering" role="status">
+            屏息凝神，灵气正汇入丹田。
+          </p>
+        )}
         <Button
-          disabled={blocked || !state.canBreak || p.location === "ruins"}
-          onClick={async () => {
-            if (await act({ type: "breakthrough", usePill, guardian: useGuardian }))
-              onOpenChange(false);
+          disabled={blocked || gathering || !state.canBreak || p.location === "ruins"}
+          onClick={() => {
+            setGathering(true);
+            gatherTimer.current = setTimeout(async () => {
+              gatherTimer.current = null;
+              const ok = await act({ type: "breakthrough", usePill, guardian: useGuardian });
+              setGathering(false);
+              if (ok) onOpenChange(false);
+            }, 1200);
           }}
         >
-          凝神，尝试突破 · {rule.days} 日
+          {gathering ? "凝聚气机…" : `凝神，尝试突破 · ${rule.days} 日`}
         </Button>
       </DialogContent>
     </Dialog>

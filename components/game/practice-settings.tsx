@@ -35,7 +35,7 @@ export function PracticeSettings({
       <DialogContent className="game-modal dojo-drawer">
         <DialogHeader>
           <DialogTitle>设置修炼方式</DialogTitle>
-          <DialogDescription>世界逐日推进，每一日完整保存后显示结果。</DialogDescription>
+          <DialogDescription>选择辅助方式与停止条件，修为圆满时自动停止。</DialogDescription>
         </DialogHeader>
         <label className="switch-row">
           <span>
@@ -72,7 +72,7 @@ export function PracticeSettings({
           </label>
         )}
         <p>
-          每日 +{preview.gain} 修为，约 {preview.readyAfter} 日圆满。
+          每日 +{preview.gain} 修为，本层修为约 {preview.readyAfter} 日可满。
           {stone ? `需备足 ${preview.budget} 灵石，按实际日数扣除。` : "无灵石消耗。"}
         </p>
         {preview.reason && <p id="practice-reason">{preview.reason}</p>}
@@ -80,9 +80,7 @@ export function PracticeSettings({
           id="practice-start"
           disabled={blocked || !!preview.reason}
           onClick={async () => {
-            const command =
-              mode === "days" ? { ...preview.command, stopWhen: undefined } : preview.command;
-            if (await act(command)) onOpenChange(false);
+            if (await act(preview.command)) onOpenChange(false);
           }}
         >
           开始修炼 · 最多 {mode === "ready" ? 30 : days} 日

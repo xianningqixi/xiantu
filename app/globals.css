@@ -6316,6 +6316,8 @@ textarea::placeholder {
 
 /* A phase: the dojo owns the reading surface and one primary action. */
 .dojo-shell {
+  height: auto;
+  overflow: visible;
   min-height: 100dvh;
   padding-bottom: 84px;
 }
@@ -6341,6 +6343,8 @@ textarea::placeholder {
   padding: 0;
 }
 .dojo-shell .play-area {
+  display: block;
+  overflow: visible;
   min-width: 0;
   padding: 24px 28px;
 }
@@ -6379,8 +6383,7 @@ textarea::placeholder {
 .dojo-shell .game-nav [role="tab"]::after {
   display: none;
 }
-.dojo-shell .saved-state > span,
-.dojo-shell .header-tools > .offline-status {
+.dojo-shell .saved-state > span {
   display: none;
 }
 .dojo-shell .header-tools {
@@ -6906,7 +6909,8 @@ textarea::placeholder {
   .dojo-drawer {
     top: auto !important;
     bottom: 0;
-    transform: translateX(-50%) !important;
+    transform: none !important;
+    translate: -50% 0;
     width: 100% !important;
     max-width: 100% !important;
     border-radius: 18px 18px 0 0;
@@ -7187,4 +7191,25 @@ textarea::placeholder {
 }
 .dojo-speaker > span:not(.npc-portrait) {
   z-index: 1;
+}
+
+.dojo-shell .play-area > [role="tabpanel"] {
+  overflow: visible;
+  padding-bottom: 84px;
+  scroll-padding-bottom: 84px;
+}
+.dojo-shell .play-area > [hidden] {
+  display: none;
+}
+
+.creation-utilities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.breakthrough-gathering {
+  color: var(--primary);
+  text-align: center;
+  animation: feed-in 1.2s ease-out;
 }

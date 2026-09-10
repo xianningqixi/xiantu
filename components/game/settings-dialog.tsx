@@ -15,6 +15,7 @@ import type { useGame } from "@/lib/game/use-game";
 import { BackupList } from "./backups";
 const ModelSettingsDialog = lazy(() => import("./model-settings-dialog"));
 type SettingsProps = {
+  offlineRef: React.RefCallback<HTMLDivElement>;
   world: World;
   game: ReturnType<typeof useGame>;
   busy: boolean;
@@ -28,6 +29,7 @@ type SettingsProps = {
   setShowCreate: (value: boolean) => void;
 };
 export function SettingsDialog({
+  offlineRef,
   world: w,
   game,
   busy,
@@ -106,6 +108,10 @@ export function SettingsDialog({
           </>
         ) : (
           <div className="settings-body">
+            <section>
+              <h3>管理离线内容</h3>
+              <div ref={offlineRef} />
+            </section>
             <section>
               <h3>这一世</h3>
               <div className="save-info">

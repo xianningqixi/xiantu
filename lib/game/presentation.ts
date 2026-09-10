@@ -49,7 +49,7 @@ export function objective(w: World): Objective {
     return goal(
       "静心修炼 · 1 日",
       reason ??
-        `再修约 ${Math.ceil(Math.max(0, threshold(p) - p.xp) / gainPerDay(w, p))} 日修为圆满。`,
+        `再修约 ${Math.ceil(Math.max(0, threshold(p) - p.xp) / gainPerDay(w, p))} 日本层修为圆满。`,
       {
         command: {
           type: "train",

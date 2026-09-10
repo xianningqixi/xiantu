@@ -389,6 +389,7 @@ export function PeoplePanel({ world: w, onProfile }: { world: World; onProfile: 
             <label>
               人物范围
               <select
+                aria-label="人物范围"
                 value={filter}
                 onChange={(e) => {
                   setFilter(e.target.value as PeopleFilter);
@@ -405,6 +406,7 @@ export function PeoplePanel({ world: w, onProfile }: { world: World; onProfile: 
             <label>
               排序
               <select
+                aria-label="排序"
                 value={sort}
                 onChange={(e) => {
                   setSort(e.target.value);

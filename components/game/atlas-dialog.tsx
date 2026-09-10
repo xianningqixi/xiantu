@@ -45,6 +45,7 @@ export function AtlasPage({
           return (
             <div key={kind}>
               <Button
+                data-travel-to={to}
                 variant="outline"
                 disabled={blocked || world.player.location === to || !route}
                 onClick={() => void travel({ type: "travel", to })}

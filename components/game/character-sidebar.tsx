@@ -35,7 +35,7 @@ export function CharacterStatus({ world: w, onProfile }: { world: World; onProfi
       >
         <PlayerPortrait world={w} className="status-avatar" />
         <span>
-          {w.player.name}
+          <h2>{w.player.name}</h2>
           <small>{REALMS[w.player.realm]}</small>
         </span>
       </button>

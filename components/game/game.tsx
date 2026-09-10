@@ -147,6 +147,9 @@ export default function Game({ preview = false }: { preview?: boolean }) {
           },
         ]);
       activeProfileTab.current = tab;
+      game.pauseAdvance();
+      continuations.cancel();
+      setRunning(false);
       setAutoRunning(false);
       setProfileTab(tab);
       setProfileId(id);

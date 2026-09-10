@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { selectedExtensions } from "@/lib/game/content/extensions";
-import { ARTIFACTS } from "@/lib/game/content/official";
+import { ARTIFACTS, FACES } from "@/lib/game/content/official";
 import { rollAptitude } from "@/lib/game/engine";
 import { draftSchema } from "@/lib/game/protocol";
 import type { CreationDraft, Profile } from "@/lib/game/types";
@@ -200,7 +200,7 @@ export function Creation({
   };
   return (
     <form
-      className={`creation-form creation-panel-${panel}`}
+      className="creation-form creation-simple"
       onKeyDown={(e) => {
         if (
           e.key === "Enter" &&
@@ -217,72 +217,98 @@ export function Creation({
       }}
     >
       <div className="form-heading">
-        <span className="eyebrow">
-          <Leaf size={14} /> 你的角色
-        </span>
-        <h2 className="serif">为这一世，落笔。</h2>
-        <p>凡人之身，亦可踏上仙途。</p>
+        <h2 className="serif">创建这一世</h2>
       </div>
-      <nav className="creation-panel-nav" aria-label="创角面板">
-        {[
-          ["identity", "身份与身形"],
-          ["portrait", "全身立绘"],
-          ["options", "天资与机缘"],
-        ].map(([key, label]) => (
-          <Button
-            key={key}
-            type="button"
-            variant={panel === key ? "default" : "ghost"}
-            aria-pressed={panel === key}
-            onClick={() => setPanel(key)}
+      <div className="creation-essential">
+        <div className="identity-row">
+          <label className="form-field">
+            <span>
+              姓名 <small>必填</small>
+            </span>
+            <input
+              required
+              aria-label="姓名"
+              aria-describedby="creation-name-hint"
+              autoComplete="off"
+              maxLength={16}
+              placeholder="留一个名字在人间"
+              value={profile.name}
+              onChange={(e) => update("name", e.target.value)}
+            />
+          </label>
+          <fieldset>
+            <legend>性别</legend>
+            <RadioGroup
+              className="inline-radio"
+              value={profile.sex}
+              onValueChange={(v) => update("sex", v as Profile["sex"])}
+            >
+              <label>
+                <RadioGroupItem value="female" />女
+              </label>
+              <label>
+                <RadioGroupItem value="male" />男
+              </label>
+            </RadioGroup>
+          </fieldset>
+        </div>
+        {!profile.name.trim() && (
+          <p id="creation-name-hint" className="action-reason">
+            先填写这一世的姓名。
+          </p>
+        )}
+        <fieldset>
+          <legend>选择外貌</legend>
+          <RadioGroup
+            aria-label="外貌"
+            value={String(profile.appearance.face)}
+            onValueChange={(v) => update("appearance", { ...profile.appearance, face: Number(v) })}
+            className="creation-faces"
           >
-            {label}
-          </Button>
-        ))}
-      </nav>
-      <div className="creation-workbench">
-        <section className="creation-identity" aria-label="身份与身形">
-          <h3 className="creation-column-title">
-            身份与身形 <small>姓名必填，其余可调整</small>
-          </h3>
-          <div className="identity-row">
-            <label className="form-field">
-              <span>
-                姓名 <small>必填</small>
-              </span>
-              <input
-                required
-                aria-label="姓名"
-                aria-describedby="creation-name-hint"
-                autoComplete="off"
-                maxLength={16}
-                placeholder="留一个名字在人间"
-                value={profile.name}
-                onChange={(e) => update("name", e.target.value)}
-              />
-            </label>
-            <fieldset>
-              <legend>性别</legend>
-              <RadioGroup
-                className="inline-radio"
-                value={profile.sex}
-                onValueChange={(v) => update("sex", v as Profile["sex"])}
+            {FACES.map((face, i) => (
+              <label key={face} className="choice-chip">
+                <RadioGroupItem value={String(i)} aria-label={face} />
+                <span>{face}</span>
+              </label>
+            ))}
+          </RadioGroup>
+        </fieldset>
+        <fieldset className="artifact-field">
+          <legend>
+            伴生法宝 <span>必选 · 三选其一</span>
+          </legend>
+          <RadioGroup
+            value={profile.artifact}
+            onValueChange={(v) => update("artifact", v as Profile["artifact"])}
+            className="artifact-choices"
+          >
+            {ARTIFACTS.map((a) => (
+              <label
+                key={a.id}
+                className={`artifact-option ${profile.artifact === a.id ? "selected" : ""}`}
               >
-                <label>
-                  <RadioGroupItem value="female" />女
-                </label>
-                <label>
-                  <RadioGroupItem value="male" />男
-                </label>
-              </RadioGroup>
-            </fieldset>
-          </div>
-          {!profile.name.trim() && (
-            <p id="creation-name-hint" className="action-reason">
-              先填写这一世的姓名。
-            </p>
-          )}
+                <RadioGroupItem value={a.id} className="artifact-radio" aria-label={a.name} />
+                <img
+                  className="artifact-art"
+                  src={`/artifacts/${a.id}.svg`}
+                  alt=""
+                  width={96}
+                  height={96}
+                />
+                <span>
+                  <strong>{a.name}</strong>
+                  <small>{a.description.replace(/^.*?。/, "")}</small>
+                </span>
+              </label>
+            ))}
+          </RadioGroup>
+        </fieldset>
+      </div>
+      <details className="creation-more">
+        <summary>更多设定</summary>
+        <div className="creation-advanced">
           <AppearanceFields
+            omitFace
             sex={profile.sex}
             appearance={profile.appearance}
             physique={body}
@@ -316,62 +342,6 @@ export function Creation({
               相同种子重现相同初始世界。默认 12345 与现有角色原画配套；修改会改变世界与随机人物。
             </small>
           </label>
-        </section>
-        <div className="creation-portrait-panel">
-          <h3 className="creation-column-title">
-            全身立绘 <small>可选，可入世后再绘制</small>
-          </h3>
-          {appearanceNotice && <p role="status">{appearanceNotice}</p>}
-          {previousLook && (
-            <div className="portrait-actions">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => {
-                  const old = previousLook;
-                  setProfile((p) => ({
-                    ...p,
-                    sex: old.profile.sex,
-                    appearance: old.profile.appearance,
-                    physique: old.profile.physique,
-                    portraitFeatures: old.profile.portraitFeatures,
-                    portraitId: old.profile.portraitId,
-                    aptitude: old.profile.aptitude,
-                  }));
-                  setSeed(String(old.seed));
-                  setRoll(old.roll);
-                  setPreviousLook(null);
-                  setAppearanceNotice("已恢复原立绘与对应形貌。");
-                }}
-              >
-                恢复原形貌与立绘
-              </Button>
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={() => {
-                  setPreviousLook(null);
-                  setAppearanceNotice("采用当前形貌，可不带立绘开始游戏。");
-                }}
-              >
-                按新形貌开始，暂不配图
-              </Button>
-            </div>
-          )}
-          <PortraitStudio
-            onStateChange={setPortraitState}
-            subject={playerSubject(profile, Number(seed))}
-            portraitId={profile.portraitId ?? previousLook?.profile.portraitId}
-            name={profile.name || "你的角色"}
-            disabled={!physiqueSchema.safeParse(body).success || submitting || busy}
-            onAdopt={(id) => update("portraitId", id)}
-            onFeaturesChange={(features) => update("portraitFeatures", features)}
-          />
-        </div>
-        <section className="creation-options-panel" aria-label="天资与机缘">
-          <h3 className="creation-column-title">
-            天资与机缘 <small>已选默认配置，可调整</small>
-          </h3>
           <div className="aptitude-box">
             <div className="spread">
               <span>
@@ -395,36 +365,6 @@ export function Creation({
               可以不限次数重掷。
             </p>
           </div>
-          <fieldset className="artifact-field">
-            <legend>
-              伴生法宝 <span>必选 · 三选其一</span>
-            </legend>
-            <RadioGroup
-              value={profile.artifact}
-              onValueChange={(v) => update("artifact", v as Profile["artifact"])}
-              className="artifact-choices"
-            >
-              {ARTIFACTS.map((a) => (
-                <label
-                  key={a.id}
-                  className={`artifact-option ${profile.artifact === a.id ? "selected" : ""}`}
-                >
-                  <RadioGroupItem value={a.id} className="artifact-radio" aria-label={a.name} />
-                  <img
-                    className="artifact-art"
-                    src={`/artifacts/${a.id}.svg`}
-                    alt=""
-                    width={96}
-                    height={96}
-                  />
-                  <span>
-                    <strong>{a.name}</strong>
-                    <small>{a.description.replace(/^.*?。/, "")}</small>
-                  </span>
-                </label>
-              ))}
-            </RadioGroup>
-          </fieldset>
           <fieldset className="creation-options">
             <legend>游玩模式</legend>
             <RadioGroup
@@ -480,40 +420,91 @@ export function Creation({
               </label>
             ))}
           </fieldset>
-        </section>
-      </div>
-      <div className="creation-file-options">
-        <div className="flex flex-wrap gap-2">
-          <Button type="button" variant="ghost" size="sm" onClick={exportDraft}>
-            导出创角草稿
-          </Button>
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            disabled={busy || submitting}
-            onClick={() => draftFile.current?.click()}
-          >
-            导入创角草稿
-          </Button>
-          <input
-            ref={draftFile}
-            className="sr-only"
-            tabIndex={-1}
-            type="file"
-            accept=".json"
-            aria-label="选择创角草稿"
-            onChange={(event) => {
-              const file = event.target.files?.[0];
-              event.target.value = "";
-              if (file) void importDraft(file);
-            }}
-          />
+          <div className="creation-portrait-panel">
+            <h3 className="creation-column-title">
+              全身立绘 <small>可选，可入世后再绘制</small>
+            </h3>
+            {appearanceNotice && <p role="status">{appearanceNotice}</p>}
+            {previousLook && (
+              <div className="portrait-actions">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    const old = previousLook;
+                    setProfile((p) => ({
+                      ...p,
+                      sex: old.profile.sex,
+                      appearance: old.profile.appearance,
+                      physique: old.profile.physique,
+                      portraitFeatures: old.profile.portraitFeatures,
+                      portraitId: old.profile.portraitId,
+                      aptitude: old.profile.aptitude,
+                    }));
+                    setSeed(String(old.seed));
+                    setRoll(old.roll);
+                    setPreviousLook(null);
+                    setAppearanceNotice("已恢复原立绘与对应形貌。");
+                  }}
+                >
+                  恢复原形貌与立绘
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  onClick={() => {
+                    setPreviousLook(null);
+                    setAppearanceNotice("采用当前形貌，可不带立绘开始游戏。");
+                  }}
+                >
+                  按新形貌开始，暂不配图
+                </Button>
+              </div>
+            )}
+            <PortraitStudio
+              onStateChange={setPortraitState}
+              subject={playerSubject(profile, Number(seed))}
+              portraitId={profile.portraitId ?? previousLook?.profile.portraitId}
+              name={profile.name || "你的角色"}
+              disabled={!physiqueSchema.safeParse(body).success || submitting || busy}
+              onAdopt={(id) => update("portraitId", id)}
+              onFeaturesChange={(features) => update("portraitFeatures", features)}
+            />
+          </div>
+          <div className="creation-file-options">
+            <div className="flex flex-wrap gap-2">
+              <Button type="button" variant="ghost" size="sm" onClick={exportDraft}>
+                导出创角草稿
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                disabled={busy || submitting}
+                onClick={() => draftFile.current?.click()}
+              >
+                导入创角草稿
+              </Button>
+              <input
+                ref={draftFile}
+                className="sr-only"
+                tabIndex={-1}
+                type="file"
+                accept=".json"
+                aria-label="选择创角草稿"
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  event.target.value = "";
+                  if (file) void importDraft(file);
+                }}
+              />
+            </div>
+            <p className="save-footnote" role="status">
+              {draftStatus || "进度保存在当前浏览器"}
+            </p>
+          </div>
         </div>
-        <p className="save-footnote" role="status">
-          {draftStatus || "进度保存在当前浏览器"}
-        </p>
-      </div>
+      </details>
       <div className="creation-bottom">
         {(portraitState.busy || portraitState.pending) && (
           <p role="status">

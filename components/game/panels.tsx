@@ -1,4 +1,6 @@
 "use client";
+import { relationshipStage } from "@/lib/ui/relationship-stage";
+import { RelationshipStage } from "./relationship-stage";
 import {
   Dialog,
   DialogContent,
@@ -160,7 +162,7 @@ export function InventoryPanel({
     <section className="panel-section">
       <div className="section-heading">
         <span className="eyebrow">行囊 · 山长水远</span>
-        <h2 className="serif">随身之物</h2>
+        <h2 className="serif">查看随身物资</h2>
         <p>些许身外物，陪你走过此间山河。</p>
       </div>
       <div className="wealth">
@@ -230,41 +232,44 @@ export function InventoryPanel({
             : "来到当地坊市后，可以向药师购买。"}
         </p>
       </div>
-      <div className="shop-list">
-        {items.map((item) => (
-          <div className="shop-row" key={item.id}>
-            <item.icon size={19} />
-            <div>
-              <strong>
-                {item.name} · 已有 {item.qty}
-              </strong>
-              <small data-shop-item={item.id} data-price={item.price}>
-                {item.price} 灵石／份
-              </small>
-              {locationKind(p.location) !== "market" ? (
-                <small>需到坊市购买</small>
-              ) : (
-                p.stones < item.price && <small>还缺 {item.price - p.stones} 灵石</small>
-              )}
+      <details className="inventory-market" open={locationKind(p.location) === "market"}>
+        <summary>前往坊市采买{locationKind(p.location) !== "market" && " · 请先抵达坊市"}</summary>
+        <div className="shop-list">
+          {items.map((item) => (
+            <div className="shop-row" key={item.id}>
+              <item.icon size={19} />
+              <div>
+                <strong>
+                  {item.name} · 已有 {item.qty}
+                </strong>
+                <small data-shop-item={item.id} data-price={item.price}>
+                  {item.price} 灵石／份
+                </small>
+                {locationKind(p.location) !== "market" ? (
+                  <small>需到坊市购买</small>
+                ) : (
+                  p.stones < item.price && <small>还缺 {item.price - p.stones} 灵石</small>
+                )}
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={
+                  busy ||
+                  locationKind(p.location) !== "market" ||
+                  p.stones < item.price ||
+                  !!w.longAction ||
+                  !!w.battle
+                }
+                onClick={() => send({ type: "buy", item: item.id })}
+              >
+                购买{item.name}
+                <TimeBadge world={w} command={{ type: "buy", item: item.id }} />
+              </Button>
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              disabled={
-                busy ||
-                locationKind(p.location) !== "market" ||
-                p.stones < item.price ||
-                !!w.longAction ||
-                !!w.battle
-              }
-              onClick={() => send({ type: "buy", item: item.id })}
-            >
-              购买{item.name}
-              <TimeBadge world={w} command={{ type: "buy", item: item.id }} />
-            </Button>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </details>
       <p className="action-reason">
         {locationKind(p.location) !== "market"
           ? "来到坊市后可兑换突破丹。"
@@ -295,6 +300,7 @@ export function InventoryPanel({
   );
 }
 export function PeoplePanel({ world: w, onProfile }: { world: World; onProfile: OpenProfile }) {
+  const [all, setAll] = useState(false);
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<PeopleFilter>("nearby");
   const [sort, setSort] = useState("present");
@@ -310,7 +316,7 @@ export function PeoplePanel({ world: w, onProfile }: { world: World; onProfile: 
       <NpcPortrait world={w} actor={a} className="person-avatar" />
       <div>
         <h3>
-          {a.name}
+          {all || relation(w, a.id)?.known || w.party.includes(a.id) ? a.name : "尚未相识"}
           <small>{REALMS[a.realm]}</small>
         </h3>
         <p>
@@ -325,95 +331,131 @@ export function PeoplePanel({ world: w, onProfile }: { world: World; onProfile: 
                   : "尚未相识"}
         </p>
       </div>
-      <span className="relationship-tag">
-        {relationshipDisplay(w, "PLAYER", a.id).label} · 资料 →
-      </span>
+      <RelationshipStage world={w} id={a.id} />
     </button>
   );
   return (
     <section className="panel-section">
       <div className="section-heading">
-        <span className="eyebrow">故人 · 一面一缘</span>
-        <h2 className="serif">相逢的人</h2>
-        <p>有人萍水相逢，有人会成为你这一世的牵挂。</p>
+        <h2 className="serif">查看人物</h2>
+        <p>已结识 {peopleRows(w, "", "known", "present").length} 人</p>
       </div>
-      <div className="people-controls">
-        <label>
-          搜索姓名
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              setPage(0);
-            }}
-            placeholder="搜索可见人物"
-          />
-        </label>
-        <label>
-          人物范围
-          <select
-            value={filter}
-            onChange={(e) => {
-              setFilter(e.target.value as PeopleFilter);
-              setPage(0);
-            }}
-          >
-            <option value="nearby">已结识与此地可结识</option>
-            <option value="known">已结识</option>
-            <option value="present">在场</option>
-            <option value="region">同城</option>
-            <option value="agreement">有约定</option>
-          </select>
-        </label>
-        <label>
-          排序
-          <select
-            value={sort}
-            onChange={(e) => {
-              setSort(e.target.value);
-              setPage(0);
-            }}
-          >
-            <option value="present">在场优先</option>
-            <option value="recent">最近共同经历</option>
-            <option value="name">姓名</option>
-          </select>
-        </label>
-      </div>
-      <div className="list-pagination">
-        <span>
-          共 {people.length} 人 · 第 {currentPage + 1} /{" "}
-          {Math.max(1, Math.ceil(people.length / 24))} 页
-        </span>
-        <Button variant="ghost" disabled={!currentPage} onClick={() => setPage(currentPage - 1)}>
-          上一页
-        </Button>
-        <Button
-          variant="ghost"
-          disabled={(currentPage + 1) * 24 >= people.length}
-          onClick={() => setPage(currentPage + 1)}
-        >
-          下一页
-        </Button>
-      </div>
-      <div className="people-grid">
-        {people.slice(currentPage * 24, (currentPage + 1) * 24).map(row)}
-      </div>
-      {!people.length && (
-        <div className="empty-copy">
-          <p>当前筛选没有匹配人物。</p>
-          <Button
-            variant="outline"
-            onClick={() => {
-              setQuery("");
-              setFilter("nearby");
-              setPage(0);
-            }}
-          >
-            清除筛选
+      {!all ? (
+        <>
+          {[
+            { title: "同行之人", rows: w.npcs.filter((a) => w.party.includes(a.id)) },
+            {
+              title: "已结识",
+              rows: peopleRows(w, "", "known", "present")
+                .filter((a) => !w.party.includes(a.id))
+                .sort((a, b) => relationshipStage(w, b.id).step - relationshipStage(w, a.id).step)
+                .slice(0, 6),
+            },
+            {
+              title: "此地在场",
+              rows: peopleRows(w, "", "present", "present")
+                .filter((a) => !relation(w, a.id)?.known && !w.party.includes(a.id))
+                .slice(0, 6),
+            },
+          ].map((group) => (
+            <section className="people-group" key={group.title}>
+              <h3 className="serif">{group.title}</h3>
+              <div className="people-grid">{group.rows.map(row)}</div>
+              {!group.rows.length && <p className="subtle">暂无记录</p>}
+            </section>
+          ))}
+          <Button variant="outline" onClick={() => setAll(true)}>
+            查看全部人物
           </Button>
-        </div>
+        </>
+      ) : (
+        <>
+          <Button variant="ghost" onClick={() => setAll(false)}>
+            返回人物概览
+          </Button>
+          <div className="people-controls">
+            <label>
+              搜索姓名
+              <input
+                type="search"
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setPage(0);
+                }}
+                placeholder="搜索可见人物"
+              />
+            </label>
+            <label>
+              人物范围
+              <select
+                value={filter}
+                onChange={(e) => {
+                  setFilter(e.target.value as PeopleFilter);
+                  setPage(0);
+                }}
+              >
+                <option value="nearby">已结识与此地可结识</option>
+                <option value="known">已结识</option>
+                <option value="present">在场</option>
+                <option value="region">同城</option>
+                <option value="agreement">有约定</option>
+              </select>
+            </label>
+            <label>
+              排序
+              <select
+                value={sort}
+                onChange={(e) => {
+                  setSort(e.target.value);
+                  setPage(0);
+                }}
+              >
+                <option value="present">在场优先</option>
+                <option value="recent">最近共同经历</option>
+                <option value="name">姓名</option>
+              </select>
+            </label>
+          </div>
+          <div className="list-pagination">
+            <span>
+              共 {people.length} 人 · 第 {currentPage + 1} /{" "}
+              {Math.max(1, Math.ceil(people.length / 24))} 页
+            </span>
+            <Button
+              variant="ghost"
+              disabled={!currentPage}
+              onClick={() => setPage(currentPage - 1)}
+            >
+              上一页
+            </Button>
+            <Button
+              variant="ghost"
+              disabled={(currentPage + 1) * 24 >= people.length}
+              onClick={() => setPage(currentPage + 1)}
+            >
+              下一页
+            </Button>
+          </div>
+          <div className="people-grid">
+            {people.slice(currentPage * 24, (currentPage + 1) * 24).map(row)}
+          </div>
+          {!people.length && (
+            <div className="empty-copy">
+              <p>当前筛选没有匹配人物。</p>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setQuery("");
+                  setFilter("nearby");
+                  setPage(0);
+                }}
+              >
+                清除筛选
+              </Button>
+            </div>
+          )}
+        </>
       )}
     </section>
   );

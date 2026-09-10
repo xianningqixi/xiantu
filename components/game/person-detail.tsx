@@ -1,4 +1,5 @@
 "use client";
+import { RelationshipStage } from "./relationship-stage";
 import { relationshipDisplay, relationshipProgress } from "@/lib/ui/character-presentation";
 import { profileTabForClick, type OpenProfile, type ProfileTab } from "@/lib/ui/profile-navigation";
 import { IntimacyPanel } from "./intimacy-panel";
@@ -47,21 +48,24 @@ function Attitude({
       {edge ? (
         <>
           <strong>{bonded ? `道侣 · ${relationshipLabel(edge)}` : relationshipLabel(edge)}</strong>
-          <dl>
-            <div>
-              <dt title="对相处的喜爱程度">好感</dt>
-              <dd>{edge.favor}</dd>
-            </div>
-            <div>
-              <dt title="对承诺与行事的信赖">信任</dt>
-              <dd>{edge.trust}</dd>
-            </div>
-            <div>
-              <dt title="亲密吸引；普通相伴不会直接增加">吸引</dt>
-              <dd>{edge.attraction}</dd>
-            </div>
-          </dl>
-          <small>{relationshipProgress(edge)}</small>
+          <details className="relationship-numbers">
+            <summary>查看关系数值</summary>
+            <dl>
+              <div>
+                <dt title="对相处的喜爱程度">好感</dt>
+                <dd>{edge.favor}</dd>
+              </div>
+              <div>
+                <dt title="对承诺与行事的信赖">信任</dt>
+                <dd>{edge.trust}</dd>
+              </div>
+              <div>
+                <dt title="亲密吸引；普通相伴不会直接增加">吸引</dt>
+                <dd>{edge.attraction}</dd>
+              </div>
+            </dl>
+            <small>{relationshipProgress(edge)}</small>
+          </details>
           {edge.attraction === 0 && <small>吸引尚无变化；普通相伴只增进好感与信任。</small>}
         </>
       ) : (
@@ -195,6 +199,7 @@ export function PersonDetail({
           </small>
         </div>
       </div>
+      {!self && <RelationshipStage world={w} id={id} />}
       <Tabs value={tab} onValueChange={setTab} className="character-tabs">
         <TabsList aria-label="人物资料分类">
           <TabsTrigger value="attributes">属性</TabsTrigger>
@@ -333,18 +338,6 @@ export function PersonDetail({
               </Button>
             )}
           </section>
-          {!self && (
-            <details className="sheet-interactions" id="sheet-interactions">
-              <summary>与{a.name}交往 · 相伴与结侣条件</summary>
-              <IntimacyPanel
-                key={a.id}
-                world={w}
-                actor={a}
-                send={send}
-                blocked={busy || !!w.longAction || !!w.battle || w.ended}
-              />
-            </details>
-          )}
         </TabsContent>
         <TabsContent value="history">
           <section aria-label="人物经历">
@@ -527,17 +520,12 @@ export function PersonDetail({
             <TimeBadge world={w} command={{ type: "meet", target: id }} />
           </Button>
           {tab === "relations" && r?.known && (
-            <Button
-              variant="outline"
-              onClick={() => {
-                const el = document.getElementById("sheet-interactions") as HTMLDetailsElement;
-                el.open = true;
-                el.scrollIntoView({ block: "nearest" });
-                el.querySelector("summary")?.focus({ preventScroll: true });
-              }}
-            >
-              交往
-            </Button>
+            <IntimacyPanel
+              world={w}
+              actor={a}
+              send={send}
+              blocked={busy || !!w.longAction || !!w.battle || w.ended}
+            />
           )}
           {(!!w.battle || !!w.longAction || busy || !present) && (
             <small>

@@ -12,6 +12,7 @@ export function AppearanceFields({
   onAppearanceChange,
   onPhysiqueChange,
   disabled = false,
+  omitFace = false,
 }: {
   sex: Profile["sex"];
   appearance: Profile["appearance"];
@@ -19,6 +20,7 @@ export function AppearanceFields({
   onAppearanceChange: (value: Profile["appearance"]) => void;
   onPhysiqueChange: (value: Physique) => void;
   disabled?: boolean;
+  omitFace?: boolean;
 }) {
   const setBody = <K extends keyof Physique>(key: K, value: Physique[K]) =>
     onPhysiqueChange({ ...body, [key]: value });
@@ -31,25 +33,27 @@ export function AppearanceFields({
             { key: "hair", label: "发式", options: HAIRS },
             { key: "color", label: "服饰主色", options: COLORS },
           ] as const
-        ).map((f) => (
-          <div className="appearance-field" key={f.key}>
-            <span>{f.label}</span>
-            <RadioGroup
-              aria-label={f.label}
-              className="appearance-choices"
-              disabled={disabled}
-              value={String(appearance[f.key])}
-              onValueChange={(v) => onAppearanceChange({ ...appearance, [f.key]: Number(v) })}
-            >
-              {f.options.map((o, i) => (
-                <label key={o} className="choice-chip">
-                  <RadioGroupItem value={String(i)} aria-label={o} />
-                  <span>{o}</span>
-                </label>
-              ))}
-            </RadioGroup>
-          </div>
-        ))}
+        )
+          .filter((f) => !omitFace || f.key !== "face")
+          .map((f) => (
+            <div className="appearance-field" key={f.key}>
+              <span>{f.label}</span>
+              <RadioGroup
+                aria-label={f.label}
+                className="appearance-choices"
+                disabled={disabled}
+                value={String(appearance[f.key])}
+                onValueChange={(v) => onAppearanceChange({ ...appearance, [f.key]: Number(v) })}
+              >
+                {f.options.map((o, i) => (
+                  <label key={o} className="choice-chip">
+                    <RadioGroupItem value={String(i)} aria-label={o} />
+                    <span>{o}</span>
+                  </label>
+                ))}
+              </RadioGroup>
+            </div>
+          ))}
       </div>
       <div className="physique-fields">
         <div className="body-build-field">

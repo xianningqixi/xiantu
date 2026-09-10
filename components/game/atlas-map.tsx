@@ -167,7 +167,9 @@ export function AtlasMap({
             const isNext = p.kind === "town" && nextStep?.chapter.id === placeChapter?.id;
             const complete =
               p.kind === "town" && placeChapter && mainEvent(w, placeChapter.discovery.id);
-            const sect = sectAt(p.to as LocationId);
+            const sect = presentationShows(w, "travel.sects")
+              ? sectAt(p.to as LocationId)
+              : undefined;
             const [mx, my] = mobilePoints[p.id];
             return (
               <button
@@ -228,7 +230,7 @@ export function AtlasMap({
           </span>
           <h3 className="serif">{selected.name}</h3>
           <p>{selected.body}</p>
-          {sectAt(selected.to as LocationId) && (
+          {presentationShows(w, "travel.sects") && sectAt(selected.to as LocationId) && (
             <p className="atlas-sect-note">
               <strong>{sectAt(selected.to as LocationId)!.name} · </strong>
               {sectAt(selected.to as LocationId)!.description}

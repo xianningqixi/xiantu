@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { objective, presentationActionVisible } from "@/lib/game/presentation";
+import { objective, presentationActionVisible, presentationShows } from "@/lib/game/presentation";
 import { journeyActions } from "@/lib/game/journey-actions";
 import { practicePreview, realmPresentation } from "@/lib/ui/realm-presentation";
 import { partyReadiness } from "@/lib/game/agreement";
@@ -118,7 +118,9 @@ export function Dojo({
     }
     setMore(true);
   };
+  const actionOrder: Record<string, number> = { "advance-minor": 0, practice: 1, work: 2, shop: 3 };
   const actions = journeyActions(w)
+    .sort((a, b) => (actionOrder[a.id] ?? 10) - (actionOrder[b.id] ?? 10))
     .filter((a) => !a.command || presentationActionVisible(w, a.command))
     .map((a) =>
       a.id === "practice" && w.player.manual && !state.canBreak && !state.canAdvance
@@ -338,7 +340,9 @@ export function Dojo({
                 blocked={blocked}
                 requestConfirm={requestConfirm}
               />
-              <SectPanel world={w} send={send} blocked={blocked} onProfile={onProfile} />
+              {presentationShows(w, "visitSect") && (
+                <SectPanel world={w} send={send} blocked={blocked} onProfile={onProfile} />
+              )}
               {w.story.flags.met &&
                 primary.location === w.player.location &&
                 !["accepted", "active"].includes(w.agreement?.status ?? "") && (

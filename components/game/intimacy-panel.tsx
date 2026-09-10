@@ -1,4 +1,5 @@
 "use client";
+import { presentationShows } from "@/lib/game/presentation";
 import { relation } from "@/lib/game/relationships";
 import { commandDays } from "@/lib/game/action-cost";
 import { useState } from "react";
@@ -21,7 +22,9 @@ export function IntimacyPanel({
 }) {
   const [pending, setPending] = useState<IntimacyKind | null>(null);
   const partner = bondPartner(w, a.id);
-  const company = companyReason(w, w.player, a);
+  const company = !presentationShows(w, "spendTime")
+    ? "引气入体后开放相伴。"
+    : companyReason(w, w.player, a);
   if (!relation(w, a.id)?.known)
     return (
       <section className="intimacy-panel">
@@ -52,7 +55,10 @@ export function IntimacyPanel({
       {company && <small>{company}</small>}
       <div className="intimacy-options">
         {(bonded ? (["night", "dual"] as const) : (["bond"] as const)).map((kind) => {
-          const reason = intimacyReason(w, w.player, a, kind);
+          const reason =
+            (kind === "bond" || kind === "dual") && !presentationShows(w, `intimacy.${kind}`)
+              ? "筑基之后开放此入口。"
+              : intimacyReason(w, w.player, a, kind);
           return (
             <div key={kind}>
               <Button

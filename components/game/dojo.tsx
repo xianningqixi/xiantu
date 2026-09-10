@@ -1,0 +1,340 @@
+"use client";
+import { useState, type ReactNode } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { objective } from "@/lib/game/presentation";
+import { journeyActions } from "@/lib/game/journey-actions";
+import { practicePreview, realmPresentation } from "@/lib/ui/realm-presentation";
+import { partyReadiness } from "@/lib/game/agreement";
+import { B, REALM_KEYS } from "@/lib/game/rules";
+import { PACK } from "@/lib/game/content/official";
+import { hasRubbing } from "@/lib/game/main-story";
+import type { World, Command } from "@/lib/game/types";
+import type { OpenProfile } from "@/lib/ui/profile-navigation";
+import type { ActionSummary } from "@/lib/ui/action-summary";
+import { JourneyTab } from "./journey-tab";
+import { EventFeed } from "./event-feed";
+import { JournalPanel, type Send } from "./panels";
+import { PracticeSettings } from "./practice-settings";
+import { BreakthroughDialog } from "./breakthrough-dialog";
+import { SectPanel } from "./sect-panel";
+import { LootSettlement } from "./loot-settlement";
+import { Negotiation } from "./negotiation";
+import { WaitControls } from "./wait-controls";
+type Props = {
+  world: World;
+  act: Send;
+  send: Send;
+  blocked: boolean;
+  busy: boolean;
+  advancing: boolean;
+  onPause: () => void;
+  onResume: () => void;
+  onStop: () => void;
+  onProfile: OpenProfile;
+  onNavigate: (tab: string) => void;
+  requestConfirm: (value: "breach") => void;
+  result: { id: string; kind: string; notice: string; day: number; revision: number } | null;
+  summary: ActionSummary | null;
+  battle: ReactNode;
+  onNew: () => void;
+  onExport: () => void;
+};
+export function Dojo({
+  world: w,
+  act,
+  send,
+  blocked,
+  busy,
+  advancing,
+  onPause,
+  onResume,
+  onStop,
+  onProfile,
+  onNavigate,
+  requestConfirm,
+  result,
+  summary,
+  battle,
+  onNew,
+  onExport,
+}: Props) {
+  const [more, setMore] = useState(false),
+    [practice, setPractice] = useState(false),
+    [breakthrough, setBreakthrough] = useState(false),
+    [journal, setJournal] = useState(false);
+  const goal = objective(w),
+    state = realmPresentation(w.player),
+    preview = practicePreview(w, 7);
+  const invoke = async (command: Command) => {
+    const ok = await act(command);
+    if (ok) setMore(false);
+    return ok;
+  };
+  const navigate = (tab: string) => {
+    setMore(false);
+    if (tab === "cultivation") {
+      onPause();
+      state.canBreak ? setBreakthrough(true) : setPractice(true);
+    } else onNavigate(tab);
+  };
+  const follow = () => {
+    if (w.longAction) {
+      advancing ? onPause() : onResume();
+      return;
+    }
+    if (goal.command) {
+      void invoke(goal.command);
+      return;
+    }
+    if (goal.tab === "journal") {
+      setJournal(true);
+      return;
+    }
+    if (goal.anchor === "atlas-page") {
+      onNavigate("travel");
+      return;
+    }
+    if (goal.tab === "cultivation") {
+      setBreakthrough(true);
+      return;
+    }
+    setMore(true);
+  };
+  const actions = journeyActions(w)
+    .map((a) =>
+      a.id === "practice" && w.player.manual && !state.canBreak
+        ? { ...a, title: "修炼 7 日", command: preview.command, tab: undefined }
+        : a,
+    )
+    .filter((a) => JSON.stringify(a.command) !== JSON.stringify(goal.command) || !a.command);
+  const storyChoices = goal.choices?.slice(1) ?? [];
+  const maxSecondary = summary ? 2 : 3;
+  const secondary = storyChoices.length
+    ? storyChoices.map((a, i) => ({
+        id: `choice-${i}`,
+        title: a.title,
+        command: a.command,
+        tab: undefined,
+        anchor: undefined,
+      }))
+    : actions.slice(0, maxSecondary);
+  const readiness = partyReadiness(w);
+  const minRealm = REALM_KEYS.findIndex((key) => key === B.story.playerMinimumExplorationRealm);
+  const primary = w.npcs.find((a) => a.id === PACK.roles.primary)!;
+  const longFull =
+    w.longAction?.kind === "train" && state.ready && (state.canBreak || state.capped);
+  return (
+    <div className="dojo" aria-label="道场内容">
+      <div className="dojo-reading">
+        {w.battle ? (
+          <section className="dojo-battle-scene">
+            <h1 className="serif">指挥战斗 · 第 {w.battle.round} 回合</h1>
+            <div className="dojo-combatants">
+              {w.battle.enemies.map((a) => (
+                <p key={a.id}>
+                  {a.name} · 气血 {a.hp}/{a.maxHp}
+                </p>
+              ))}
+            </div>
+            <div className="dojo-combatants">
+              {w.battle.allies.map((a) => (
+                <p key={a.id}>
+                  {a.name} · 气血 {a.hp}/{a.maxHp}
+                </p>
+              ))}
+            </div>
+            <p>{w.battle.logs.at(-1)}</p>
+            <p>在“更多”中选择目标、招式或自动战斗。</p>
+          </section>
+        ) : (
+          <JourneyTab world={w} onProfile={onProfile} />
+        )}
+        <EventFeed
+          world={w}
+          result={result}
+          summary={summary}
+          onAll={() => {
+            onPause();
+            setJournal(true);
+          }}
+        />
+      </div>
+      <section className="dojo-action-dock" aria-label="选择当前行动">
+        <Button
+          className="dojo-primary"
+          data-primary-action
+          disabled={(busy && !advancing) || (!!w.longAction && !advancing && !!longFull)}
+          onClick={follow}
+        >
+          {w.longAction ? (advancing ? "暂停当前行动" : "继续当前行动") : goal.title}
+        </Button>
+        <p className="dojo-reason">
+          {w.longAction
+            ? `已保存 ${w.longAction.checkpoint}/${w.longAction.total} 日${longFull ? " · 修为已满，结束当前修炼后尝试突破。" : " · 暂停后可保留进度或结束行动。"}`
+            : goal.reason}
+        </p>
+        <div className="dojo-secondary">
+          {w.longAction
+            ? w.longAction.kind !== "breakthrough" && (
+                <Button variant="outline" disabled={busy} onClick={onStop}>
+                  结束当前行动
+                </Button>
+              )
+            : secondary.slice(0, maxSecondary).map((a) => (
+                <Button
+                  key={a.id}
+                  data-journey-action={a.id}
+                  variant="outline"
+                  disabled={blocked || (a.id === "practice" && !!a.command && !!preview.reason)}
+                  onClick={() =>
+                    a.command ? void invoke(a.command) : a.tab ? navigate(a.tab) : setMore(true)
+                  }
+                >
+                  {a.title}
+                </Button>
+              ))}
+          <Button
+            variant="ghost"
+            onClick={() => {
+              onPause();
+              setMore(true);
+            }}
+          >
+            更多
+          </Button>
+        </div>
+      </section>
+      <Dialog open={more} onOpenChange={setMore}>
+        <DialogContent className="game-modal dojo-drawer">
+          <DialogHeader>
+            <DialogTitle>选择更多行动</DialogTitle>
+            <DialogDescription>查看与设置不消耗游戏时间。</DialogDescription>
+          </DialogHeader>
+          {w.battle ? (
+            battle
+          ) : (
+            <>
+              <div className="more-actions">
+                {w.player.manual && (
+                  <Button variant="outline" onClick={() => navigate("cultivation")}>
+                    {state.canBreak ? "准备突破" : "设置修炼方式"}
+                  </Button>
+                )}
+                {actions.map((a) => (
+                  <Button
+                    variant="outline"
+                    key={a.id}
+                    disabled={blocked || (a.id === "practice" && !!a.command && !!preview.reason)}
+                    onClick={() =>
+                      a.command
+                        ? void invoke(a.command)
+                        : a.tab
+                          ? navigate(a.tab)
+                          : document.getElementById(a.anchor ?? "")?.scrollIntoView()
+                    }
+                  >
+                    {a.title}
+                  </Button>
+                ))}
+                {w.player.location === "gate" && !hasRubbing(w) && (
+                  <Button
+                    variant="outline"
+                    disabled={blocked || w.player.realm < minRealm || w.party.length !== 1}
+                    onClick={() => void invoke({ type: "surveyRuins" })}
+                  >
+                    勘察古道残碑
+                  </Button>
+                )}
+                {w.agreement?.status === "accepted" && (
+                  <Button
+                    variant="outline"
+                    disabled={blocked || w.player.realm < minRealm}
+                    onClick={() => void invoke({ type: readiness.ready ? "formParty" : "rally" })}
+                  >
+                    {readiness.ready ? "邀二人同行" : "约在此处会合"}
+                  </Button>
+                )}
+                {(w.party.length > 1 || w.agreement?.meeting) && (
+                  <Button
+                    variant="outline"
+                    disabled={blocked}
+                    onClick={() => void invoke({ type: "disband" })}
+                  >
+                    暂别同行之人
+                  </Button>
+                )}
+                {w.story.outcome === "breached" && !w.story.compensated && (
+                  <Button
+                    variant="outline"
+                    disabled={
+                      blocked ||
+                      !primary.alive ||
+                      primary.location !== w.player.location ||
+                      w.player.grass < 1
+                    }
+                    onClick={() => void invoke({ type: "compensate" })}
+                  >
+                    交付药草，赔礼
+                  </Button>
+                )}
+              </div>
+              <LootSettlement
+                world={w}
+                send={invoke}
+                blocked={blocked}
+                requestConfirm={requestConfirm}
+              />
+              <SectPanel world={w} send={invoke} blocked={blocked} onProfile={onProfile} />
+              {w.story.flags.met &&
+                primary.location === w.player.location &&
+                !["accepted", "active"].includes(w.agreement?.status ?? "") && (
+                  <Negotiation world={w} busy={blocked} send={invoke} onPause={onPause} />
+                )}
+              {!w.ended && <WaitControls world={w} act={invoke} blocked={blocked} />}
+              {w.ended && (
+                <div>
+                  <Button variant="outline" onClick={onExport}>
+                    导出这一世
+                  </Button>
+                  <Button variant="outline" onClick={onNew}>
+                    再入人间
+                  </Button>
+                </div>
+              )}
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+      <PracticeSettings
+        world={w}
+        open={practice}
+        onOpenChange={setPractice}
+        act={act}
+        blocked={blocked}
+      />
+      <BreakthroughDialog
+        world={w}
+        open={breakthrough}
+        onOpenChange={setBreakthrough}
+        act={act}
+        blocked={blocked}
+      />
+      <Dialog open={journal} onOpenChange={setJournal}>
+        <DialogContent className="game-modal journal-dialog">
+          <DialogHeader>
+            <DialogTitle>查看全部历程</DialogTitle>
+            <DialogDescription>回看已知见闻与这一世的经历。</DialogDescription>
+          </DialogHeader>
+          <JournalPanel world={w} />
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}

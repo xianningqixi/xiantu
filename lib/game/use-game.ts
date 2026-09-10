@@ -236,16 +236,19 @@ export function useGame(preview = false) {
     if (advancing.current)
       void ask({ kind: "pauseAdvance", advanceId: advancing.current }).catch(() => {});
   }, [ask]);
-  const advance = useCallback(() => {
-    if (!world?.longAction) return Promise.resolve(false);
-    return mutate({
-      kind: "advance",
-      actionId: world.longAction.id,
-      checkpoint: world.longAction.checkpoint,
-      days: world.longAction.remaining,
-      expected: { saveId: world.saveId, revision: world.revision },
-    });
-  }, [world, mutate]);
+  const advance = useCallback(
+    (days?: number) => {
+      if (!world?.longAction) return Promise.resolve(false);
+      return mutate({
+        kind: "advance",
+        actionId: world.longAction.id,
+        checkpoint: world.longAction.checkpoint,
+        days: Math.min(days ?? world.longAction.remaining, world.longAction.remaining),
+        expected: { saveId: world.saveId, revision: world.revision },
+      });
+    },
+    [world, mutate],
+  );
   const expected: SaveExpectation = world
     ? { saveId: world.saveId, revision: world.revision }
     : (recovery ?? { saveId: null, revision: null });

@@ -6313,3 +6313,614 @@ textarea::placeholder {
 .location-workspace .portrait-frame::after {
   display: none;
 }
+
+/* A phase: the dojo owns the reading surface and one primary action. */
+.dojo-shell {
+  min-height: 100dvh;
+  padding-bottom: 84px;
+}
+.dojo-shell .game-tabs {
+  display: block;
+}
+.dojo-shell .game-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 28px;
+  min-height: 78px;
+  background: var(--background);
+  border-bottom: 1px solid var(--border);
+}
+.dojo-shell .game-layout {
+  display: block;
+  max-width: 1400px;
+  margin: auto;
+  padding: 0;
+}
+.dojo-shell .play-area {
+  min-width: 0;
+  padding: 24px 28px;
+}
+.dojo-shell .nav-bar {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 40;
+  background: var(--background);
+  border-top: 1px solid var(--border);
+}
+.dojo-shell .game-nav {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: min(600px, 100%);
+  height: 68px;
+  margin: auto;
+  padding: 0;
+  background: transparent;
+}
+.dojo-shell .game-nav [role="tab"] {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+  font-size: 13px;
+  background: transparent;
+  color: var(--muted-foreground);
+}
+.dojo-shell .game-nav [role="tab"][data-state="active"] {
+  color: var(--primary);
+  background: transparent;
+}
+.dojo-shell .game-nav [role="tab"]::after {
+  display: none;
+}
+.dojo-shell .saved-state > span,
+.dojo-shell .header-tools > .offline-status {
+  display: none;
+}
+.dojo-shell .header-tools {
+  margin: 0;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.character-status {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex: 1;
+  min-width: 0;
+  position: relative;
+}
+.status-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  text-align: left;
+}
+.status-profile small {
+  display: block;
+  color: var(--primary);
+  font-size: 12px;
+}
+.status-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.status-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.character-status .meter {
+  width: 220px;
+  max-width: 30vw;
+  margin: 0;
+}
+.character-status time,
+.status-stones {
+  color: var(--muted-foreground);
+  font-size: 13px;
+  white-space: nowrap;
+}
+.status-stones b {
+  color: var(--foreground);
+}
+.status-delta {
+  position: absolute;
+  pointer-events: none;
+  left: 180px;
+  top: 40px;
+  color: var(--primary);
+  font-size: 13px;
+  animation: status-rise 1.2s ease-out both;
+  z-index: 50;
+}
+@keyframes status-rise {
+  from {
+    opacity: 1;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-32px);
+  }
+}
+.dojo-reading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.9fr) minmax(280px, 1fr);
+  gap: 24px;
+  min-width: 0;
+}
+.dojo-scene {
+  min-width: 0;
+  border: 1px solid var(--border);
+  background: var(--card);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.dojo-landscape {
+  height: 230px;
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+}
+.dojo-landscape > div,
+.dojo-landscape img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.dojo-landscape figcaption {
+  position: absolute;
+  bottom: 0;
+  inset-inline: 0;
+  background: linear-gradient(transparent, #0b1411e8);
+  padding: 36px 24px 14px;
+  font-size: 12px;
+  color: #d5cab2;
+}
+.dojo-story-layout {
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+}
+.dojo-story {
+  padding: 22px 24px;
+  flex: 1;
+  min-width: 0;
+}
+.dojo-story h1 {
+  font-size: 28px;
+  line-height: 1.3;
+  margin: 7px 0 14px;
+}
+.dojo-story p {
+  font-size: 14px;
+  line-height: 1.8;
+  margin: 10px 0;
+  color: var(--muted-foreground);
+  overflow-wrap: anywhere;
+}
+.dojo-story blockquote {
+  border-left: 2px solid var(--primary);
+  padding-left: 14px;
+  color: var(--foreground);
+  font-family: var(--font-serif);
+  font-size: 14px;
+  line-height: 1.8;
+}
+.dojo-story cite {
+  display: block;
+  font-size: 11px;
+  color: var(--muted-foreground);
+}
+.dojo-story .dojo-present {
+  font-size: 11px;
+  margin-bottom: 0;
+}
+.dojo-speaker {
+  position: relative;
+  width: 144px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.dojo-speaker > div {
+  height: 100%;
+}
+.dojo-speaker img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+.dojo-speaker > span {
+  position: absolute;
+  inset: auto 0 0;
+  background: linear-gradient(transparent, #0b1411);
+  padding: 30px 8px 16px;
+  text-align: center;
+}
+.dojo-speaker small {
+  display: block;
+  font-size: 10px;
+  color: var(--muted-foreground);
+}
+.event-feed {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--card) 65%, transparent);
+  align-self: start;
+}
+.event-feed header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.event-feed h2 {
+  font-size: 19px;
+}
+.event-feed-lines article {
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border);
+  animation: feed-in 0.25s ease-out;
+}
+.event-feed-lines time {
+  color: var(--primary);
+  font-size: 11px;
+}
+.event-feed-lines p {
+  color: var(--muted-foreground);
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+}
+.event-feed-lines .event-important p {
+  color: var(--foreground);
+}
+@keyframes feed-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.event-feed .retreat-summary {
+  margin-top: 12px;
+  max-height: 200px;
+  overflow: auto;
+  border: 0;
+  padding: 0;
+  font-size: 12px;
+}
+.retreat-summary summary {
+  cursor: pointer;
+  color: var(--primary);
+}
+.retreat-summary p {
+  padding: 8px 0;
+}
+.dojo-action-dock {
+  width: min(720px, 100%);
+  margin: 22px 0 0;
+}
+.dojo-primary {
+  display: flex;
+  width: 100%;
+  min-height: 56px;
+  font-size: 18px;
+  white-space: normal;
+  height: auto;
+  padding: 12px;
+}
+.dojo-reason {
+  text-align: center;
+  color: var(--muted-foreground);
+  font-size: 12px;
+  margin: 9px 0 13px;
+}
+.dojo-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.dojo-secondary button {
+  flex: 1;
+  min-width: 0;
+  white-space: normal;
+  height: auto;
+  min-height: 40px;
+}
+.dojo-drawer {
+  max-width: 560px !important;
+  max-height: 85dvh;
+  overflow: auto;
+}
+.dojo-drawer .more-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.dojo-drawer .more-actions button {
+  white-space: normal;
+  height: auto;
+  min-height: 44px;
+}
+.breakthrough-chance {
+  text-align: center;
+  color: var(--primary);
+  font-size: 72px;
+  font-family: var(--font-serif);
+}
+.breakthrough-chance small {
+  font: 14px sans-serif;
+}
+.realm-ceremony {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #0b1411ed;
+  color: var(--primary);
+  pointer-events: none;
+  animation: realm-flash 1s ease-in-out both;
+}
+.realm-ceremony h2 {
+  font-size: clamp(42px, 7vw, 86px);
+  margin: 20px;
+}
+.realm-ceremony p {
+  margin: 8px;
+}
+.realm-setback {
+  color: var(--muted-foreground);
+}
+@keyframes realm-flash {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  15%,
+  80% {
+    opacity: 1;
+  }
+}
+.journal-dialog {
+  max-width: 1000px !important;
+  max-height: 85dvh;
+  overflow: auto;
+}
+.local-destinations {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 18px 0;
+}
+.local-destinations > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.local-destinations small {
+  font-size: 11px;
+  color: var(--muted-foreground);
+}
+.atlas-page {
+  max-width: 1100px;
+  margin: auto;
+}
+.atlas-page .atlas-section {
+  padding: 0;
+}
+.atlas-page .atlas-canvas {
+  min-height: 400px;
+}
+.atlas-page .section-heading {
+  margin-bottom: 12px;
+}
+.atlas-departure p {
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.dojo-battle-scene {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px;
+  background: var(--card);
+}
+.dojo-combatants {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 22px 0;
+}
+@media (max-width: 700px) {
+  .dojo-shell {
+    padding-bottom: 74px;
+  }
+  .dojo-shell .game-header {
+    padding: 10px 12px;
+    min-height: 76px;
+    gap: 5px;
+  }
+  .dojo-shell .play-area {
+    padding: 12px 12px 185px;
+  }
+  .dojo-shell .game-nav {
+    height: 64px;
+  }
+  .character-status {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    column-gap: 10px;
+    row-gap: 5px;
+  }
+  .status-profile {
+    grid-row: span 2;
+    gap: 7px;
+    font-size: 13px;
+  }
+  .status-avatar {
+    width: 32px;
+    height: 32px;
+  }
+  .character-status .meter {
+    width: 100%;
+    max-width: none;
+    grid-column: 2/4;
+    grid-row: 2;
+  }
+  .character-status .meter-label {
+    font-size: 10px;
+  }
+  .status-stones,
+  .character-status time {
+    font-size: 11px;
+  }
+  .status-delta {
+    left: 90px;
+    top: 22px;
+    font-size: 11px;
+  }
+  .dojo-shell .header-tools {
+    gap: 5px;
+  }
+  .dojo-shell .saved-state {
+    padding: 0;
+  }
+  .dojo-reading {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .dojo-landscape {
+    height: 130px;
+  }
+  .dojo-landscape figcaption {
+    padding: 26px 14px 9px;
+    font-size: 10px;
+  }
+  .dojo-story {
+    padding: 14px;
+  }
+  .dojo-story h1 {
+    font-size: 22px;
+    margin: 4px 0 8px;
+  }
+  .dojo-story p,
+  .dojo-story blockquote {
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  .dojo-speaker {
+    width: 86px;
+  }
+  .dojo-speaker > span {
+    font-size: 12px;
+  }
+  .dojo-speaker small {
+    font-size: 9px;
+  }
+  .event-feed {
+    width: 100%;
+    padding: 10px 14px;
+  }
+  .event-feed header {
+    margin-bottom: 0;
+  }
+  .event-feed h2 {
+    font-size: 16px;
+  }
+  .event-feed-lines article {
+    padding: 6px 0;
+  }
+  .event-feed-lines article:nth-child(n + 4) {
+    display: none;
+  }
+  .event-feed-lines article p {
+    font-size: 11px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .dojo-action-dock {
+    position: fixed;
+    bottom: 64px;
+    inset-inline: 0;
+    z-index: 35;
+    width: 100%;
+    margin: 0;
+    padding: 12px;
+    background: linear-gradient(#0b1411ed, var(--background));
+    border-top: 1px solid var(--border);
+  }
+  .dojo-primary {
+    font-size: 15px;
+    min-height: 48px;
+  }
+  .dojo-reason {
+    font-size: 10px;
+    line-height: 1.5;
+    margin: 7px 0;
+  }
+  .dojo-secondary {
+    gap: 5px;
+  }
+  .dojo-secondary button {
+    font-size: 11px;
+    padding: 6px;
+    min-height: 35px;
+  }
+  .local-destinations {
+    gap: 7px;
+  }
+  .local-destinations button {
+    font-size: 11px;
+    padding: 8px;
+    height: auto;
+    white-space: normal;
+  }
+  .atlas-page .atlas-canvas {
+    min-height: 440px;
+  }
+  .dojo-drawer {
+    top: auto !important;
+    bottom: 0;
+    transform: translateX(-50%) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 18px 18px 0 0;
+    max-height: 86dvh;
+  }
+  .dojo-shell .play-area:has(> [data-state="active"]:not(.journey-content)) {
+    padding-bottom: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .status-delta,
+  .realm-ceremony,
+  .event-feed-lines article {
+    animation: none;
+  }
+}
+

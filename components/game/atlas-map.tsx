@@ -1,4 +1,6 @@
 "use client";
+import { B } from "@/lib/game/rules";
+import { relation } from "@/lib/game/relationships";
 import { sectAt } from "@/lib/game/sect-content";
 import { useState, type CSSProperties } from "react";
 import { Compass, MapPin, Trees, Mountain, Waves, House, Castle, Footprints } from "lucide-react";
@@ -242,6 +244,23 @@ export function AtlasMap({
           )}
         </div>
         <div className="atlas-departure">
+          <p>
+            已结识{" "}
+            {
+              w.npcs.filter(
+                (a) =>
+                  a.alive &&
+                  !a.npcJourney &&
+                  a.location === selected.to &&
+                  relation(w, a.id)?.known,
+              ).length
+            }{" "}
+            人在此
+          </p>
+          <p>
+            旅途 {here ? 0 : (route?.days ?? 0)} 日 · 遭遇概率{" "}
+            {B.travel.randomRoadEncounterBp / 100}%
+          </p>
           <button
             disabled={!visitable}
             className="atlas-go"

@@ -1,6 +1,6 @@
-import { growTo } from "./journey-controls";
-import { creationSettings, dismissPanels } from "./journey-controls";
-import { test, expect, type Page } from "@playwright/test";
+import { creationPage, growTo } from "./journey-controls";
+import { dismissPanels } from "./journey-controls";
+import { test, expect, type Page, type Locator } from "@playwright/test";
 import sharp from "sharp";
 test.beforeEach(async ({ page }) => {
   // Model availability and paid image responses are external fixtures; cosmetic cache and game Worker remain real.
@@ -52,6 +52,8 @@ async function fixture() {
   return `data:image/png;base64,${png.toString("base64")}`;
 }
 async function create(page: Page, unlockPeople = true) {
+  // Name lives on the first creation step; other tests may switch steps before creating.
+  await creationPage(page, "入世");
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("立绘修士");
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
   await expect(page.getByRole("heading", { name: "立绘修士", exact: true })).toBeVisible();
@@ -60,6 +62,49 @@ async function create(page: Page, unlockPeople = true) {
     await expect(page.locator(".dojo-primary")).toHaveText(/谢过/);
     await growTo(page, "QI_1");
   }
+}
+/** Turn a paginated surface to the page that fully shows a control; never force-click clipped controls. */
+async function turnTo(control: Locator) {
+  const host = control.locator(
+    'xpath=ancestor::*[contains(concat(" ", normalize-space(@class), " "), " paged-content ")][1]',
+  );
+  if (!(await host.count())) return;
+  await expect(host).toHaveAttribute("data-ready", "true");
+  const previous = host
+    .locator(":scope > .page-navigation")
+    .getByRole("button", { name: /^上一页/ });
+  const next = host.locator(":scope > .page-navigation").getByRole("button", { name: /^下一页/ });
+  while ((await previous.count()) && (await previous.isEnabled())) await previous.click();
+  for (let turn = 0; turn < 60; turn++) {
+    if (
+      await control.evaluate((el) => {
+        if (!el.checkVisibility()) return false;
+        const rect = el.getBoundingClientRect(),
+          crop = el.closest(".page-crop")!.getBoundingClientRect();
+        return rect.top >= crop.top - 1 && rect.bottom <= crop.bottom + 1;
+      })
+    )
+      return;
+    if (!(await next.count()) || !(await next.isEnabled())) break;
+    await next.click();
+  }
+  throw new Error(`Unreachable control: ${(await control.textContent()) ?? ""}`);
+}
+async function clickPaged(control: Locator) {
+  await turnTo(control);
+  await control.click();
+}
+async function fillPaged(control: Locator, value: string) {
+  await turnTo(control);
+  await control.fill(value);
+}
+async function checkPaged(control: Locator) {
+  await turnTo(control);
+  await control.check();
+}
+async function selectPaged(control: Locator, value: string) {
+  await turnTo(control);
+  await control.selectOption(value);
 }
 test("creation fits first-screen essentials while advanced shape and portrait settings remain available", async ({
   page,
@@ -78,18 +123,24 @@ test("creation fits first-screen essentials while advanced shape and portrait se
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
       true,
     );
-    await creationSettings(page);
+    await creationPage(page, "形貌");
     await expect(page.getByLabel("身高（cm）", { exact: true })).toBeVisible();
     await expect(page.getByRole("combobox", { name: "胸围", exact: true })).toHaveValue("C");
-    await page.getByRole("radio", { name: "男", exact: true }).check();
+    await creationPage(page, "入世");
+    await checkPaged(page.getByRole("radio", { name: "男", exact: true }));
+    await creationPage(page, "形貌");
     await expect(page.getByRole("combobox", { name: "胸围", exact: true })).toHaveCount(0);
+    await creationPage(page, "更多设定");
     await expect(page.locator(".creation-form .save-footnote")).toHaveText("创角草稿已保存");
     await page.reload();
-    await creationSettings(page);
+    await creationPage(page, "入世");
     await expect(page.getByRole("radio", { name: "男", exact: true })).toBeChecked();
-    await page.getByRole("radio", { name: "女", exact: true }).check();
+    await checkPaged(page.getByRole("radio", { name: "女", exact: true }));
+    await creationPage(page, "形貌");
     await expect(page.getByRole("combobox", { name: "胸围", exact: true })).toHaveValue("C");
+    await creationPage(page, "立绘");
     await expect(page.getByRole("button", { name: "随机生成立绘", exact: true })).toBeVisible();
+    await creationPage(page, "机缘");
     await expect(page.getByRole("button", { name: "重掷", exact: true })).toBeVisible();
   }
 });
@@ -107,22 +158,25 @@ test("player body and generated asset persist; NPC adoption saves through Worker
   });
   await page.goto("/");
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
-  await page.getByLabel("身高（cm）", { exact: true }).fill("172");
+  await creationPage(page, "形貌");
+  await fillPaged(page.getByLabel("身高（cm）", { exact: true }), "172");
   const bust = page.getByRole("combobox", { name: "胸围", exact: true });
   await expect(bust.locator("option:not([disabled])")).toHaveText(["A", "B", "C", "D", "E"]);
-  await bust.selectOption("E");
+  await selectPaged(bust, "E");
   const features = "月白长裤，棉袜和平底靴，袖口绣着银色云纹";
   await expect(page.locator(".portrait-features input")).toHaveCount(1);
-  await page.getByRole("textbox", { name: "立绘特征", exact: true }).fill(features);
+  await creationPage(page, "立绘");
+  await fillPaged(page.getByRole("textbox", { name: "立绘特征", exact: true }), features);
+  await creationPage(page, "更多设定");
   await expect(page.locator(".creation-form .save-footnote")).toHaveText("创角草稿已保存");
   await page.reload();
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
+  await creationPage(page, "形貌");
   await expect(bust).toHaveValue("E");
+  await creationPage(page, "立绘");
   await expect(page.getByRole("textbox", { name: "立绘特征", exact: true })).toHaveValue(features);
-  await page.getByRole("button", { name: "随机生成立绘", exact: true }).click();
-  await page.getByRole("button", { name: "采用新立绘", exact: true }).click();
+  await clickPaged(page.getByRole("button", { name: "随机生成立绘", exact: true }));
+  await clickPaged(page.getByRole("button", { name: "采用新立绘", exact: true }));
   await expect(page.locator(".fullbody-frame img")).toBeVisible();
   const createdImage = await page
     .locator(".fullbody-frame img")
@@ -158,7 +212,6 @@ test("player body and generated asset persist; NPC adoption saves through Worker
   expect(await saved(page)).toEqual(first);
   await page.reload();
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   await expect(page.getByRole("heading", { name: "立绘修士", exact: true })).toBeVisible();
   expect(await saved(page)).toEqual(first);
   await page.getByRole("tab", { name: "人物", exact: true }).click();
@@ -170,9 +223,9 @@ test("player body and generated asset persist; NPC adoption saves through Worker
   await expect(dialog.getByLabel("体貌资料")).toContainText("身高");
   await expect(dialog.getByLabel("体貌资料")).toContainText("胸 / 腰 / 臀");
   const before = await saved(page);
-  await dialog.getByRole("button", { name: "重新绘制立绘", exact: true }).click();
-  await dialog.getByRole("button", { name: "生成新立绘", exact: true }).click();
-  await dialog.getByRole("button", { name: "采用新立绘", exact: true }).click();
+  await clickPaged(dialog.getByRole("button", { name: "重新绘制立绘", exact: true }));
+  await clickPaged(dialog.getByRole("button", { name: "生成新立绘", exact: true }));
+  await clickPaged(dialog.getByRole("button", { name: "采用新立绘", exact: true }));
   await expect.poll(async () => (await saved(page)).revision).toBe(before.revision + 1);
   await expect(dialog.locator(".fullbody-frame img")).toBeVisible();
   const after = await saved(page);
@@ -192,8 +245,8 @@ test("legacy portrait features import into one editable field and preserve empty
 }) => {
   await page.goto("/");
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   await expect(page.getByRole("textbox", { name: "姓名", exact: true })).toBeVisible();
+  await creationPage(page, "更多设定");
   await page.getByLabel("选择创角草稿", { exact: true }).setInputFiles({
     name: "legacy-draft.json",
     mimeType: "application/json",
@@ -221,16 +274,18 @@ test("legacy portrait features import into one editable field and preserve empty
   });
   const input = page.getByRole("textbox", { name: "立绘特征", exact: true });
   await expect(page.locator(".portrait-features input")).toHaveCount(1);
+  await creationPage(page, "立绘");
   await expect(input).toHaveValue("月白长裤 · 棉袜 · 平底靴");
   await page.reload();
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
+  await creationPage(page, "立绘");
   await expect(input).toHaveValue("月白长裤 · 棉袜 · 平底靴");
-  await input.fill("");
+  await fillPaged(input, "");
+  await creationPage(page, "更多设定");
   await expect(page.locator(".creation-form .save-footnote")).toHaveText("创角草稿已保存");
   await page.reload();
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
+  await creationPage(page, "立绘");
   await expect(input).toHaveValue("");
   expect(await saved(page)).toBeUndefined();
 });
@@ -248,17 +303,17 @@ test("late or cancelled generation and failed image cache cannot adopt a portrai
   });
   await page.goto("/");
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
-  await page.getByRole("button", { name: "随机生成立绘", exact: true }).click();
-  await page.locator(".portrait-features input").first().fill("月白长裤");
+  await creationPage(page, "立绘");
+  await clickPaged(page.getByRole("button", { name: "随机生成立绘", exact: true }));
+  await fillPaged(page.locator(".portrait-features input").first(), "月白长裤");
   release();
   await expect(page.getByRole("alert")).toContainText("形貌已经修改");
   await expect(page.locator(".fullbody-frame img")).toHaveCount(0);
   next = new Promise<void>((resolve) => {
     release = resolve;
   });
-  await page.getByRole("button", { name: "随机生成立绘", exact: true }).click();
-  await page.getByRole("button", { name: "取消生成", exact: true }).click();
+  await clickPaged(page.getByRole("button", { name: "随机生成立绘", exact: true }));
+  await clickPaged(page.getByRole("button", { name: "取消生成", exact: true }));
   release();
   await expect(page.getByRole("alert")).toContainText("已取消");
   await expect(page.locator(".fullbody-frame img")).toHaveCount(0);
@@ -272,7 +327,7 @@ test("late or cancelled generation and failed image cache cannot adopt a portrai
     }) as typeof indexedDB.open;
   });
   next = Promise.resolve();
-  await page.getByRole("button", { name: "随机生成立绘", exact: true }).click();
+  await clickPaged(page.getByRole("button", { name: "随机生成立绘", exact: true }));
   await expect(page.getByRole("alert")).toContainText("缓存空间不足");
   await create(page, false);
   expect((await saved(page)).player.portraitId).toBeUndefined();
@@ -290,8 +345,8 @@ test("unconfigured image service gives an actionable setup message without creat
   );
   await page.goto("/");
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
-  await page.getByRole("button", { name: "随机生成立绘", exact: true }).click();
+  await creationPage(page, "立绘");
+  await clickPaged(page.getByRole("button", { name: "随机生成立绘", exact: true }));
   await expect(page.getByRole("alert")).toContainText("生图模型");
   await expect(page.getByRole("button", { name: "踏入仙途", exact: true })).toBeVisible();
   expect(await saved(page)).toBeUndefined();
@@ -308,10 +363,13 @@ test("matching NPC full-body artwork loads without generation, remains offline, 
   });
   await page.goto("/");
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   await expect(page.locator(".fullbody-frame img")).toHaveCount(0);
   await create(page);
   await page.getByRole("button", { name: "存档与设置", exact: true }).click();
+  await page
+    .getByRole("navigation", { name: "设置分类" })
+    .getByRole("button", { name: "离线", exact: true })
+    .click();
   await expect(
     page.getByRole("complementary", { name: "离线与安装" }).getByRole("status"),
   ).toHaveText("固定剧情离线内容已缓存");
@@ -343,7 +401,6 @@ test("matching NPC full-body artwork loads without generation, remains offline, 
   await context.setOffline(true);
   await page.reload();
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   await expect(page.getByRole("heading", { name: "立绘修士", exact: true })).toBeVisible();
   await page.getByRole("tab", { name: "人物", exact: true }).click();
   await page.getByRole("button", { name: "查看全部人物", exact: true }).click();
@@ -382,15 +439,16 @@ test("redraw shares creation fields, previews before saving, and keeps either bu
   });
   await page.goto("/");
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   await expect(page.getByRole("textbox", { name: "姓名", exact: true })).toBeVisible();
   // Capture the actual creation controls; redraw must present the same options.
   const options: Record<string, string[]> = {};
-  for (const name of ["容貌", "发式", "服饰主色", "身材"])
+  for (const name of ["容貌", "发式", "服饰主色", "身材"]) {
+    await creationPage(page, name === "容貌" ? "入世" : "形貌");
     options[name] = await page
       .getByRole("radiogroup", { name: name === "容貌" ? "外貌" : name, exact: true })
       .getByRole("radio")
       .evaluateAll((els) => els.map((el) => el.getAttribute("aria-label")!));
+  }
   await create(page);
   await openLin(page);
   const dialog = page.getByRole("dialog");
@@ -398,7 +456,7 @@ test("redraw shares creation fields, previews before saving, and keeps either bu
   const before = await saved(page);
   const actor = before.npcs.find((a: any) => a.id === "NPC_LIN_WAN");
   const originalUrl = await dialog.locator(".fullbody-frame img").getAttribute("src");
-  await dialog.getByRole("button", { name: "重新绘制立绘", exact: true }).click();
+  await clickPaged(dialog.getByRole("button", { name: "重新绘制立绘", exact: true }));
   const editor = dialog.getByRole("region", { name: "重新绘制形貌" });
   await expect(editor).toBeFocused();
   for (const name of Object.keys(options)) {
@@ -408,14 +466,19 @@ test("redraw shares creation fields, previews before saving, and keeps either bu
         .getByRole("radio")
         .evaluateAll((els) => els.map((el) => el.getAttribute("aria-label")!)),
     ).toEqual(options[name]);
-    await editor.getByRole("radiogroup", { name, exact: true }).getByRole("radio").nth(1).check();
+    await checkPaged(
+      editor.getByRole("radiogroup", { name, exact: true }).getByRole("radio").nth(1),
+    );
   }
   await expect(editor.getByLabel("身高（cm）", { exact: true })).toHaveValue(
     String(actor.physique.heightCm),
   );
-  await editor.getByLabel("身高（cm）", { exact: true }).fill("180");
-  await editor.getByRole("combobox", { name: "胸围", exact: true }).selectOption("D");
-  await dialog.getByRole("textbox", { name: "立绘特征", exact: true }).fill("墨绿长裤与银色平底靴");
+  await fillPaged(editor.getByLabel("身高（cm）", { exact: true }), "180");
+  await selectPaged(editor.getByRole("combobox", { name: "胸围", exact: true }), "D");
+  await fillPaged(
+    dialog.getByRole("textbox", { name: "立绘特征", exact: true }),
+    "墨绿长裤与银色平底靴",
+  );
   expect(await saved(page)).toEqual(before);
   // Both desktop and narrow mobile layouts retain every form control and original option.
   for (const width of [1440, 390, 320]) {
@@ -433,7 +496,7 @@ test("redraw shares creation fields, previews before saving, and keeps either bu
       .toBe(true);
     await dialog.screenshot({ path: `/tmp/xiantu-redraw-fields-${width}.png` });
   }
-  await dialog.getByRole("button", { name: "生成新立绘", exact: true }).click();
+  await clickPaged(dialog.getByRole("button", { name: "生成新立绘", exact: true }));
   const preview = dialog.getByRole("img", { name: "林晚的新立绘预览", exact: true });
   await expect(preview).toBeVisible();
   expect(requests[0].physique.heightCm).toBe(180);
@@ -444,24 +507,26 @@ test("redraw shares creation fields, previews before saving, and keeps either bu
   await expect(
     dialog.locator(".portrait-studio").getByRole("img", { name: "林晚的全身立绘", exact: true }),
   ).toHaveAttribute("src", originalUrl!);
-  await dialog.getByRole("button", { name: "保留原立绘", exact: true }).click();
+  await clickPaged(dialog.getByRole("button", { name: "保留原立绘", exact: true }));
   await expect(preview).toHaveCount(0);
   expect(await saved(page)).toEqual(before);
   await page.keyboard.press("Escape");
   await page.reload();
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   expect(await saved(page)).toEqual(before);
   await openLin(page);
   await dialog.getByRole("tab", { name: "立绘", exact: true }).click();
-  await dialog.getByRole("button", { name: "重新绘制立绘", exact: true }).click();
+  await clickPaged(dialog.getByRole("button", { name: "重新绘制立绘", exact: true }));
   await expect(dialog.getByLabel("身高（cm）", { exact: true })).toHaveValue(
     String(actor.physique.heightCm),
   );
-  await dialog.getByLabel("身高（cm）", { exact: true }).fill("178");
-  await dialog.getByRole("combobox", { name: "胸围", exact: true }).selectOption("B");
-  await dialog.getByRole("textbox", { name: "立绘特征", exact: true }).fill("青衣长裙与月白披帛");
-  await dialog.getByRole("button", { name: "生成新立绘", exact: true }).click();
+  await fillPaged(dialog.getByLabel("身高（cm）", { exact: true }), "178");
+  await selectPaged(dialog.getByRole("combobox", { name: "胸围", exact: true }), "B");
+  await fillPaged(
+    dialog.getByRole("textbox", { name: "立绘特征", exact: true }),
+    "青衣长裙与月白披帛",
+  );
+  await clickPaged(dialog.getByRole("button", { name: "生成新立绘", exact: true }));
   await expect(preview).toBeVisible();
   await dialog
     .locator(".portrait-comparison")
@@ -470,7 +535,7 @@ test("redraw shares creation fields, previews before saving, and keeps either bu
   for (const figure of await dialog.locator(".portrait-comparison figure").all()) {
     const imageSource = await figure.locator("img").getAttribute("src");
     const opener = figure.getByRole("button");
-    await opener.click();
+    await clickPaged(opener);
     const viewer = page.locator(".image-viewer");
     await expect(viewer).toBeVisible();
     await expect(viewer.locator("img")).toHaveAttribute("src", imageSource!);
@@ -482,7 +547,7 @@ test("redraw shares creation fields, previews before saving, and keeps either bu
   }
   expect(requests).toHaveLength(generatedCount);
   expect(await saved(page)).toEqual(before);
-  await dialog.getByRole("button", { name: "采用新立绘", exact: true }).click();
+  await clickPaged(dialog.getByRole("button", { name: "采用新立绘", exact: true }));
   await expect.poll(async () => (await saved(page)).revision).toBe(before.revision + 1);
   const adopted = await saved(page);
   const next = adopted.npcs.find((a: any) => a.id === actor.id);
@@ -526,24 +591,23 @@ test("redraw shares creation fields, previews before saving, and keeps either bu
       db.close();
     }
   });
-  await dialog.getByRole("button", { name: "重新绘制立绘", exact: true }).click();
+  await clickPaged(dialog.getByRole("button", { name: "重新绘制立绘", exact: true }));
   await expect(dialog.getByLabel("身高（cm）", { exact: true })).toHaveValue("178");
-  await dialog.getByLabel("身高（cm）", { exact: true }).fill("165");
-  await dialog.getByRole("button", { name: "生成新立绘", exact: true }).click();
+  await fillPaged(dialog.getByLabel("身高（cm）", { exact: true }), "165");
+  await clickPaged(dialog.getByRole("button", { name: "生成新立绘", exact: true }));
   await expect(preview).toBeVisible();
-  await dialog.getByRole("button", { name: "保留原立绘", exact: true }).click();
+  await clickPaged(dialog.getByRole("button", { name: "保留原立绘", exact: true }));
   expect(await saved(page)).toEqual(adopted);
   expect(await imageBytes()).toEqual(oldBytes);
   await page.keyboard.press("Escape");
   await page.reload();
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   await expect(page.locator(".status-profile")).toBeVisible();
   expect(await saved(page)).toEqual(adopted);
   await openLin(page);
   await dialog.getByRole("tab", { name: "立绘", exact: true }).click();
   const requestCount = requests.length;
-  await dialog.getByRole("button", { name: "恢复原立绘", exact: true }).click();
+  await clickPaged(dialog.getByRole("button", { name: "恢复原立绘", exact: true }));
   await expect.poll(async () => (await saved(page)).revision).toBe(adopted.revision + 1);
   const restored = await saved(page);
   const restoredActor = restored.npcs.find((a: any) => a.id === actor.id);
@@ -563,7 +627,6 @@ test("redraw shares creation fields, previews before saving, and keeps either bu
   await page.keyboard.press("Escape");
   await page.reload();
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   await expect(page.locator(".status-profile")).toBeVisible();
   expect(await saved(page)).toEqual(restored);
   expect(errors).toEqual([]);
@@ -588,16 +651,15 @@ test("closing or cancelling an NPC redraw cannot adopt a late result, and male r
   });
   await page.goto("/");
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   await create(page);
   const before = await saved(page);
   await openLin(page);
   const dialog = page.getByRole("dialog");
   await dialog.getByRole("tab", { name: "立绘", exact: true }).click();
-  await dialog.getByRole("button", { name: "重新绘制立绘", exact: true }).click();
-  await dialog.getByRole("button", { name: "生成新立绘", exact: true }).click();
+  await clickPaged(dialog.getByRole("button", { name: "重新绘制立绘", exact: true }));
+  await clickPaged(dialog.getByRole("button", { name: "生成新立绘", exact: true }));
   await arrival;
-  await dialog.getByRole("button", { name: "保留原立绘", exact: true }).click();
+  await clickPaged(dialog.getByRole("button", { name: "保留原立绘", exact: true }));
   release();
   await expect(dialog.getByRole("region", { name: "重新绘制形貌" })).toHaveCount(0);
   expect(await saved(page)).toEqual(before);
@@ -607,14 +669,13 @@ test("closing or cancelling an NPC redraw cannot adopt a late result, and male r
   response = new Promise<void>((resolve) => {
     release = resolve;
   });
-  await dialog.getByRole("button", { name: "重新绘制立绘", exact: true }).click();
-  await dialog.getByRole("button", { name: "生成新立绘", exact: true }).click();
+  await clickPaged(dialog.getByRole("button", { name: "重新绘制立绘", exact: true }));
+  await clickPaged(dialog.getByRole("button", { name: "生成新立绘", exact: true }));
   await arrival;
   await page.keyboard.press("Escape");
   release();
   await page.reload();
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   await expect(page.locator(".status-profile")).toBeVisible();
   expect(await saved(page)).toEqual(before);
   await page.getByRole("tab", { name: "人物", exact: true }).click();
@@ -628,7 +689,7 @@ test("closing or cancelling an NPC redraw cannot adopt a late result, and male r
     .filter({ has: page.getByRole("heading", { name: /^周安/ }) })
     .click();
   await dialog.getByRole("tab", { name: "立绘", exact: true }).click();
-  await dialog.getByRole("button", { name: "重新绘制立绘", exact: true }).click();
+  await clickPaged(dialog.getByRole("button", { name: "重新绘制立绘", exact: true }));
   await expect(dialog.getByLabel("身高（cm）", { exact: true })).toBeVisible();
   await expect(dialog.getByRole("combobox", { name: "胸围", exact: true })).toHaveCount(0);
   expect(await saved(page)).toEqual(before);
@@ -650,9 +711,9 @@ test("player restoration recovers the created portrait and look after reload; mi
   );
   await page.goto("/");
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
-  await page.getByRole("button", { name: "随机生成立绘", exact: true }).click();
-  await page.getByRole("button", { name: "采用新立绘", exact: true }).click();
+  await creationPage(page, "立绘");
+  await clickPaged(page.getByRole("button", { name: "随机生成立绘", exact: true }));
+  await clickPaged(page.getByRole("button", { name: "采用新立绘", exact: true }));
   await create(page);
   const original = await saved(page);
   const open = async () => {
@@ -668,19 +729,18 @@ test("player restoration recovers the created portrait and look after reload; mi
         Array.from(new Uint8Array(await (await fetch(img.src)).arrayBuffer())),
       );
   const bytes = await imageBytes();
-  await dialog.getByRole("button", { name: "重新绘制立绘", exact: true }).click();
+  await clickPaged(dialog.getByRole("button", { name: "重新绘制立绘", exact: true }));
   await expect(dialog.getByRole("region", { name: "重新绘制形貌" })).toBeFocused();
-  await dialog.getByLabel("身高（cm）", { exact: true }).fill("182");
-  await dialog.getByRole("combobox", { name: "胸围", exact: true }).selectOption("D");
-  await dialog.getByRole("button", { name: "生成新立绘", exact: true }).click();
-  await dialog.getByRole("button", { name: "采用新立绘", exact: true }).click();
+  await fillPaged(dialog.getByLabel("身高（cm）", { exact: true }), "182");
+  await selectPaged(dialog.getByRole("combobox", { name: "胸围", exact: true }), "D");
+  await clickPaged(dialog.getByRole("button", { name: "生成新立绘", exact: true }));
+  await clickPaged(dialog.getByRole("button", { name: "采用新立绘", exact: true }));
   await expect.poll(async () => (await saved(page)).revision).toBe(original.revision + 1);
   const adopted = await saved(page);
   expect(adopted.player.portraitOriginal.portraitId).toBe(original.player.portraitId);
   await page.keyboard.press("Escape");
   await page.reload();
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   await expect(page.locator(".status-profile")).toBeVisible();
   await open();
   // Missing local artwork must not discard the successfully adopted replacement.
@@ -712,12 +772,12 @@ test("player restoration recovers the created portrait and look after reload; mi
       { id: original.player.portraitId, remove },
     );
   await cache(true);
-  await dialog.getByRole("button", { name: "恢复原立绘", exact: true }).click();
+  await clickPaged(dialog.getByRole("button", { name: "恢复原立绘", exact: true }));
   await expect(dialog.getByRole("alert")).toContainText("未保存原立绘图片");
   expect(await saved(page)).toEqual(adopted);
   await cache(false);
   await page.setViewportSize({ width: 320, height: 900 });
-  await dialog.getByRole("button", { name: "恢复原立绘", exact: true }).click();
+  await clickPaged(dialog.getByRole("button", { name: "恢复原立绘", exact: true }));
   await expect.poll(async () => (await saved(page)).revision).toBe(adopted.revision + 1);
   const restored = await saved(page);
   expect(restored.profile).toEqual(original.profile);
@@ -732,7 +792,6 @@ test("player restoration recovers the created portrait and look after reload; mi
   await page.keyboard.press("Escape");
   await page.reload();
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   await expect(page.locator(".status-profile")).toBeVisible();
   expect(await saved(page)).toEqual(restored);
 });

@@ -10,8 +10,10 @@ import { visitSect, joinSectReason } from "../../lib/game/sects";
 import {
   intimacyHistory,
   intimacyReason,
+  liaisonReason,
   bondPartner,
   companyReason,
+  settleIntimacy,
 } from "../../lib/game/intimacy";
 import { knownEvents, tellOwnRecentFacts, knowledgeEntries } from "../../lib/game/knowledge";
 import { cultivationJourney } from "../../lib/game/growth";
@@ -166,6 +168,20 @@ test("relationships grow through timed company; adults choose bonds and private 
   assert.equal(bondPartner(r.w, "PLAYER")?.id, target);
   assert.equal(r.w.day, before.day + 4);
   r.do({ type: "intimacy", kind: "night", target, confirmed: true });
+  const night = r.w.events.at(-1)!;
+  assert.equal(night.intimacy?.kind, "night");
+  assert.match(night.text, /到达高潮/);
+  assert.match(night.text, /这段经过只写在两人的生平里/);
+  const young = structuredClone(r.w);
+  young.player.ageDays = 20 * B.world.daysPerYear;
+  const mild = settleIntimacy(
+    young,
+    young.player,
+    young.npcs.find((n) => n.id === target)!,
+    "night",
+  );
+  assert.match(mild, /这段亲密经历只记于两人的生平/);
+  assert.equal(young.rng.simulation, r.w.rng.simulation);
   const prev = structuredClone(r.w),
     gain = gainPerDay(r.w, r.w.player, false, true);
   r.do({ type: "intimacy", kind: "dual", target, confirmed: true });
@@ -197,6 +213,11 @@ test("NPC partners build their own relationship during long waits; private lives
   const events = intimacyHistory(r.w, "SECT_HEHUAN_YAN");
   assert.ok(events.some((e) => e.intimacy!.kind === "bond"));
   assert.ok(events.some((e) => e.intimacy!.kind === "dual"));
+  assert.ok(
+    events
+      .filter((e) => e.intimacy?.kind === "dual")
+      .every((e) => e.text.includes("调和气机、互相照应")),
+  );
   assert.ok(events.every((e) => !e.actors.includes("PLAYER")));
   assert.ok(!knownEvents(r.w).some((e) => e.intimacy));
   assert.equal(r.w.player.xp, before.xp);
@@ -288,4 +309,174 @@ test("authored past intimacy is projected only from completed experiences; acqua
   assert.deepEqual(r.w, before);
   r.visit("yunv");
   denied(r, { type: "joinSect", sectId: "yunv", confirmed: true });
+});
+test("secret affairs, discovered cheating and watched infidelity stay adult, private and consequential", () => {
+  const config = B.relationships.companionship;
+  const hehuan = new Run("male");
+  hehuan.visit("hehuan");
+  const yan = "SECT_HEHUAN_YAN";
+  const rong = "SECT_HEHUAN_RONG";
+  for (let i = 0; i < 120 && bondPartner(hehuan.w, yan)?.id !== rong; i++) {
+    advanceDay(hehuan.w);
+    hehuan.w = answerDaily(hehuan.w);
+  }
+  assert.equal(bondPartner(hehuan.w, yan)?.id, rong);
+  hehuan.do({ type: "meet", target: yan });
+  const affair: Command = {
+    type: "liaison",
+    target: yan,
+    play: "affair",
+    stance: "secret",
+    confirmed: true,
+  };
+  denied(hehuan, affair);
+  assert.match(
+    liaisonReason(
+      hehuan.w,
+      hehuan.w.npcs.find((n) => n.id === yan),
+      "affair",
+      "secret",
+    ),
+    /私下亲热/,
+  );
+  hehuan.do({ type: "liaison", target: yan, play: "tryst", stance: "secret", confirmed: true });
+  denied(hehuan, {
+    type: "liaison",
+    target: yan,
+    play: "tryst",
+    stance: "mark",
+    confirmed: true,
+  });
+  const xp = hehuan.w.player.xp;
+  const stones = hehuan.w.player.stones;
+  hehuan.do(affair);
+  const secret = hehuan.w.events.findLast((event) => event.intimacy?.kind === "affair")!;
+  assert.equal(secret.intimacy?.kind, "affair");
+  assert.deepEqual(secret.intimacy?.betrayed, [rong]);
+  assert.match(secret.text, /高潮/);
+  assert.match(secret.text, /背着容照夜的出轨/);
+  assert.match(secret.text, /这段偷情只写在当事人的生平里/);
+  assert.equal(hehuan.w.player.xp, xp);
+  assert.equal(hehuan.w.player.stones, stones);
+  assert.ok(
+    !knownEvents(hehuan.w, rong).some((event) => event.id === secret.id || event.kind === "scandal"),
+    "spouse learned the secret",
+  );
+  assert.equal([...knowledgeEntries(hehuan.w)].filter((k) => k.eventId === secret.id).length, 2);
+  hehuan.do({ type: "liaison", target: yan, play: "affair", stance: "mark", confirmed: true });
+  const exposed = knownEvents(hehuan.w, rong).find((event) => event.kind === "scandal");
+  assert.ok(exposed, "spouse missed the trace");
+  assert.match(exposed!.text, /发现了这场出轨/);
+  assert.ok(
+    !knownEvents(hehuan.w, rong).some((event) => event.intimacy?.kind === "affair"),
+    "spouse received the intimate record",
+  );
+  assert.ok(
+    hehuan.w.relations.some((edge) => edge.from === rong && edge.to === "PLAYER" && edge.grievance),
+  );
+  assert.ok(
+    hehuan.w.relations.some((edge) => edge.from === rong && edge.to === yan && edge.grievance),
+  );
+  assert.ok(
+    hehuan.w.events
+      .filter((event) => event.intimacy?.kind === "dual")
+      .every((event) => event.text.includes("调和气机、互相照应")),
+    "npc dual text changed",
+  );
+  validateWorld(hehuan.w);
+
+  const watched = new Run("female");
+  watched.join("quanzhen");
+  const ning = "SECT_QUAN_NING";
+  const chang = "SECT_QUAN_CHANG";
+  watched.do({ type: "meet", target: ning });
+  watched.w.player.ageDays = 20 * B.world.daysPerYear;
+  denied(watched, {
+    type: "liaison",
+    target: ning,
+    play: "tryst",
+    stance: "secret",
+    confirmed: true,
+  });
+  assert.match(
+    liaisonReason(
+      watched.w,
+      watched.w.npcs.find((n) => n.id === ning),
+      "tryst",
+      "secret",
+    ),
+    /二十一/,
+  );
+  watched.w.player.ageDays = 21 * B.world.daysPerYear;
+  for (let i = 0; i < 4; i++) watched.do({ type: "spendTime", target: ning });
+  watched.do({ type: "intimacy", kind: "bond", target: ning, confirmed: true });
+  watched.do({ type: "meet", target: chang });
+  const trust = watched.w.relations.find(
+    (edge) => edge.from === "PLAYER" && edge.to === ning,
+  )!.trust;
+  watched.do({
+    type: "liaison",
+    target: chang,
+    play: "witness",
+    stance: "indulge",
+    confirmed: true,
+  });
+  const ntr = watched.w.events.findLast((event) => event.intimacy?.kind === "ntr")!;
+  assert.equal(ntr.intimacy?.kind, "ntr");
+  assert.deepEqual(ntr.actors, ["PLAYER", ning, chang]);
+  assert.deepEqual(ntr.intimacy?.betrayed, ["PLAYER"]);
+  assert.match(ntr.text, /寝取/);
+  assert.match(ntr.text, /高潮/);
+  assert.match(ntr.text, /这一夜的寝取写在三人的生平里/);
+  assert.equal(
+    watched.w.relations.find((edge) => edge.from === "PLAYER" && edge.to === ning)!.trust,
+    trust - config.indulgeTrustLoss,
+  );
+  assert.equal(
+    watched.w.relations.find((edge) => edge.from === "PLAYER" && edge.to === ning)?.grievance,
+    undefined,
+  );
+  assert.ok(knownEvents(watched.w).some((event) => event.id === ntr.id));
+  assert.ok(!knownEvents(watched.w).some((event) => event.intimacy?.kind === "affair"));
+  const beforeSever = watched.w.relations.find(
+    (edge) => edge.from === "PLAYER" && edge.to === ning,
+  )!.trust;
+  watched.do({
+    type: "liaison",
+    target: chang,
+    play: "witness",
+    stance: "sever",
+    confirmed: true,
+  });
+  const broken = watched.w.relations.find((edge) => edge.from === "PLAYER" && edge.to === ning)!;
+  assert.equal(broken.grievance, true);
+  assert.equal(broken.trust, beforeSever - config.exposeTrustLoss);
+  assert.match(
+    intimacyReason(
+      watched.w,
+      watched.w.player,
+      watched.w.npcs.find((n) => n.id === ning),
+      "night",
+    ),
+    /仇怨/,
+  );
+  watched.visit("yunv");
+  watched.do({ type: "meet", target: "SECT_YUNV_GU" });
+  denied(watched, {
+    type: "liaison",
+    target: "SECT_YUNV_GU",
+    play: "tryst",
+    stance: "secret",
+    confirmed: true,
+  });
+  assert.match(
+    liaisonReason(
+      watched.w,
+      watched.w.npcs.find((n) => n.id === "SECT_YUNV_GU"),
+      "tryst",
+      "secret",
+    ),
+    /守贞/,
+  );
+  validateWorld(watched.w);
 });

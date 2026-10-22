@@ -16,6 +16,7 @@ import {
   scheduledHome,
 } from "../../lib/game/world-map";
 import { advanceDay } from "../../lib/game/daily-simulation";
+import { battleRound } from "../../lib/game/combat";
 import { PACK, VISUAL_IDS } from "../../lib/game/content/official";
 import { validateExtension } from "../../lib/game/content/extension-contract.mjs";
 import { migrateSave } from "../../lib/game/migrations";
@@ -25,6 +26,21 @@ import type { World, Command } from "../../lib/game/types";
 const packs = EXTENSIONS.filter((e) => e.data.journey).sort(
   (a, b) => a.data.journey!.order - b.data.journey!.order,
 );
+
+function settleFieldBattle(w: World) {
+  let guard = 0;
+  while (w.battle && guard++ < 60) {
+    for (const enemy of w.battle.enemies) if (enemy.hp > 0) enemy.hp = 1;
+    const ally = w.battle.allies.find((a) => a.id === "PLAYER");
+    if (ally) {
+      ally.hp = ally.maxHp;
+      ally.attack = 10_000;
+    }
+    battleRound(w, "attack");
+  }
+  return w;
+}
+
 const profile = {
   name: "行路人",
   sex: "male" as const,
@@ -36,7 +52,9 @@ const profile = {
 const fresh = (locks = packs.map((p) => p.lock)) =>
   createWorld(12345, profile, "journey-unit", 40, { contentLocks: locks });
 function command(w: World, c: Command) {
-  return answerDaily(applyCommand(w, c, `journey:${w.revision + 1}`, w.revision));
+  return answerDaily(
+    settleFieldBattle(applyCommand(w, c, `journey:${w.revision + 1}`, w.revision)),
+  );
 }
 function mature(w: World, realm: number) {
   w.player.realm = realm;
@@ -177,6 +195,32 @@ test("old exact four-volume saves upgrade geography while preserving progress, r
   const bad = structuredClone(w);
   bad.contentLocks[0] += "x";
   assert.throws(() => migrateSave(bad), /版本/);
+});
+test("rewritten adult scenes keep earlier 0.2.0 volume locks readable", () => {
+  const previous = [
+    "shichai.chunshui@0.2.0:bbd4768fe95d856e779c575e8221c33ae806b781d78333e453854c2006d8c17c",
+    "shichai.xiaye@0.2.0:639a283f6173caddad57baf2909bbe281f069d08dbfdb30a44bf7392bd7acf71",
+    "shichai.qiudeng@0.2.0:8d6766874c599307bb0d201b907d2cec578f5f64fc1727f405bec762eb3072f8",
+    "shichai.dongxue@0.2.0:64e08faee26460e1fa2af5442ee68a99eb1a17953a2da62861c09b64544be247",
+  ];
+  const w = fresh();
+  w.contentLocks = w.contentLocks.map((lock) => {
+    const packId = lock.split("@")[0];
+    return previous.find((item) => item.startsWith(`${packId}@`)) ?? lock;
+  });
+  const original = structuredClone(w);
+  const migrated = migrateSave(w);
+  assert.equal(migrated.migrated, true);
+  assert.deepEqual(w, original);
+  for (const lock of previous) {
+    const packId = lock.split("@")[0];
+    assert.equal(
+      migrated.world.contentLocks.find((item) => item.startsWith(`${packId}@`)),
+      packs.find((pack) => pack.data.manifest.packId === packId)!.lock,
+    );
+  }
+  validateWorld(migrated.world);
+  assert.deepEqual(migrateSave(migrated.world).world, migrated.world);
 });
 test("unselected locations and distant event witnesses cannot be invented", () => {
   const w = fresh([packs[0].lock]);

@@ -1,7 +1,7 @@
 import { growTo, waitCheckpoint } from "./journey-controls";
 import { installPauseControl, armPause } from "./pause-control";
 import { openMore, finish } from "./journey-controls";
-import { creationSettings } from "./journey-controls";
+import { creationPage, creationSettings } from "./journey-controls";
 import { openPractice } from "./journey-controls";
 import { openCurrentLocation, travelTo } from "./journey-controls";
 import { test, expect, type Page } from "@playwright/test";
@@ -41,6 +41,10 @@ async function agreeReady(page: Page) {
 }
 async function openNegotiation(page: Page) {
   await openMore(page);
+  // The paginated drawer groups negotiation under its own category tab.
+  const drawer = page.getByRole("dialog", { name: "选择更多行动" });
+  const talk = drawer.getByRole("button", { name: "交涉", exact: true });
+  if (await talk.count()) await talk.click();
   await page.getByRole("button", { name: "与林晚同行交涉", exact: true }).click();
   return page.getByRole("dialog", { name: "与林晚商议同行" });
 }
@@ -63,7 +67,7 @@ test("author creation and actual preview file imports cannot overwrite the norma
   await preview.goto("/author");
   await expect(preview.getByText(/作者预览 · 独立测试存档/)).toBeVisible();
   await preview.getByRole("textbox", { name: "姓名", exact: true }).fill("作者测试");
-  await creationSettings(preview);
+  await creationPage(preview, "机缘");
   await preview.getByRole("checkbox", { name: /周安的归途口信/ }).check();
   await preview.getByRole("button", { name: "踏入仙途", exact: true }).click();
   await expect(preview.getByRole("heading", { name: "作者测试", exact: true })).toBeVisible();

@@ -7,6 +7,7 @@ import {
   finish,
   openPractice,
   openMore,
+  openDrawerCategory,
   travelTo,
   dismissPanels,
   openCurrentLocation,
@@ -106,7 +107,7 @@ for (const honor of [true, false])
     expect(
       settled.events.some((e: any) => e.kind === (honor ? "promiseFulfilled" : "promiseBreached")),
     ).toBe(true);
-    await openMore(page);
+    await openDrawerCategory(page, "交涉");
     const renew = page.getByRole("button", { name: "再次邀约林晚同行", exact: true });
     if (honor) {
       await renew.click();
@@ -185,7 +186,7 @@ test("cancelled invitations stay closed on desktop and mobile, explicit renewal 
     await page.setViewportSize({ width, height: width === 1440 ? 900 : 844 });
     await openCurrentLocation(page);
     await expect(page.locator(".dojo-story")).not.toContainText("同行之前，先立一诺");
-    await openMore(page);
+    await openDrawerCategory(page, "交涉");
     await page.getByRole("button", { name: "再次邀约林晚同行", exact: true }).click();
     await expect(page.getByRole("dialog", { name: "再次相约探秘境" })).toContainText(
       "现在确认不扣款",
@@ -193,7 +194,7 @@ test("cancelled invitations stay closed on desktop and mobile, explicit renewal 
     expect(await saved(page)).toEqual(before);
     await dismissPanels(page);
   }
-  await openMore(page);
+  await openDrawerCategory(page, "交涉");
   await page.getByRole("button", { name: "再次邀约林晚同行", exact: true }).click();
   await act(page, page.getByRole("button", { name: /确认再次同行/ }));
   const after = await saved(page);

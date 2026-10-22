@@ -46,6 +46,7 @@ import {
 import { useMemo, useState } from "react";
 import { trainingPreview } from "@/lib/game/training-preview";
 import { advanceRule } from "@/lib/game/rules";
+import { skillConfig, usableSkills } from "@/lib/game/skills";
 import { NpcPortrait } from "./npc-portrait";
 import { TimeBadge } from "./time-badge";
 
@@ -303,6 +304,13 @@ export function PeoplePanel({ world: w, onProfile }: { world: World; onProfile: 
   );
 }
 
+const FIELD_TITLES = {
+  story: { eyebrow: "秘境遭遇", title: "残碑守卫" },
+  expedition: { eyebrow: "秘境遭遇", title: "残碑守卫" },
+  road: { eyebrow: "途中遭遇", title: "拦路之敌" },
+  explore: { eyebrow: "郊野遭遇", title: "荒野突袭" },
+};
+
 export function BattlePanel({
   world: w,
   send,
@@ -328,9 +336,9 @@ export function BattlePanel({
     <section className="battle-panel">
       <div className="section-heading">
         <span className="eyebrow">
-          <Swords size={14} /> 秘境遭遇 · 第 {b.round} 回合
+          <Swords size={14} /> {FIELD_TITLES[b.kind ?? "story"].eyebrow} · 第 {b.round} 回合
         </span>
-        <h2 className="serif">残碑守卫</h2>
+        <h2 className="serif">{FIELD_TITLES[b.kind ?? "story"].title}</h2>
         <p>
           主角由你指挥，同伴会自行行动。
           {b.lethal ? "本次遭遇可能造成真实死亡，请谨慎应对。" : "本次遭遇不会致命。"}
@@ -349,6 +357,7 @@ export function BattlePanel({
             >
               <Shield size={30} />
               <h3>{e.name}</h3>
+              {e.guard && <small className="fighter-state">守势</small>}
               <Meter label={e.hp ? "气血" : "已击败"} value={e.hp} max={e.maxHp} />
             </button>
           ))}
@@ -396,51 +405,58 @@ export function BattlePanel({
             ))}
         </div>
         <div className="combat-actions">
-          {(
-            [
-              { id: "attack", name: "普攻", icon: Swords },
-              {
-                id: "skill",
-                name: p.cooldown ? `剑诀 · 调息 ${p.cooldown}` : "青芒剑诀",
-                icon: Wind,
-              },
-              { id: "guard", name: "防御", icon: Shield },
-              { id: "heal", name: `回春丹 · ${w.player.healing}`, icon: Heart },
-              { id: "retreat", name: "撤退", icon: Moon },
-            ] as const
-          ).map((a) => (
-            <Button
-              key={a.id}
-              variant={a.id === "skill" ? "default" : "outline"}
-              disabled={
-                busy ||
-                autoRunning ||
-                (a.id === "skill" && p.cooldown > 0) ||
-                (a.id === "heal" && (w.player.healing === 0 || p.hp >= p.maxHp))
-              }
-              onClick={() =>
-                send({
-                  type: "battle",
-                  action: a.id,
-                  ...(a.id === "attack" || a.id === "skill" ? { target: activeTarget } : {}),
-                })
-              }
-            >
-              <a.icon size={16} />
-              <span className="combat-action-label">{a.name}</span>
-              <TimeBadge
-                world={w}
-                command={{
-                  type: "battle",
-                  action: a.id,
-                  ...(a.id === "attack" || a.id === "skill" ? { target: activeTarget } : {}),
-                }}
-              />
-            </Button>
-          ))}
+          {(() => {
+            const skills = usableSkills(w.player).map((skill) => ({
+              id: `skill-${skill}`,
+              skill,
+              name:
+                p.cooldown > 0
+                  ? `${skillConfig(skill).name} · 调息 ${p.cooldown}`
+                  : skillConfig(skill).name,
+              icon: Wind,
+            }));
+            const actions = [
+              { id: "attack", name: "普攻", icon: Swords, skill: undefined },
+              ...skills,
+              { id: "guard", name: "防御", icon: Shield, skill: undefined },
+              { id: "heal", name: `回春丹 · ${w.player.healing}`, icon: Heart, skill: undefined },
+              { id: "retreat", name: "撤退", icon: Moon, skill: undefined },
+            ];
+            return actions.map((a) => {
+              const isSkill = !!a.skill;
+              const battleAction = isSkill ? "skill" : a.id;
+              const command = {
+                type: "battle" as const,
+                action: battleAction as "attack" | "skill" | "guard" | "heal" | "retreat",
+                ...(a.skill ? { skill: a.skill } : {}),
+                ...(a.id === "attack" || isSkill ? { target: activeTarget } : {}),
+              };
+              return (
+                <Button
+                  key={a.id}
+                  variant={isSkill ? "default" : "outline"}
+                  disabled={
+                    busy ||
+                    autoRunning ||
+                    (isSkill && p.cooldown > 0) ||
+                    (a.id === "heal" && (w.player.healing === 0 || p.hp >= p.maxHp))
+                  }
+                  onClick={() => send(command)}
+                >
+                  <a.icon size={16} />
+                  <span className="combat-action-label">{a.name}</span>
+                  <TimeBadge world={w} command={command} />
+                </Button>
+              );
+            });
+          })()}
         </div>
         <p className="skill-status">
-          {p.cooldown ? `剑诀调息还需 ${p.cooldown} 回合。` : "青芒剑诀可以使用。"}
+          {p.cooldown
+            ? `招式调息还需 ${p.cooldown} 回合。`
+            : `可用招式：${usableSkills(w.player)
+                .map((skill) => skillConfig(skill).name)
+                .join("、")}。`}
           {!w.player.healing ? " 当前没有回春丹。" : p.hp >= p.maxHp ? " 气血已满，无需服丹。" : ""}
         </p>
       </div>

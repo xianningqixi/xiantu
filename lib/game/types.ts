@@ -16,6 +16,7 @@ export interface Profile {
   appearance: { face: number; hair: number; color: number };
 }
 export type SectId = "yunv" | "hehuan" | "quanzhen";
+export type SkillId = "qingmang" | "yufeng" | "bingxin" | "shexin" | "taiji";
 export interface SectMembership {
   id: SectId;
   joinedDay: number;
@@ -52,6 +53,7 @@ export interface Actor {
   cave?: LocationId;
   gear?: { charm?: string };
   jobCooldowns?: Record<string, number>;
+  exploreDays?: Record<string, number>;
   realm: number;
   xp: number;
   hp: number;
@@ -77,6 +79,8 @@ export interface Relation {
   memories: string[];
   socialEventId?: string;
   grievance?: boolean;
+  /** Per-person cooldowns for the social commands (days). */
+  interactions?: { discussDay?: number; giftDay?: number; mentorDay?: number };
 }
 export interface WorldEvent {
   daily?: {
@@ -87,7 +91,12 @@ export interface WorldEvent {
     giftDueDay?: number;
     giftSentDay?: number;
   };
-  intimacy?: { kind: "bond" | "night" | "dual"; consent: "mutual" };
+  intimacy?: {
+    kind: "bond" | "night" | "dual" | "tryst" | "affair" | "ntr";
+    consent: "mutual";
+    /** Living dao companions betrayed by this night. They are not asked. */
+    betrayed?: string[];
+  };
   mainStory?: { nodeId: string; choiceId: string };
   storyNodeId?: string;
   relationshipChange?: { favor: number; trust: number };
@@ -149,6 +158,17 @@ export interface Fighter {
   speed: number;
   guard: boolean;
   cooldown: number;
+  /** Rounds this fighter loses to a mind-affecting skill such as 摄心术. */
+  skipTurns?: number;
+  /** Damage share reflected while guarding this round (太极归元). */
+  reflectBp?: number;
+  /** Moves first next round (御风步). */
+  firstNext?: boolean;
+  /** Enemy battle tactic used once its HP falls below the configured share. */
+  tactic?: "guard" | "heal";
+  tacticAtHpBp?: number;
+  tacticHealBp?: number;
+  tacticUsed?: boolean;
 }
 export interface Battle {
   id: string;
@@ -158,6 +178,17 @@ export interface Battle {
   logs: string[];
   auto: boolean;
   lethal: boolean;
+  /** Missing means the legacy story encounter at the ruins. */
+  kind?: "road" | "explore" | "expedition";
+  /** Where the fight happens; the player stays here until it resolves. */
+  location?: LocationId;
+  /** Road encounters drop the party here after a victory. */
+  destination?: LocationId;
+  /** Route days still owed after the interrupted journey resumes. */
+  remainingTravelDays?: number;
+  loot?: { stones: number; grass: number };
+  /** Insight awarded after a field-battle victory (sparring with a cultivator etc.). */
+  insight?: number;
 }
 export type StopCondition =
   | { kind: "cultivationReady" }
@@ -217,10 +248,14 @@ export interface World {
   loot: { stones: number; grass: number; expeditionId: string } | null;
   longAction: LongAction | null;
   lastExpeditionDay: number;
+  /** Completed repeat expeditions since the story settled. */
+  expeditionCount?: number;
   ended: boolean;
   notice: string;
   appliedCommands: string[];
 }
+export type LiaisonPlay = "tryst" | "affair" | "witness";
+export type LiaisonStance = "secret" | "mark" | "indulge" | "sever";
 export type Command =
   | { type: "advanceMinor" | "upgradeManual" | "rentCave" | "sectExchange" }
   | { type: "use"; item: "qi" }
@@ -231,6 +266,13 @@ export type Command =
   | { type: "sectTask" | "learnSectArt" | "leaveSect" }
   | { type: "spendTime"; target: string }
   | { type: "intimacy"; target: string; kind: "bond" | "night" | "dual"; confirmed: true }
+  | {
+      type: "liaison";
+      target: string;
+      play: "tryst" | "affair" | "witness";
+      stance: "secret" | "mark" | "indulge" | "sever";
+      confirmed: true;
+    }
   | { type: "chooseMain"; nodeId: string; choiceId: string }
   | { type: "surveyRuins" }
   | { type: "attachPortrait"; target: string; portraitId: string; look?: PortraitLook }
@@ -270,7 +312,18 @@ export type Command =
   | { type: "settle"; honor: boolean; confirm: boolean }
   | { type: "breakthrough"; usePill: boolean; guardian: boolean }
   | { type: "buy"; item: "healing" | "pills" | "grass" | "qi" }
-  | { type: "battle"; action: "attack" | "skill" | "guard" | "heal" | "retreat"; target?: string }
+  | {
+      type: "battle";
+      action: "attack" | "skill" | "guard" | "heal" | "retreat";
+      skill?: SkillId;
+      target?: string;
+    }
+  | { type: "learnSkill"; skill: SkillId }
+  | { type: "explore" }
+  | { type: "inviteCompanion"; target: string }
+  | { type: "discuss"; target: string }
+  | { type: "gift"; target: string; item?: "stones" | "healing" | "grass" }
+  | { type: "mentor"; target: string }
   | { type: "auto"; enabled: boolean };
 export interface Condition {
   fact: string;

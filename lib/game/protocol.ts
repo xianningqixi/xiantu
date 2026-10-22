@@ -59,6 +59,15 @@ const commandSchemas = [
     .strict(),
   z
     .object({
+      type: z.literal("liaison"),
+      target: id,
+      play: z.enum(["tryst", "affair", "witness"]),
+      stance: z.enum(["secret", "mark", "indulge", "sever"]),
+      confirmed: z.literal(true),
+    })
+    .strict(),
+  z
+    .object({
       type: z.literal("attachPortrait"),
       target: id,
       portraitId: portraitIdSchema,
@@ -126,9 +135,27 @@ const commandSchemas = [
     .object({
       type: z.literal("battle"),
       action: z.enum(["attack", "skill", "guard", "heal", "retreat"]),
+      skill: z.enum(["qingmang", "yufeng", "bingxin", "shexin", "taiji"]).optional(),
       target: id.optional(),
     })
     .strict(),
+  z
+    .object({
+      type: z.literal("learnSkill"),
+      skill: z.enum(["qingmang", "yufeng", "bingxin", "shexin", "taiji"]),
+    })
+    .strict(),
+  z.object({ type: z.literal("explore") }).strict(),
+  z.object({ type: z.literal("inviteCompanion"), target: z.string() }).strict(),
+  z.object({ type: z.literal("discuss"), target: id }).strict(),
+  z
+    .object({
+      type: z.literal("gift"),
+      target: id,
+      item: z.enum(["stones", "healing", "grass"]).optional(),
+    })
+    .strict(),
+  z.object({ type: z.literal("mentor"), target: id }).strict(),
   z.object({ type: z.literal("auto"), enabled: z.boolean() }).strict(),
 ] as const;
 export const commandSchema = z.union(commandSchemas);

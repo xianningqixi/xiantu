@@ -102,7 +102,7 @@ test("all local NPCs and the player expose live attributes, directed relations a
   await page.getByLabel("人物范围", { exact: true }).selectOption("region");
   const rows = page.locator(".person-row");
   const visibleIds = new Set<string>();
-  for (let pageIndex = 0; pageIndex < 10; pageIndex++) {
+  for (let pageIndex = 0; pageIndex < 40; pageIndex++) {
     for (let i = 0; i < (await rows.count()); i++) {
       await rows.nth(i).getByRole("heading").click();
       await expect(page.locator(".profile-modal")).toBeVisible();

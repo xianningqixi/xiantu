@@ -22,17 +22,28 @@ import {
   intimacyBoundaryReason,
   companyReason,
   intimacyReason,
+  liaisonReason,
   recordCompany,
   settleIntimacy,
+  settleLiaison,
+  bondPartner,
 } from "./intimacy";
 import { MAIN_STORY, mainScene, hasRubbing } from "./main-story";
 import { commandDays, travelDays } from "./action-cost";
+import { random } from "./rng";
 import { advanceStopReason, validateStopCondition } from "./advance";
 import { DEPARTURE_FEE, ALL_SHOP_ITEMS as SHOP_ITEMS, STONE_METHOD } from "./economy";
 import { validTerms } from "./negotiation";
 import { extensionScenes } from "./content-story";
 import { PACK, REALMS, PRESENTATION, contentText } from "./content/official";
-import { LOCATIONS, travelRoute, locationKind, locationEnabled, regionOf } from "./world-map";
+import {
+  LOCATIONS,
+  travelRoute,
+  locationKind,
+  locationEnabled,
+  regionOf,
+  wildTerrain,
+} from "./world-map";
 import type { Command, World } from "./types";
 import { B, advanceRule, threshold, stats, requireRule, actorById } from "./rules";
 import { relation, ensureRelation, memory, meet } from "./relationships";
@@ -53,6 +64,10 @@ import {
 } from "./cultivation";
 import { advanceDay } from "./daily-simulation";
 import { fighter, battleRound } from "./combat";
+import { learnSkill } from "./skills";
+import { maybeRoadEncounter, exploreEncounter } from "./encounters";
+import { inviteCompanion as inviteFriend } from "./companions";
+import { discuss, gift, mentor, socialReason } from "./social";
 import { recordFact as record } from "./knowledge";
 
 type CommandHandlers = {
@@ -93,6 +108,24 @@ const commandHandlers: CommandHandlers = {
       advanceDay(w, new Set([...w.party, c.target]));
     if (w.ended || !a!.alive) return;
     w.notice = settleIntimacy(w, w.player, a!, c.kind);
+  },
+  liaison: (w, c) => {
+    const a = actorById(w, c.target);
+    const reason = liaisonReason(w, a, c.play, c.stance);
+    requireRule(!reason, reason);
+    const occupied = new Set<string>([...w.party, c.target]);
+    if (c.play === "witness") {
+      const partner = bondPartner(w, "PLAYER");
+      if (partner) occupied.add(partner.id);
+    }
+    for (let d = 0; d < commandDays(w, c) && !w.ended; d++) advanceDay(w, occupied);
+    if (w.ended || !a?.alive) return;
+    const after = liaisonReason(w, a, c.play, c.stance);
+    if (after) {
+      w.notice = after;
+      return;
+    }
+    w.notice = settleLiaison(w, a!, c.play, c.stance);
   },
   chooseMain: (w, c) => {
     const node = mainScene(w);
@@ -301,12 +334,72 @@ const commandHandlers: CommandHandlers = {
     const route = travelRoute(p.location, c.to, w);
     requireRule(route && p.location !== c.to, "这里不能直接到达那个地点。");
     const time = route!.days;
-    for (let d = 0; d < time; d++) advanceDay(w, new Set(w.party), "travel");
-    if (w.ended) return;
+    for (let d = 0; d < time; d++) {
+      advanceDay(w, new Set(w.party), "travel");
+      if (w.ended) return;
+      const encounter = maybeRoadEncounter(w, c.to);
+      if (encounter) {
+        encounter.remainingTravelDays = time - d - 1;
+        w.battle = encounter;
+        w.notice = encounter.logs[0];
+        record(w, "road-encounter", w.notice, w.party);
+        return;
+      }
+    }
     p.location = c.to;
     for (const id of w.party) actorById(w, id)!.location = c.to;
     w.notice = `你来到${LOCATIONS[c.to].name}${time ? `，路上经过 ${time} 日` : ""}。`;
     record(w, "travel", w.notice, w.party);
+    return;
+  },
+  explore: (w) => {
+    const p = w.player,
+      config = B.actions.explore,
+      terrain = wildTerrain(p.location);
+    requireRule(!w.battle, "先结束眼前的战斗。");
+    requireRule(!w.loot, "先带着战利品返回坊市结算。");
+    requireRule(
+      !!terrain && config.locationKinds.includes(terrain),
+      "这里已是城镇，郊野才能探索荒野。",
+      "ACTION_UNAVAILABLE",
+    );
+    const last = p.exploreDays?.[p.location];
+    requireRule(
+      last === undefined || w.day - last >= config.cooldownDays,
+      `此地刚探索过，${config.cooldownDays} 日后再来。`,
+      "ACTION_UNAVAILABLE",
+    );
+    for (let d = 0; d < config.days; d++) advanceDay(w, new Set(w.party));
+    if (w.ended) return;
+    p.exploreDays ??= {};
+    p.exploreDays[p.location] = w.day;
+    const encounter = exploreEncounter(w);
+    if (encounter) {
+      w.battle = encounter;
+      w.notice = encounter.logs[0];
+      record(w, "explore-encounter", w.notice, w.party);
+      return;
+    }
+    const draw = random(w, "simulation", B.probabilityScaleBp);
+    if (draw < config.grassBp) {
+      p.grass += 1;
+      w.notice = `${LOCATIONS[p.location].name}的野径上找到一株凝元草。`;
+    } else if (draw < config.grassBp + config.insightBp) {
+      p.insight += B.cultivation.insight.exploreGain;
+      w.notice = `你在${LOCATIONS[p.location].name}静观草木生灭，若有所悟。`;
+    } else if (draw < config.grassBp + config.insightBp + config.cacheBp) {
+      const stones =
+        config.cacheStones[0] +
+        random(w, "simulation", config.cacheStones[1] - config.cacheStones[0] + 1);
+      p.stones += stones;
+      w.notice = `你在${LOCATIONS[p.location].name}的岩缝里摸到一只旧石匣，取出 ${stones} 枚灵石。`;
+    } else if (draw < config.grassBp + config.insightBp + config.cacheBp + config.sightingBp) {
+      p.insight += config.sightingInsightGain;
+      w.notice = `${LOCATIONS[p.location].name}深处有一处旧迹：${LOCATIONS[p.location].body} 你驻足良久，得了 ${config.sightingInsightGain} 点感悟。`;
+    } else {
+      w.notice = `这一日${LOCATIONS[p.location].name}风平浪静，你只带回一身尘土。`;
+    }
+    record(w, "explore", w.notice, w.party);
     return;
   },
   train: (w, c) => {
@@ -579,14 +672,27 @@ const commandHandlers: CommandHandlers = {
   },
   expedition: (w, c) => {
     const p = w.player;
-
+    const story = w.agreement?.status === "accepted" && w.agreement.terms === "story";
+    const split = w.agreement?.status === "accepted" && w.agreement.terms === "split";
+    // An accepted renewal keeps the story settlement flow; otherwise post-story runs are free-form.
+    const repeat = !story && !split && w.story.settledDay != null;
     const availability = departureStatus(w);
-    requireRule(availability.ready, availability.reason);
+    requireRule(story ? availability.ready : repeat || split, availability.reason);
     requireRule(p.location === "gate", "先前往山门古道。");
     requireRule(
-      w.agreement?.status === "accepted" && w.party.length === 3,
-      "需要已接受的约定和三人队伍。",
+      story
+        ? w.party.length === 3
+        : split
+          ? w.party.length >= 2 && w.party.length <= B.combat.partyMaxSize
+          : w.party.length >= 1 && w.party.length <= B.combat.partyMaxSize,
+      "队伍人数不符。",
     );
+    if (split)
+      requireRule(
+        w.agreement!.members.length === w.party.length &&
+          w.agreement!.members.every((id) => w.party.includes(id)),
+        "同行名单与实际队伍不符。",
+      );
     requireRule(
       !w.loot && p.stones >= DEPARTURE_FEE,
       `先结清上次战利品，并备好 ${DEPARTURE_FEE} 枚灵石路费。`,
@@ -604,9 +710,57 @@ const commandHandlers: CommandHandlers = {
         "同伴须在场、存活、空闲并能行动。",
       );
     p.stones -= DEPARTURE_FEE;
+    const id = `expedition:${w.events.length + 1}`;
+    if (!story) {
+      const cfg = B.combat.repeatExpedition;
+      const runs = w.expeditionCount ?? 0;
+      const growth = B.probabilityScaleBp + cfg.enemyGrowthBpPerRun * runs;
+      const scale = (value: number) => Math.ceil((value * growth) / B.probabilityScaleBp);
+      const count = Math.min(cfg.enemyCountCap, cfg.enemyCountBase + Math.floor(runs / 3));
+      const stones = Math.ceil(
+        (cfg.baseStones * (B.probabilityScaleBp + cfg.rewardGrowthBpPerRun * runs)) /
+          B.probabilityScaleBp,
+      );
+      const grass =
+        random(w, "combat", B.probabilityScaleBp) < cfg.grassChanceBp ? cfg.baseGrass : 0;
+      for (let d = 0; d < commandDays(w, c); d++) advanceDay(w, new Set(w.party));
+      if (w.ended) return;
+      for (const id of w.party) actorById(w, id)!.location = "ruins";
+      w.lastExpeditionDay = w.day;
+      w.battle = {
+        id,
+        round: 1,
+        allies: w.party.map((id) => fighter(actorById(w, id)!)),
+        enemies: Array.from({ length: count }, (_, i) => i).map((i) => ({
+          id: `ENEMY_${i}`,
+          name: `守碑石傀·${["甲", "乙", "丙", "丁"][i] ?? i + 1}`,
+          maxHp: scale(B.combat.storyEncounter.enemyMaxHp),
+          hp: scale(B.combat.storyEncounter.enemyMaxHp),
+          attack: scale(B.combat.storyEncounter.enemyAttack),
+          defense: scale(B.combat.storyEncounter.enemyDefense),
+          speed: B.combat.storyEncounter.enemySpeed + runs,
+          guard: false,
+          cooldown: 0,
+        })),
+        logs: [`第 ${runs + 1} 次入山，${count} 具石傀从残碑旁醒来。`],
+        auto: false,
+        lethal: B.combat.storyEncounter.lethal,
+        kind: "expedition",
+        location: "ruins",
+        loot: { stones, grass },
+      };
+      if (split) {
+        w.agreement!.status = "active";
+        w.agreement!.expeditionId = id;
+      }
+      w.notice = split
+        ? `${w.party.length} 人同行，石傀比往日更多。战利品按约定平分。`
+        : "山雾更重，石傀也比上次更多。重复历练没有约定，战利品直接归你。";
+      record(w, split ? "expedition-split" : "expedition-repeat", w.notice, w.party);
+      return;
+    }
     for (const id of w.party.filter((id) => id !== "PLAYER"))
       actorById(w, id)!.stones += B.story.departureFeePerNpc;
-    const id = `expedition:${w.events.length + 1}`;
     w.agreement!.status = "active";
     w.agreement!.expeditionId = id;
     for (let d = 0; d < commandDays(w, c); d++) advanceDay(w, new Set(w.party));
@@ -637,8 +791,37 @@ const commandHandlers: CommandHandlers = {
     return;
   },
   battle: (w, c) => {
-    const p = w.player;
-    battleRound(w, c.action, c.target);
+    battleRound(w, c.action, c.target, c.skill);
+    return;
+  },
+  learnSkill: (w, c) => {
+    learnSkill(w, c.skill);
+    return;
+  },
+  inviteCompanion: (w, c) => {
+    inviteFriend(w, c.target);
+    return;
+  },
+  discuss: (w, c) => {
+    const a = actorById(w, c.target);
+    const reason = socialReason(w, c.target, "discuss");
+    requireRule(!reason, reason);
+    for (let d = 0; d < commandDays(w, c) && !w.ended; d++)
+      advanceDay(w, new Set([...w.party, c.target]));
+    if (w.ended || !a!.alive) return;
+    discuss(w, c.target);
+    return;
+  },
+  gift: (w, c) => {
+    const reason = socialReason(w, c.target, "gift", c.item ?? "stones");
+    requireRule(!reason, reason);
+    gift(w, c.target, c.item ?? "stones");
+    return;
+  },
+  mentor: (w, c) => {
+    const reason = socialReason(w, c.target, "mentor");
+    requireRule(!reason, reason);
+    mentor(w, c.target);
     return;
   },
   auto: (w, c) => {
@@ -654,7 +837,15 @@ const commandHandlers: CommandHandlers = {
     for (let d = 0; d < commandDays(w, c); d++) advanceDay(w, new Set(w.party));
     if (w.ended) return;
     for (const id of w.party) actorById(w, id)!.location = "market";
-    w.notice = "两日山路后，坊市的灯火重新映入眼帘。该清点这次的收获了。";
+    const repeat = !w.agreement || w.agreement.status !== "active" || w.agreement.terms === "split";
+    if (repeat) {
+      if (w.agreement?.terms === "split" && ["accepted", "active"].includes(w.agreement.status))
+        w.agreement.status = "cancelled";
+      w.party = ["PLAYER"];
+    }
+    w.notice = repeat
+      ? "两日山路后回到坊市，同行之人各自散去。"
+      : "两日山路后，坊市的灯火重新映入眼帘。该清点这次的收获了。";
     record(w, "return", w.notice, w.party);
     return;
   },

@@ -160,6 +160,7 @@ export function tellOwnRecentFacts(world: World, speakerId: string, listenerId =
   const available = knownEvents(world, speakerId)
     .filter(
       (event) =>
+        event.kind !== "scandal" &&
         !intimacyKind(world, event) &&
         !isIntimacyStoryEvent(event) &&
         event.actors.includes(speakerId) &&

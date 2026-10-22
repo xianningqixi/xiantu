@@ -20,7 +20,11 @@ async function counts(page: Page) {
     };
     const controls = (root: Element) =>
       [...root.querySelectorAll('button,a[href],summary,input,select,[role="tab"]')].filter(
-        (el) => visible(el) && !(el as HTMLButtonElement).disabled,
+        (el) =>
+          visible(el) &&
+          !(el as HTMLButtonElement).disabled &&
+          // Pagination chrome is not an action; keep the density budget about real choices.
+          !el.closest(".page-navigation, .dojo-reading-nav"),
       );
     const dojo = document.querySelector(".dojo")!;
     return {
@@ -58,11 +62,19 @@ for (const width of [1440, 390])
     );
     await expect(page.locator(".game-nav [role=tab]")).toHaveText(["道场", "游历", "人物", "行囊"]);
     await expect(page.locator(".dojo-primary")).toBeInViewport();
-    await expect(page.getByRole("button", { name: "查看全部", exact: true })).toBeVisible();
+    const reading = page.getByRole("navigation", { name: "道场阅读" });
+    if (await reading.isVisible().catch(() => false)) {
+      await reading.getByRole("button", { name: "近日见闻", exact: true }).click();
+      await expect(page.getByRole("button", { name: "查看全部", exact: true })).toBeVisible();
+      // Keep the measured first-screen state on the default story reading.
+      await reading.getByRole("button", { name: "当前剧情", exact: true }).click();
+    } else {
+      await expect(page.getByRole("button", { name: "查看全部", exact: true })).toBeVisible();
+    }
     await expect(page.getByLabel("本机已存", { exact: true })).toBeVisible();
     await expect(page.getByRole("button", { name: "寻找入门功法", exact: true })).toBeEnabled();
     const first = await counts(page);
-    expect(first.content.length).toBeLessThanOrEqual(7);
+    expect(first.content.length, JSON.stringify(first.content)).toBeLessThanOrEqual(7);
     expect(first.bright).toHaveLength(1);
     expect(first.overflow).toBe(false);
     await page.screenshot({ path: `${output}/step-01-dojo-${width}.png`, animations: "disabled" });
@@ -201,7 +213,10 @@ for (const width of [1440, 390])
     }
     expect(Math.max(...practicePaths.map((p) => p.clicks))).toBeLessThanOrEqual(3);
     for (const state of states) {
-      expect(state.content.length, state.name).toBeLessThanOrEqual(7);
+      expect(
+        state.content.length,
+        JSON.stringify({ name: state.name, content: state.content }),
+      ).toBeLessThanOrEqual(7);
       expect(state.bright, state.name).toHaveLength(1);
       expect(state.overflow, state.name).toBe(false);
     }

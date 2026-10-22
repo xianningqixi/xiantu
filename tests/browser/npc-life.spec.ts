@@ -1,5 +1,11 @@
 import { growTo, finish, answerDaily } from "./journey-controls";
-import { openMore, selectLocations } from "./journey-controls";
+import {
+  clickPaged,
+  turnTo,
+  openDrawerCategory,
+  selectLocations,
+  dismissPanels,
+} from "./journey-controls";
 import { openPractice } from "./journey-controls";
 import { test, expect, type Page, type Locator } from "@playwright/test";
 import { mkdirSync, writeFileSync, readFileSync } from "node:fs";
@@ -49,13 +55,14 @@ test("elapsed time develops autonomous NPC friendships and sect lives, shown in 
   for (let i = 0; i < 4; i++) await act(page, page.locator(".dojo-primary"));
   await growTo(page, "QI_3");
   const before = await saved(page);
-  await openMore(page);
-  await page.locator("#wait-controls summary").click();
+  await openDrawerCategory(page, "等候");
+  await turnTo(page.getByLabel("等候日数", { exact: true }));
   await page.getByLabel("等候日数", { exact: true }).selectOption("30");
-  await act(page, page.getByRole("button", { name: /^开始停留/ }));
+  await clickPaged(page.getByRole("button", { name: /^开始停留/ }));
+  await dismissPanels(page);
   await finish(page);
-  const summary = page.locator(".retreat-summary");
-  await summary.locator("summary").click();
+  await page.locator(".retreat-summary").click();
+  const summary = page.getByRole("dialog");
   await expect(summary).toContainText(/结识|结为朋友|拜入|访求师门/);
   const after = await saved(page);
   expect(after.day - before.day).toBe(30);
@@ -82,7 +89,7 @@ test("elapsed time develops autonomous NPC friendships and sect lives, shown in 
   await selectLocations(page);
   const atlas = page.locator("#atlas-page");
   await atlas.locator(`[data-atlas-place="${sect.home}"]`).click();
-  await act(page, atlas.locator(".atlas-go"));
+  await act(page, page.locator(".atlas-go"));
   await expect(atlas).not.toBeVisible();
   await openCurrentLocation(page);
   await page.getByRole("tab", { name: "人物", exact: true }).click();

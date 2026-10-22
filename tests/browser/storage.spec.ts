@@ -1,12 +1,11 @@
 import { saved as savedState } from "./journey-controls";
-import { creationSettings } from "./journey-controls";
+import { creationPage, creationSettings } from "./journey-controls";
 import { openCurrentLocation } from "./journey-controls";
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Locator, type Page } from "@playwright/test";
 
 async function create(page: Page, name = "浏览器验收") {
   await page.goto("/");
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill(name);
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
   await expect(page.getByRole("heading", { name, exact: true })).toBeVisible();
@@ -16,6 +15,12 @@ async function settings(page: Page) {
   await page.getByRole("button", { name: "存档与设置", exact: true }).click();
   return page.getByRole("dialog", { name: "存档与设置" });
 }
+async function settingsCategory(dialog: Locator, label: "存档" | "离线" | "新角色" | "工具") {
+  await dialog
+    .getByRole("navigation", { name: "设置分类" })
+    .getByRole("button", { name: label, exact: true })
+    .click();
+}
 
 test("draft fields and aptitude survive reloading before the world is created", async ({
   page,
@@ -24,9 +29,9 @@ test("draft fields and aptitude survive reloading before the world is created", 
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto("/");
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("草稿修士");
   await page.getByRole("radio", { name: "男", exact: true }).check();
+  await creationPage(page, "机缘");
   await page.getByRole("button", { name: "重掷", exact: true }).click();
   const aptitude = await page
     .getByRole("progressbar", { name: "灵根资质" })
@@ -34,9 +39,9 @@ test("draft fields and aptitude survive reloading before the world is created", 
   await expect(page.locator(".creation-form .save-footnote")).toHaveText("创角草稿已保存");
   await page.reload();
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   await expect(page.getByRole("textbox", { name: "姓名", exact: true })).toHaveValue("草稿修士");
   await expect(page.getByRole("radio", { name: "男", exact: true })).toBeChecked();
+  await creationPage(page, "机缘");
   await expect(page.getByRole("progressbar", { name: "灵根资质" })).toHaveAttribute(
     "aria-valuenow",
     aptitude!,
@@ -52,7 +57,6 @@ test("double click makes one reward and refresh recovers the committed day", asy
   await expect(page.locator("header").getByText("第 2 日", { exact: true })).toBeVisible();
   await page.reload();
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   await expect(page.locator("header").getByText("第 2 日", { exact: true })).toBeVisible();
   await expect(page.getByRole("heading", { name: "浏览器验收", exact: true })).toBeVisible();
 });
@@ -99,6 +103,7 @@ test("another page cannot write to a replaced character even at the same revisio
   await other.goto("/");
   await expect(other.getByRole("heading", { name: "旧角色", exact: true })).toBeVisible();
   const dialog = await settings(page);
+  await settingsCategory(dialog, "新角色");
   await dialog.getByRole("button", { name: "创建新角色", exact: true }).click();
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("新角色");
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
@@ -117,6 +122,7 @@ test("backup restore requires confirmation and preserves the replaced character"
 }) => {
   await create(page, "备份甲");
   const dialog = await settings(page);
+  await settingsCategory(dialog, "新角色");
   await dialog.getByRole("button", { name: "创建新角色", exact: true }).click();
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("备份乙");
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
@@ -132,7 +138,6 @@ test("backup restore requires confirmation and preserves the replaced character"
   await page.getByRole("button", { name: "确认恢复", exact: true }).click();
   await page.reload();
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   await expect(page.getByRole("heading", { name: "备份甲", exact: true })).toBeVisible();
   await settings(page);
   await page.getByRole("button", { name: "本机备份", exact: true }).click();
@@ -154,7 +159,6 @@ test("exported save can be imported through the actual file control", async ({ p
   await expect(dialog).not.toBeVisible();
   await page.reload();
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   await expect(page.getByRole("heading", { name: "可携带修士", exact: true })).toBeVisible();
 });
 
@@ -242,7 +246,6 @@ test("an existing game gains the four fixed volumes atomically, keeps its origin
   expect(old.npcs).toHaveLength(100);
   await page.reload();
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   await expect(page.locator(".dojo")).toBeVisible();
   const joined = await savedRecords(page);
   expect(joined.world.contentLocks).toHaveLength(4);
@@ -267,7 +270,6 @@ test("an existing game gains the four fixed volumes atomically, keeps its origin
   await expect(page.getByRole("tab", { name: "游历", exact: true })).toBeDisabled();
   await page.reload();
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   await expect(page.locator(".dojo")).toBeVisible();
   expect(await savedRecords(page)).toEqual(joined);
 });
@@ -279,7 +281,6 @@ test("legacy browser storage upgrades on a copy and exposes the original backup"
   await mutateStoredSave(page, "legacy");
   await page.reload();
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   await expect(page.getByRole("heading", { name: "旧版修士", exact: true })).toBeVisible();
   await expect(page.locator("header").getByText("第 1 日", { exact: true })).toBeVisible();
   await settings(page);
@@ -296,12 +297,10 @@ test("a corrupt current save stays exportable and a valid backup can recover it"
   await mutateStoredSave(page, "legacy");
   await page.reload();
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   await expect(page.getByRole("heading", { name: "损坏前修士", exact: true })).toBeVisible();
   await mutateStoredSave(page, "corrupt");
   await page.reload();
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   await expect(page.getByRole("alert")).toContainText("可先导出原始进度");
   await page.getByRole("button", { name: "本机备份", exact: true }).click();
   const backups = page.getByRole("dialog", { name: /存档与设置.*本机备份|找回一段人生/ });
@@ -318,24 +317,28 @@ test("a creation draft exports and imports without creating or replacing a world
 }) => {
   await page.goto("/");
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("可携草稿");
   await page.getByRole("radio", { name: "男", exact: true }).check();
+  await creationPage(page, "立绘");
   await page.locator(".portrait-features input").first().fill("深蓝长袍");
   await expect(page.locator(".creation-form .save-footnote")).toHaveText("创角草稿已保存");
+  await creationSettings(page);
   const download = page.waitForEvent("download");
   await page.getByRole("button", { name: "导出创角草稿", exact: true }).click();
   const file = await (await download).path();
+  await creationPage(page, "入世");
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("临时草稿");
+  await creationPage(page, "立绘");
   await page.locator(".portrait-features input").first().fill("白袍");
   await expect(page.locator(".creation-form .save-footnote")).toHaveText("创角草稿已保存");
   await page.getByLabel("选择创角草稿", { exact: true }).setInputFiles(file!);
+  await creationPage(page, "入世");
   await expect(page.getByRole("textbox", { name: "姓名", exact: true })).toHaveValue("可携草稿");
   await expect(page.getByRole("radio", { name: "男", exact: true })).toBeChecked();
+  await creationPage(page, "立绘");
   await expect(page.locator(".portrait-features input").first()).toHaveValue("深蓝长袍");
   await page.reload();
   await expect(page.locator(".creation-form, .game-shell, .recovery-screen")).toBeVisible();
-  if (await page.locator(".creation-more").count()) await creationSettings(page);
   await expect(page.getByRole("textbox", { name: "姓名", exact: true })).toHaveValue("可携草稿");
   await expect(page.getByRole("button", { name: "踏入仙途", exact: true })).toBeVisible();
 });

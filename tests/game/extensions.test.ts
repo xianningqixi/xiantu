@@ -152,6 +152,48 @@ test("a failed purchase rolls back all story state; old official saves retain th
   assert.throws(() => validateWorld(bad), /版本/);
 });
 
+test("adult night and dual scenes stay explicit while younger heroines keep their previous text", () => {
+  const scenes = new Map(
+    EXTENSIONS.flatMap(({ data }) => data.storylets.map((scene) => [scene.id, scene.body])),
+  );
+  const adult = [
+    "shichai.chunshui.suqingyan.night",
+    "shichai.chunshui.suqingyan.dual",
+    "shichai.chunshui.gutinglan.night",
+    "shichai.chunshui.gutinglan.dual",
+    "shichai.xiaye.peisi.night",
+    "shichai.xiaye.peisi.dual",
+    "shichai.xiaye.shenqiyue.night",
+    "shichai.xiaye.shenqiyue.dual",
+    "shichai.xiaye.liuhanyan.night",
+    "shichai.xiaye.liuhanyan.dual",
+    "shichai.qiudeng.wenrenshuang.night",
+    "shichai.qiudeng.wenrenshuang.dual",
+    "shichai.qiudeng.jiangzhaoxue.night",
+    "shichai.qiudeng.jiangzhaoxue.dual",
+    "shichai.dongxue.songxiaoman.night",
+    "shichai.dongxue.songxiaoman.dual",
+    "shichai.dongxue.chulian.night",
+    "shichai.dongxue.chulian.dual",
+  ];
+  for (const id of adult) {
+    const body = scenes.get(id) ?? "";
+    assert.ok(body.length >= 1700 && body.length <= 4000, `${id} ${body.length}`);
+    assert.match(body, /阴蒂/);
+    assert.match(body, /高潮/);
+    assert.match(body, /阴茎|性器/);
+  }
+  const frozen = {
+    "shichai.chunshui.wenzhiwei.lost": 808,
+    "shichai.chunshui.wenzhiwei.night": 875,
+    "shichai.chunshui.wenzhiwei.dual": 830,
+    "shichai.dongxue.yeshutong.lost": 1006,
+    "shichai.dongxue.yeshutong.night": 930,
+    "shichai.dongxue.yeshutong.dual": 948,
+  };
+  for (const [id, length] of Object.entries(frozen)) assert.equal(scenes.get(id)?.length, length);
+});
+
 const shichai = EXTENSIONS.filter((e) => e.data.manifest.packId.startsWith("shichai."));
 test("all 120 owned visuals resolve to lazy derivatives and 11 heroine portraits have runtime lookups", () => {
   let count = 0,

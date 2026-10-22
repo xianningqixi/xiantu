@@ -100,6 +100,11 @@ test("three sect locations and six new portraits render through real travel with
     await expect.poll(() => scene.evaluate((i: HTMLImageElement) => i.naturalWidth)).toBe(1672);
     await answerDaily(page);
     await openMore(page);
+    // The paginated drawer groups sect business under its own category tab.
+    await page
+      .getByRole("dialog", { name: "选择更多行动" })
+      .getByRole("button", { name: "宗门", exact: true })
+      .click();
     const panel = page.getByRole("region", { name: "宗门修行" });
     const beforeVisit = await saved(page);
     await panel.getByRole("button", { name: new RegExp(`拜访${sect.name}`) }).click();
@@ -122,6 +127,10 @@ test("three sect locations and six new portraits render through real travel with
       await page.setViewportSize({ width: 1440, height: 900 });
       await page.keyboard.press("Escape");
       await openMore(page);
+      await page
+        .getByRole("dialog", { name: "选择更多行动" })
+        .getByRole("button", { name: "宗门", exact: true })
+        .click();
       await expect(page.locator(".profile-modal")).toHaveCount(0);
       expect(await saved(page)).toEqual(beforeViewing);
     }

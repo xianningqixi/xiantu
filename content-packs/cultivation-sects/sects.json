@@ -7,8 +7,8 @@
       "description": "苍竹深处的女修宗门，以清修剑道和守贞誓约立宗。只收成年女子，入门须自陈未有性经历并愿守戒；门人可自由离宗，守戒期间不结道侣、不行双修。",
       "task": "照料竹泉药圃", "taskStory": "你在竹泉药圃辨认灵草、疏通泉脉，从照料细微之处练习定心。",
       "residents": [
-        {"id":"SECT_YUNV_GU", "name":"顾清蘅", "sex":"female", "age":26, "realm":3, "aptitude":76, "personality":"外冷内热，守诺好学", "background":"苍竹林采药人之女，成年后自愿入玉女宗。她自述从未有过性经历，愿守清修之誓，以剑术保护山下药农。", "interest":"药性与剑谱", "wish":"将护身剑法传给山下女子"},
-        {"id":"SECT_YUNV_BAI", "name":"白疏月", "sex":"female", "age":23, "realm":2, "aptitude":70, "personality":"温柔坚定，细致耐心", "background":"曾随母亲行医，成年后选择独身清修。她自述未有性经历，入宗立下守贞誓，常在竹泉旁教初学者吐纳。", "interest":"医书与竹笛", "wish":"完善玉心清静诀的入门讲义"}
+        {"id":"SECT_YUNV_GU", "name":"顾清蘅", "sex":"female", "age":26, "realm":3, "aptitude":76, "personality":"外冷内热，守诺好学", "background":"苍竹林采药人之女，成年后自愿入玉女宗。她自述从未有过性经历，愿守清修之誓，以剑术保护山下药农。", "interest":"药性与剑谱", "wish":"将护身剑法传给山下女子", "virgin":true},
+        {"id":"SECT_YUNV_BAI", "name":"白疏月", "sex":"female", "age":23, "realm":2, "aptitude":70, "personality":"温柔坚定，细致耐心", "background":"曾随母亲行医，成年后选择独身清修。她自述未有性经历，入宗立下守贞誓，常在竹泉旁教初学者吐纳。", "interest":"医书与竹笛", "wish":"完善玉心清静诀的入门讲义", "virgin":true}
       ]
     },
     {
@@ -17,8 +17,8 @@
       "description": "云梦泽水榭间的宗门，专研道侣双修与气机调和。只收成年人，亲密往来须双方自愿；入宗可独修，结侣与双修均不作为入门或晋升条件。",
       "task": "修护水榭灵阵", "taskStory": "你沿水榭检查灵阵的阴阳两路，逐一补齐阵石，从气机平衡中领会调和之法。",
       "residents": [
-        {"id":"SECT_HEHUAN_YAN", "name":"晏栖霞", "sex":"female", "age":28, "realm":3, "aptitude":74, "personality":"明艳坦率，重视边界", "background":"出身江上乐师之家，喜用琴音校准气机。她与容照夜情投意合，约定在水榭相伴修行；是否结侣与双修，由两人当面决定。", "interest":"琴曲与阵法", "wish":"证明合修之道也能光明磊落", "partner":"SECT_HEHUAN_RONG"},
-        {"id":"SECT_HEHUAN_RONG", "name":"容照夜", "sex":"male", "age":30, "realm":3, "aptitude":68, "personality":"温文克制，善于倾听", "background":"曾独自行走商路，后入合欢宗研究调息。他倾心于晏栖霞，尊重她的每一个决定，也愿指导独自修行的新人。", "interest":"阵石与江路见闻", "wish":"与心上人携手稳固道基", "partner":"SECT_HEHUAN_YAN"}
+        {"id":"SECT_HEHUAN_YAN", "name":"晏栖霞", "sex":"female", "age":28, "realm":3, "aptitude":74, "personality":"明艳坦率，重视边界", "background":"出身江上乐师之家，喜用琴音校准气机。她与容照夜在水榭做了多年的露水夫妻，床笫都是她先开口。她喜欢坐在他腿上，解开他的衣带，先用舌尖把性器舔湿，再分开自己的阴唇坐下去，一寸一寸吞到根。起伏时她哼着走调的琴音，让他的拇指按在阴蒂上。高潮来时她绞紧，把脸埋进他肩窝，低声说可以，才让他射在里面。事后两人掌心相抵，把那一点热气走完一周天。她把这件事叫合修，不许旁人闯进来看。是否在宗门名册上结成道侣，仍由两人当面决定。", "interest":"琴曲与阵法", "wish":"证明合修之道也能光明磊落", "partner":"SECT_HEHUAN_RONG", "virgin":false},
+        {"id":"SECT_HEHUAN_RONG", "name":"容照夜", "sex":"male", "age":30, "realm":3, "aptitude":68, "personality":"温文克制，善于倾听", "background":"曾独自行走商路，后入合欢宗研究调息。他倾心于晏栖霞，水榭夜里等她先说要。她点头之后，他才把她抱到榻上，从后面进入，一手托着她的乳，一手按在她小腹，听她把琴音哼乱。她翻过身骑上来时，他仰着受，舌尖去舔她发硬的阴蒂，射精之前再问一次。她说要，他才泄在她体内，再替她擦净腿间的湿，陪她把气机走匀。他尊重她的每一个决定，也愿指导独自修行的新人。", "interest":"阵石与江路见闻", "wish":"与心上人携手稳固道基", "partner":"SECT_HEHUAN_YAN"}
       ]
     },
     {

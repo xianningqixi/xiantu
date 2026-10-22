@@ -37,13 +37,22 @@ export { requireRule } from "./errors";
 export const actorById = (w: World, id: string) =>
   id === "PLAYER" ? w.player : w.npcs.find((a) => a.id === id);
 
-export function combatDamage(attack: number, defense: number, skill = false, guarding = false) {
-  const power = skill
-    ? Math.floor(
-        (attack * B.combat.prototypeStrikeMultiplierNumerator) /
-          B.combat.prototypeStrikeMultiplierDenominator,
-      )
-    : attack;
+export function combatDamage(
+  attack: number,
+  defense: number,
+  skill = false,
+  guarding = false,
+  multiplierBp?: number,
+) {
+  const power =
+    multiplierBp !== undefined
+      ? Math.floor((attack * multiplierBp) / B.probabilityScaleBp)
+      : skill
+        ? Math.floor(
+            (attack * B.combat.prototypeStrikeMultiplierNumerator) /
+              B.combat.prototypeStrikeMultiplierDenominator,
+          )
+        : attack;
   return Math.max(
     B.combat.basicAttackMinDamage,
     Math.floor(

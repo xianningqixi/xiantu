@@ -73,9 +73,58 @@ export async function openPractice(page: Page) {
     .first()
     .click();
 }
+/** Turn a paged panel until the control is fully inside the visible crop. */
+export async function turnTo(control: Locator) {
+  const host = control.locator(
+    'xpath=ancestor::*[contains(concat(" ", normalize-space(@class), " "), " paged-content ")][1]',
+  );
+  if (!(await host.count())) return;
+  await expect(host).toHaveAttribute("data-ready", "true");
+  const previous = host
+    .locator(":scope > .page-navigation")
+    .getByRole("button", { name: /^上一页/ });
+  const next = host.locator(":scope > .page-navigation").getByRole("button", { name: /^下一页/ });
+  while ((await previous.count()) && (await previous.isEnabled())) await previous.click();
+  for (let i = 0; i < 60; i++) {
+    const inside = await control.evaluate((el) => {
+      if (!el.checkVisibility()) return false;
+      const r = el.getBoundingClientRect(),
+        c = el.closest(".page-crop")!.getBoundingClientRect();
+      return r.top >= c.top - 1 && r.bottom <= c.bottom + 1;
+    });
+    if (inside) return;
+    if (!(await next.count()) || !(await next.isEnabled())) break;
+    await next.click();
+  }
+}
+
+export async function clickPaged(control: Locator) {
+  await turnTo(control);
+  await control.click();
+}
+
+/** Open the paginated "more actions" drawer on a specific category tab. */
+export async function openDrawerCategory(page: Page, label: string) {
+  await openMore(page);
+  const drawer = page.getByRole("dialog", { name: "选择更多行动" });
+  const tab = drawer.getByRole("button", { name: label, exact: true });
+  if (await tab.count()) await tab.click();
+}
+
+export async function creationPage(page: Page, label: string) {
+  await page.getByRole("button", { name: label, exact: true }).click();
+}
+
 export async function creationSettings(page: Page) {
+  // The paginated creation sheet exposes advanced options as its own step.
+  const tab = page.getByRole("button", { name: "更多设定", exact: true });
+  if (await tab.isVisible().catch(() => false)) {
+    await tab.click();
+    return;
+  }
   const details = page.locator(".creation-more");
-  if ((await details.getAttribute("open")) === null) await details.locator("summary").click();
+  if ((await details.count()) && (await details.getAttribute("open")) === null)
+    await details.locator("summary").click();
 }
 export async function act(page: Page, button: Locator) {
   const before = await saved(page);
@@ -123,6 +172,11 @@ export async function train(page: Page, days: number) {
 }
 export async function viewJournal(page: Page) {
   await openCurrentLocation(page);
+  // The dojo reading area paginates story and recent news; journal lives with the news tab.
+  const news = page
+    .getByRole("navigation", { name: "道场阅读" })
+    .getByRole("button", { name: "近日见闻", exact: true });
+  if (await news.isVisible().catch(() => false)) await news.click();
   const speed = page.getByRole("button", { name: /加速显示/ });
   if (await speed.isVisible()) await speed.click();
   await page.getByRole("button", { name: "查看全部", exact: true }).click();

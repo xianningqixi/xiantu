@@ -1,4 +1,4 @@
-import { creationSettings } from "./journey-controls";
+import { creationPage, creationSettings } from "./journey-controls";
 import { test, expect, type Page, type Locator } from "@playwright/test";
 import { MODEL_PRESETS } from "../../lib/ai/model-settings";
 import { mkdir } from "node:fs/promises";
@@ -35,10 +35,23 @@ test.beforeEach(async ({ context }) => {
   await mkdir(output, { recursive: true });
 });
 async function open(page: Page, inGame = false) {
-  if (inGame) await page.getByRole("button", { name: "存档与设置", exact: true }).click();
-  if (!inGame) await creationSettings(page);
-  const entry = inGame ? page : page.locator(".creation-utilities");
-  await entry.getByRole("button", { name: "AI 模型设置", exact: true }).click();
+  if (inGame) {
+    await page.getByRole("button", { name: "存档与设置", exact: true }).click();
+    const settings = page.getByRole("dialog", { name: "存档与设置", exact: true });
+    await settings
+      .getByRole("navigation", { name: "设置分类" })
+      .getByRole("button", { name: "工具", exact: true })
+      .click();
+    await settings.getByRole("button", { name: "AI 模型设置", exact: true }).click();
+  } else {
+    // The creation sheet only exposes its tools step after the paginated form is live.
+    await expect(page.locator(".creation-form")).toBeVisible();
+    await creationSettings(page);
+    await page
+      .locator(".creation-utilities")
+      .getByRole("button", { name: "AI 模型设置", exact: true })
+      .click();
+  }
   const dialog = page.getByRole("dialog", { name: "AI 模型设置", exact: true });
   await expect(dialog.getByRole("tab", { name: "LLM 文字模型", exact: true })).toBeVisible();
   return dialog;
@@ -106,6 +119,25 @@ async function uncutForm(form: Locator) {
   }));
   expect(size.content).toBeLessThanOrEqual(size.visible + 1);
 }
+/** Paginated dialogs only expose one page at a time; page forward until the control is on screen. */
+async function revealInPager(dialog: Locator, target: Locator) {
+  const next = dialog
+    .getByRole("navigation", { name: "浮窗内容翻页" })
+    .getByRole("button", { name: "下一页浮窗内容", exact: true });
+  const onPage = () =>
+    target.evaluate((element) => {
+      const frame = element.closest(".paged-content")?.querySelector(".page-window");
+      if (!frame) return true;
+      const area = frame.getBoundingClientRect();
+      const box = element.getBoundingClientRect();
+      return box.height > 0 && box.top >= area.top - 1 && box.bottom <= area.bottom + 1;
+    });
+  while (!(await onPage())) {
+    if (!(await next.isEnabled())) break;
+    await next.click();
+    await expect.poll(onPage).toBe(true);
+  }
+}
 
 test("key-only settings persist both models and clear only the confirmed key without touching the world", async ({
   page,
@@ -161,6 +193,7 @@ test("key-only settings persist both models and clear only the confirmed key wit
   await uncutForm(llmForm);
   await page.screenshot({ path: join(output, "desktop-key-only.png") });
   await page.keyboard.press("Escape");
+  await creationPage(page, "入世");
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("密钥配置验收");
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
   await expect(page.getByRole("tab", { name: "游历", exact: true })).toBeVisible();
@@ -265,8 +298,10 @@ test("mobile key-only settings validate empty input and discard cancelled mock t
   await imageForm.getByLabel("API Key", { exact: true }).fill(keys.image);
   await imageForm.getByRole("button", { name: "测试生图（1 张）", exact: true }).click();
   await expect(dialog.getByRole("img", { name: "生图模型测试预览", exact: true })).toBeVisible();
+  const testImage = imageForm.getByRole("button", { name: "测试生图（1 张）", exact: true });
+  await revealInPager(dialog, testImage);
   delayed = true;
-  await imageForm.getByRole("button", { name: "测试生图（1 张）", exact: true }).click();
+  await testImage.click();
   await imageForm.getByRole("button", { name: "取消测试", exact: true }).click();
   await expect(imageForm.getByRole("status")).toContainText("已取消");
   await page.waitForTimeout(900);

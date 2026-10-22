@@ -38,6 +38,8 @@ test("dojo shortcuts retain real costs, free learning, breakthrough and sect con
   expect(paid.player.stones - poor.player.stones).toBe(B.actions.workSpiritStoneReward);
   expect(paid.day - poor.day).toBe(B.actions.workDays);
   await (await shortcut(page, "shop")).click();
+  // The paginated inventory opens on 随身物品; trading lives in its own tab.
+  await page.getByRole("button", { name: "坊市交易" }).click();
   await expect(page.locator('[data-shop-item="healing"]')).toBeVisible();
   expect(await saved(page)).toEqual(paid);
   await answerDaily(page);
@@ -66,6 +68,11 @@ test("dojo shortcuts retain real costs, free learning, breakthrough and sect con
   await forest(page);
   await answerDaily(page);
   await openMore(page);
+  // The paginated drawer groups sect business under its own category tab.
+  await page
+    .getByRole("dialog", { name: "选择更多行动" })
+    .getByRole("button", { name: "宗门", exact: true })
+    .click();
   const sect = page.getByRole("region", { name: "宗门修行", exact: true });
   await act(page, sect.getByRole("button", { name: /拜访玉女宗/ }));
   const visited = await saved(page);

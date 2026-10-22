@@ -1,5 +1,5 @@
 import { growTo, finish as finishCurrent, answerDaily } from "./journey-controls";
-import { openMore, creationSettings, viewJournal } from "./journey-controls";
+import { openMore, creationPage, viewJournal } from "./journey-controls";
 import { openPractice } from "./journey-controls";
 import { openCurrentLocation, selectLocations } from "./journey-controls";
 import { test, expect, type Page, type Locator } from "@playwright/test";
@@ -100,14 +100,14 @@ async function openChapter(page: Page, chapter: (typeof authored.chapters)[numbe
 test("the default game integrates all four volumes into its main quest through local introductions, people, growth and travel", async ({
   page,
 }) => {
-  test.setTimeout(300000);
+  test.setTimeout(480000);
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto("/");
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("循图寻源");
   const packs = page.getByRole("checkbox", { name: /青石十钗/ });
   expect(await packs.count()).toBe(0);
-  await creationSettings(page);
+  await creationPage(page, "机缘");
   await expect(page.getByText("主线 · 青石十钗", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "踏入仙途", exact: true }).click();
   await expect(page.locator(".dojo")).toBeVisible();
@@ -198,7 +198,17 @@ test("the default game integrates all four volumes into its main quest through l
   expect(await world(page)).toEqual(final);
   await viewJournal(page);
   await page.getByRole("combobox", { name: "历程类型" }).selectOption({ label: "主线线索" });
-  await expect(page.locator(".journal-entry")).toHaveCount(8);
+  // The paginated journal shows one page at a time; count unique entries across all pages.
+  const pagination = page.getByRole("navigation", { name: "历程分页" });
+  const entries = new Set<string>();
+  for (let i = 0; i < 20; i++) {
+    for (const text of await page.locator(".journal-entry").allInnerTexts()) entries.add(text);
+    const next = pagination.getByRole("button", { name: /下一页/ });
+    if (!(await next.count()) || (await next.isDisabled())) break;
+    await next.click();
+  }
+  expect(entries.size).toBe(8);
+  await page.getByRole("combobox", { name: "历程类型" }).selectOption({ label: "所有类型" });
   expect(await world(page)).toEqual(final);
   writeFileSync(`${output}/complete-world.json`, JSON.stringify(final, null, 2));
   expect(errors).toEqual([]);

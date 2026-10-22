@@ -61,6 +61,8 @@ test("production core can close and reopen offline, act and recover the saved da
   await expect(page.locator(".dojo")).toBeVisible();
   await expect(page.getByLabel("本机已存", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "存档与设置", exact: true }).click();
+  // The paginated settings sheet groups offline controls under their own category.
+  await page.getByRole("button", { name: "离线", exact: true }).click();
   await expect(page.getByText("固定剧情离线内容已缓存", { exact: true })).toBeVisible({
     timeout: 30000,
   });
@@ -111,6 +113,9 @@ test("production core can close and reopen offline, act and recover the saved da
   await openCurrentLocation(reopened);
   await reopened.locator(".dojo-primary").click();
   await openMore(reopened);
+  const drawer = reopened.getByRole("dialog", { name: "选择更多行动" });
+  const talk = drawer.getByRole("button", { name: "交涉", exact: true });
+  if (await talk.count()) await talk.click();
   await reopened.getByRole("button", { name: "与林晚同行交涉", exact: true }).click();
   await expect(reopened.getByRole("dialog")).toContainText("当前离线");
   await expect(reopened.getByRole("button", { name: "提出商议", exact: true })).toBeDisabled();
@@ -130,6 +135,8 @@ test("waiting update keeps the active version and refuses another open game tab 
   await expect(page.locator(".dojo")).toBeVisible();
   await expect(page.getByLabel("本机已存", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "存档与设置", exact: true }).click();
+  // The paginated settings sheet groups offline controls under their own category.
+  await page.getByRole("button", { name: "离线", exact: true }).click();
   await expect(page.getByText("固定剧情离线内容已缓存", { exact: true })).toBeVisible({
     timeout: 30000,
   });
@@ -177,6 +184,8 @@ test("a failed update retains the old cache, and a paused long action blocks act
   await expect(page.locator(".dojo")).toBeVisible();
   await expect(page.getByLabel("本机已存", { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "存档与设置", exact: true }).click();
+  // The paginated settings sheet groups offline controls under their own category.
+  await page.getByRole("button", { name: "离线", exact: true }).click();
   await expect(page.getByText("固定剧情离线内容已缓存", { exact: true })).toBeVisible({
     timeout: 30000,
   });

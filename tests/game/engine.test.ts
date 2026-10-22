@@ -28,6 +28,7 @@ import {
 } from "../../lib/game/engine";
 import { assertSaveExpectation } from "../../lib/game/save-guard";
 import { npcPortrait, npcProfile } from "../../lib/game/npc-profile";
+import { CAMPAIGN_LOCKS } from "../../lib/game/campaign-content";
 import { PACK } from "../../lib/game/content/official";
 import type { Command, Profile, World } from "../../lib/game/types";
 
@@ -875,4 +876,70 @@ test("profiles show the subject's own history without changing world knowledge o
   summary.lastDay = w.day + 2;
   summary.count = 3;
   assert.equal(characterHistory(w, a.id)[0].id, secret);
+});
+
+test("profile sexual and social history is read-only and only marks intercourse as loss of virginity", async () => {
+  const { lifeRecord } = await import("../../lib/game/character-sheet");
+  const { sectById } = await import("../../lib/game/sect-content");
+  const { visitSect } = await import("../../lib/game/sects");
+  let w = createWorld(12345, profile, "life-record", 40, { contentLocks: CAMPAIGN_LOCKS });
+  const untouched = structuredClone(w);
+  const self = lifeRecord(w, "PLAYER")!;
+  assert.equal(self.virgin, true);
+  assert.equal(self.virginLabel, "处女");
+  assert.match(self.sex, /没有交合/);
+  assert.match(self.social, /没有记下道侣/);
+  assert.match(self.note, /未记载的过往不会推断/);
+  assert.equal(lifeRecord(w, "missing"), null);
+  assert.deepEqual(w, untouched);
+  const visit = (id: "yunv" | "hehuan" | "quanzhen") => {
+    w = applyCommand(
+      w,
+      { type: "travel", to: sectById(id)!.home },
+      `life-travel:${w.revision}`,
+      w.revision,
+    );
+    w = answerDaily(w);
+    visitSect(w, id);
+    validateWorld(w);
+  };
+  visit("yunv");
+  const gu = lifeRecord(w, "SECT_YUNV_GU")!;
+  assert.equal(gu.virginLabel, "处女");
+  assert.match(gu.sex, /守贞清修/);
+  visit("hehuan");
+  const yan = lifeRecord(w, "SECT_HEHUAN_YAN")!;
+  assert.equal(yan.virgin, false);
+  assert.equal(yan.virginLabel, "已非处女");
+  assert.match(yan.sex, /容照夜/);
+  assert.match(yan.note, /小传里的交合/);
+  assert.match(npcProfile(w.npcs.find((a) => a.id === "SECT_HEHUAN_YAN")!).background, /阴蒂/);
+  const rong = lifeRecord(w, "SECT_HEHUAN_RONG")!;
+  assert.equal(rong.virgin, null);
+  assert.equal(rong.virginLabel, "");
+  assert.match(
+    npcProfile(w.npcs.find((a) => a.id === "SECT_HEHUAN_RONG")!).background,
+    /性器|阴茎|阴蒂/,
+  );
+  visit("quanzhen");
+  const ning = w.npcs.find((a) => a.id === "SECT_QUAN_NING")!;
+  assert.equal(lifeRecord(w, ning.id)!.virginLabel, "处女");
+  const male = lifeRecord(w, "SECT_QUAN_CHANG")!;
+  assert.equal(male.virgin, null);
+  const beforeRead = structuredClone(w);
+  lifeRecord(w, ning.id);
+  assert.deepEqual(w, beforeRead);
+  const tryst = recordFact(w, "intimacy", "测试：私下亲热", ["PLAYER", ning.id]);
+  w.events.find((e) => e.id === tryst)!.intimacy = { kind: "tryst", consent: "mutual" };
+  assert.equal(lifeRecord(w, ning.id)!.virgin, true);
+  assert.match(lifeRecord(w, ning.id)!.sex, /私下亲热，没有交合/);
+  const night = recordFact(w, "intimacy", "测试：良宵", ["PLAYER", ning.id]);
+  w.events.find((e) => e.id === night)!.intimacy = { kind: "night", consent: "mutual" };
+  const after = lifeRecord(w, ning.id)!;
+  assert.equal(after.virgin, false);
+  assert.equal(after.virginLabel, "已非处女");
+  assert.match(after.sex, /良宵交合/);
+  const company = recordFact(w, "companionship", "测试：相伴", ["PLAYER", ning.id]);
+  assert.ok(company);
+  assert.match(lifeRecord(w, ning.id)!.social, /相伴交流 1 次，与沈知微/);
 });

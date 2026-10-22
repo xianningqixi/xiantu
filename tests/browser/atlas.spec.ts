@@ -68,6 +68,11 @@ for (const width of [390, 320])
       expect(box.x).toBeGreaterThanOrEqual(0);
       expect(box.x + box.width).toBeLessThanOrEqual(width);
       expect(box.height).toBeGreaterThanOrEqual(44);
+      // Compact layouts open a full-screen preview sheet; close it before tapping the next pin.
+      if (width < 640 && (await page.locator(".atlas-place-modal").isVisible())) {
+        await page.keyboard.press("Escape");
+        await expect(page.locator(".atlas-place-modal")).toHaveCount(0);
+      }
     }
     expect(await saved(page)).toEqual(before);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(

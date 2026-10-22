@@ -32,6 +32,8 @@ export const LOCATIONS = Object.fromEntries([
   ]),
 ]) as Record<LocationId, Place>;
 export const locationKind = (id: LocationId): SiteKind => LOCATIONS[id]?.kind;
+/** Authored terrain of a wilderness site (forest/water/mountain); towns have none. */
+export const wildTerrain = (id: LocationId) => wildPlace(id)?.kind;
 export function regionOf(id: LocationId) {
   return (
     wildPlace(id)?.region ??

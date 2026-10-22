@@ -219,6 +219,16 @@ export function validateWorld(w: World) {
     requireRule(locationEnabled(w, a.location), "人物地点不合法或不属于本局内容。");
     requireRule(
       [0, 1, 2, 3].includes(a.manualRank) &&
+        (a.exploreDays === undefined ||
+          (typeof a.exploreDays === "object" &&
+            a.exploreDays !== null &&
+            Object.entries(a.exploreDays).every(
+              ([key, value]) =>
+                locationEnabled(w, key as Parameters<typeof locationEnabled>[1]) &&
+                Number.isSafeInteger(value) &&
+                value >= 0 &&
+                value <= w.day,
+            ))) &&
         Array.isArray(a.skills) &&
         a.skills.length > 0 &&
         new Set(a.skills).size === a.skills.length &&
@@ -363,7 +373,17 @@ export function validateWorld(w: World) {
         r.trust <= 100 &&
         Number.isInteger(r.attraction) &&
         r.attraction >= 0 &&
-        r.attraction <= 100,
+        r.attraction <= 100 &&
+        (r.interactions === undefined ||
+          (typeof r.interactions === "object" &&
+            r.interactions !== null &&
+            Object.entries(r.interactions).every(
+              ([key, value]) =>
+                ["discussDay", "giftDay", "mentorDay"].includes(key) &&
+                Number.isSafeInteger(value) &&
+                value >= 0 &&
+                value <= w.day,
+            ))),
       "关系数值不合法。",
     );
     requireRule(
@@ -458,13 +478,18 @@ export function validateWorld(w: World) {
           "impossible",
         ].includes(a.status) &&
         Array.isArray(a.members) &&
-        a.members.length === 3 &&
-        new Set(a.members).size === 3 &&
+        new Set(a.members).size === a.members.length &&
         a.members.every((id) => ids.has(id)) &&
-        ["PLAYER", PACK.roles.primary, PACK.roles.companion].every((id) =>
-          a.members.includes(id),
-        ) &&
-        a.recipient === PACK.roles.primary &&
+        (a.terms === "story"
+          ? a.members.length === 3 &&
+            ["PLAYER", PACK.roles.primary, PACK.roles.companion].every((id) =>
+              a.members.includes(id),
+            ) &&
+            a.recipient === PACK.roles.primary
+          : a.members.length >= 2 &&
+            a.members.length <= B.combat.partyMaxSize &&
+            a.members[0] === "PLAYER" &&
+            ids.has(a.recipient)) &&
         typeof a.strict === "boolean",
       "同行约定不合法。",
     );
@@ -502,14 +527,18 @@ export function validateWorld(w: World) {
       "长行动资料不完整。",
     );
   }
-  if (w.loot)
+  if (w.loot && w.agreement)
     requireRule(
       w.loot.stones === B.economy.expeditionSpiritStoneReward &&
         w.loot.grass === B.economy.expeditionNingyuanGrassReward &&
-        !!w.agreement &&
         w.agreement.expeditionId === w.loot.expeditionId,
       "战利品与约定不匹配。",
     );
+  requireRule(
+    w.expeditionCount === undefined ||
+      (Number.isSafeInteger(w.expeditionCount) && w.expeditionCount >= 0),
+    "秘境次数不合法。",
+  );
   if (w.battle) {
     const b = w.battle;
     requireRule(
@@ -525,8 +554,26 @@ export function validateWorld(w: World) {
         b.enemies.length > 0,
       "战斗资料不完整。",
     );
+    const battleLocation = b.location ?? "ruins";
     requireRule(
-      w.player.location === "ruins" &&
+      (b.kind === undefined ||
+        b.kind === "road" ||
+        b.kind === "explore" ||
+        b.kind === "expedition") &&
+        (b.location === undefined || locationEnabled(w, b.location)) &&
+        (b.destination === undefined || locationEnabled(w, b.destination)) &&
+        (b.remainingTravelDays === undefined ||
+          (Number.isSafeInteger(b.remainingTravelDays) && b.remainingTravelDays >= 0)) &&
+        (b.loot === undefined ||
+          (Number.isSafeInteger(b.loot.stones) &&
+            b.loot.stones >= 0 &&
+            Number.isSafeInteger(b.loot.grass) &&
+            b.loot.grass >= 0)) &&
+        (b.insight === undefined || (Number.isSafeInteger(b.insight) && b.insight >= 0)),
+      "战斗资料不完整。",
+    );
+    requireRule(
+      w.player.location === battleLocation &&
         b.allies.length === w.party.length &&
         new Set(b.allies.map((a) => a.id)).size === w.party.length &&
         b.allies.every((a) => w.party.includes(a.id)),
@@ -542,7 +589,20 @@ export function validateWorld(w: World) {
           ) &&
           f.maxHp > 0 &&
           f.hp <= f.maxHp &&
-          f.cooldown <= 3,
+          f.cooldown <= 3 &&
+          (f.skipTurns === undefined || (Number.isSafeInteger(f.skipTurns) && f.skipTurns >= 0)) &&
+          (f.reflectBp === undefined || (Number.isSafeInteger(f.reflectBp) && f.reflectBp >= 0)) &&
+          (f.firstNext === undefined || typeof f.firstNext === "boolean") &&
+          (f.tactic === undefined || f.tactic === "guard" || f.tactic === "heal") &&
+          (f.tacticAtHpBp === undefined ||
+            (Number.isSafeInteger(f.tacticAtHpBp) &&
+              f.tacticAtHpBp >= 0 &&
+              f.tacticAtHpBp <= 10000)) &&
+          (f.tacticHealBp === undefined ||
+            (Number.isSafeInteger(f.tacticHealBp) &&
+              f.tacticHealBp >= 0 &&
+              f.tacticHealBp <= 10000)) &&
+          (f.tacticUsed === undefined || typeof f.tacticUsed === "boolean"),
         "战斗人物状态不合法。",
       );
   }

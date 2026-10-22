@@ -1,5 +1,5 @@
 import { growTo, finish as finishCurrent, answerDaily } from "./journey-controls";
-import { creationSettings, openMore, selectLocations, dismissPanels } from "./journey-controls";
+import { creationPage, openMore, selectLocations, dismissPanels } from "./journey-controls";
 import { openPractice } from "./journey-controls";
 import { openCurrentLocation, travelTo } from "./journey-controls";
 import { test, expect, type Page } from "@playwright/test";
@@ -39,7 +39,7 @@ async function create(page: Page, shichai: boolean) {
   await page.goto("/author");
   await expect(page.getByText(/作者预览 · 独立测试存档/)).toBeVisible();
   await page.getByRole("textbox", { name: "姓名", exact: true }).fill("图片验收");
-  await creationSettings(page);
+  await creationPage(page, "机缘");
   const boxes = page.getByRole("checkbox", { name: shichai ? /青石十钗/ : /周安的归途口信/ });
   expect(await boxes.count()).toBe(shichai ? 0 : 1);
   for (const box of await boxes.all()) await box.check();

@@ -3496,6 +3496,13 @@ legend,
   font-size: 0.85rem;
   line-height: 1.7;
 }
+.sheet-life-record {
+  margin: 1rem 0 0;
+}
+.sheet-life-record p {
+  margin: 0.35rem 0;
+  line-height: 1.7;
+}
 .sheet-relation {
   border: 1px solid #394d3b;
   padding: 0.85rem;
@@ -4438,6 +4445,19 @@ legend,
   display: block;
   line-height: 1.7;
   color: var(--muted-foreground);
+}
+.intimacy-scene {
+  margin: 10px 0 0;
+  padding: 8px 10px;
+  border-left: 2px solid var(--primary);
+  color: var(--foreground);
+  font-size: 14px;
+  line-height: 1.7;
+}
+.liaison-options {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
 }
 .atlas-sect-note {
   border-left: 2px solid var(--primary);

@@ -3,6 +3,32 @@ import { readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { saved, act, openPractice, openCurrentLocation } from "./journey-controls";
 import { installPauseControl, armPause } from "./pause-control";
 const B = JSON.parse(readFileSync("lib/game/content/balance.json", "utf8"));
+
+/** Pagination may move an inventory control to a later page after each transaction. */
+async function turnTo(control: import("@playwright/test").Locator) {
+  const host = control.locator(
+    'xpath=ancestor::*[contains(concat(" ", normalize-space(@class), " "), " paged-content ")][1]',
+  );
+  if (!(await host.count())) return;
+  await expect(host).toHaveAttribute("data-ready", "true");
+  const previous = host
+    .locator(":scope > .page-navigation")
+    .getByRole("button", { name: /^上一页/ });
+  const next = host.locator(":scope > .page-navigation").getByRole("button", { name: /^下一页/ });
+  while ((await previous.count()) && (await previous.isEnabled())) await previous.click();
+  for (let i = 0; i < 60; i++) {
+    const inside = await control.evaluate((el) => {
+      if (!el.checkVisibility()) return false;
+      const r = el.getBoundingClientRect(),
+        c = el.closest(".page-crop")!.getBoundingClientRect();
+      return r.top >= c.top - 1 && r.bottom <= c.bottom + 1;
+    });
+    if (inside) return;
+    if (!(await next.count()) || !(await next.isEnabled())) break;
+    await next.click();
+  }
+}
+
 const output = "docs/reports/screenshots/redesign-ab/economy";
 for (const width of [1440, 390])
   test(`AB ${width}: all inventory prices, qi use and visible daily evidence match durable Worker results`, async ({
@@ -35,6 +61,8 @@ for (const width of [1440, 390])
     await page.getByRole("button", { name: "确认继续", exact: true }).click();
     await expect(page.locator(".dojo-primary")).toBeVisible();
     await page.getByRole("tab", { name: "行囊", exact: true }).click();
+    // The paginated inventory opens on 随身物品; trading lives in its own category.
+    await page.getByRole("button", { name: "坊市交易", exact: true }).click();
     const transactions = [];
     for (const [item, name, price] of [
       ["healing", "回春丹", B.economy.shopPrices.ITEM_HEALING_PILL],
@@ -47,7 +75,9 @@ for (const width of [1440, 390])
         "data-price",
         String(price),
       );
-      const after = await act(page, page.getByRole("button", { name: `购买${name}`, exact: true }));
+      const buy = page.getByRole("button", { name: `购买${name}`, exact: true });
+      await turnTo(buy);
+      const after = await act(page, buy);
       expect(after.player[item]).toBe(before.player[item] + 1);
       expect(before.player.stones - after.player.stones).toBe(price);
       expect(after.day).toBe(before.day);
@@ -59,6 +89,7 @@ for (const width of [1440, 390])
         price = B.economy.sellPrices[item];
       const control = page.locator(`[data-sell-item="${item}"]`);
       await expect(control).toHaveAttribute("data-price", String(price));
+      await turnTo(control);
       const after = await act(page, control);
       expect(after.player[item]).toBe(before.player[item] - 1);
       expect(after.player.stones - before.player.stones).toBe(price);
@@ -66,6 +97,8 @@ for (const width of [1440, 390])
       expect(after.rng).toEqual(before.rng);
       transactions.push({ item, sell: price });
     }
+    // Qi consumption lives in 随身物品, not the trading category.
+    await page.getByRole("button", { name: "随身物品", exact: true }).click();
     const preQi = await saved(page);
     const gain =
       B.cultivation.qiDailyBaseGain +
@@ -76,7 +109,9 @@ for (const width of [1440, 390])
       gain * B.economy.qiExperienceDays,
       Math.floor((rule.requiredExperience * B.economy.qiThresholdCapBp) / B.probabilityScaleBp),
     );
-    const postQi = await act(page, page.getByRole("button", { name: "服用聚气丹", exact: true }));
+    const qiButton = page.getByRole("button", { name: "服用聚气丹", exact: true });
+    await turnTo(qiButton);
+    const postQi = await act(page, qiButton);
     expect(postQi.player.xp - preQi.player.xp).toBe(expectedQi);
     expect(postQi.player.qi).toBe(preQi.player.qi - 1);
     expect(postQi.day).toBe(preQi.day);

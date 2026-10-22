@@ -9,7 +9,7 @@
     "exampleSeed": 12345,
     "startDay": 0,
     "daysPerYear": 360,
-    "startAgeYears": 18,
+    "startAgeYears": 21,
     "minimumGeneratedAgeYears": 18,
     "maximumGeneratedAgeYears": 60,
     "initialRelationshipEdgesPerNpcMax": 2,
@@ -167,7 +167,8 @@
     "randomRoadEncounterBp": 1200,
     "combatAdditionalWorldDays": 0,
     "expeditionReturnDays": 2,
-    "encounterFreeRegions": ["qingshi-local"]
+    "encounterFreeRegions": ["qingshi-local"],
+    "randomRoadEncounterMinRealm": 4
   },
   "actions": {
     "inspectDays": 0,
@@ -225,7 +226,10 @@
       "encounterBp": 3000,
       "grassBp": 3500,
       "insightBp": 2000,
-      "sightingBp": 1500
+      "sightingBp": 1500,
+      "cacheBp": 800,
+      "cacheStones": [5, 9],
+      "sightingInsightGain": 1
     },
     "dailyEvents": {
       "trainBp": 2000,
@@ -694,7 +698,9 @@
         "count": [2, 2],
         "realmOffset": -1,
         "stones": [6, 12],
-        "lethal": false
+        "lethal": false,
+        "where": "road",
+        "weight": 5
       },
       "wolves": {
         "name": "妖狼",
@@ -703,7 +709,9 @@
         "stones": [4, 4],
         "grassChanceBp": 3000,
         "grass": 1,
-        "lethal": false
+        "lethal": false,
+        "where": "both",
+        "weight": 4
       },
       "golem": {
         "enemyCount": 2,
@@ -723,7 +731,52 @@
         "grass": 2,
         "insight": 1,
         "lethalInComplex": true
+      },
+      "herbalist": {
+        "name": "采药散修",
+        "where": "road",
+        "weight": 3,
+        "minPlayerRealm": 4,
+        "count": [1, 1],
+        "realmOffset": 0,
+        "stones": [3, 5],
+        "insight": 1,
+        "lethal": false
+      },
+      "springBeast": {
+        "name": "护泉灵兽",
+        "where": "both",
+        "weight": 2,
+        "count": [1, 1],
+        "realmOffset": 1,
+        "stones": [2, 3],
+        "grassChanceBp": 5000,
+        "grass": 1,
+        "tactic": "guard",
+        "tacticAtHpBp": 6000,
+        "lethal": false
+      },
+      "rogueSwordsman": {
+        "name": "流窜剑修",
+        "where": "road",
+        "weight": 2,
+        "count": [1, 1],
+        "realmOffset": 1,
+        "stones": [9, 14],
+        "tactic": "heal",
+        "tacticAtHpBp": 5000,
+        "tacticHealBp": 2200,
+        "lethal": false
       }
+    },
+    "repeatExpedition": {
+      "enemyCountBase": 2,
+      "enemyCountCap": 4,
+      "enemyGrowthBpPerRun": 1200,
+      "rewardGrowthBpPerRun": 1500,
+      "baseStones": 10,
+      "baseGrass": 1,
+      "grassChanceBp": 6500
     }
   },
   "modes": {
@@ -787,6 +840,7 @@
     },
     "enemyRequiresExplicitGrievance": true,
     "intimateRelationshipMinimumAgeYears": 18,
+    "explicitSceneMinimumAgeYears": 21,
     "romanceRequiresExplicitMutualConsent": true,
     "romanceAcquisitionEnabled": true,
     "attractionGainFromGenericFriendliness": 0,
@@ -840,7 +894,14 @@
       "bondTrustMin": 40,
       "bondAttraction": 30,
       "nightDays": 1,
-      "dualDays": 1
+      "dualDays": 1,
+      "liaisonDays": 1,
+      "trystAttraction": 15,
+      "affairAttraction": 25,
+      "liaisonFavor": 5,
+      "exposeTrustLoss": 40,
+      "exposeFavorLoss": 20,
+      "indulgeTrustLoss": 10
     },
     "discussCooldownDays": 7,
     "giftCooldownDays": 3,

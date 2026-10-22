@@ -26,7 +26,13 @@ import { actorById, threshold } from "@/lib/game/rules";
 import { LOCATIONS } from "@/lib/game/world-map";
 import { presentationShows } from "@/lib/game/presentation";
 import { relation, relationshipLabel } from "@/lib/game/relationships";
-import { characterVitals, characterRelations, characterHistory } from "@/lib/game/character-sheet";
+import { socialReason, giftItemName } from "@/lib/game/social";
+import {
+  characterVitals,
+  characterRelations,
+  characterHistory,
+  lifeRecord,
+} from "@/lib/game/character-sheet";
 import { npcProfile } from "@/lib/game/npc-profile";
 import { actorPhysique, BODY_BUILDS } from "@/lib/game/physique";
 import { npcSubject, playerSubject } from "@/lib/game/portrait-subject";
@@ -146,6 +152,7 @@ export function PersonDetail({
   const [relationLimit, setRelationLimit] = useState(12);
   const [historyLimit, setHistoryLimit] = useState(20);
   const [intimacyOnly, setIntimacyOnly] = useState(false);
+  const [giftOpen, setGiftOpen] = useState(false);
   const relationships = useMemo(() => characterRelations(w, id), [w, id]);
   const history = useMemo(() => characterHistory(w, id), [w, id]);
   const a = actorById(w, id),
@@ -161,6 +168,7 @@ export function PersonDetail({
     ? history.filter((e) => intimateHistory.some((entry) => entry.id === e.id))
     : history;
   const partner = bondPartner(w, id);
+  const life = lifeRecord(w, id)!;
   const facts = [
     ["aptitude", "资质", `${a.aptitude} / 100`],
     ["attack", "攻击", vitals.attack],
@@ -306,6 +314,17 @@ export function PersonDetail({
               </dl>
             )}
             {!self && <Biography actor={a} />}
+            <section className="sheet-life-record" aria-label="性经历与交往经历">
+              <h3 className="list-heading">性经历与交往经历</h3>
+              {life.virginLabel ? (
+                <p>
+                  <strong>{life.virginLabel}</strong>
+                </p>
+              ) : null}
+              <p>{life.sex}</p>
+              <p>{life.social}</p>
+              <p className="subtle">{life.note}</p>
+            </section>
           </PagedContent>
         </TabsContent>
         <TabsContent value="relations">
@@ -420,7 +439,7 @@ export function PersonDetail({
                   {a.sectMembership?.id === "yunv"
                     ? "自述未有性经历，目前守贞清修。"
                     : intimateHistory.length
-                      ? "记录自愿结侣、相伴良宵与双修，不记露骨细节。"
+                      ? "满二十一岁后，与你有关的良宵、偷情和寝取会写下具体经过，只留在当事人的经历里。"
                       : "仅呈现已记录的亲密经历，未记载的过往不会推断。"}
                 </p>
               </section>
@@ -572,16 +591,72 @@ export function PersonDetail({
             {r?.known ? "聊聊近况" : "上前见礼"}
             <TimeBadge world={w} command={{ type: "meet", target: id }} />
           </Button>
+          {r?.known && (
+            <>
+              <Button
+                variant="outline"
+                disabled={!!socialReason(w, id, "discuss")}
+                title={socialReason(w, id, "discuss") || "一日清谈，向境界更高者请教"}
+                onClick={() => send({ type: "discuss", target: id })}
+              >
+                论道
+                <TimeBadge world={w} command={{ type: "discuss", target: id }} />
+              </Button>
+              <Button
+                variant="outline"
+                disabled={!!socialReason(w, id, "gift")}
+                title={socialReason(w, id, "gift") || "以薄礼表达心意"}
+                onClick={() => setGiftOpen(true)}
+              >
+                赠礼
+              </Button>
+              <Button
+                variant="outline"
+                disabled={!!socialReason(w, id, "mentor")}
+                title={socialReason(w, id, "mentor") || "向挚友请教修行关窍"}
+                onClick={() => send({ type: "mentor", target: id })}
+              >
+                请教
+              </Button>
+            </>
+          )}
           {tab === "relations" && r?.known && (
             <Button variant="outline" onClick={() => setContactOpen(true)}>
               相伴与道侣
             </Button>
           )}
+          <Dialog open={giftOpen} onOpenChange={setGiftOpen}>
+            <DialogContent className="game-modal">
+              <DialogHeader>
+                <DialogTitle>赠礼给{a.name}</DialogTitle>
+                <DialogDescription>赠礼不消耗游戏日，每人每 3 日可赠一次。</DialogDescription>
+              </DialogHeader>
+              <div className="battle-controls">
+                {(["stones", "healing", "grass"] as const).map((item) => {
+                  const reason = socialReason(w, id, "gift", item);
+                  return (
+                    <Button
+                      key={item}
+                      variant="outline"
+                      disabled={!!reason}
+                      title={reason}
+                      onClick={() => {
+                        send({ type: "gift", target: id, item });
+                        setGiftOpen(false);
+                      }}
+                    >
+                      赠{giftItemName(item)}
+                    </Button>
+                  );
+                })}
+              </div>
+            </DialogContent>
+          </Dialog>
           <Dialog open={contactOpen} onOpenChange={setContactOpen}>
             <DialogContent className="game-modal intimacy-modal">
               <DialogHeader>
                 <DialogTitle>与{a.name}相处</DialogTitle>
-                <DialogDescription>查看双方心意，选择相伴、结侣与共修。</DialogDescription>
+                <DialogDescription>查看双方心意，选择相伴、结侣、偷情与共修。</DialogDescription>
               </DialogHeader>
               <IntimacyPanel
                 world={w}

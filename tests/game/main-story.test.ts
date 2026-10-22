@@ -18,7 +18,23 @@ import { CAMPAIGN_LOCKS, withCampaignContent } from "../../lib/game/campaign-con
 import { extensionScenes } from "../../lib/game/content-story";
 import oldCampaignLocks from "../../lib/game/content/main-story-migrations.json";
 import { migrateSave } from "../../lib/game/migrations";
+import { battleRound } from "../../lib/game/combat";
 import type { World, Command, LocationId } from "../../lib/game/types";
+
+function settleFieldBattle(w: World) {
+  let guard = 0;
+  while (w.battle && guard++ < 60) {
+    for (const enemy of w.battle.enemies) if (enemy.hp > 0) enemy.hp = 1;
+    const ally = w.battle.allies.find((a) => a.id === "PLAYER");
+    if (ally) {
+      ally.hp = ally.maxHp;
+      ally.attack = 10_000;
+    }
+    battleRound(w, "attack");
+  }
+  return w;
+}
+
 const locks = EXTENSIONS.filter((e) => e.data.journey).map((e) => e.lock);
 function fresh(selected = locks) {
   const w = createWorld(
@@ -41,7 +57,7 @@ function fresh(selected = locks) {
   return w;
 }
 const act = (w: World, c: Command) =>
-  answerDaily(applyCommand(w, c, `main:${w.revision + 1}`, w.revision));
+  settleFieldBattle(answerDaily(applyCommand(w, c, `main:${w.revision + 1}`, w.revision)));
 function rubbing(w: World) {
   w = openVolume(w);
   if (w.player.location === "inn") w = act(w, { type: "travel", to: "market" });

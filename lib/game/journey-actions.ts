@@ -1,8 +1,12 @@
 import B from "./content/balance.json";
 import { stats, threshold, advanceRule } from "./rules";
 import { sectAt } from "./sect-content";
-import { LOCATIONS, localSite, locationKind } from "./world-map";
+import { LOCATIONS, localSite, locationKind, wildTerrain } from "./world-map";
+import { DEPARTURE_FEE } from "./economy";
+import { PARTY_MAX, inviteReason } from "./companions";
+import { SKILL_IDS, learnSkillReason, learnedSkill, skillConfig } from "./skills";
 import type { Command, World } from "./types";
+import { presentationShows } from "./presentation";
 
 type Destination =
   | { command: Command; tab?: never; anchor?: never }
@@ -26,6 +30,24 @@ export function journeyActions(w: World): JourneyAction[] {
   const add = (id: string, title: string, hint: string, command: Command) =>
     actions.push({ id, title, hint, icon: "coins", command });
   const nextManual = B.cultivation.manualRanks[p.manualRank + 1];
+  if (kind === "inn")
+    for (const skill of SKILL_IDS) {
+      const config = skillConfig(skill);
+      if (
+        config.source !== "inn" ||
+        learnedSkill(p, skill) ||
+        p.realm < (config.minRealm ?? 0) ||
+        p.stones < (config.cost ?? 0)
+      )
+        continue;
+      actions.push({
+        id: `learn-${skill}`,
+        title: `学习${config.name}`,
+        hint: `${config.cost} 灵石 · ${config.name}招式`,
+        icon: "practice",
+        command: { type: "learnSkill", skill },
+      });
+    }
   if (
     kind === "inn" &&
     p.manual &&
@@ -93,6 +115,18 @@ export function journeyActions(w: World): JourneyAction[] {
           icon: "sect",
           command: { type: "learnSectArt" },
         });
+      for (const skill of SKILL_IDS) {
+        const config = skillConfig(skill);
+        if (config.source !== member.id || learnedSkill(p, skill)) continue;
+        if (member.contribution < B.sects.skillContributionCost) continue;
+        actions.push({
+          id: `sect-skill-${skill}`,
+          title: `兑换${config.name}`,
+          hint: `消耗 ${B.sects.skillContributionCost} 贡献`,
+          icon: "sect",
+          command: { type: "learnSkill", skill },
+        });
+      }
     } else
       actions.push({
         id: "sect",
@@ -153,7 +187,43 @@ export function journeyActions(w: World): JourneyAction[] {
       icon: "road",
       command: { type: "travel", to: market },
     });
+    if (p.location === "gate" && w.story.settledDay != null)
+      actions.push({
+        id: "expedition",
+        title: `再探残碑${w.expeditionCount ? ` · 第 ${w.expeditionCount + 1} 次` : ""}`,
+        hint: `路费 ${DEPARTURE_FEE} 灵石 · 石傀随次数增强 · 战利品直接归你`,
+        icon: "road",
+        command: { type: "expedition" },
+      });
   }
+  const terrain = wildTerrain(p.location);
+  if (terrain && B.actions.explore.locationKinds.includes(terrain)) {
+    const last = p.exploreDays?.[p.location];
+    const wait =
+      last === undefined ? 0 : Math.max(0, B.actions.explore.cooldownDays - (w.day - last));
+    actions.push({
+      id: "explore",
+      title: wait > 0 ? `郊野探索 · ${wait} 日后` : "探索郊野",
+      hint: wait > 0 ? `此地刚探索过，${wait} 日后再来` : `1 日 · 可能遭遇妖兽、灵草或感悟`,
+      icon: "road",
+      command: { type: "explore" },
+    });
+  }
+  if (
+    presentationShows(w, "inviteCompanion") &&
+    (!w.agreement || (w.agreement.status === "accepted" && w.agreement.terms === "split"))
+  )
+    for (const a of w.npcs) {
+      if (inviteReason(w, a.id)) continue;
+      actions.push({
+        id: `invite-${a.id}`,
+        title: `邀${a.name}同行`,
+        hint: `战利品平分 · 队伍 ${w.party.length + 1}/${PARTY_MAX}`,
+        icon: "sect",
+        command: { type: "inviteCompanion", target: a.id },
+      });
+      if (actions.filter((x) => x.id.startsWith("invite-")).length >= 2) break;
+    }
   const injured = p.hp < stats(p).maxHp;
   actions.push({
     id: "rest",

@@ -1,7 +1,8 @@
 import { EXTENSIONS } from "./content/extensions";
 import type { World, WorldEvent } from "./types";
-type Kind = "bond" | "night" | "dual";
-const stages: Record<string, Kind> = { vow: "bond", night: "night", dual: "dual" };
+type StoryKind = "bond" | "night" | "dual";
+type Kind = NonNullable<WorldEvent["intimacy"]>["kind"];
+const stages: Record<string, StoryKind> = { vow: "bond", night: "night", dual: "dual" };
 const nodes = new Map(
   EXTENSIONS.flatMap(({ data }) =>
     data.storylets.flatMap((n) => {
@@ -29,7 +30,7 @@ export const storyIntimacyKind = (nodeId: string, choiceId: string) => {
   const entry = nodes.get(nodeId);
   return entry?.choices.has(choiceId) ? entry.kind : undefined;
 };
-const indexes = new WeakMap<World, { count: number; kinds: Map<string, Kind> }>();
+const indexes = new WeakMap<World, { count: number; kinds: Map<string, StoryKind> }>();
 /** Existing authored experiences are classified for viewing, without rewriting old consent or facts.
  * A story view or a declined choice is not evidence; only the persisted experience followed by
  * its matching authored choice event qualifies. */
@@ -37,7 +38,7 @@ export function intimacyKind(w: World, e: WorldEvent): Kind | undefined {
   if (e.intimacy) return e.intimacy.kind;
   let index = indexes.get(w);
   if (!index || index.count !== w.events.length) {
-    const kinds = new Map<string, Kind>();
+    const kinds = new Map<string, StoryKind>();
     w.events.forEach((event, i) => {
       if (event.kind !== "shared-experience" || event.actors.length !== 2) return;
       const story = w.events[i + 1],

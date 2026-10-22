@@ -73,7 +73,9 @@ export function SideStories({
               {chapter && scene.id.endsWith(".intro") && (
                 <p className="campaign-lead">{chapter.volumeLead}</p>
               )}
-              <p>{scene.body}</p>
+              {scene.body.split(/\n\n+/).map((paragraph, index) => (
+                <p key={`${scene.id}-${index}`}>{paragraph}</p>
+              ))}
               {scene.quote && <blockquote>{scene.quote}</blockquote>}
               {participants.length > 0 && (
                 <div className="story-people" aria-label="故事人物">

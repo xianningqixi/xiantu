@@ -15,6 +15,21 @@ import { LOCATIONS, locationEnabled } from "./world-map";
 import type { AttemptRule, Fighter, World } from "./types";
 import { threshold, stats, actorById } from "./rules";
 import { actorNpcTemplate, expandedAppearanceSeed } from "./npc-roster";
+import { ACHIEVEMENT_IDS } from "./achievements";
+
+function validateAchievements(w: World) {
+  if (w.achievements === undefined) return;
+  requireRule(
+    w.achievements !== null &&
+      typeof w.achievements === "object" &&
+      !Array.isArray(w.achievements) &&
+      Object.entries(w.achievements).every(
+        ([id, day]) =>
+          ACHIEVEMENT_IDS.includes(id) && Number.isInteger(day) && day >= 0 && day <= w.day,
+      ),
+    "成就记录不合法。",
+  );
+}
 
 export function validateWorld(w: World) {
   requireRule(
@@ -319,7 +334,10 @@ export function validateWorld(w: World) {
   }
   validateSectState(w, requireRule);
   requireRule(
-    object(w.simulationOptions) && typeof w.simulationOptions.backgroundConflicts === "boolean",
+    object(w.simulationOptions) &&
+      typeof w.simulationOptions.backgroundConflicts === "boolean" &&
+      (w.simulationOptions.intimacyDetail === undefined ||
+        ["tasteful", "standard", "explicit"].includes(w.simulationOptions.intimacyDetail)),
     "世界演化设置不合法。",
   );
   requireRule(object(w.knowledge), "知情记忆缺失。");
@@ -330,8 +348,10 @@ export function validateWorld(w: World) {
     const key = JSON.stringify([m.eventId, m.knower]);
     if (e?.intimacy)
       requireRule(
-        e.actors.includes(m.knower) && m.source === "participant",
-        "亲密记录只属于双方当事人。",
+        e.actors.includes(m.knower)
+          ? m.source === "participant"
+          : ["witness", "told"].includes(m.source),
+        "亲密记录只属于双方当事人或在场旁观者。",
       );
     requireRule(
       e &&
@@ -377,13 +397,23 @@ export function validateWorld(w: World) {
         (r.interactions === undefined ||
           (typeof r.interactions === "object" &&
             r.interactions !== null &&
-            Object.entries(r.interactions).every(
-              ([key, value]) =>
-                ["discussDay", "giftDay", "mentorDay"].includes(key) &&
+            Object.entries(r.interactions).every(([key, value]) => {
+              if (key === "stealStreak") return Number.isSafeInteger(value) && value >= 1;
+              return (
+                [
+                  "discussDay",
+                  "giftDay",
+                  "mentorDay",
+                  "chatDay",
+                  "sparDay",
+                  "strollDay",
+                  "stoleDay",
+                ].includes(key) &&
                 Number.isSafeInteger(value) &&
                 value >= 0 &&
-                value <= w.day,
-            ))),
+                value <= w.day
+              );
+            }))),
       "关系数值不合法。",
     );
     requireRule(
@@ -534,6 +564,7 @@ export function validateWorld(w: World) {
         w.agreement.expeditionId === w.loot.expeditionId,
       "战利品与约定不匹配。",
     );
+  validateAchievements(w);
   requireRule(
     w.expeditionCount === undefined ||
       (Number.isSafeInteger(w.expeditionCount) && w.expeditionCount >= 0),
@@ -559,7 +590,8 @@ export function validateWorld(w: World) {
       (b.kind === undefined ||
         b.kind === "road" ||
         b.kind === "explore" ||
-        b.kind === "expedition") &&
+        b.kind === "expedition" ||
+        b.kind === "duel") &&
         (b.location === undefined || locationEnabled(w, b.location)) &&
         (b.destination === undefined || locationEnabled(w, b.destination)) &&
         (b.remainingTravelDays === undefined ||
@@ -569,7 +601,10 @@ export function validateWorld(w: World) {
             b.loot.stones >= 0 &&
             Number.isSafeInteger(b.loot.grass) &&
             b.loot.grass >= 0)) &&
-        (b.insight === undefined || (Number.isSafeInteger(b.insight) && b.insight >= 0)),
+        (b.insight === undefined || (Number.isSafeInteger(b.insight) && b.insight >= 0)) &&
+        (b.flags === undefined ||
+          ((b.flags.win === undefined || typeof b.flags.win === "string") &&
+            (b.flags.lose === undefined || typeof b.flags.lose === "string"))),
       "战斗资料不完整。",
     );
     requireRule(

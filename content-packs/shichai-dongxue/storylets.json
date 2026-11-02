@@ -637,6 +637,344 @@
     "minRealm": 4
   },
   {
+    "id": "shichai.dongxue.yeshutong.lost-2",
+    "title": "匾上新漆的那一行小字",
+    "eyebrow": "冬雪 · 被夺",
+    "body": "婚后的第三个月，你回了一趟霜河城。藏书楼门口那块匾被卸下来过，又挂了回去，新漆还没干透，右下角添了一行小字：“叶承题”。字写得很好，起笔收笔都讲究，是读过很多帖的人写的。\n\n楼下堆着待运的书箱，绳捆得紧，每一箱侧面都拿墨写了号。伙计抱着一摞从楼上下来，从你身边挤过去，臂弯里那摞书书根朝外，磕在门框上，磕出一声闷响。他连头都没回。\n\n她不在楼下。楼上有人叫她，叫了两遍，才有脚步。她下来的时候穿的是嫁后的衣裙，袖口很窄，抱书要用两只手托着，原来那种一手夹三卷的抱法使不出来了。脖子上那根红绳还在，绳是新换的，钥匙坠在下头，一晃一晃。\n\n看见你，她在最后两级台阶停下。“你怎么来了。”声音比记忆里平，也薄。她把怀里的书放到箱沿上，放得很轻，还捻正了方向。“他那行字，是我看着他写的。”她抬下巴朝匾点了点，“写字的时候手抖，抖了两回，第二回我站在他背后，他就不抖了。”\n\n她说完这句，像忽然想起什么，蹲下去翻最上头那只箱子，翻出一卷用布包着的书递过来——布是旧的，角上绣过东西，绣线拆了，只剩下针眼。“这一卷楼里有两部。你拿走一部，就不算楼里的东西了。”",
+    "quote": "“这一卷楼里有两部。你拿走一部，就不算楼里的东西了。”",
+    "visualId": "shichai.dongxue.yeshutong.cg.lost",
+    "participants": [
+      "shichai.dongxue.yeshutong"
+    ],
+    "priority": 78,
+    "conditions": [
+      {
+        "fact": "actor.shichai.dongxue.yeshutong.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.yeshutong.flag.lost",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.yeshutong.flag.lost2",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.dongxue.yeshutong.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.dongxue.yeshutong.lost-2.stay",
+        "label": "留下，帮她把这一层的箱号对数",
+        "hint": "正面见一面；进入翻盘路线。",
+        "reply": "你把袖口挽起来蹲下。她愣了一下，把账册往你这边推了半寸。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.yeshutong.flag.lost2"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.yeshutong",
+            "text": "{{player.name}}在叶氏藏书楼替{{shichai.dongxue.yeshutong.name}}对数箱号，与她见过一面。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.yeshutong.lost-2.go",
+        "label": "把布包收进怀里，出楼",
+        "hint": "保留现状，不进入翻盘路线。",
+        "reply": "你走出藏书楼。她在台阶上站到你出门，没有送。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.yeshutong.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.yeshutong.lost-2.exit",
+        "label": "先不进门，站在匾底下看",
+        "hint": "先不着陆。",
+        "reply": "新漆的味道还没散。你站到日头偏西，回去了。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.dongxue.yeshutong.lost-3",
+    "title": "三层楼板上的一把剑",
+    "eyebrow": "冬雪 · 被夺",
+    "body": "叶承是午后回来的。他进门先看箱子，看号，看绳结，看完才看见你，笑了笑，把围巾解下来交给伙计。“小友来得勤。楼里书多，人也多，不好一概都迎。”他把话说得很客气，客气里有一句是实的——“表妹如今是叶氏的人。楼也归叶氏。小友三天两头来，总得有个说法。”\n\n他往楼上走，走到一半停住。“叶氏不兴讲排场。”他说，“楼下说话楼下算。”然后从三层楼板上取下一把剑。剑挂在墙上很多年，鞘口的漆磨掉了，他拔出来的时候剑身有点涩，他自己也皱眉，动作却是对的。\n\n“祖上传的。”他挽了挽袖，“叶氏的楼是一册一册买回来的，不是一册一册说回来的。小友要是也觉得说话不算数，那就下楼去，楼下地方大。”\n\n她把剑拔了出来，剑身映着窗上的雪光。他没有急着摆架势，先把袖子挽到肘上，一寸一寸挽，挽得很仔细，像在给谁留出反悔的工夫。\n\n她抱着那只箱子站在楼梯口，没有劝谁。她只把手里的箱子放到台阶上，让开了三步，方便两个人下去。放箱子的时候她看了你一眼，很短，然后弯腰把箱子往墙根推了推，推到不会被踩到的地方。“楼下地方大。”叶承又说了一遍，已经在下楼，“小友先请。”",
+    "quote": "“叶氏的楼是一册一册买回来的，不是一册一册说回来的。”",
+    "visualId": "shichai.dongxue.yeshutong.cg.lost",
+    "participants": [
+      "shichai.dongxue.yeshutong",
+      "shichai.dongxue.yecheng"
+    ],
+    "priority": 79,
+    "conditions": [
+      {
+        "fact": "actor.shichai.dongxue.yeshutong.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "actor.shichai.dongxue.yecheng.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.yeshutong.flag.lost",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.yeshutong.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.dongxue.yeshutong.flag.lost2",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.yeshutong.flag.lost3",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.dongxue.yeshutong.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.dongxue.yeshutong.lost-3.duel",
+        "label": "下楼去，拔剑",
+        "hint": "与叶承决斗；赢了重回初夜路线。",
+        "reply": "剑在楼下磕出第一声。她扶着楼梯扶手，指节发白。",
+        "effects": [
+          {
+            "kind": "duel",
+            "target": "shichai.dongxue.yecheng",
+            "win": {
+              "key": "shichai.dongxue.yeshutong.flag.lost3"
+            },
+            "lose": {
+              "key": "shichai.dongxue.yeshutong.flag.lost3-lose"
+            }
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.yeshutong.lost-3.no",
+        "label": "说声叨扰，改日再来",
+        "hint": "不动手，回去攒些底气。",
+        "reply": "叶承点头，把剑收回鞘里，也不留。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.yeshutong.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.yeshutong.lost-3.exit",
+        "label": "按住剑柄，不作声",
+        "hint": "先不着陆。",
+        "reply": "剑还没出鞘，楼上楼下都听得见呼吸。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.dongxue.yeshutong.lost-win",
+    "title": "钥匙始终没有交出去",
+    "eyebrow": "冬雪 · 翻回来",
+    "body": "叶承收了剑，退开半步，把剑在鞘口磕了两下才推回去，磕得很用力。他脸上那副斯文终于塌了一角。“人手一本谱，写法不一样。”他说，声音还算稳，“小友的写法，叶某记住了。”\n\n他没有再看你，转身上楼，走到三层再没下来。楼下只剩下翻倒的书箱和一地散开的书。她还站在扶手边，两条腿像钉住了膝盖。过了好一会儿她才下来，一级一级，下到最后一级，坐下。\n\n“钥匙他没拿去。”她从领口把红绳拽出来，钥匙坠在绳子末尾晃，“婚书摁了手印那天他来要过三回。我说楼里有一卷《既济真解》，谁修明了谁拿钥。他修不了，就一直没交。”她抬头。“我要的不是有人替我抢回来。”停了停，“楼我自己守得住。我要的是有人肯上三层。”\n\n她把钥匙塞回领口，站起来，去把散在地上的书一本一本捡起来。捡到第三本的时候她停下来，把书翻过来看封皮，看完放回原处，接着捡下一本。捡完她把它们摞成一摞抱着，拍拍膝盖：“这些跟我走。别的留给他。”\n\n门槛外头是午后化了一半的雪，踩上去陷半寸。她抱着书站在门口等了一会儿，等你先迈出去。",
+    "quote": "“我要的不是有人替我抢回来。我要的是有人肯上三层。”",
+    "visualId": "shichai.dongxue.yeshutong.cg.rival",
+    "participants": [
+      "shichai.dongxue.yeshutong"
+    ],
+    "priority": 80,
+    "conditions": [
+      {
+        "fact": "actor.shichai.dongxue.yeshutong.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.yeshutong.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.dongxue.yeshutong.flag.lost3",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.yeshutong.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.dongxue.yeshutong.lost-win.take",
+        "label": "说清楚：从今天起，你自己走这一趟",
+        "hint": "翻盘成功，重回初夜路线。",
+        "reply": "她听完点点头，抱起那摞书往门外走，“那就走。匾上那行字，让他自己铲。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.yeshutong.flag.contest"
+          },
+          {
+            "kind": "bond",
+            "target": "shichai.dongxue.yeshutong",
+            "favor": 13,
+            "trust": 10,
+            "attraction": 8
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.yeshutong",
+            "text": "{{player.name}}在叶氏藏书楼下赢下叶承，{{shichai.dongxue.yeshutong.name}}带着钥匙与他下了楼。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.yeshutong.lost-win.later",
+        "label": "说楼里还有事，让她先理完",
+        "hint": "保留现状。",
+        "reply": "她说“那就理完”，把箱子往身边拢了拢，没有再请你帮忙。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.yeshutong.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.yeshutong.lost-win.exit",
+        "label": "先陪她坐一会儿",
+        "hint": "先不着陆。",
+        "reply": "两个人坐在最下一级台阶上。楼上的门一直没开。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.dongxue.yeshutong.lost-retry",
+    "title": "剑搁在书箱上",
+    "eyebrow": "冬雪 · 未成",
+    "body": "你输了。叶承的剑停在你肩前两寸，停得很稳，收了回去。他喘了一口，随即把气息压平，整了整衣袖：“小友还差一层。”他喊伙计把剑送上楼，自己跟在后面，说要去看看三层的窗有没有被震开。楼下安静下来。\n\n她过来把那一卷布包的书从地上捡起来，掸了掸布上的灰——刚才你退的时候撞翻了箱沿，书滚出去两尺。她没有立刻递给你，先是一页一页翻着看过，看到中间夹着的竹签还在，才合上。\n\n“他这一套剑法，是他父亲的人教的。他练了九年。”她把书放回你手里，“九年里他一天都没停。”她伸手把夹在书里的那根竹签往里推了推，推平。“你比他晚起步。可你至少是自己愿意的。”她说，“他是被族里按着头学的。”\n\n说完她蹲下去收拾散开的书，一册一册码回箱里，码得比原来齐，号朝外。码到你脚边那一册的时候她没有绕开，等你让了让，她才把那本拿起来。\n\n“你要是明日还来，我让他把剑挂回墙上。”她低着头说，“挂回去就不好取了。”说完自己也觉得这话没用，补了一句：“不过他会取。”",
+    "quote": "“他练了九年。九年里他一天都没停。”",
+    "visualId": "shichai.dongxue.yeshutong.cg.lost",
+    "participants": [
+      "shichai.dongxue.yeshutong",
+      "shichai.dongxue.yecheng"
+    ],
+    "priority": 82,
+    "conditions": [
+      {
+        "fact": "actor.shichai.dongxue.yeshutong.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "actor.shichai.dongxue.yecheng.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.yeshutong.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.dongxue.yeshutong.flag.lost3-lose",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.yeshutong.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.dongxue.yeshutong.lost-retry.again",
+        "label": "说你会再来，把灵石拍在箱上",
+        "hint": "消耗 20 灵石；当场再打一场。",
+        "reply": "叶承从楼梯上回过头，看见地上的灵石，慢慢下来，又把剑从伙计手里取回去。",
+        "effects": [
+          {
+            "kind": "resource",
+            "item": "stones",
+            "value": -20
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.yeshutong.flag.lost3",
+            "active": false
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.yeshutong.flag.lost3-lose",
+            "active": false
+          },
+          {
+            "kind": "duel",
+            "target": "shichai.dongxue.yecheng",
+            "win": {
+              "key": "shichai.dongxue.yeshutong.flag.lost3"
+            },
+            "lose": {
+              "key": "shichai.dongxue.yeshutong.flag.lost3-lose"
+            }
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.yeshutong.lost-retry.stop",
+        "label": "把剑收好，出楼",
+        "hint": "结束这条线。",
+        "reply": "你出了楼。这一次她送到了门口，没有再往前。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.yeshutong.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.yeshutong.lost-retry.exit",
+        "label": "什么也不说",
+        "hint": "先不着陆。",
+        "reply": "楼里的门开着一条缝，风灌进去，纸页翻动。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
     "id": "shichai.dongxue.yeshutong.night",
     "title": "合上最后一本",
     "eyebrow": "冬雪 · 初夜",
@@ -1481,6 +1819,344 @@
       }
     ],
     "minRealm": 4
+  },
+  {
+    "id": "shichai.dongxue.songxiaoman.lost-2",
+    "title": "猎叉挪回去的那一寸",
+    "eyebrow": "冬雪 · 被夺",
+    "body": "入了腊月你又上过一次山。村口的雪被人踩出一条硬道，红纸窗上的喜字冻住了，边角卷起来，红褪成一种发暗的颜色。猎叉还靠在原先那棵树旁边，位置没动过。叉柄上头缠了一圈新布条，缠得不算齐，是男人的手艺。\n\n她在砍柴。斧子下去，柴劈开，露出里面的白茬。她穿的是婚后新做的棉袄，袖口挽起来，怕沾着木屑，露着一截手腕，手腕上有一道红印，是绳子勒的。看见你，斧子没停。“上山做什么。”她问，也没等你答，把劈好的柴往边上踢了踢，“站着说话，别堵道。”\n\n过了一会儿她把斧子插在树墩上，走过来，隔着两步站住。她抬手把那把猎叉拿起来，掂了掂，然后又靠回树上——靠在原来那个位置，位置摆得跟先前一样。“叉是我爹打的。”她说，“留着也是留着。”\n\n屋里有人咳嗽，是王虎。她没有回头，只把嗓门提了一点：“屋里烧着水呢，进来喝一口。”说完也没等你应，她自己先往门口走了两步，走到一半又停住，回头看那把叉，好像怕它自己跑掉。\n\n“你别多想。”她忽然说，“叉留在这儿不是因为别的。是这树底下背风。”她说完自己也嫌这解释笨，抿了一下嘴，抬脚踹开脚边的雪。",
+    "quote": "“叉是我爹打的。留着也是留着。”",
+    "visualId": "shichai.dongxue.songxiaoman.cg.lost",
+    "participants": [
+      "shichai.dongxue.songxiaoman"
+    ],
+    "priority": 78,
+    "conditions": [
+      {
+        "fact": "actor.shichai.dongxue.songxiaoman.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.songxiaoman.flag.lost",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.songxiaoman.flag.lost2",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.dongxue.songxiaoman.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.dongxue.songxiaoman.lost-2.stay",
+        "label": "留下，把这一垛柴劈完",
+        "hint": "正面见一面；进入翻盘路线。",
+        "reply": "你把袖子一挽接过斧子。她愣了愣，让开半步，抱着胳膊在旁边看。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.songxiaoman.flag.lost2"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.songxiaoman",
+            "text": "{{player.name}}在{{shichai.dongxue.songxiaoman.name}}家门口劈完了一垛柴，与她见过一面。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.songxiaoman.lost-2.go",
+        "label": "喝了水就走",
+        "hint": "保留现状，不进入翻盘路线。",
+        "reply": "水喝完了。你把碗放在门槛上，她还站在柴垛边上，没有送。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.songxiaoman.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.songxiaoman.lost-2.exit",
+        "label": "站在树底下，不进屋",
+        "hint": "先不着陆。",
+        "reply": "屋里有柴火的气味飘出来。你站到天黑，下山了。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.dongxue.songxiaoman.lost-3",
+    "title": "雪地里的一把柴刀",
+    "eyebrow": "冬雪 · 被夺",
+    "body": "王虎是从山上回来的，肩上扛着半扇獐子，听见屋外有动静，把獐子往地上一放就过来了。他比她宽半个肩膀，站在门框里头，一时把门口的光堵死了。“兄弟。”他先叫了一声，然后搓手，搓了两下才想出词，“上回你也在村口站着，我看见了。我当没看见，不太好。”\n\n他从门后头摸出一把柴刀，刃口磨得很亮，是干活用的刀，不是兵器。他掂了掂，又在裤腿上蹭了两下。“我笨。”他说得很慢，“书我不会念，剑我也没学过。我会的就是这些。”\n\n他回头看一眼屋里，又转回来：“我爹跟她爹一起上的山，再没下来。她爹咽气前把她托给我。兄弟，我不是抢人，我是许过人的。”\n\n她把獐子拖到墙根，回来的时候手上全是血，在雪里抓了两把搓干净。“兄弟，我说句实话。”王虎接着道，声音更低了，“我知道你不服。要换我，我也不服。”\n\n他把柴刀往你这边递了半尺，又收回一点，像怕你不接。“打一场。”他说，“输了我把她让给你。输了是我没能耐，怨不得人。她留在这儿听着。”她站在屋里桌边，手里拿着两只碗，拿着没放下。“你们两个。”她说，“要打就出去打，别把水泼了。”",
+    "quote": "“我不是抢人，我是许过人的。”",
+    "visualId": "shichai.dongxue.songxiaoman.cg.lost",
+    "participants": [
+      "shichai.dongxue.songxiaoman",
+      "shichai.dongxue.wanghu"
+    ],
+    "priority": 79,
+    "conditions": [
+      {
+        "fact": "actor.shichai.dongxue.songxiaoman.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "actor.shichai.dongxue.wanghu.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.songxiaoman.flag.lost",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.songxiaoman.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.dongxue.songxiaoman.flag.lost2",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.songxiaoman.flag.lost3",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.dongxue.songxiaoman.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.dongxue.songxiaoman.lost-3.duel",
+        "label": "接过柴刀，走到雪地上",
+        "hint": "与王虎决斗；赢了重回初夜路线。",
+        "reply": "王虎咧嘴笑了一下，把獐子往墙边挪了挪，站到雪地上等你。",
+        "effects": [
+          {
+            "kind": "duel",
+            "target": "shichai.dongxue.wanghu",
+            "win": {
+              "key": "shichai.dongxue.songxiaoman.flag.lost3"
+            },
+            "lose": {
+              "key": "shichai.dongxue.songxiaoman.flag.lost3-lose"
+            }
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.songxiaoman.lost-3.no",
+        "label": "说声改日，下山",
+        "hint": "不动手，回去攒些底气。",
+        "reply": "王虎把你送到村口，一路上一句话没说。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.songxiaoman.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.songxiaoman.lost-3.exit",
+        "label": "把柴刀接过来看看刃口",
+        "hint": "先不着陆。",
+        "reply": "刀不沉，柄上全是他的手汗。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.dongxue.songxiaoman.lost-win",
+    "title": "她又把叉挪了一寸",
+    "eyebrow": "冬雪 · 翻回来",
+    "body": "王虎的柴刀落在雪里，插进去半截。他喘得厉害，弯着腰撑着膝盖，喘了一阵才直起来，脸上全是汗，倒也没有难看的样子。“我输了。”他说得很干脆，甚至抬了下手算是认，“兄弟，你打得过我。”\n\n他弯腰把柴刀拔出来，在裤腿上抹了两下，回头看屋里。她在门里站着，两只碗还端着。王虎看她，又看你，憨劲儿上来，忽然咧嘴：“小满，你自己说。”\n\n她走出来，把两只碗搁在窗台上，一碗一碗搁稳。“说什么。”她嘴上硬，耳朵是红的。走到你面前站住，站得很近，近得能看见她睫毛上沾的雪沫。\n\n“我爹的叉在不在这儿，你心里清楚。”她说，“那天你站在村口，冻了一夜。我看见了。我把叉挪了一寸，你也看见了。”她回头对王虎说：“虎子，柴我给你劈完。”王虎挠头，“欸”了一声，把獐子扛起来进了屋，进门时肩膀在门框上磕了一下。\n\n屋里响了一声，是他把獐子撂在案板上。她往屋里看了一眼，看了有两三息，才转回来，声音低下去：“叉我拿着。去哪，你说。”风把窗台上的雪吹落一层。她伸手护了一下那两只碗，护完才想起来可以干脆端走，于是端走了。",
+    "quote": "“那天你站在村口，冻了一夜。我看见了。”",
+    "visualId": "shichai.dongxue.songxiaoman.cg.rival",
+    "participants": [
+      "shichai.dongxue.songxiaoman"
+    ],
+    "priority": 80,
+    "conditions": [
+      {
+        "fact": "actor.shichai.dongxue.songxiaoman.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.songxiaoman.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.dongxue.songxiaoman.flag.lost3",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.songxiaoman.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.dongxue.songxiaoman.lost-win.take",
+        "label": "说：跟我下山，下山去挑一把新叉",
+        "hint": "翻盘成功，重回初夜路线。",
+        "reply": "她把猎叉从树边拿起来，扛到肩上。“走。”她说，“叉要挑好的，坏的用不了。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.songxiaoman.flag.contest"
+          },
+          {
+            "kind": "bond",
+            "target": "shichai.dongxue.songxiaoman",
+            "favor": 14,
+            "trust": 11,
+            "attraction": 9
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.songxiaoman",
+            "text": "{{player.name}}在{{shichai.dongxue.songxiaoman.name}}家门口赢下王虎，{{shichai.dongxue.songxiaoman.name}}扛着猎叉跟他下了山。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.songxiaoman.lost-win.later",
+        "label": "说再等等，等她把年过完",
+        "hint": "保留现状。",
+        "reply": "她说“那就等”，把窗台上的碗收进屋，没有再出来。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.songxiaoman.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.songxiaoman.lost-win.exit",
+        "label": "替她把窗台上那层雪扫了",
+        "hint": "先不着陆。",
+        "reply": "扫完窗台你也没走。她在门里站着，两个人隔一道门槛。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.dongxue.songxiaoman.lost-retry",
+    "title": "柴刀砍在树墩上",
+    "eyebrow": "冬雪 · 未成",
+    "body": "你没撑住。王虎的柴刀磕在你手背上，猎叉脱手，叉尖扎进雪里。他赶紧收了刀，上来扶你，扶得很急：“欸欸，没事吧？”她过来把猎叉拔起来，拔得有点猛，雪沫溅了一腿。她拿手把叉杆上的雪擦掉，擦了两把，抬头瞪你：“你就这点本事还站着不走？”嘴上凶，声音是抖的。\n\n王虎蹲下去拾刀，搓着手站在一边，也不说话。过了一会儿他闷闷地开口：“兄弟，要不进屋上点药。”说完看了眼她，又补一句，“我出去也行。”\n\n她没理他，把布巾在水里按下去，水面荡开一圈。她没让你进门，先把你按在柴垛边上坐下，从屋里倒了热水出来，抓了一把盐化进去，把布巾按在水里，拧到半干，递过来。\n\n“他打的不是叉。”她说，蹲在你面前，“他是砍柴砍了十年，手上有数。你差的是这个——日日都干。”她把布巾往你手里一塞，“明日还来就早点来，天亮就上山。”\n\n王虎在门里咳了一声，说：“兄弟，其实我也没数，就是手熟。”被她回头一句“你少说话”堵回去。她把散在雪里的柴一根根拾起来，抱在怀里进屋去了。门没有关严，留了一道缝。",
+    "quote": "“他不是花架子。他是砍柴砍了十年，手上有数。”",
+    "visualId": "shichai.dongxue.songxiaoman.cg.lost",
+    "participants": [
+      "shichai.dongxue.songxiaoman",
+      "shichai.dongxue.wanghu"
+    ],
+    "priority": 82,
+    "conditions": [
+      {
+        "fact": "actor.shichai.dongxue.songxiaoman.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "actor.shichai.dongxue.wanghu.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.songxiaoman.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.dongxue.songxiaoman.flag.lost3-lose",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.songxiaoman.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.dongxue.songxiaoman.lost-retry.again",
+        "label": "说你还来，把灵石放在柴垛上",
+        "hint": "消耗 20 灵石；当场再打一场。",
+        "reply": "王虎看见灵石，忙摆手，“不用不用”，被她一句“拿着”堵回去，只好揣起来，重新提了刀。",
+        "effects": [
+          {
+            "kind": "resource",
+            "item": "stones",
+            "value": -20
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.songxiaoman.flag.lost3",
+            "active": false
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.songxiaoman.flag.lost3-lose",
+            "active": false
+          },
+          {
+            "kind": "duel",
+            "target": "shichai.dongxue.wanghu",
+            "win": {
+              "key": "shichai.dongxue.songxiaoman.flag.lost3"
+            },
+            "lose": {
+              "key": "shichai.dongxue.songxiaoman.flag.lost3-lose"
+            }
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.songxiaoman.lost-retry.stop",
+        "label": "把布巾还她，下山",
+        "hint": "结束这条线。",
+        "reply": "你没有坐热就走了。她把布巾挂回门框上，站着看你走到村口。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.songxiaoman.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.songxiaoman.lost-retry.exit",
+        "label": "坐在柴垛上缓一缓",
+        "hint": "先不着陆。",
+        "reply": "雪落在柴垛上，落在你和她中间那一块空地上。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
   },
   {
     "id": "shichai.dongxue.songxiaoman.night",
@@ -2329,6 +3005,344 @@
     "minRealm": 4
   },
   {
+    "id": "shichai.dongxue.chulian.lost-2",
+    "title": "门槛上的冰碴",
+    "eyebrow": "冬雪 · 被夺",
+    "body": "雪停了两日，又下。客栈上房的门照旧关着，门缝里透出一点火色。你住的还是楼下靠后那一间，进出都要从这门前过，每次过都要走快两步。第三日她在后院洗东西。廊下有一只木盆，盆里是撕开的旧裹布，水泛着红。她蹲在盆边搓，手背冻得发紫，搓两下就要握一握拳再松开。\n\n门槛上结了冰碴，人一踩就滑。她起身端盆的时候在上面滑了一下，盆差点翻，水泼出去大半。她没有骂，也没有喊人，只把剩下的水泼进雪里，把盆扣在墙根，然后蹲下去，用指甲一点一点把门槛上的冰抠掉。\n\n看见你她没有起身。“路滑。”她说，说完又觉得两个字太少，补了一句，“你也是。走这边慢一点。”她把抠下来的冰碴堆在墙根，堆成一小撮。“他住到雪化了才走。”她说，“药是他自己带的，我也没什么事，就是熬。”说到这里她顿了顿，像在算什么，“熬药不算事。”\n\n上房里有人咳了一声。她回过头看了一眼门，又转回来，压低嗓子：“他睡得浅。你别在这儿站久了。”\n\n话是这么说，她自己却没催第二遍，只是把盆往墙根又推了推，让开门前那一小块地方。廊下挂着她洗好的裹布，一条一条晾着，冻得硬成一片，风一过就打在一起，响得像薄木板。",
+    "quote": "“熬药不算事。”",
+    "visualId": "shichai.dongxue.chulian.cg.lost",
+    "participants": [
+      "shichai.dongxue.chulian"
+    ],
+    "priority": 78,
+    "conditions": [
+      {
+        "fact": "actor.shichai.dongxue.chulian.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.chulian.flag.lost",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.chulian.flag.lost2",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.dongxue.chulian.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.dongxue.chulian.lost-2.stay",
+        "label": "蹲下去，替她把剩下的冰抠完",
+        "hint": "正面见一面；进入翻盘路线。",
+        "reply": "你也蹲下去。她把身子往旁边让了让，两个人的手在门槛上错开，谁也没碰着谁。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.chulian.flag.lost2"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.chulian",
+            "text": "{{player.name}}在客栈后院替{{shichai.dongxue.chulian.name}}抠净了门槛上的冰，与她见过一面。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.chulian.lost-2.go",
+        "label": "应一声，从门前过去",
+        "hint": "保留现状，不进入翻盘路线。",
+        "reply": "你从抠干净的那半边门槛上过去。她端着空盆站着，没有再看你。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.chulian.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.chulian.lost-2.exit",
+        "label": "站在廊柱边，等上房的门开了再走",
+        "hint": "先不着陆。",
+        "reply": "门一直没有开。你把那撮冰碴踢散了，走了。",
+        "effects": []
+      }
+    ],
+    "minRealm": 2
+  },
+  {
+    "id": "shichai.dongxue.chulian.lost-3",
+    "title": "上房里的一碗药",
+    "eyebrow": "冬雪 · 被夺",
+    "body": "严孤鹤是午后出来的。白衣，袖口没有一丝褶，站在后院看了会儿屋檐上的冰溜子，像在挑哪一根好看。他看见你，并不意外。“小友还在。”他说，声音轻，语气里没有一丝要为难人的意思，反倒更难听，“严某在这里住了三日，小友在楼下住了三日——都住得很得体。”\n\n他抬手指了指上房。“进来坐。莲儿在熬药。药是她熬的，火候她自己看着办。”这句“她自己看着办”说得像在说一件与她无关的事。\n\n上房的门槛扫干净了。她在桌边看火，药罐放在炭炉上，盖子斜着一条缝，白气从缝里出来。听见脚步她抬头，看见是你，手在围裙上按了一下才起身。\n\n严孤鹤坐下，把袖子拢好。“三年前的事，小友想必都听过了。”他说，“严某不劝人。只说一句：炉鼎这东西，跟剑跟书一样，搁着不动就是废的。她三年没断过采补，如今气色比在药摊上强多了——小友自己看。”\n\n她站在炉边听着，没有插话。药滚上来了，她用布垫着把罐子提下来，倒一碗，白气冲在脸上。她把碗端到他面前，退开半步，两只手垂在身侧。“坐下。”严孤鹤对她说，眼睛却看着你，“都是一处的人，站着做什么。”",
+    "quote": "“炉鼎这东西，跟剑跟书一样，搁着不动就是废的。”",
+    "visualId": "shichai.dongxue.chulian.cg.lost",
+    "participants": [
+      "shichai.dongxue.chulian",
+      "shichai.dongxue.yanguhe"
+    ],
+    "priority": 79,
+    "conditions": [
+      {
+        "fact": "actor.shichai.dongxue.chulian.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "actor.shichai.dongxue.yanguhe.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.chulian.flag.lost",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.chulian.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.dongxue.chulian.flag.lost2",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.chulian.flag.lost3",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.dongxue.chulian.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.dongxue.chulian.lost-3.duel",
+        "label": "说：那就试试，谁的写法是对的",
+        "hint": "与严孤鹤决斗；赢了重回初夜路线。",
+        "reply": "严孤鹤把药碗放下，碗底磕得很轻。“后院里地方窄。”他说，“出去吧。”",
+        "effects": [
+          {
+            "kind": "duel",
+            "target": "shichai.dongxue.yanguhe",
+            "win": {
+              "key": "shichai.dongxue.chulian.flag.lost3"
+            },
+            "lose": {
+              "key": "shichai.dongxue.chulian.flag.lost3-lose"
+            }
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.chulian.lost-3.no",
+        "label": "端过药碗喝完，谢一声就走",
+        "hint": "不动手，回去攒些底气。",
+        "reply": "你把碗放在桌角。她还站在炉边，手指绞着围裙带子。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.chulian.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.chulian.lost-3.exit",
+        "label": "坐下，看她们把这一罐药熬完",
+        "hint": "先不着陆。",
+        "reply": "药味漫了一屋子。谁都没有再说话。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.dongxue.chulian.lost-win",
+    "title": "玉扣换了新的绳",
+    "eyebrow": "冬雪 · 翻回来",
+    "body": "严孤鹤的剑只出一半就收了。他站着没动，先看了一眼自己袖口——袖口豁了一道，豁得很干净。他把那道豁口捻平，捻了两遍也没能捻平。\n\n“严某这三年，日日采，日日练，以为手上早就熟了。”他说，“原来熟了的是她的手，不是严某的剑。”这话说得很慢，说完才看你一眼，“小友，你赢了。”他回上房收拾东西。收拾得比谁都快，也干净——一件不多，一件不少。白衣穿上，剑负在背后，出来的时候在门槛上站定，回头看她。\n\n“莲儿。”他叫了一声，站在门槛外头，“严某采你三年，没有一笔是白采的。这条你记着。”停了一下，“他要是不好用，你自己来找严某。”说完就走了，走进雪里，白衣一会儿就看不清了。\n\n她还站在原地，手里捏着围裙的一角。过了很久才松开，把围裙解下来叠了几下，叠得齐，放在桌上。“三年。”她说，声音哑，“三年里头他没打过我一次，也没骂过我一次。所以我才走的。”她抬起眼看你，“这话我先说清楚，免得日后说你不知道。”\n\n她伸手到怀里去，把那枚玉扣拿出来。扣还是那枚，绳换了新的——旧绳在那个雪夜断了，她后来自己重新穿过一根。她把扣放在掌心看了两息，然后递过来：“你上一次是扔回我门口的。这一次，我要你拿着。”",
+    "quote": "“你上一次是扔回我门口的。这一次，我要你拿着。”",
+    "visualId": "shichai.dongxue.chulian.cg.rival",
+    "participants": [
+      "shichai.dongxue.chulian"
+    ],
+    "priority": 80,
+    "conditions": [
+      {
+        "fact": "actor.shichai.dongxue.chulian.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.chulian.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.dongxue.chulian.flag.lost3",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.chulian.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.dongxue.chulian.lost-win.take",
+        "label": "接过来，替她把绳结收紧",
+        "hint": "翻盘成功，重回初夜路线。",
+        "reply": "绳结收得很紧。她低下头看你收结的手指，没有催。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.chulian.flag.contest"
+          },
+          {
+            "kind": "bond",
+            "target": "shichai.dongxue.chulian",
+            "favor": 12,
+            "trust": 11,
+            "attraction": 9
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.chulian",
+            "text": "{{player.name}}在客栈后院赢下严孤鹤，{{shichai.dongxue.chulian.name}}把换了新绳的玉扣交到他手里。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.chulian.lost-win.later",
+        "label": "让她先把上房退了，明日再说",
+        "hint": "保留现状。",
+        "reply": "她说“那我明日去退”，把玉扣收回怀里，坐下来算房钱。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.chulian.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.chulian.lost-win.exit",
+        "label": "先陪她在桌边坐一会儿",
+        "hint": "先不着陆。",
+        "reply": "药罐还热着。她把叠好的围裙又展开，重新叠了一遍。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.dongxue.chulian.lost-retry",
+    "title": "药洒了半碗",
+    "eyebrow": "冬雪 · 未成",
+    "body": "你输了。严孤鹤的剑抵在你咽喉前，停了一瞬才收。他退开的时候袖子扫过炭炉，药碗被带得晃了一下，洒出半碗，在桌面上淌开。\n\n“还差些。”他说，语气平平的，像在说一句实话而不是羞辱，“小友的剑是三年前的剑，人倒像是今天的。”他去上房拿了自己的巾子，先把桌上的药擦掉，擦完把巾子搭在盆沿，才回头看她还站着。“再熬一碗。”他说，“火别太大。”\n\n她应了一声，把罐子重新架上去。添水的时候手稳，添完了却没有立刻退开，站在炉边盯着那条斜缝里的白气看。\n\n“他教的。”她忽然说，声音很低，不像说给你听，“三年里他什么都教。怎么认药，怎么把火候压住，怎么在人前不露怯。教完了再采。”她顿一顿，“所以三年也不是全白过。这话我自己说不出口，你替我说也行。”\n\n她把碗摆好，布垫也铺平了，才转过来看你。围裙带子松了，她没有管。“剑是他教的，也不是他一个人的东西。”她说，“你要是肯练——”话到这里停住，重新绕回最实际的一句，“你要是明日还来，我在后院。”药又滚了。白气冲上来，她把罐子提开，这次没有洒。",
+    "quote": "“他教的。三年里他什么都教。”",
+    "visualId": "shichai.dongxue.chulian.cg.lost",
+    "participants": [
+      "shichai.dongxue.chulian",
+      "shichai.dongxue.yanguhe"
+    ],
+    "priority": 82,
+    "conditions": [
+      {
+        "fact": "actor.shichai.dongxue.chulian.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "actor.shichai.dongxue.yanguhe.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.chulian.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "flag.shichai.dongxue.chulian.flag.lost3-lose",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.chulian.flag.closed",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.dongxue.chulian.lost-retry.again",
+        "label": "说你会来，把灵石压在药碗底下",
+        "hint": "消耗 20 灵石；当场再打一场。",
+        "reply": "严孤鹤看见碗底的灵石，眉毛动了一下，把刚负上的剑又解下来。",
+        "effects": [
+          {
+            "kind": "resource",
+            "item": "stones",
+            "value": -20
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.chulian.flag.lost3",
+            "active": false
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.chulian.flag.lost3-lose",
+            "active": false
+          },
+          {
+            "kind": "duel",
+            "target": "shichai.dongxue.yanguhe",
+            "win": {
+              "key": "shichai.dongxue.chulian.flag.lost3"
+            },
+            "lose": {
+              "key": "shichai.dongxue.chulian.flag.lost3-lose"
+            }
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.chulian.lost-retry.stop",
+        "label": "把剑收好，出后院",
+        "hint": "结束这条线。",
+        "reply": "你走后院。她在廊下站着，看你走出客栈的门。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.chulian.flag.closed"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.chulian.lost-retry.exit",
+        "label": "靠在墙上歇一歇",
+        "hint": "先不着陆。",
+        "reply": "药味盖过了雪的气味。上房的门半掩着，没有人进出。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
     "id": "shichai.dongxue.chulian.night",
     "title": "不敢转身",
     "eyebrow": "冬雪 · 初夜",
@@ -2584,5 +3598,1044 @@
       }
     ],
     "minRealm": 4
+  },
+  {
+    "id": "shichai.dongxue.yeshutong.night-3",
+    "title": "摊棚里的毡子",
+    "eyebrow": "冬雪 · 三夜",
+    "body": "灯市一年一回。族长从藏书楼里挑出两捆“没人再看的”旧书，让{{shichai.dongxue.yeshutong.name}}去村口摆个摊棚，“换几个钱，也好过烂在架上”。摊棚在街口最末一间，四根杆撑着旧席，桌上铺毡，书摊上去，一晚上没卖出三本。倒有人蹲下来翻，翻完问一句“这本抄的是谁的”，她说“没有谁，是历”，那人就把书放下走了。\n\n灯市散得晚。散到最后，街口只剩踩烂的雪和一层撕碎的糖纸。她把没卖掉的旧书抱回席子底下，蹲着起不来。纸灯笼是族长挂的，说摊子不能黑着；灯芯烧到了底，火苗缩成极小的一粒，光只够照见桌沿。\n\n“不回去。”她说。\n\n“族长不等你收摊？”\n\n“摊我收了。”她把毡子从桌上扯下来，铺到棚里最干的一块地上，“书明日送回去。人不回去。”\n\n棚口的风直灌。她拿两捆书压住席脚，压完退开看了一眼，又从顶上抽出一本塞到毡子底下垫着：“这本湿了。”说完自己笑了一下，“算了。反正也没人买。”\n\n她躺下去，头发散在毡子上，仰着脸看席顶。灯笼的光从上面罩下来，把她半张脸照得发黄。她抬手把灯笼往里挪了挪，挪到能照见两个人的地方。\n\n“三年。”她说，“我在楼里背了三年条款，一条也没用上。”\n\n“用不上也不要紧。”\n\n“我知道。”她伸手过来，摸到你的袖子，攥住，“所以我躺下了。抄书的人一躺下，就是不做正事了。”\n\n棚外的雪被来往的人踩烂成泥，夜风一卷，凉气就从席缝里钻进来，扑在她脸上。她皱眉，随即把狐裘散开，垫在自己身下，垫得很仔细，连肩都垫到了。\n\n“灯别吹。”她说，“我要看着。”\n\n她的手在自己襟口停了一停，才去解。解到第二颗，巷子尽头有人收摊，喊了一嗓子，她的手一抖，扣子滑脱了，重新摸回来再解。",
+    "explicit": "毡子薄，脊背贴上去能觉出底下压平的雪和那本垫着的旧书硬壳。她仰躺着，狐裘散在两侧没收，纸灯笼就在头顶，光把她的下颌和颈子照得清清楚楚，也照见她解衣时发抖的指头。她自己解的，解到一半忽然停了，抬手把灯笼又往里挪了挪，挪到照得见两个人的地方，才继续。棚口的雪被踩烂成泥洼，风一卷就带进凉气，扑在她胸口，乳尖一点一点收紧。你伏下去时她“嗯”了一声，声音闷在席棚里，散不开。她的手先抓毡子，抓得指节发白，后来改成抓你的手臂，抓到哪儿是哪儿。垫在毡下的旧书被压得滑出半截，硬壳硌住她的腰，她也不管。她抬眼看你，眼睛在灯光里湿着，一眨不眨，看得人心里发紧。进得慢，她跟着一寸一寸吸气，吸到极处把脸偏开，喉咙里滚出一声，随即咬住下唇。风又灌进来，灯笼晃了一下，光影在她身上挪了半尺。她两条腿缠上来，缠得很紧，脚跟磕在你腰后，磕一下就收紧一下。后来她自己往上迎，迎得急，毡子被蹬得往棚口滑，滑到雪地上沾了湿。她笑了一声，笑得断断续续：“书……书要湿了。”说完也不去管。高潮来的时候她整个人绷起来，手指插进你发里按住，喉咙里的声音拖得很长，拖到软下去，散在灯火那一点黄里。缓过来她先伸手去够那本滑出去的旧书，摸到封面，擦掉上头的雪沫子。",
+    "quote": "“灯别吹。我要看着。”",
+    "visualId": "shichai.dongxue.yeshutong.cg.night-3",
+    "participants": [
+      "shichai.dongxue.yeshutong"
+    ],
+    "priority": 76,
+    "conditions": [
+      {
+        "fact": "actor.shichai.dongxue.yeshutong.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.yeshutong.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "shichai.dongxue.gate"
+      },
+      {
+        "fact": "flag.shichai.dongxue.yeshutong.flag.night2",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.yeshutong.flag.night3",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.dongxue.yeshutong.night-3.rug",
+        "label": "把灯笼挪到棚角，让它照得着整张毡子",
+        "hint": "记入共同经历；不改变灵石与物品。",
+        "reply": "灯笼挪开了，光就照着两个人，也照着一地没卖掉的旧书。她说：“明日这些我自己送回楼里。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.yeshutong.flag.night3"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.yeshutong",
+            "text": "{{player.name}}在灯市散尽的雪村村口，于旧书摊棚的毡子上陪叶疏桐过了一夜，她把没卖掉的旧书压在身下垫着。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.yeshutong.night-3.copy",
+        "label": "先把那本垫在毡下的旧书抽出来，搁到高处",
+        "hint": "记入共同经历；不改变灵石与物品。",
+        "reply": "她把书接过去抱在怀里，抱了一会儿才放下：“这本是我抄的。抄了四天。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.yeshutong.flag.night3"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.yeshutong",
+            "text": "{{player.name}}在雪村村口的摊棚里听叶疏桐说抄了十年的书一本也没卖出去，她让灯亮着，把这一夜过完。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.yeshutong.night-3.exit",
+        "label": "替她把席脚的书捆压实，坐一会儿就走",
+        "hint": "不进第三夜；下次还有机会。",
+        "reply": "她躺着看你压实书捆，说：“摊子明日还在。你要是还来，我留一本给你。”",
+        "effects": []
+      }
+    ],
+    "minRealm": 4
+  },
+  {
+    "id": "shichai.dongxue.yeshutong.dual-2",
+    "title": "烛要亮着",
+    "eyebrow": "冬雪 · 再修",
+    "body": "藏书楼顶层。这一回她自己带了蜡烛来，铜烛台是她从楼下端上来的，一路端着，烛泪在手背上淌了一小道，她也没撒手。蜡烛搁在书架的第二格，正对着一排没人再翻的旧志。\n\n“上回是雪光。”她说，“雪光看着冷，也不够亮。”\n\n她坐进你怀里，坐得很稳，不像上一回那样还要先试着找位置。坐稳之后她把两只手都摊开给你看，掌心朝上，什么也没有。“上回你说我急。”她说，“我这半个月没急过。”狐裘铺在膝下，她把衣襟解开，露出来的地方被烛光照得暖了一层。“这半个月我天天上来。”她说，“上来到第七天，气自己会走了。走了三天，走到膻中就停。我数过，一共停了九回。”她顿了顿，“第九回我没散。它自己回头下去了。”\n\n“你自己收回去了？”\n\n“嗯。”她把额头抵上来，抵住不动，“所以今日不是我求你接。是我告诉你，我这口气走得通了。”\n\n烛火烧得极静，芯子偶尔爆一声。楼下三层黑着，雪光从窗纸外透进来，被木头和书吸走，只剩一层薄灰。“楼里没人。”她说，“守夜的老周前日回乡了，到月底才回来。这半个月整座楼就我一个人。”她把两手落在你肩上，掌心贴住，气就从那里起。\n\n“一个人不怕？”\n\n“怕。”她说，“怕就上来点蜡烛。点了九夜，怕也点没了。”\n\n她抬眼看你，眼睛里有点笑：“你看，我连怕都数得出回数。”\n\n“出岔子你就扣一下我的肩。”她说，“别喊。喊了我会乱。”\n\n她闭眼，额头始终抵着，呼吸先放长，再把气一寸一寸往下来。到膻中果然顿了一下，那一下她眉头收紧，指尖在你肩上用了一点力，随即自己松开，气继续往下走。\n\n灯火把两个人的影子投在书架和地板上，叠在一起。\n\n“通了。”她睁开眼，眼里有一层水光，声音很轻，“我自己的。”\n\n她说完这一句，忽然把脸埋进你颈窝，埋了一会儿才抬起来，鼻尖蹭过去：“上回走完，我在地上坐了很久，坐到手都凉了才想起该下去。今日不坐。”\n\n她把烛台够过来，挪近了半寸，让光照到自己身上。“再走一圈。”她说，“这一圈你别碰我的脉，只扶着我的腰。”\n\n“扶腰不算碰？”\n\n“不算。”她说得很正经，“扶腰是扶人。”",
+    "explicit": "烛台挪近了半寸，光从侧边照过来，把她的腰、胯和膝头都照得清清楚楚，影子在身后书架上一跳一跳。她坐在你腿上，脊背仍旧直着，直得像还在抄书，只有膝头分开这件事显出别的东西。狐裘垫在下面，她的脚踝在裘毛里蹭出细响。两手落在你肩上，掌心按得很实，气就从那里起，一路往下，到膻中顿住，她眉心一紧，指尖扣了一下，随即自己放开。她把额头抵回来，抵得很重，鼻息打在两个人的唇间。气往下淌过小腹时她整个人轻轻一颤，喉咙里漏出极短的一声，随即咽回去，改成咬唇。你扶着她的腰，她按着这个支点往下沉，沉得稳，比上一回稳得多，一寸一寸把该到的路走完。烛火被两个人的呼吸拂得歪了一下，她的鬓发落在颊边，汗水把发丝黏成一缕。她把气送到底，忽然自己收紧一圈，收得又慢又狠，收完抬眼看你，眼神亮得有点凶：“别动。”你就没动。她自己起落，起得慢，落得实，每一次落到底都要停一停，停的时候气还在往周天上爬。第三圈走到一半她乱了节奏，改成断续的报数：“这儿……接住。”声音越来越不成句，末了几个字干脆含在喉咙里。高潮来得突然，她被自己那一下撞得直了背，额头离开你，喉咙里放开一声长的，随即塌下来，塌在你肩上喘，肩背一并一并地抖。烛芯爆了个响，她伸手扶住烛台，扶得很稳。",
+    "quote": "“这一圈你别碰我的脉，只扶着我的腰。”",
+    "visualId": "shichai.dongxue.yeshutong.cg.dual-2",
+    "participants": [
+      "shichai.dongxue.yeshutong"
+    ],
+    "priority": 71,
+    "conditions": [
+      {
+        "fact": "actor.shichai.dongxue.yeshutong.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.yeshutong.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "player.manual",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.yeshutong.flag.dual",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.yeshutong.flag.dual2",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.dongxue.yeshutong.dual-2.go",
+        "label": "只扶腰，让她自己走完这一圈",
+        "hint": "记入共同经历；不改变灵石与物品。",
+        "reply": "她走完最后一寸才松下来，把额头抵在你肩上，喘了很久才说：“你看，我走得通了。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.yeshutong.flag.dual2"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.yeshutong",
+            "text": "{{player.name}}在雪夜的藏书楼顶层扶着叶疏桐的腰，让她自己走完第二圈周天，她说这一口气是她自己的。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.yeshutong.dual-2.hand",
+        "label": "在她乱掉的那一下替她把气顺回来",
+        "hint": "记入共同经历；不改变灵石与物品。",
+        "reply": "她仰头看你，眼睛湿着，随即自己整理气息：“这一下算你接的。记着。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.yeshutong.flag.dual2"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.yeshutong",
+            "text": "{{player.name}}在烛光照着的书架前听叶疏桐报出停过九回的脉，她扶着烛台，把这一圈走成了。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.yeshutong.dual-2.exit",
+        "label": "坐到她引完第一圈就走，让她今夜到此为止",
+        "hint": "不进第三夜；下次还有机会。",
+        "reply": "她把烛台挪回书架，说：“那明日我自己再走一遍。你后日来验。”",
+        "effects": []
+      }
+    ],
+    "minRealm": 6
+  },
+  {
+    "id": "shichai.dongxue.songxiaoman.night-3",
+    "title": "柴房里的砧子",
+    "eyebrow": "冬雪 · 三夜",
+    "body": "皮货卖了好价。一整张雪狐皮换了两串钱，她别在腰里，走过整条街都带响。摊主们收棚的时候多看她一眼，最后走的老汉笑：“小满，这钱够添箱了。”她嗯一声，没接话。\n\n当晚她不回村。客栈后院有一间柴房，她花了十文钱跟掌柜的讨了钥匙。“屋里有床。”掌柜的说。她说知道，还是要柴房。\n\n柴房里全是劈好的柴，码到齐肩，地上一层木屑，踩上去软。劈柴的砧子立在屋当中，砧面被劈得很平，中间一道凹。她把毡子扔在柴堆上，又把斗篷解下来挂在门后，“屋里有床，可床太像人家的屋子。”她说了一句，自己先蹲下去拣木屑。拣了一把又嫌不够，索性把整片地扫了一遍，扫到砧子底下，扫帚伸不进去，她就蹲下去用手掏。\n\n“庚帖还压在碗底下？”\n\n“压着。”她拣了一把木屑攥在手里，攥紧，再松开，撒掉，“我娘今早把碗端出来摆了。摆碗就是给我留着位置坐。”\n\n“摆了几只？”\n\n“三只。”她说，“客人那只，我那只，还有一只空的。”\n\n“空的那只是给谁？”\n\n“给媒人带来的那个人。”她把手里剩下的木屑也撒了，“空碗摆了两日，谁也没坐。”\n\n她把腰里那两串钱解下来，放在砧子上，放得很正，两串并齐。“这钱是我自己挣的。”她说，“添不添箱，我自己说了算。”\n\n屋外有月光。檐下有一道缝，月光从缝里切进来，正好落在砧面上，把那两串钱照得发白。她看了很久，忽然把斗篷拔下来，盖在钱上：“不看了。看了就想算。”\n\n“算什么？”\n\n“算够不够。”她说，“算了就得回去。”\n\n她把靴子脱了，一只一只整整齐齐靠在砧子脚边，袜底踩在木屑上，踩出两个浅印。踩完低头看了看那两个印子，忽然用脚跟把它们碾平：“不好看。”\n\n“碾平做什么？”\n\n“等会儿还要踩出来。”她说，“先碾平了，一会儿才看得出新的。”\n\n说完她转过身，两手撑到砧子上，撑得很稳，肩往下沉，背脊拉出一条线。\n\n“过来。”她说，声音低，“今夜不用快。今夜长。”\n\n月光落在她抬起的腕子上，也落在砧面那一道凹里。",
+    "explicit": "她两手撑在砧面上，撑得很开，肩沉下去，背脊拉直，一件一件的衣裳从肩上滑到腰，滑到胯，最后堆在脚踝。月光从檐下那道缝里切进来，只照亮砧面、她的手腕和脸侧，其它都在暗里，她也不许你点灯。你贴上去时她的手在砧面上抓紧，指头抠进那道凹里。进得慢，她的呼吸撞在一块木头上似的，一下一下都是硬的，撑到第二下才散开，散成一声闷哼。木屑粘在她膝盖上，也被汗粘住。她撑着的两条胳膊先还稳，后来开始发抖，抖得砧子挪了半寸，磨着地皮响。她偏过头，脸贴着砧面上的月光，眼睛闭着，睫毛一颤一颤。你一只手按在她肩上，另一只捞住她的腰，她借着力往后送，送得越来越直，越来越狠，喉咙里不再压，一声接一声给出来，声音不大，却每一句都断在末尾。柴堆那边有一根木头被碰得滚下来，在地上磕了一下，她吓了一跳，随即笑起来，笑得里面一并一并地缩。缩到后来她撑不住了，半个身子塌到砧子上，胸腹贴着木面，凉的木头一下一下撞着她。高潮来的时候她把整张脸埋进臂弯，只把腰留在原处，扛着，扛到绷到极处，腿一软，膝盖磕在木屑里。她跪下去很久没起来，喘得肩膀一耸一耸，伸手把砧子上那两串被斗篷盖着的钱摸过来，攥在手里，攥得指甲发白。",
+    "quote": "“这屋子今夜是我花钱租的。租到天亮。”",
+    "visualId": "shichai.dongxue.songxiaoman.cg.night-3",
+    "participants": [
+      "shichai.dongxue.songxiaoman"
+    ],
+    "priority": 76,
+    "conditions": [
+      {
+        "fact": "actor.shichai.dongxue.songxiaoman.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.songxiaoman.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "shichai.dongxue.market"
+      },
+      {
+        "fact": "flag.shichai.dongxue.songxiaoman.flag.night2",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.songxiaoman.flag.night3",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.dongxue.songxiaoman.night-3.bolt",
+        "label": "把斗篷从钱上拿开，告诉她这钱不用算",
+        "hint": "记入共同经历；不改变灵石与物品。",
+        "reply": "她把两串钱推到你这边，说：“你替我拿着。回去的路上我怕自己数。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.songxiaoman.flag.night3"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.songxiaoman",
+            "text": "{{player.name}}在霜河城客栈后院的柴房里，听宋小满说这两串钱是她自己挣的，她把今夜租下来了。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.songxiaoman.night-3.money",
+        "label": "用斗篷裹住她，抱到柴堆上坐一会儿",
+        "hint": "记入共同经历；不改变灵石与物品。",
+        "reply": "她被裹着坐起来，靠着你，很久之后说：“床太像人家。柴房像我自己。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.songxiaoman.flag.night3"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.songxiaoman",
+            "text": "{{player.name}}在客栈后院柴房的劈柴砧边守了宋小满一夜，她把卖皮货的两串钱押在砧子上，不肯回去见庚帖。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.songxiaoman.night-3.exit",
+        "label": "替她把砧面上的木屑扫干净就走",
+        "hint": "不进第三夜；下次还有机会。",
+        "reply": "她把靴子提在手里，跟到门口：“明日我还来。这屋我租了三夜。”",
+        "effects": []
+      }
+    ],
+    "minRealm": 4
+  },
+  {
+    "id": "shichai.dongxue.songxiaoman.dual-2",
+    "title": "第三层往下",
+    "eyebrow": "冬雪 · 再修",
+    "body": "猎屋在山腰。这屋是她爹留下的，从前打猎时歇脚用，空了半年，柴是她自己一趟一趟背上来的。火塘烧得旺，屋里燥，墙上挂着的那排毛皮被烤得发硬。铜牌挂在门框上，跟上一回一样，只是这回她挂完没退开半步，直接说：“今日不用它看着。今日它看着我也不管。”\n\n“上回是两层。”她蹲在火塘边拨炭，“回去以后那一层又顶过一次，夜里顶到天亮。我没起来走，我躺着数。数到四百，它自己沉下去了。”\n\n“‘自己沉下去了’？”\n\n“下沉得慢了。”她把火钳搁下，转过脸，“也沉得不干净。第二日气海里还留着根子。”\n\n她起身把毡子拖到火塘边摊开，摊得离火很近，热气扑上来，毡面很快烤得温热。“要拔根子。”她说，“拔到最深那一层。它在那儿睡了不知道多少年，我从小就知道它在。”她把铜牌从门框上摘下来，塞到你手里，“你拿着。今日我若是喊停下来，你就把牌子按在我心口。”\n\n“按上去会怎样？”\n\n“会疼。”她说，“疼才拔得出来。”\n\n她把猎叉横在两个柴垛之间，横得平平的，当成临时的架。“绳和钩子都在梁上。”她说，“真出了岔子，你抓钩子，别抓我。”\n\n“抓钩子做什么？”\n\n“抓我我会跟着你一起乱。”她把袖子撸到肘上，露出手臂上两道旧疤，“我爹从前被狼咬过，抓钩子下来的。抓钩子的人不乱。”\n\n她脱衣裳的时候很干脆，一件一件甩在柴堆上，甩到最后一件，身上只剩火光了。热气把她的小腿烘出一层薄汗。“火大了些。”她说，还是坐了下来，坐在毡子中央。\n\n“怕不怕烫？”\n\n“烫不怕。”她伸手把你拽下来，“怕的是它不睡。”\n\n她把狼皮拉过来垫在腰下，狼毛扎人，她不在意。火塘里的柴塌了一块，火星子溅起来，落在毡边，自己灭了。\n\n“说定了。”她说，“拔干净。别留根。”\n\n火光把屋梁的影子长长地投在天花板上，一动不动。她坐在毡子中央看你，忽然说：“你要是明日就走，也跟我说一声。”\n\n“明日不走。”\n\n“那就好。”她把手按在你的膝上，按得很实在，“我这人，最怕人悄悄地没了。”",
+    "explicit": "她跨坐上来，脊背先还直着，随即往后仰，仰到双手撑在你膝上撑着，腰胯往前送，胸前被火光整个照亮。狼皮毛硬，扎着她的腰，她不在意，只把腰塌下去迎合。火塘近，热一层一层烘上来，汗顺着她的颈子和锁骨往下走，在乳尖上聚成一点，又落下来。她的身体比人热，进了以后那层热裹得很实在，一阵一阵地绞。铜牌从手里滑出去，落在毛皮上，砸出闷闷一声，谁也没去捡。她自己动，落得又深又狠，每落一次喉咙里就挤出一声，也不收着，声音撞在土墙上，撞回来。第三层被叫醒是在最深的时候，她整个人往后绷成一张弓，眼睛睁着却看不见东西，兽光立起来，一道极细的竖线。她咬着牙：“按。”你从毛皮上摸回铜牌，贴上她心口，她猛地一颤，颤得里面死死一绞，绞得人眼前发白。她喊了一声，很短，随即又自己往下压，压着那股往上冲的东西。“再按。”她说，声音已经哑了。铜牌按得更紧，她的指甲抠进你的膝头，抠出几道。第三回落下去的时候那股野气终于伏了，伏得很深，一动不动。她这才软下来，仰着的背塌回来，额头磕在你肩上，胸口起伏得厉害，火光照着背上那层汗，一点一点亮。很久之后她伸手摸到铜牌，把牌子从你手里拿开，贴在自己心口捂着，说了一句：“拔干净了。”",
+    "quote": "“怕的是它不睡。”",
+    "visualId": "shichai.dongxue.songxiaoman.cg.dual-2",
+    "participants": [
+      "shichai.dongxue.songxiaoman"
+    ],
+    "priority": 71,
+    "conditions": [
+      {
+        "fact": "actor.shichai.dongxue.songxiaoman.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.songxiaoman.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "player.manual",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.songxiaoman.flag.dual",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.songxiaoman.flag.dual2",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.dongxue.songxiaoman.dual-2.hold",
+        "label": "一直把铜牌按在她心口，按到那股野气伏下去",
+        "hint": "记入共同经历；不改变灵石与物品。",
+        "reply": "野气伏下去以后她还捂着铜牌坐了半晌，说：“明日我把它挂回门框上去。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.songxiaoman.flag.dual2"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.songxiaoman",
+            "text": "{{player.name}}在猎屋的火塘边用铜牌压住宋小满心口，陪她把第三层野气拔到深处伏下去。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.songxiaoman.dual-2.knot",
+        "label": "拔净之后替她把狼皮翻过来，裹住她发抖的肩",
+        "hint": "记入共同经历；不改变灵石与物品。",
+        "reply": "她被裹住，贴着你，很久才说：“别让火灭了。灭了根子会回。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.songxiaoman.flag.dual2"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.songxiaoman",
+            "text": "{{player.name}}按住铜牌守了宋小满一夜，她说怕的是它不睡，拔干净之后仍把牌子捂在心口。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.songxiaoman.dual-2.exit",
+        "label": "说今夜只试到第三层，明夜再往下",
+        "hint": "不进第三夜；下次还有机会。",
+        "reply": "她把铜牌挂回门框，回头看你：“第三层就不是这么试了。你早点来。”",
+        "effects": []
+      }
+    ],
+    "minRealm": 5
+  },
+  {
+    "id": "shichai.dongxue.chulian.night-3",
+    "title": "船篷底下",
+    "eyebrow": "冬雪 · 三夜",
+    "body": "严孤鹤的人又来过一回，话说得比上回客气，日子也从三日宽到“腊月之前都给得”。她把人送到坊市口，回来时袖口攥得发皱。\n\n傍晚她去了霜河渡口，自己雇了一条夜船。船家看了她一眼，问“去哪儿”，她说“不问哪儿，往河心走，天亮前靠回来”。付钱的时候她把铜钱一枚一枚数在船板上，数得很慢，数完把钱推到船家脚边。\n\n“客栈我订了。”她说，“订了却不上去。上房太像他安排的地方。”\n\n“房钱呢？”\n\n“退了。”她说，“掌柜的退给我七成。三成算违约金——这个我自己担。”她把退回来的钱数了一遍，数完塞回袖子，“担得起。”\n\n夜里河上起雾，船离了岸，橹声响一下，隔很久响第二下。岸上的灯一盏一盏退下去，退到最后只剩渡口那一点，也被雾吃了。她把袍摆收起来，自己爬进船篷底下。篷低，坐不直，只能伏着。篷里铺着一张旧毛皮，硬，有股陈年的腥气。“这是船家的。”她说，“不是谁的。”\n\n灯笼挂在篙上，是船家挂的，光从篷口斜进来，把毛皮照出一块暖黄。船外的冰层正在开裂，一声一声，闷闷的，从很远的地方传过来。她把耳朵侧过去听了一会儿：“河里冻透了。今夜要裂开一遍。”\n\n“裂开会怎样？”\n\n“裂开就化了。”她说，“化冻以后船就好走了。”她停了停，“腊月之前，河里总得裂一回。”\n\n“冷？”她问。\n\n“不冷。”\n\n“冷也说一声。”她把你的手抓过来，塞到自己颈窝里，“我三年没坐过船。”顿了一下，“跟他头一回见面，也是坐船。白日，很多人，他给我递了一盏茶。”\n\n她把脸埋进毛皮里，埋了一会儿才抬起来，鼻尖上有一点湿。“今夜一个也没有。”\n\n船身晃了一下，冰排擦着船舷过去，声音又长又钝。她伸手去摸你的衣领，一颗一颗解开自己的扣子，“船家在外头，听得见。”她说，“听得见也不要紧。”\n\n“不要紧？”\n\n“不要紧。”她把玉扣从怀里拽出来压在毛皮上，“他给的我也戴着。今夜不摘。”",
+    "explicit": "她伏在毛皮上，胸口压着粗硬的毛，肘子撑在船板缝里，撑得肩胛骨凸起来。篷低，两个人都直不起腰，几乎是贴着篷顶在动。灯笼挂在篙上，光从篷口斜斜地切进来，照见她半边背和压在毛皮上的脸，其余的在暗处。她自己把腰塌下去，塌得很低，低到脊背成了一道浅槽。船身一直在晃，进的每一下都带着河的浮力，她跟着晃晃悠悠地受着，喉咙里滚出来的声音被冰层开裂的响声一会儿抬起一会儿压下。她的手指在毛皮上抓，抓到毛就从指缝里挤出来。篷顶低，你一动就撞到顶，撞得篷布鼓一下，她也跟着一紧。冰排擦过船舷，长而钝的一声，她被激得一抖，抖得里面死死一缩，随即骂了一句很轻的。她偏头回来看你，满脸汗，鬓发贴在颊上，眼睛里全是水。“三年。”她说，只说了这两个字，又埋回毛皮里去。后来她爬着往前挪了半尺，挪到灯照得最亮的一块，把整个脊背亮给灯光，亮给船外那条河的方向。高潮来的时候她把脸整个埋进毛里，肩背绷起来绷了很久，绷到发抖，抖得一塌，最后塌在毛皮上，胸口起伏得很厉害。缓过来她先去摸玉扣，摸到了压在掌下，才哑着嗓子说：“别吹灯。让它亮到岸。”",
+    "quote": "“船家在外头，听得见。”",
+    "visualId": "shichai.dongxue.chulian.cg.night-3",
+    "participants": [
+      "shichai.dongxue.chulian"
+    ],
+    "priority": 76,
+    "conditions": [
+      {
+        "fact": "actor.shichai.dongxue.chulian.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.chulian.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "shichai.dongxue.inn"
+      },
+      {
+        "fact": "flag.shichai.dongxue.chulian.flag.night2",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.chulian.flag.night3",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.dongxue.chulian.night-3.lamp",
+        "label": "让她亮着灯，把篷口拉下半幅挡风",
+        "hint": "记入共同经历；不改变灵石与物品。",
+        "reply": "她把 chant 拉严，靠着你说：“遮一半就够了。全遮上就成了屋子。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.chulian.flag.night3"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.chulian",
+            "text": "{{player.name}}在霜河渡口的夜船上陪楚莲守在船篷底下，灯笼亮着，冰层在船外一声一声开裂。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.chulian.night-3.jade",
+        "label": "把她从毛皮上翻过来，让她靠着看灯",
+        "hint": "记入共同经历；不改变灵石与物品。",
+        "reply": "她躺着，看了很久那盏灯，说：“这还是船家的灯。今夜我只借。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.chulian.flag.night3"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.chulian",
+            "text": "{{player.name}}听楚莲说三年没坐过船，跟着她在夜船的毛皮上过了一夜，她说今夜一个旁的人也没有。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.chulian.night-3.exit",
+        "label": "坐到船靠回来就走，让她早些回去睡",
+        "hint": "不进第三夜；下次还有机会。",
+        "reply": "她点头，把扣子扣回去，扣到最上一颗才说：“腊月之前。还没到。”",
+        "effects": []
+      }
+    ],
+    "minRealm": 4
+  },
+  {
+    "id": "shichai.dongxue.chulian.dual-2",
+    "title": "河心的回脉",
+    "eyebrow": "冬雪 · 再修",
+    "body": "还是那条船，这回是三天以后的夜里。她自己摇的橹，摇到河心就把橹横过来，让船自己漂。\n\n“上回接上了四条。”她说，“四条都热。可夜里还是凉，凉在断口上边的两寸——接是接上了，接上头空着。”\n\n低月挂在对岸的山脊上，月光照着河面，冷得发白。岸边有人家的狗叫了两声就没再叫。她把橹横好，蹲下来先摸了摸船板，摸到一块翘起来的木刺，用靴跟磕平。她把缆绳在橹桩上打了个活结，打得很紧，又检查了一遍，才从毛皮堆里抽出一卷窄带。“我自己缝的。”她说，把带子一头递给你，“接上面那两寸要用带子束。束住上头，气才不往回退。”\n\n“谁教你的？”\n\n“没人教。”她说，“我自己摸出来的。摸坏了三条。”她把带子在指间理直，理得很慢，“头一条太宽，束上去气过不去；第二条太窄，勒出血；第三条不结实，走到一半断了。”\n\n“断了怎样？”\n\n“断了我就在船上坐着，坐到天亮。”她说，“那一夜也是这条河。”她把袖子撸到肩，臂上的旧痕一条一条，淡的深的重叠在一处，“从前他采的时候，脉是往下断的。断开就是断开了，他不管上头。”\n\n“这一回呢？”\n\n“连着就回不去断的人了。”她说，“从前断开一条，我就少一条。断到第四条，夜里凉上来能凉到心口。”她把袖子放下又撸起来，像在给自己确认，“这一回我要它们连着。”她坐进你怀里，把手腕交叉着搭到你颈后，搭得很松，“带子你束，束到我说够了。”\n\n月亮移了一点，船板上的光跟着偏。她低头看自己的手腕，看了一会儿，“三年里我做的最对的一件事，是三日后把话送到了渡口。”\n\n“就这件事？”\n\n“还有一件。”她抬起眼看你，“今夜这条船是我自己摇到河心的。”\n\n她收紧手腕，把两个人拉近，额头碰上。“开始。”她说。\n\n冰排从船边漂过去，撞了一下船舷，船身晃开半尺。",
+    "explicit": "她跨坐着，手腕交叉在你颈后，全身的重量都挂在那一处，腰背弯成弧，胸脯送到你面前，被月光照得清清楚楚。船一直在漂，也一直在晃，进的每一下都由河面替她接一半力气，于是深得不成样子，她整个人往上一弹，喉咙里的声音被顶出来，散在河风里。带子先束在腕内侧第一道断口上方，束了一圈，她“嘶”一声，随即点头。第二条束在肘内，再一条在颈侧，每束一道她就抖一阵，抖完自己往回坐实，把深一寸的地方送上来。四条旧痕在月光下泛着淡白。她仰着脸，眼睛半闭，睫毛上挂着一点水，嘴唇松开不合。冰排擦着船板过去，又长又钝，每响一次她就缩一下，紧得说不出话。到第四条，带子压在她气海上方，她自己伸手按住你的手背，往下压了一压，压到足够紧才松开。气从断口两头一齐往上顶，撞在带子上，撞得她小腹一并一并地跳。她开始自己动，动得急，急得船晃得更厉害，橹桩上的缆绳被绷得一响声。高潮的时候她把手腕一下子收紧，勒得人颈后发疼，脸埋进你肩窝，声音闷在那里，拖得很长，拖到腿软下来，整个人往下塌。缓过来她过了一会儿才把腕子解开，低头按自己腕上那一道，按了很久，忽然笑出声来：“是热的。这一条也是热的。”",
+    "quote": "“这一回我要它们连着。”",
+    "visualId": "shichai.dongxue.chulian.cg.dual-2",
+    "participants": [
+      "shichai.dongxue.chulian"
+    ],
+    "priority": 71,
+    "conditions": [
+      {
+        "fact": "actor.shichai.dongxue.chulian.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.chulian.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "player.manual",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.chulian.flag.dual",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.chulian.flag.dual2",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.dongxue.chulian.dual-2.mend",
+        "label": "按她说的束，束到她说够了才停",
+        "hint": "记入共同经历；不改变灵石与物品。",
+        "reply": "四条束完，她把手臂举到月光下看了很久，笑得眼睛发红：“上头也是热的。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.chulian.flag.dual2"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.chulian",
+            "text": "{{player.name}}在低月下的河心渡船上替楚莲束住断口上方的脉，四条旧痕第一次从头连到尾。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.chulian.dual-2.pulse",
+        "label": "先束到颈侧那条，让她缓一缓再往下",
+        "hint": "记入共同经历；不改变灵石与物品。",
+        "reply": "她喘匀了，把额头抵在你肩上：“缓够了。往下。”",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.chulian.flag.dual2"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.chulian",
+            "text": "{{player.name}}听楚莲说她摸坏了三条带子才摸出这个法子，两个人把船停在河心，一条一条束上去。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.chulian.dual-2.exit",
+        "label": "说今夜只束两条，剩下的明夜再接",
+        "hint": "不进第三夜；下次还有机会。",
+        "reply": "她把带子解下来收进袖子，看了一眼河水：“明夜我还摇到这儿来。”",
+        "effects": []
+      }
+    ],
+    "minRealm": 5
+  },
+  {
+    "id": "shichai.dongxue.yeshutong.night-2",
+    "title": "谷仓里的第二夜",
+    "eyebrow": "冬雪 · 再夜",
+    "body": "族长托她下村核对族谱，说虫蛀了两册要紧的。祠堂后间抄到天黑，石匠收了家伙走人，她一个人把抄本捆好，抱在怀里往回走。\n\n风从谷口灌下来，道上已经堆起雪脊。走到一半她把抄本往衣襟里一塞，改了道：“回不去了，藏书楼那条路已经封了。”\n\n村东的谷仓没人来。门板用木栅拦着，她从缝里抽开，先进去把栅条一根根搬进来，再从里侧用绳子缠了两道，缠得极慢，像在给自己数数。“这地方没人来。”她说，把绳子末梢咬断，“今夜没人翻书，也没人能进来打断。”\n\n仓里堆着去年的稻草，霉味被雪气压住。她解下围巾，抖落一层霜，头发散下来一半，没有去理。“三年。”她忽然开口，说的不是这一夜，“我在楼上背了三年条款，一条也没用上。”\n\n她转过身，把抄本搁到草垛高处，压上一块砖：“书在那儿。今晚别管书。”\n\n她蹲下去拨炭盆，拨得很仔细，把埋在灰里的红一块块翻上来。翻完也不起身，就那样蹲着抬头看你：“你要是不愿意，现在说。说了我照样把你送到谷口去。”说完自己先站起来，把灯芯又剪短了一截，屋里暗下去一层。",
+    "explicit": "她自己把灯芯剪低了，说太亮背得出条款、做不成事。然后走过来，站得很近，肩膀抵到你胸口，先伸手解你的衣带。她的手比夜里冷，解到一半被你握住，她也没抽回去，只抬眼：“照《既济真解》背。”说完自己先笑了一下，“从头背。”她跪坐在稻草上，张开腿的时候脸烧得厉害，却一条一条念出来：“其一，气随心行……”念不下去的地方就用身下的动作替。你进去时她背到第二条，声音整个断了，攥住你的手臂，指甲陷进去，念不出的字全咽回去。稻草在身下窸窣，一层一层压塌。她背得零碎，背到错处就摇头，说重来，说从头。可你每深一点，她就漏一句，漏到最后只剩单字：“其、其——”她被你翻过来时也没闭眼，仰着脸看你，嘴唇一动一动，还在默念。高潮那一下她终于把最后一句背完，背完就哑了，整个人绷紧又松下，额头上一层汗。仓外风搓着雪，木栅被吹得轻响。她缓了很久，才把脸埋进你颈窝：“总算……用上了一回。”",
+    "quote": "“书在那儿。今晚别管书。”",
+    "visualId": "shichai.dongxue.yeshutong.cg.night-2",
+    "participants": [
+      "shichai.dongxue.yeshutong"
+    ],
+    "priority": 73,
+    "conditions": [
+      {
+        "fact": "actor.shichai.dongxue.yeshutong.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.yeshutong.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "shichai.dongxue.market"
+      },
+      {
+        "fact": "flag.shichai.dongxue.yeshutong.flag.night",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.yeshutong.flag.night2",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.dongxue.yeshutong.night-2.stay",
+        "label": "把她抱到草垛上，这一夜不回藏书楼",
+        "hint": "记入共同经历；不改变灵石与物品。",
+        "reply": "天快亮时雪停了。她从草垛上溜下来，先把抄本拿出来数了一遍，一页没少，才回头催你走。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.yeshutong.flag.night2"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.yeshutong",
+            "text": "{{player.name}}与叶疏桐在封村的谷仓里第二次同宿，她把条款背到了底。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.yeshutong.night-2.short",
+        "label": "只把炉火笼旺一点，坐到天亮",
+        "hint": "记入共同经历；不改变灵石与物品。",
+        "reply": "她重新缠好木栅，坐在炉边，一句一条地背给你听，背到东方发白。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.yeshutong.flag.night2"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.yeshutong",
+            "text": "{{player.name}}与叶疏桐在谷仓里烤了一夜火，她背了一夜的书。"
+          }
+        ]
+      },
+      {
+        "id": "exit",
+        "label": "只把钱数完，各自歇下",
+        "hint": "不进第二夜；下次还有机会。",
+        "reply": "她把你送到谷口，雪没过脚踝。她说这条路她一个人走得回去。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.dongxue.songxiaoman.night-2",
+    "title": "山神龛前",
+    "eyebrow": "冬雪 · 再夜",
+    "body": "媒人走后第二日，她娘把庚帖压在碗底下，谁也不许动。她把猎叉往肩上一扛，冲你使个眼色就走。\n\n出村不走官道，她拐上坡。坡上是荒的，只有一条踩出来的羊肠道，尽头一座石砌的山神龛，龛里的像早就没人认得出是谁。“在这儿等我。”她说，把猎叉往雪里一插，叉杆笔直。\n\n她从脖子上解下那枚铜牌，绳在指间绕了两圈，摘下，踮脚，挂到龛角上去。“我爹的。”她说，退开半步看了看，像在确认挂得正不正，“今夜算他给我看着。”\n\n坡下的村子只剩几点灯。她背对着那几点灯站了一会儿，才转过身：“园里那间屋亮着，茶杯摆三只。我不回去坐。”\n\n她把斗篷解下来铺在龛前的石阶上，用手掌抹了两遍，抹掉雪沫子，“就在这儿。他管不着这儿。”\n\n她把猎叉往雪里又踩深了一寸，转过身来，两只手在衣襟上擦了擦，擦得很用力，像要把掌心的汗擦干净。“我这人说话直。”她说，“你要是不想，就当陪我上坡看雪。”说完抬眼看你，没挪开。她把斗篷的一角踢平，把踩实的雪又碾碎了一层。",
+    "explicit": "这回是她先动手。铜牌在头顶轻碰石龛，她一路吻下来，吻到小腹时停住，抬眼看你，然后自己把裤子褪到膝弯，跪在斗篷上仰躺下去，膝盖向两边打开，敞得毫无遮拦。“快些。”她说，声音发紧。你进去的时候她咬了下唇，很快又松开，一手攥着斗篷边，一手伸上来勾住你的后颈往下拉。皮肉拍在一起的声音在坡上很响，她不怕吵，反倒越叫越大，叫到一半自己笑了，说“村里听得见”，说完叫得更凶。风吹过来，雪沫子打在腿根上，冻一下就化。她把腿盘上你的腰，脚跟在你后背磕，一下比一下重：“再深。再深一点。”石阶硌得她后背一片红，她不管。高潮时她整个人往上弓，攥着铜牌的绳一直没收手，铜牌在龛角被拽得叮叮响。缓过来以后她躺了一会儿，忽然抬眼看头顶：“我爹从前就说，嫁人得先看那人敢不敢在坡上过一夜。”她伸手把铜牌扶正，“今夜算是看过了。”",
+    "quote": "“就在这儿。他管不着这儿。”",
+    "visualId": "shichai.dongxue.songxiaoman.cg.night-2",
+    "participants": [
+      "shichai.dongxue.songxiaoman"
+    ],
+    "priority": 73,
+    "conditions": [
+      {
+        "fact": "actor.shichai.dongxue.songxiaoman.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.songxiaoman.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "shichai.dongxue.gate"
+      },
+      {
+        "fact": "flag.shichai.dongxue.songxiaoman.flag.night",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.songxiaoman.flag.night2",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.dongxue.songxiaoman.night-2.stay",
+        "label": "把斗篷铺开，就在龛前陪她躺到后半夜",
+        "hint": "记入共同经历；不改变灵石与物品。",
+        "reply": "后半夜起了风，她把斗篷裹住两个人。天亮下山前，她先伸手把铜牌摘下来挂回自己脖子上。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.songxiaoman.flag.night2"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.songxiaoman",
+            "text": "{{player.name}}与宋小满在山神龛前的坡上第二次同宿，她摘下父亲的铜牌挂上龛角。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.songxiaoman.night-2.short",
+        "label": "把火升起来，靠在龛壁上说话",
+        "hint": "记入共同经历；不改变灵石与物品。",
+        "reply": "火烧到一半，她给你讲这龛原先供的是谁，讲她爹怎么教的夹子。天亮了铜牌还挂着。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.songxiaoman.flag.night2"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.songxiaoman",
+            "text": "{{player.name}}与宋小满在山神龛前烤了一夜火，她讲了一夜她爹。"
+          }
+        ]
+      },
+      {
+        "id": "exit",
+        "label": "只把钱数完，各自歇下",
+        "hint": "不进第二夜；下次还有机会。",
+        "reply": "她把猎叉从雪里拔出来，说下次来记得带火折子，坡上冷。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.dongxue.chulian.night-2",
+    "title": "灶间",
+    "eyebrow": "冬雪 · 再夜",
+    "body": "她没订房。只跟掌柜的借了后院灶间，说烧一锅水就走。掌柜的看她一眼，把柴递过来，顺手把院门带上了。\n\n灶间小，只一盏油灯、一口灶、一堆劈好的柴。她把袖口挽到肘上，蹲下去添柴，火光从灶口舔出来，照着她小臂上那些淡痕。\n\n“头一夜处处是他的人。”她把一根柴折断，塞进去，火星子扑出来，“房钱是他的人算的，灯是他的人添的，被子替他晒过。”她抬起头，“今夜这地方没人会替人订。”\n\n水开了，她把锅端下来，倒进木盆，热气扑了半间屋子。她先拧了一把布巾给你擦手，擦完也不收回，就着你的手把布巾绞干，水一滴一滴落回盆里。\n\n劈柴的砧就在旁边。她把布巾搭在盆沿上，忽然抬头：“你冷不冷？”没等你答，她自己先摇头笑了，“我也问得蠢。”\n\n她把木盆往柴堆边推了推，腾出半个灶间的空地，然后坐到劈柴墩上，两手交叠搁在膝上。“你要是累，就坐着。”她说，“灶我守着。”火光在她脸上跳，她看你的时候没有躲。她把灶膛口的风门掩上一半，火舌伏低，屋里倒比刚才暖了一点。",
+    "explicit": "她把裙子撩起来咬在齿间，两手撑在后头的砧板上，身子俯下去，腰塌成一道弧。灶口的火还亮着，照见她腿根那些旧痕，也照见新起的红。木盆的热气一直漫到膝盖。你扶着她的腰进去时她把嘴里的布松开，闷哼一声，随即又咬回去。砧板厚，撞起来只有沉沉的一声一下，很闷，闷得她难受，她就自己往后送，把它撞得更响。“头一夜是他的人在外面守。”她断断续续地说，声气被打散，“这一回没有人守——你听见了吗？”院里确实没人走动，只有风推院门。她一只手肘撑不住，整个人伏下去，胸口贴住砧板的木纹。你俯身盖住她，她把手往后摸，摸到你的手就攥住，攥得极紧。高潮来时她低低叫了一声，头抬起来，脖颈拉长，灶火把那条颈线照亮了一瞬。缓过来她没有立刻起身，趴在那儿，额头抵着砧板喘。灶里的柴塌了一块，火暗下去。“我不去上房了。”她说，“今夜就在这儿。”",
+    "quote": "“这一回没有人守。你听见了吗？”",
+    "visualId": "shichai.dongxue.chulian.cg.night-2",
+    "participants": [
+      "shichai.dongxue.chulian"
+    ],
+    "priority": 73,
+    "conditions": [
+      {
+        "fact": "actor.shichai.dongxue.chulian.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.chulian.flag.closed",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "shichai.dongxue.inn"
+      },
+      {
+        "fact": "flag.shichai.dongxue.chulian.flag.night",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.chulian.flag.night2",
+        "op": "eq",
+        "value": false
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.dongxue.chulian.night-2.stay",
+        "label": "把盆挪开，在这间灶屋里待到天亮",
+        "hint": "记入共同经历；不改变灵石与物品。",
+        "reply": "天亮前她把灶膛压了一层灰，火养住。走时掌柜的问要不要记账上床钱，她说不用。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.chulian.flag.night2"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.chulian",
+            "text": "{{player.name}}与楚莲在客栈后院灶间第二次同宿，这一夜房是自己借的。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.chulian.night-2.short",
+        "label": "把水添热，坐着泡脚说话",
+        "hint": "记入共同经历；不改变灵石与物品。",
+        "reply": "两个人轮流添水，泡到水凉。她说这三年她没好好洗过脚。",
+        "effects": [
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.chulian.flag.night2"
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.chulian",
+            "text": "{{player.name}}与楚莲在灶间泡了一夜脚，谁也没提上房。"
+          }
+        ]
+      },
+      {
+        "id": "exit",
+        "label": "只把钱数完，各自歇下",
+        "hint": "不进第二夜；下次还有机会。",
+        "reply": "她把木盆刷干净架回原处，说这回总算没用别人的东西。",
+        "effects": []
+      }
+    ],
+    "minRealm": 3
+  },
+  {
+    "id": "shichai.dongxue.yeshutong.hearsay",
+    "title": "坊市来的抄件",
+    "eyebrow": "冬雪 · 旧闻",
+    "body": "她从藏书楼下来，怀里抱的不是书，是一张别人抄给我的信。\n\n“青石坊市来的。说是问你还在不在。”她把纸摊在案上，却不退回自己那边，站在案角看着你读完。\n\n信里说的是郑府的事——花轿抬进去，门关上，说书的条凳空了。写到最后一句是“她不再说书了”。\n\n{{shichai.dongxue.yeshutong.name}}等你把信折起来，才开口：“抄书的时候最怕抄到这种。”她伸手把灯往你这边推了推，“抄一遍，就把别人的结局也过了一遍手。”\n\n她顿了顿：“我这份婚书，也是别人替我抄定的。抄的人不知道我长什么样。”\n\n“郑府那位，你见过？”她问得很平，“见过，就跟我说说她怎么走路。”",
+    "quote": "“抄书的时候最怕抄到这种。”",
+    "visualId": "shichai.dongxue.yeshutong.cg.bond",
+    "participants": [
+      "shichai.dongxue.yeshutong"
+    ],
+    "priority": 68,
+    "minRealm": 3,
+    "conditions": [
+      {
+        "fact": "actor.shichai.dongxue.yeshutong.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "actor.shichai.dongxue.yeshutong.present",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.yeshutong.flag.bond",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.closed",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.vow",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "shichai.dongxue.inn"
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.dongxue.yeshutong.hearsay.walk",
+        "label": "跟她讲她怎么走路",
+        "hint": "把见过的记住，也让她听见。",
+        "reply": "你说她走路脚跟先落，说书的时候拿扇子敲桌沿替鼓点。她听得极认真，听完把信按原样折好，折得比抄件还齐：“那我记住了。”",
+        "effects": [
+          {
+            "kind": "bond",
+            "target": "shichai.dongxue.yeshutong",
+            "favor": 5,
+            "trust": 4
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.yeshutong",
+            "text": "{{player.name}}给叶疏桐讲了那个说书女子走路的样子。她把信折得很齐。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.yeshutong.hearsay.self",
+        "label": "反问她婚书的事",
+        "hint": "把话头转回她身上。",
+        "reply": "她说抄的人姓周，一个老吏，抄了四十年，去年死了。“他抄完就搁笔，连我名字写没写对都没回头看。”她把信塞回你手里，“所以要人念。”",
+        "effects": [
+          {
+            "kind": "bond",
+            "target": "shichai.dongxue.yeshutong",
+            "trust": 6
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.yeshutong",
+            "text": "{{player.name}}问了叶疏桐婚书的事，她说抄的人去年死了，所以要人念。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.yeshutong.hearsay.exit",
+        "label": "把信收进怀里",
+        "hint": "退出这一幕。",
+        "reply": "你把信收好。她重新抱起书，往楼上去了。",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "shichai.dongxue.songxiaoman.hearsay",
+    "title": "雪里的药",
+    "eyebrow": "旧闻",
+    "body": "她背着一捆柴回来，在村口撞见你，先把柴往地上一放：“你脸色不对。”\n\n“青石坊市那边听说有个女医，配药一绝。”她伸手摸你额头，摸完随手在衣襟上蹭了一蹭，“走三十里去抓一副，值不值？”\n\n还没等你答，她自己接了下去：“值。反正我也要走一趟。”\n\n她蹲下去抱柴，抬头的时候眼睛很亮：“你以前生病，是谁给你抓药？”",
+    "quote": "“走三十里去抓一副，值不值？”“值。”",
+    "visualId": "shichai.dongxue.songxiaoman.cg.bond",
+    "participants": [
+      "shichai.dongxue.songxiaoman"
+    ],
+    "priority": 68,
+    "minRealm": 3,
+    "conditions": [
+      {
+        "fact": "actor.shichai.dongxue.songxiaoman.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "actor.shichai.dongxue.songxiaoman.present",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.songxiaoman.flag.bond",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.closed",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.suqingyan.flag.vow",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "shichai.dongxue.gate"
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.dongxue.songxiaoman.hearsay.tell",
+        "label": "说有个女医替你熬过药",
+        "hint": "她会把这段记住。",
+        "reply": "你说有人熬过，熬到天亮。她把柴往背上一送：“那我会熬。就是不如人家烫得准。”",
+        "effects": [
+          {
+            "kind": "bond",
+            "target": "shichai.dongxue.songxiaoman",
+            "favor": 7,
+            "trust": 5
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.songxiaoman",
+            "text": "{{player.name}}说有人替他熬过药，宋小满说她会熬，就是不如人家烫得准。"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.songxiaoman.flag.hearsay-suqingyan"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.songxiaoman.hearsay.she",
+        "label": "说换她来熬",
+        "hint": "她刚刚已经走了一趟。",
+        "reply": "她愣一下，随后把柴又放下，重新摸了一遍你的额头，这次摸得很久：“那你记住，是我熬的。”",
+        "effects": [
+          {
+            "kind": "bond",
+            "target": "shichai.dongxue.songxiaoman",
+            "favor": 8,
+            "trust": 6
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.songxiaoman",
+            "text": "宋小满要替{{player.name}}熬药，让他记住是她熬的。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.songxiaoman.hearsay.exit",
+        "label": "把话收到心里",
+        "hint": "退出这一幕。",
+        "reply": "你没有再说下去。她也没有追问。",
+        "effects": []
+      }
+    ]
+  },
+  {
+    "id": "shichai.dongxue.chulian.hearsay",
+    "title": "说书与采痕",
+    "eyebrow": "旧闻",
+    "body": "她在铺子后面抿着一条线，听外面有人讲坊市的闲话——说青石有个说书的女子，被人退了婚，反倒把退婚编成书，坐着讲了一年。\n\n线头咬断。她没抬头：“被退了婚，还能坐着讲。”\n\n“我这条命，是被人采着用的。”她终于抬眼看你，“她那个至少是文的。我这个，说出来不好听。”\n\n“说书的能讲，我能不能？”",
+    "quote": "“她那个至少是文的。我这个，说出来不好听。”",
+    "visualId": "shichai.dongxue.chulian.cg.bond",
+    "participants": [
+      "shichai.dongxue.chulian"
+    ],
+    "priority": 68,
+    "minRealm": 3,
+    "conditions": [
+      {
+        "fact": "actor.shichai.dongxue.chulian.alive",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "actor.shichai.dongxue.chulian.present",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.dongxue.chulian.flag.bond",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.closed",
+        "op": "eq",
+        "value": true
+      },
+      {
+        "fact": "flag.shichai.chunshui.wenzhiwei.flag.vow",
+        "op": "eq",
+        "value": false
+      },
+      {
+        "fact": "location",
+        "op": "eq",
+        "value": "shichai.dongxue.market"
+      }
+    ],
+    "choices": [
+      {
+        "id": "shichai.dongxue.chulian.hearsay.yes",
+        "label": "说能，说得清楚才算完",
+        "hint": "她要的不只是安慰。",
+        "reply": "你说能讲，采是采了，人还在。她把咬断的线头收进匣子：“那我有一天讲给你一个人听。”",
+        "effects": [
+          {
+            "kind": "bond",
+            "target": "shichai.dongxue.chulian",
+            "favor": 6,
+            "trust": 8
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.chulian",
+            "text": "{{shichai.dongxue.chulian.name}}说要有一天把采痕讲给{{player.name}}一个人听。"
+          },
+          {
+            "kind": "progress",
+            "key": "shichai.dongxue.chulian.flag.hearsay-wenzhiwei"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.chulian.hearsay.read",
+        "label": "说那不一样",
+        "hint": "被她自己驳一句也好。",
+        "reply": "她摇头：“一样。都是别人拿你当东西用过了。”说完又笑，“不过她讲完有人听，我讲完你也得听。”",
+        "effects": [
+          {
+            "kind": "bond",
+            "target": "shichai.dongxue.chulian",
+            "trust": 6,
+            "attraction": 5
+          },
+          {
+            "kind": "experience",
+            "target": "shichai.dongxue.chulian",
+            "text": "楚怜说她和说书的女子一样，都是被人当东西用过，讲完{{player.name}}也得听。"
+          }
+        ]
+      },
+      {
+        "id": "shichai.dongxue.chulian.hearsay.exit",
+        "label": "把话收到心里",
+        "hint": "退出这一幕。",
+        "reply": "你没有再说下去。她也没有追问。",
+        "effects": []
+      }
+    ]
   }
 ]

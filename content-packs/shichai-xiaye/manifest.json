@@ -6,7 +6,11 @@
   "requiresCapabilities": [
     "progress.v1",
     "meet.v1",
-    "experience.v1"
+    "experience.v1",
+    "bond.v1",
+    "resource.v1",
+    "crossFlag.v1",
+    "duel.v1"
   ],
   "dependencies": [
     {
@@ -57,7 +61,39 @@
     "shichai.xiaye.liuhanyan.flag.closed",
     "shichai.xiaye.liuhanyan.flag.night",
     "shichai.xiaye.liuhanyan.flag.dual",
-    "shichai.xiaye.liuhanyan.flag.vow"
+    "shichai.xiaye.liuhanyan.flag.vow",
+    "shichai.xiaye.peisi.flag.confide",
+    "shichai.xiaye.peisi.flag.night2",
+    "shichai.xiaye.shenqiyue.flag.confide",
+    "shichai.xiaye.shenqiyue.flag.night2",
+    "shichai.xiaye.liuhanyan.flag.confide",
+    "shichai.xiaye.liuhanyan.flag.night2",
+    "shichai.xiaye.peisi.flag.night3",
+    "shichai.xiaye.peisi.flag.dual2",
+    "shichai.xiaye.shenqiyue.flag.night3",
+    "shichai.xiaye.shenqiyue.flag.dual2",
+    "shichai.xiaye.liuhanyan.flag.night3",
+    "shichai.xiaye.liuhanyan.flag.dual2",
+    "shichai.xiaye.peisi.flag.hearsay-suqingyan",
+    "shichai.xiaye.shenqiyue.flag.hearsay-gutinglan",
+    "shichai.xiaye.liuhanyan.flag.hearsay-wenzhiwei",
+    "shichai.xiaye.peisi.flag.lost2",
+    "shichai.xiaye.peisi.flag.lost3",
+    "shichai.xiaye.peisi.flag.lost3-lose",
+    "shichai.xiaye.shenqiyue.flag.lost2",
+    "shichai.xiaye.shenqiyue.flag.lost3",
+    "shichai.xiaye.shenqiyue.flag.lost3-lose",
+    "shichai.xiaye.liuhanyan.flag.lost2",
+    "shichai.xiaye.liuhanyan.flag.lost3",
+    "shichai.xiaye.liuhanyan.flag.lost3-lose"
   ],
-  "references": []
+  "references": [],
+  "reads": [
+    "shichai.chunshui.gutinglan.flag.closed",
+    "shichai.chunshui.gutinglan.flag.vow",
+    "shichai.chunshui.suqingyan.flag.closed",
+    "shichai.chunshui.suqingyan.flag.vow",
+    "shichai.chunshui.wenzhiwei.flag.closed",
+    "shichai.chunshui.wenzhiwei.flag.vow"
+  ]
 }

@@ -38,5 +38,211 @@
       "inn": "shichai.dongxue.inn",
       "gate": "shichai.dongxue.gate"
     }
+  },
+  {
+    "from": "shichai.xiaye@0.2.0:639a283f6173caddad57baf2909bbe281f069d08dbfdb30a44bf7392bd7acf71",
+    "packId": "shichai.xiaye",
+    "toVersion": "0.2.0",
+    "locations": {
+      "market": "shichai.xiaye.market",
+      "inn": "shichai.xiaye.inn",
+      "gate": "shichai.xiaye.gate"
+    }
+  },
+  {
+    "from": "shichai.qiudeng@0.2.0:8d6766874c599307bb0d201b907d2cec578f5f64fc1727f405bec762eb3072f8",
+    "packId": "shichai.qiudeng",
+    "toVersion": "0.2.0",
+    "locations": {
+      "market": "shichai.qiudeng.market",
+      "inn": "shichai.qiudeng.inn",
+      "gate": "shichai.qiudeng.gate"
+    }
+  },
+  {
+    "from": "shichai.dongxue@0.2.0:64e08faee26460e1fa2af5442ee68a99eb1a17953a2da62861c09b64544be247",
+    "packId": "shichai.dongxue",
+    "toVersion": "0.2.0",
+    "locations": {
+      "market": "shichai.dongxue.market",
+      "inn": "shichai.dongxue.inn",
+      "gate": "shichai.dongxue.gate"
+    }
+  },
+  {
+    "from": "shichai.chunshui@0.2.0:bbd4768fe95d856e779c575e8221c33ae806b781d78333e453854c2006d8c17c",
+    "packId": "shichai.chunshui",
+    "toVersion": "0.2.0",
+    "locations": {}
+  },
+  {
+    "from": "shichai.xiaye@0.2.0:153b921dd48854f8eb8de00b1ac70240e7647be6eecd117eb0367183b8ac7058",
+    "packId": "shichai.xiaye",
+    "toVersion": "0.2.0",
+    "locations": {
+      "market": "shichai.xiaye.market",
+      "inn": "shichai.xiaye.inn",
+      "gate": "shichai.xiaye.gate"
+    }
+  },
+  {
+    "from": "shichai.qiudeng@0.2.0:ef2e3320793e40cd348f6f89ef8518ea9d809c8a70a5067091b29c9ff183883b",
+    "packId": "shichai.qiudeng",
+    "toVersion": "0.2.0",
+    "locations": {
+      "market": "shichai.qiudeng.market",
+      "inn": "shichai.qiudeng.inn",
+      "gate": "shichai.qiudeng.gate"
+    }
+  },
+  {
+    "from": "shichai.dongxue@0.2.0:d50db4dbcd86a0fccc757d87a4b638d7d9053fafc73c3dc93081065d211c1d6e",
+    "packId": "shichai.dongxue",
+    "toVersion": "0.2.0",
+    "locations": {
+      "market": "shichai.dongxue.market",
+      "inn": "shichai.dongxue.inn",
+      "gate": "shichai.dongxue.gate"
+    }
+  },
+  {
+    "from": "shichai.chunshui@0.2.0:e9396257604d20305da697aca43b4469ecfd142f03c816ab958ced537f6e1785",
+    "packId": "shichai.chunshui",
+    "toVersion": "0.2.0",
+    "locations": {
+      "market": "market",
+      "inn": "inn",
+      "gate": "gate"
+    }
+  },
+  {
+    "from": "shichai.dongxue@0.2.0:6f14ccd1d6771ed4be56060903e1331b7e0f90cebd7fdabe8d5a638f8a98f1de",
+    "packId": "shichai.dongxue",
+    "toVersion": "0.2.0",
+    "locations": {
+      "market": "shichai.dongxue.market",
+      "inn": "shichai.dongxue.inn",
+      "gate": "shichai.dongxue.gate"
+    }
+  },
+  {
+    "from": "shichai.qiudeng@0.2.0:e0c9fda98140711918094a5085dcbc843d5eee8315c1e5ef65aa7ae1d1ef9826",
+    "packId": "shichai.qiudeng",
+    "toVersion": "0.2.0",
+    "locations": {
+      "market": "shichai.qiudeng.market",
+      "inn": "shichai.qiudeng.inn",
+      "gate": "shichai.qiudeng.gate"
+    }
+  },
+  {
+    "from": "shichai.xiaye@0.2.0:4840d051bbf5aaf6ac6b89d59a04f1544a4f2a9a8ae8bcc4bf86b11b8a44d1dd",
+    "packId": "shichai.xiaye",
+    "toVersion": "0.2.0",
+    "locations": {
+      "market": "shichai.xiaye.market",
+      "inn": "shichai.xiaye.inn",
+      "gate": "shichai.xiaye.gate"
+    }
+  },
+  {
+    "from": "shichai.dongxue@0.2.0:a2a047a29d54d27a31548591be1b1dfb1158aa8b390b6a6e8c0a967fe11314e3",
+    "packId": "shichai.dongxue",
+    "toVersion": "0.2.0",
+    "locations": {
+      "market": "shichai.dongxue.market",
+      "inn": "shichai.dongxue.inn",
+      "gate": "shichai.dongxue.gate"
+    }
+  },
+  {
+    "from": "shichai.qiudeng@0.2.0:e91bcca20220ab53c03ad2d4020bb6751f648a79f67da861b184a934190e24a4",
+    "packId": "shichai.qiudeng",
+    "toVersion": "0.2.0",
+    "locations": {
+      "market": "shichai.qiudeng.market",
+      "inn": "shichai.qiudeng.inn",
+      "gate": "shichai.qiudeng.gate"
+    }
+  },
+  {
+    "from": "shichai.xiaye@0.2.0:922797650716b810c039344bc70d86e0ff2c3ca3dbf02ad7f376ac5d83a369ba",
+    "packId": "shichai.xiaye",
+    "toVersion": "0.2.0",
+    "locations": {
+      "market": "shichai.xiaye.market",
+      "inn": "shichai.xiaye.inn",
+      "gate": "shichai.xiaye.gate"
+    }
+  },
+  {
+    "from": "shichai.chunshui@0.2.0:c833fc6b11ad919a8b60697ac51396d2bfd626a643f4118211900130fad39510",
+    "packId": "shichai.chunshui",
+    "toVersion": "0.2.0",
+    "locations": {
+      "market": "market",
+      "inn": "inn",
+      "gate": "gate"
+    }
+  },
+  {
+    "from": "shichai.dongxue@0.2.0:cb063916cc42d1d92baa5e9e79c1954823fd51d3c41b86cb2144759ee23b5801",
+    "packId": "shichai.dongxue",
+    "toVersion": "0.2.0",
+    "locations": {
+      "market": "shichai.dongxue.market",
+      "inn": "shichai.dongxue.inn",
+      "gate": "shichai.dongxue.gate"
+    }
+  },
+  {
+    "from": "shichai.dongxue@0.2.0:097f78ba2a8814b143c2254552592c152d89f3b5250b16d3951be69ee72863cd",
+    "packId": "shichai.dongxue",
+    "toVersion": "0.2.0",
+    "locations": {
+      "market": "shichai.dongxue.market",
+      "inn": "shichai.dongxue.inn",
+      "gate": "shichai.dongxue.gate"
+    }
+  },
+  {
+    "from": "shichai.chunshui@0.2.0:7278fe19eb4d1b4f7f608f850a8be538c828de127b2596dc50dcbaa94ae80979",
+    "packId": "shichai.chunshui",
+    "toVersion": "0.2.0",
+    "locations": {
+      "market": "market",
+      "inn": "inn",
+      "gate": "gate"
+    }
+  },
+  {
+    "from": "shichai.dongxue@0.2.0:d1b2b882ca17af1511d9a553a5932a5394cbefd3d5eeb7c140a24384d37e6fe9",
+    "packId": "shichai.dongxue",
+    "toVersion": "0.2.0",
+    "locations": {
+      "market": "shichai.dongxue.market",
+      "inn": "shichai.dongxue.inn",
+      "gate": "shichai.dongxue.gate"
+    }
+  },
+  {
+    "from": "shichai.qiudeng@0.2.0:6f1700754d853cd467f7c9d16f1ac9f0a94e3fe29d4f091ff4dcfeee4c83a5ec",
+    "packId": "shichai.qiudeng",
+    "toVersion": "0.2.0",
+    "locations": {
+      "market": "shichai.qiudeng.market",
+      "inn": "shichai.qiudeng.inn",
+      "gate": "shichai.qiudeng.gate"
+    }
+  },
+  {
+    "from": "shichai.xiaye@0.2.0:340ca88a799da13c147fc52405687fe6a7b5d94e22a5402ad24f5cb35e981c50",
+    "packId": "shichai.xiaye",
+    "toVersion": "0.2.0",
+    "locations": {
+      "market": "shichai.xiaye.market",
+      "inn": "shichai.xiaye.inn",
+      "gate": "shichai.xiaye.gate"
+    }
   }
 ]

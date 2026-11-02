@@ -57,6 +57,8 @@ test("adopting a redraw saves only appearance and image together; identity, simu
       "receiptHistory",
     ] as const)
       Object.assign(restored, { [key]: before[key] });
+    // 引擎每次行动都会补空的成就表，与外观无关。
+    if (JSON.stringify(restored.achievements) === "{}") delete restored.achievements;
     assert.deepEqual(restored, before);
     // The changed actor differs only in the explicitly adopted visual fields.
     const strip = (a: typeof actor) => {

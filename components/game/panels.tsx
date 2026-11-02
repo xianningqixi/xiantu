@@ -7,6 +7,7 @@ import { useCompactLayout } from "@/lib/ui/use-compact-layout";
 import { ImageViewer } from "./image-viewer";
 import { profileTargetForClick, type OpenProfile } from "@/lib/ui/profile-navigation";
 import { imageAsset } from "@/lib/game/images";
+import { extensionPortrait } from "@/lib/game/content/extensions";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -309,6 +310,7 @@ const FIELD_TITLES = {
   expedition: { eyebrow: "秘境遭遇", title: "残碑守卫" },
   road: { eyebrow: "途中遭遇", title: "拦路之敌" },
   explore: { eyebrow: "郊野遭遇", title: "荒野突袭" },
+  duel: { eyebrow: "当面之争", title: "退无可退" },
 };
 
 export function BattlePanel({
@@ -340,12 +342,25 @@ export function BattlePanel({
         </span>
         <h2 className="serif">{FIELD_TITLES[b.kind ?? "story"].title}</h2>
         <p>
-          主角由你指挥，同伴会自行行动。
-          {b.lethal ? "本次遭遇可能造成真实死亡，请谨慎应对。" : "本次遭遇不会致命。"}
+          {b.kind === "duel"
+            ? "这一场当面分说，退一步就算输了这一局。主角由你指挥，同伴会自行行动。"
+            : "主角由你指挥，同伴会自行行动。"}
+          {b.kind === "duel"
+            ? "此争斗不伤性命。"
+            : b.lethal
+              ? "本次遭遇可能造成真实死亡，请谨慎应对。"
+              : "本次遭遇不会致命。"}
         </p>
       </div>
       <div className="battle-scene">
-        <GameImage src={ART.ruins} alt="月下残碑秘境" />
+        {b.kind === "duel" && extensionPortrait(b.enemies[0]?.id ?? "") ? (
+          <GameImage
+            src={extensionPortrait(b.enemies[0].id)!.url}
+            alt={extensionPortrait(b.enemies[0].id)!.alt}
+          />
+        ) : (
+          <GameImage src={ART.ruins} alt="月下残碑秘境" />
+        )}
         <div className="enemy-row">
           {b.enemies.map((e) => (
             <button

@@ -43,7 +43,7 @@
     "shichai.chunshui.art.suqingyan-cg-lost": {
       "file": "art/images/suqingyan-cg-lost.png",
       "url": "/art/shichai.chunshui/suqingyan-cg-lost.png",
-      "alt": "苏家婚房外，红烛透窗；男主站在巷口的雨里，看着窗上的影子",
+      "alt": "雨巷药铺窗外，红烛纸上两道影子，起初僵直后来化开，一只鞋被踢在窗台",
       "width": 1672,
       "height": 941,
       "kind": "scene"
@@ -51,7 +51,7 @@
     "shichai.chunshui.art.suqingyan-cg-night": {
       "file": "art/images/suqingyan-cg-night.png",
       "url": "/art/shichai.chunshui/suqingyan-cg-night.png",
-      "alt": "药庐后院，药香与烛光，苏清晏解下围裙，回头望向男主",
+      "alt": "药铺后堂，苏清晏仰躺、指节抓着褥子，藕荷色丝袜与蓝绣鞋未褪，男主俯身进入",
       "width": 1672,
       "height": 941,
       "kind": "scene"
@@ -59,7 +59,7 @@
     "shichai.chunshui.art.suqingyan-cg-dual": {
       "file": "art/images/suqingyan-cg-dual.png",
       "url": "/art/shichai.chunshui/suqingyan-cg-dual.png",
-      "alt": "药庐地窖的温泉，水汽氤氲，两人相对而坐，掌心相抵，灵气如青色细流交缠",
+      "alt": "温泉地窖水汽里，苏清晏跨坐交合、双掌与他相抵，气机在两人间循环，水在腰际荡开",
       "width": 1672,
       "height": 941,
       "kind": "scene"
@@ -123,7 +123,7 @@
     "shichai.chunshui.art.gutinglan-cg-lost": {
       "file": "art/images/gutinglan-cg-lost.png",
       "url": "/art/shichai.chunshui/gutinglan-cg-lost.png",
-      "alt": "归云门山院，卫岑牵着顾听澜的手腕走进内室，她的剑留在门外石阶上",
+      "alt": "雨夜宗门院内，撑伞男子一手扯住她的湿发一手按住胸口，从背后进入，剑留在雨中石阶上",
       "width": 1672,
       "height": 941,
       "kind": "scene"
@@ -131,7 +131,7 @@
     "shichai.chunshui.art.gutinglan-cg-night": {
       "file": "art/images/gutinglan-cg-night.png",
       "url": "/art/shichai.chunshui/gutinglan-cg-night.png",
-      "alt": "雨夜客栈窗前，顾听澜解开束发，长发披下，眼神从冷变成慌",
+      "alt": "客栈房内，顾听澜跨坐交合、脊背绷成弓、仰头张口，剑搁在枕边，雨顺着窗流下",
       "width": 1672,
       "height": 941,
       "kind": "scene"
@@ -139,7 +139,7 @@
     "shichai.chunshui.art.gutinglan-cg-dual": {
       "file": "art/images/gutinglan-cg-dual.png",
       "url": "/art/shichai.chunshui/gutinglan-cg-dual.png",
-      "alt": "古道旁的溪涧，两人盘坐水中，剑横于膝，月光落在交缠的青色剑气上",
+      "alt": "月下浅溪，两人水中相接，赤金线在皮肤上崩断，她每断一根就重重沉下去",
       "width": 1672,
       "height": 941,
       "kind": "scene"
@@ -203,7 +203,7 @@
     "shichai.chunshui.art.wenzhiwei-cg-lost": {
       "file": "art/images/wenzhiwei-cg-lost.png",
       "url": "/art/shichai.chunshui/wenzhiwei-cg-lost.png",
-      "alt": "郑府花轿抬出坊市，轿帘掀起一角，温知微的手抓着轿杆，男主站在街边",
+      "alt": "富商卧房，褐袍商人把她按成跪伏从背后进入，红绳从发间滑落，说书词断成抽气",
       "width": 1672,
       "height": 941,
       "kind": "scene"
@@ -211,7 +211,7 @@
     "shichai.chunshui.art.wenzhiwei-cg-night": {
       "file": "art/images/wenzhiwei-cg-night.png",
       "url": "/art/shichai.chunshui/wenzhiwei-cg-night.png",
-      "alt": "客栈阁楼，温知微解开双丫髻，红绳落在枕边，窗外坊市灯火",
+      "alt": "阁楼床铺，温知微跨坐交合、双手撑在他胸口，靛蓝裙开到肩上，白丝与红绣鞋未脱",
       "width": 1672,
       "height": 941,
       "kind": "scene"
@@ -219,7 +219,7 @@
     "shichai.chunshui.art.wenzhiwei-cg-dual": {
       "file": "art/images/wenzhiwei-cg-dual.png",
       "url": "/art/shichai.chunshui/wenzhiwei-cg-dual.png",
-      "alt": "客栈阁楼清晨，温知微盘坐床上学吐纳，男主在她身后以掌心抵住她后背，青色灵气第一次在她体内流动",
+      "alt": "晨光窗棂下，温知微跨坐在他身上、眼里带泪，腕内旧烫疤在光里发亮",
       "width": 1672,
       "height": 941,
       "kind": "scene"
@@ -247,6 +247,78 @@
       "width": 1024,
       "height": 1536,
       "kind": "portrait"
+    },
+    "shichai.chunshui.art.suqingyan-cg-night-3": {
+      "file": "art/images/suqingyan-cg-night-3.png",
+      "url": "/art/shichai.chunshui/suqingyan-cg-night-3.png",
+      "alt": "雨夜药棚里，苏清晏仰躺在草席上、藕荷色丝袜与蓝绣鞋未褪，男主俯身压进",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.suqingyan-cg-dual-2": {
+      "file": "art/images/suqingyan-cg-dual-2.png",
+      "url": "/art/shichai.chunshui/suqingyan-cg-dual-2.png",
+      "alt": "黎明前药圃晾架下，苏清晏坐在男主胯上与他掌心相抵，气机在两人胸间流转",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.gutinglan-cg-night-3": {
+      "file": "art/images/gutinglan-cg-night-3.png",
+      "url": "/art/shichai.chunshui/gutinglan-cg-night-3.png",
+      "alt": "雨中残破山祠，顾听澜被抵在泥墙上，长剑横在门槛，剑穗垂着",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.gutinglan-cg-dual-2": {
+      "file": "art/images/gutinglan-cg-dual-2.png",
+      "url": "/art/shichai.chunshui/gutinglan-cg-dual-2.png",
+      "alt": "山间夜亭月光穿格栅，顾听澜坐在男主腿上脊背后仰，松影落在两人身上",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.wenzhiwei-cg-night-3": {
+      "file": "art/images/wenzhiwei-cg-night-3.png",
+      "url": "/art/shichai.chunshui/wenzhiwei-cg-night-3.png",
+      "alt": "宗祠后间烛火下，温知微伏在矮桌边沿，红绳散开、发丝垂落",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.wenzhiwei-cg-dual-2": {
+      "file": "art/images/wenzhiwei-cg-dual-2.png",
+      "url": "/art/shichai.chunshui/wenzhiwei-cg-dual-2.png",
+      "alt": "黄昏书场后台窄巷，温知微被抵在墙上抬起，脚尖离地，窗口暖光斜进来",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.suqingyan-cg-night-2": {
+      "file": "art/images/suqingyan-cg-night-2.png",
+      "url": "/art/shichai.chunshui/suqingyan-cg-night-2.png",
+      "alt": "雨夜药铺前堂进水，苏清晏退坐在柜台上脚不着地，湿裙角贴着腿",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.gutinglan-cg-night-2": {
+      "file": "art/images/gutinglan-cg-night-2.png",
+      "url": "/art/shichai.chunshui/gutinglan-cg-night-2.png",
+      "alt": "城门内侧值夜哨棚窄板榻，顾听澜侧躺草席上，左肩血布松了一半",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.chunshui.art.wenzhiwei-cg-night-2": {
+      "file": "art/images/wenzhiwei-cg-night-2.png",
+      "url": "/art/shichai.chunshui/wenzhiwei-cg-night-2.png",
+      "alt": "书场后院柴棚残灯，温知微坐在书箱前的旧毡上，红绳从发辫里松脱",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
     }
   }
 }

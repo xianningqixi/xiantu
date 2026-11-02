@@ -3,13 +3,26 @@
 当前内容 API 2：JSON Schema 由 `npm run content:prepare` 从正式 Zod 契约生成到 `schema/extension.schema.json`。跨文件引用、能力、命名空间、依赖摘要、合法参与者仍由构建校验和规则校验负责，Schema 不代替运行验收。
 
 1. 复制 `guest-roadside/` 到新的目录，修改 manifest 的 packId、版本、作者与许可；本包所有自有 ID 使用 `<packId>.` 前缀。依赖需精确版本与 SHA-256。官方包的摘要在 `official-qingshi/integrity.json`。
-2. 定义角色或引用官方角色，写故事与退出选择、视觉槽位。只有 `progress.v1`、`meet.v1`、`starterManual.v1`、`buyItem.v1`、`experience.v1`、`agreement.v1` 能力可用。不能任意赋值资源、生死、信任或执行脚本。
+2. 定义角色或引用官方角色，写故事与退出选择、视觉槽位。只有 `progress.v1`、`meet.v1`、`starterManual.v1`、`buyItem.v1`、`experience.v1`、`agreement.v1`、`resource.v1`、`bond.v1`、`duel.v1` 能力可用。`resource` 只能加减随身灵石／凝元草／回春丹／感悟，且节点必须另有一个回收分支；`bond` 只能改在场参与者的好感／信任／吸引，上限 ±50。不能任意赋值生死或执行脚本。条件事实可用 `player.stones/grass/healing/insight/partner/realm/expeditions` 与 `actor.<id>.favor/trust/attraction/realm/grievance`。
 3. 运行 `npm run content:prepare`，错误给出包和节点字段。构建自动扫描新目录，不需添加引擎或 UI 分支。运行期间不接受任意 ZIP。
 4. 打开 `/author`，选择本支线创建测试角色。这里复用正式 Worker、规则、存档验证和画面，数据库为 `xiantu-author-preview`，与正式游戏 `xiantu-qingshi` 隔离。浏览器导入也只写此预览库。
 5. `npm run content:fixtures` 生成隔离的场景夹具到 `/tmp/xiantu-author-fixtures`，仅供作者导入预览：首见、缺席、死亡、零资源和有资源状态。夹具不是已完成游戏验收的证据。
 6. 按包内 acceptance 正常游玩，确认历史、重复选择、缺图和不兼容版本，记录实际结果。图片替换使用视觉映射，正文不能写 HTML。
 
-当前地点每次只显示满足资格的一个支线节点，全局按 priority、ID 排序。participants 必须存活且同地。选择完整提交后节点终身消费，包括 effects 为空的退出；可用 flags 控制后续阶段，历史会保存当时正文和选择。图片／阅读不消耗 RNG。`experience` 仅记真实当面经历，不伪造好感奖励；`buyItem` 在坊市按正式药铺价格扣款；失败候选整笔回滚。
+跨卷呼应：想让别的卷的进度决定本包节点的出现，在 manifest 声明能力和 `reads`：
+
+```json
+"requiresCapabilities": ["progress.v1", "crossFlag.v1"],
+"reads": ["shichai.chunshui.wenzhiwei.flag.closed"],
+```
+
+`reads` 最多 24 条，只能读别的包声明过的 flag（写仍归本包 `flags`），条件是 `flag.<完整 id>` 的布尔判断。校验会拒读幽灵字段、把本包字段塞进 `reads`、以及用了外部条件却没声明 `crossFlag.v1`。
+
+容量上限：每包 `storylets.json` 最多 64 条节点、manifest 最多 48 个 flags；节点的 `minRealm` 写 0–4 时沿用旧五档（炼气一至筑基初期），写 5 以上直接按十三档境界索引。
+
+`duel.v1` 让剧情节点自己开一场决斗：选择里写 `{"kind":"duel","target":"<在场角色>","win":{"key":"<flag>"},"lose":{"key":"<flag>"}}`，对手必须在 `participants` 里、两个字段都必须已在 manifest 声明且互不相同。打赢/撤退/被打败都会写入对应字段——撤退算没赢。战斗沿用正式流程，玩家可以放技能、可以逃；对手血量按玩家九成托底，不会被剧情一刀碾碎。节点一经选择即终身消费，所以「失败了再来一次」要单独写一条节点，并在它的选择里先把这个节点写过的胜负字段置回 `false`（`progress` 效果加 `"active": false`），再挂一条新的 `duel`。
+
+当前地点最多同时给出三条支线节点（一人一条，再按 priority、ID 补齐），主线之外的都进旁支栏。participants 必须存活且同地。选择完整提交后节点终身消费，包括 effects 为空的退出；可用 flags 控制后续阶段，历史会保存当时正文和选择。图片／阅读不消耗 RNG。`experience` 仅记真实当面经历，不伪造好感奖励；`bond` 用于把「照应过一次」落成看得见的关系增量；`buyItem` 在坊市按正式药铺价格扣款；失败候选整笔回滚。
 
 新局明确选择启用集合，存档锁定每包版本与摘要；旧局保留原集合。官方 API 1 包经兼容适配保留原角色与节点 ID、原内容锁，API 2 新包不能覆盖它。升级内容时保留旧构建供旧局恢复，未知锁保留原档并拒绝读取，不自动重写。将来增加并行保留多版本的目录时必须继续拒绝同版本不同内容的替换。
 

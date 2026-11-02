@@ -4,6 +4,7 @@ import { commandFingerprint, GameError, parseCommand } from "./protocol";
 import { requireRule } from "./rules";
 import { handle } from "./commands";
 import { validateWorld } from "./validate";
+import { settleAchievements } from "./achievements";
 export { B, threshold, stats, combatDamage } from "./rules";
 export { hashSeed, nextRandom, rollAptitude } from "./rng";
 export { relation, relationshipLabel } from "./relationships";
@@ -49,6 +50,7 @@ export function applyCommand(
     configurable: true,
   });
   pruneReceipts(next);
+  settleAchievements(next);
   validateWorld(next);
   return next;
 }

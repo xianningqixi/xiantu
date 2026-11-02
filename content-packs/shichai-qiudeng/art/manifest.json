@@ -91,7 +91,7 @@
     "shichai.qiudeng.art.wenrenshuang-cg-lost": {
       "file": "art/images/wenrenshuang-cg-lost.png",
       "url": "/art/shichai.qiudeng/wenrenshuang-cg-lost.png",
-      "alt": "青岚宗刑堂，闻人霜跪于蒲团，崔九章手按其顶，阴元化作白雾被吸走；男主被弟子押在堂外",
+      "alt": "刑堂内，白须长老跪在她身后一手压顶一手按腹，节律匀停地从背后进入，她跪直咬牙",
       "width": 1672,
       "height": 941,
       "kind": "scene"
@@ -99,7 +99,7 @@
     "shichai.qiudeng.art.wenrenshuang-cg-night": {
       "file": "art/images/wenrenshuang-cg-night.png",
       "url": "/art/shichai.qiudeng/wenrenshuang-cg-night.png",
-      "alt": "客栈上房，闻人霜解下执事袍，只着素白中衣，玉冠放在案上，眼神清冷而决绝",
+      "alt": "掌门房中，闻人霜仰躺、银灰丝袜与黑靴仍在，男主俯身交合，她侧脸埋在枕上不肯出声",
       "width": 1672,
       "height": 941,
       "kind": "scene"
@@ -107,7 +107,7 @@
     "shichai.qiudeng.art.wenrenshuang-cg-dual": {
       "file": "art/images/wenrenshuang-cg-dual.png",
       "url": "/art/shichai.qiudeng/wenrenshuang-cg-dual.png",
-      "alt": "青岚宗禁地寒潭，两人对坐潭中，她体内的阴元如银雾回流，眉间心魔化作黑烟散去",
+      "alt": "夜池水中，闻人霜跨坐交合、下巴抬起，银雾自脊背卷起，旧采补伤痕在皮下发光",
       "width": 1672,
       "height": 941,
       "kind": "scene"
@@ -171,7 +171,7 @@
     "shichai.qiudeng.art.jiangzhaoxue-cg-lost": {
       "file": "art/images/jiangzhaoxue-cg-lost.png",
       "url": "/art/shichai.qiudeng/jiangzhaoxue-cg-lost.png",
-      "alt": "妖域入口的白骨门，白无咎牵着江照雪的手走入，她的短发在雾中变白，妖纹爬满脖颈；男主跪在门外",
+      "alt": "白骨关内，九条白尾缠住她的手腕分开双膝，白衣男子从背后进入，短发已白，魔纹爬上脖颈",
       "width": 1672,
       "height": 941,
       "kind": "scene"
@@ -179,7 +179,7 @@
     "shichai.qiudeng.art.jiangzhaoxue-cg-night": {
       "file": "art/images/jiangzhaoxue-cg-night.png",
       "url": "/art/shichai.qiudeng/jiangzhaoxue-cg-night.png",
-      "alt": "猎妖营地帐中，江照雪解下狼皮与劲装，左眼在篝火下泛金",
+      "alt": "荒原帐篷里，江照雪跨坐交合、金色兽眼睁开，黑色魔纹爬上颈侧，黑丝与猎靴未褪",
       "width": 1672,
       "height": 941,
       "kind": "scene"
@@ -187,7 +187,7 @@
     "shichai.qiudeng.art.jiangzhaoxue-cg-dual": {
       "file": "art/images/jiangzhaoxue-cg-dual.png",
       "url": "/art/shichai.qiudeng/jiangzhaoxue-cg-dual.png",
-      "alt": "古道溪涧月下，两人对坐，江照雪周身妖气化作淡金光，与青色灵气交融，惑术的红线一根根断裂",
+      "alt": "月下浅溪中，江照雪骑乘交合、仰头张口，红线自经脉射向北方迷雾并逐根崩断",
       "width": 1672,
       "height": 941,
       "kind": "scene"
@@ -215,6 +215,54 @@
       "width": 1024,
       "height": 1536,
       "kind": "portrait"
+    },
+    "shichai.qiudeng.art.wenrenshuang-cg-night-3": {
+      "file": "art/images/wenrenshuang-cg-night-3.png",
+      "url": "/art/shichai.qiudeng/wenrenshuang-cg-night-3.png",
+      "alt": "漏雨的宗门库房，文仁霜伏在箱笼上，雨水滴进铁桶，账册堆在架间",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.wenrenshuang-cg-dual-2": {
+      "file": "art/images/wenrenshuang-cg-dual-2.png",
+      "url": "/art/shichai.qiudeng/wenrenshuang-cg-dual-2.png",
+      "alt": "门楼上方塔室，文仁霜坐在矮榻上抬起下颌，旗布在窗外抽响夜空",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.jiangzhaoxue-cg-night-3": {
+      "file": "art/images/jiangzhaoxue-cg-night-3.png",
+      "url": "/art/shichai.qiudeng/jiangzhaoxue-cg-night-3.png",
+      "alt": "染坊晾布间，蒋照雪面朝晾架被压住，长匹蓝布垂在头顶，染缸在侧",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.jiangzhaoxue-cg-dual-2": {
+      "file": "art/images/jiangzhaoxue-cg-dual-2.png",
+      "url": "/art/shichai.qiudeng/jiangzhaoxue-cg-dual-2.png",
+      "alt": "山神祠夜祭，蒋照雪骑坐在铺开的斗篷上，金瞳睁开，淡红丝线从经脉里浮出",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.wenrenshuang-cg-night-2": {
+      "file": "art/images/wenrenshuang-cg-night-2.png",
+      "url": "/art/shichai.qiudeng/wenrenshuang-cg-night-2.png",
+      "alt": "暴雨夜执事所值房，闻人霜仰靠在案边，玉冠搁在税牌筐旁",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.qiudeng.art.jiangzhaoxue-cg-night-2": {
+      "file": "art/images/jiangzhaoxue-cg-night-2.png",
+      "url": "/art/shichai.qiudeng/jiangzhaoxue-cg-night-2.png",
+      "alt": "古道守夜石屋板床，江照雪侧躺狼皮上，背上爪痕缝了一半",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
     }
   }
 }

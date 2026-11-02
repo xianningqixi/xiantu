@@ -153,5 +153,50 @@
     "assetId": "shichai.chunshui.art.wenzhiwei-portrait",
     "alt": "温知微立绘：20岁说书娘，圆脸杏眼，双丫髻系红绳，藕色短襦配靛蓝裙，手持折扇与醒木，笑起来有梨涡",
     "status": "owned"
+  },
+  "shichai.chunshui.suqingyan.cg.night-3": {
+    "assetId": "shichai.chunshui.art.suqingyan-cg-night-3",
+    "alt": "雨夜药棚里，苏清晏仰躺在草席上、藕荷色丝袜与蓝绣鞋未褪，男主俯身压进",
+    "status": "owned"
+  },
+  "shichai.chunshui.suqingyan.cg.dual-2": {
+    "assetId": "shichai.chunshui.art.suqingyan-cg-dual-2",
+    "alt": "黎明前药圃晾架下，苏清晏坐在男主胯上与他掌心相抵，气机在两人胸间流转",
+    "status": "owned"
+  },
+  "shichai.chunshui.gutinglan.cg.night-3": {
+    "assetId": "shichai.chunshui.art.gutinglan-cg-night-3",
+    "alt": "雨中残破山祠，顾听澜被抵在泥墙上，长剑横在门槛，剑穗垂着",
+    "status": "owned"
+  },
+  "shichai.chunshui.gutinglan.cg.dual-2": {
+    "assetId": "shichai.chunshui.art.gutinglan-cg-dual-2",
+    "alt": "山间夜亭月光穿格栅，顾听澜坐在男主腿上脊背后仰，松影落在两人身上",
+    "status": "owned"
+  },
+  "shichai.chunshui.wenzhiwei.cg.night-3": {
+    "assetId": "shichai.chunshui.art.wenzhiwei-cg-night-3",
+    "alt": "宗祠后间烛火下，温知微伏在矮桌边沿，红绳散开、发丝垂落",
+    "status": "owned"
+  },
+  "shichai.chunshui.wenzhiwei.cg.dual-2": {
+    "assetId": "shichai.chunshui.art.wenzhiwei-cg-dual-2",
+    "alt": "黄昏书场后台窄巷，温知微被抵在墙上抬起，脚尖离地，窗口暖光斜进来",
+    "status": "owned"
+  },
+  "shichai.chunshui.suqingyan.cg.night-2": {
+    "assetId": "shichai.chunshui.art.suqingyan-cg-night-2",
+    "alt": "雨夜药铺前堂进水，苏清晏退坐在柜台上脚不着地，湿裙角贴着腿",
+    "status": "owned"
+  },
+  "shichai.chunshui.gutinglan.cg.night-2": {
+    "assetId": "shichai.chunshui.art.gutinglan-cg-night-2",
+    "alt": "城门内侧值夜哨棚窄板榻，顾听澜侧躺草席上，左肩血布松了一半",
+    "status": "owned"
+  },
+  "shichai.chunshui.wenzhiwei.cg.night-2": {
+    "assetId": "shichai.chunshui.art.wenzhiwei-cg-night-2",
+    "alt": "书场后院柴棚残灯，温知微坐在书箱前的旧毡上，红绳从发辫里松脱",
+    "status": "owned"
   }
 }

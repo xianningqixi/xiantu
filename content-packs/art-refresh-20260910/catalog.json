@@ -2112,32 +2112,62 @@
     {
       "id": "shichai.chunshui.suqingyan.cg.lost",
       "file": "art/images/shichai-chunshui-suqingyan-cg-lost.webp",
-      "sha256": "40a092385d3a6715a08ba75ea3dbd74c4b645b405859b7d2b257466cad85f302",
+      "sha256": "07f7a20076c8d4640896f1ea34f5e2d2debb8de0177fbe555e62af3f2603e9ad",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "巷口雨中，红烛窗影",
+      "alt": "雨巷药铺窗外，红烛纸上两道影子，起初僵直后来化开，一只鞋被踢在窗台",
       "sourceUrl": "/art/shichai.chunshui/suqingyan-cg-lost.png"
     },
     {
       "id": "shichai.chunshui.suqingyan.cg.night",
       "file": "art/images/shichai-chunshui-suqingyan-cg-night.webp",
-      "sha256": "bee920119cc549640906a5d7407500058c93432c2d92b1fd242d49e98025560f",
+      "sha256": "6348c8485abad5e0dacc71e5944de5764ac4a5991cbba44297ab3f5cd72208fb",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "药庐后院，解下围裙回望",
+      "alt": "药铺后堂，苏清晏仰躺、指节抓着褥子，藕荷色丝袜与蓝绣鞋未褪，男主俯身进入",
       "sourceUrl": "/art/shichai.chunshui/suqingyan-cg-night.png"
+    },
+    {
+      "id": "shichai.chunshui.suqingyan.cg.night-3",
+      "file": "art/images/shichai-chunshui-suqingyan-cg-night-3.webp",
+      "sha256": "65fcdadb5eb7d3a0dec392cb83a7cbd09739ec11b0845e69f71f0d48c5cdfd99",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "雨夜药棚里，苏清晏仰躺在草席上、藕荷色丝袜与蓝绣鞋未褪，男主俯身压进",
+      "sourceUrl": "/art/shichai.chunshui/suqingyan-cg-night-3.png"
+    },
+    {
+      "id": "shichai.chunshui.suqingyan.cg.night-2",
+      "file": "art/images/shichai-chunshui-suqingyan-cg-night-2.webp",
+      "sha256": "2ac049a54b987d72f859b348015708b3a373e1c54a172faf2683df97419ac13f",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "雨夜药铺前堂进水，苏清晏退坐在柜台上脚不着地，湿裙角贴着腿",
+      "sourceUrl": "/art/shichai.chunshui/suqingyan-cg-night-2.png"
     },
     {
       "id": "shichai.chunshui.suqingyan.cg.dual",
       "file": "art/images/shichai-chunshui-suqingyan-cg-dual.webp",
-      "sha256": "30c9d70312b20ee3b1470144ecb98dbb39f5e5519eba02a816e43ce27274854a",
+      "sha256": "72ee084ca87edc8bc0eee6d370a43a313dd12af6d869ef6b537c081a2e1adf97",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "地窖温泉，掌心相抵，青色灵气交缠",
+      "alt": "温泉地窖水汽里，苏清晏跨坐交合、双掌与他相抵，气机在两人间循环，水在腰际荡开",
       "sourceUrl": "/art/shichai.chunshui/suqingyan-cg-dual.png"
+    },
+    {
+      "id": "shichai.chunshui.suqingyan.cg.dual-2",
+      "file": "art/images/shichai-chunshui-suqingyan-cg-dual-2.webp",
+      "sha256": "c22e2c20d1cfda1ac1a1611fb77f22a6cb07c1599a957b12838ec1c90d7f1a4f",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "黎明前药圃晾架下，苏清晏坐在男主胯上与他掌心相抵，气机在两人胸间流转",
+      "sourceUrl": "/art/shichai.chunshui/suqingyan-cg-dual-2.png"
     },
     {
       "id": "shichai.chunshui.suqingyan.cg.vow",
@@ -2202,32 +2232,62 @@
     {
       "id": "shichai.chunshui.gutinglan.cg.lost",
       "file": "art/images/shichai-chunshui-gutinglan-cg-lost.webp",
-      "sha256": "b018bb60dca44861a8c36d64c3af4d2d47631b0906f6386a45083c12390888ed",
+      "sha256": "6c503ee22dc83c63f9872e1586bf6c4ed485cc4fdd6a4a59fa6ac92e4f7f0820",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "归云门山院，剑留门外",
+      "alt": "雨夜宗门院内，撑伞男子一手扯住她的湿发一手按住胸口，从背后进入，剑留在雨中石阶上",
       "sourceUrl": "/art/shichai.chunshui/gutinglan-cg-lost.png"
     },
     {
       "id": "shichai.chunshui.gutinglan.cg.night",
       "file": "art/images/shichai-chunshui-gutinglan-cg-night.webp",
-      "sha256": "fc6faa4ab574579fa213e367d19b93c03230a5cbe324fc6d90c5b8f000c19cbb",
+      "sha256": "267d27b1501c0136b1f8c4ee26e0e6e8170a874fc9836280c40abed59efb1306",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "雨夜客栈，解开束发",
+      "alt": "客栈房内，顾听澜跨坐交合、脊背绷成弓、仰头张口，剑搁在枕边，雨顺着窗流下",
       "sourceUrl": "/art/shichai.chunshui/gutinglan-cg-night.png"
+    },
+    {
+      "id": "shichai.chunshui.gutinglan.cg.night-3",
+      "file": "art/images/shichai-chunshui-gutinglan-cg-night-3.webp",
+      "sha256": "406df63251236483ec47a34197a0edf80206b9934cca2e43fef82904b06464e0",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "雨中残破山祠，顾听澜被抵在泥墙上，长剑横在门槛，剑穗垂着",
+      "sourceUrl": "/art/shichai.chunshui/gutinglan-cg-night-3.png"
+    },
+    {
+      "id": "shichai.chunshui.gutinglan.cg.night-2",
+      "file": "art/images/shichai-chunshui-gutinglan-cg-night-2.webp",
+      "sha256": "3d99ab3784b36d04d7b59e65a660298e00c65d9db35c54eb9998775308cc759a",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "城门内侧值夜哨棚窄板榻，顾听澜侧躺草席上，左肩血布松了一半",
+      "sourceUrl": "/art/shichai.chunshui/gutinglan-cg-night-2.png"
     },
     {
       "id": "shichai.chunshui.gutinglan.cg.dual",
       "file": "art/images/shichai-chunshui-gutinglan-cg-dual.webp",
-      "sha256": "9f622f182ba01151795b78c3de4134184805f8c8ffc94fddc08782236fc5d0ce",
+      "sha256": "b19da2ab460c57ae18941fd2df71d1fa11d8d7581525e3df99972ad9ae2cf3bb",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "溪涧月下，剑横膝上，青色剑气交缠",
+      "alt": "月下浅溪，两人水中相接，赤金线在皮肤上崩断，她每断一根就重重沉下去",
       "sourceUrl": "/art/shichai.chunshui/gutinglan-cg-dual.png"
+    },
+    {
+      "id": "shichai.chunshui.gutinglan.cg.dual-2",
+      "file": "art/images/shichai-chunshui-gutinglan-cg-dual-2.webp",
+      "sha256": "2a7073ce256816fd5c5ae4dffcb2d04dde9c9e403f01098e80b968c2cf5763b0",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "山间夜亭月光穿格栅，顾听澜坐在男主腿上脊背后仰，松影落在两人身上",
+      "sourceUrl": "/art/shichai.chunshui/gutinglan-cg-dual-2.png"
     },
     {
       "id": "shichai.chunshui.gutinglan.cg.vow",
@@ -2292,32 +2352,62 @@
     {
       "id": "shichai.chunshui.wenzhiwei.cg.lost",
       "file": "art/images/shichai-chunshui-wenzhiwei-cg-lost.webp",
-      "sha256": "d9d92ee173c34470b6aba5d8a9536d85b9128b84397a46c0616b38ff8db0aec5",
+      "sha256": "28c4fc714556c799c5486f9f863ff95964eee9af03d9df55d4355b3e435198c6",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "花轿出坊市，手抓轿杆",
+      "alt": "富商卧房，褐袍商人把她按成跪伏从背后进入，红绳从发间滑落，说书词断成抽气",
       "sourceUrl": "/art/shichai.chunshui/wenzhiwei-cg-lost.png"
     },
     {
       "id": "shichai.chunshui.wenzhiwei.cg.night",
       "file": "art/images/shichai-chunshui-wenzhiwei-cg-night.webp",
-      "sha256": "19949e898b38b0b736f19eb688ba253b5d86c9d9b2153acf998897b916f05bb0",
+      "sha256": "65bfc91367fbf7133ed061d55f3a96e80558dd7866bdf8986a220ce9e7a67e99",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "客栈阁楼，红绳落枕边",
+      "alt": "阁楼床铺，温知微跨坐交合、双手撑在他胸口，靛蓝裙开到肩上，白丝与红绣鞋未脱",
       "sourceUrl": "/art/shichai.chunshui/wenzhiwei-cg-night.png"
+    },
+    {
+      "id": "shichai.chunshui.wenzhiwei.cg.night-3",
+      "file": "art/images/shichai-chunshui-wenzhiwei-cg-night-3.webp",
+      "sha256": "6730bb98744ce36b162fef057bd67d712a86d078865682ccca06cdfa788164ee",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "宗祠后间烛火下，温知微伏在矮桌边沿，红绳散开、发丝垂落",
+      "sourceUrl": "/art/shichai.chunshui/wenzhiwei-cg-night-3.png"
+    },
+    {
+      "id": "shichai.chunshui.wenzhiwei.cg.night-2",
+      "file": "art/images/shichai-chunshui-wenzhiwei-cg-night-2.webp",
+      "sha256": "6bf1ea3f11a3ee3f13b827efa118ad3d2e4eb72756f475ad5f575c54be2d8d32",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "书场后院柴棚残灯，温知微坐在书箱前的旧毡上，红绳从发辫里松脱",
+      "sourceUrl": "/art/shichai.chunshui/wenzhiwei-cg-night-2.png"
     },
     {
       "id": "shichai.chunshui.wenzhiwei.cg.dual",
       "file": "art/images/shichai-chunshui-wenzhiwei-cg-dual.webp",
-      "sha256": "be5cc10e1a2e7ade3e094851852b26b85975885530410dadd223329b2a8d3255",
+      "sha256": "1429208a8dadde316c45e560a8d559bab337ce8ba69f57a57e53fc4c03096755",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "阁楼清晨，背后抵掌引灵",
+      "alt": "晨光窗棂下，温知微跨坐在他身上、眼里带泪，腕内旧烫疤在光里发亮",
       "sourceUrl": "/art/shichai.chunshui/wenzhiwei-cg-dual.png"
+    },
+    {
+      "id": "shichai.chunshui.wenzhiwei.cg.dual-2",
+      "file": "art/images/shichai-chunshui-wenzhiwei-cg-dual-2.webp",
+      "sha256": "c94202fde9a26fb067249cfe3336233105168881b7a36facfa6f86e3c4a69659",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "黄昏书场后台窄巷，温知微被抵在墙上抬起，脚尖离地，窗口暖光斜进来",
+      "sourceUrl": "/art/shichai.chunshui/wenzhiwei-cg-dual-2.png"
     },
     {
       "id": "shichai.chunshui.wenzhiwei.cg.vow",
@@ -2392,32 +2482,62 @@
     {
       "id": "shichai.xiaye.peisi.cg.lost",
       "file": "art/images/shichai-xiaye-peisi-cg-lost.webp",
-      "sha256": "222a956eed27dc2fa7d2cc40d3cc6ac72ebc4bbac73565772d181ccb7a717407",
+      "sha256": "e82742657918606f787391dc42c39f526a2a6de72a0104b8ea4957d6846f5c52",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "沈府偏院墙外，门缝透光",
+      "alt": "富商内室，金袍商人坐着按住她的手腕，让她自己落下去，她在紫裙里一寸寸沉下、下巴垂下",
       "sourceUrl": "/art/shichai.xiaye/peisi-cg-lost.png"
     },
     {
       "id": "shichai.xiaye.peisi.cg.night",
       "file": "art/images/shichai-xiaye-peisi-cg-night.webp",
-      "sha256": "847c328831936b420f2f77617cdfa695a000622530d0648e66abdad8d0a825b8",
+      "sha256": "da89fa32f7ca8acbd34d76572cfa253ed4a722ad858f5f68202a65f742b87c2c",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "客栈上房，卸下发簪",
+      "alt": "裴姒跨坐、慢慢沉下去，紫裙只开到胸口，银腰链晃动，黑丝与紫高跟还在",
       "sourceUrl": "/art/shichai.xiaye/peisi-cg-night.png"
+    },
+    {
+      "id": "shichai.xiaye.peisi.cg.night-3",
+      "file": "art/images/shichai-xiaye-peisi-cg-night-3.webp",
+      "sha256": "ea07adc7549df4f5a213b7b5c2955cc48bd43011c06e20bc299a47a398666ba8",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "商行计数房里，裴泗伏在账桌边沿，腰间银链晃着，算盘与账册压在灯下",
+      "sourceUrl": "/art/shichai.xiaye/peisi-cg-night-3.png"
+    },
+    {
+      "id": "shichai.xiaye.peisi.cg.night-2",
+      "file": "art/images/shichai-xiaye-peisi-cg-night-2.webp",
+      "sha256": "5a5b6e8c352bc0bde1df726d4dbfb3e9e2af6e6c18a0ccece4cb2de3a7e5f971",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "货栈后院库房麻袋堆旁，裴姒躺在地面灯照亮的麻袋上，银腰链垂下来",
+      "sourceUrl": "/art/shichai.xiaye/peisi-cg-night-2.png"
     },
     {
       "id": "shichai.xiaye.peisi.cg.dual",
       "file": "art/images/shichai-xiaye-peisi-cg-dual.webp",
-      "sha256": "8daa3faa425bb1dc9f3afd70d2606f47fac65fc7a7d1e2a7b21772564a486a4d",
+      "sha256": "6afaaef8bab3be15b61e2688f1024ab4f7884b2c6170c8c183da3e4cb6f52f19",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "沈府密室，采补图谱，灵气逆流",
+      "alt": "密室里，裴姒在矮案上将男主压在身下自己掌控节奏，紫裙褪到腰际，眼神清醒在数拍",
       "sourceUrl": "/art/shichai.xiaye/peisi-cg-dual.png"
+    },
+    {
+      "id": "shichai.xiaye.peisi.cg.dual-2",
+      "file": "art/images/shichai-xiaye-peisi-cg-dual-2.webp",
+      "sha256": "909c04a0a3af9a2673c21c36f2c9a8655a8e981b0818ae544f790d5a775cea0c",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "密室低灯下，裴泗跨坐在低案上、一手按着男主的胸口，口中低声数着",
+      "sourceUrl": "/art/shichai.xiaye/peisi-cg-dual-2.png"
     },
     {
       "id": "shichai.xiaye.peisi.cg.vow",
@@ -2482,32 +2602,62 @@
     {
       "id": "shichai.xiaye.shenqiyue.cg.lost",
       "file": "art/images/shichai-xiaye-shenqiyue-cg-lost.webp",
-      "sha256": "470edd35f4e10aa96c1a95d8a1920ba2210c60e75bbed7afe165cabd59e076e7",
+      "sha256": "94f332b411061b3321273ba7c9e181dc234f1ff770b1a20fa3f395e33c87aa11",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "内门婚礼，她真心在笑",
+      "alt": "宗门外石阶，窗内帐子被撩开一角，白衣弟子在上面不紧不慢地进入，她咬唇掩口",
       "sourceUrl": "/art/shichai.xiaye/shenqiyue-cg-lost.png"
     },
     {
       "id": "shichai.xiaye.shenqiyue.cg.night",
       "file": "art/images/shichai-xiaye-shenqiyue-cg-night.webp",
-      "sha256": "4ec3fc50bbe88ca2880692d2bd601c0e99bccdb8850cc301b8be93e5dfdefaef",
+      "sha256": "20f84b56ad57ec168133d91e91c87ce233dc09359b55d2d035062dd3e3b1308d",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "守夜小屋篝火，解开领口",
+      "alt": "新房床帐内，沈栖月仰躺、一手掩口，男主在她身上动作，红色婚服松散，白丝与浅绿绣鞋未脱",
       "sourceUrl": "/art/shichai.xiaye/shenqiyue-cg-night.png"
+    },
+    {
+      "id": "shichai.xiaye.shenqiyue.cg.night-3",
+      "file": "art/images/shichai-xiaye-shenqiyue-cg-night-3.webp",
+      "sha256": "03bf681d79cf5e3fbbc982b36c78d74eb655be773b391c9ac9cf6b802e76ed76",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "药庐晾架间，沈栖月躺在长凳上、一条手臂挡着自己眼睛，冷银月光透过纸窗",
+      "sourceUrl": "/art/shichai.xiaye/shenqiyue-cg-night-3.png"
+    },
+    {
+      "id": "shichai.xiaye.shenqiyue.cg.night-2",
+      "file": "art/images/shichai-xiaye-shenqiyue-cg-night-2.webp",
+      "sha256": "dbfafc4e268205a3b66ef8afb545ba3fe87b5b28731a54756b741f1dfcbb6f76",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "客栈上房烛火将熄，沈栖月仰躺枕上，木牌压在桌角，肩上雨点未干",
+      "sourceUrl": "/art/shichai.xiaye/shenqiyue-cg-night-2.png"
     },
     {
       "id": "shichai.xiaye.shenqiyue.cg.dual",
       "file": "art/images/shichai-xiaye-shenqiyue-cg-dual.webp",
-      "sha256": "8f98253adb2a5e836eee7e4735a72fd2e9679eab2d6f66841e4c4f21fc7b83f0",
+      "sha256": "dff23ad86998d68b6a5401e56aa4e576e6224d4a495929b4f028da497bdc7383",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "月下平台，冷银与青交汇成暖白",
+      "alt": "月下石台，两人额头相抵交合，银气自她脊背绕回他身上，霜顺着手臂退去",
       "sourceUrl": "/art/shichai.xiaye/shenqiyue-cg-dual.png"
+    },
+    {
+      "id": "shichai.xiaye.shenqiyue.cg.dual-2",
+      "file": "art/images/shichai-xiaye-shenqiyue-cg-dual-2.webp",
+      "sha256": "52ddfc5ddc5b818179ee4ceeb04c629d49c1fb3aa2b440bd63269bef17e86297",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "古道尽头月下石台，两人相对而坐额首相触，霜面映着冷银气机",
+      "sourceUrl": "/art/shichai.xiaye/shenqiyue-cg-dual-2.png"
     },
     {
       "id": "shichai.xiaye.shenqiyue.cg.vow",
@@ -2572,32 +2722,62 @@
     {
       "id": "shichai.xiaye.liuhanyan.cg.lost",
       "file": "art/images/shichai-xiaye-liuhanyan-cg-lost.webp",
-      "sha256": "2b3c66a8a0f8670de2f4d96f4a393986e632b230e92fe13182b998190fff817e",
+      "sha256": "331b1331fcb2dbd05ed3b77a4fe54c89fa6c5493699ea2276172c9def3fa9c12",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "楼上窗帘半掩，黑纹手按肩",
+      "alt": "木楼板上，黑纹男子把她的手腕按在头顶进入，动作又湿又重，她的脸贴着地板张口",
       "sourceUrl": "/art/shichai.xiaye/liuhanyan-cg-lost.png"
     },
     {
       "id": "shichai.xiaye.liuhanyan.cg.night",
       "file": "art/images/shichai-xiaye-liuhanyan-cg-night.webp",
-      "sha256": "509d1057b777f7c8883a4c14aadb4f2c7b15c502c1e8568bf249ff13f753938a",
+      "sha256": "53ad035441f10d199ae5c20aff3f93f4a4880350cfdd742851af34c14d6282a7",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "拔下银钗，乌发散下，窗外雷声",
+      "alt": "酒肆楼上，柳含烟跨坐交合、长发散落，墨绿长裙褪到腰际，黑蕾丝丝袜与朱红高跟还在",
       "sourceUrl": "/art/shichai.xiaye/liuhanyan-cg-night.png"
+    },
+    {
+      "id": "shichai.xiaye.liuhanyan.cg.night-3",
+      "file": "art/images/shichai-xiaye-liuhanyan-cg-night-3.webp",
+      "sha256": "5434fb5c813b44a326d6390d1deaa15c09fc5ecbe5c56f9f33b5c71b73153232",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "酒楼地窖酒坛之间，柳含烟坐在矮凳上，一只坛子倒了，稻草散开笑意发颤",
+      "sourceUrl": "/art/shichai.xiaye/liuhanyan-cg-night-3.png"
+    },
+    {
+      "id": "shichai.xiaye.liuhanyan.cg.night-2",
+      "file": "art/images/shichai-xiaye-liuhanyan-cg-night-2.webp",
+      "sha256": "191c323620a30b537c69927551225b291c09476e9c3b63cdd9da8ee2168a408a",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "酒肆楼上自住窄屋，柳含烟坐在床沿，柜上两碗酒还晃着",
+      "sourceUrl": "/art/shichai.xiaye/liuhanyan-cg-night-2.png"
     },
     {
       "id": "shichai.xiaye.liuhanyan.cg.dual",
       "file": "art/images/shichai-xiaye-liuhanyan-cg-dual.webp",
-      "sha256": "ae1b47ff8f90d02d12f3779655e64eb73494e91dfe325211bff7fcafac4b6f27",
+      "sha256": "c3e1b7f58a9a973c92e7b66aaba655e2e73fa9f027789d86ab3ccb77edcb61f5",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "地窖酒缸间，旧伤痕淡去",
+      "alt": "酒窖酒坛之间，柳含烟笑着在他身上起伏，旧疤随真气经过而发亮，汗湿着喉咙",
       "sourceUrl": "/art/shichai.xiaye/liuhanyan-cg-dual.png"
+    },
+    {
+      "id": "shichai.xiaye.liuhanyan.cg.dual-2",
+      "file": "art/images/shichai-xiaye-liuhanyan-cg-dual-2.webp",
+      "sha256": "7364691fc5e72510ef8290210b1d6419aa710dd657b3e7858971c0b53b2ab418",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "暴雨夜酒楼楼上账房，柳含烟伏在矮桌上侧脸贴着桌面，雨水顺窗淌下",
+      "sourceUrl": "/art/shichai.xiaye/liuhanyan-cg-dual-2.png"
     },
     {
       "id": "shichai.xiaye.liuhanyan.cg.vow",
@@ -2732,32 +2912,62 @@
     {
       "id": "shichai.qiudeng.wenrenshuang.cg.lost",
       "file": "art/images/shichai-qiudeng-wenrenshuang-cg-lost.webp",
-      "sha256": "a0e78ee8dc181c0e3bcd199b745e2c62a1da8a348e8ccff5ce0d43422ab1b38a",
+      "sha256": "bf00efcbd19d6afdd548f70436665cb72cadc2357f0bd7264f70ca34987c0bd0",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "刑堂，按顶吸走阴元，男主被押堂外",
+      "alt": "刑堂内，白须长老跪在她身后一手压顶一手按腹，节律匀停地从背后进入，她跪直咬牙",
       "sourceUrl": "/art/shichai.qiudeng/wenrenshuang-cg-lost.png"
     },
     {
       "id": "shichai.qiudeng.wenrenshuang.cg.night",
       "file": "art/images/shichai-qiudeng-wenrenshuang-cg-night.webp",
-      "sha256": "2a3b5a35c348402c6a35cab5ed479a1d0bd279329722386cbf0f89ffa3ce1ee6",
+      "sha256": "6ea4d8686fbc1af5b7eb39d72f027b0be78eb12b29958fa59aaaa6d1abee32e1",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "客栈上房，素白中衣，玉冠在案",
+      "alt": "掌门房中，闻人霜仰躺、银灰丝袜与黑靴仍在，男主俯身交合，她侧脸埋在枕上不肯出声",
       "sourceUrl": "/art/shichai.qiudeng/wenrenshuang-cg-night.png"
+    },
+    {
+      "id": "shichai.qiudeng.wenrenshuang.cg.night-3",
+      "file": "art/images/shichai-qiudeng-wenrenshuang-cg-night-3.webp",
+      "sha256": "2bebe2bb951181991c67d7bf210884b053bd5c0220d4352bc47413d4161a4f85",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "漏雨的宗门库房，文仁霜伏在箱笼上，雨水滴进铁桶，账册堆在架间",
+      "sourceUrl": "/art/shichai.qiudeng/wenrenshuang-cg-night-3.png"
+    },
+    {
+      "id": "shichai.qiudeng.wenrenshuang.cg.night-2",
+      "file": "art/images/shichai-qiudeng-wenrenshuang-cg-night-2.webp",
+      "sha256": "e3cd0561ff4a0ab0a5fd5fdc551f7c35a1d37855a135bba66acde625bfd85996",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "暴雨夜执事所值房，闻人霜仰靠在案边，玉冠搁在税牌筐旁",
+      "sourceUrl": "/art/shichai.qiudeng/wenrenshuang-cg-night-2.png"
     },
     {
       "id": "shichai.qiudeng.wenrenshuang.cg.dual",
       "file": "art/images/shichai-qiudeng-wenrenshuang-cg-dual.webp",
-      "sha256": "fbaad8cb4857c197e94cff435c558bcd567f96d0054bc513b78a9fe33bd44e12",
+      "sha256": "df26826e75a46ba9726da7106d1656423b8edcfae028454f7985d7508aa461ee",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "禁地寒潭，银雾回流，心魔化黑烟散去",
+      "alt": "夜池水中，闻人霜跨坐交合、下巴抬起，银雾自脊背卷起，旧采补伤痕在皮下发光",
       "sourceUrl": "/art/shichai.qiudeng/wenrenshuang-cg-dual.png"
+    },
+    {
+      "id": "shichai.qiudeng.wenrenshuang.cg.dual-2",
+      "file": "art/images/shichai-qiudeng-wenrenshuang-cg-dual-2.webp",
+      "sha256": "76c4011108dbe8a2198173f5b528be95bbfb2d67c4f6c0972986051022048ea2",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "门楼上方塔室，文仁霜坐在矮榻上抬起下颌，旗布在窗外抽响夜空",
+      "sourceUrl": "/art/shichai.qiudeng/wenrenshuang-cg-dual-2.png"
     },
     {
       "id": "shichai.qiudeng.wenrenshuang.cg.vow",
@@ -2822,32 +3032,62 @@
     {
       "id": "shichai.qiudeng.jiangzhaoxue.cg.lost",
       "file": "art/images/shichai-qiudeng-jiangzhaoxue-cg-lost.webp",
-      "sha256": "222a574f18dbfa586f63281268f5de1293e54ee8e0dba5a3f562f94cb513d650",
+      "sha256": "c363af31b36f19bc30fa7bcde8ccf990092003b4e084130369289946cd48d37e",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "白骨门，她被牵入妖域，发白纹满",
+      "alt": "白骨关内，九条白尾缠住她的手腕分开双膝，白衣男子从背后进入，短发已白，魔纹爬上脖颈",
       "sourceUrl": "/art/shichai.qiudeng/jiangzhaoxue-cg-lost.png"
     },
     {
       "id": "shichai.qiudeng.jiangzhaoxue.cg.night",
       "file": "art/images/shichai-qiudeng-jiangzhaoxue-cg-night.webp",
-      "sha256": "639646fab7098815d0b66e13beadf9a421be30297db12ee9d917e02a15544dcf",
+      "sha256": "47f2ad638bc05bb44a6bb4fd1c5ff3dc5c052c43758f22dd2e4bce316ce14ef8",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "营地帐中，解下狼皮，左眼泛金",
+      "alt": "荒原帐篷里，江照雪跨坐交合、金色兽眼睁开，黑色魔纹爬上颈侧，黑丝与猎靴未褪",
       "sourceUrl": "/art/shichai.qiudeng/jiangzhaoxue-cg-night.png"
+    },
+    {
+      "id": "shichai.qiudeng.jiangzhaoxue.cg.night-3",
+      "file": "art/images/shichai-qiudeng-jiangzhaoxue-cg-night-3.webp",
+      "sha256": "b69a49f8e88af48e9219b258afdc85c74fa7a94b200757d1efa155d7331733ae",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "染坊晾布间，蒋照雪面朝晾架被压住，长匹蓝布垂在头顶，染缸在侧",
+      "sourceUrl": "/art/shichai.qiudeng/jiangzhaoxue-cg-night-3.png"
+    },
+    {
+      "id": "shichai.qiudeng.jiangzhaoxue.cg.night-2",
+      "file": "art/images/shichai-qiudeng-jiangzhaoxue-cg-night-2.webp",
+      "sha256": "e683b1fe0189060c6ee702a4b340a11a9e6a949ed8a3c8076688a0177ada07ec",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "古道守夜石屋板床，江照雪侧躺狼皮上，背上爪痕缝了一半",
+      "sourceUrl": "/art/shichai.qiudeng/jiangzhaoxue-cg-night-2.png"
     },
     {
       "id": "shichai.qiudeng.jiangzhaoxue.cg.dual",
       "file": "art/images/shichai-qiudeng-jiangzhaoxue-cg-dual.webp",
-      "sha256": "7c224fd7867386dcd87b45bef3000e5273e03e9dda04b2b5414f2158c10413e4",
+      "sha256": "c6bab4ee5eab99e7eef2678e50e517a54be43c9420bb7eac124bed4443209af7",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "溪涧月下，妖气化金光，红线断裂",
+      "alt": "月下浅溪中，江照雪骑乘交合、仰头张口，红线自经脉射向北方迷雾并逐根崩断",
       "sourceUrl": "/art/shichai.qiudeng/jiangzhaoxue-cg-dual.png"
+    },
+    {
+      "id": "shichai.qiudeng.jiangzhaoxue.cg.dual-2",
+      "file": "art/images/shichai-qiudeng-jiangzhaoxue-cg-dual-2.webp",
+      "sha256": "3ff704679a5a67d5e55d7acecb1f0716df8db79edd4d8b297c9f67fba7352242",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "山神祠夜祭，蒋照雪骑坐在铺开的斗篷上，金瞳睁开，淡红丝线从经脉里浮出",
+      "sourceUrl": "/art/shichai.qiudeng/jiangzhaoxue-cg-dual-2.png"
     },
     {
       "id": "shichai.qiudeng.jiangzhaoxue.cg.vow",
@@ -2922,32 +3162,62 @@
     {
       "id": "shichai.dongxue.yeshutong.cg.lost",
       "file": "art/images/shichai-dongxue-yeshutong-cg-lost.webp",
-      "sha256": "0ff941a95a7f5d807efe3c9c7f7a4cb03e7c577cb34e71c28f34ad18875d8fd6",
+      "sha256": "b71d999e513d5b9c3320fa383373ea599e2647c55a86042d77fa4c73c30a777c",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "楼下雪地，楼上灯亮，书卷散落",
+      "alt": "雪夜藏书楼窗外仰望，窗内叶承按着叶疏桐的后颈从背后进入，她跪在木地板上仰头张口",
       "sourceUrl": "/art/shichai.dongxue/yeshutong-cg-lost.png"
     },
     {
       "id": "shichai.dongxue.yeshutong.cg.night",
       "file": "art/images/shichai-dongxue-yeshutong-cg-night.webp",
-      "sha256": "e82598159563ce9b53932c39f945e50cef19d312479d5f2f613c025317f05298",
+      "sha256": "03f9d2dc5e395866b0807378d57546fedf4091b636f53b42692b9b5eb6518d95",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "炉火旁合上书，解开狐裘",
+      "alt": "藏书楼炉火旁的被褥上，叶疏桐仰躺、双腿分开，与男主赤裸交合，奶油色丝袜与绣鞋未褪，满脸通红咬着唇",
       "sourceUrl": "/art/shichai.dongxue/yeshutong-cg-night.png"
+    },
+    {
+      "id": "shichai.dongxue.yeshutong.cg.night-3",
+      "file": "art/images/shichai-dongxue-yeshutong-cg-night-3.webp",
+      "sha256": "d3d026b7a37bf05e39b86bb775a16e0eac12f0d3185e47edd6ea5c6081762663",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "灯市散后的旧书摊棚，叶疏桐仰躺在毡子上，纸灯笼还亮着，棚口是踩烂的雪",
+      "sourceUrl": "/art/shichai.dongxue/yeshutong-cg-night-3.png"
+    },
+    {
+      "id": "shichai.dongxue.yeshutong.cg.night-2",
+      "file": "art/images/shichai-dongxue-yeshutong-cg-night-2.webp",
+      "sha256": "a9c8331f055d1ecc3c0ace118e06665e0e46982e5835704a85708efcd164a933",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "冬夜村东谷仓，叶疏桐仰躺在齐腰的稻草上，炭盆在灰里发暗",
+      "sourceUrl": "/art/shichai.dongxue/yeshutong-cg-night-2.png"
     },
     {
       "id": "shichai.dongxue.yeshutong.cg.dual",
       "file": "art/images/shichai-dongxue-yeshutong-cg-dual.webp",
-      "sha256": "26343378a22032ea37987a71ec5a7ea0244f23ea8ce974477e87a1efeb65e24a",
+      "sha256": "6535dd51c8aa5a5cc1bcb20cf580050c6703bd96ebfee724d4635d64b94bee4c",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "顶层雪光，玉简，书页无风自动",
+      "alt": "藏书楼顶层雪光里，两人面对面坐着交合，掌心相抵，青色真气沿手臂游走，书页无风自动",
       "sourceUrl": "/art/shichai.dongxue/yeshutong-cg-dual.png"
+    },
+    {
+      "id": "shichai.dongxue.yeshutong.cg.dual-2",
+      "file": "art/images/shichai-dongxue-yeshutong-cg-dual-2.webp",
+      "sha256": "d38c8913ae473420d515cbb5464e743b002e3ab99b5b2d4ce0c93c3d82d35f2a",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "雪夜藏书楼顶层，叶疏桐坐在男主腿上与他额头相抵，一支蜡烛照着一排书架",
+      "sourceUrl": "/art/shichai.dongxue/yeshutong-cg-dual-2.png"
     },
     {
       "id": "shichai.dongxue.yeshutong.cg.vow",
@@ -3012,32 +3282,62 @@
     {
       "id": "shichai.dongxue.songxiaoman.cg.lost",
       "file": "art/images/shichai-dongxue-songxiaoman-cg-lost.webp",
-      "sha256": "7710278777d90043bb9147034b8306dc7ed26a60d2e788c2d94c31f85abc4d4b",
+      "sha256": "0f95c93d41498bb0203c1a1961e88530e0d46dcf82e1ac9d7759316b0b9ed842",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "村口雪地，红纸窗吹灭蜡烛",
+      "alt": "雪夜村口，红纸窗内烛火熄灭，两道影子叠在一起，窗外只余靴子被踢在门槛边",
       "sourceUrl": "/art/shichai.dongxue/songxiaoman-cg-lost.png"
     },
     {
       "id": "shichai.dongxue.songxiaoman.cg.night",
       "file": "art/images/shichai-dongxue-songxiaoman-cg-night.webp",
-      "sha256": "64fea3f4a71a510845c77e0b4b247dab4d42eb973a6ea14badb7d9811bd58e63",
+      "sha256": "402bc5bbe785bf7f6f4c014ec7a2cc27a1bab33f8e120f192027eabd938bcd06",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "火塘旁解辫子，皮腰带落地",
+      "alt": "猎户木屋里，宋小满跨坐在男主身上自己掌控节奏，赤裸上身，棕色丝袜与猎靴还在",
       "sourceUrl": "/art/shichai.dongxue/songxiaoman-cg-night.png"
+    },
+    {
+      "id": "shichai.dongxue.songxiaoman.cg.night-3",
+      "file": "art/images/shichai-dongxue-songxiaoman-cg-night-3.webp",
+      "sha256": "3ebebcf02338833184cf6febf46838a053118e06bb793812eaa0cc37e47851fc",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "客栈后院柴房，宋小满两手撑在劈柴砧上俯身，月光从檐下缝隙透进来",
+      "sourceUrl": "/art/shichai.dongxue/songxiaoman-cg-night-3.png"
+    },
+    {
+      "id": "shichai.dongxue.songxiaoman.cg.night-2",
+      "file": "art/images/shichai-dongxue-songxiaoman-cg-night-2.webp",
+      "sha256": "f8893595d47bfe4be4c46a1a688ca8f21a55e3a960ab820e3110c56dcb3cbc7d",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "雪坡上山神龛石阶，宋小满仰躺斗篷铺的地面，铜牌挂在龛角",
+      "sourceUrl": "/art/shichai.dongxue/songxiaoman-cg-night-2.png"
     },
     {
       "id": "shichai.dongxue.songxiaoman.cg.dual",
       "file": "art/images/shichai-dongxue-songxiaoman-cg-dual.webp",
-      "sha256": "3c100671adaffb6496e72864279c1a43a442b4d4956b1f4edbf264bc703a00d5",
+      "sha256": "4c00c5312c45470d06529aebd0a6639e04dfa88c44241f31e3bca62f269f11a7",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "山神庙前雪花悬停，山神虚影",
+      "alt": "雪地山祠前，宋小满跨坐交合、身体后仰，兽形虚影顺着她的脊背升起，青铜护符垂在两人之间",
       "sourceUrl": "/art/shichai.dongxue/songxiaoman-cg-dual.png"
+    },
+    {
+      "id": "shichai.dongxue.songxiaoman.cg.dual-2",
+      "file": "art/images/shichai-dongxue-songxiaoman-cg-dual-2.webp",
+      "sha256": "f2cba9683bc66e5b66cde2f525958bea966ff98cfed2875ff93acd62061ff329",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "猎屋火塘边，宋小满跨坐在男主身上身体后仰，青铜护符落在皮毛上",
+      "sourceUrl": "/art/shichai.dongxue/songxiaoman-cg-dual-2.png"
     },
     {
       "id": "shichai.dongxue.songxiaoman.cg.vow",
@@ -3102,32 +3402,62 @@
     {
       "id": "shichai.dongxue.chulian.cg.lost",
       "file": "art/images/shichai-dongxue-chulian-cg-lost.webp",
-      "sha256": "583a59a9f007c0a844383fe84b0cd87982df84b4f29305a59fa10a94e31b5bb6",
+      "sha256": "af3080edc550b48e23e5810acb51163486ce5b2d29deadf2668669ba7c552076",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "门外被剑气钉住，房内采阴元",
+      "alt": "客栈门口，白衣修士按着她的后颈从背后进入，白雾自她体内被抽出汇入掌心，她眼睛直直望出门外",
       "sourceUrl": "/art/shichai.dongxue/chulian-cg-lost.png"
     },
     {
       "id": "shichai.dongxue.chulian.cg.night",
       "file": "art/images/shichai-dongxue-chulian-cg-night.webp",
-      "sha256": "6e165df6d7bb2bcfcc89ddc24ff51d343a041c3dbe109797b13695ef3263ebb7",
+      "sha256": "25545bdc65b56d1727a454b75a098e8047719561562e0ab5e48df0c7c7b4acab",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "炉火，解斗篷，背对不敢转身",
+      "alt": "客栈房内，楚莲仰躺张口，男主覆在她身上进入，杏色长裙褪到腰际，白色丝袜与杏色高跟未脱",
       "sourceUrl": "/art/shichai.dongxue/chulian-cg-night.png"
+    },
+    {
+      "id": "shichai.dongxue.chulian.cg.night-3",
+      "file": "art/images/shichai-dongxue-chulian-cg-night-3.webp",
+      "sha256": "0887ed1ec949dd81a13657a2d4230b0c2c6c227346f4e7964836111fcc59271a",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "冰河夜船篷下，楚莲伏在毛皮上，灯笼挂在篙上，船外冰层开裂",
+      "sourceUrl": "/art/shichai.dongxue/chulian-cg-night-3.png"
+    },
+    {
+      "id": "shichai.dongxue.chulian.cg.night-2",
+      "file": "art/images/shichai-dongxue-chulian-cg-night-2.webp",
+      "sha256": "66cd9bab5b51a967f10c957ec0b14599c76aa46c562326c680c8503092ed4bcb",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "客栈后院灶间油灯，楚莲仰躺在灶前柴堆边，袖口挽到肘上",
+      "sourceUrl": "/art/shichai.dongxue/chulian-cg-night-2.png"
     },
     {
       "id": "shichai.dongxue.chulian.cg.dual",
       "file": "art/images/shichai-dongxue-chulian-cg-dual.webp",
-      "sha256": "5de2768917379514b5fe6b02c3f91a1d33aed743d040e84122916fd0053ac2c0",
+      "sha256": "d0e5e3e7baec8168d1ddeb4e2f10fb6dbf54e7bb6a04b95318fe9e4bc5596e43",
       "width": 1672,
       "height": 941,
       "kind": "scene",
-      "alt": "坊市外雪地，采痕褪去，雪融成水",
+      "alt": "雪地披风上，楚莲跪坐在男主怀里交合，手腕交叠在他颈后，白气自肌肤褪去，她哭着又笑着",
       "sourceUrl": "/art/shichai.dongxue/chulian-cg-dual.png"
+    },
+    {
+      "id": "shichai.dongxue.chulian.cg.dual-2",
+      "file": "art/images/shichai-dongxue-chulian-cg-dual-2.webp",
+      "sha256": "a107818e2f2ed56fed1ed7fe28319a9fecca75299d1b51108228b28ebcf36fe1",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene",
+      "alt": "低月下河心的渡船，楚莲跨坐着、手腕交叉在他颈后，冰排从船边漂过",
+      "sourceUrl": "/art/shichai.dongxue/chulian-cg-dual-2.png"
     },
     {
       "id": "shichai.dongxue.chulian.cg.vow",

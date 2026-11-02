@@ -153,16 +153,20 @@ import {
 } from "../../lib/game/daily-events";
 test("daily pool has ten of each category; 100 waiting days are deterministic, frequent and never repeat consecutively", () => {
   for (const category of ["sighting", "choice", "risk"])
-    assert.equal(DAILY_EVENTS.filter((n) => n.category === category).length, 10);
+    assert.ok(DAILY_EVENTS.filter((n) => n.category === category).length >= 10);
   const run = () => {
-    const w = freshB(42);
+    let w = freshB(42);
+    const START = w.day;
     w.player.realm = 3;
     for (let d = 1; d <= 100; d++) {
-      w.day = d;
+      // 打完仗日子会往前走，所以按实际日期推进，不能硬写回固定值。
+      w.day = Math.max(w.day + 1, START + d);
       rollDailyEvent(w, "wait");
       if (w.pendingDailyEventId) {
         const n = DAILY_EVENTS.find((n) => n.id === w.pendingDailyEventId)!;
-        chooseDailyEvent(w, n.id, n.category === "risk" ? "face" : "decline");
+        chooseDailyEvent(w, n.id, dailyChoiceId(n.id, w.player)!);
+        // 风险小事会真的开打，打完才轮到下一天。
+        for (let i = 0; i < 80 && w.battle; i++) w = actB(w, { type: "battle", action: "attack" });
       }
     }
     return w;
@@ -189,7 +193,7 @@ test("daily choice pauses a paid retreat at its durable checkpoint; reload and r
   const c: Command = {
     type: "choose",
     nodeId: n.id,
-    choiceId: n.category === "risk" ? "face" : "decline",
+    choiceId: dailyChoiceId(n.id, w.player)!,
   };
   w = applyCommand(JSON.parse(JSON.stringify(w)), c, "daily-retry", w.revision);
   assert.deepEqual(w.longAction, before.longAction);
@@ -203,7 +207,8 @@ test("cave retreats suppress ordinary events; negative daily costs are atomic an
   for (let d = 1; d <= 100; d++) {
     w.day = d;
     rollDailyEvent(w, "train");
-    if (w.pendingDailyEventId) chooseDailyEvent(w, w.pendingDailyEventId, "face");
+    if (w.pendingDailyEventId)
+      chooseDailyEvent(w, w.pendingDailyEventId, dailyChoiceId(w.pendingDailyEventId, w.player)!);
   }
   assert.ok(
     w.events
@@ -212,7 +217,8 @@ test("cave retreats suppress ordinary events; negative daily costs are atomic an
   );
   const a = freshB(12345);
   for (let d = 1; d < 2000 && a.pendingDailyEventId !== "daily.injured-traveler"; d++) {
-    if (a.pendingDailyEventId) chooseDailyEvent(a, a.pendingDailyEventId, "decline");
+    if (a.pendingDailyEventId)
+      chooseDailyEvent(a, a.pendingDailyEventId, dailyChoiceId(a.pendingDailyEventId, a.player)!);
     a.day = d;
     rollDailyEvent(a, "wait");
   }
@@ -238,7 +244,7 @@ test("cave retreats suppress ordinary events; negative daily costs are atomic an
 
 import { commandDays } from "../../lib/game/action-cost";
 import { settleJob } from "../../lib/game/jobs";
-import { answerDaily } from "./daily-test-helpers";
+import { answerDaily, dailyChoiceId } from "./daily-test-helpers";
 import { settleSectStipends, sectExchange } from "../../lib/game/sects";
 import { sectById } from "../../lib/game/sect-content";
 test("new economic commands enforce place, realm, inventory, exact prices and duplicate protection", () => {

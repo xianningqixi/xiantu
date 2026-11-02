@@ -133,5 +133,35 @@
     "assetId": "shichai.qiudeng.art.jiangzhaoxue-portrait",
     "alt": "江照雪立绘：28岁猎妖女修，剑眉星目，短发齐耳，玄色劲装外披狼皮半肩，背负猎妖弩与斩妖刀，左眼瞳孔在光下泛淡金",
     "status": "owned"
+  },
+  "shichai.qiudeng.wenrenshuang.cg.night-3": {
+    "assetId": "shichai.qiudeng.art.wenrenshuang-cg-night-3",
+    "alt": "漏雨的宗门库房，文仁霜伏在箱笼上，雨水滴进铁桶，账册堆在架间",
+    "status": "owned"
+  },
+  "shichai.qiudeng.wenrenshuang.cg.dual-2": {
+    "assetId": "shichai.qiudeng.art.wenrenshuang-cg-dual-2",
+    "alt": "门楼上方塔室，文仁霜坐在矮榻上抬起下颌，旗布在窗外抽响夜空",
+    "status": "owned"
+  },
+  "shichai.qiudeng.jiangzhaoxue.cg.night-3": {
+    "assetId": "shichai.qiudeng.art.jiangzhaoxue-cg-night-3",
+    "alt": "染坊晾布间，蒋照雪面朝晾架被压住，长匹蓝布垂在头顶，染缸在侧",
+    "status": "owned"
+  },
+  "shichai.qiudeng.jiangzhaoxue.cg.dual-2": {
+    "assetId": "shichai.qiudeng.art.jiangzhaoxue-cg-dual-2",
+    "alt": "山神祠夜祭，蒋照雪骑坐在铺开的斗篷上，金瞳睁开，淡红丝线从经脉里浮出",
+    "status": "owned"
+  },
+  "shichai.qiudeng.wenrenshuang.cg.night-2": {
+    "assetId": "shichai.qiudeng.art.wenrenshuang-cg-night-2",
+    "alt": "暴雨夜执事所值房，闻人霜仰靠在案边，玉冠搁在税牌筐旁",
+    "status": "owned"
+  },
+  "shichai.qiudeng.jiangzhaoxue.cg.night-2": {
+    "assetId": "shichai.qiudeng.art.jiangzhaoxue-cg-night-2",
+    "alt": "古道守夜石屋板床，江照雪侧躺狼皮上，背上爪痕缝了一半",
+    "status": "owned"
   }
 }

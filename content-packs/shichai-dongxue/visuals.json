@@ -153,5 +153,50 @@
     "assetId": "shichai.dongxue.art.chulian-portrait",
     "alt": "楚莲立绘：26岁，男主的前未婚妻，柔美但憔悴，长发松挽，杏色长裙外罩雪白斗篷，颈侧与手腕有淡淡采痕，眼神躲闪",
     "status": "owned"
+  },
+  "shichai.dongxue.yeshutong.cg.night-3": {
+    "assetId": "shichai.dongxue.art.yeshutong-cg-night-3",
+    "alt": "灯市散后的旧书摊棚，叶疏桐仰躺在毡子上，纸灯笼还亮着，棚口是踩烂的雪",
+    "status": "owned"
+  },
+  "shichai.dongxue.yeshutong.cg.dual-2": {
+    "assetId": "shichai.dongxue.art.yeshutong-cg-dual-2",
+    "alt": "雪夜藏书楼顶层，叶疏桐坐在男主腿上与他额头相抵，一支蜡烛照着一排书架",
+    "status": "owned"
+  },
+  "shichai.dongxue.songxiaoman.cg.night-3": {
+    "assetId": "shichai.dongxue.art.songxiaoman-cg-night-3",
+    "alt": "客栈后院柴房，宋小满两手撑在劈柴砧上俯身，月光从檐下缝隙透进来",
+    "status": "owned"
+  },
+  "shichai.dongxue.songxiaoman.cg.dual-2": {
+    "assetId": "shichai.dongxue.art.songxiaoman-cg-dual-2",
+    "alt": "猎屋火塘边，宋小满跨坐在男主身上身体后仰，青铜护符落在皮毛上",
+    "status": "owned"
+  },
+  "shichai.dongxue.chulian.cg.night-3": {
+    "assetId": "shichai.dongxue.art.chulian-cg-night-3",
+    "alt": "冰河夜船篷下，楚莲伏在毛皮上，灯笼挂在篙上，船外冰层开裂",
+    "status": "owned"
+  },
+  "shichai.dongxue.chulian.cg.dual-2": {
+    "assetId": "shichai.dongxue.art.chulian-cg-dual-2",
+    "alt": "低月下河心的渡船，楚莲跨坐着、手腕交叉在他颈后，冰排从船边漂过",
+    "status": "owned"
+  },
+  "shichai.dongxue.yeshutong.cg.night-2": {
+    "assetId": "shichai.dongxue.art.yeshutong-cg-night-2",
+    "alt": "冬夜村东谷仓，叶疏桐仰躺在齐腰的稻草上，炭盆在灰里发暗",
+    "status": "owned"
+  },
+  "shichai.dongxue.songxiaoman.cg.night-2": {
+    "assetId": "shichai.dongxue.art.songxiaoman-cg-night-2",
+    "alt": "雪坡上山神龛石阶，宋小满仰躺斗篷铺的地面，铜牌挂在龛角",
+    "status": "owned"
+  },
+  "shichai.dongxue.chulian.cg.night-2": {
+    "assetId": "shichai.dongxue.art.chulian-cg-night-2",
+    "alt": "客栈后院灶间油灯，楚莲仰躺在灶前柴堆边，袖口挽到肘上",
+    "status": "owned"
   }
 }

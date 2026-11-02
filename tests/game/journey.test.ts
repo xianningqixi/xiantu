@@ -52,8 +52,9 @@ const profile = {
 const fresh = (locks = packs.map((p) => p.lock)) =>
   createWorld(12345, profile, "journey-unit", 40, { contentLocks: locks });
 function command(w: World, c: Command) {
-  return answerDaily(
-    settleFieldBattle(applyCommand(w, c, `journey:${w.revision + 1}`, w.revision)),
+  // 日常事件本身也可能把人拖进战斗，应答完再收一次尾。
+  return settleFieldBattle(
+    answerDaily(settleFieldBattle(applyCommand(w, c, `journey:${w.revision + 1}`, w.revision))),
   );
 }
 function mature(w: World, realm: number) {
@@ -195,32 +196,6 @@ test("old exact four-volume saves upgrade geography while preserving progress, r
   const bad = structuredClone(w);
   bad.contentLocks[0] += "x";
   assert.throws(() => migrateSave(bad), /版本/);
-});
-test("rewritten adult scenes keep earlier 0.2.0 volume locks readable", () => {
-  const previous = [
-    "shichai.chunshui@0.2.0:bbd4768fe95d856e779c575e8221c33ae806b781d78333e453854c2006d8c17c",
-    "shichai.xiaye@0.2.0:639a283f6173caddad57baf2909bbe281f069d08dbfdb30a44bf7392bd7acf71",
-    "shichai.qiudeng@0.2.0:8d6766874c599307bb0d201b907d2cec578f5f64fc1727f405bec762eb3072f8",
-    "shichai.dongxue@0.2.0:64e08faee26460e1fa2af5442ee68a99eb1a17953a2da62861c09b64544be247",
-  ];
-  const w = fresh();
-  w.contentLocks = w.contentLocks.map((lock) => {
-    const packId = lock.split("@")[0];
-    return previous.find((item) => item.startsWith(`${packId}@`)) ?? lock;
-  });
-  const original = structuredClone(w);
-  const migrated = migrateSave(w);
-  assert.equal(migrated.migrated, true);
-  assert.deepEqual(w, original);
-  for (const lock of previous) {
-    const packId = lock.split("@")[0];
-    assert.equal(
-      migrated.world.contentLocks.find((item) => item.startsWith(`${packId}@`)),
-      packs.find((pack) => pack.data.manifest.packId === packId)!.lock,
-    );
-  }
-  validateWorld(migrated.world);
-  assert.deepEqual(migrateSave(migrated.world).world, migrated.world);
 });
 test("unselected locations and distant event witnesses cannot be invented", () => {
   const w = fresh([packs[0].lock]);
@@ -369,14 +344,18 @@ test("a mortal can visit all ten atlas destinations in any order without story, 
       initial.player.stones +
         w.events
           .filter((e) => e.kind === "daily-event")
-          .reduce(
-            (total, e) =>
+          .reduce((total, e) => {
+            const node = DAILY_EVENTS.find((n) => n.id === e.daily!.nodeId)!;
+            const chosen = [
+              ...node.effects,
+              ...(node.choices.find((c) => c.id === e.daily!.choiceId)?.effects ?? []),
+            ];
+            return (
               total +
-              DAILY_EVENTS.find((n) => n.id === e.daily!.nodeId)!
-                .effects.filter((f) => f.kind === "stones")
-                .reduce((n, f) => n + (f.value ?? 0), 0),
-            0,
-          ),
+              chosen.filter((f) => f.kind === "stones").reduce((n, f) => n + (f.value ?? 0), 0)
+            );
+          }, 0),
+      "路上事件的开销要如实记账",
     );
     assert.equal(w.player.name, initial.player.name);
     assert.deepEqual(

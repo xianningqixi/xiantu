@@ -21,8 +21,6 @@ export function commandDays(world: World, command: Command): number {
         : command.kind === "dual"
           ? B.relationships.companionship.dualDays
           : B.relationships.companionship.nightDays;
-    case "liaison":
-      return B.relationships.companionship.liaisonDays;
     case "surveyRuins":
       return MAIN_STORY.surveyDays;
     case "train":
@@ -36,6 +34,10 @@ export function commandDays(world: World, command: Command): number {
       return B.actions.explore.days;
     case "discuss":
       return B.relationships.companionship.days;
+    case "spar":
+      return B.relationships.sparDays;
+    case "stroll":
+      return B.relationships.strollDays;
     case "breakthrough":
       return advanceRule(world.player).days;
     case "travel":

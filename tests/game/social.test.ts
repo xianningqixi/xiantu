@@ -179,3 +179,51 @@ test("old saves without social cooldowns still validate", () => {
   validateWorld(w);
   assert.equal(relation(w, target)!.interactions, undefined);
 });
+
+test("chat costs no day and only needs acquaintance", () => {
+  const w = world();
+  const target = socialTarget(w, 3);
+  const stranger = w.npcs.find((x) => x.alive && x.id !== target)!;
+  assert.throws(() => send(w, { type: "chat", target: stranger.id }), /尚未相识/);
+  const next = send(w, { type: "chat", target });
+  assert.equal(next.day, w.day);
+  assert.equal(relation(next, target)!.favor, 32);
+  assert.equal(relation(next, target)!.interactions!.chatDay, next.day);
+  assert.ok(next.events.some((e) => e.kind === "chat"));
+  assert.throws(() => send(next, { type: "chat", target }), /等待/);
+});
+
+test("spar needs friends of close realm, costs hp and grants insight either way", () => {
+  const w = world();
+  const target = socialTarget(w, 3);
+  const far = w.npcs.find((x) => x.alive && x.id !== target)!;
+  far.realm = 12;
+  edge(w, far.id);
+  assert.throws(() => send(w, { type: "spar", target: far.id }), /境界相差/);
+  const hurt = send(w, { type: "spar", target });
+  assert.ok(hurt.player.hp < w.player.hp);
+  assert.ok(hurt.player.insight >= w.player.insight + B.relationships.sparLoseInsight);
+  assert.equal(relation(hurt, target)!.interactions!.sparDay, hurt.day);
+  validateWorld(hurt);
+});
+
+test("spar refuses a wounded pair", () => {
+  const w = world();
+  const target = socialTarget(w, 3);
+  w.player.hp = 0;
+  assert.throws(() => send(w, { type: "spar", target }), /在世并能行动/);
+});
+
+test("stroll refuses inside an inn and rewards insight outside", () => {
+  const w = world();
+  const target = socialTarget(w, 3);
+  w.player.location = "inn";
+  w.npcs.find((x) => x.id === target)!.location = "inn";
+  assert.throws(() => send(w, { type: "stroll", target }), /无景可游/);
+  w.player.location = "atlas.cangzhu";
+  w.npcs.find((x) => x.id === target)!.location = "atlas.cangzhu";
+  const next = send(w, { type: "stroll", target });
+  assert.equal(next.day, w.day + B.relationships.strollDays);
+  assert.equal(next.player.insight, w.player.insight + B.relationships.strollInsight);
+  assert.equal(relation(next, target)!.interactions!.strollDay, next.day);
+});

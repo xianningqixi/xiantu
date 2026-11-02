@@ -22,6 +22,11 @@ export const REALM_KEYS = [
 export const realmIndex = (key: string) => REALM_KEYS.indexOf(key as (typeof REALM_KEYS)[number]);
 /** Authored API 1/2 character indices use the released five-realm scale. */
 export const legacyRealmIndex = (realm: number) => [0, 1, 2, 3, 10][realm];
+/**
+ * 内容里的境界门槛：0–4 沿用旧五档（映射到炼气一到筑基初期），
+ * 5 以上直接就是当前十三档的索引，方便写到炼气六层之后。
+ */
+export const realmGateIndex = (realm: number) => (realm <= 4 ? legacyRealmIndex(realm) : realm);
 
 export const SAFE: LocationId[] = ["market", "inn", "gate"];
 

@@ -19,7 +19,7 @@ test("all refreshed full-size images and independent avatars are served with rev
   request,
 }) => {
   test.setTimeout(120000);
-  expect(catalog.assets).toHaveLength(257);
+  expect(catalog.assets).toHaveLength(290);
   const portraitAssets = catalog.assets.filter((a: any) => a.kind === "portrait");
   expect(portraitAssets).toHaveLength(129);
   expect(Object.keys(display.locations)).toHaveLength(19);

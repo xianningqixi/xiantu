@@ -798,24 +798,24 @@
     "lazy": true
   },
   "/art/shichai.chunshui/suqingyan-cg-lost.png": {
-    "src": "/art/optimized/shichai-chunshui-suqingyan-cg-lost-7d3ed4cba261.webp",
+    "src": "/art/optimized/shichai-chunshui-suqingyan-cg-lost-c4365d8d2c77.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 355460,
+    "bytes": 126486,
     "lazy": true
   },
   "/art/shichai.chunshui/suqingyan-cg-night.png": {
-    "src": "/art/optimized/shichai-chunshui-suqingyan-cg-night-8ffe3fd14e6f.webp",
+    "src": "/art/optimized/shichai-chunshui-suqingyan-cg-night-7af1a8ebf684.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 289050,
+    "bytes": 115678,
     "lazy": true
   },
   "/art/shichai.chunshui/suqingyan-cg-dual.png": {
-    "src": "/art/optimized/shichai-chunshui-suqingyan-cg-dual-503a359c5f4b.webp",
+    "src": "/art/optimized/shichai-chunshui-suqingyan-cg-dual-dbf58648fc65.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 247926,
+    "bytes": 174090,
     "lazy": true
   },
   "/art/shichai.chunshui/suqingyan-cg-vow.png": {
@@ -868,24 +868,24 @@
     "lazy": true
   },
   "/art/shichai.chunshui/gutinglan-cg-lost.png": {
-    "src": "/art/optimized/shichai-chunshui-gutinglan-cg-lost-fd67cb257810.webp",
+    "src": "/art/optimized/shichai-chunshui-gutinglan-cg-lost-87b63cf0bdcb.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 306120,
+    "bytes": 147018,
     "lazy": true
   },
   "/art/shichai.chunshui/gutinglan-cg-night.png": {
-    "src": "/art/optimized/shichai-chunshui-gutinglan-cg-night-5081ef2de118.webp",
+    "src": "/art/optimized/shichai-chunshui-gutinglan-cg-night-cca4f066753a.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 272882,
+    "bytes": 137770,
     "lazy": true
   },
   "/art/shichai.chunshui/gutinglan-cg-dual.png": {
-    "src": "/art/optimized/shichai-chunshui-gutinglan-cg-dual-675b526af677.webp",
+    "src": "/art/optimized/shichai-chunshui-gutinglan-cg-dual-8389be2ab7c2.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 263102,
+    "bytes": 114054,
     "lazy": true
   },
   "/art/shichai.chunshui/gutinglan-cg-vow.png": {
@@ -938,24 +938,24 @@
     "lazy": true
   },
   "/art/shichai.chunshui/wenzhiwei-cg-lost.png": {
-    "src": "/art/optimized/shichai-chunshui-wenzhiwei-cg-lost-40b6dcd2b7fe.webp",
+    "src": "/art/optimized/shichai-chunshui-wenzhiwei-cg-lost-27cf3c30577e.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 194804,
+    "bytes": 120162,
     "lazy": true
   },
   "/art/shichai.chunshui/wenzhiwei-cg-night.png": {
-    "src": "/art/optimized/shichai-chunshui-wenzhiwei-cg-night-e6622084a928.webp",
+    "src": "/art/optimized/shichai-chunshui-wenzhiwei-cg-night-2cfff159633c.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 219404,
+    "bytes": 144928,
     "lazy": true
   },
   "/art/shichai.chunshui/wenzhiwei-cg-dual.png": {
-    "src": "/art/optimized/shichai-chunshui-wenzhiwei-cg-dual-a0f716342824.webp",
+    "src": "/art/optimized/shichai-chunshui-wenzhiwei-cg-dual-631deab3b26c.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 214710,
+    "bytes": 92154,
     "lazy": true
   },
   "/art/shichai.chunshui/wenzhiwei-cg-vow.png": {
@@ -977,6 +977,69 @@
     "width": 1024,
     "height": 1536,
     "bytes": 204422,
+    "lazy": true
+  },
+  "/art/shichai.chunshui/suqingyan-cg-night-3.png": {
+    "src": "/art/optimized/shichai-chunshui-suqingyan-cg-night-3-4ccb63551c3a.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 154830,
+    "lazy": true
+  },
+  "/art/shichai.chunshui/suqingyan-cg-dual-2.png": {
+    "src": "/art/optimized/shichai-chunshui-suqingyan-cg-dual-2-3965c16ca9c4.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 143844,
+    "lazy": true
+  },
+  "/art/shichai.chunshui/gutinglan-cg-night-3.png": {
+    "src": "/art/optimized/shichai-chunshui-gutinglan-cg-night-3-6e34fb73e6df.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 136872,
+    "lazy": true
+  },
+  "/art/shichai.chunshui/gutinglan-cg-dual-2.png": {
+    "src": "/art/optimized/shichai-chunshui-gutinglan-cg-dual-2-9ec4ef41ebf0.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 102330,
+    "lazy": true
+  },
+  "/art/shichai.chunshui/wenzhiwei-cg-night-3.png": {
+    "src": "/art/optimized/shichai-chunshui-wenzhiwei-cg-night-3-393d5e135afb.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 114754,
+    "lazy": true
+  },
+  "/art/shichai.chunshui/wenzhiwei-cg-dual-2.png": {
+    "src": "/art/optimized/shichai-chunshui-wenzhiwei-cg-dual-2-15c74ebd62eb.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 104548,
+    "lazy": true
+  },
+  "/art/shichai.chunshui/suqingyan-cg-night-2.png": {
+    "src": "/art/optimized/shichai-chunshui-suqingyan-cg-night-2-50c419c7f9a5.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 135512,
+    "lazy": true
+  },
+  "/art/shichai.chunshui/gutinglan-cg-night-2.png": {
+    "src": "/art/optimized/shichai-chunshui-gutinglan-cg-night-2-746b23ac069e.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 137168,
+    "lazy": true
+  },
+  "/art/shichai.chunshui/wenzhiwei-cg-night-2.png": {
+    "src": "/art/optimized/shichai-chunshui-wenzhiwei-cg-night-2-18ee4bcac01e.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 118074,
     "lazy": true
   },
   "/art/shichai.dongxue/intro.png": {
@@ -1015,24 +1078,24 @@
     "lazy": true
   },
   "/art/shichai.dongxue/yeshutong-cg-lost.png": {
-    "src": "/art/optimized/shichai-dongxue-yeshutong-cg-lost-61e3045e55e0.webp",
+    "src": "/art/optimized/shichai-dongxue-yeshutong-cg-lost-ef273771fbc3.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 378122,
+    "bytes": 115318,
     "lazy": true
   },
   "/art/shichai.dongxue/yeshutong-cg-night.png": {
-    "src": "/art/optimized/shichai-dongxue-yeshutong-cg-night-1a09e9ace6ab.webp",
+    "src": "/art/optimized/shichai-dongxue-yeshutong-cg-night-a34107577ef8.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 258848,
+    "bytes": 160626,
     "lazy": true
   },
   "/art/shichai.dongxue/yeshutong-cg-dual.png": {
-    "src": "/art/optimized/shichai-dongxue-yeshutong-cg-dual-dd8f1fd9a06e.webp",
+    "src": "/art/optimized/shichai-dongxue-yeshutong-cg-dual-bc228310d8cb.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 241716,
+    "bytes": 156504,
     "lazy": true
   },
   "/art/shichai.dongxue/yeshutong-cg-vow.png": {
@@ -1085,24 +1148,24 @@
     "lazy": true
   },
   "/art/shichai.dongxue/songxiaoman-cg-lost.png": {
-    "src": "/art/optimized/shichai-dongxue-songxiaoman-cg-lost-b701b6d1dab9.webp",
+    "src": "/art/optimized/shichai-dongxue-songxiaoman-cg-lost-bf766cb71709.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 370430,
+    "bytes": 134444,
     "lazy": true
   },
   "/art/shichai.dongxue/songxiaoman-cg-night.png": {
-    "src": "/art/optimized/shichai-dongxue-songxiaoman-cg-night-e70d9bf28247.webp",
+    "src": "/art/optimized/shichai-dongxue-songxiaoman-cg-night-bbd25fc5d2c5.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 282936,
+    "bytes": 162046,
     "lazy": true
   },
   "/art/shichai.dongxue/songxiaoman-cg-dual.png": {
-    "src": "/art/optimized/shichai-dongxue-songxiaoman-cg-dual-ab0d7513fce5.webp",
+    "src": "/art/optimized/shichai-dongxue-songxiaoman-cg-dual-c7d84ed86cf3.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 275686,
+    "bytes": 138810,
     "lazy": true
   },
   "/art/shichai.dongxue/songxiaoman-cg-vow.png": {
@@ -1155,24 +1218,24 @@
     "lazy": true
   },
   "/art/shichai.dongxue/chulian-cg-lost.png": {
-    "src": "/art/optimized/shichai-dongxue-chulian-cg-lost-dc47d9ed46fa.webp",
+    "src": "/art/optimized/shichai-dongxue-chulian-cg-lost-d209b6db02b7.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 357984,
+    "bytes": 157368,
     "lazy": true
   },
   "/art/shichai.dongxue/chulian-cg-night.png": {
-    "src": "/art/optimized/shichai-dongxue-chulian-cg-night-06cb6715f892.webp",
+    "src": "/art/optimized/shichai-dongxue-chulian-cg-night-a8492683fdee.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 204360,
+    "bytes": 101310,
     "lazy": true
   },
   "/art/shichai.dongxue/chulian-cg-dual.png": {
-    "src": "/art/optimized/shichai-dongxue-chulian-cg-dual-dc0a20ae4ce4.webp",
+    "src": "/art/optimized/shichai-dongxue-chulian-cg-dual-5ef2350eda88.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 288340,
+    "bytes": 123834,
     "lazy": true
   },
   "/art/shichai.dongxue/chulian-cg-vow.png": {
@@ -1194,6 +1257,69 @@
     "width": 1024,
     "height": 1536,
     "bytes": 244244,
+    "lazy": true
+  },
+  "/art/shichai.dongxue/yeshutong-cg-night-3.png": {
+    "src": "/art/optimized/shichai-dongxue-yeshutong-cg-night-3-dc2a2a204770.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 139808,
+    "lazy": true
+  },
+  "/art/shichai.dongxue/yeshutong-cg-dual-2.png": {
+    "src": "/art/optimized/shichai-dongxue-yeshutong-cg-dual-2-78867ad1e9cc.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 114356,
+    "lazy": true
+  },
+  "/art/shichai.dongxue/songxiaoman-cg-night-3.png": {
+    "src": "/art/optimized/shichai-dongxue-songxiaoman-cg-night-3-08573964f885.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 113926,
+    "lazy": true
+  },
+  "/art/shichai.dongxue/songxiaoman-cg-dual-2.png": {
+    "src": "/art/optimized/shichai-dongxue-songxiaoman-cg-dual-2-60e5b7ef591e.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 135078,
+    "lazy": true
+  },
+  "/art/shichai.dongxue/chulian-cg-night-3.png": {
+    "src": "/art/optimized/shichai-dongxue-chulian-cg-night-3-78f5d59ac8bb.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 114106,
+    "lazy": true
+  },
+  "/art/shichai.dongxue/chulian-cg-dual-2.png": {
+    "src": "/art/optimized/shichai-dongxue-chulian-cg-dual-2-f707e7944e0c.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 139988,
+    "lazy": true
+  },
+  "/art/shichai.dongxue/yeshutong-cg-night-2.png": {
+    "src": "/art/optimized/shichai-dongxue-yeshutong-cg-night-2-5d3607a9333c.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 157116,
+    "lazy": true
+  },
+  "/art/shichai.dongxue/songxiaoman-cg-night-2.png": {
+    "src": "/art/optimized/shichai-dongxue-songxiaoman-cg-night-2-56a1fdc72056.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 174266,
+    "lazy": true
+  },
+  "/art/shichai.dongxue/chulian-cg-night-2.png": {
+    "src": "/art/optimized/shichai-dongxue-chulian-cg-night-2-b59f4cc86a31.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 109152,
     "lazy": true
   },
   "/art/shichai.qiudeng/intro.png": {
@@ -1274,24 +1400,24 @@
     "lazy": true
   },
   "/art/shichai.qiudeng/wenrenshuang-cg-lost.png": {
-    "src": "/art/optimized/shichai-qiudeng-wenrenshuang-cg-lost-b105dc2c0143.webp",
+    "src": "/art/optimized/shichai-qiudeng-wenrenshuang-cg-lost-c00a34dd0a6d.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 252388,
+    "bytes": 118076,
     "lazy": true
   },
   "/art/shichai.qiudeng/wenrenshuang-cg-night.png": {
-    "src": "/art/optimized/shichai-qiudeng-wenrenshuang-cg-night-aa718701f719.webp",
+    "src": "/art/optimized/shichai-qiudeng-wenrenshuang-cg-night-b328acb5b173.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 210314,
+    "bytes": 122070,
     "lazy": true
   },
   "/art/shichai.qiudeng/wenrenshuang-cg-dual.png": {
-    "src": "/art/optimized/shichai-qiudeng-wenrenshuang-cg-dual-c9f08c3abb96.webp",
+    "src": "/art/optimized/shichai-qiudeng-wenrenshuang-cg-dual-5b56c6864b72.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 296730,
+    "bytes": 83978,
     "lazy": true
   },
   "/art/shichai.qiudeng/wenrenshuang-cg-vow.png": {
@@ -1344,24 +1470,24 @@
     "lazy": true
   },
   "/art/shichai.qiudeng/jiangzhaoxue-cg-lost.png": {
-    "src": "/art/optimized/shichai-qiudeng-jiangzhaoxue-cg-lost-f11031a98433.webp",
+    "src": "/art/optimized/shichai-qiudeng-jiangzhaoxue-cg-lost-cd9cca73ca6b.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 349808,
+    "bytes": 182364,
     "lazy": true
   },
   "/art/shichai.qiudeng/jiangzhaoxue-cg-night.png": {
-    "src": "/art/optimized/shichai-qiudeng-jiangzhaoxue-cg-night-e4de21e7db07.webp",
+    "src": "/art/optimized/shichai-qiudeng-jiangzhaoxue-cg-night-9143edc6d2ac.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 219810,
+    "bytes": 98406,
     "lazy": true
   },
   "/art/shichai.qiudeng/jiangzhaoxue-cg-dual.png": {
-    "src": "/art/optimized/shichai-qiudeng-jiangzhaoxue-cg-dual-2e7fd0d689e9.webp",
+    "src": "/art/optimized/shichai-qiudeng-jiangzhaoxue-cg-dual-343d6e147b7f.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 303328,
+    "bytes": 184110,
     "lazy": true
   },
   "/art/shichai.qiudeng/jiangzhaoxue-cg-vow.png": {
@@ -1383,6 +1509,48 @@
     "width": 1024,
     "height": 1536,
     "bytes": 284098,
+    "lazy": true
+  },
+  "/art/shichai.qiudeng/wenrenshuang-cg-night-3.png": {
+    "src": "/art/optimized/shichai-qiudeng-wenrenshuang-cg-night-3-be577bc09da4.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 118900,
+    "lazy": true
+  },
+  "/art/shichai.qiudeng/wenrenshuang-cg-dual-2.png": {
+    "src": "/art/optimized/shichai-qiudeng-wenrenshuang-cg-dual-2-3abe7c8c1037.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 104658,
+    "lazy": true
+  },
+  "/art/shichai.qiudeng/jiangzhaoxue-cg-night-3.png": {
+    "src": "/art/optimized/shichai-qiudeng-jiangzhaoxue-cg-night-3-145daadf5fbb.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 114830,
+    "lazy": true
+  },
+  "/art/shichai.qiudeng/jiangzhaoxue-cg-dual-2.png": {
+    "src": "/art/optimized/shichai-qiudeng-jiangzhaoxue-cg-dual-2-3f3b4df7dbe8.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 109094,
+    "lazy": true
+  },
+  "/art/shichai.qiudeng/wenrenshuang-cg-night-2.png": {
+    "src": "/art/optimized/shichai-qiudeng-wenrenshuang-cg-night-2-b26a2bbc801f.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 150938,
+    "lazy": true
+  },
+  "/art/shichai.qiudeng/jiangzhaoxue-cg-night-2.png": {
+    "src": "/art/optimized/shichai-qiudeng-jiangzhaoxue-cg-night-2-bc4d01f3b039.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 123082,
     "lazy": true
   },
   "/art/shichai.xiaye/intro.png": {
@@ -1421,24 +1589,24 @@
     "lazy": true
   },
   "/art/shichai.xiaye/peisi-cg-lost.png": {
-    "src": "/art/optimized/shichai-xiaye-peisi-cg-lost-0783a6372db6.webp",
+    "src": "/art/optimized/shichai-xiaye-peisi-cg-lost-41b4496726b4.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 312840,
+    "bytes": 145344,
     "lazy": true
   },
   "/art/shichai.xiaye/peisi-cg-night.png": {
-    "src": "/art/optimized/shichai-xiaye-peisi-cg-night-380ac2f88752.webp",
+    "src": "/art/optimized/shichai-xiaye-peisi-cg-night-d50d99cc6147.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 233652,
+    "bytes": 81308,
     "lazy": true
   },
   "/art/shichai.xiaye/peisi-cg-dual.png": {
-    "src": "/art/optimized/shichai-xiaye-peisi-cg-dual-fc07f8c82752.webp",
+    "src": "/art/optimized/shichai-xiaye-peisi-cg-dual-1731c625520a.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 265186,
+    "bytes": 83334,
     "lazy": true
   },
   "/art/shichai.xiaye/peisi-cg-vow.png": {
@@ -1491,24 +1659,24 @@
     "lazy": true
   },
   "/art/shichai.xiaye/shenqiyue-cg-lost.png": {
-    "src": "/art/optimized/shichai-xiaye-shenqiyue-cg-lost-0baef3cc205b.webp",
+    "src": "/art/optimized/shichai-xiaye-shenqiyue-cg-lost-b958bfdc7634.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 218340,
+    "bytes": 122936,
     "lazy": true
   },
   "/art/shichai.xiaye/shenqiyue-cg-night.png": {
-    "src": "/art/optimized/shichai-xiaye-shenqiyue-cg-night-878f589f130e.webp",
+    "src": "/art/optimized/shichai-xiaye-shenqiyue-cg-night-c8ca6e4cbac2.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 266620,
+    "bytes": 108792,
     "lazy": true
   },
   "/art/shichai.xiaye/shenqiyue-cg-dual.png": {
-    "src": "/art/optimized/shichai-xiaye-shenqiyue-cg-dual-cadf7231b309.webp",
+    "src": "/art/optimized/shichai-xiaye-shenqiyue-cg-dual-85de71839748.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 251372,
+    "bytes": 159300,
     "lazy": true
   },
   "/art/shichai.xiaye/shenqiyue-cg-vow.png": {
@@ -1561,24 +1729,24 @@
     "lazy": true
   },
   "/art/shichai.xiaye/liuhanyan-cg-lost.png": {
-    "src": "/art/optimized/shichai-xiaye-liuhanyan-cg-lost-b19a720a936c.webp",
+    "src": "/art/optimized/shichai-xiaye-liuhanyan-cg-lost-3eef8e150cdc.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 203940,
+    "bytes": 148488,
     "lazy": true
   },
   "/art/shichai.xiaye/liuhanyan-cg-night.png": {
-    "src": "/art/optimized/shichai-xiaye-liuhanyan-cg-night-00afe2bba0a4.webp",
+    "src": "/art/optimized/shichai-xiaye-liuhanyan-cg-night-9165a89700e4.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 244490,
+    "bytes": 136596,
     "lazy": true
   },
   "/art/shichai.xiaye/liuhanyan-cg-dual.png": {
-    "src": "/art/optimized/shichai-xiaye-liuhanyan-cg-dual-eb7cf9b73548.webp",
+    "src": "/art/optimized/shichai-xiaye-liuhanyan-cg-dual-bcae3651029e.webp",
     "width": 1672,
     "height": 941,
-    "bytes": 193152,
+    "bytes": 133436,
     "lazy": true
   },
   "/art/shichai.xiaye/liuhanyan-cg-vow.png": {
@@ -1600,6 +1768,69 @@
     "width": 1024,
     "height": 1536,
     "bytes": 207408,
+    "lazy": true
+  },
+  "/art/shichai.xiaye/peisi-cg-night-3.png": {
+    "src": "/art/optimized/shichai-xiaye-peisi-cg-night-3-a208593b863a.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 93230,
+    "lazy": true
+  },
+  "/art/shichai.xiaye/peisi-cg-dual-2.png": {
+    "src": "/art/optimized/shichai-xiaye-peisi-cg-dual-2-fc51aed9dfff.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 98958,
+    "lazy": true
+  },
+  "/art/shichai.xiaye/shenqiyue-cg-night-3.png": {
+    "src": "/art/optimized/shichai-xiaye-shenqiyue-cg-night-3-9da2538d5ab4.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 113922,
+    "lazy": true
+  },
+  "/art/shichai.xiaye/shenqiyue-cg-dual-2.png": {
+    "src": "/art/optimized/shichai-xiaye-shenqiyue-cg-dual-2-6446174e533e.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 144350,
+    "lazy": true
+  },
+  "/art/shichai.xiaye/liuhanyan-cg-night-3.png": {
+    "src": "/art/optimized/shichai-xiaye-liuhanyan-cg-night-3-8f813e1339ea.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 102362,
+    "lazy": true
+  },
+  "/art/shichai.xiaye/liuhanyan-cg-dual-2.png": {
+    "src": "/art/optimized/shichai-xiaye-liuhanyan-cg-dual-2-07f44d7f5ac0.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 135168,
+    "lazy": true
+  },
+  "/art/shichai.xiaye/peisi-cg-night-2.png": {
+    "src": "/art/optimized/shichai-xiaye-peisi-cg-night-2-c1ae425d94f4.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 135518,
+    "lazy": true
+  },
+  "/art/shichai.xiaye/shenqiyue-cg-night-2.png": {
+    "src": "/art/optimized/shichai-xiaye-shenqiyue-cg-night-2-3d6ec1c7f0d1.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 99246,
+    "lazy": true
+  },
+  "/art/shichai.xiaye/liuhanyan-cg-night-2.png": {
+    "src": "/art/optimized/shichai-xiaye-liuhanyan-cg-night-2-09f365069cf5.webp",
+    "width": 1672,
+    "height": 941,
+    "bytes": 92752,
     "lazy": true
   },
   "/art/portraits/shichai/qiheng-portrait.png": {

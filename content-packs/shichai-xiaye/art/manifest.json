@@ -43,7 +43,7 @@
     "shichai.xiaye.art.peisi-cg-lost": {
       "file": "art/images/peisi-cg-lost.png",
       "url": "/art/shichai.xiaye/peisi-cg-lost.png",
-      "alt": "沈府偏院，沈万山在门内，裴姒跪坐在他身前，门缝透出光；男主在院墙外",
+      "alt": "富商内室，金袍商人坐着按住她的手腕，让她自己落下去，她在紫裙里一寸寸沉下、下巴垂下",
       "width": 1672,
       "height": 941,
       "kind": "scene"
@@ -51,7 +51,7 @@
     "shichai.xiaye.art.peisi-cg-night": {
       "file": "art/images/peisi-cg-night.png",
       "url": "/art/shichai.xiaye/peisi-cg-night.png",
-      "alt": "客栈上房，裴姒褪去外衫只剩中衣，坐在床沿卸下发簪",
+      "alt": "裴姒跨坐、慢慢沉下去，紫裙只开到胸口，银腰链晃动，黑丝与紫高跟还在",
       "width": 1672,
       "height": 941,
       "kind": "scene"
@@ -59,7 +59,7 @@
     "shichai.xiaye.art.peisi-cg-dual": {
       "file": "art/images/peisi-cg-dual.png",
       "url": "/art/shichai.xiaye/peisi-cg-dual.png",
-      "alt": "沈府密室，裴姒揭开墙上暗格，里面是沈万山的采补图谱；两人对坐，灵气逆流",
+      "alt": "密室里，裴姒在矮案上将男主压在身下自己掌控节奏，紫裙褪到腰际，眼神清醒在数拍",
       "width": 1672,
       "height": 941,
       "kind": "scene"
@@ -123,7 +123,7 @@
     "shichai.xiaye.art.shenqiyue-cg-lost": {
       "file": "art/images/shenqiyue-cg-lost.png",
       "url": "/art/shichai.xiaye/shenqiyue-cg-lost.png",
-      "alt": "青岚宗内门婚礼，沈栖月穿着红衣站在陆青遥身边，真心在笑；男主站在人群最后",
+      "alt": "宗门外石阶，窗内帐子被撩开一角，白衣弟子在上面不紧不慢地进入，她咬唇掩口",
       "width": 1672,
       "height": 941,
       "kind": "scene"
@@ -131,7 +131,7 @@
     "shichai.xiaye.art.shenqiyue-cg-night": {
       "file": "art/images/shenqiyue-cg-night.png",
       "url": "/art/shichai.xiaye/shenqiyue-cg-night.png",
-      "alt": "古道守夜小屋，篝火，沈栖月把宗门弟子服的领口解开，脸埋在男主胸口",
+      "alt": "新房床帐内，沈栖月仰躺、一手掩口，男主在她身上动作，红色婚服松散，白丝与浅绿绣鞋未脱",
       "width": 1672,
       "height": 941,
       "kind": "scene"
@@ -139,7 +139,7 @@
     "shichai.xiaye.art.shenqiyue-cg-dual": {
       "file": "art/images/shenqiyue-cg-dual.png",
       "url": "/art/shichai.xiaye/shenqiyue-cg-dual.png",
-      "alt": "山门古道尽头的月下平台，两人盘坐，沈栖月的灵气是冷银色，男主的是青色，交汇处变成暖白",
+      "alt": "月下石台，两人额头相抵交合，银气自她脊背绕回他身上，霜顺着手臂退去",
       "width": 1672,
       "height": 941,
       "kind": "scene"
@@ -203,7 +203,7 @@
     "shichai.xiaye.art.liuhanyan-cg-lost": {
       "file": "art/images/liuhanyan-cg-lost.png",
       "url": "/art/shichai.xiaye/liuhanyan-cg-lost.png",
-      "alt": "酒肆楼上，窗帘半掩，韩铁衣的黑纹手按在柳含烟肩上；男主在楼下柜台前",
+      "alt": "木楼板上，黑纹男子把她的手腕按在头顶进入，动作又湿又重，她的脸贴着地板张口",
       "width": 1672,
       "height": 941,
       "kind": "scene"
@@ -211,7 +211,7 @@
     "shichai.xiaye.art.liuhanyan-cg-night": {
       "file": "art/images/liuhanyan-cg-night.png",
       "url": "/art/shichai.xiaye/liuhanyan-cg-night.png",
-      "alt": "酒肆楼上，柳含烟拔下银钗，乌发散下，窗外雷声",
+      "alt": "酒肆楼上，柳含烟跨坐交合、长发散落，墨绿长裙褪到腰际，黑蕾丝丝袜与朱红高跟还在",
       "width": 1672,
       "height": 941,
       "kind": "scene"
@@ -219,7 +219,7 @@
     "shichai.xiaye.art.liuhanyan-cg-dual": {
       "file": "art/images/liuhanyan-cg-dual.png",
       "url": "/art/shichai.xiaye/liuhanyan-cg-dual.png",
-      "alt": "酒肆地窖酒缸之间，两人对坐，柳含烟身上的旧伤痕在青色灵气里慢慢淡去",
+      "alt": "酒窖酒坛之间，柳含烟笑着在他身上起伏，旧疤随真气经过而发亮，汗湿着喉咙",
       "width": 1672,
       "height": 941,
       "kind": "scene"
@@ -247,6 +247,78 @@
       "width": 1024,
       "height": 1536,
       "kind": "portrait"
+    },
+    "shichai.xiaye.art.peisi-cg-night-3": {
+      "file": "art/images/peisi-cg-night-3.png",
+      "url": "/art/shichai.xiaye/peisi-cg-night-3.png",
+      "alt": "商行计数房里，裴泗伏在账桌边沿，腰间银链晃着，算盘与账册压在灯下",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.peisi-cg-dual-2": {
+      "file": "art/images/peisi-cg-dual-2.png",
+      "url": "/art/shichai.xiaye/peisi-cg-dual-2.png",
+      "alt": "密室低灯下，裴泗跨坐在低案上、一手按着男主的胸口，口中低声数着",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.shenqiyue-cg-night-3": {
+      "file": "art/images/shenqiyue-cg-night-3.png",
+      "url": "/art/shichai.xiaye/shenqiyue-cg-night-3.png",
+      "alt": "药庐晾架间，沈栖月躺在长凳上、一条手臂挡着自己眼睛，冷银月光透过纸窗",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.shenqiyue-cg-dual-2": {
+      "file": "art/images/shenqiyue-cg-dual-2.png",
+      "url": "/art/shichai.xiaye/shenqiyue-cg-dual-2.png",
+      "alt": "古道尽头月下石台，两人相对而坐额首相触，霜面映着冷银气机",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.liuhanyan-cg-night-3": {
+      "file": "art/images/liuhanyan-cg-night-3.png",
+      "url": "/art/shichai.xiaye/liuhanyan-cg-night-3.png",
+      "alt": "酒楼地窖酒坛之间，柳含烟坐在矮凳上，一只坛子倒了，稻草散开笑意发颤",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.liuhanyan-cg-dual-2": {
+      "file": "art/images/liuhanyan-cg-dual-2.png",
+      "url": "/art/shichai.xiaye/liuhanyan-cg-dual-2.png",
+      "alt": "暴雨夜酒楼楼上账房，柳含烟伏在矮桌上侧脸贴着桌面，雨水顺窗淌下",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.peisi-cg-night-2": {
+      "file": "art/images/peisi-cg-night-2.png",
+      "url": "/art/shichai.xiaye/peisi-cg-night-2.png",
+      "alt": "货栈后院库房麻袋堆旁，裴姒躺在地面灯照亮的麻袋上，银腰链垂下来",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.shenqiyue-cg-night-2": {
+      "file": "art/images/shenqiyue-cg-night-2.png",
+      "url": "/art/shichai.xiaye/shenqiyue-cg-night-2.png",
+      "alt": "客栈上房烛火将熄，沈栖月仰躺枕上，木牌压在桌角，肩上雨点未干",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
+    },
+    "shichai.xiaye.art.liuhanyan-cg-night-2": {
+      "file": "art/images/liuhanyan-cg-night-2.png",
+      "url": "/art/shichai.xiaye/liuhanyan-cg-night-2.png",
+      "alt": "酒肆楼上自住窄屋，柳含烟坐在床沿，柜上两碗酒还晃着",
+      "width": 1672,
+      "height": 941,
+      "kind": "scene"
     }
   }
 }

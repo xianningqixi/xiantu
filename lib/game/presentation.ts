@@ -1,5 +1,6 @@
 import { dailyScene } from "./daily-events";
 import { journeyContext } from "./journey-presentation";
+import { SCENE_LIMIT } from "./content-story";
 import { B, REALM_KEYS, advanceRule, threshold } from "./rules";
 import { mainObjective, currentMainStep, hasRubbing } from "./main-story";
 import { partyReadiness, departureStatus } from "./agreement";
@@ -30,10 +31,10 @@ function travel(w: World, to: LocationId, reason: string) {
     location: to,
   });
 }
-export function objective(w: World): Objective {
+export function objective(w: World, sceneLimit = SCENE_LIMIT): Objective {
   const p = w.player,
     rule = advanceRule(p),
-    context = journeyContext(w);
+    context = journeyContext(w, sceneLimit);
   const train = (reason?: string) => {
     if (!p.manual)
       return locationKind(p.location) === "inn"
@@ -103,11 +104,25 @@ export function objective(w: World): Objective {
     });
   if (context.actionable) {
     const node = context.main ?? context.side ?? context.official!;
-    const type = context.main ? "chooseMain" : context.side ? "chooseExtension" : "choose";
-    const choices = node.choices.map((choice) => ({
-      title: choice.label,
-      command: { type, nodeId: node.id, choiceId: choice.id } as Command,
-    }));
+    // 主线占主位时，在场旁支的选项也要留在同一排里，否则它们只能读不能选。
+    const extras = context.sides.filter((scene) => scene !== node && !!scene.choices.length);
+    const items = [
+      ...node.choices.map((choice) => ({
+        title: choice.label,
+        command: {
+          type: context.main ? "chooseMain" : context.side ? "chooseExtension" : "choose",
+          nodeId: node.id,
+          choiceId: choice.id,
+        } as Command,
+      })),
+      ...extras.flatMap((scene) =>
+        scene.choices.map((choice) => ({
+          title: `${scene.title}·${choice.label}`,
+          command: { type: "chooseExtension", nodeId: scene.id, choiceId: choice.id } as Command,
+        })),
+      ),
+    ];
+    const choices = items;
     return goal(choices[0].title, "作出回应，继续眼前的故事。", {
       command: choices[0].command,
       choices,

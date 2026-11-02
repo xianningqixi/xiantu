@@ -80,7 +80,17 @@ export interface Relation {
   socialEventId?: string;
   grievance?: boolean;
   /** Per-person cooldowns for the social commands (days). */
-  interactions?: { discussDay?: number; giftDay?: number; mentorDay?: number };
+  interactions?: {
+    discussDay?: number;
+    giftDay?: number;
+    mentorDay?: number;
+    chatDay?: number;
+    sparDay?: number;
+    strollDay?: number;
+    /** 上次被采补的日子与连着被采的次数，用于「采干了」的衰退。 */
+    stoleDay?: number;
+    stealStreak?: number;
+  };
 }
 export interface WorldEvent {
   daily?: {
@@ -91,12 +101,7 @@ export interface WorldEvent {
     giftDueDay?: number;
     giftSentDay?: number;
   };
-  intimacy?: {
-    kind: "bond" | "night" | "dual" | "tryst" | "affair" | "ntr";
-    consent: "mutual";
-    /** Living dao companions betrayed by this night. They are not asked. */
-    betrayed?: string[];
-  };
+  intimacy?: { kind: "bond" | "night" | "dual"; consent: "mutual" };
   mainStory?: { nodeId: string; choiceId: string };
   storyNodeId?: string;
   relationshipChange?: { favor: number; trust: number };
@@ -179,7 +184,7 @@ export interface Battle {
   auto: boolean;
   lethal: boolean;
   /** Missing means the legacy story encounter at the ruins. */
-  kind?: "road" | "explore" | "expedition";
+  kind?: "road" | "explore" | "expedition" | "duel";
   /** Where the fight happens; the player stays here until it resolves. */
   location?: LocationId;
   /** Road encounters drop the party here after a victory. */
@@ -189,6 +194,8 @@ export interface Battle {
   loot?: { stones: number; grass: number };
   /** Insight awarded after a field-battle victory (sparring with a cultivator etc.). */
   insight?: number;
+  /** Progress flags stamped by the outcome: win, and every non-win. */
+  flags?: { win?: string; lose?: string };
 }
 export type StopCondition =
   | { kind: "cultivationReady" }
@@ -226,7 +233,11 @@ export interface World {
   contentState: Record<string, boolean>;
   knowledge: Record<string, KnowledgeEntry[]>;
   receiptHistory: { count: number; hash: string };
-  simulationOptions: { backgroundConflicts: boolean };
+  simulationOptions: {
+    backgroundConflicts: boolean;
+    /** 亲密描写尺度偏好：只影响呈现，不写入规则判定。 */
+    intimacyDetail?: "tasteful" | "standard" | "explicit";
+  };
   commandReceipts: Record<string, { fingerprint: string; revision: number }>;
   format: "xiantu-web-1";
   rulesVersion: "0.1.2" | "0.1.3" | "0.1.4" | "0.1.5" | "0.1.6" | "0.2.0";
@@ -248,14 +259,14 @@ export interface World {
   loot: { stones: number; grass: number; expeditionId: string } | null;
   longAction: LongAction | null;
   lastExpeditionDay: number;
+  /** 已解锁成就 → 解锁日；缺失视为未解锁。 */
+  achievements?: Record<string, number>;
   /** Completed repeat expeditions since the story settled. */
   expeditionCount?: number;
   ended: boolean;
   notice: string;
   appliedCommands: string[];
 }
-export type LiaisonPlay = "tryst" | "affair" | "witness";
-export type LiaisonStance = "secret" | "mark" | "indulge" | "sever";
 export type Command =
   | { type: "advanceMinor" | "upgradeManual" | "rentCave" | "sectExchange" }
   | { type: "use"; item: "qi" }
@@ -265,13 +276,13 @@ export type Command =
   | { type: "joinSect"; sectId: SectId; confirmed: true }
   | { type: "sectTask" | "learnSectArt" | "leaveSect" }
   | { type: "spendTime"; target: string }
-  | { type: "intimacy"; target: string; kind: "bond" | "night" | "dual"; confirmed: true }
   | {
-      type: "liaison";
+      type: "intimacy";
       target: string;
-      play: "tryst" | "affair" | "witness";
-      stance: "secret" | "mark" | "indulge" | "sever";
+      kind: "bond" | "night" | "dual";
       confirmed: true;
+      /** 双修取舍：steal 采补（利多己）／balance 既济（均利）。省略即既济。 */
+      method?: "steal" | "balance";
     }
   | { type: "chooseMain"; nodeId: string; choiceId: string }
   | { type: "surveyRuins" }
@@ -324,7 +335,11 @@ export type Command =
   | { type: "discuss"; target: string }
   | { type: "gift"; target: string; item?: "stones" | "healing" | "grass" }
   | { type: "mentor"; target: string }
-  | { type: "auto"; enabled: boolean };
+  | { type: "chat"; target: string }
+  | { type: "spar"; target: string }
+  | { type: "stroll"; target: string }
+  | { type: "auto"; enabled: boolean }
+  | { type: "setIntimacyDetail"; detail: "tasteful" | "standard" | "explicit" };
 export interface Condition {
   fact: string;
   op: "eq" | "gte";
@@ -341,10 +356,19 @@ export interface StoryEffect {
     | "grass"
     | "healing"
     | "relation"
-    | "encounter";
+    | "encounter"
+    | "duel"
+    | "resource"
+    | "bond";
   value?: number;
   key?: string;
   target?: string;
+  item?: "stones" | "grass" | "healing" | "insight";
+  favor?: number;
+  trust?: number;
+  attraction?: number;
+  /** Target boolean for progress effects; omitted means true. */
+  active?: boolean;
 }
 export interface Choice {
   id: string;

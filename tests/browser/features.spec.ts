@@ -57,6 +57,34 @@ const terms = {
   travelStones: 2,
   scope: "next_expedition",
 };
+test("intimacy detail preference is selectable in settings and survives a reload", async ({
+  page,
+}) => {
+  await create(page, "亲密尺度");
+  await page.getByRole("button", { name: "存档与设置" }).click();
+  const settings = page.getByRole("dialog", { name: "存档与设置" });
+  await settings.getByRole("button", { name: "亲密", exact: true }).click();
+  const scale = settings.getByRole("radiogroup", { name: "亲密描写尺度" });
+  await expect(scale.getByRole("radio", { name: /标准/ })).toHaveAttribute("aria-checked", "true");
+  const before = await world(page);
+  await scale.getByRole("radio", { name: /详尽/ }).click();
+  await expect(scale.getByRole("radio", { name: /详尽/ })).toHaveAttribute("aria-checked", "true");
+  const explicit = await world(page);
+  expect(explicit.simulationOptions.intimacyDetail).toBe("explicit");
+  expect(explicit.day).toBe(before.day);
+  expect(explicit.player.xp).toBe(before.player.xp);
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog", { name: "存档与设置" })).toHaveCount(0);
+  await page.reload();
+  await page.getByRole("button", { name: "存档与设置" }).click();
+  const again = page.getByRole("dialog", { name: "存档与设置" });
+  await again.getByRole("button", { name: "亲密", exact: true }).click();
+  await expect(
+    again.getByRole("radiogroup", { name: "亲密描写尺度" }).getByRole("radio", { name: /详尽/ }),
+  ).toHaveAttribute("aria-checked", "true");
+  expect(await world(page)).toEqual(explicit);
+});
+
 test("author creation and actual preview file imports cannot overwrite the normal game", async ({
   page,
   context,

@@ -5,6 +5,7 @@ import { inCave } from "./cultivation";
 import { ensureRelation } from "./relationships";
 import { recordFact } from "./knowledge";
 import { locationKind } from "./world-map";
+import { namedEncounter } from "./encounters";
 import type { Choice, StoryEffect, StoryNode, World } from "./types";
 export type DailyActivity = "train" | "wait" | "work" | "travel";
 export interface DailyNode extends StoryNode {
@@ -34,7 +35,8 @@ export function dailyScene(w: World): StoryNode | undefined {
     choices: node.choices.map((c) => ({ ...c, reply: fill(c.reply) })),
   };
 }
-function effects(w: World, list: StoryEffect[], target?: string) {
+/** Returns true when the effect started a battle, so the caller keeps the battle line. */
+function effects(w: World, list: StoryEffect[], target?: string): boolean {
   // Validate the total cost before applying any effect; the Worker also rolls back failed candidates.
   for (const kind of ["stones", "grass", "healing", "insight"] as const) {
     const delta = list.filter((e) => e.kind === kind).reduce((n, e) => n + (e.value ?? 0), 0);
@@ -52,13 +54,16 @@ function effects(w: World, list: StoryEffect[], target?: string) {
       r.known = true;
       r.favor = Math.max(-100, Math.min(100, r.favor + (e.value ?? 0)));
     }
-    if (e.kind === "encounter")
-      recordFact(
-        w,
-        "encounter",
-        `遭遇记录：${e.target === "bandits" ? "山匪拦路" : "小妖兽来犯"}。你守住退路，性命无碍。`,
-      );
+    if (e.kind === "encounter") {
+      const battle = namedEncounter(w, e.target ?? "wolves");
+      if (!battle) continue;
+      w.battle = battle;
+      w.notice = battle.logs[0];
+      recordFact(w, "encounter", battle.logs[0], w.party);
+      return true;
+    }
   }
+  return false;
 }
 export function chooseDailyEvent(w: World, nodeId: string, choiceId: string): number {
   const scene = dailyScene(w);
@@ -67,13 +72,13 @@ export function chooseDailyEvent(w: World, nodeId: string, choiceId: string): nu
   const choice = node.choices.find((c) => c.id === choiceId);
   requireRule(choice, "当前没有这个选项。");
   const occurrence = dailyOccurrence(w)!;
-  effects(w, choice!.effects, occurrence.daily!.target);
+  const fighting = effects(w, choice!.effects, occurrence.daily!.target);
   occurrence.daily!.choiceId = choiceId;
   occurrence.daily!.choiceDay = w.day;
   if (choice!.gift && occurrence.daily!.target)
     occurrence.daily!.giftDueDay = w.day + B.actions.dailyEvents.giftDelayDays;
   w.pendingDailyEventId = null;
-  w.notice = scene!.choices.find((c) => c.id === choiceId)!.reply;
+  if (!fighting) w.notice = scene!.choices.find((c) => c.id === choiceId)!.reply;
   recordFact(w, "daily-choice", `${node.title}：${choice!.label}。${w.notice}`);
   return choice!.days;
 }

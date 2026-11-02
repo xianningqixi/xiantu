@@ -34,10 +34,14 @@
                   "starterManual.v1",
                   "buyItem.v1",
                   "experience.v1",
-                  "agreement.v1"
+                  "agreement.v1",
+                  "resource.v1",
+                  "bond.v1",
+                  "crossFlag.v1",
+                  "duel.v1"
                 ]
               },
-              "maxItems": 6
+              "maxItems": 8
             },
             "dependencies": {
               "type": "array",
@@ -116,7 +120,14 @@
               "items": {
                 "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
               },
-              "maxItems": 40
+              "maxItems": 96
+            },
+            "reads": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+              },
+              "maxItems": 24
             },
             "references": {
               "type": "array",
@@ -457,6 +468,9 @@
               "quote": {
                 "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/title"
               },
+              "explicit": {
+                "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/title"
+              },
               "visualId": {
                 "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
               },
@@ -475,7 +489,7 @@
               "minRealm": {
                 "type": "integer",
                 "minimum": 0,
-                "maximum": 4
+                "maximum": 12
               },
               "conditions": {
                 "type": "array",
@@ -546,6 +560,9 @@
                               },
                               "key": {
                                 "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+                              },
+                              "active": {
+                                "type": "boolean"
                               }
                             },
                             "required": [
@@ -639,6 +656,110 @@
                               "kind"
                             ],
                             "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "const": "duel"
+                              },
+                              "target": {
+                                "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+                              },
+                              "win": {
+                                "type": "object",
+                                "properties": {
+                                  "key": {
+                                    "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+                                  }
+                                },
+                                "required": [
+                                  "key"
+                                ],
+                                "additionalProperties": false
+                              },
+                              "lose": {
+                                "type": "object",
+                                "properties": {
+                                  "key": {
+                                    "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+                                  }
+                                },
+                                "required": [
+                                  "key"
+                                ],
+                                "additionalProperties": false
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "target",
+                              "win",
+                              "lose"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "const": "resource"
+                              },
+                              "item": {
+                                "type": "string",
+                                "enum": [
+                                  "stones",
+                                  "grass",
+                                  "healing",
+                                  "insight"
+                                ]
+                              },
+                              "value": {
+                                "type": "integer",
+                                "minimum": -100,
+                                "maximum": 100
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "item",
+                              "value"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "kind": {
+                                "type": "string",
+                                "const": "bond"
+                              },
+                              "target": {
+                                "$ref": "#/definitions/XiantuExtension/properties/manifest/properties/packId"
+                              },
+                              "favor": {
+                                "type": "integer",
+                                "minimum": -50,
+                                "maximum": 50
+                              },
+                              "trust": {
+                                "type": "integer",
+                                "minimum": -50,
+                                "maximum": 50
+                              },
+                              "attraction": {
+                                "type": "integer",
+                                "minimum": -50,
+                                "maximum": 50
+                              }
+                            },
+                            "required": [
+                              "kind",
+                              "target"
+                            ],
+                            "additionalProperties": false
                           }
                         ]
                       },
@@ -672,7 +793,7 @@
             "additionalProperties": false
           },
           "minItems": 1,
-          "maxItems": 40
+          "maxItems": 120
         }
       },
       "required": [

@@ -97,6 +97,7 @@ export function SettingsDialog({
               { id: "save", label: "存档" },
               { id: "offline", label: "离线" },
               { id: "new", label: "新角色" },
+              { id: "intimacy", label: "亲密" },
               { id: "tools", label: "工具" },
             ]}
           />
@@ -175,6 +176,36 @@ export function SettingsDialog({
               >
                 创建新角色
               </Button>
+            </section>
+            <section hidden={section !== "intimacy"}>
+              <h3>亲密描写</h3>
+              <p className="subtle">只改变正文呈现尺度，不改规则与存档数值；可随时切换。</p>
+              <div className="settings-actions" role="radiogroup" aria-label="亲密描写尺度">
+                {(
+                  [
+                    ["tasteful", "含蓄", "只保留故事主干，不显示加长段落。"],
+                    ["standard", "标准", "默认：加长段落折叠，点开才看。"],
+                    ["explicit", "详尽", "加长段落直接铺在正文里。"],
+                  ] as const
+                ).map(([value, label, hint]) => (
+                  <Button
+                    key={value}
+                    variant={
+                      (w.simulationOptions.intimacyDetail ?? "standard") === value
+                        ? "secondary"
+                        : "outline"
+                    }
+                    role="radio"
+                    aria-checked={(w.simulationOptions.intimacyDetail ?? "standard") === value}
+                    disabled={busy}
+                    onClick={() => void game.command({ type: "setIntimacyDetail", detail: value })}
+                  >
+                    {label}
+                    <small>{hint}</small>
+                  </Button>
+                ))}
+              </div>
+              <small>尺度偏好随存档保存，导入到其他设备仍生效。</small>
             </section>
             <section hidden={section !== "tools"}>
               <h3>工具</h3>

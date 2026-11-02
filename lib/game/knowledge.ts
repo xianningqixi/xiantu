@@ -140,6 +140,10 @@ export function recordFact(
   return event.id;
 }
 
+export function knowsEvent(world: World, eventId: string, knower: string) {
+  const who = indexes(world).get(knower);
+  return who !== undefined && !!world.knowledge[eventId]?.some((row) => row[0] === who);
+}
 export function knownEvents(world: World, knower = "PLAYER") {
   const who = indexes(world).get(knower);
   if (who === undefined) return [];
@@ -160,7 +164,6 @@ export function tellOwnRecentFacts(world: World, speakerId: string, listenerId =
   const available = knownEvents(world, speakerId)
     .filter(
       (event) =>
-        event.kind !== "scandal" &&
         !intimacyKind(world, event) &&
         !isIntimacyStoryEvent(event) &&
         event.actors.includes(speakerId) &&

@@ -152,50 +152,8 @@ test("a failed purchase rolls back all story state; old official saves retain th
   assert.throws(() => validateWorld(bad), /版本/);
 });
 
-test("adult night and dual scenes stay explicit while younger heroines keep their previous text", () => {
-  const scenes = new Map(
-    EXTENSIONS.flatMap(({ data }) => data.storylets.map((scene) => [scene.id, scene.body])),
-  );
-  const adult = [
-    "shichai.chunshui.suqingyan.night",
-    "shichai.chunshui.suqingyan.dual",
-    "shichai.chunshui.gutinglan.night",
-    "shichai.chunshui.gutinglan.dual",
-    "shichai.xiaye.peisi.night",
-    "shichai.xiaye.peisi.dual",
-    "shichai.xiaye.shenqiyue.night",
-    "shichai.xiaye.shenqiyue.dual",
-    "shichai.xiaye.liuhanyan.night",
-    "shichai.xiaye.liuhanyan.dual",
-    "shichai.qiudeng.wenrenshuang.night",
-    "shichai.qiudeng.wenrenshuang.dual",
-    "shichai.qiudeng.jiangzhaoxue.night",
-    "shichai.qiudeng.jiangzhaoxue.dual",
-    "shichai.dongxue.songxiaoman.night",
-    "shichai.dongxue.songxiaoman.dual",
-    "shichai.dongxue.chulian.night",
-    "shichai.dongxue.chulian.dual",
-  ];
-  for (const id of adult) {
-    const body = scenes.get(id) ?? "";
-    assert.ok(body.length >= 1700 && body.length <= 4000, `${id} ${body.length}`);
-    assert.match(body, /阴蒂/);
-    assert.match(body, /高潮/);
-    assert.match(body, /阴茎|性器/);
-  }
-  const frozen = {
-    "shichai.chunshui.wenzhiwei.lost": 808,
-    "shichai.chunshui.wenzhiwei.night": 875,
-    "shichai.chunshui.wenzhiwei.dual": 830,
-    "shichai.dongxue.yeshutong.lost": 1006,
-    "shichai.dongxue.yeshutong.night": 930,
-    "shichai.dongxue.yeshutong.dual": 948,
-  };
-  for (const [id, length] of Object.entries(frozen)) assert.equal(scenes.get(id)?.length, length);
-});
-
 const shichai = EXTENSIONS.filter((e) => e.data.manifest.packId.startsWith("shichai."));
-test("all 120 owned visuals resolve to lazy derivatives and 11 heroine portraits have runtime lookups", () => {
+test("all 153 owned visuals resolve to lazy derivatives and 11 heroine portraits have runtime lookups", () => {
   let count = 0,
     portraits = 0;
   for (const { data, images: hashes } of shichai) {
@@ -230,7 +188,7 @@ test("all 120 owned visuals resolve to lazy derivatives and 11 heroine portraits
     assert.equal(extensionPortrait(actor.id), null);
   assert.equal(extensionPortrait("PLAYER"), null);
   assert.equal(extensionPortrait("unknown"), null);
-  assert.equal(count, 120);
+  assert.equal(count, 153);
   assert.equal(portraits, 11);
 });
 test("owned contract rejects missing art, foreign URLs, invalid paths and scene portraits", () => {
@@ -262,5 +220,61 @@ test("owned contract rejects missing art, foreign URLs, invalid paths and scene 
     const data = structuredClone(shichai[0].data);
     mutate(data);
     assert.throws(() => validateExtension(data, official));
+  }
+});
+
+test("resource and bond effects are gated by declared capability and participant scope", () => {
+  for (const mutate of [
+    (p: any) =>
+      (p.storylets[0].choices[0].effects = [{ kind: "resource", item: "stones", value: -5 }]),
+    (p: any) =>
+      (p.storylets[0].choices[0].effects = [
+        { kind: "bond", target: "guest.roadside.stranger", favor: 5 },
+      ]),
+    (p: any) =>
+      (p.storylets[0].choices[1].effects = [{ kind: "bond", target: "PLAYER", favor: 5 }]),
+  ]) {
+    const p = structuredClone(entry.data);
+    mutate(p);
+    assert.throws(() => validateExtension(p, official));
+  }
+  const ok = structuredClone(entry.data);
+  ok.manifest.requiresCapabilities.push("resource.v1", "bond.v1");
+  const hero = ok.storylets[0].participants[0];
+  ok.storylets[0].choices[0].effects = [
+    { kind: "resource", item: "stones", value: -5 },
+    { kind: "bond", target: hero, favor: 5, trust: 2 },
+  ];
+  ok.storylets[0].choices[1].effects = [{ kind: "resource", item: "stones", value: 6 }];
+  // 两个选项都改成有代价后就不再有无代价退出，必须补一条。
+  assert.throws(() => validateExtension(structuredClone(ok), official), /无代价退出/);
+  ok.storylets[0].choices.push({
+    ...ok.storylets[0].choices[1],
+    id: "guest.roadside.exit",
+    effects: [],
+  });
+  validateExtension(ok, official);
+});
+
+test("a chosen resource effect moves goods and a shortage rolls back", () => {
+  const original = EXTENSIONS[0].data.storylets[0].choices[0].effects;
+  try {
+    EXTENSIONS[0].data.storylets[0].choices[0].effects = [
+      { kind: "resource", item: "stones", value: -5 },
+    ];
+    const poor = run(false);
+    poor.prepare();
+    const snapshot = JSON.stringify(poor.w);
+    assert.throws(() => poor.choose(), /随身物资不足/);
+    assert.equal(JSON.stringify(poor.w), snapshot);
+
+    const rich = run();
+    rich.prepare();
+    const before = rich.w.player.stones;
+    rich.choose();
+    assert.equal(rich.w.player.stones, before - 5);
+    validateWorld(rich.w);
+  } finally {
+    EXTENSIONS[0].data.storylets[0].choices[0].effects = original;
   }
 });

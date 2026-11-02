@@ -66,7 +66,13 @@ export function advanceMinor(w: World, a: Actor) {
   record(w, "advance", text, [a.id]);
   if (a.id === "PLAYER") w.notice = text;
 }
-export function cultivate(w: World, a: Actor, stoneMethod = false, dualPractice = false) {
+export function cultivate(
+  w: World,
+  a: Actor,
+  stoneMethod = false,
+  dualPractice = false,
+  gainBp = B.probabilityScaleBp,
+) {
   requireRule(a.alive && a.manual, "修炼需要先习得功法。");
   if (stoneMethod) {
     requireRule(
@@ -76,7 +82,10 @@ export function cultivate(w: World, a: Actor, stoneMethod = false, dualPractice 
     );
     a.stones -= STONE_METHOD.costSpiritStonesPerDay;
   }
-  a.xp += gainPerDay(w, a, stoneMethod, dualPractice);
+  a.xp += Math.max(
+    1,
+    Math.floor((gainPerDay(w, a, stoneMethod, dualPractice) * gainBp) / B.probabilityScaleBp),
+  );
   a.activity = "静心修炼";
   if (B.cultivation.minorAdvanceAutoForPlayerAndNpc[a.id === "PLAYER" ? "player" : "npc"])
     while (advanceRule(a).kind === "minor" && a.xp >= threshold(a)) advanceMinor(w, a);

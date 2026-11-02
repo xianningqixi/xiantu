@@ -49,3 +49,22 @@ test("forwards progress semantics to the primitive", async () => {
   assert.match(html, /aria-valuetext="37%"/);
   assert.match(html, /data-state="loading"/);
 });
+
+test("intimate paragraphs follow the chosen detail level", async () => {
+  const { IntimateBody } = await vite.ssrLoadModule("/components/game/side-stories.tsx");
+  const render = (detail) =>
+    renderToStaticMarkup(React.createElement(IntimateBody, { detail, text: "夜话" }));
+
+  assert.equal(render("tasteful"), "");
+  assert.match(render("standard"), /<details class="intimate-body-fold">/);
+  assert.match(render("standard"), /展开亲密段落/);
+  assert.match(render(undefined), /<details/, "缺失偏好按标准处理");
+  const explicit = render("explicit");
+  assert.match(explicit, /<p class="intimate-body">夜话<\/p>/);
+  assert.doesNotMatch(explicit, /<details/);
+  assert.equal(
+    renderToStaticMarkup(React.createElement(IntimateBody, { detail: "explicit" })),
+    "",
+    "无正文时不渲染",
+  );
+});

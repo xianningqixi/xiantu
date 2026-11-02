@@ -6,7 +6,11 @@
   "requiresCapabilities": [
     "progress.v1",
     "meet.v1",
-    "experience.v1"
+    "experience.v1",
+    "crossFlag.v1",
+    "bond.v1",
+    "duel.v1",
+    "resource.v1"
   ],
   "dependencies": [
     {
@@ -57,7 +61,34 @@
     "shichai.dongxue.chulian.flag.closed",
     "shichai.dongxue.chulian.flag.night",
     "shichai.dongxue.chulian.flag.dual",
-    "shichai.dongxue.chulian.flag.vow"
+    "shichai.dongxue.chulian.flag.vow",
+    "shichai.dongxue.yeshutong.flag.night3",
+    "shichai.dongxue.yeshutong.flag.dual2",
+    "shichai.dongxue.songxiaoman.flag.night3",
+    "shichai.dongxue.songxiaoman.flag.dual2",
+    "shichai.dongxue.chulian.flag.night3",
+    "shichai.dongxue.chulian.flag.dual2",
+    "shichai.dongxue.yeshutong.flag.night2",
+    "shichai.dongxue.songxiaoman.flag.night2",
+    "shichai.dongxue.chulian.flag.night2",
+    "shichai.dongxue.yeshutong.flag.hearsay-chunshui",
+    "shichai.dongxue.songxiaoman.flag.hearsay-suqingyan",
+    "shichai.dongxue.chulian.flag.hearsay-wenzhiwei",
+    "shichai.dongxue.yeshutong.flag.lost2",
+    "shichai.dongxue.yeshutong.flag.lost3",
+    "shichai.dongxue.yeshutong.flag.lost3-lose",
+    "shichai.dongxue.songxiaoman.flag.lost2",
+    "shichai.dongxue.songxiaoman.flag.lost3",
+    "shichai.dongxue.songxiaoman.flag.lost3-lose",
+    "shichai.dongxue.chulian.flag.lost2",
+    "shichai.dongxue.chulian.flag.lost3",
+    "shichai.dongxue.chulian.flag.lost3-lose"
   ],
-  "references": []
+  "references": [],
+  "reads": [
+    "shichai.chunshui.suqingyan.flag.closed",
+    "shichai.chunshui.suqingyan.flag.vow",
+    "shichai.chunshui.wenzhiwei.flag.closed",
+    "shichai.chunshui.wenzhiwei.flag.vow"
+  ]
 }

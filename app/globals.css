@@ -2192,6 +2192,63 @@ legend,
   line-height: 1.8;
   margin: 0.6rem 0;
 }
+
+.intimate-body {
+  line-height: 1.95;
+  color: var(--ink-soft, inherit);
+}
+
+.intimate-body-fold {
+  margin: 0.6rem 0;
+}
+
+.intimate-body-fold > summary {
+  cursor: pointer;
+  font-size: 0.85rem;
+  opacity: 0.75;
+  padding: 0.25rem 0;
+  list-style: none;
+}
+
+.intimate-body-fold > summary::-webkit-details-marker {
+  display: none;
+}
+
+.intimate-body-fold > summary::before {
+  content: "▸ ";
+}
+
+.intimate-body-fold[open] > summary::before {
+  content: "▾ ";
+}
+
+.intimate-body-fold > p {
+  margin-top: 0.4rem;
+  line-height: 1.95;
+}
+
+.dual-methods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+  margin: 0.5rem 0;
+}
+
+.dual-methods > small {
+  flex-basis: 100%;
+  opacity: 0.75;
+}
+
+.dual-methods > .strain-hint {
+  opacity: 1;
+  color: var(--danger, #b4552d);
+}
+
+.sheet-memory p {
+  white-space: pre-line;
+  line-height: 1.8;
+}
 .author-preview {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
@@ -3496,13 +3553,6 @@ legend,
   font-size: 0.85rem;
   line-height: 1.7;
 }
-.sheet-life-record {
-  margin: 1rem 0 0;
-}
-.sheet-life-record p {
-  margin: 0.35rem 0;
-  line-height: 1.7;
-}
 .sheet-relation {
   border: 1px solid #394d3b;
   padding: 0.85rem;
@@ -4433,6 +4483,50 @@ legend,
   gap: 12px;
   margin-top: 14px;
 }
+.intimacy-kind {
+  font-weight: 600;
+}
+
+.intimacy-kind.intimacy-bond {
+  color: var(--accent, #a8763c);
+}
+
+.intimacy-kind.intimacy-dual {
+  color: var(--accent, #8a6ab0);
+}
+
+.intimacy-codex .codex-person {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: auto;
+}
+
+.intimacy-codex .codex-person-block {
+  margin-bottom: 14px;
+}
+
+.intimacy-codex .codex-person-block > .list-heading {
+  margin-bottom: 6px;
+}
+.intimacy-tag {
+  display: inline-block;
+  margin: 0 0 3px 0.45rem;
+  padding: 0 0.4rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  opacity: 0.85;
+}
+
+.intimacy-tag.intimacy-bond {
+  color: var(--accent, #a8763c);
+}
+
+.intimacy-tag.intimacy-dual {
+  color: var(--accent, #8a6ab0);
+}
 .intimacy-panel > [data-slot="button"] {
   width: 100%;
 }
@@ -4445,19 +4539,6 @@ legend,
   display: block;
   line-height: 1.7;
   color: var(--muted-foreground);
-}
-.intimacy-scene {
-  margin: 10px 0 0;
-  padding: 8px 10px;
-  border-left: 2px solid var(--primary);
-  color: var(--foreground);
-  font-size: 14px;
-  line-height: 1.7;
-}
-.liaison-options {
-  margin-top: 16px;
-  padding-top: 12px;
-  border-top: 1px solid var(--border);
 }
 .atlas-sect-note {
   border-left: 2px solid var(--primary);
@@ -6609,6 +6690,18 @@ textarea::placeholder {
   font-size: 11px;
   color: var(--muted-foreground);
 }
+.dojo-extra-story {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--border);
+}
+.dojo-extra-story h2 {
+  font-size: 15px;
+  margin: 4px 0 8px;
+}
+.dojo-extra-story blockquote {
+  margin: 8px 0 0;
+}
 .dojo-story .dojo-present {
   font-size: 11px;
   margin-bottom: 0;
@@ -7331,4 +7424,73 @@ textarea::placeholder {
   .shop-row {
     flex-wrap: wrap;
   }
+}
+
+/* 成就墙：只读的长期目标，进度条用来看还差多少。 */
+.achievement-board .dual-methods {
+  margin-bottom: 12px;
+}
+.achievement-chip {
+  padding: 0.2rem 0.6rem;
+  border: 1px solid color-mix(in oklab, currentColor 30%, transparent);
+  border-radius: 999px;
+  background: none;
+  font-size: 0.78rem;
+  cursor: pointer;
+  opacity: 0.75;
+}
+.achievement-chip.active,
+.achievement-chip:hover {
+  opacity: 1;
+  border-color: currentColor;
+}
+.achievement-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.achievement-row {
+  padding: 10px 12px;
+  border: 1px solid color-mix(in oklab, currentColor 16%, transparent);
+  border-radius: 10px;
+  opacity: 0.72;
+}
+.achievement-row.done {
+  opacity: 1;
+  border-color: color-mix(in oklab, var(--accent, #a8763c) 55%, transparent);
+  background: color-mix(in oklab, var(--accent, #a8763c) 8%, transparent);
+}
+.achievement-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.achievement-head small {
+  opacity: 0.6;
+  font-size: 0.7rem;
+}
+.achievement-row p {
+  margin: 4px 0 6px;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+.achievement-bar {
+  height: 4px;
+  border-radius: 999px;
+  background: color-mix(in oklab, currentColor 14%, transparent);
+  overflow: hidden;
+}
+.achievement-bar span {
+  display: block;
+  height: 100%;
+  background: var(--accent, #a8763c);
+}
+.achievement-state {
+  display: block;
+  margin-top: 4px;
+  opacity: 0.6;
+  font-size: 0.7rem;
 }

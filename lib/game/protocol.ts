@@ -55,15 +55,7 @@ const commandSchemas = [
       target: id,
       kind: z.enum(["bond", "night", "dual"]),
       confirmed: z.literal(true),
-    })
-    .strict(),
-  z
-    .object({
-      type: z.literal("liaison"),
-      target: id,
-      play: z.enum(["tryst", "affair", "witness"]),
-      stance: z.enum(["secret", "mark", "indulge", "sever"]),
-      confirmed: z.literal(true),
+      method: z.enum(["steal", "balance"]).optional(),
     })
     .strict(),
   z
@@ -156,7 +148,16 @@ const commandSchemas = [
     })
     .strict(),
   z.object({ type: z.literal("mentor"), target: id }).strict(),
+  z.object({ type: z.literal("chat"), target: id }).strict(),
+  z.object({ type: z.literal("spar"), target: id }).strict(),
+  z.object({ type: z.literal("stroll"), target: id }).strict(),
   z.object({ type: z.literal("auto"), enabled: z.boolean() }).strict(),
+  z
+    .object({
+      type: z.literal("setIntimacyDetail"),
+      detail: z.enum(["tasteful", "standard", "explicit"]),
+    })
+    .strict(),
 ] as const;
 export const commandSchema = z.union(commandSchemas);
 export const draftSchema = z

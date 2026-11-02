@@ -12,8 +12,6 @@ type Resident = {
   interest: string;
   wish: string;
   partner?: string;
-  /** Authored fact for this resident. Recorded intercourse still overrides a claimed virgin. */
-  virgin?: boolean;
 };
 export const SECTS = content.sects as (Omit<
   (typeof content.sects)[number],

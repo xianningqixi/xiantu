@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { objective, presentationActionVisible, presentationShows } from "@/lib/game/presentation";
 import { journeyActions } from "@/lib/game/journey-actions";
+import { useSceneLimit } from "@/lib/ui/use-scene-limit";
 import { sectAt } from "@/lib/game/sect-content";
 import { practicePreview, realmPresentation } from "@/lib/ui/realm-presentation";
 import { partyReadiness } from "@/lib/game/agreement";
@@ -88,7 +89,7 @@ export function Dojo({
   useEffect(() => {
     if (profileOpen) setMore(false);
   }, [profileOpen]);
-  const goal = objective(w),
+  const goal = objective(w, useSceneLimit()),
     state = realmPresentation(w.player),
     preview = practicePreview(w, 7);
   const invoke = (command: Command) => {
@@ -448,7 +449,7 @@ export function Dojo({
             <DialogTitle>查看全部历程</DialogTitle>
             <DialogDescription>回看已知见闻与这一世的经历。</DialogDescription>
           </DialogHeader>
-          <JournalPanel world={w} />
+          <JournalPanel world={w} onProfile={onProfile} />
         </DialogContent>
       </Dialog>
     </div>

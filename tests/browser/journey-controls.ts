@@ -56,10 +56,12 @@ export async function travelTo(page: Page, name: string) {
     .click();
   await expect(page.locator(".dojo-landscape figcaption")).toContainText(name);
 }
-export async function openMore(page: Page) {
+export async function openMore(page: Page, settle = true) {
   await expect(page.locator('[role="dialog"][data-state="closed"]')).toHaveCount(0);
   if (await page.getByRole("dialog", { name: "选择更多行动", exact: true }).isVisible()) return;
   await openCurrentLocation(page);
+  // 路上撞进的遭遇会把行动栏整片禁掉，先脱身再开抽屉。
+  if (settle && (await saved(page)).battle) await settleBattle(page);
   await page.getByRole("button", { name: "更多", exact: true }).click();
 }
 export async function showLocalPeople(page: Page) {
@@ -105,7 +107,7 @@ export async function clickPaged(control: Locator) {
 
 /** Open the paginated "more actions" drawer on a specific category tab. */
 export async function openDrawerCategory(page: Page, label: string) {
-  await openMore(page);
+  await openMore(page, true);
   const drawer = page.getByRole("dialog", { name: "选择更多行动" });
   const tab = drawer.getByRole("button", { name: label, exact: true });
   if (await tab.count()) await tab.click();
@@ -153,6 +155,11 @@ export async function finish(page: Page) {
   await expect(page.getByRole("button", { name: "凝聚气机…", exact: true })).toHaveCount(0);
   for (let i = 0; i < 400; i++) {
     const w = await saved(page);
+    if (w.battle) {
+      // 日常事件本身也可能把人拖进战斗；战斗没打完，后续命令一律被挡。
+      await settleBattle(page);
+      continue;
+    }
     if (!w.longAction && !w.pendingDailyEventId) break;
     if (w.pendingDailyEventId) await answerDaily(page);
     else if (await page.locator(".dojo-primary").filter({ hasText: "继续当前行动" }).isVisible())
@@ -163,6 +170,51 @@ export async function finish(page: Page) {
   expect((await saved(page)).pendingDailyEventId).toBeNull();
   await expect(page.getByLabel("本机已存", { exact: true })).toBeVisible();
 }
+/**
+ * 打完一场遭遇。两条驱动路径都要照顾：
+ * - B 夹具把 Worker 暴露成 __bAsk，直接发命令最快；
+ * - 经典夹具只能点 UI，按钮在忙碌时是禁用的，得等它真的可用。
+ */
+export async function settleBattle(page: Page) {
+  const hasWorker = await page.evaluate(() => typeof (window as any).__bAsk === "function");
+  if (hasWorker) {
+    for (let i = 0; i < 200; i++) {
+      const w = await saved(page);
+      if (!w.battle) return;
+      const ally = w.battle.allies.find((a: { id: string }) => a.id === "PLAYER")!;
+      const action = ally.hp / ally.maxHp <= 0.34 && w.player.healing > 0 ? "heal" : "attack";
+      const target = w.battle.enemies.find((e: { hp: number }) => e.hp > 0)?.id;
+      const reply = await page.evaluate((input) => (window as any).__bAsk(input), {
+        kind: "command",
+        command: { type: "battle", action, ...(action === "attack" ? { target } : {}) },
+        revision: w.revision,
+        expected: { saveId: w.saveId, revision: w.revision },
+      });
+      if (!reply.ok) throw new Error(`战斗指令被拒(action=${action}): ${reply.error}`);
+    }
+  } else {
+    if (!(await page.locator("#battle-controls").count())) await openMore(page, false);
+    await expect(page.locator("#battle-controls")).toBeVisible();
+    let stalled = 0;
+    for (let i = 0; i < 600; i++) {
+      if (!(await page.locator("#battle-controls").count())) return;
+      const clicked = await page.evaluate(() => {
+        const buttons = [
+          ...document.querySelectorAll<HTMLButtonElement>("#battle-controls button"),
+        ];
+        const attack = buttons.find((b) => b.textContent?.trim().startsWith("普攻"));
+        if (!attack || attack.disabled) return false;
+        attack.click();
+        return true;
+      });
+      stalled = clicked ? 0 : stalled + 1;
+      await page.waitForTimeout(clicked ? 60 : 150);
+      if (stalled > 60) break;
+    }
+  }
+  expect((await saved(page)).battle ?? null).toBeNull();
+}
+
 export async function train(page: Page, days: number) {
   await openPractice(page);
   await page.getByLabel("停止条件", { exact: true }).selectOption("days");

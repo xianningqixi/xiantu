@@ -1,12 +1,21 @@
 import { EXTENSIONS } from "./content/extensions";
 import type { World, WorldEvent } from "./types";
-type StoryKind = "bond" | "night" | "dual";
-type Kind = NonNullable<WorldEvent["intimacy"]>["kind"];
-const stages: Record<string, StoryKind> = { vow: "bond", night: "night", dual: "dual" };
+type Kind = "bond" | "night" | "dual";
+const stages: Record<string, Kind> = { vow: "bond", night: "night", dual: "dual" };
+const stageOf = (id: string) => {
+  const stage =
+    stages[
+      id
+        .split(".")
+        .at(-1)!
+        .replace(/-[a-z0-9]+$/, "")
+    ];
+  return stage;
+};
 const nodes = new Map(
   EXTENSIONS.flatMap(({ data }) =>
     data.storylets.flatMap((n) => {
-      const stage = stages[n.id.split(".").at(-1)!];
+      const stage = stageOf(n.id);
       if (!n.id.startsWith("shichai.") || !stage) return [];
       const choices = n.choices.filter((c) => c.effects.some((e) => e.kind === "experience"));
       return [
@@ -30,7 +39,7 @@ export const storyIntimacyKind = (nodeId: string, choiceId: string) => {
   const entry = nodes.get(nodeId);
   return entry?.choices.has(choiceId) ? entry.kind : undefined;
 };
-const indexes = new WeakMap<World, { count: number; kinds: Map<string, StoryKind> }>();
+const indexes = new WeakMap<World, { count: number; kinds: Map<string, Kind> }>();
 /** Existing authored experiences are classified for viewing, without rewriting old consent or facts.
  * A story view or a declined choice is not evidence; only the persisted experience followed by
  * its matching authored choice event qualifies. */
@@ -38,7 +47,7 @@ export function intimacyKind(w: World, e: WorldEvent): Kind | undefined {
   if (e.intimacy) return e.intimacy.kind;
   let index = indexes.get(w);
   if (!index || index.count !== w.events.length) {
-    const kinds = new Map<string, StoryKind>();
+    const kinds = new Map<string, Kind>();
     w.events.forEach((event, i) => {
       if (event.kind !== "shared-experience" || event.actors.length !== 2) return;
       const story = w.events[i + 1],

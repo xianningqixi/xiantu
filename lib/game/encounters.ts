@@ -146,3 +146,12 @@ export function exploreEncounter(w: World): Battle | null {
     intro: `灌木深处窜出${template.name}，你来不及退回大路。`,
   });
 }
+
+/** 日常小事点名的一种敌人（山匪／小妖兽）真正开局，而不是只留一条日志。 */
+export function namedEncounter(w: World, templateId: string): Battle | null {
+  const template = templates[templateId];
+  if (!template) return null;
+  return buildBattle(w, "road", template, {
+    intro: `${template.name}拦住去路，退无可退。`,
+  });
+}

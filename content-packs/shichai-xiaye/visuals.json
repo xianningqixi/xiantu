@@ -153,5 +153,50 @@
     "assetId": "shichai.xiaye.art.liuhanyan-portrait",
     "alt": "柳含烟立绘：33岁酒肆老板娘，桃花眼含笑，乌发松挽斜插银钗，胭脂红对襟配墨绿长裙，手持酒壶，风情而通透",
     "status": "owned"
+  },
+  "shichai.xiaye.peisi.cg.night-3": {
+    "assetId": "shichai.xiaye.art.peisi-cg-night-3",
+    "alt": "商行计数房里，裴泗伏在账桌边沿，腰间银链晃着，算盘与账册压在灯下",
+    "status": "owned"
+  },
+  "shichai.xiaye.peisi.cg.dual-2": {
+    "assetId": "shichai.xiaye.art.peisi-cg-dual-2",
+    "alt": "密室低灯下，裴泗跨坐在低案上、一手按着男主的胸口，口中低声数着",
+    "status": "owned"
+  },
+  "shichai.xiaye.shenqiyue.cg.night-3": {
+    "assetId": "shichai.xiaye.art.shenqiyue-cg-night-3",
+    "alt": "药庐晾架间，沈栖月躺在长凳上、一条手臂挡着自己眼睛，冷银月光透过纸窗",
+    "status": "owned"
+  },
+  "shichai.xiaye.shenqiyue.cg.dual-2": {
+    "assetId": "shichai.xiaye.art.shenqiyue-cg-dual-2",
+    "alt": "古道尽头月下石台，两人相对而坐额首相触，霜面映着冷银气机",
+    "status": "owned"
+  },
+  "shichai.xiaye.liuhanyan.cg.night-3": {
+    "assetId": "shichai.xiaye.art.liuhanyan-cg-night-3",
+    "alt": "酒楼地窖酒坛之间，柳含烟坐在矮凳上，一只坛子倒了，稻草散开笑意发颤",
+    "status": "owned"
+  },
+  "shichai.xiaye.liuhanyan.cg.dual-2": {
+    "assetId": "shichai.xiaye.art.liuhanyan-cg-dual-2",
+    "alt": "暴雨夜酒楼楼上账房，柳含烟伏在矮桌上侧脸贴着桌面，雨水顺窗淌下",
+    "status": "owned"
+  },
+  "shichai.xiaye.peisi.cg.night-2": {
+    "assetId": "shichai.xiaye.art.peisi-cg-night-2",
+    "alt": "货栈后院库房麻袋堆旁，裴姒躺在地面灯照亮的麻袋上，银腰链垂下来",
+    "status": "owned"
+  },
+  "shichai.xiaye.shenqiyue.cg.night-2": {
+    "assetId": "shichai.xiaye.art.shenqiyue-cg-night-2",
+    "alt": "客栈上房烛火将熄，沈栖月仰躺枕上，木牌压在桌角，肩上雨点未干",
+    "status": "owned"
+  },
+  "shichai.xiaye.liuhanyan.cg.night-2": {
+    "assetId": "shichai.xiaye.art.liuhanyan-cg-night-2",
+    "alt": "酒肆楼上自住窄屋，柳含烟坐在床沿，柜上两碗酒还晃着",
+    "status": "owned"
   }
 }

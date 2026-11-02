@@ -4,10 +4,20 @@ import { SectionNav } from "@/components/ui/section-nav";
 import { useCompactLayout } from "@/lib/ui/use-compact-layout";
 import { MainQuestLog } from "./main-quest-log";
 import { Button } from "@/components/ui/button";
+import { IntimacyCodex } from "./intimacy-codex";
+import { AchievementBoard } from "./achievements";
+import type { OpenProfile } from "@/lib/ui/profile-navigation";
 import B from "@/lib/game/content/balance.json";
 import { visibleEvents } from "@/lib/game/engine";
+import { intimacyKind } from "@/lib/game/intimacy-history";
 import type { World } from "@/lib/game/types";
 import { useEffect, useMemo, useState } from "react";
+
+const intimacyTags: Record<string, string> = {
+  bond: "结为道侣",
+  night: "共度良宵",
+  dual: "道侣共修",
+};
 
 type Seen = { day: number; ids: string[] };
 const key = (world: World) => `xiantu:journal-seen:${world.saveId}`;
@@ -38,6 +48,7 @@ const labels: Record<string, string> = {
   "sect-leave": "辞别师门",
   companionship: "相伴交流",
   intimacy: "性与亲密经历",
+  achievement: "成就",
   advance: "境界提升",
   breakthrough: "突破成功",
   "breakthrough-failed": "突破未成",
@@ -56,7 +67,7 @@ const labels: Record<string, string> = {
   sharedVictory: "并肩取胜",
   social: "日常交往",
 };
-export function JournalPanel({ world: w }: { world: World }) {
+export function JournalPanel({ world: w, onProfile }: { world: World; onProfile?: OpenProfile }) {
   const PAGE_SIZE = useCompactLayout() ? 2 : 4;
   const [view, setView] = useState("events");
   const [newOnly, setNewOnly] = useState(false);
@@ -116,9 +127,17 @@ export function JournalPanel({ world: w }: { world: World }) {
         items={[
           { id: "events", label: "人物与见闻" },
           { id: "main", label: "主线线索" },
+          { id: "codex", label: "亲密图鉴" },
+          { id: "achievements", label: "成就" },
         ]}
       />
       <PagedContent label="历程" resetKey={`${view}:${page}:${kind}:${person}:${year}`}>
+        <div hidden={view !== "codex"}>
+          <IntimacyCodex world={w} onProfile={onProfile} />
+        </div>
+        <div hidden={view !== "achievements"}>
+          <AchievementBoard world={w} />
+        </div>
         <div hidden={view !== "main"}>
           <MainQuestLog world={w} />
         </div>
@@ -200,6 +219,11 @@ export function JournalPanel({ world: w }: { world: World }) {
                     <div>
                       <span className="journal-mark" />
                       {newFact(e.id) && <small className="new-event">新增</small>}
+                      {intimacyKind(w, e) && (
+                        <small className={`intimacy-tag intimacy-${intimacyKind(w, e)}`}>
+                          {intimacyTags[intimacyKind(w, e)!]}
+                        </small>
+                      )}
                       <p>{e.text}</p>
                     </div>
                   </article>

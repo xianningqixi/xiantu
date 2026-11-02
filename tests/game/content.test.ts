@@ -170,7 +170,7 @@ test("path traversal, unknown text expressions and incompatible save locks fail 
 import dailyEvents from "../../content-packs/daily-events/events.json";
 import { validateDailyEvents } from "../../lib/game/content/daily-event-contract.mjs";
 test("daily storylets contain three complete pools and reject ambiguous targets or duplicate IDs", () => {
-  assert.equal(validateDailyEvents(dailyEvents).events.length, 30);
+  assert.equal(validateDailyEvents(dailyEvents).events.length, 36);
   const duplicate = structuredClone(dailyEvents);
   duplicate.events[1].id = duplicate.events[0].id;
   assert.throws(() => validateDailyEvents(duplicate));

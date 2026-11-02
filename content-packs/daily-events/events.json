@@ -1200,6 +1200,255 @@
       "cooldownDays": 7,
       "requiresNpc": false,
       "effects": []
+    },
+    {
+      "id": "daily.dry-well",
+      "category": "sighting",
+      "title": "枯井回声",
+      "eyebrow": "途中小事",
+      "body": "井口坍了半边，你朝下唤了一声，回声过了很久才上来，比自己那声闷。",
+      "conditions": [
+        {
+          "fact": "daily.dry-well",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [],
+      "portrait": false,
+      "visualId": "atlas.luoxia",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": [
+        {
+          "kind": "insight",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "daily.cold-dew",
+      "category": "sighting",
+      "title": "露水未干",
+      "eyebrow": "途中小事",
+      "body": "草叶上的露压得低，你走过时裤脚湿了一截，凉意一直贴到膝上。",
+      "conditions": [
+        {
+          "fact": "daily.cold-dew",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [],
+      "portrait": false,
+      "visualId": "atlas.cangzhu",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": [
+        {
+          "kind": "grass",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "daily.night-watch",
+      "category": "choice",
+      "title": "借火",
+      "eyebrow": "途中小事",
+      "body": "守夜的人拨了拨火堆，往边上让出半个位置。“坐吧，一个人守也闷。”",
+      "conditions": [
+        {
+          "fact": "daily.night-watch",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "sit",
+          "label": "坐下",
+          "hint": "不耗时",
+          "reply": "你坐到火边，听他说起这条路上的旧事，讲得零碎，却够撑过这一夜。",
+          "effects": [
+            {
+              "kind": "relation",
+              "value": 4,
+              "target": "npc"
+            }
+          ],
+          "days": 1,
+          "gift": false
+        },
+        {
+          "id": "pass",
+          "label": "谢过继续走",
+          "hint": "不耗时",
+          "reply": "你抱拳谢过，火光在背后小了一阵，又远了。",
+          "effects": [],
+          "days": 0,
+          "gift": false
+        }
+      ],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": true,
+      "effects": []
+    },
+    {
+      "id": "daily.borrow-tier",
+      "category": "choice",
+      "title": "借一层台阶",
+      "eyebrow": "途中小事",
+      "body": "{{npc}}卡在一处关口，问你借几枚灵石去换突破要用的丹药。",
+      "conditions": [
+        {
+          "fact": "daily.borrow-tier",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "lend",
+          "label": "借出八枚",
+          "hint": "不耗时",
+          "reply": "灵石递过去，对方郑重记下数目，说一定还。",
+          "effects": [
+            {
+              "kind": "stones",
+              "value": -8
+            },
+            {
+              "kind": "relation",
+              "value": 7,
+              "target": "npc"
+            }
+          ],
+          "days": 0,
+          "gift": false
+        },
+        {
+          "id": "decline",
+          "label": "说自己也紧",
+          "hint": "不耗时",
+          "reply": "你摇头说明原委，对方倒也不恼。",
+          "effects": [
+            {
+              "kind": "relation",
+              "value": 1,
+              "target": "npc"
+            }
+          ],
+          "days": 0,
+          "gift": false
+        }
+      ],
+      "portrait": false,
+      "visualId": "market",
+      "cooldownDays": 7,
+      "requiresNpc": true,
+      "effects": []
+    },
+    {
+      "id": "daily.snake-grass",
+      "category": "risk",
+      "title": "草里的一声",
+      "eyebrow": "途中小事",
+      "body": "脚边草丛猛地一动，一条青蛇立起半身，信子吐得急。",
+      "conditions": [
+        {
+          "fact": "daily.snake-grass",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "face",
+          "label": "按住剑柄稳住",
+          "hint": "不耗时",
+          "reply": "蛇与你对峙片刻，自己钻回草里去了。",
+          "effects": [
+            {
+              "kind": "encounter",
+              "value": 1,
+              "target": "wolves"
+            }
+          ],
+          "days": 0,
+          "gift": false
+        },
+        {
+          "id": "back",
+          "label": "退回原路",
+          "hint": "不耗时",
+          "reply": "你退了三步，绕开这片草，多走了些路。",
+          "effects": [
+            {
+              "kind": "insight",
+              "value": 1
+            }
+          ],
+          "days": 0,
+          "gift": false
+        }
+      ],
+      "portrait": false,
+      "visualId": "atlas.cangzhu",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": []
+    },
+    {
+      "id": "daily.mud-flat",
+      "category": "risk",
+      "title": "滩涂下陷",
+      "eyebrow": "途中小事",
+      "body": "脚下的泥比看上去软，你半个脚掌已经陷进去。",
+      "conditions": [
+        {
+          "fact": "daily.mud-flat",
+          "op": "eq",
+          "value": true
+        }
+      ],
+      "choices": [
+        {
+          "id": "pull",
+          "label": "稳住重心慢慢拔",
+          "hint": "不耗时",
+          "reply": "你压着喘息一寸寸把自己拔出来，鞋上糊满泥。",
+          "effects": [
+            {
+              "kind": "grass",
+              "value": 1
+            }
+          ],
+          "days": 0,
+          "gift": false
+        },
+        {
+          "id": "roll",
+          "label": "就地滚出去",
+          "hint": "不耗时",
+          "reply": "你侧身滚进硬地，衣裳脏了一片，人却利索。",
+          "effects": [
+            {
+              "kind": "insight",
+              "value": 1
+            }
+          ],
+          "days": 0,
+          "gift": false
+        }
+      ],
+      "portrait": false,
+      "visualId": "atlas.yanbo",
+      "cooldownDays": 7,
+      "requiresNpc": false,
+      "effects": []
     }
   ]
 }

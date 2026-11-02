@@ -6,6 +6,17 @@ import type { Command, World } from "@/lib/game/types";
 import { GameImage } from "./panels";
 import type { OpenProfile } from "@/lib/ui/profile-navigation";
 import { TimeBadge } from "./time-badge";
+/** 亲密场景的加长段落：含蓄不显示，标准折叠，详尽直接铺开。 */
+export function IntimateBody({ detail, text }: { detail?: string; text?: string }) {
+  if (!text || detail === "tasteful") return null;
+  if (detail === "explicit") return <p className="intimate-body">{text}</p>;
+  return (
+    <details className="intimate-body-fold">
+      <summary>展开亲密段落</summary>
+      <p>{text}</p>
+    </details>
+  );
+}
 export function SideStories({
   world,
   busy,
@@ -18,6 +29,7 @@ export function SideStories({
   onProfile: OpenProfile;
 }) {
   const scenes = extensionScenes(world);
+  const detail = world.simulationOptions.intimacyDetail ?? "standard";
   const hint = (text: string) =>
     text.replace(
       /\{\{([^{}]+)\.name\}\}/g,
@@ -73,9 +85,8 @@ export function SideStories({
               {chapter && scene.id.endsWith(".intro") && (
                 <p className="campaign-lead">{chapter.volumeLead}</p>
               )}
-              {scene.body.split(/\n\n+/).map((paragraph, index) => (
-                <p key={`${scene.id}-${index}`}>{paragraph}</p>
-              ))}
+              <p>{scene.body}</p>
+              <IntimateBody detail={detail} text={scene.explicit} />
               {scene.quote && <blockquote>{scene.quote}</blockquote>}
               {participants.length > 0 && (
                 <div className="story-people" aria-label="故事人物">

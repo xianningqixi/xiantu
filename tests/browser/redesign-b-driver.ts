@@ -1,7 +1,11 @@
 import { expect, type Page } from "@playwright/test";
 import { readFileSync } from "node:fs";
 const DAILY_EVENTS = JSON.parse(readFileSync("content-packs/daily-events/events.json", "utf8"))
-  .events as { id: string; category: string }[];
+  .events as {
+  id: string;
+  category: string;
+  choices: { id: string; effects: { kind: string; value?: number }[] }[];
+}[];
 const BAL = JSON.parse(readFileSync("lib/game/content/balance.json", "utf8"));
 const advanceRule = (p: World["player"]) =>
   BAL.cultivation.advanceRules[BAL.cultivation.realmOrder[p.realm]];
@@ -47,13 +51,38 @@ export async function askB(page: Page, input: any) {
   expect(r.ok, r.error).toBe(true);
   return r;
 }
+/**
+ * 把当前战斗打完并返回最新存档。自从日常遭遇会真的开战，
+ * 任何「推进时间」的夹具都可能中途踩进战斗，之后再发命令就被「请先完成当前战斗」挡住。
+ */
+export async function settleBattleB(page: Page, w: World): Promise<World> {
+  let cur = w;
+  for (let i = 0; i < 400 && cur.battle; i++) {
+    const ally = cur.battle.allies.find((a) => a.id === "PLAYER");
+    const hurt = ally !== undefined && ally.hp / ally.maxHp <= 0.34 && cur.player.healing > 0;
+    const target = cur.battle.enemies.find((e) => e.hp > 0)?.id;
+    cur = (
+      await askB(page, {
+        kind: "command",
+        command: hurt
+          ? { type: "battle", action: "heal" }
+          : { type: "battle", action: "attack", target },
+        revision: cur.revision,
+        expected: { saveId: cur.saveId, revision: cur.revision },
+      })
+    ).state;
+  }
+  return cur;
+}
 export async function commandB(page: Page, w: World, c: Command): Promise<World> {
+  // 战斗指令本身要留给调用方控制节奏，其余命令先把拦路的战斗收掉。
+  let cur = c.type === "battle" ? w : await settleBattleB(page, w);
   return (
     await askB(page, {
       kind: "command",
       command: c,
-      revision: w.revision,
-      expected: { saveId: w.saveId, revision: w.revision },
+      revision: cur.revision,
+      expected: { saveId: cur.saveId, revision: cur.revision },
     })
   ).state;
 }
@@ -74,10 +103,24 @@ export async function createB(page: Page, aptitude = 90): Promise<World> {
     })
   ).state;
 }
+/**
+ * 应答待处理的日常事件：优先挑不花钱的那一支，因为事件作者会换选项 id，
+ * 硬编码 face / decline 迟早失效。
+ */
 export function replyB(w: World): Command | null {
   if (!w.pendingDailyEventId) return null;
   const n = DAILY_EVENTS.find((n) => n.id === w.pendingDailyEventId)!;
-  return { type: "choose", nodeId: n.id, choiceId: n.category === "risk" ? "face" : "decline" };
+  // 事件作者的选项 id 会变，按「这条选项真要花多少随身物资」现算一遍。
+  const affordable = n.choices.filter((c) =>
+    ["stones", "grass", "healing", "insight"].every(
+      (kind) =>
+        (w.player as unknown as Record<string, number>)[kind] +
+          c.effects.filter((e) => e.kind === kind).reduce((sum, e) => sum + (e.value ?? 0), 0) >=
+        0,
+    ),
+  );
+  const pick = affordable.at(0) ?? n.choices.at(-1)!;
+  return { type: "choose", nodeId: n.id, choiceId: pick.id };
 }
 export function growthB(w: World): Command {
   const reply = replyB(w);
@@ -90,6 +133,10 @@ export function growthB(w: World): Command {
       ? { type: "advanceMinor" }
       : { type: "breakthrough", usePill: false, guardian: false };
   return { type: "train", days: 7, stoneMethod: false, stopWhen: { kind: "cultivationReady" } };
+}
+/** 从 Worker 重新读出当前存档，避免页面重载后手里的 state 过期。 */
+export async function loadB(page: Page): Promise<World> {
+  return (await askB(page, { kind: "load" })).state;
 }
 export async function showB(page: Page, w: World) {
   await page.reload();

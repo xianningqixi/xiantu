@@ -89,6 +89,21 @@ export function finishBattle(w: World, outcome: "win" | "retreat" | "defeat") {
 
 function finishFieldBattle(w: World, battle: Battle, outcome: "win" | "retreat" | "defeat") {
   const p = w.player;
+  // 剧情决斗只分胜负两种落点：赢了写下胜利字段，退与败都算没赢。
+  if (battle.flags) {
+    const key = outcome === "win" ? battle.flags.win : battle.flags.lose;
+    if (key) w.contentState[key] = true;
+    const name = battle.enemies[0]?.name ?? "对手";
+    w.notice =
+      outcome === "win"
+        ? `你赢下这一场，${name}收手退开半步。`
+        : outcome === "retreat"
+          ? `你主动收手，${name}也没有追。这一场算平。`
+          : `你被${name}逼退，咽下这一口气。`;
+    record(w, `duel-${outcome}`, w.notice, ["PLAYER", battle.enemies[0]?.id ?? "PLAYER"]);
+    w.battle = null;
+    return;
+  }
   if (outcome === "win") {
     const loot = battle.loot ?? { stones: 0, grass: 0 };
     const split = battle.kind === "expedition" && w.agreement?.terms === "split";

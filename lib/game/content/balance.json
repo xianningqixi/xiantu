@@ -9,7 +9,7 @@
     "exampleSeed": 12345,
     "startDay": 0,
     "daysPerYear": 360,
-    "startAgeYears": 21,
+    "startAgeYears": 18,
     "minimumGeneratedAgeYears": 18,
     "maximumGeneratedAgeYears": 60,
     "initialRelationshipEdgesPerNpcMax": 2,
@@ -840,7 +840,6 @@
     },
     "enemyRequiresExplicitGrievance": true,
     "intimateRelationshipMinimumAgeYears": 18,
-    "explicitSceneMinimumAgeYears": 21,
     "romanceRequiresExplicitMutualConsent": true,
     "romanceAcquisitionEnabled": true,
     "attractionGainFromGenericFriendliness": 0,
@@ -895,26 +894,82 @@
       "bondAttraction": 30,
       "nightDays": 1,
       "dualDays": 1,
-      "liaisonDays": 1,
-      "trystAttraction": 15,
-      "affairAttraction": 25,
-      "liaisonFavor": 5,
-      "exposeTrustLoss": 40,
-      "exposeFavorLoss": 20,
-      "indulgeTrustLoss": 10
+      "dualMethods": {
+        "steal": {
+          "selfBp": 15000,
+          "partnerBp": 5000,
+          "strainAfter": 2,
+          "strainDays": 7,
+          "strainPartnerBp": 2000,
+          "strainSelfBp": 9000
+        },
+        "balance": {
+          "selfBp": 12000,
+          "partnerBp": 12000
+        }
+      },
+      "sceneLines": {
+        "inn": [
+          "客栈的房间隔音不好，隔壁的木梯响了两回。",
+          "灯芯挑得很短，只剩一层橘光。",
+          "窗外有客人上楼，脚步从门上碾过去。"
+        ],
+        "wild": [
+          "野地里的风把衣角掀起，草籽粘在背上。",
+          "远处有兽声，她绷了一下，随即松开。",
+          "露水凉，铺开的衣裳挡不住多少。"
+        ],
+        "market": [
+          "坊市还没散尽，檐下的灯一盏盏亮着。",
+          "楼下有人在收摊，木板磕碰的声音断断续续。",
+          "巷子窄，墙那边有人咳嗽了一声。"
+        ],
+        "gate": [
+          "山门外的石阶凉得硌人。",
+          "巡夜的灯从崖那边晃过来，又晃过去。",
+          "风穿过山口，把声音都卷走了。"
+        ],
+        "ruins": [
+          "断碑的影子横在身上，半明半暗。",
+          "废墟里安静得能听见彼此的呼吸。",
+          "远处有石子滚落，谁都没去管。"
+        ],
+        "wild-town": ["村口的草垛挡了一半的风。"]
+      },
+      "sceneFallback": ["屋里只剩下彼此的呼吸。", "外面的声响远了，屋里静下来。"],
+      "wildHpCost": 4,
+      "wildFavorGain": 2,
+      "overheardBp": 3500,
+      "overheardTrustLoss": 0
     },
-    "discussCooldownDays": 7,
-    "giftCooldownDays": 3,
     "giftDeltas": {
       "stones": 6,
       "healing": 8,
       "grass": 12
     },
     "giftStoneCost": 10,
-    "mentorCooldownDays": 30,
     "mentorExperienceBp": 2500,
     "mentorMinRealmGap": 3,
-    "duelDailyBp": 500
+    "duelDailyBp": 500,
+    "sparMinRealmGap": 1,
+    "sparHpBp": 1200,
+    "chatCooldown": 1,
+    "chatFavorGain": 2,
+    "chatTrustGain": 1,
+    "sparCooldown": 4,
+    "sparFavorGain": 6,
+    "sparTrustGain": 4,
+    "sparWinInsight": 2,
+    "sparLoseInsight": 1,
+    "strollCooldown": 5,
+    "strollFavorGain": 5,
+    "strollTrustGain": 4,
+    "strollInsight": 1,
+    "discussCooldown": 7,
+    "giftCooldown": 3,
+    "mentorCooldown": 30,
+    "sparDays": 1,
+    "strollDays": 1
   },
   "promises": {
     "states": [

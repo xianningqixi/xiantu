@@ -16,6 +16,7 @@ import {
 import { PagedContent } from "@/components/ui/paged-content";
 import { IntimacyPanel } from "./intimacy-panel";
 import { intimacyHistory, bondPartner } from "@/lib/game/intimacy";
+import { intimacyKind } from "@/lib/game/intimacy-history";
 import { sectById } from "@/lib/game/sect-content";
 import { useMemo, useRef, useState } from "react";
 import { ArrowDown, ArrowUp, ChevronRight } from "lucide-react";
@@ -27,12 +28,7 @@ import { LOCATIONS } from "@/lib/game/world-map";
 import { presentationShows } from "@/lib/game/presentation";
 import { relation, relationshipLabel } from "@/lib/game/relationships";
 import { socialReason, giftItemName } from "@/lib/game/social";
-import {
-  characterVitals,
-  characterRelations,
-  characterHistory,
-  lifeRecord,
-} from "@/lib/game/character-sheet";
+import { characterVitals, characterRelations, characterHistory } from "@/lib/game/character-sheet";
 import { npcProfile } from "@/lib/game/npc-profile";
 import { actorPhysique, BODY_BUILDS } from "@/lib/game/physique";
 import { npcSubject, playerSubject } from "@/lib/game/portrait-subject";
@@ -168,7 +164,6 @@ export function PersonDetail({
     ? history.filter((e) => intimateHistory.some((entry) => entry.id === e.id))
     : history;
   const partner = bondPartner(w, id);
-  const life = lifeRecord(w, id)!;
   const facts = [
     ["aptitude", "资质", `${a.aptitude} / 100`],
     ["attack", "攻击", vitals.attack],
@@ -314,17 +309,6 @@ export function PersonDetail({
               </dl>
             )}
             {!self && <Biography actor={a} />}
-            <section className="sheet-life-record" aria-label="性经历与交往经历">
-              <h3 className="list-heading">性经历与交往经历</h3>
-              {life.virginLabel ? (
-                <p>
-                  <strong>{life.virginLabel}</strong>
-                </p>
-              ) : null}
-              <p>{life.sex}</p>
-              <p>{life.social}</p>
-              <p className="subtle">{life.note}</p>
-            </section>
           </PagedContent>
         </TabsContent>
         <TabsContent value="relations">
@@ -439,7 +423,7 @@ export function PersonDetail({
                   {a.sectMembership?.id === "yunv"
                     ? "自述未有性经历，目前守贞清修。"
                     : intimateHistory.length
-                      ? "满二十一岁后，与你有关的良宵、偷情和寝取会写下具体经过，只留在当事人的经历里。"
+                      ? "记录自愿结侣、相伴良宵与双修，不记露骨细节。"
                       : "仅呈现已记录的亲密经历，未记载的过往不会推断。"}
                 </p>
               </section>
@@ -456,6 +440,21 @@ export function PersonDetail({
                         : e.actors.includes("PLAYER")
                           ? "与你共同经历"
                           : "个人经历"}
+                      {intimacyKind(w, e) && (
+                        <>
+                          {" "}
+                          ·{" "}
+                          <span className={`intimacy-kind intimacy-${intimacyKind(w, e)}`}>
+                            {
+                              {
+                                bond: "结侣",
+                                night: "良宵",
+                                dual: "双修",
+                              }[intimacyKind(w, e)!]
+                            }
+                          </span>
+                        </>
+                      )}
                     </small>
                     <p>{e.text}</p>
                     {e.relationshipChange && (
@@ -618,6 +617,30 @@ export function PersonDetail({
               >
                 请教
               </Button>
+              <Button
+                variant="outline"
+                disabled={!!socialReason(w, id, "chat")}
+                title={socialReason(w, id, "chat") || "说些不相干的闲话，不耗日"}
+                onClick={() => send({ type: "chat", target: id })}
+              >
+                闲谈
+              </Button>
+              <Button
+                variant="outline"
+                disabled={!!socialReason(w, id, "spar")}
+                title={socialReason(w, id, "spar") || "点到为止地交手，各得一分手悟"}
+                onClick={() => send({ type: "spar", target: id })}
+              >
+                切磋
+              </Button>
+              <Button
+                variant="outline"
+                disabled={!!socialReason(w, id, "stroll")}
+                title={socialReason(w, id, "stroll") || "同行一段路，看些不相干的景"}
+                onClick={() => send({ type: "stroll", target: id })}
+              >
+                同游
+              </Button>
             </>
           )}
           {tab === "relations" && r?.known && (
@@ -656,7 +679,7 @@ export function PersonDetail({
             <DialogContent className="game-modal intimacy-modal">
               <DialogHeader>
                 <DialogTitle>与{a.name}相处</DialogTitle>
-                <DialogDescription>查看双方心意，选择相伴、结侣、偷情与共修。</DialogDescription>
+                <DialogDescription>查看双方心意，选择相伴、结侣与共修。</DialogDescription>
               </DialogHeader>
               <IntimacyPanel
                 world={w}

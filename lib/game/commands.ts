@@ -22,11 +22,8 @@ import {
   intimacyBoundaryReason,
   companyReason,
   intimacyReason,
-  liaisonReason,
   recordCompany,
   settleIntimacy,
-  settleLiaison,
-  bondPartner,
 } from "./intimacy";
 import { MAIN_STORY, mainScene, hasRubbing } from "./main-story";
 import { commandDays, travelDays } from "./action-cost";
@@ -45,7 +42,7 @@ import {
   wildTerrain,
 } from "./world-map";
 import type { Command, World } from "./types";
-import { B, advanceRule, threshold, stats, requireRule, actorById } from "./rules";
+import { B, advanceRule, threshold, stats, requireRule, actorById, clamp } from "./rules";
 import { relation, ensureRelation, memory, meet } from "./relationships";
 import {
   partyReadiness,
@@ -66,8 +63,9 @@ import { advanceDay } from "./daily-simulation";
 import { fighter, battleRound } from "./combat";
 import { learnSkill } from "./skills";
 import { maybeRoadEncounter, exploreEncounter } from "./encounters";
+import { duelBattle } from "./duel";
 import { inviteCompanion as inviteFriend } from "./companions";
-import { discuss, gift, mentor, socialReason } from "./social";
+import { chat, discuss, gift, mentor, socialReason, spar, stroll } from "./social";
 import { recordFact as record } from "./knowledge";
 
 type CommandHandlers = {
@@ -107,25 +105,7 @@ const commandHandlers: CommandHandlers = {
     for (let d = 0; d < commandDays(w, c) && !w.ended; d++)
       advanceDay(w, new Set([...w.party, c.target]));
     if (w.ended || !a!.alive) return;
-    w.notice = settleIntimacy(w, w.player, a!, c.kind);
-  },
-  liaison: (w, c) => {
-    const a = actorById(w, c.target);
-    const reason = liaisonReason(w, a, c.play, c.stance);
-    requireRule(!reason, reason);
-    const occupied = new Set<string>([...w.party, c.target]);
-    if (c.play === "witness") {
-      const partner = bondPartner(w, "PLAYER");
-      if (partner) occupied.add(partner.id);
-    }
-    for (let d = 0; d < commandDays(w, c) && !w.ended; d++) advanceDay(w, occupied);
-    if (w.ended || !a?.alive) return;
-    const after = liaisonReason(w, a, c.play, c.stance);
-    if (after) {
-      w.notice = after;
-      return;
-    }
-    w.notice = settleLiaison(w, a!, c.play, c.stance);
+    w.notice = settleIntimacy(w, w.player, a!, c.kind, c.method);
   },
   chooseMain: (w, c) => {
     const node = mainScene(w);
@@ -258,8 +238,27 @@ const commandHandlers: CommandHandlers = {
           requireRule(!reason, reason);
         }
     }
+    for (const item of ["stones", "grass", "healing", "insight"] as const) {
+      const delta = choice!.effects.reduce(
+        (n, e) => n + (e.kind === "resource" && e.item === item ? e.value : 0),
+        0,
+      );
+      requireRule(w.player[item] + delta >= 0, "随身物资不足，请选择另一种回应。");
+    }
     for (const e of choice!.effects) {
-      if (e.kind === "progress") w.contentState[e.key] = true;
+      if (e.kind === "resource") w.player[e.item ?? "stones"] += e.value ?? 0;
+      if (e.kind === "bond") {
+        const r = ensureRelation(w, e.target);
+        r.known = true;
+        r.favor = clamp(r.favor + (e.favor ?? 0), -100, 100);
+        r.trust = clamp(r.trust + (e.trust ?? 0), -100, 100);
+        r.attraction = clamp(r.attraction + (e.attraction ?? 0), -100, 100);
+      }
+      if (e.kind === "progress") w.contentState[e.key] = e.active ?? true;
+      if (e.kind === "duel") {
+        w.battle = duelBattle(w, e.target, e.win.key, e.lose.key);
+        w.notice = w.battle.logs[0];
+      }
       if (e.kind === "meet") meet(w, e.target);
       if (e.kind === "starterManual") learn(w, p);
       if (e.kind === "buyItem") handle(w, { type: "buy", item: e.item });
@@ -278,7 +277,7 @@ const commandHandlers: CommandHandlers = {
       ["PLAYER", ...node!.participants],
     );
     w.events[w.events.length - 1].storyNodeId = node!.id;
-    w.notice = choice!.reply;
+    if (!w.battle) w.notice = choice!.reply;
     return;
   },
   choose: (w, c) => {
@@ -824,10 +823,42 @@ const commandHandlers: CommandHandlers = {
     mentor(w, c.target);
     return;
   },
+  chat: (w, c) => {
+    const reason = socialReason(w, c.target, "chat");
+    requireRule(!reason, reason);
+    chat(w, c.target);
+    return;
+  },
+  spar: (w, c) => {
+    const a = actorById(w, c.target);
+    const reason = socialReason(w, c.target, "spar");
+    requireRule(!reason, reason);
+    for (let d = 0; d < commandDays(w, c) && !w.ended; d++)
+      advanceDay(w, new Set([...w.party, c.target]));
+    if (w.ended || !a!.alive) return;
+    spar(w, c.target);
+    return;
+  },
+  stroll: (w, c) => {
+    const a = actorById(w, c.target);
+    const reason = socialReason(w, c.target, "stroll");
+    requireRule(!reason, reason);
+    for (let d = 0; d < commandDays(w, c) && !w.ended; d++)
+      advanceDay(w, new Set([...w.party, c.target]));
+    if (w.ended || !a!.alive) return;
+    stroll(w, c.target);
+    return;
+  },
   auto: (w, c) => {
     const p = w.player;
     requireRule(w.battle, "眼下没有战斗。");
     w.battle!.auto = c.enabled;
+    return;
+  },
+  setIntimacyDetail: (w, c) => {
+    w.simulationOptions.intimacyDetail = c.detail;
+    const label = { tasteful: "含蓄", standard: "标准", explicit: "详尽" }[c.detail];
+    w.notice = `亲密描写已调整为「${label}」，只影响呈现，不改动规则与存档数值。`;
     return;
   },
   return: (w, c) => {

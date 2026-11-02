@@ -5,6 +5,9 @@ import { readFileSync } from "node:fs";
 import { webcrypto } from "node:crypto";
 import { buildSync } from "esbuild";
 import { IDBFactory } from "fake-indexeddb";
+const DAILY_EVENTS = JSON.parse(
+  readFileSync(new URL("../../content-packs/daily-events/events.json", import.meta.url), "utf8"),
+).events;
 
 // Execute the unchanged production Worker message handler. Only the browser storage API
 // is replaced with a standards-oriented in-memory implementation; this is not browser QA.
@@ -1083,7 +1086,12 @@ test("daily choice interrupts durable Worker progress, rolls back a failed answe
   const event = world.events.findLast((e) => e.kind === "daily-event");
   assert.ok(progress.at(-1).newEventIds.includes(event.id));
   assert.deepEqual(await env.client().load(), world);
-  const c = { type: "choose", nodeId: world.pendingDailyEventId, choiceId: "decline" };
+  const interruption = DAILY_EVENTS.find((n) => n.id === world.pendingDailyEventId);
+  const c = {
+    type: "choose",
+    nodeId: world.pendingDailyEventId,
+    choiceId: (interruption?.choices.find((ch) => !ch.days) ?? interruption?.choices[0]).id,
+  };
   env.fault.abortWrite = true;
   assert.equal((await command(c, "daily-answer")).ok, false);
   env.fault.abortWrite = false;

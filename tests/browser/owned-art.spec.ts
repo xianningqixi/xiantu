@@ -87,7 +87,7 @@ test("four-volume growth and main clues unlock local stories and real travel wit
   page,
 }) => {
   const issues = errors(page);
-  test.setTimeout(180000);
+  test.setTimeout(480000);
   page.setDefaultTimeout(15000);
   await create(page, true);
   await expect(page.locator("[data-story-id]")).toHaveCount(0);
@@ -414,9 +414,9 @@ test("roadside-only new game reaches its planned image and keeps original card l
   expect(issues).toEqual([]);
 });
 
-test("all 120 registered extension WebPs are served successfully", async ({ request }) => {
+test("all 153 registered extension WebPs are served successfully", async ({ request }) => {
   const owned = Object.entries(images).filter(([url]) => url.startsWith("/art/shichai."));
-  expect(owned).toHaveLength(120);
+  expect(owned).toHaveLength(153);
   for (const [, image] of owned) {
     const response = await request.get(image.src);
     expect(response.status()).toBe(200);

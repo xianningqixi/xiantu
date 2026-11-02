@@ -9,8 +9,10 @@ import {
 import { creationSettings } from "./journey-controls";
 import { test, expect, type Page, type Locator } from "@playwright/test";
 import { mkdirSync, readFileSync } from "node:fs";
-import { openCurrentLocation, selectLocations } from "./journey-controls";
+import { openCurrentLocation, selectLocations, viewJournal } from "./journey-controls";
 const B = JSON.parse(readFileSync("lib/game/content/balance.json", "utf8"));
+const ACHIEVEMENTS = (readFileSync("lib/game/achievements.ts", "utf8").match(/^\s*id: "/gm) ?? [])
+  .length;
 const output = "/tmp/xiantu-sect-qa";
 mkdirSync(output, { recursive: true });
 async function saved(page: Page) {
@@ -111,15 +113,67 @@ test("three sect routes, contribution economy, NPC relationship choices and relo
   await intimacy.getByRole("button", { name: /^共度良宵/ }).click();
   await act(page, intimacy.getByRole("button", { name: "我愿意，确认共度良宵", exact: true }));
   await intimacy.getByRole("button", { name: /^道侣共修/ }).click();
+  const methods = intimacy.getByRole("radiogroup", { name: "双修取舍" }),
+    beforeDual = await saved(page);
+  await expect(methods.getByRole("radio", { name: "既济" })).toHaveAttribute(
+    "aria-checked",
+    "true",
+  );
+  await clickPaged(methods.getByRole("radio", { name: "采补" }));
+  await expect(methods.getByRole("radio", { name: "采补" })).toHaveAttribute(
+    "aria-checked",
+    "true",
+  );
+  expect(await saved(page)).toEqual(beforeDual);
   await act(page, intimacy.getByRole("button", { name: "我愿意，确认道侣共修", exact: true }));
   await page.keyboard.press("Escape");
   await sheet.getByRole("tab", { name: "经历", exact: true }).click();
   await expect(sheet.getByRole("region", { name: "性与亲密经历" })).toContainText("3 条");
+  await expect(sheet.locator(".sheet-memory").filter({ hasText: "采得" })).toHaveCount(1);
   await expect(sheet.locator(".sheet-memory")).toHaveCount(3);
   await sheet.screenshot({ path: `${output}/personal-history-desktop.png` });
   const final = await saved(page);
   await page.keyboard.press("Escape");
+  await viewJournal(page);
+  const codex = page.getByRole("dialog", { name: /查看全部历程/ });
+  await codex.getByRole("button", { name: "亲密图鉴", exact: true }).click();
+  const gallery = codex.getByRole("region", { name: "亲密图鉴" });
+  await expect(gallery).toContainText("宁含章");
+  await expect(gallery.locator(".sheet-memory")).toHaveCount(3);
+  expect(await saved(page)).toEqual(final);
+  await gallery.getByRole("radio", { name: "道侣共修", exact: true }).click();
+  await expect(gallery.locator(".sheet-memory")).toHaveCount(1);
+  await expect(gallery.locator(".sheet-memory")).toContainText("采得");
+  await gallery.getByLabel("图鉴人物").selectOption("SECT_QUAN_NING");
+  await expect(gallery.locator(".codex-person-block")).toHaveCount(1);
+  await gallery.getByRole("radio", { name: "全部", exact: true }).click();
+  await expect(gallery.locator(".sheet-memory")).toHaveCount(3);
+  await codex.screenshot({ path: `${output}/intimacy-codex-desktop.png` });
+  await codex.getByRole("button", { name: "成就", exact: true }).click();
+  const board = codex.getByRole("region", { name: "成就" });
+  await expect(board).toContainText("已达成");
+  // The bond/night/dual just performed each unlock their own entry.
+  for (const id of ["bond-1", "dual-1", "realm-qi3"]) {
+    const row = board.locator(`[data-achievement-id="${id}"]`);
+    await expect(row).toHaveClass(/done/);
+  }
+  await expect(board.locator('[data-achievement-id="day-365"]')).not.toHaveClass(/done/);
+  await expect(board.locator('[data-achievement-id="dual-10"]')).not.toHaveClass(/done/);
+  expect(await board.locator(".achievement-row.done").count()).toBeGreaterThanOrEqual(3);
+  await board.getByRole("radio", { name: /^人情/ }).click();
+  await expect(board.locator('[data-achievement-id="bond-1"]')).toHaveCount(1);
+  await expect(board.locator('[data-achievement-id="day-365"]')).toHaveCount(0);
+  await board.getByRole("radio", { name: "全部", exact: true }).click();
+  await expect(board.locator(".achievement-row")).toHaveCount(ACHIEVEMENTS);
+  await codex.screenshot({ path: `${output}/achievements-desktop.png` });
+  const beforeBoard = await saved(page);
+  await board.getByRole("radio", { name: /^修行/ }).click();
+  expect(await saved(page)).toEqual(beforeBoard);
+  await board.getByRole("radio", { name: "全部", exact: true }).click();
+  expect(await saved(page)).toEqual(final);
+  await page.keyboard.press("Escape");
   await openDrawerCategory(page, "宗门");
+
   await page.reload();
   await expect(page.locator(".dojo")).toBeVisible();
   expect(await saved(page)).toEqual(final);
@@ -135,7 +189,7 @@ test("three sect routes, contribution economy, NPC relationship choices and relo
     await sect.screenshot({ path: `${output}/sect-${width}.png` });
     await clickPaged(sect.getByRole("button", { name: /查看宁含章/ }));
     await sheet.getByRole("tab", { name: "经历", exact: true }).click();
-    await sheet.getByRole("button", { name: "性与亲密经历", exact: true }).click();
+    await clickPaged(sheet.getByRole("button", { name: "性与亲密经历", exact: true }));
     expect(await sheet.evaluate((el) => el.scrollWidth <= el.clientWidth)).toBe(true);
     await sheet.screenshot({ path: `${output}/history-${width}.png` });
     await page.keyboard.press("Escape");

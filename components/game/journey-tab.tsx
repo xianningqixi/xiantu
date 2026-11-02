@@ -10,11 +10,14 @@ import { profileTargetForClick, type OpenProfile } from "@/lib/ui/profile-naviga
 import { NpcPortrait } from "./npc-portrait";
 import { GameImage } from "./panels";
 import { PagedContent } from "@/components/ui/paged-content";
+import { IntimateBody } from "./side-stories";
+import { useSceneLimit } from "@/lib/ui/use-scene-limit";
 
 /** Reading surface only. Every story choice is projected into the dojo action dock. */
 export function JourneyTab({ world: w, onProfile }: { world: World; onProfile: OpenProfile }) {
-  const context = journeyContext(w);
-  const { main, side, official } = context;
+  const context = journeyContext(w, useSceneLimit());
+  const { main, side, sides, official } = context;
+  const extra = main ? sides : sides.slice(1);
   const place = LOCATIONS[w.player.location];
   const node = main ?? side ?? official;
   const transition = w.loot
@@ -35,6 +38,7 @@ export function JourneyTab({ world: w, onProfile }: { world: World; onProfile: O
     (a) => a.alive && !a.npcJourney && a.location === w.player.location,
   );
   const primary = w.npcs.find((a) => a.id === PACK.roles.primary)!;
+  const detail = w.simulationOptions.intimacyDetail;
   return (
     <section
       className="dojo-scene"
@@ -70,6 +74,7 @@ export function JourneyTab({ world: w, onProfile }: { world: World; onProfile: O
                 side?.body ||
                 contentText(transition?.body || official?.body || place.body, w)}
             </p>
+            {!main && side?.explicit && <IntimateBody detail={detail} text={side.explicit} />}
             {(side?.quote || (!w.loot && official?.quote && !main)) && (
               <blockquote>
                 {side?.quote || official?.quote}
@@ -81,6 +86,15 @@ export function JourneyTab({ world: w, onProfile }: { world: World; onProfile: O
                 {chapterStatus.done ? chapterStatus.done.text : chapterStatus.missing.join("；")}
               </p>
             )}
+            {extra.map((scene) => (
+              <article className="dojo-extra-story" key={scene.id} data-story-id={scene.id}>
+                <span className="eyebrow">{scene.eyebrow}</span>
+                <h2 className="serif">{scene.title}</h2>
+                <p>{scene.body}</p>
+                <IntimateBody detail={detail} text={scene.explicit} />
+                {scene.quote && <blockquote>{scene.quote}</blockquote>}
+              </article>
+            ))}
             <p className="dojo-present">
               在场：
               {present

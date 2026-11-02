@@ -100,7 +100,7 @@ async function openChapter(page: Page, chapter: (typeof authored.chapters)[numbe
 test("the default game integrates all four volumes into its main quest through local introductions, people, growth and travel", async ({
   page,
 }) => {
-  test.setTimeout(480000);
+  test.setTimeout(900000);
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto("/");

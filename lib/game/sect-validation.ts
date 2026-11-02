@@ -20,11 +20,7 @@ const membership = z
   })
   .strict();
 const intimate = z
-  .object({
-    kind: z.enum(["bond", "night", "dual", "tryst", "affair", "ntr"]),
-    consent: z.literal("mutual"),
-    betrayed: z.array(z.string().min(1).max(160)).min(1).max(2).optional(),
-  })
+  .object({ kind: z.enum(["bond", "night", "dual"]), consent: z.literal("mutual") })
   .strict();
 
 export function validateSectState(w: World, requireSave: (ok: unknown, message: string) => void) {
@@ -126,17 +122,13 @@ export function validateSectState(w: World, requireSave: (ok: unknown, message: 
         ["0.1.5", "0.1.6", "0.2.0"].includes(w.rulesVersion),
         "亲密事件需要 0.1.5 或更新规则。",
       );
-      const kind = e.intimacy?.kind;
-      const width = kind === "ntr" ? 3 : 2;
       requireSave(
         intimate.safeParse(e.intimacy).success &&
           e.kind === "intimacy" &&
-          e.actors.length === width &&
-          new Set(e.actors).size === width &&
+          e.actors.length === 2 &&
+          new Set(e.actors).size === 2 &&
           !e.public &&
-          e.day >= 0 &&
-          (e.intimacy?.betrayed === undefined ||
-            e.intimacy.betrayed.every((id) => [w.player, ...w.npcs].some((a) => a.id === id))),
+          e.day >= 0,
         "亲密经历须保留双方自愿的非公开记录。",
       );
       for (const id of e.actors) {
@@ -157,7 +149,7 @@ export function validateSectState(w: World, requireSave: (ok: unknown, message: 
       if (e.intimacy!.kind === "bond") {
         partners.set(a, b);
         partners.set(b, a);
-      } else if (e.intimacy!.kind === "night" || e.intimacy!.kind === "dual")
+      } else
         requireSave(partners.get(a) === b && partners.get(b) === a, "亲密经历缺少双方道侣之约。");
     }
   }

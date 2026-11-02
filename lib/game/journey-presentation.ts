@@ -7,16 +7,18 @@ import {
   currentMainStep,
   hasRubbing,
 } from "@/lib/game/main-story";
-import { extensionScenes } from "@/lib/game/content-story";
+import { extensionScenes, SCENE_LIMIT } from "@/lib/game/content-story";
 import { scene } from "@/lib/game/story";
 import { PACK, REALMS } from "@/lib/game/content/official";
 import { partyReadiness, departureStatus } from "@/lib/game/agreement";
 import { LOCATIONS, regionOf, chapterWaitDays } from "@/lib/game/world-map";
 import { CAMPAIGN_VOLUMES } from "@/lib/game/campaign-content";
 import type { World, LocationId } from "@/lib/game/types";
-export function journeyContext(w: World) {
+export function journeyContext(w: World, limit = SCENE_LIMIT) {
   const main = mainScene(w),
-    side = extensionScenes(w)[0],
+    sides = extensionScenes(w, limit),
+    // 主线占着主位时，旁支全部退到旁边；没有主线时第一条旁支就是主位。
+    side = main ? undefined : sides[0],
     official = w.ended ? undefined : scene(w);
   const participants =
     main?.participants ??
@@ -32,6 +34,7 @@ export function journeyContext(w: World) {
   );
   return {
     main,
+    sides,
     side,
     official,
     participants,

@@ -6,7 +6,7 @@
   "channel": "chrome",
   "dailyChoice": {
     "workerPause": true,
-    "durableEventId": "event:448",
+    "durableEventId": "event:454",
     "checkpoint": 5,
     "workerResume": true,
     "uiChoiceBlocked": false,
@@ -17,7 +17,7 @@
     "manualRank": 1,
     "cave": "market",
     "grass": 0,
-    "stones": 89
+    "stones": 90
   },
   "pageErrors": []
 }
